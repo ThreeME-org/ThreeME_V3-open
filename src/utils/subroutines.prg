@@ -1,61 +1,6 @@
-' This files contains 3 subroutines:
-' 1. MAIN SUBROUTINE: hypotheses and simulation of the scenarios
-' 2. MODEL SPECIFICATION SUBROUTINE: compile the model and simulate the baseline scenario
-' 3. SOLVEMODEL  SUBROUTINE: solvel the model
-
-
-' Creates a series for the all sample from the base year data defined in a matrix scalar
-subroutine create_series(string %seriesname, scalar !growthrate, scalar !matrixcel)
-
-  smpl @first  @first
-  !power = {%baseyear} - {%firstdate}
-  series {%seriesname} = (@abs(!matrixcel)>!round0)*!matrixcel/(1+!growthrate)^!power
-  smpl @first+1  @last
-  {%seriesname} = {%seriesname}(-1)*(1+!growthrate)
-
-  smpl @all
-
-endsub
-
-
-' *******************************************************************************************************************************
-' ***************************************************** CREATE SERIES AGGREGATE ENERGY SUBROUTINE*****************************
-'******************************************************************************************************************************
-subroutine create_series_aggr_nrj(string %var) ' This subroutine aggregate the energy subsectors. Ex: for sector 22 make the sum of the 6 subsectors.
-
-
-  %data = %var+"_22"
-
-  %equation = %var+"_22 = 0"
-  For %subsec 01 02
-    %equation = %equation+" + "+%var+"_22"+%subsec
-  next
-  series {%equation}
-
-
-
-  %data = %var+"_23"
-
-  %equation = %var+"_23 = 0"
-  For %subsec 01 02 03 04 05 06 07 08
-    %equation = %equation+" + "+%var+"_23"+%subsec
-  next
-  series {%equation}
-
-
-
-  %data = %var+"_24"
-
-
-  %equation = %var+"_24 = 0"
-  For %subsec 01 02 03 04 05 06
-    %equation = %equation+" + "+%var+"_24"+%subsec
-  next
-  series {%equation}
-
-
-endsub
-
+' This file contains E-Views subroutines:
+' 1. create_lists: create the lists to be read by E-Views
+'     - for the construction of series
 
 subroutine create_lists
 
