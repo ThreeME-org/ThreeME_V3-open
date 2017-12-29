@@ -6,6 +6,7 @@
 ' - makes a first run to calculate the baseline (optionnally with a realistic baseline), with outputs if requested
 ' - makes a second run for the %data_shock specified, with outputs if requested
 'NB: all configuration is to be made in the general configuration.prg file, not here
+
 subroutine run(string %data_calibration, string %data_shock)
 
   ' ***********************
@@ -19,7 +20,7 @@ subroutine run(string %data_calibration, string %data_shock)
   ' ******************
   ' Load the model
 
-  if %load="new"  then
+if %load="new"  then
     'Give a name to the Model
     model {%modelname}
     ' Load calibration data from the Excel file
@@ -28,49 +29,28 @@ subroutine run(string %data_calibration, string %data_shock)
     ' Export all variables to a csv file (used by the external compiler)
     call export_all_to_csv
 
+    ' Create the series using the dependencies (add-ins "series")
     {%modelname}.series round0 round1 round2 demography government household exceptions_fr_data ghg carbon_tax prices exceptions_tracker
+
+    ' Export all variables to a csv file (used by the external compiler)
     call export_all_to_csv
 
-' Stop here to create/save a workfile where data are already initialized (with option %load = "new"). Then choose the option %load = ""
-'    stop
-    if %ModelVersion = "master"  then
+'   Stop here to create/save a workfile where data are already initialized. Then activate the option  %load = ""
+'   stop
 
-       ' Load the model specification from the model/ folder
-       {%modelname}.load blocks
+    ' Load the model specification from the model/ folder
+    {%modelname}.load blocks
 
-    endif
-
-
-    if %ModelVersion = "hybrid"  then
-       call load_calibration_hybrid
-       {%modelname}.series hybrid_round1
-       call export_all_to_csv
-
-       {%modelname}.series exceptions_hybrid_data exceptions_data_ADEMEhaut exceptions_data_DGEC exceptions_data_AME-AMS exceptions_data_ETS
-
-       call export_all_to_csv
-
-       ' Load the model specification from the model/ folder
-       {%modelname}.load blocks hybrid_new exceptions_hybrid exceptions_ADEMEhaut exceptions_tracker exceptions_AME-AMS exceptions_ETS
-
-    endif
-
-    if %ModelVersion = "IO"  then
-
-       {%modelname}.load blocks exceptions_IO
-
-    endif
+    ' Save the workfile for memory
     wfsave {%wfname}
 
-  else
-    'wfopen {%wfname}    ' Load workfile if already created
+else
 
+    ' If the data are already initailized as a Workfile with the option  %load = ""
+    ' Load the data
+    wfopen {%wfname}    ' Load workfile if already created
 
-    if %ModelVersion = "IO"  then
-
-    endif
-
-  endif
+endif
 
   smpl @all
 
@@ -78,80 +58,22 @@ subroutine run(string %data_calibration, string %data_shock)
   %cmd = @left(@linepath, 2) + " & cd " + @addquotes(@linepath) + " & del /Q ..\..\results\*.txt"
   shell(h) {%cmd}
 
+  '************************************************
+  '*********** SOLVE SCENARIOS ********************
+  '************************************************
   !scenario = 0
- '************************************************
-  'Using de solver to calibrate a scenario'
-  if %run_shock = "calibrate" then  
-    wfopen {%wfname}
-  'run the baseline scenario
-  call run_scenario ("baseline")
-  
-  'to calibrate the baseline scenario on the past period'
-  call load_xl("YQ_tgt", "series")
-  
- 'for %s 03 04 06
-  'a_3me.control WD_03 YQ_03 YQ_03_tgt
- 'next 
-  
-  
-  smpl @all
-  series growth03 = 0.3
-  series growth04 = 0.4
-  series growth07 = 0.7
-  group objectives_grp  YQ_07 YQ_08
-  group controls_grp    WD_07 WD_08
-  group growths_grp   growth03 growth03
-  {%modelname}.fit objectives_grp controls_grp growths_grp 2006 2011 5
-  
-    'call calibrate_scenario("SCEN_ENR_100_2", "SCEN_ENR_100_Targets")
-  else
-    if %run_shock = "enr" then
-      call run_enr("PPE_ENRhaut")
 
-      ' wfopen {%wfname}
-      ' call load_realist
-      ' ' Solve for baseline
-      ' call solvemodel(%solveopt)
-    else
+  ' ***************************************
+  ' Call here the subroutine you want to use to solve the shock
 
-      ' ***************************************
-      ' Run the shock scenario if requested
-      if %run_shock="yes" then
-        For %DS {%shocks}
+      call run_baseshock ' Perform a baseline and a shock
 
-          wfopen {%wfname}
-
-          ' Run the baseline scenario
-          call run_scenario("baseline")
-
-          ' Run scenario
-          call run_scenario(%DS)
-
-        next
-        ' *******************************************
-        ' If no shocks, just run the baseline
-      else
-        wfopen {%wfname}
-
-        ' Run the baseline scenario
-        call run_scenario("baseline")
-      endif
-    endif
-  endif
+          ' call run_scenario("baseline")
+          ' call run_enr("PPE_ENRhaut")
+ 
 
 ''   call additional_outputs
 
-  '********************************
-  ' Calibration to 2015 GDP
-  '
-  ' Actual growth rate of the French economy between 2006 and 2015
-
- 'series GDP_trajectory = 0.01011029
-
-  ' Using the solver to calibrate DS_add, X_add and EXPG_add between 2006 and 2015
-
- ' call init_tracker
-  'call track_objectives(GDP_trajectory, "GDP", "DS_add X_add EXPG_trend_add", "0.10 0.60 0.30")
 
   ' *******************
   ' Error reporting
@@ -168,15 +90,39 @@ subroutine run(string %data_calibration, string %data_shock)
   ' **********************
   ' Saving and cleanup
 
-  if %savewf = "yes" then
-    Wfsave(c) output_{%DC}\{%DS}.wf1
-  endif
+''    Wfsave(c) output_{%DC}\{%DS}.wf1
 
-  if %close = "yes" then
-    close @all
-  endif
+''    close @all
 
 endsub
+
+
+' ============================================================================ 
+' ============================================================================ 
+
+
+subroutine run_baseshock
+
+
+    For %DS {%shocks}
+
+          wfopen {%wfname}
+
+          ' Run the baseline scenario
+          call run_scenario("baseline")
+
+          ' Run scenario
+          call run_scenario(%DS)
+
+    next
+
+
+endsub
+
+
+' ============================================================================ 
+' ============================================================================ 
+
 
 subroutine run_standard(string %scenario_list)
 
@@ -197,6 +143,39 @@ subroutine run_standard(string %scenario_list)
   'shell(h) {%path}
 
 endsub
+
+
+' ============================================================================ 
+' ============================================================================ 
+
+subroutine usesolver
+
+    wfopen {%wfname}
+  'run the baseline scenario
+  call run_scenario ("baseline")
+  
+  'to calibrate the baseline scenario on the past period'
+  call load_xl("YQ_tgt", "series")
+  
+ 'for %s 03 04 06
+  'a_3me.control WD_03 YQ_03 YQ_03_tgt
+ 'next 
+  
+  smpl @all
+  series growth03 = 0.3
+  series growth04 = 0.4
+  series growth07 = 0.7
+  group objectives_grp  YQ_07 YQ_08
+  group controls_grp    WD_07 WD_08
+  group growths_grp   growth03 growth03
+  {%modelname}.fit objectives_grp controls_grp growths_grp 2006 2011 5
+  
+    'call calibrate_scenario("SCEN_ENR_100_2", "SCEN_ENR_100_Targets")
+
+endsub
+
+' ============================================================================ 
+' ============================================================================ 
 
 subroutine run_enr(string %scenario)
   wfopen {%wfname}
@@ -248,9 +227,11 @@ subroutine run_enr(string %scenario)
    ER_buil_0 ER_buil_A_0 ER_buil_B_0 ER_buil_C_0 ER_buil_D_0 ER_buil_E_0 ER_buil_F_0 ER_buil_G_0
  ' Reporting_0.sheet(t)
   'show Reporting_0
-  
-  
+   
 endsub
+
+' ============================================================================ 
+' ============================================================================ 
 
 subroutine calibrate_scenario(string %scenario, string %targets)
 
@@ -322,12 +303,18 @@ subroutine run_scenario(string %scenario_name)
 
     call solvemodel(%solveopt)
 
-    call output_template(%scenario_name)
+''    call output_template(%scenario_name)
 
   endif
 
 
 endsub
+
+
+' ============================================================================ 
+' ============================================================================ 
+
+
 
 subroutine load_shocks(string %scenario_name)
   ' Load data for the shock to be simulated

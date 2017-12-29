@@ -25,18 +25,8 @@
 %ref = "realist"
 
 
-' ****************
-' Output options
-
-' Set to "yes" to save table & graphs
-%save = "ys"
-' Set to "yes" to close output windows after run
-%close = "ys"
-' Set to "yes" to save worfiles
-%savewf = "ys"
-
 ' Set "yes" for running shock scenario
-%run_shock = ""
+%run_shock = "basic"
 
 
 ' ********************
