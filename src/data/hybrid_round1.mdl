@@ -1,0 +1,39 @@
+include ..\model\lists
+
+# Data for MTEP
+
+Q_Mtep_ef[ce,se] := MTEP($se, 15+$ce) * (1 + STEADYSTATE(2, 1)) ^ (@year - %baseyear)
+
+Q_Mtep_X[ce,se] := MTEP($se, 19+$ce) * (1 + STEADYSTATE(2, 1)) ^ (@year - %baseyear)
+
+Q_Mtep_indus[ce,se] := MTEP($se, 24+$ce) * (1 + STEADYSTATE(2, 1)) ^ (@year - %baseyear)
+ 
+Q_Mtep_int[ce,se] := MTEP($se, 34+$ce) * (1 + STEADYSTATE(2, 1)) ^ (@year - %baseyear)
+
+Q_Mtep_Losses[ce,se] := MTEP($se, 38+$ce) * (1 + STEADYSTATE(2, 1)) ^ (@year - %baseyear)
+
+
+ENER_BUIL[h, ecl, ce] := HOUSEHOLD_HYBRID_BUIL(40 + $ecl + ($ce - 1) * 8, $h)
+
+BUIL[h, ecl] := HOUSEHOLD_HYBRID_BUIL(8 + $ecl, $h)
+delta_BUIL[h, ecl, bcl] := HOUSEHOLD_HYBRID_Trans(17 + $ecl, $bcl)
+BUIL[h, DES] := sum(delta_BUIL[h, ecl, DES] * BUIL[h, ecl]{-1} on ecl)
+
+tau_REHAB[h, ecl] := HOUSEHOLD_HYBRID_BUIL(24 + $ecl, $h)
+phi_REHAB[h, ecl, ecl2] := HOUSEHOLD_HYBRID_Trans(9 + $ecl, $ecl2)
+REHAB[h, ecl, ecl2] := phi_REHAB[h, ecl, ecl2] * tau_REHAB[h, ecl] * BUIL[h, ecl]
+REHAB[h, ecl] := sum(REHAB[h, ecl, ecl2] on ecl2)
+
+BUIL[h] := HOUSEHOLD_HYBRID_BUIL(16, $h)
+phi_NewBUIL[h, ecl] := HOUSEHOLD_HYBRID_BUIL(17 + $ecl, $h)
+NewBUIL[h, ecl] := @elem(phi_NewBUIL[h, ecl] * (BUIL[h] * HOUSEHOLD_HYBRID_BUIL(276, 1) / _
+                                                (1 + HOUSEHOLD_HYBRID_BUIL(276, 1)) + BUIL[h, DES]), %baseyear)
+
+
+
+AUTO[h] := HOUSEHOLD_HYBRID_AUTO(40, $h)
+AUTO[h, ecl] := HOUSEHOLD_HYBRID_AUTO(32 + $ecl, $h)
+phi_NewAUTO[h, ecl] := HOUSEHOLD_HYBRID_AUTO(111 + $ecl, $h)
+delta_AUTO[h, ecl, DES] := HOUSEHOLD_HYBRID_Trans(25 + $ecl, 8)
+AUTO[h, DES] := sum(delta_AUTO[h, ecl, DES] * AUTO[h, ecl]{-1} on ecl)
+NewAUTO[h, ecl] := @elem(phi_NewAUTO[h, ecl] * (AUTO[h] * HOUSEHOLD_HYBRID_BUIL(276, 1) / (1 + HOUSEHOLD_HYBRID_BUIL(276, 1)) + AUTO[h, DES]), %baseyear)

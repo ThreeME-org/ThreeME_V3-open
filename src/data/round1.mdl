@@ -1,0 +1,163 @@
+include ..\model\lists
+
+VERIF_|V| := 0 where V in PY_PYQ Y_YQ PIAxIA_PIxI PIA_PI IA_I GDP_GDPBIS GDP_GDPTER PGDP_PGDPBIS PGDP_PGDPTER ValGDP_ValGDPTER
+VERIF_PEXP_CES[h] := 0
+
+FISC := 0
+
+CID[c] := QD[c] - (CHD[c] + GD[c] + ID[c] + XD[c] + DSD[c])
+YQbis[c] := YQ[c]
+
+CIM[c] := (QM[c] - (CHM[c] + GM[c] + IM[c] + XM[c] + DSM[c])) * (@abs(QM[c] -(CHM[c] + GM[c] + IM[c] + XM[c] + DSM[c])) > 0.0000000001)
+Mbis[c] := M[c]
+
+|V|[c] := |V|M[c] + |V|D[c] where V in Q CH G I X DS OTHT VAT ENERT MC
+WD[c] := X[c]
+GDP[c] := CH[c] + G[c] + I[c] + X[c] + DS[c] - M[c]
+DC_VAL[c] := PX[c]*X[c] - PM[c]*M[c]
+TAX[c] := VAT[c] + ENERT[c] + OTHT[c]
+
+TenertD[c] := PENERTD[c] * ENERTD[c] / YQ[c]
+TenertM[c] := PENERTM[c] * ENERTM[c] / (M[c] + (M[c]<0.0000000001)*1)
+
+TothtD[c] := OTHTD[c] / YQ[c]
+TothtM[c] := OTHTM[c] / (M[c] + (M[c]<0.0000000001)*1)
+TvatDoth[c] := VATD_OTH[c] / (ID[c] + CID[c] + GD[c] - VATD_OTH[c])
+TvatMoth[c] := VATM_OTH[c] / (IM[c] + CIM[c] + GM[c] - VATM_OTH[c] + (IM[c] + CIM[c] + GM[c] - VATM_OTH[c]<0.0000000001)*1)
+TsubD[c] := PSUBD[c] * SUBD[c] / YQ[c]
+TsubM[c] := PSUBM[c] * SUBM[c] / (M[c] + (M[c]<0.0000000001)*1)
+
+MT|O|[c] := sum(MT|O|[trsp, c] on trsp)
+MT[c] := MTM[c] + MTD[c]
+
+M[c] := QM[c] - VATM[c] - OTHTM[c]- SUBM[c] - (MCM[c] + MTM[c]) - ENERTM[c]
+
+SUBD := sum(SUBD[c] on c)
+SUBM := sum(SUBM[c] on c)
+SUB[c]:= SUBD[c] + SUBM[c] 
+SUB := SUBD + SUBM
+
+# Households
+
+TCSS[h] := CSS_H[h] * PCSS / (L_S[h] * W_S[h] + SB_ROW[h])
+TCSS_SE[h] := CSS_H_SE[h] * PCSS_SE / (L_SE[h] * W_SE[h])
+
+SB_ROW := sum(SB_ROW[h] on h)
+CSS_H := sum(CSS_H[h] on h)
+CSS_H_SE := sum(CSS_H_SE[h] on h)
+PRESOC_DOM_VAL := sum(PRESOC_DOM_VAL[h] on h)
+TR_ROW_VAL := sum(TR_ROW_VAL[h] on h)
+INT_VAL := sum(INT_VAL[h] on h)
+DIV_HH_VAL := sum(DIV_HH_VAL[h] on h)
+
+# Producer
+
+PROG_L[s] := PROG_L
+GR_PROG_L[s] := STEADYSTATE(4,1)
+CL_SE[s] := W_SE[s] / PROG_L[s]
+
+PROG_E[s] := 1
+GR_PROG_E[s] := 0
+alpha_PROG_E_PE := 0.0
+alpha_PROG_E[s] := 0
+L[s] := L_S[s] + L_SE[s]
+CL[s] := (CL_S[s]*L_S[s] + CL_SE[s]*L_SE[s]) / L[s]
+
+Kbis[s] := K[s]
+
+R[s] := STEADYSTATE(17,1)
+
+PROG_K[s] := 1
+GR_PROG_K[s] := 0
+
+DNAIRU := 0
+
+TCSE[s] := PCSE[s] * CSE[s] / (L_S[s]*W_S[s])
+
+TCSE := PCSE*CSE/(L_S*W_S)
+CFS := 1*(1+TCSE)/((1-TCSS)*(1-TIR))
+
+#verification
+TCSE_bis[s]:= PCSE_bis[s] * CSE[s] / (L_S[s]*W_S[s])
+CSE_bis[s] :=  CSE[s]
+CSE_bis := sum(CSE_bis[s] on s)
+verif_TCO_VAL_SEC := TCO_VAL_SEc - (CSE_bis - CSE)
+#-------------------------------------------
+
+CSS[s] := (TCSS * L_S[s] * W_S[s]) / PCSS[s]
+CSS_SE[s] := (TCSS_SE * L_SE[s] * W_SE[s]) / PCSS_SE[s]
+
+CSS_ROW := @elem(TCSS, %baseyear) * (SB_ROW / PCSS)
+
+TCSE_ROW := CSE_ROW * PCSS / SB_ROW
+
+MAT[cm, s] := MATD[cm, s] + MATM[cm, s]
+MAT|O|[s] := sum(MAT|O|[cm, s] on cm)
+MAT[s] := MATD[s] + MATM[s]
+E[ce, s] := ED[ce, s] + EM[ce, s]
+E[s] := sum(E[ce, s] on ce)
+
+E_SEC|O|[ce] := sum(E|O|[ce, cm] on cm)
+E_SEC[ce] := E_SECD[ce] + E_SECM[ce]
+E_ESEC|O|[ce] := sum(E|O|[ce, se] on se)
+E_ESEC[ce] := E_ESECD[ce] + E_ESECM[ce]
+
+# Expected and nominal variables are initialised to their real value
+|V|_n[s] := |V|[s] where V in IA L E MAT K Kbis
+|V|_e[s] := |V|[s] where V in IA L E MAT K Kbis
+
+SUBST_|V|_n[s] := 0 where V in IA L E MAT K Kbis
+SUBST_|V|[s] := 0 where V in IA L E MAT K Kbis
+
+SUBST_|V|_n[c, s] := 0 where V in IA IAD IAM
+SUBST_|V|[c, s] := 0 where V in IA IAD IAM
+SUBST_|V|_n[ce, s] := 0 where V in E ED EM
+SUBST_|V|[ce, s] := 0 where V in E ED EM
+SUBST_|V|_n[cm, s] := 0 where V in MAT MATD MATM
+SUBST_|V|[cm, s] := 0 where V in MAT MATD MATM
+
+SUBST_|V|_n[c] := 0 where V in CHD CHM GD GM X XD XM
+SUBST_|V|[c] := 0 where V in CHD CHM GD GM X XD XM
+SUBST_|V|_n[trsp, c] := 0 where V in MTD MTM, c in %list_com \ %list_trsp
+SUBST_|V|[trsp, c] := 0 where V in MTD MTM, c in %list_com \ %list_trsp
+
+IY := sum(IY[s] on s)
+SY := sum(SY[s] on s)
+CSE := sum(CSE[s] on s)
+
+TAX := sum(TAX[c] on c)
+
+CSE_TOT := CSE + CSE_ROW
+CSS := sum(CSS[s] on s)
+CSS_SE := sum(CSS_SE[s] on s)
+CSS_TOT := CSS + CSS_SE + CSS_ROW
+DIV_HH_VAL_n := DIV_HH_VAL
+FW_VAL := DIV_HH_VAL + INT_VAL
+
+# Producer (continued)
+# !!! Here, sum returns 0 if the condition if false
+IA|O|[c, s] := sum(I|O|[c] / (IM[c] + ID[c] + (IM[c] + ID[c]<0.0000000001)*1) * IA[c, s])
+
+IMP_BUD[s] := 0
+IMP_BUD_20_bis := 0
+
+Y[s] := sum(Y[c, s] on c)
+
+YOPT[s] := Y[s]
+Y_e[s] := Y[s]
+
+TIYN[s] := IY[s] / Y[s]
+TSYN[s] := SY[s] / Y[s]
+
+Y := sum(Y[s] on s)
+YQ := Y
+
+VA[s] := Y[s] - MAT[s] - E[s]
+EBE[s] := (PVA[s]*VA[s] - CL[s]*L[s]*PROG_L[s] - PIY[s]*IY[s] - PSY[s]*SY[s]) / PEBE[s]
+W_S_n[s] := W_S[s]
+W_S_e[s] := W_S[s]
+CK[s] := PIA[s] * (Tdec[s] + R[s])
+CU[s] := (CK[s]*K[s] + CL[s]*L[s]*PROG_L[s] + PE[s]*E[s] + PMAT[s]*MAT[s]) / Y[s]
+RF[s]*PRF[s] := PEBE[s]*EBE[s] - PK[s]{-1}*Tdec[s]*K[s]{-1}
+
+ASS_VATM_OTH[c] := IM[c] + CIM[c] + GM[c] - VATM_OTH[c]

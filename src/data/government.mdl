@@ -1,0 +1,20 @@
+include ..\model\lists
+
+EXPG[c] := EXPGD[c] + EXPGM[c]
+EXPG := sum(EXPG[c] on c)
+EXPG_n := EXPG
+EXPG_e := EXPG
+EXPG_trend := EXPG
+
+R_n := R
+R_e := R
+
+infl_ZE := STEADYSTATE(42,1) * infl_FR + (1 - STEADYSTATE(42,1)) * infl_HFR
+
+UnR_FR := UnR_TOT
+UnR_ZE := STEADYSTATE(42,1) * UnR_FR + (1 - STEADYSTATE(42,1)) * UnR_HFR
+
+Shock_TCSE := 0
+
+Phi_Tco_ETS := 1
+Phi_Tco_NETS := 1

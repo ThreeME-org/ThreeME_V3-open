@@ -1,0 +1,34 @@
+include ..\model\lists
+
+# ***AGREGATION OF CO2 EMISSIONS***
+# equation 6.4: CO2 emissions per sector
+  EMS_SEC[s] := sum(EMS_SEC[ce2,s] on ce2)
+
+# equation 6.5: CO2 emissions of all sectors
+  EMS_SEC := sum(EMS_SEC[s] on s)
+
+# equation 6.6: CO2 emissions from decarbonation of all sectors   
+  EMS_DC := sum(EMS_DC[s] on s)  
+
+# equation 6.7: CO2 emissions per source of all sectors
+  EMS_SECSOU[ce2] := sum(EMS_SEC[ce2,s] on s)
+ 
+# equation 6.8: CO2 emissions of all sectors
+  EMS_SECSOU := sum(EMS_SECSOU[ce2] on ce2)  
+  Verif_EMS := EMS_SEC - EMS_SECSOU
+  
+# equation 6.9: CO2 emissions all households per source
+  EMS_HH[ce2] := sum(EMS_HH[ce2, h] on h)
+
+# equation 6.10: CO2 emissions all households
+  EMS_HH := sum(EMS_HH[ce2] on ce2)
+
+# equation 6.11: Total CO2 emissions 
+  EMS_TOT := EMS_SEC + EMS_DC + EMS_HH
+
+  EMS_SOU := EMS_SECSOU + EMS_HH
+  EMS_SOU[ce2] := EMS_SECSOU[ce2] + EMS_HH[ce2]
+  
+  verif_EMS_SOU := 0   
+  IC[ce2,s] := 1
+  IC_HH[ce2,h] := 1

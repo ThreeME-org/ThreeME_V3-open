@@ -1,0 +1,121 @@
+# BLOCK 4: CONSUMER
+
+include ..\model\lists
+
+# equation 4.1
+W_S = (sum(W_S[s] * L_S[s] on s))/L_S
+
+# equation 4.2
+W_SE = (sum(W_SE[s] * L_SE[s] on s))/L_SE
+
+# equations 4.3
+CL_S = (sum(CL_S[s] * L_S[s] on s))/L_S
+
+# equation 4.4
+CL_SE = (sum(CL_SE[s] * L_SE[s] on s))/L_SE
+
+# equation 4.5
+W * L = W_S * L_S + W_SE * L_SE
+
+# equation 4.6
+CL*L = (CL_S * L_S + CL_SE * L_SE)
+
+# equation 4.7
+L = L_S + L_SE
+
+# equation 4.9
+INT_VAL = Stock_S{-1} * R_S
+d(R_S) = d(R)
+DIV_HH_VAL_n = alpha_HH_FW * PRF_NET * RF_NET
+FW_VAL = DIV_HH_VAL + INT_VAL
+
+# equation 4.9.1
+DIV_HH_VAL[h] = PHI_DIS_DIV[h] * DIV_HH_VAL
+INT_VAL[h] = PHI_DIS_INT[h] * INT_VAL
+PRESOC_DOM_VAL[h] = PHI_DIS_PRESOC[h] * PRESOC_DOM_VAL
+L_S[h] = PHI_DIS_LS[h] * L_S
+L_SE[h] = PHI_DIS_LSE[h] * L_SE
+W_S[h] = PHI_DIS_WS[h] * W_S
+W_SE[h] = PHI_DIS_WSE[h] * W_SE
+
+# equation 4.9.2
+FW_VAL[h] = DIV_HH_VAL[h] + INT_VAL[h]
+
+# ***LEVEL I***
+# equation 4.10
+DISPINC_AI_VAL = (W_S * L_S + SB_ROW) * (1-TCSS) + (W_SE * L_SE) * (1-TCSS_SE) + PRESOC_DOM_VAL + FW_VAL + TR_ROW_VAL
+
+# equation 4.11
+DISPINC_AI_VAL[h] = (W_S[h] * L_S[h] + SB_ROW[h]) * (1-TCSS[h]) + (W_SE[h] * L_SE[h]) * (1-TCSS_SE[h]) + PRESOC_DOM_VAL[h] + FW_VAL[h] + TR_ROW_VAL[h]
+
+# equation 4.12
+DISPINC_VAL[h] = DISPINC_AI_VAL[h] - IR_VAL[h] - AIC_VAL[h]
+
+# equation 4.13
+DISPINC_VAL = sum(DISPINC_VAL[h] if DISPINC_VAL[h] <> 0 on h)
+
+# *** HOUSEHOLDS LES ***
+
+# equation 4.14 & 4.15
+@pv EXP[h] = sum(EXP[c, h] on c)
+
+# equation 4.16 & 4.17
+@pv EXPH = sum(EXP[h] on h)
+
+# equation 4.18
+d(MPS[h])= household(52, $h) * d(UNR_TOT) + household(53, $h)* d(R - infl_FR) + household(54, $h) * d(DEBT_G_VAL / (PGDP * GDP))
+
+# equation 4.19 & 4.20
+S[h] = DISPINC_VAL[h] - PEXP[h] * EXP[h]
+TS[h] = (DISPINC_VAL[h] - PEXP[h] * EXP[h]) / DISPINC_VAL[h]
+
+# equation 4.21 4.22
+S = DISPINC_VAL - PEXPH*EXPH
+TS = S/DISPINC_VAL
+Stock_S = Stock_S{-1}+S
+
+# equation 4.23
+(EXP_n[c, h] - NEXP[c, h]) * PEXP[c, h] = BetaExp[c, h] * (DISPINC_VAL[h] * (1 - MPS[h]) - PNEXP[h] * NEXP[h]) if EXP[c, h] <> 0
+
+# equation 4.24
+d(log(BetaExp[c, h])) = (1 - ES_LESCES) * d(log(PEXP[c, h] / PEXP_CES[h])) if BetaExp[c, h] <> 0
+
+
+# equation 4.25
+PEXP_CES[h] = (sum(@elem(BetaExp[c, h], %baseyear) * PEXP[c, h] ^ (1 - ES_LESCES) on c)) ^ (1 / (1 - ES_LESCES)) if ES_LESCES <> 1
+Verif_PEXP_CES[h] = PEXP[h] - PEXP_CES[h]  if ES_LESCES <> 1
+
+
+# equation 4.26 & 4.27
+@pv NEXP[h] = sum(NEXP[c, h] where c in %list_com) if NEXP[h] <> 0
+
+PNEXP[c, h] = PEXP[c, h] if NEXP[h] <> 0
+
+
+# equation 4.28  PEXP_com.EXP_com equation dans lyx mais pas ici pourquoi?
+
+# equation 4.29
+EXP[c] = sum(EXP[c, h] if EXP[c, h] <> 0 on h)
+
+# equation 4.30 & 4.31
+Phi_EXP[c, h] = EXP[c, h]/EXP[c] if EXP[c] <> 0
+PEXP[c, h] = PCH[c]
+
+# *** LEVEL V ***
+# equation 4.32
+d(log(CHD[c])) = d(log(EXP[c])) + d(SUBST_CHD[c]) if CHD[c] <> 0
+d(SUBST_CHD_n[c])= - ES_LVL4_HH(1, $c) * d(log(PCHD[c]) - log(PCHM[c])) * (PCHM[c]{-1} * CHM[c]{-1} / (PCH[c]{-1} * CH[c]{-1})) if CHD[c] <> 0
+
+# equation 4.33
+CHM[c] = (EXP[c]-CHD[c] > 0) * (EXP[c] - CHD[c]) + (EXP[c] - CHD[c] =< 0) * (0.00001) if CHM[c] <> 0
+d(SUBST_CHM_n[c]) = -ES_LVL4_HH(1, $c) * d(log(PCHM[c]) - log(PCHD[c])) * (PCHD[c]{-1} * CHD[c]{-1} / (PCH[c]{-1} * CH[c]{-1})) if CHM[c] <> 0
+
+# Ajustment Line LES--->Ajustement de demande notionnelle de la part des ménages
+
+# PROBLEM! Changement liste, exclure l'énergie, ,le logement et le transport#
+
+# equations 4.34 & 4.35
+log(EXP[c, h]) = ADJUST(20 + $c, 1) * log(EXP_n[c, h]) + (1 - ADJUST(20 + $c, 1)) * (log(EXP[c, h]{-1}) + d(log(EXP_e[c, h]))) if EXP[c, h] <> 0
+d(log(EXP_e[c, h])) = ADJUST(20 + $c, 2) * d(log(EXP_e[c, h]{-1})) + ADJUST(20 + $c, 3) * d(log(EXP[c, h]{-1})) + ADJUST(20 + $c, 4) * d(log(EXP_n[c, h])) if EXP[c, h] <> 0
+
+# *** END HOUSEHOLDS LES ***

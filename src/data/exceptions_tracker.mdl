@@ -1,0 +1,10 @@
+# Create stock series for every commodities, both domestic and imported
+DS_base_trend := sum(DS|O|[c] on c, O in D M)
+DS_add := 0
+DS_trend := DS_base_trend + DS_add
+X_add := 0
+EXPG_trend_add := 0
+
+X|O|_other := sum(X|O|[cm] on cm) 
+
+X_other := XD_other + XM_other

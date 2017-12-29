@@ -1,0 +1,71 @@
+include ..\model\lists
+
+PHI_DIS_DIV[h] := DIV_HH_VAL[h] / DIV_HH_VAL
+PHI_DIS_INT[h] := INT_VAL[h] / INT_VAL
+PHI_DIS_PRESOC[h] := PRESOC_DOM_VAL[h] / PRESOC_DOM_VAL
+
+PHI_DIS_LS[h] := L_S[h] / L_S
+PHI_DIS_LSE[h] := L_SE[h] / L_SE
+PHI_DIS_WS[h] := W_S[h] / W_S
+PHI_DIS_WSE[h] := W_SE[h] / W_SE
+
+PRESOC_VAL := PRESOC_DOM_VAL + PRESOC_ROW_VAL
+PRESOC_DOM_U_VAL := 0.3 * W_S * Un_TOT
+PRESOC_DOM_Oth_VAL := PRESOC_DOM_VAL - PRESOC_DOM_U_VAL
+
+# !!! Error household(28, 1) should be household(28 + $c, 1 + $h)
+NEXP[c, h] := EXP[c, h] * household(27 + $c, 1 + $h)
+EXP_n[c, h] := EXP[c, h]
+EXP_e[c, h] := EXP[c, h]
+ES_LESCES := ES_LES_CES(1,1)
+
+# Level 1
+
+DISPINC_AI_VAL := (W_S * L_S + SB_ROW) * (1 - TCSS) + (W_SE * L_SE) * (1 - TCSS_SE) + PRESOC_DOM_VAL + FW_VAL + TR_ROW_VAL
+FW_VAL[h] := DIV_HH_VAL[h] + INT_VAL[h]
+DISPINC_AI_VAL[h] := (W_S[h] * L_S[h] + SB_ROW[h]) * (1 - TCSS[h]) + (W_SE[h] * L_SE[h]) * (1 - TCSS_SE[h]) + PRESOC_DOM_VAL[h] + FW_VAL[h] + TR_ROW_VAL[h]
+TAIC[h] := AIC_VAL[h] / DISPINC_AI_VAL[h]
+TIR[h] := IR_VAL[h] / DISPINC_AI_VAL[h]
+TIR := IR_VAL / DISPINC_AI_VAL
+DISPINC_VAL[h] := DISPINC_AI_VAL[h] - IR_VAL[h] - AIC_VAL[h]
+
+#verification
+TIR_bis[h] := IR_VAL[h] / DISPINC_AI_VAL[h]
+IR_VAL_bis[h]:= IR_VAL[h]
+IR_VAL_bis := sum(IR_VAL_bis[h] on h)
+Verif_TCO_VAL_HH :=  TCO_VAL_HH - (IR_VAL_bis - IR_VAL)
+#----------------------------------------------------
+
+IR_VAL := sum(IR_VAL[h] on h)
+AIC_VAL := sum(AIC_VAL[h] on h)
+DISPINC_VAL := sum(DISPINC_VAL[h] on h)
+
+BF_G_VAL := DEBT_G_VAL * STEADYSTATE(1,1) / (1 + STEADYSTATE(1,1))
+DEP_VAL := BF_G_VAL + REC_VAL
+
+SP_G_VAL := BF_G_VAL-R_G{-1} * DEBT_G_VAL{-1}
+DP_SP_G_VAL := SP_G_VAL / (value(GDP))
+DP_G_VAL := BF_G_VAL / (value(GDP))
+DP_G_VAL_n := DP_G_VAL
+
+NEXP[h] := sum(NEXP[c, h] on c)
+EXP[h] := sum(EXP[c, h] on c)
+EXPH := sum(EXP[h] on h)
+
+# Marginal propensity to save
+MPS[h] := (DISPINC_VAL[h] - PEXP[h] * EXP[h]) / DISPINC_VAL[h]
+S[h] := MPS[h] * DISPINC_VAL[h]
+TS[h] := MPS[h]
+
+S := DISPINC_VAL - PEXPH*EXPH
+TS := S / DISPINC_VAL
+Stock_S := S * (1 + STEADYSTATE(1, 1)) / STEADYSTATE(1, 1)
+R_S := INT_VAL / Stock_S{-1}
+
+ BetaEXP[c, h] := @elem(PEXP[c, h], %baseyear) * (@elem(EXP[c, h], %baseyear) - @elem(NEXP[c, h], %baseyear)) / _
+                 (@elem(PEXP[h], %baseyear) * @elem(EXP[h], %baseyear) - @elem(PNEXP[h], %baseyear) * @elem(NEXP[h], %baseyear))
+BetaEXP[h] := sum(BetaEXP[c, h] on c)
+
+EXP[c] := sum(EXP[c, h] on h)
+Phi_EXP[c, h] := EXP[c, h] / (EXP[c] + (EXP[c]<0.0000000001)*1) 
+

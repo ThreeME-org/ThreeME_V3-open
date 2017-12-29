@@ -1,0 +1,149 @@
+# BLOCK 5: PRICES
+
+# equation 5.1
+#PY_n[s]*Y[s] = (CK[s]*K_n[s]+ CL[s]*L_n[s]*PROG_L[s] + PE[s]*E_n[s] + PMAT[s]*MAT_n[s]) * (1 + TMD[s]) if Y[s] > 0 where s in %list_sec
+
+PY_n[s] = NCU_n[s] * (1 + TMD[s]) if Y[s] > 0
+
+NCU_n[s] * Y[s] = CU_n[s] * Y[s] + PIY[s] * IY[s] + PSY[s] * SY[s] + PIS[s] * IS[s] if Y[s] > 0
+
+CU_n[s] * Y[s] = CK[s] * K_n[s] + CL[s] * L_n[s] * PROG_L[s] + PE[s] * E_n[s] + PMAT[s] * MAT_n[s] if Y[s] > 0
+
+#equation average mark-up of activities per commodities
+
+(1 + MARKUP[c]) = PYQ[c] * YQ[c] / (sum(NCU_n[s] * Y[c, s] if Y[c, s] <> 0 on s)) if YQ[c] <> 0
+
+# equation 5.2
+NCU[s]*Y[s] = CU[s]*Y[s] + PIY[s]*IY[s] + PSY[s]*SY[s] + PIS[s]*IS[s] if Y[s] > 0
+
+# equation 5.3
+CU[s]*Y[s] = CK[s]*K[s] + CL[s]*L[s]*PROG_L[s] + PE[s]*E[s] + PMAT[s]*MAT[s] if Y[s] > 0
+
+# equation 5.4
+CL[s]*L[s] = CL_S[s]*L_S[s] + CL_SE[s]*L_SE[s] if Y[s] > 0
+
+# equation 5.5
+d(log(1+TMD_n[s])) = STEADYSTATE(49,1) * ( d(log(Y[s])) - d(log(Y[s]{-1})) ) if Y[s] > 0
+
+# From v1, rigidities on mark-up adjustments
+TMD[s] = ADJUST(75, 1) * TMD_n[s] + (1 - ADJUST(75, 1)) * TMD[s]{-1} if Y[s] > 0
+
+# equation 5.6
+d(log(YOPT[s])) = d(log(K[s])) * CK[s]{-1} * K[s]{-1} / (CU[s]{-1} * Y[s]{-1}) _
+		+ d(log(L[s] * PROG_L[s])) * CL[s]{-1} * L[s]{-1} * PROG_L[s]{-1} / (CU[s]{-1} * Y[s]{-1}) _
+		+ d(log(E[s] + (E[s] >= 0) * (E[s] <= 0) * 0.0000000001)) * PE[s]{-1} * E[s]{-1} / (CU[s]{-1} * Y[s]{-1}) _
+		+ d(log(MAT[s])) * PMAT[s]{-1} * MAT[s]{-1} / (CU[s]{-1} * Y[s]{-1}) _
+		  if YOPT[s] <> 0
+
+# equation 5.7 5.8 labor cost in activity a
+CL_S[s] =  W_S[s]*(1+TCSE[s]) / PROG_L[s] if L_S[s] > 0
+CL_SE[s] = W_SE[s] / PROG_L[s] if L_SE[s] > 0
+
+# equation 5.9 5.10 capital cost in activity a
+CK[s] = PIA[s] * (Tdec[s] + r[s]) if K[s] > 0
+
+# equation 5.11
+PMAT[s]*MAT[s] = sum(PMAT[cm, s]*MAT[cm, s] if MAT[cm, s] <> 0 on cm) if MAT[s] <> 0
+
+# equation 5.12: Energy cost in activity a
+PE[s]*E[s] = sum(PE[ce, s]*E[ce, s] if E[ce, s] <> 0 on ce) if E[s] <> 0
+
+# equation 5.14
+PMAT[cm, s]*MAT[cm, s] = PMATD[cm]*MATD[cm, s] + PMATM[cm]*MATM[cm, s] if MAT[cm, s] <> 0
+
+# equation 5.15
+PE[ce,s]*E[ce,s] = PED[ce]*ED[ce, s] + PEM[ce]*EM[ce, s] + TCO_VAL[ce, s] if E[ce,s] <> 0
+
+# equation 5.16
+PIA[c, s]*IA[c, s] = PIAD[c]*IAD[c, s] + PIAM[c]*IAM[c, s] if IA[c, s] <> 0
+
+# equation 5.17
+PIA[s]*IA[s] = sum(PIA[c, s]*IA[c, s] if IA[c, s] <> 0 on c) if IA[s] <> 0
+
+# equation 5.18
+PYQS[c]*YQS[c] = PYQ[c]*YQ[c]*(1 + TothtD[c]) + YQ[c]*(TenertD[c] + TsubD[c]) + PMTD[c]*MTD[c] + PMCD[c]*MCD[c] if YQS[c] > 0 where c in %list_com \ %list_trsp_services_E_CO2
+
+PYQS[c]*YQS[c] = PYQ[c]*YQ[c]*(1+TothtD[c]) + YQ[c]*(TenertD[c] + TsubD[c]) if YQS[c] > 0 where c in %list_trsp_services
+
+PYQS[c]*YQS[c] = PYQ[c]*YQ[c]*(1+TothtD[c]) + YQ[c]*(TenertD[c] + TsubD[c]) + PMTD[c]*MTD[c] + PMCD[c]*MCD[c] if YQS[c] > 0 where c in %list_com_E_CO2
+
+# equation 5.19
+d(log(YQS[c])) = d(log(YQ[c])) if YQS[c] > 0
+
+
+# equation 5.20
+PMS[c]*MS[c] = PM[c]*M[c]*(1 + TothtM[c]) + M[c]*(TenertM[c] + TsubM[c]) + PMTM[c]*MTM[c] + PMCM[c]*MCM[c] if MS[c] > 0 where c in %list_com \ %list_trsp_services_E_CO2
+
+PMS[c]*MS[c] = PM[c]*M[c]*(1 + TothtM[c]) + M[c]*(TenertM[c] + TsubM[c]) if MS[c] > 0 where c in %list_trsp_services
+
+PMS[ce2]*MS[ce2] = PM[ce2]*M[ce2]*(1 + TothtM[ce2]) + M[ce2]*(TenertM[ce2] + TsubM[ce2]) + PMTM[ce2]*MTM[ce2] + PMCM[ce2]*MCM[ce2] if MS[ce2] > 0
+
+# equation 5.21
+d(log(MS[c])) = d(log(M[c])) if MS[c] > 0
+
+# equation 5.22 & 5.24
+PMAT|O|[cm] = P|V|S[cm] * (1 + Tvat|O|oth[cm]) / (1 + @elem(Tvat|O|oth[cm], %baseyear)) if CI|O|[cm] <> 0 where (O, V) in (D M, YQ M)
+
+# equation 5.23 & 5.25
+PE|O|[ce] = P|V|S[ce] * (1 + Tvat|O|oth[ce]) / (1 + @elem(Tvat|O|oth[ce], %baseyear)) if CI|O|[ce] <> 0 where (O, V) in (D M, YQ M)
+
+# equation 5.26 & 5.27
+PCH|O|[c] = P|V|S[c]*(1 + Tvat|O|[c]) / (1 + @elem(Tvat|O|[c], %baseyear)) if CH|O|[c] <> 0 where c in %list_com \ %list_com_E_CO2, (O, V) in (D M, YQ M)
+
+PCH|O|[ce2] = P|V|S[ce2]*(1 + Tvat|O|[ce2]) / (1 + @elem(Tvat|O|[ce2], %baseyear)) + Ttco[ce2]*EMS_HH[ce2]/EXP[ce2] if CH|O|[ce2] <> 0 where (O, V) in (D M, YQ M)
+
+# equation 5.28 & 5.29
+PG|O|[c] = P|V|S[c]*((1 + Tvat|O|oth[c]) / (1 + @elem(Tvat|O|oth[c], %baseyear))) if G|O|[c] <> 0 where (O, V) in (D M, YQ M)
+
+# equation 5.30 & 5.31
+PIA|O|[c] = P|V|S[c]*((1 + Tvat|O|oth[c]) / (1 + @elem(Tvat|O|oth[c], %baseyear))) if I|O|[c] <> 0 where (O, V) in (D M, YQ M)
+
+# equation 5.32, 5.33, 5.34 & 5.35
+P|VV||O|[c] = P|V|S[c] if |VV||O|[c] <> 0 where VV in X DS, (O, V) in (D M, YQ M)
+
+# equation 5.36
+PMTD[trsp, c] = YQ[trsp] / (YQ[trsp] + M[trsp]) * PYQS[trsp] + M[trsp] / (YQ[trsp]+M[trsp])*PMS[trsp] if MTD[trsp, c] <> 0 where c in %list_com \ %list_trsp_services
+
+# equation 5.37
+PMTM[trsp, c] = PMTD[trsp, c] if MTM[trsp, c] <> 0 where c in %list_com \ %list_trsp_services
+
+# equation 5.38
+PMCD[c] = YQ[ccm]/(YQ[ccm] + M[ccm])*PYQS[ccm] + M[ccm]/(YQ[ccm] + M[ccm])*PMS[ccm] if MCD[c] <> 0 where c in %list_com \ %list_trsp_services
+
+# equation 5.39
+PMCM[c] = PMCD[c] if MCM[c] <> 0 where c in %list_com \ %list_trsp_services
+
+# equation 5.40
+PM[c] = TC*PWD[c] if M[c] <> 0
+
+# equation 5.41
+d(log(W_S_n[s])) = RHO($s,1) + RHO($s,2)*d(log(P_e)) + RHO($s,3)*d(log(PROG_L[s])) - RHO($s,4)*(sum(Y[c, s]{-1}/Y[s]{-1}*M[c]{-1}/(YQ[c]{-1}+M[c]{-1})*d(log(PM[c]/PY[s])) if Y[c, s] <> 0 on c)) - RHO($s,5)*UnR_TOT - RHO($s,6)*d(UnR_TOT) + RHO($s,7)*d(log(L_S[s]) - log(L))+DNAIRU*RHO($s,5) if W_S_n[s] <> 0
+
+d(log(W_SE[s])) = d(log(W_S[s])) if W_SE[s] <> 0
+
+# TAYLOR RULE and interest rates
+
+# equation 5.42
+d(R_n) = d(R_DIR)
+
+d(R_G) = d(R)
+
+d(R_DIR) = STEADYSTATE(37,1)*(d(infl_ZE)-d(infl_ZE_target)) - STEADYSTATE(38,1)*(d(UnR_ZE)-d(UnR_ZE_target)) #"Original" rule
+
+infl_FR = d(P)/P{-1}
+
+infl_ZE = STEADYSTATE(42,1)*infl_FR + (1 - STEADYSTATE(42,1))*infl_HFR
+
+infl_HFR = STEADYSTATE(41,1)*infl_FR + (1 - STEADYSTATE(41,1))*infl_HFR{-1}
+
+P = PCH
+
+UnR_FR = UnR_TOT
+
+UnR_ZE = STEADYSTATE(42,1)*UnR_FR + (1 - STEADYSTATE(42,1))*UnR_HFR
+
+UnR_HFR = STEADYSTATE(41,1)*UnR_FR + (1 - STEADYSTATE(41,1))*UnR_HFR{-1}
+
+d(R[s]) = d(R)
+
+d(log(P_e)) = ADJUST(68,2)*d(log(P_e{-1})) + (1-ADJUST(68,2))*d(log(P{-1})) - ADJUST(68,6)*log(P_e{-1}/P{-1})

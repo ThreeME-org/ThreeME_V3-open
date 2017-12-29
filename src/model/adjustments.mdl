@@ -1,0 +1,94 @@
+# BLOCK 8: OTHER EQUATIONS
+
+# AJUSTMENT EQUATIONS AND ANTICIPATION
+# PROBLEME! Probleme de calcul avec IA: Log of non-positive number in DO_AMOD SOLVE
+# Ajustment Line 1-4
+
+# equation 8.1
+log(|V|[s]) = ADJUST(1 + $V, 1) * log(|V|_n[s]) + (1 - ADJUST(1 + $V, 1)) * (log(|V|[s]{-1}) + d(log(|V|_e[s]))) if |V|[s] <> 0 where V in L E MAT, s in %list_sec
+
+d(log(|V|_e[s])) = ADJUST(1 + $V, 2) * d(log(|V|_e[s]{-1})) + ADJUST(1 +$V, 3) * d(log(|V|[s]{-1})) + ADJUST(1 + $V, 4) * d(log(|V|_n[s])) if |V|[s] <> 0 where V in L E MAT
+
+# equation 8.2
+SUBST_|V|[s] = ADJUST(1 + $V, 6) * SUBST_|V|_n[s] + (1 - ADJUST(1 + $V,6)) * SUBST_|V|[s]{-1} if |V|[s] <> 0 where V in K L E MAT
+
+# equation 8.3
+# Ajustment Line 5
+SUBST_E[ce, s] = ADJUST(5, 6) * SUBST_E_n[ce, s] + (1- ADJUST(5, 6)) * SUBST_E[ce, s]{-1} if E[ce, s] <> 0
+
+# equation 8.4
+# Ajustment Line 6
+SUBST_MAT[trsp, s] = ADJUST(6, 6) * SUBST_MAT_n[trsp, s] +(1- ADJUST(6, 6)) * (SUBST_MAT[trsp, s]{-1}) if MAT[trsp, s] <> 0
+
+# equation 8.5 & 8.6
+# Ajustment Line 7-8
+SUBST_E|O|[ce, s] = ADJUST(col, 6) * SUBST_E|O|_n[ce, s] + (1 - ADJUST(col, 6)) * SUBST_E|O|[ce, s]{-1} if (ED[ce, s] <> 0) * (EM[ce, s] <> 0) where (O, col) in (D M, 7 8)
+
+# equation 8.7 & 8.8
+# Ajustment Line 9-10
+SUBST_MAT|O|[cm, s] = ADJUST(col, 6) * SUBST_MAT|O|_n[cm, s] + (1 - ADJUST(col, 6)) * SUBST_MAT|O|[cm, s]{-1} if (MATD[cm, s] <> 0) * (MATM[cm, s] <> 0) where (O, col) in (D M, 9 10)
+
+# equation 8.9 & 8.10
+# Ajustment Line 11
+SUBST_MT|O|[trsp, c] = ADJUST(col, 6) * SUBST_MT|O|_n[trsp, c] + (1 - ADJUST(col, 6)) * SUBST_MT|O|[trsp, c]{-1} if MT|O|[trsp, c] <> 0 where c in %list_com \ %list_trsp, (O, col) in (D M, 11 12)
+
+# equation 8.11 & 8.12
+# Ajustment Line 13-14
+SUBST_IA|O|[c, s] = ADJUST(col, 6) * SUBST_IA|O|_n[c, s] + (1 - ADJUST(col, 6)) * SUBST_IA|O|[c, s]{-1} if (IAD[c, s] <> 0) * (IAM[c, s] <> 0) where (O, col) in (D M, 13 14)
+
+# equation 8.13
+# Ajustment Line 15-16
+log(|V|[c]) = ADJUST(14 + $V, 1) * log(|V|_n[c]) + (1 - ADJUST(14 + $V, 1)) * (log(|V|[c]{-1}) + d(log(|V|_e[c]))) if |V|[c] <> 0 where V in SD SM
+
+d(log(|V|_e[c])) = ADJUST(14 +$V, 2) * d(log(|V|_e[c]{-1})) + ADJUST(14 + $V, 3)*d(log(|V|[c]{-1})) + ADJUST(14 + $V, 4) * d(log(|V|_n[c])) if |V|[c] <> 0 where V in SD SM
+
+# equation 8.14
+# Ajustment Line 17
+log(PY[s]) = ADJUST(17, 1) * log(PY_n[s]) + (1 - ADJUST(17, 1)) * (log(PY[s]{-1}) + d(log(PY_e[s])))
+
+d(log(PY_e[s])) = ADJUST(17, 2) * d(log(PY_e[s]{-1})) + ADJUST(17, 3) * d(log(PY[s]{-1})) + ADJUST(17, 4) * d(log(PY_n[s]))
+
+# equation 8.15
+# Ajustment Line 18
+d(log(W_S[s])) = ADJUST(18, 1) * d(log(W_S_n[s])) + (1 - ADJUST(18, 1)) * d(log(W_S[s]{-1})) - ADJUST(18,2)*log(W_S[s]{-1}/W_S_n[s]{-1}) if W_S[s] <> 0
+
+# equation 8.16
+log(PARTR[sex, age]) = ADJUST(19, 1) * log(PARTR_n[sex, age]) + (1 - ADJUST(19, 1)) * (log(PARTR[sex, age]{-1}) + d(log(PARTR_e[sex, age]))) if PARTR[sex, age] <> 0
+
+d(log(PARTR_e[sex, age])) = ADJUST(19, 2) * d(log(PARTR_e[sex, age]{-1})) + ADJUST(19, 3) * d(log(PARTR[sex, age]{-1})) + ADJUST(19, 4) * d(log(PARTR_n[sex, age])) if PARTR[sex, age] <> 0
+
+# equation 8.17
+# Interest rate
+R = ADJUST(20, 1) * R_n + (1 - ADJUST(20, 1)) * (R{-1} + d(R_e))
+d(R_e) = ADJUST(20, 2) * d(R_e{-1}) + ADJUST(20, 3) * d(R{-1}) + ADJUST(20, 4) * d(R_n)
+
+# equation 8.18
+# Ajustment Line 61-62
+SUBST_CHD[c] = ADJUST(61, 6) * SUBST_CHD_n[c] + (1 - ADJUST(61, 6)) * (SUBST_CHD[c]{-1}) if CHD[c] <> 0
+
+SUBST_CHM[c] = ADJUST(62, 6) * SUBST_CHM_n[c] + (1 - ADJUST(62, 6)) * (SUBST_CHM[c]{-1}) if CHM[c] <> 0
+
+# equation 8.19
+# Ajustment Line 63-64
+SUBST_GD[c] = ADJUST(63, 6) * SUBST_GD_n[c] + (1 - ADJUST(63, 6)) * (SUBST_GD[c]{-1}) if GD[c] <> 0
+
+SUBST_GM[c] = ADJUST(64, 6) * SUBST_GM_n[c] + (1 - ADJUST(64, 6)) * (SUBST_GM[c]{-1}) if GM[c] <> 0
+
+# equation 8.20
+# Ajustment Line 65-67
+SUBST_X[c] = ADJUST(65, 6) * SUBST_X_n[c] + (1- ADJUST(65, 6)) * (SUBST_X[c]{-1}) if X[c] <> 0
+
+SUBST_XD[c] = ADJUST(66, 6) * SUBST_XD_n[c] + (1- ADJUST(66, 6)) * (SUBST_XD[c]{-1}) if XD[c] <> 0
+
+SUBST_XM[c] = ADJUST(67, 6) * SUBST_GM_n[c] + (1- ADJUST(67, 6)) * (SUBST_XM[c]{-1}) if XM[c] <> 0
+
+# equation 8.21
+# Ajustment Line 68
+DIV_|V|_VAL = ADJUST(70, 1) * DIV_|V|_VAL_n + (1 - ADJUST(70, 1)) * (DIV_|V|_VAL{-1} + d(DIV_|V|_VAL_e)) where V in HH GOV
+d(DIV_|V|_VAL_e) = ADJUST(70, 2) * d(DIV_|V|_VAL_e{-1}) _
+		 + ADJUST(70, 3) * d(DIV_|V|_VAL{-1}) _
+		 + ADJUST(70, 4) * d(DIV_|V|_VAL_n) _
+		 + (1 + STEADYSTATE(1, 1)) ^ (@trend - (%baseyear - %firstdate)) * @elem(d(DIV_|V|_VAL_e) _
+		 - (ADJUST(70, 2) * d(DIV_|V|_VAL_e{-1}) _
+		 + ADJUST(70,3) * d(DIV_|V|_VAL{-1}) _
+		 + ADJUST(70, 4) * d(DIV_|V|_VAL_n)), %baseyear) where V in HH GOV

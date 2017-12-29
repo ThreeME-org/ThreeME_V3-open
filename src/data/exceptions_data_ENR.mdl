@@ -1,0 +1,148 @@
+TENERT_22 := TENERTD_22
+TENERT_23 := TENERTD_23
+TENERT_24 := TENERTD_24
+ttco_fossil := 0 #.000007
+
+neg_tsub_23 := -tsubd_23
+neg_tsub_24 := -tsubm_24
+
+q22 := q_mtep_ef_sou_22
+q23 := q_mtep_ef_sou_23
+q24 := q_mtep_ef_sou_24
+
+# Cross-consumption between energy sectors
+Q_Mtep_ener_in[ce, se] := 0 #if Q_Mtep_ef_tot[ce, se] <> 0
+Q_Mtep_ener_out[ce, se] := 0 #if Q_Mtep_ef_tot[ce, se] <> 0
+
+#CAPEX[se] := d(K[se])
+CAPEX[se] := CK[se] * K[se] / P
+IA_exo[s] := 0
+
+modal_shift_freight := 0
+modal_shift_passenger := 0
+modal_shift_to_busses := 0.5
+
+exo_ee_appliances := 0
+
+exo_travel_growth := 0
+
+variant_id := 1
+
+Share_Methanation_2303 := 0
+
+endo_L_E := 0.05
+
+# Overall price signals
+PE_Signal[s] := 0
+PE_Signal_0[s] := 0
+PE_Signal_g_i[s] := 0
+PE_Signal_g_f[s] := 0
+
+# Price signals by sector for each fuel
+PE_Signal[ce, s] := 0
+PE_Signal_0[ce, s] := 0
+PE_Signal_g_i[ce, s] := 0
+PE_Signal_g_f[ce, s] := 0
+
+PE_Signal_0_indus := 0
+PE_Signal_g_i_indus := 0
+PE_Signal_g_f_indus := 0
+
+PE_Signal_0_tertiary := 0
+PE_Signal_g_i_tertiary := 0
+PE_Signal_g_f_tertiary := 0
+
+PE_Signal_H[ce] := 0
+PE_Signal_0_H[ce] := 0
+PE_Signal_g_i_H[ce] := 0
+PE_Signal_g_f_H[ce] := 0
+
+# Energy Reporting
+ER_Trans_Private := Q_Mtep_H_AUTO
+ER_Trans_Public := sum(Q_Mtep_sec[trsp] on trsp)
+ER_Residential := Q_Mtep_H_BUIL
+ER_Tertiary := Q_Mtep_sec[19] + Q_Mtep_sec[20]
+ER_Indus := sum(Q_Mtep_sec[sind] on sind)
+ER_Agriculture := Q_Mtep_sec_01
+
+
+ER_Trans_Private_coal := Q_Mtep_H_AUTO_21
+ER_Trans_Public_coal := sum(Q_Mtep_sec_21[trsp] on trsp)
+ER_Residential_coal := Q_Mtep_H_BUIL_21
+ER_Tertiary_coal := Q_Mtep_sec_21[19] + Q_Mtep_sec_21[20]
+ER_Indus_coal := sum(Q_Mtep_sec_21[sind] on sind)
+ER_Agriculture_coal := Q_Mtep_sec_21_01
+
+ER_Trans_Private_oil := Q_Mtep_H_AUTO_22
+ER_Trans_Public_oil := sum(Q_Mtep_sec_22[trsp] on trsp)
+ER_Residential_oil := Q_Mtep_H_BUIL_22
+ER_Tertiary_oil := Q_Mtep_sec_22[19] + Q_Mtep_sec_22[20]
+ER_Indus_oil := sum(Q_Mtep_sec_22[sind] on sind)
+ER_Agriculture_oil := Q_Mtep_sec_22_01
+
+ER_Trans_Private_elec := Q_Mtep_H_AUTO_23
+ER_Trans_Public_elec := sum(Q_Mtep_sec_23[trsp] on trsp)
+ER_Residential_elec := Q_Mtep_H_BUIL_23
+ER_Tertiary_elec := Q_Mtep_sec_23[19] + Q_Mtep_sec_23[20]
+ER_Indus_elec := sum(Q_Mtep_sec_23[sind] on sind)
+ER_Agriculture_elec := Q_Mtep_sec_23_01
+
+ER_Trans_Private_gas := Q_Mtep_H_AUTO_24
+ER_Trans_Public_gas := sum(Q_Mtep_sec_24[trsp] on trsp)
+ER_Residential_gas := Q_Mtep_H_BUIL_24
+ER_Tertiary_gas := Q_Mtep_sec_24[19] + Q_Mtep_sec_24[20]
+ER_Indus_gas := sum(Q_Mtep_sec_24[sind] on sind)
+ER_Agriculture_gas := Q_Mtep_sec_24_01
+
+
+ER_oil := sum(Q_Mtep_ef[se22] on se22)
+ER_oil_2201 := Q_mtep_ef_2201
+ER_oil_2202 := Q_mtep_ef_2202
+ER_elec := sum(Q_Mtep_ef[se23] on se23)
+ER_elec_2301 := Q_MTEP_ef_2301	
+ER_elec_2302 := Q_MTEP_ef_2302	
+ER_elec_2303 := Q_MTEP_ef_2303	
+ER_elec_2304 := Q_MTEP_ef_2304	
+ER_elec_2305 := Q_MTEP_ef_2305	
+ER_elec_2306 := Q_MTEP_ef_2306	
+ER_elec_2307 := Q_MTEP_ef_2307	
+ER_elec_2308 := Q_MTEP_ef_2308	
+ER_gas := sum(Q_Mtep_ef[se24] on se24)
+ER_gas_2401 := Q_MTEP_ef_2401	
+ER_gas_2402	:= Q_MTEP_ef_2402	
+ER_gas_2403	:= Q_MTEP_ef_2403	
+ER_gas_2404	:= Q_MTEP_ef_2404	
+ER_gas_2405	:= Q_MTEP_ef_2405	
+ER_gas_2406	:= Q_MTEP_ef_2406
+ER_Coal := Q_mtep_ef_21
+
+ER_Total := Q_Mtep_ef
+
+ER_Auto := AUTO
+ER_Auto_coal := AUTO_21
+ER_Auto_Oil := AUTO_22
+ER_Auto_Elec := AUTO_23
+ER_Auto_gas := AUTO_24
+
+ER_AUTO_A := AUTO_CA
+ER_AUTO_B := AUTO_CB
+ER_AUTO_C := AUTO_CC
+ER_AUTO_D := AUTO_CD
+ER_AUTO_E := AUTO_CE
+ER_AUTO_F := AUTO_CF
+ER_AUTO_G := AUTO_CG
+
+Share_NEWAUTO_CA := PHI_NEWAUTO_H01_CA
+Share_NEWAUTO_CB := PHI_NEWAUTO_H01_CB
+Share_NEWAUTO_CC := PHI_NEWAUTO_H01_CC
+Share_NEWAUTO_CD := PHI_NEWAUTO_H01_CD
+Share_NEWAUTO_CE := PHI_NEWAUTO_H01_CE
+Share_NEWAUTO_CF := PHI_NEWAUTO_H01_CF
+Share_NEWAUTO_CG := PHI_NEWAUTO_H01_CG
+
+ER_Inv_Wind := CAPEX_2305
+ER_Inv_Solar := CAPEX_2306
+ER_Jobs_Public_Trsp := sum(L[trsp] on trsp)
+
+#Realist Auto_trend
+AUTO_trend := 1

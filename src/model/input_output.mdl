@@ -1,0 +1,126 @@
+# BLOCK 1 : INPUT - OUTPUT EQUILIBRIUM
+
+# equations 1.1, 1.2, 1.3 & 1.4
+@pv Q|O|[c] = CI|O|[c] + CH|O|[c] + G|O|[c] + I|O|[c] + X|O|[c] + DS|O|[c] if Q|O|[c] <> 0
+
+# equations 1.5 & 1.6
+@pv |V|[c] = |V|D[c] + |V|M[c] if |V|[c] <> 0 where V in Q CH G I DS
+
+# equation 1.7
+PX[c] * X[c] = PXD[c] * XD[c] + PXM[c] * XM[c] if X[c] <> 0
+
+# equations 1.8, 1.9, 1.10 & 1.11
+@pv |V||O| = sum(|V||O|[c] if |V||O|[c] <> 0 on c) where V in Q CH G I X DS CI MT MC
+# equations 1.12 & 1.13
+@pv |V| = |V|D + |V|M where V in Q CH G I X DS CI
+|V| = |V|D + |V|M where V in MT MC
+
+# equations 1.14, 1.15, 1.16 & 1.17
+@pv CI|O|[c] = sum(CI|O|[c, s] if CI|O|[c, s] <> 0 on s) if CI|O|[c] > 0
+
+# equations 1.18, 1.19, 1.20 & 1.21
+PCI|O|[cm, s] = PMAT|O|[cm] if CI|O|[cm, s] > 0
+CI|O|[cm, s] = MAT|O|[cm, s] if CI|O|[cm, s] > 0
+
+PCI|O|[ce, s] = PE|O|[ce] + TCO_VAL|O|[ce, s] / E|O|[ce, s] if CI|O|[ce, s] > 0
+CI|O|[ce, s] = E|O|[ce, s] if CI|O|[ce, s] > 0
+
+#equation 1.22
+@pv M = sum(M[c] if M[c] <> 0 on c)
+
+# GDP: PRODUCT DEFINITON
+
+#equation 1.24
+PGDP*GDP = PCH*CH + PG*G + PI*I + PX*X + PDS*DS - PM*M
+
+#equation 1.25
+GDP = CH + G + I + X + DS - M
+
+# equation 1.26 & 1.27
+@pv GDP[c] = CH[c] + G[c] + I[c] + X[c] + DS[c] - M[c] if GDP[c] <> 0
+
+# equation 1.28 & 1.29
+@pv GDPbis = sum(GDP[c] if GDP[c] <> 0 on c)
+
+# GDP: VALUE ADDED DEFINITION
+# equation 1.30
+PGDPter * GDPter = PVA * VA + PTAX * TAX + PSUB * SUB
+
+# equation 1.31
+GDPter = VA + TAX + SUB
+
+# equation 1.32
+YQ[c]*PYQ[c] = PQD[c]*QD[c] - PVATD[c]*VATD[c] - POTHTD[c]*OTHTD[c] - PSUBD[c]*SUBD[c] - (PMCD[c]*MCD[c] + PMTD[c]*MTD[c])- PENERTD[c]*ENERTD[c] - TCO_VALD_SOU[c] - TCO_VAL_HH_SOU[c] * CHD[c] / ((CH[c]>0) * CH[c] + (CH[c]<=0) * 1) if YQ[c] <> 0
+
+# equation 1.33
+YQbis[c] = QD[c] - VATD[c] - OTHTD[c] - SUBD[c] - (MCD[c] + MTD[c]) - ENERTD[c] if YQ[c] <> 0
+
+# PROBLEME! Eq. PMbis et PQbis devrait être utilisée pour calculer les volumes. Voir si la spécification actuelle est équivalente.
+
+# equation 1.34
+M[c]*PM[c] = PQM[c]*QM[c] - PVATM[c]*VATM[c] - POTHTM[c]*OTHTM[c] - PSUBM[c]*SUBM[c] - (PMCM[c]*MCM[c] + PMTM[c]*MTM[c]) - PENERTM[c]*ENERTM[c] - TCO_VALM_SOU[c] - TCO_VAL_HH_SOU[c] * CHM[c] / ((CH[c]>0) * CH[c] + (CH[c]<=0) * 1) if M[c] <> 0
+
+# equation 1.35
+Mbis[c] = QM[c] - VATM[c] - OTHTM[c] - SUBM[c] - (MCM[c]+MTM[c])- ENERTM[c] if M[c] <> 0
+
+#equation 1.36 1.37  PROBLEME! Double indice sur les prix superflux. Corriger après l#ambiguité sur les indices. Puis endogeneiser PMTD_%mar (sans _%com)
+
+# equations 1.36, 1.37, 1.38 & 1.39
+@pv MT|O|[c] = sum(MT|O|[trsp, c] if MT|O|[trsp, c] <> 0 on trsp) if MT|O|[c] <> 0 where c in %list_com \ %list_trsp
+
+# equations 1.40 & 1.41
+@pv MT[c] = MTD[c] + MTM[c] if MT[c] <> 0
+
+# equations 1.42 & 1.44
+PI|O|[c] * I|O|[c] = sum(PIA|O|[c] * IA|O|[c, s] if IA|O|[c, s] <> 0 on s) if I|O|[c] <> 0
+
+# equations 1.43 & 1.45
+I|O|[c] = sum(IA|O|[c, s] if IA|O|[c, s] <> 0 on s) if I|O|[c] <> 0
+
+# equations 1.46 & 1.47
+# @pv VA[s] = Y[s] - MAT[s] - E[s] where s in %list_sec
+
+# equations 1.48 & 1.49
+@pv VA = sum(VA[s] on s)
+
+# equations 1.50 & 1.51
+PEBE[s]*EBE[s] = PVA[s]*VA[s] - CL[s] * L[s] * PROG_L[s] - PIY[s]*IY[s] - PSY[s]*SY[s] where s in %list_sec
+EBE[s] = VA[s] - (CL[s] / PEBE[s]) * L[s] * PROG_L[s] - IY[s] - SY[s]
+
+# equations 1.52 & 1.53
+@pv EBE = sum(EBE[s] on s)
+
+# equations 1.54 & 1.55
+PRF[s]*RF[s] = PEBE[s]*EBE[s] - PK[s]{-1} * Tdec[s] * K[s]{-1} where s in %list_sec
+RF[s] = EBE[s] - @elem(PK[s]{-1}, %baseyear) * Tdec[s] * K[s]{-1}
+
+# equations 1.56 & 1.57
+@pv RF = sum(RF[s] on s)
+
+RF_NET[sm] = @elem(PRF[sm]{-1}, %baseyear) * RF[sm]{-1} - IS[sm]
+PRF_NET[sm]*RF_NET[sm] = PRF[sm]{-1}*RF[sm]{-1} - PIS[sm] * IS[sm]
+
+@pv RF_NET = sum(RF_NET[sm] on sm)
+@pv |V| = sum(|V|[s] if |V|[s] <> 0 on s) where V in Y IA
+@pv YQ = sum(YQ[c] if YQ[c] <> 0 on c)
+
+# Energy efficiency Indicator
+
+EFER[s] = E[s] / Y[s]
+EFER_n[s] = E_n[s] / Y[s]
+
+# Verif Compta nat.
+
+VERIF_PY_PYQ  = PY/PYQ-1
+VERIF_Y_YQ  = PY/PYQ-1
+
+VERIF_PIAxIA_PIxI = PIA * IA / (PI * I) - 1
+VERIF_PIA_PI = PIA / PI - 1
+VERIF_IA_I = IA / I - 1
+
+VERIF_GDP_GDPBIS    =  GDP / GDPBIS - 1
+VERIF_GDP_GDPTER    =  GDP / GDPTER - 1
+VERIF_PGDP_PGDPBIS  = PGDP / PGDPBIS - 1
+VERIF_PGDP_PGDPTER  = PGDP / PGDPTER - 1
+
+VERIF_ValGDP_ValGDPTER = PGDP * GDP / (PGDPTER * GDPTER) - 1

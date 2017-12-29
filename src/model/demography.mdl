@@ -1,0 +1,40 @@
+# BLOCK 7: DEMOGRAPHY
+
+# equation 7.1
+d(log(empl[sex, age])) = d(log(L)) if empl[sex, age] <> 0
+
+# equation 7.2
+LF[sex, age] = PARTR[sex, age] * WAPop[sex, age]
+
+# equation 7.3
+d(PARTR_n[sex, age]) = d(PARTR_trend[sex, age]) + betaEmp[sex, age] * d(UnR[sex, age])
+
+# equation 7.4
+Un[sex, age] = LF[sex, age] - Empl[sex, age]
+
+# equation 7.5
+UnR[sex, age] = Un[sex, age] / LF[sex, age] if LF[sex, age] <> 0
+UnR[age] = Un[age] / LF[age] if LF[age] <> 0
+UnR[sex] = Un[sex] / LF[sex] if LF[sex] <> 0
+
+# equation 7.6
+UnR_TOT=Un_TOT/LF_TOT
+
+# equation 7.7
+UN[age] = sum(UN[sex, age] on sex)
+
+# equation 7.8
+UN[sex] = sum(UN[sex, age] on age)
+
+# equation 7.9
+UN_TOT = sum(UN[sex] on sex)
+
+# equation 7.10
+LF[age] = sum(LF[sex,age] on sex)
+
+# equation 7.11 & 7.12
+LF[sex] = sum(LF[sex,age] on age)
+
+LF_TOT = sum(LF[sex] on sex)
+
+d(log(WAPop[sex, age])) = d(log(POP_TOT))

@@ -1,0 +1,65 @@
+# Exception for the coal sector (21)
+@over PY_n_21 = PM_21
+
+@over d(log(PVA_21)) = log(1+STEADYSTATE(15,1))
+@over VA_21 * PVA_21 = PY_21 * Y_21 - PMAT_21 * MAT_21 - PE_21 * E_21
+
+@over d(log(PEBE_21)) = log(1+STEADYSTATE(15,1))
+@over d(log(PRF_21)) = log(1+STEADYSTATE(15,1))
+
+@over |V|[21] = |V|_n[21] where V in L E MAT
+@over |V|_e[21] = |V|_n[21] where V in L E MAT
+
+# Exception for the government
+# equation 3.68
+REC_VAL = DIV_GOV_VAL + IR_VAL + AIC_VAL + INC_GOV_OTH_net - CL_S[sp] * L_S[sp] * PROG_L[sp] + _
+          value(Y[sp] + TAX + IY + IS + CSE_TOT + CSS_TOT - (E[sp] + MAT[sp] + IY[sp]))
+
+# Total spending
+# equation 3.79
+DEP_VAL = CL_S[sp]*L_S[sp]*PROG_L[sp] + R_G{-1}*DEBT_G_VAL{-1} + PRESOC_VAL +_
+          value(E[sp] + MAT[sp] + IY[sp] + IA[sp] + (G - G[sp]) - ((SUB - SUB_01) + (SY - SY_01)))
+
+# Exception for substitution in transport
+# Substitution for transport margins
+d(SUBST_MT|O|_n[trsp, c]) = sum( -ES_TRANSP_MARG($c, cols_trsp(trsp, trsp_oth)) * d(log(PE[trsp]) - log(PE[trsp_oth])) * _
+                                 value(MT|O|[trsp_oth, c]{-1} / (MT|O|[trsp, c]{-1} + MT|O|[trsp_oth, c]{-1})) if trsp_oth <> trsp on trsp_oth in %list_trsp \ 15) _
+                            if MT|O|[trsp, c] <> 0 where trsp in %list_trsp \ 15, c in %list_com \ %list_trsp
+
+# Substitution for transport intermediaries
+# HACK: transport sectors 15 and 16 can't be substituted to each other
+# the pair is disabled manually in the sum with trsp*trsp_oth <> 240 (since 15 * 16 == 240)
+d(SUBST_MAT_n[trsp, s]) = sum( -ES_TRANSP_CI($s, cols_mat(trsp, trsp_oth)) * d(log(PMAT[trsp, s]) - log(PMAT[trsp_oth, s])) * _
+                               value(MAT[trsp_oth, s]{-1} / (MAT[s]{-1}) ) if (trsp_oth <> trsp) * (trsp*trsp_oth <> 240) on trsp_oth in %list_trsp) _
+                          if MAT[trsp_cond, s] <> 0 where (trsp, trsp_cond) in (%list_trsp, %list_trsp)
+
+
+#### Exceptions used in MESANGE
+
+# Endogenous Marginal Propensity
+# This specification is dubious and should be avoided: since d(log(DISPINC_VAL{-1} / PCH{-1})) grows like productivity, MPS has a trend !! 
+# @over d(MPS[h]) = 0.1 * d(log(DISPINC_VAL{-1} / PCH{-1})) + 0.005 * d(UNR_TOT) + 0.003 * d(R - infl_fr)
+
+# Import Price as a function of the domestic price
+@over d(log(PM[c])) = 0.5 * d(log(TC * PWD[c])) + (1 - 0.5) * d(log(PYQ[c])) where c in %list_com \ %list_com_E
+
+# WS curve like in MESANGE:
+@over d(log(W_S_n[s])) = RHO($s,1) + RHO($s,2)*d(log(P_e)) + RHO($s,3)*d(log(PROG_L[s])) - RHO($s,4)*(sum(Y[c, s]{-1}/Y[s]{-1}*M[c]{-1}/(YQ[c]{-1}+M[c]{-1})*d(log(PM[c]/PY[s])) if Y[c, s] <> 0 on c)) - RHO($s,5)*UnR_TOT - RHO($s,6)*d(UnR_TOT) + RHO($s,7)*d(log(L_S[s]) - log(L))+DNAIRU*RHO($s,5) + d(log(CFS)) - d(log(1 + TCSE)) - 0.0 * d((log(PCH)-log(PVA))) if W_S_n[s] <> 0
+
+# Modified CFS
+CFS = (1 + TCSE) / ((1 - TCSS)*(1-TIR[H01]))
+
+# CO2 emissions of sectors "for energy uses" per sector and source.
+@over d(log(EMS_SEC[ce2,s])) = (@year>%baseyear)*d(log(E_oth[ce2,s]*IC[ce2,s])) + (@year=<%baseyear)*log(1 + STEADYSTATE(2,1)) if EMS_SEC[ce2,s] <> 0
+
+
+
+#-----------------------------------------------------------------------------------
+#equation à tester, elle est utilsée dans la V1 inspiré du modèle Mesange!!
+
+#CFS = 1*(1+TCSE)/((1-TCSS)*(1-TIR))
+#d(log(W_S_n[s])) = 1*d(log(P_e)) + d(log(CFS)) + 1*d(log(PROG_L[s])) - 2*UnR_TOT - 0.51*d((log(PCH)-log(PY[s])))
+
+#log(Wdes_{%sec}) = rho01_{%sec}*log(Ph)+log(CFS) - rho03_{%sec}*U + rho04_{%sec}*log(PROG)-0.51*((log(Ph)-log(PY_{%sec})))
+
+#-----------------------------------------------------------------------------------

@@ -1,0 +1,41 @@
+@over d(TIR[h]) = -d(PHI_TCO[h] * TCO_VAL_HH / DISPINC_AI_VAL[h]) + d(TIR_TREND)
+@over d(SUBST_K_n[s]) = _
+  -ES_KLEM($s, 1) * d(log(CK[s]) - log(CL[s]))                        * (L[s]{-1}   * PROG_L[s]{-1} * CL[s]{-1} / (CU[s]{-1} * Y[s]{-1})) _
+  -ES_KLEM($s, 2) * d(log(CK[s]) - log(PE[s] * (1 + PE_Signal[s])))   * (E[s]{-1}   * PE[s]{-1}                 / (CU[s]{-1} * Y[s]{-1})) _
+  -ES_KLEM($s, 3) * d(log(CK[s]) - log(PMAT[s]))                      * (MAT[s]{-1} * PMAT[s]{-1}               / (CU[s]{-1} * Y[s]{-1})) _
+  if K_n[s] <> 0
+
+@over d(SUBST_E_n[s]) = _
+  -ES_KLEM($s, 2) * d(log(PE[s] * (1 + PE_Signal[s])) - log(CK[s]))   * (K[s]{-1}   * CK[s]{-1}                 / (CU[s]{-1} * Y[s]{-1})) _
+  -ES_KLEM($s, 4) * d(log(PE[s])                      - log(CL[s]))   * (L[s]{-1}   * PROG_L[s]{-1} * CL[s]{-1} / (CU[s]{-1} * Y[s]{-1})) _
+  -ES_KLEM($s, 6) * d(log(PE[s])                      - log(PMAT[s])) * (MAT[s]{-1} * PMAT[s]{-1}               / (CU[s]{-1} * Y[s]{-1})) _
+  if E_n[s] <> 0
+
+#choc lié au report modal pour les ménages
+# Les 4 equations suivantes transfèrent un nombre de Km_traveler_auto[h] désiré (modal_trsf_auto[h]) vers des Km_traveler[trsp, h].
+  
+@over d(log(Km_traveler[trsp, h])) = d(log(Km_traveler[h])) +  d(log(@elem(Km_traveler[trsp, h]/Km_traveler[h], %baseyear)) + modal_trsf_auto[trsp, h]/Km_traveler[h]) if Km_traveler[trsp, h] <> 0 where trsp in %list_trsp_travel \ 18 
+
+@over d(log(Km_traveler_auto[h])) = (@year > %baseyear) * (d(log(Km_traveler[h])) +  d(log(@elem(Km_traveler_auto[h]/Km_traveler[h], %baseyear)) - modal_trsf_auto[h]/Km_traveler[h])- 0.0 * d(log (PEXP_AUTO[h]) - log(PCH))) #introduire du covoiturage afin d'arriver à la cible de 18M de voiture en 2050 (scenario ADEME)
+
+modal_trsf_auto[trsp, h] = phi_modal_auto[trsp, h]*Km_traveler_auto[h] where trsp in %list_trsp_travel \ 18
+modal_trsf_auto[h] = sum(modal_trsf_auto[trsp, h] on trsp)  where trsp in %list_trsp_travel \ 18
+
+# Le problème est que l'usage de la voiture va être réduit pour tous les types de voitures proportionnellement.
+# Pour éviter cela, il faut changer simultanément les parts des nouvelles voitures: réduire celle des classes basses
+# G à B qui ne contiennent quasiment pas d'electrique et augmenter celle de A. La somme des phi_NewAUTO_trend[h, ecl] restant égale à 1. 
+# Par contre, il faut le faire un peu à taton car il est difficile de trouver la formule du fait de la dynamique. 
+# En première approximation elle devrait être: d(phi_NewAUTO_trend[h, CA]) = d(modal_trsf_auto[h]/Km_traveler_auto[h])
+# Repartir cette hausse de A par des baisses sur les classes B à G
+ 
+#choc lie au rapport modal pour les secteurs
+
+@over d(log(MAT[14, s])) = d(log(MAT[s])) + d(SUBST_MAT[cm, s]) + shock_MAT_14 if MAT[14, s] <> 0
+@over d(log(MAT[16, s])) = d(log(MAT[s])) + d(SUBST_MAT[cm, s]) - shock_MAT_14 * PMAT[14, s]{-1} * MAT[14, s]{-1} / (PMAT[16, s]{-1} * MAT[16, s]{-1}) if MAT[16, s] <> 0
+
+# Apparent reduction of rehabilitation payback time
+
+@over d(tau_REHAB_N[h,ecl]) = (@year>%baseyear) * d(tau_REHAB_trend[h,ecl] _
+                            - nu_REHAB[h,ecl] * log((1 - Apparent_Payback) * Payback_REHAB[h,ecl])) _
+                            if tau_REHAB[h,ecl] <> 0
+

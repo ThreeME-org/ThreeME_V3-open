@@ -1,0 +1,197 @@
+# BLOCK 2: PRODUCER
+
+# equation 2.01
+PYQ[c] * YQ[c] = sum(PY[s] * Y[c, s] if Y[c, s] <> 0 on s) if YQ[c] <> 0
+
+# equation 2.02
+Y[c, s] = PhiY[c, s] * YQ[c] if Y[c, s] <> 0
+Y[s] = sum(Y[c, s] if Y[c, s] <> 0 on c)
+
+# Level I
+
+# equation 2.04
+d(log(K_n[s])) = d(log(Y[s])) + d(SUBST_K[s]) - d(log(PROG_K[s])) + IMP_BUD[s] * @elem(GDP, %baseyear) / @elem(K_n[s], %baseyear) if K_n[s] <> 0
+
+d(SUBST_K_n[s]) = _
+  -ES_KLEM($s, 1) * d(log(CK[s]) - log(CL[s]))   * (L[s]{-1}   * PROG_L[s]{-1} * CL[s]{-1} / (CU[s]{-1} * Y[s]{-1})) _
+  -ES_KLEM($s, 2) * d(log(CK[s]) - log(PE[s]))   * (E[s]{-1}   * PE[s]{-1}                 / (CU[s]{-1} * Y[s]{-1})) _
+  -ES_KLEM($s, 3) * d(log(CK[s]) - log(PMAT[s])) * (MAT[s]{-1} * PMAT[s]{-1}               / (CU[s]{-1} * Y[s]{-1})) _
+  if K_n[s] <> 0
+
+# equation 2.05
+d(log(L_n[s])) = d(log(Y[s])) - d(log(PROG_L[s])) + d(SUBST_L[s]) if L_n[s] <> 0
+
+d(SUBST_L_n[s]) = _
+  -ES_KLEM($s, 1) * d(log(CL[s]) - log(CK[s]))   * (K[s]{-1} * CK[s]{-1}     / (CU[s]{-1} * Y[s]{-1})) _
+  -ES_KLEM($s, 4) * d(log(CL[s]) - log(PE[s]))   * (E[s]{-1} * PE[s]{-1}     / (CU[s]{-1} * Y[s]{-1})) _
+  -ES_KLEM($s, 5) * d(log(CL[s]) - log(PMAT[s])) * (MAT[s]{-1} * PMAT[s]{-1} / (CU[s]{-1} * Y[s]{-1})) _
+  if L_n[s] <> 0
+
+# equation 2.06
+d(log(E_n[s])) = d(log(Y[s])) + d(SUBST_E[s]) - d(log(PROG_E[s])) if E_n[s] <> 0
+
+d(SUBST_E_n[s]) = _
+  -ES_KLEM($s, 2) * d(log(PE[s]) - log(CK[s]))   * (K[s]{-1}   * CK[s]{-1}                 / (CU[s]{-1} * Y[s]{-1})) _
+  -ES_KLEM($s, 4) * d(log(PE[s]) - log(CL[s]))   * (L[s]{-1}   * PROG_L[s]{-1} * CL[s]{-1} / (CU[s]{-1} * Y[s]{-1})) _
+  -ES_KLEM($s, 6) * d(log(PE[s]) - log(PMAT[s])) * (MAT[s]{-1} * PMAT[s]{-1}               / (CU[s]{-1} * Y[s]{-1})) _
+if E_n[s] <> 0
+
+# equation 2.07
+d(log(MAT_n[s])) = d(log(Y[s])) + d(SUBST_MAT[s]) if MAT_n[s] <> 0
+
+d(SUBST_MAT_n[s]) = _
+  -ES_KLEM($s, 3) * d(log(PMAT[s]) - log(CK[s])) * (K[s]{-1} * CK[s]{-1}                 / (CU[s]{-1} * Y[s]{-1})) _
+  -ES_KLEM($s, 5) * d(log(PMAT[s]) - log(CL[s])) * (L[s]{-1} * PROG_L[s]{-1} * CL[s]{-1} / (CU[s]{-1} * Y[s]{-1})) _
+  -ES_KLEM($s, 6) * d(log(PMAT[s]) - log(PE[s])) * (E[s]{-1} * PE[s]{-1}                 / (CU[s]{-1} * Y[s]{-1})) _
+if MAT_n[s] <> 0
+
+# Calcul Input shares
+phi_K[s]   = K[s] * CK[s]             / (CU[s] * Y[s])
+phi_L[s]   = L[s] * PROG_L[s] * CL[s] / (CU[s] * Y[s])
+phi_E[s]   = E[s] * PE[s]             / (CU[s] * Y[s])
+phi_MAT[s] = MAT[s] * PMAT[s]         / (CU[s] * Y[s])
+
+verif_phi_input[s] = 1 - phi_K[s] - phi_L[s] - phi_E[s] - phi_MAT[s]
+
+
+
+# equation 2.09
+d(log(IA[c, s])) = d(log(IA[s])) if IA[c, s] <> 0
+
+# equation 2.10
+PK[s] * K[s] = (1 - Tdec[s]) * PK[s]{-1} * K[s]{-1} + PIA[s] * IA[s] if K[s] <> 0
+
+# equation 2.11
+K[s] = (1 - Tdec[s]) * K[s]{-1} + IA[s] if K[s] <> 0
+
+d(log(IA[s])) = ADJUST(1, 1) * d(log(IA[s]{-1})) + ADJUST(1, 2) * d(log(Y_e[s])) + ADJUST(1, 3) * (log(K_n[s]{-1}) - log(K[s]{-1})) + ADJUST(1, 4) * d(SUBST_K[s]) + IMP_BUD[s] * @elem(GDP, %baseyear) / @elem(IA[s], %baseyear) if K[s] <> 0
+
+d(log(Y_e[s])) = ADJUST(71,2) * d(log(Y_e[s]{-1})) + (1 - ADJUST(71,2)) * d(log(Y[s]))
+
+# Transport margins
+
+# equation 2.12 & 2.13
+d(log(MT|O|[trsp, c])) = d(log(|V|[c])) + d(SUBST_MT|O|[trsp, c]) if MT|O|[trsp, c] <> 0 where (O, V) in (D M, YQ M), c in %list_com \ %list_trsp
+
+# equation 2.14 & 2.15
+d(log(MC|O|[c])) = d(log(|V|[c])) if MC|O|[c] <> 0 where (O, V) in (D M, YQ M), c in %list_com \ %list_com_commarg
+
+# Stock inventories for commodity c
+
+# equations 2.17 & 2.19
+S|O|_n[c] = STEADYSTATE(50,1) * (CI|O|[c] + CH|O|[c] + G|O|[c] + I|O|[c] + X|O|[c]) if S|O|[c] <> 0
+
+# Level II
+# Sectorial notional energy demand by type of energy
+
+# equation 2.20
+d(log(E[ce, s])) = d(log(E[s])) + d(SUBST_E[ce, s]) if E[ce, s] <> 0
+
+d(SUBST_E_n[ce, s]) = sum( -ES_NRJ($s, cols_ce(ce, ce_oth)) * d(log(PE[ce, s]) - log(PE[ce_oth, s])) * _
+                           value(E[ce_oth, s]{-1} / (E[s]{-1}) ) if ce_oth <> ce on ce_oth in %list_com_E) _
+                      if E[ce, s] <> 0
+
+# Self employed and employed
+
+# equation 2.21
+d(log(L_S[s])) = d(log(L[s]))
+L_SE[s] = L[s] - L_S[s] if L_SE[s] <> 0
+
+# equation 2.22
+L_S = sum(L_S[s] if L_S[s] <> 0 on s)
+
+# equation 2.23
+L_SE = sum(L_SE[s] if L_SE[s] <> 0 on s)
+
+# Notional demand for material c of the sector a
+
+# equation 2.24
+d(log(MAT[cm, s])) = d(log(MAT[s])) + d(SUBST_MAT[cm, s]) if MAT[cm, s] <> 0
+
+
+# Level III
+
+# Notional Demand for imported material c of the sector
+
+# equation 2.25
+MATM[cm, s] = (MAT[cm, s] - MATD[cm, s] > 0) * (MAT[cm, s] - MATD[cm, s]) + (MAT[cm, s] - MATD[cm, s] =< 0) * (0.00001) if MATM[cm, s] <> 0
+
+d(SUBST_MATM_n[cm, s]) = -ES_CIM($s, $cm) * d(log(PMATM[cm]) - log(PMATD[cm])) * (PMATD[cm]{-1}*MATD[cm, s]{-1} / (PMAT[cm, s]{-1}*MAT[cm, s]{-1})) if MATM[cm, s] <> 0
+
+# Notional Demand for domestic material c of the sector
+
+# equation 2.26
+d(log(MATD[cm, s])) = d(log(MAT[cm, s])) + d(SUBST_MATD[cm, s]) if MATD[cm, s] <> 0
+
+d(SUBST_MATD_n[cm, s]) = -ES_CIM($s, $cm) * d(log(PMATD[cm]) - log(PMATM[cm])) * (PMATM[cm]{-1} * MATM[cm, s]{-1} / (PMAT[cm, s]{-1} * MAT[cm, s]{-1})) if (MATM[cm, s] <> 0) * (MATD[cm, s])
+
+# Notional Demand for imported energy c of the sector
+
+# equation 2.27
+EM[ce, s] = (E[ce, s] - ED[ce, s] > 0) * (E[ce, s] - ED[ce, s]) + (E[ce, s] - ED[ce, s] =< 0) * 0.00001 if EM[ce, s] <> 0
+
+d(SUBST_EM_n[ce, s]) = -ES_CIM($s, 20 + $ce) * d(log(PEM[ce]) - log(PED[ce])) * (PED[ce]{-1} * ED[ce, s]{-1}/(PE[ce, s]{-1} * E[ce, s]{-1})) if (EM[ce, s] <> 0) * (ED[ce, s] <> 0)
+
+# Notional Demand for domestic Energy c of the sector
+
+# equation 2.28
+d(log(ED[ce, s])) = d(log(E[ce, s])) + d(SUBST_ED[ce, s]) if ED[ce, s] <> 0
+
+d(SUBST_ED_n[ce, s]) = -ES_CIM($s, 20 + $ce) * d(log(PED[ce]) - log(PEM[ce])) * (PEM[ce]{-1} * EM[ce, s]{-1} / (PE[ce, s]{-1} * E[ce, s]{-1})) if (EM[ce, s] <> 0) * (ED[ce, s] <> 0)
+
+# Allocation of Investment between domestic and import (Imports)
+
+# equation 2.29
+IAM[c, s] = (IA[c, s] - IAD[c, s] > 0) * (IA[c, s] - IAD[c, s]) + (IA[c, s] - IAD[c, s] =< 0) * (0.00001) if IAM[c, s] <> 0
+
+d(SUBST_IAM_n[c, s]) = -ES_IAM($s, $c) * d(log(PIAM[c]) - log(PIAD[c])) * (PIAD[c]{-1} * IAD[c, s]{-1} / (PIA[c, s]{-1} * IA[c, s]{-1})) if (IAM[c, s] <> 0) * (IAD[c, s] <> 0)
+
+# Allocation of Investment between domestic and import (Domestic)
+
+# equation 2.30
+d(log(IAD[c, s])) = d(log(IA[c, s])) + d(SUBST_IAD[c, s]) if IAD[c, s] <> 0
+
+d(SUBST_IAD_n[c, s]) = -ES_IAM($s, $c) * d(log(PIAD[c]) - log(PIAM[c])) * (PIAM[c]{-1} * IAM[c, s]{-1} / (PIA[c, s]{-1} * IA[c, s]{-1})) if (IAM[c, s] <> 0) * (IAD[c, s] <> 0)
+
+# equation 2.31 & 2.33
+PMT|O|[trsp] * MT|O|[trsp] = -|V|[trsp] / (YQ[trsp] + M[trsp]) * _
+                      ( sum(value(MTD[trsp, c] + MTM[trsp, c]) if MT|O|[trsp, c] <> 0 on c in %list_com \ %list_trsp)  ) _
+                      if MT|O|[trsp] <> 0 where (O, V) in (D M, YQ M)
+
+# equation 2.32 & 2.34
+MT|O|[trsp] = -|V|[trsp] / (YQ[trsp] + M[trsp]) * _
+                                    ( sum(MTD[trsp, c] + MTM[trsp, c] if MT|O|[trsp, c] <> 0 on c in %list_com \ %list_trsp) ) _
+                                    if MT|O|[trsp] <> 0 where (O, V) in (D M, YQ M)
+
+# equation 2.35 - 2.38
+PMC|O|[ccm] * MC|O|[ccm] = -|V|[ccm] / (YQ[ccm] + M[ccm]) * (sum(value(MCM[c] + MCD[c]) on c in %list_com \ %list_com_commarg)) if MC|O|[ccm] <> 0 where (O, V) in (D M, YQ M)
+
+MC|O|[ccm] = -|V|[ccm] / (YQ[ccm] + M[ccm]) * (sum(MCM[c] + MCD[c] on c in %list_com \ %list_com_commarg)) if MC|O|[ccm] <> 0 where (O, V) in (D M, YQ M)
+
+# Exports
+
+# La variable World Demand (WD) est exogene
+# equation 2.39
+d(log(X[c])) = d(log(WD[c])) + d(SUBST_X[c]) if X[c] <> 0
+d(SUBST_X_n[c]) = -ES_X($c, 1) * d(log(PX[c]) - log(TC * PWD[c])) if X[c] <> 0
+
+# equation 2.40
+d(log(XD[c])) = d(log(X[c])) + d(SUBST_XD[c]) if X[c] <> 0
+XM[c] = (X[c] - XD[c] > 0) * (X[c] - XD[c]) + (X[c] - XD[c] <= 0) * (0.00001) if XM[c] <> 0
+
+# equation 2.41
+d(SUBST_X|O1|_n[c]) = -ES_X($c, 2) * d(log(PX|O1|[c]) - log(PX|O2|[c])) * (PX|O2|[c]{-1} * X|O2|[c]{-1} / (PX[c]{-1} * X[c]{-1})) if X|O1|[c] <> 0 where (O1, O2) in (D M, M D)
+
+# Commercial Balance
+
+# equation 2.42
+DC_VAL[c] = PX[c] * X[c] - PM[c] * M[c]
+
+# equation 2.43
+DC_VAL = sum(DC_VAL[c] on c)
+
+PROG_K[s] = PROG_K[s]{-1} * (1 + GR_PROG_K[s])
+PROG_L[s] = PROG_L[s]{-1} * (1 + GR_PROG_L[s])
+PROG_E[s] = PROG_E[s]{-1} * (1 + GR_PROG_E[s])
+
+GR_PROG_E[s] =  alpha_PROG_E[s] + alpha_PROG_E_PE*((log(PE[s])- log(PCH)>0)*d(log(PE[s])-log(PCH)))

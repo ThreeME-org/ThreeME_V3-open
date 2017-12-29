@@ -1,0 +1,12 @@
+include ..\model\lists
+
+include ..\model\Input_Output
+# include ..\model\GHG
+# include ..\model\Consumer
+# include ..\model\Producer
+# include ..\model\Government
+# include ..\model\Price
+# include ..\model\Demography
+# include ..\model\Adjustments
+# include ..\model\Exceptions_fr
+# include ..\model\carbon_tax
