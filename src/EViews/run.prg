@@ -11,7 +11,7 @@ subroutine run(string %data_calibration, string %data_shock)
 
   ' ***********************
   ' Create the Workfile
-  %wfname = "./../../"+%modelname+"_"+%DC
+  %wfname = ".\..\..\results\"+%modelname+"_"+%DC
   wfcreate(wf=%wfname, page=%modelname) {%freq} {%firstdate} {%lastdate}
 
   call create_lists
@@ -35,9 +35,6 @@ if %load="new"  then
     ' Export all variables to a csv file (used by the external compiler)
     call export_all_to_csv
 
-        ' Stop here to create/save a workfile where data are already initialized. Then activate the option  %load = ""
-        ' stop
-
     ' Load the model specification from the model/ folder
     {%modelname}.load blocks
 
@@ -48,7 +45,7 @@ else
 
     ' If the data are already initailized as a Workfile with the option  %load = ""
     ' Load the data
-    wfopen {%wfname}    ' Load workfile if already created
+    wfopen {%wfname}    ' Load workfile if already created (the workfile should be in ThreeME_V3\results\)
 
 endif
 

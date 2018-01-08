@@ -12,24 +12,24 @@ include .\configuration.prg
 ' Includes
 
 ' Utility procedures
-include .\src\utils\subroutines
-include .\src\utils\results_outputs
+include .\subroutines
+include .\results_outputs
 
 ' Addin: External compiler
-include .\src\addin\model_addin.prg
-include .\src\addin\export.prg
+include .\..\addin\model_addin.prg
+include .\..\addin\export.prg
 
 ' Load data
-include .\src\data\load_calibration
-include .\src\data\load_data_shocks
-include .\src\data\load_data_hybrid
-include .\src\data\load_data_realist
-include .\src\data\standard_shocks
+include .\load_calibration
+include .\load_data_shocks
+include .\load_data_hybrid
+include .\load_data_realist
+include .\standard_shocks
 
 ' Running the model
-include .\src\model\tracker.prg
-include .\src\model\solve
-include .\src\model\run
+include .\tracker.prg
+include .\solve
+include .\run
 
 
 ' ***********
@@ -43,3 +43,5 @@ For %DC {%calibrations}
     call run(%data_calibration,%data_shocks)
 
 Next
+
+
