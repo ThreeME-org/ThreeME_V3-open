@@ -25,10 +25,6 @@
 %ref = "realist"
 
 
-' Set "yes" for running shock scenario
-%run_shock = "basic"
-
-
 ' ********************
 ' Additional options
 
