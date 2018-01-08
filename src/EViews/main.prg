@@ -9,27 +9,25 @@ include .\configuration.prg
 
 
 ' **********
-' Includes
+' Includes suroutines
 
-' Utility procedures
-include .\subroutines
-include .\results_outputs
-
-' Addin: External compiler
-include .\..\addin\model_addin.prg
-include .\..\addin\export.prg
+include .\create_lists
 
 ' Load data
+include .\load_data
 include .\load_calibration
-include .\load_data_shocks
-include .\load_data_hybrid
-include .\load_data_realist
-include .\standard_shocks
 
 ' Running the model
 include .\tracker.prg
 include .\solve
 include .\run
+
+' Utility procedures
+include .\results_outputs
+
+' Addin: External compiler
+include .\..\addin\model_addin.prg
+include .\..\addin\export.prg
 
 
 ' ***********

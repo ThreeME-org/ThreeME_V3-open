@@ -1,10 +1,21 @@
-' This subroutine solve the Model
+' ============================================================================ 
+' ++++++++++++++++++++++++
+' Subroutine "Solvemodel"
+' ++++++++++++++++++++++++
+
+' This subroutine solves the model with the option defined in the file "configuration.prg"
+
+' ============================================================================ 
+
 subroutine solvemodel(string %solveopt)
+
   smpl {%baseyear} @last
   '%tracklist = "q_01 q_02"                 'Set the list of variable to be traCK
   %tracklist = "@all"                   'Set the list of variable to be traCK
+
   if %solveopt="u0" then
-    {%modelname}.track {%traCKlist}         ' Specify endogenous variables to traCK (to be saved as series). To be used if memory or speed problem.
+    {%modelname}.track {%tracklist}         ' Specify endogenous variables to track (to be saved as series). To be used if memory or speed problem.
+
     {%modelname}.solve(o=b, g=10, m=5500, c=1e-8, z=1e-8,j=a,i=p,v=t)               ' Simulation of the model / OPTION :
     ' o= Algorithm solution method: g (Gauss-Seidel), n (NeWton), b(Broyden).
     ' g= Number of digits to round solution.
@@ -17,12 +28,14 @@ subroutine solvemodel(string %solveopt)
 
     return          ' Exit subroutine
   endif
+
   'ADD NEW USER OPTION IF NECESSARY WITH A "IF / END IF" SCRIPT
   if %solveopt="u1" then
     {%modelname}.track {%tracklist}         ' Specify endogenous variables to traCK (to be saved as series). To be used if memory or speed problem.
     {%modelname}.solve(o=g, g=10, m=5500, c=1e-8, z=1e-8,j=a)               ' Simulation of the model / OPTION : see above
     return          ' Exit subroutine
   endif
+
   if %solveopt="d" then
 
     %tracelist = ""
@@ -44,5 +57,7 @@ subroutine solvemodel(string %solveopt)
   else
     {%modelname}.solve     ' Simulation of the model (Default option).
   endif
+
   smpl @all
+
 endsub

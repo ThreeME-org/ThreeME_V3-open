@@ -1,3 +1,5 @@
+' This subroutine will be deleted when the calibration program is active
+
 subroutine load_calibration
 
   ' Load parameter from Excel and store them into a matrix (L,C)

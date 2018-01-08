@@ -1,6 +1,11 @@
 ' ============================================================================ 
 ' Series of subroutines used to run the model
+
+' Additional user defined run subroutines in the file "run_extra.prg"
+' Here only the basic run subroutine! 
 ' ============================================================================ 
+
+
 
 ' ============================================================================ 
 ' +++++++++++++++++++
@@ -162,8 +167,3 @@ subroutine run_scenario(string %scenario_name)
 
 endsub
 
-
-subroutine load_shocks(string %scenario_name)
-  ' Load data for the shock to be simulated
-  call load_data_shocks(".\..\..\data\shocks\" + %scenario_name + ".xls")
-endsub

@@ -1,5 +1,7 @@
 ' ============================================================================ 
 ' Series of subroutines used to run the model
+
+' 'User defined subroutine (multi-scenarios, solver, targets, etc.)
 ' ============================================================================ 
 
 
@@ -69,7 +71,6 @@ subroutine run_enr(string %scenario)
   {%modelname}.scenario(n, a="2") %scenario
 
   ' Load PhiY, coef_losses, coef_int
-  ' call load_shocks(%scenario)
   call load_xl("Calibration_PPE", "ThreeME_" + %scenario)
 
   ' Calibrated taxation system
@@ -124,7 +125,6 @@ subroutine calibrate_scenario(string %scenario, string %targets)
   endif
 
   ' Load PhiY, coef_losses, coef_int
-  ' call load_shocks(%scenario)
   call load_xl("Calibration_100ENR", "ThreeME_100ENR")
 
   ' Run the baseline scenario
