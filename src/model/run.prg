@@ -35,8 +35,8 @@ if %load="new"  then
     ' Export all variables to a csv file (used by the external compiler)
     call export_all_to_csv
 
-'   Stop here to create/save a workfile where data are already initialized. Then activate the option  %load = ""
-'   stop
+        ' Stop here to create/save a workfile where data are already initialized. Then activate the option  %load = ""
+        ' stop
 
     ' Load the model specification from the model/ folder
     {%modelname}.load blocks
