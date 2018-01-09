@@ -4,36 +4,12 @@
 
 subroutine create_lists
 
-  %list_sec = "01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16 17 18 19 20 21 2201 2202 2301 2302 2303 2304 2305 2306 2307 2308 2401 2402 2403 2404 2405 2406" '[s]
-  %list_sec_Market = "01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16 17 18 19 21 2201 2202 2301 2302 2303 2304 2305 2306 2307 2308 2401 2402 2403 2404 2405 2406"
-  %list_sec_E = "21 2201 2202 2301 2302 2303 2304 2305 2306 2307 2308 2401 2402 2403 2404 2405 2406" '[se]
 
-  %list_com = "01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24" '[c]
-  %list_com_MAT = "01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16 17 18 19 20" '[cm]
-  %list_com_E = "21 22 23 24" '[ce]
-  %list_com_E_CO2 = "21 22 24" '[ce2]
+  %list_sec = "AIND ASER ANRD ANRC" '[s]
 
-  %list_trsp = "14 15 16 17 18" '[trsp]
-  %list_trsp_travel = "14 15 18"
-
-  %list_com_oth =  "01 02 04 05 06 07 08 09 10 11 12 16 17 19 20" '[co]
-
-
-  %list_age = "15 20 25 55 60 65" '[age]
-  %list_sex = "W M" '[sex]
-
-
-  %list_household = "H01" '' H02 H03 H04 H05" '[h]
-  if %list_household="H01" then
-    !step_HH = 0
-  else
-    !step_HH = 1
-  endif
-
-  %list_ener_class = "cA cB cC cD cE cF cG" '[ecl]
-  %list_buil_class = "CA CB CC CD CE CF CG DES" '[bcl]
-
-
+  %list_com = "CIND CSER CNRJ" '[c]
+  %list_com_MAT = "CIND CSER"  '[cm]
+  %list_com_E = "CNRJ" '[ce]
 
 
   ' Matrix of column numbers of elasticities of substitution
