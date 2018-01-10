@@ -36,7 +36,7 @@ include .\..\addin\export.prg
 For %DC {%calibrations}
 
     ' Relative paths
-    %data_calibration = ".\..\..\data\calibrations\SAM_"+%DC+".xls"
+    %data_calibration = ".\..\..\data\calibrations\"+%DC+".xls"
 
     call run(%data_calibration,%data_shocks)
 

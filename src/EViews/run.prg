@@ -39,11 +39,13 @@ if %load="new"  then
     call export_all_to_csv
 
     ' Create the series using the dependencies (add-ins "series")
-    {%modelname}.series round0 round1 round2 demography government household exceptions_fr_data ghg carbon_tax prices exceptions_tracker
+    {%modelname}.series round0
+    ' round1 round2 demography government household exceptions_fr_data ghg carbon_tax prices exceptions_tracker
 
     ' Export all variables to a csv file (used by the external compiler)
     call export_all_to_csv
 
+stop
     ' Load the model specification from the model/ folder
     {%modelname}.load blocks
 
