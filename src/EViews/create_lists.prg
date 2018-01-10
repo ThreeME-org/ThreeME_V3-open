@@ -5,7 +5,7 @@
 subroutine create_lists
 
 
-  %list_sec = "AIND ASER ANRD ANRC" '[s]
+  %list_sec = "AIND ATPT ATPO ASER ANRE ANFO" '[s]
 
   %list_com = "CIND CSER CNRJ" '[c]
   %list_com_MAT = "CIND CSER"  '[cm]

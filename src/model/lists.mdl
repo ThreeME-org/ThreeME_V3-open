@@ -1,13 +1,14 @@
-%list_sec := AIND ASER ANRD ANRC #[s]
+%list_sec := AIND ATPT ATPO ASER ANRE ANFO #[s]
 
-%list_com := CIND CSER CNRJ #[c]
-%list_com_MAT := CIND CSER  #[cm]
-%list_com_E := CNRJ #[ce]
+%list_com := CIND CTRP CSER CNJN CNJM #[c]
+%list_com_MAT := CIND CTRP CSER   #[cm]
+%list_com_E := CNJN CNJM  #[ce]
 
 # Default iterators
 s in %list_sec
 
 c in %list_com
+cc in %list_com
 
 O in D M
 
