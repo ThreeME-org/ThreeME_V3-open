@@ -2,13 +2,84 @@ include ..\model\lists
 
 P :=  1 * (1 + STEADYSTATE(15,1)) ^ (@year - %baseyear)
 
-QD[c] := SUPPLY_USE_DOM($c,(NELEMSET(1,1)+1)+NELEMSET(5,1)+NELEMSET(7,1)+NELEMSET(1,1)+11) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
-CHD[c] := SUPPLY_USE_DOM($c,(NELEMSET(1,1)+1)+NELEMSET(5,1)+NELEMSET(7,1)+NELEMSET(1,1)+1) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
-GD[c] := SUPPLY_USE_DOM($c,(NELEMSET(1,1)+1)+NELEMSET(5,1)+NELEMSET(7,1)+NELEMSET(1,1)+2) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
-ID[c] := SUPPLY_USE_DOM($c,(NELEMSET(1,1)+1)+NELEMSET(5,1)+NELEMSET(7,1)+NELEMSET(1,1)+3) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
-DSD[c] := SUPPLY_USE_DOM($c,(NELEMSET(1,1)+1)+NELEMSET(5,1)+NELEMSET(7,1)+NELEMSET(1,1)+5) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
-XD[c] := SUPPLY_USE_DOM($c,(NELEMSET(1,1)+1)+NELEMSET(5,1)+NELEMSET(7,1)+NELEMSET(1,1)+4) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
+CHD[c] := SUPPLY_USE_DOM($c+15,25) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
+GD[c] := SUPPLY_USE_DOM($c+15,26) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
+DSD[c] := SUPPLY_USE_DOM($c+15,) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
+XD[c] := SUPPLY_USE_DOM($c+15,) ^ (@year - %baseyear)
 
+marge
+taxe
+
+CHM[c] := SUPPLY_USE_FOREIGN($c,) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
+GM[c] := SUPPLY_USE_FOREIGN($c,) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
+IM[c] := SUPPLY_USE_FOREIGN($c,) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
+DSM[c] := SUPPLY_USE_FOREIGN($c,) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
+XM[c] := SUPPLY_USE_FOREIGN($c,) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
+
+marge
+taxe
+
+CID[c, s] := SUPPLY_USE_DOM($c,$s) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
+CIM[c, s] := SUPPLY_USE_FOREIGN($c,+$s) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)        
+       
+Y[c, s] := SUPPLY_USE_DOM($c,$s) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
+
+                 
+             
+WAGES[s] := SUPPLY_USE_DOM((NELEMSET(3,1)+1)+2+(NELEMSET(11,1)+1)+(NELEMSET(9,1)+3)+(3*NELEMSET(11,1)),( NELEMSET(1,1)+1)) * (1 + STEADYSTATE(5,1)) ^ (@year - %baseyear)            
+
+Taxe Production
+
+
+PROG_L := (1 + STEADYSTATE(4,1)) ^ (@year - %baseyear)
+
+L[s] := SUPPLY_USE_DOM((NELEMSET(3,1)+1)+2+(NELEMSET(11,1)+1)+(NELEMSET(9,1)+3)+1,$s) * (1 + STEADYSTATE(3,1)) ^ (@year - %baseyear)
+
+
+K[s] := SUPPLY_USE_DOM((NELEMSET(3,1)+1)+2+(NELEMSET(11,1)+1)+NELEMSET(9,1)+3,$s) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
+Tdec[s] := SUPPLY_USE_DOM((NELEMSET(3,1)+1)+2+(NELEMSET(11,1)+1)+NELEMSET(9,1)+2,$s) 
+
+
+
+
+IA[c, s] := INV_MAT($c,$s) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
+
+
+
+
+
+
+*********************************************************
+Definit avec equation directement:
+
+QD[c] := SUPPLY_USE_DOM($c,(NELEMSET(1,1)+1)+NELEMSET(5,1)+NELEMSET(7,1)+NELEMSET(1,1)+11) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
+
+ID[c] := SUPPLY_USE_DOM($c,(NELEMSET(1,1)+1)+NELEMSET(5,1)+NELEMSET(7,1)+NELEMSET(1,1)+3) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
+
+YQ[c] := SUPPLY_USE_DOM($c,NELEMSET(1,1)+1) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
+  
+QM[c] := SUPPLY_USE_FOREIGN($c,1+NELEMSET(5,1)+NELEMSET(7,1)+NELEMSET(1,1)+11) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
+
+PhiY[c, s] := SUPPLY_USE_DOM($c,$s)/SUPPLY_USE_DOM($c,NELEMSET(1,1)+1)
+
+IA[s] := SUPPLY_USE_DOM((NELEMSET(3,1)+1)+2+(NELEMSET(11,1)+1)+(NELEMSET(9,1)+1),$s) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear) 
+
+
+MATD[cm, s] := SUPPLY_USE_DOM($cm,(NELEMSET(1,1)+1)+NELEMSET(5,1)+NELEMSET(7,1)+$s) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
+MATM[cm, s] := SUPPLY_USE_FOREIGN(+$cm,1+NELEMSET(5,1)+NELEMSET(7,1)+$s) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
+
+ED[ce, s] := SUPPLY_USE_DOM((NELEMSET(3,1)-NELEMSET(4,1)+1)+$ce-1,(NELEMSET(1,1)+1)+NELEMSET(5,1)+NELEMSET(7,1)+$s) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
+EM[ce, s] := SUPPLY_USE_FOREIGN((NELEMSET(3,1)-NELEMSET(4,1)+1)+$ce-1,1+NELEMSET(5,1)+NELEMSET(7,1)+$s) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
+
+
+EXPGD[c] := SUPPLY_USE_DOM($c, (NELEMSET(1,1)+1)+NELEMSET(5,1)+NELEMSET(7,1)+NELEMSET(1,1)+2) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)  
+EXPGM[c] := SUPPLY_USE_FOREIGN($c, 1+NELEMSET(5,1)+NELEMSET(7,1)+NELEMSET(1,1)+2) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)  
+
+EXP[c,h] := household(2+$c,$h) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear) 
+
+
+*********************************************
+Non definit dans modèle standard
 VATD[c] := SUPPLY_USE_DOM($c,(NELEMSET(1,1)+1)+NELEMSET(5,1)+1) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
 OTHTD[c] := SUPPLY_USE_DOM($c,(NELEMSET(1,1)+1)+NELEMSET(5,1)+5) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
 SUBD[c] := SUPPLY_USE_DOM($c,(NELEMSET(1,1)+1)+NELEMSET(5,1)+NELEMSET(7,1)) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
@@ -16,14 +87,6 @@ ENERTD[c] := SUPPLY_USE_DOM($c,(NELEMSET(1,1)+1)+NELEMSET(5,1)+4) * (1 + STEADYS
 VATD_HSH[c] := SUPPLY_USE_DOM($c,(NELEMSET(1,1)+1)+NELEMSET(5,1)+2) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
 VATD_OTH[c] := SUPPLY_USE_DOM($c,(NELEMSET(1,1)+1)+NELEMSET(5,1)+3) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
 MCD[c] := SUPPLY_USE_DOM($c,(NELEMSET(1,1)+1)+NELEMSET(5,1)) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
-YQ[c] := SUPPLY_USE_DOM($c,NELEMSET(1,1)+1) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
-  
-QM[c] := SUPPLY_USE_FOREIGN($c,1+NELEMSET(5,1)+NELEMSET(7,1)+NELEMSET(1,1)+11) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
-CHM[c] := SUPPLY_USE_FOREIGN($c,1+NELEMSET(5,1)+NELEMSET(7,1)+NELEMSET(1,1)+1) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
-GM[c] := SUPPLY_USE_FOREIGN($c,1+NELEMSET(5,1)+NELEMSET(7,1)+NELEMSET(1,1)+2) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
-IM[c] := SUPPLY_USE_FOREIGN($c,1+NELEMSET(5,1)+NELEMSET(7,1)+NELEMSET(1,1)+3) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
-DSM[c] := SUPPLY_USE_FOREIGN($c,1+NELEMSET(5,1)+NELEMSET(7,1)+NELEMSET(1,1)+5) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
-XM[c] := SUPPLY_USE_FOREIGN($c,1+NELEMSET(5,1)+NELEMSET(7,1)+NELEMSET(1,1)+4) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
 
 OTHTM[c] := SUPPLY_USE_FOREIGN($c,1+NELEMSET(5,1)+5) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
 SUBM[c] := SUPPLY_USE_FOREIGN($c,1+NELEMSET(5,1)+6) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
@@ -33,16 +96,9 @@ VATM_OTH[c] := SUPPLY_USE_FOREIGN($c,1+NELEMSET(5,1)+3) * (1 + STEADYSTATE(2,1))
 MCM[c] := SUPPLY_USE_FOREIGN($c,1+NELEMSET(5,1)) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
 VATM[c] := SUPPLY_USE_FOREIGN($c,1+NELEMSET(5,1)+1) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
 
-CID[c, s] := SUPPLY_USE_DOM($c,(NELEMSET(1,1)+1)+ NELEMSET(5,1)+ NELEMSET(7,1)+$s) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
-CIM[c, s] := SUPPLY_USE_FOREIGN($c,1+NELEMSET(5,1)+NELEMSET(7,1)+$s) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)        
-       
-Y[c, s] := SUPPLY_USE_DOM($c,$s) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
-PhiY[c, s] := SUPPLY_USE_DOM($c,$s)/SUPPLY_USE_DOM($c,NELEMSET(1,1)+1)
-                 
 MTD[trsp, c] := SUPPLY_USE_DOM($c,(NELEMSET(1,1)+2)+$trsp-1) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
 MTM[trsp, c] := SUPPLY_USE_FOREIGN($c,1+$trsp) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
-             
-W_SE := SUPPLY_USE_DOM((NELEMSET(3,1)+1)+2+(NELEMSET(11,1)+1)+(NELEMSET(9,1)+3)+(3*NELEMSET(11,1)),( NELEMSET(1,1)+1)) * (1 + STEADYSTATE(5,1)) ^ (@year - %baseyear)            
+
 
 TCSS := OTH_VARIABLE(8,1)
 TCSS_SE := OTH_VARIABLE(9,1)
@@ -62,16 +118,13 @@ DIV_HH_VAL[h] := household(66,$h) * (1 + STEADYSTATE(1,1)) ^ (@year - %baseyear)
 IS_Val := SUPPLY_USE_DOM((NELEMSET(3,1)+1)+2+(NELEMSET(11,1)+1)+1,( NELEMSET(1,1)+1)) * (1 + STEADYSTATE(1,1)) ^ (@year - %baseyear)
 PRESOC_ROW_VAL := OTH_VARIABLE(2,1) * (1 + STEADYSTATE(1,1)) ^ (@year - %baseyear)
 
-PROG_L := (1 + STEADYSTATE(4,1)) ^ (@year - %baseyear)
 
-IA[s] := SUPPLY_USE_DOM((NELEMSET(3,1)+1)+2+(NELEMSET(11,1)+1)+(NELEMSET(9,1)+1),$s) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear) 
+
 L_S[s] := SUPPLY_USE_DOM((NELEMSET(3,1)+1)+2+(NELEMSET(11,1)+1)+(NELEMSET(9,1)+3)+1,$s) * (1 + STEADYSTATE(3,1)) ^ (@year - %baseyear)
 L_SE[s] := SUPPLY_USE_DOM((NELEMSET(3,1)+1)+2+(NELEMSET(11,1)+1)+(NELEMSET(9,1)+3)+NELEMSET(11,1),$s) * (1 + STEADYSTATE(3,1)) ^ (@year - %baseyear)
 W_SE[s] := SUPPLY_USE_DOM((NELEMSET(3,1)+1)+2+(NELEMSET(11,1)+1)+NELEMSET(9,1)+3+(3*NELEMSET(11,1)),$s) * (1 + STEADYSTATE(5,1)) ^ (@year - %baseyear)
 CL_S[s] := SUPPLY_USE_DOM((NELEMSET(3,1)+1)+2+(NELEMSET(11,1)+1)+NELEMSET(9,1)+3+(NELEMSET(11,1)+1),$s) * (1 + STEADYSTATE(15,1)) ^ (@year - %baseyear)    
-K[s] := SUPPLY_USE_DOM((NELEMSET(3,1)+1)+2+(NELEMSET(11,1)+1)+NELEMSET(9,1)+3,$s) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
-Tdec[s] := SUPPLY_USE_DOM((NELEMSET(3,1)+1)+2+(NELEMSET(11,1)+1)+NELEMSET(9,1)+2,$s) 
-W_S[s] := SUPPLY_USE_DOM((NELEMSET(3,1)+1)+2+(NELEMSET(11,1)+1)+NELEMSET(9,1)+3+(NELEMSET(11,1)+3),$s) * (1 + STEADYSTATE(5,1)) ^ (@year - %baseyear)   
+
 CSE[s] := SUPPLY_USE_DOM((NELEMSET(3,1)+1)+2+(NELEMSET(11,1)+1),$s) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
 IY[s] := SUPPLY_USE_DOM((NELEMSET(3,1)+1)+2+(NELEMSET(11,1)+1)+2,$s) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
 SY[s] := SUPPLY_USE_DOM((NELEMSET(3,1)+1)+2+(NELEMSET(11,1)+1)+NELEMSET(9,1),$s) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)    
@@ -81,13 +134,11 @@ DIV_ROW_VAL := OTH_VARIABLE(5,1) * (1 + STEADYSTATE(1,1)) ^ (@year - %baseyear)
 DIV_BK_VAL := OTH_VARIABLE(6,1) * (1 + STEADYSTATE(1,1)) ^ (@year - %baseyear)  
 CSE_ROW := OTH_VARIABLE(1,1) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
 
-MATD[cm, s] := SUPPLY_USE_DOM($cm,(NELEMSET(1,1)+1)+NELEMSET(5,1)+NELEMSET(7,1)+$s) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
-MATM[cm, s] := SUPPLY_USE_FOREIGN(+$cm,1+NELEMSET(5,1)+NELEMSET(7,1)+$s) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
+W_S[s] := SUPPLY_USE_DOM((NELEMSET(3,1)+1)+2+(NELEMSET(11,1)+1)+NELEMSET(9,1)+3+(NELEMSET(11,1)+3),$s) * (1 + STEADYSTATE(5,1)) ^ (@year - %baseyear)   
 
-ED[ce, s] := SUPPLY_USE_DOM((NELEMSET(3,1)-NELEMSET(4,1)+1)+$ce-1,(NELEMSET(1,1)+1)+NELEMSET(5,1)+NELEMSET(7,1)+$s) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
-EM[ce, s] := SUPPLY_USE_FOREIGN((NELEMSET(3,1)-NELEMSET(4,1)+1)+$ce-1,1+NELEMSET(5,1)+NELEMSET(7,1)+$s) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
-IA[c, s] := INV_MAT($c,$s) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
 
+
+############## Other blocks
 #---------------------------***LOAD EMISSION DATA***---------------------------------
 EMS_SEC[ce2, s] := EMISSION($s, $ce2) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
 EMS_DC[s] := EMISSION($s, 4) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
@@ -114,8 +165,7 @@ POP_TOT := household(55,1) * (1 + STEADYSTATE(3,1)) ^ (@year - %baseyear)
 
 #    '------------------------GOVERNMENT------------------------------------'
 
-EXPGD[c] := SUPPLY_USE_DOM($c, (NELEMSET(1,1)+1)+NELEMSET(5,1)+NELEMSET(7,1)+NELEMSET(1,1)+2) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)  
-EXPGM[c] := SUPPLY_USE_FOREIGN($c, 1+NELEMSET(5,1)+NELEMSET(7,1)+NELEMSET(1,1)+2) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)  
+
 
 R_DIR := STEADYSTATE(17,1)
 R := STEADYSTATE(17,1)
@@ -128,7 +178,7 @@ UnR_ZE_target := STEADYSTATE(40,1)
 UnR_HFR := STEADYSTATE(44,1)
 PHI_TCO[h] := household(2,$h) 
 
-EXP[c,h] := household(2+$c,$h) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear) 
+
 IR_VAL[h] := household(67,$h) * (1 + STEADYSTATE(1,1)) ^ (@year - %baseyear)
 AIC_VAL[h] := household(68,$h) * (1 + STEADYSTATE(1,1)) ^ (@year - %baseyear)
 
