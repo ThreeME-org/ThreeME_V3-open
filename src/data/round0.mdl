@@ -26,7 +26,7 @@ GR_NOMI := (1 + GR_POP)*(1 + GR_PROG_L)*(1 + GR_PRICES) - 1
 GR_NOMIW := (1 + GR_PRICES)*(1 + GR_PROG_L) - 1
 
 ### Interest rate
-r := GR_NOMI - RISKPREM
+R := GR_NOMI - RISKPREM
 
 ##############
 ### Indexes
