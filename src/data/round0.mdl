@@ -68,8 +68,7 @@ Tdec[s] := SUT(12,$s)
 # TO DO. Use an english name: TDepr
 
 ### Capital stock of sector s 
-K[s] := SUT(13,$s) * (1 + GR_REAL) ^ (@year - %baseyear)
-# TO DO. Recalculer en partant de IA[s]
+K[s] := IA[s] * (1 + GR_REAL) / (Tdec[s] + GR_REAL)
 
 ############################
 ### Use side (domestic)
