@@ -1,17 +1,38 @@
 include ..\model\lists
 
-## Hypothesis for the long term growth rate
+########################################################
+### Hypothesis for the long term of model
+########################################################
+
+### Population growth rate
 GR_POP    := 0.0029
+
+### Labor productivity growth rate
 GR_PROG_L := 0.0170
+
+### Inflation (growth rate of prices)
 GR_PRICES := 0.0200
 
+### Risk premium
+RISKPREM := 0.0100
+
+### Growth rate of the real economy
 GR_REAL := (1 + GR_POP)*(1 + GR_PROG_L) - 1
+
+### Growth rate of the nominal economy
 GR_NOMI := (1 + GR_POP)*(1 + GR_PROG_L)*(1 + GR_PRICES) - 1
 
-### Indexes
+### Growth rate of the nominal wage
+GR_NOMIW := (1 + GR_PRICES)*(1 + GR_PROG_L) - 1
 
-P 		:=  1 * (1 + STEADYSTATE(15,1)) ^ (@year - %baseyear)
-PROG_L 	:=  1 * (1 + STEADYSTATE(4,1)) ^ (@year - %baseyear)
+### Interest rate
+r := GR_NOMI - RISKPREM
+
+##############
+### Indexes
+##############
+P 		:=  1 * (1 + GR_PRICES) ^ (@year - %baseyear)
+PROG_L 	:=  1 * (1 + GR_PROG_L) ^ (@year - %baseyear)
 
 
 ##############
@@ -19,35 +40,35 @@ PROG_L 	:=  1 * (1 + STEADYSTATE(4,1)) ^ (@year - %baseyear)
 ##############
 
 ### Production of commodity c by sector s at basic price        
-Y[c, s] := SUT($c,$s) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
+Y[c, s] := SUT($c,$s) * (1 + GR_REAL) ^ (@year - %baseyear)
 
 ### Import of commodities c at basic price 
-M[c] := SUT($c,7) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
+M[c] := SUT($c,7) * (1 + GR_REAL) ^ (@year - %baseyear)
 
 ### Margins paid to commodity cc on commodity c 
-MGP[cc, c] := SUT($c,$cc+7) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
+MGP[cc, c] := SUT($c,$cc+7) * (1 + GR_REAL) ^ (@year - %baseyear)
 
 ### Taxes on commodity c
-TAXC[c] := SUT($c,13) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
+TAXC[c] := SUT($c,13) * (1 + GR_REAL) ^ (@year - %baseyear)
 
 ### Taxes on the production of sector s
-TAXP[s] := SUT(8,$s) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
+TAXP[s] := SUT(8,$s) * (1 + GR_REAL) ^ (@year - %baseyear)
 
 ### Super bruto wages paid by sector s (including employees and employers' social contribution)
-WAGES[s] := SUT(9,$s) * (1 + STEADYSTATE(5,1)) ^ (@year - %baseyear)            
+WAGES[s] := SUT(9,$s) * (1 + GR_NOMI) ^ (@year - %baseyear)            
 
 ### Labor of sector s 
-L[s] := SUT(10,$s) * (1 + STEADYSTATE(3,1)) ^ (@year - %baseyear)
+L[s] := SUT(10,$s) * (1 + GR_POP) ^ (@year - %baseyear)
 
 ### Investment of sector s 
-IA[s] := SUT(11,$s) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
+IA[s] := SUT(11,$s) * (1 + GR_REAL) ^ (@year - %baseyear)
 
 ### Depreciation rate of the capital of sector s
 Tdec[s] := SUT(12,$s) 
 # TO DO. Use an english name: TDepr
 
 ### Capital stock of sector s 
-K[s] := SUT(13,$s) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
+K[s] := SUT(13,$s) * (1 + GR_REAL) ^ (@year - %baseyear)
 # TO DO. Recalculer en partant de IA[s]
 
 ############################
@@ -55,42 +76,42 @@ K[s] := SUT(13,$s) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
 ############################
 
 ### Taxes on commodity c domestically produced
-TAXCD[c] := SUT($c+16,13) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
+TAXCD[c] := SUT($c+16,13) * (1 + GR_REAL) ^ (@year - %baseyear)
 
 ### Domesticly produced margins recieved by commodity c 
-MGRD[c] := SUT($c+16,14) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
+MGRD[c] := SUT($c+16,14) * (1 + GR_REAL) ^ (@year - %baseyear)
 
 ### Intermediary raw material consumption domestically produced c of sector s
-CID[c, s] := SUT($c+16,$s+14) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
+CID[c, s] := SUT($c+16,$s+14) * (1 + GR_REAL) ^ (@year - %baseyear)
 
-CHD[c] := SUT($c+16,21) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
-GD[c]  := SUT($c+16,22) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
+CHD[c] := SUT($c+16,21) * (1 + GR_REAL) ^ (@year - %baseyear)
+GD[c]  := SUT($c+16,22) * (1 + GR_REAL) ^ (@year - %baseyear)
 
-IAD[c, s] := SUT($c+16,$s+22) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
+IAD[c, s] := SUT($c+16,$s+22) * (1 + GR_REAL) ^ (@year - %baseyear)
 
-XD[c]  := SUT($c+16,29) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
-DSD[c] := SUT($c+16,30) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
+XD[c]  := SUT($c+16,29) * (1 + GR_REAL) ^ (@year - %baseyear)
+DSD[c] := SUT($c+16,30) * (1 + GR_REAL) ^ (@year - %baseyear)
 
 ############################
 ### Use side (domestic)
 ############################
 
 ### Taxes on imported commodity c
-TAXCM[c] := SUT($c+25,13) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
+TAXCM[c] := SUT($c+25,13) * (1 + GR_REAL) ^ (@year - %baseyear)
 
 ### Imported margins recieved by commodity c
-MGRM[c] := SUT($c+25,14) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
+MGRM[c] := SUT($c+25,14) * (1 + GR_REAL) ^ (@year - %baseyear)
 
 ### Impoted intermediary raw material consumption c of sector s
-CIM[c, s] := SUT($c+25,$s+14) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)        
+CIM[c, s] := SUT($c+25,$s+14) * (1 + GR_REAL) ^ (@year - %baseyear)        
 
-CHM[c] := SUT($c+25,21) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
-GM[c]  := SUT($c+25,22) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
+CHM[c] := SUT($c+25,21) * (1 + GR_REAL) ^ (@year - %baseyear)
+GM[c]  := SUT($c+25,22) * (1 + GR_REAL) ^ (@year - %baseyear)
 
-IAM[c, s] := SUT($c+25,$s+22) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
+IAM[c, s] := SUT($c+25,$s+22) * (1 + GR_REAL) ^ (@year - %baseyear)
 
-DSM[c] := SUT($c+25,30) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
-XM[c]  := SUT($c+25,29) * (1 + STEADYSTATE(2,1)) ^ (@year - %baseyear)
+DSM[c] := SUT($c+25,30) * (1 + GR_REAL) ^ (@year - %baseyear)
+XM[c]  := SUT($c+25,29) * (1 + GR_REAL) ^ (@year - %baseyear)
 
 
 
