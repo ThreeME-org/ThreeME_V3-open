@@ -1,64 +1,54 @@
-# BLOCK SUPPLY - USE EQUILIBRIUM
+########################################################
+######### SUPPLY - USE EQUILIBRIUM #####################
+########################################################
+### This file provides the equations defining the supply use - equilibrium for the domestic and imported products and at the agregate level.
+### It also derives the GDP according to various definitions. 
+### Since each relation is written in value and in volume, the value equation defines the price.
+
+#####################
+###### USE SIDE #####
+#####################
+
+### Domestic and foreign equilibrium for commodities c (value & volume):
 
 @pv Q|O|[c] = MGR|O|[c] + CI|O|[c] + CH|O|[c] + G|O|[c] + I|O|[c] + X|O|[c] + DS|O|[c] if Q|O|[c] <> 0
 
+### Domestic and imported intermediary raw material consumption c (value & volume):
 
-@pv CI|O|[c] = sum(CI|O|[c, s] if CI|O|[c, s] <> 0 on s) if CI|O|[c] > 0
+@pv CI|O|[c] = sum(CI|O|[c, s] if CI|O|[c, s] <> 0 on s) if CI|O|[c] <> 0
 
+### Domestic and imported investment in commodity c (value & volume):
 
 PI|O|[c] * I|O|[c] = sum(PIA|O|[c] * IA|O|[c, s] if IA|O|[c, s] <> 0 on s) if I|O|[c] <> 0
 
 I|O|[c] = sum(IA|O|[c, s] if IA|O|[c, s] <> 0 on s) if I|O|[c] <> 0
 
+### Aggregation of imports and domestic production for commodity c per use
+### For Q (production of commodities at market price); CH (households'consumption); G (public spendings); I (private investiment); DS (change in inventories)
+
+@pv |V|[c] = |V|D[c] + |V|M[c] if |V|[c] <> 0 where V in Q CH G I DS
+
+### For exports
+### The volume of X[c] is already defined through the export (behavor) equation
+PX[c] * X[c] = PXD[c] * XD[c] + PXM[c] * XM[c] if X[c] <> 0
+
+### Aggregation of imports and domestic production per use
+@pv |V||O| = sum(|V||O|[c] if |V||O|[c] <> 0 on c) if |V||O| <> 0 where V in Q CH G I X DS CI MGR
+
+### Aggregation per use
+@pv |V| = |V|D + |V|M if |V| <> 0 where V in Q CH G I X DS CI MGR
 
 
 
-# equations 1.5 & 1.6
-# @pv |V|[c] = |V|D[c] + |V|M[c] if |V|[c] <> 0 where V in Q CH G I DS
 
-# equation 1.7
-# PX[c] * X[c] = PXD[c] * XD[c] + PXM[c] * XM[c] if X[c] <> 0
-
-# equations 1.8, 1.9, 1.10 & 1.11
-# @pv |V||O| = sum(|V||O|[c] if |V||O|[c] <> 0 on c) where V in Q CH G I X DS CI MT MC
-
-# equations 1.12 & 1.13
-# @pv |V| = |V|D + |V|M where V in Q CH G I X DS CI
-# |V| = |V|D + |V|M where V in MT MC
+#####################
+###### SUPPY SIDE ###
+#####################
 
 
-# equations 1.18, 1.19, 1.20 & 1.21
-#PCI|O|[cm, s] = PMAT|O|[cm] if CI|O|[cm, s] > 0
-#CI|O|[cm, s] = MAT|O|[cm, s] if CI|O|[cm, s] > 0
+###  Domestic production of commodity c at basic price:
 
-#PCI|O|[ce, s] = PE|O|[ce] + TCO_VAL|O|[ce, s] / E|O|[ce, s] if CI|O|[ce, s] > 0
-#CI|O|[ce, s] = E|O|[ce, s] if CI|O|[ce, s] > 0
-
-#equation 1.22
-#@pv M = sum(M[c] if M[c] <> 0 on c)
-
-# GDP: PRODUCT DEFINITON
-
-#equation 1.24
-#PGDP*GDP = PCH*CH + PG*G + PI*I + PX*X + PDS*DS - PM*M
-
-#equation 1.25
-#GDP = CH + G + I + X + DS - M
-
-# equation 1.26 & 1.27
-#@pv GDP[c] = CH[c] + G[c] + I[c] + X[c] + DS[c] - M[c] if GDP[c] <> 0
-
-# equation 1.28 & 1.29
-#@pv GDPbis = sum(GDP[c] if GDP[c] <> 0 on c)
-
-# GDP: VALUE ADDED DEFINITION
-# equation 1.30
-#PGDPter * GDPter = PVA * VA + PTAX * TAX + PSUB * SUB
-
-# equation 1.31
-#GDPter = VA + TAX + SUB
-
-# equation 1.32
+#### ICI: Il faut modifier la base de donnée car MGPD[c] n'est pas défini!
 #YQ[c]*PYQ[c] + PTXACD[c]*TXACD[c] + PMGPD[c]*MGPD[c] = PQD[c]*QD[c] if YQ[c] <> 0
 
 # equation 1.33
@@ -116,12 +106,30 @@ I|O|[c] = sum(IA|O|[c, s] if IA|O|[c, s] <> 0 on s) if I|O|[c] <> 0
 
 
 
+### Aggregation of imports 
+@pv M = sum(M[c] if M[c] <> 0 on c)
+
+
+
 
 # equations 1.46 & 1.47
 #@pv VA[s] = Y[s] - MAT[s] - E[s]
 
 # equations 1.48 & 1.49
 #@pv VA = sum(VA[s] on s)
+
+
+
+# GDP: VALUE ADDED DEFINITION
+# equation 1.30
+# To do.
+#PGDPter * GDPter = PVA * VA + PTAX * TAX 		if GDPter <> 0
+
+
+##GDPter = VA + TAXC 	if GDPter <> 0
+
+
+
 
 # equations 1.50 & 1.51
 # PEBE[s]*EBE[s] = PVA[s]*VA[s] - CL[s] * L[s] * PROG_L[s] - PIY[s]*IY[s] - PSY[s]*SY[s] where s in %list_sec
@@ -146,6 +154,38 @@ I|O|[c] = sum(IA|O|[c, s] if IA|O|[c, s] <> 0 on s) if I|O|[c] <> 0
 #@pv YQ = sum(YQ[c] if YQ[c] <> 0 on c)
 
 
+
+################################
+# GDP: USE DEFINITON
+
+## Agregated GDP (value & volume) calculated by using agregates
+PGDP*GDP = PCH*CH + PG*G + PI*I + PX*X + PDS*DS - PM*M  		if GDP <> 0
+
+GDP = CH + G + I + X + DS - M 		if GDP <> 0
+
+# GDP for commodity c (value & volume)
+@pv GDP[c] = CH[c] + G[c] + I[c] + X[c] + DS[c] - M[c] if GDP[c] <> 0
+
+## Agregated GDP (value & volume) calculated from the GDP per using commodity
+@pv GDPbis = sum(GDP[c] if GDP[c] <> 0 on c) 		if GDPbis <> 0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Verif Compta nat.
 
 #VERIF_PY_PYQ  = PY/PYQ-1
@@ -163,4 +203,16 @@ I|O|[c] = sum(IA|O|[c, s] if IA|O|[c, s] <> 0 on s) if I|O|[c] <> 0
 #VERIF_ValGDP_ValGDPTER = PGDP * GDP / (PGDPTER * GDPTER) - 1
 
 # verifYQbis, margins.  
+
+
+
+### To do. Voir si cela ne peut pas être simplifié. Eviter que TCO_val apparaisse ici 
+
+# equations 1.18, 1.19, 1.20 & 1.21
+#PCI|O|[cm, s] = PMAT|O|[cm] if CI|O|[cm, s] <> 0
+#CI|O|[cm, s] = MAT|O|[cm, s] if CI|O|[cm, s] <> 0
+
+#PCI|O|[ce, s] = PE|O|[ce] + TCO_VAL|O|[ce, s] / E|O|[ce, s] if CI|O|[ce, s] > 0
+#CI|O|[ce, s] = E|O|[ce, s] if CI|O|[ce, s] > 0
+
 
