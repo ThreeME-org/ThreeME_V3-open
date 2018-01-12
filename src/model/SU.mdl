@@ -85,8 +85,7 @@ PMGPM * MGPM = sum(PMGPM[c] * MGPM[c] if MGPM[c] <> 0 on c)
 
         MGPM = sum(           MGPM[c] if MGPM[c] <> 0 on c) 
 
-
-## Margins paid on commodity c to commodity cc
+## Margins paid to commodity cc on commodity c 
 d(log(MGP[cc, c])) = d(log(YQ[c]+M[c])) + d(SUBST_MGPD[cc, c]) if MGP[cc, c] <> 0
 ###### For producer block
 
