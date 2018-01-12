@@ -1,34 +1,8 @@
 include ..\model\lists
 
-CID[c] := QD[c] - (CHD[c] + GD[c] + ID[c] + XD[c] + DSD[c])
-YQbis[c] := YQ[c]
+Q|O|[c] := MGR|O|[c] + CI|O|[c] + CH|O|[c] + G|O|[c] + I|O|[c] + X|O|[c] + DS|O|[c]
 
-CIM[c] := (QM[c] - (CHM[c] + GM[c] + IM[c] + XM[c] + DSM[c])) * (@abs(QM[c] -(CHM[c] + GM[c] + IM[c] + XM[c] + DSM[c])) > 0.0000000001)
-Mbis[c] := M[c]
+CI|O|[c] := sum(CI|O|[c, s] on s)
 
-|V|[c] := |V|M[c] + |V|D[c] where V in Q CH G I X DS
-WD[c] := X[c]
-GDP[c] := CH[c] + G[c] + I[c] + X[c] + DS[c] - M[c]
-DC_VAL[c] := PX[c]*X[c] - PM[c]*M[c]
-
-# M[c] := QM[c] - VATM[c] - OTHTM[c]- SUBM[c] - (MCM[c] + MTM[c]) - ENERTM[c]
-
-
-Kbis[s] := K[s]
-
-
-MAT[cm, s] := MATD[cm, s] + MATM[cm, s]
-MAT|O|[s] := sum(MAT|O|[cm, s] on cm)
-MAT[s] := MATD[s] + MATM[s]
-E[ce, s] := ED[ce, s] + EM[ce, s]
-E[s] := sum(E[ce, s] on ce)
-
-Y[s] := sum(Y[c, s] on c)
-
-YOPT[s] := Y[s]
-Y_e[s] := Y[s]
-
-Y := sum(Y[s] on s)
-YQ := Y
-
-VA[s] := Y[s] - MAT[s] - E[s]
+# I|O|[c] := sum(IA|O|[c, s] if IA|O|[c, s] <> 0 on s) if I|O|[c] <> 0
+I|O|[c] := sum(IA|O|[c, s] on s)

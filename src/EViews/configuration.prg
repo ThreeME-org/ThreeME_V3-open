@@ -22,7 +22,7 @@
 %shocks = "SCEN_ENR_100_2" 
 
 ' Set "realist" for simulating a realistic reference scenario; something else for a stationary  reference scenario
-%ref = "realist"
+%ref = ""
 
 
 ' ********************

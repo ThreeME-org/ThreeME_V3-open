@@ -1,23 +1,31 @@
 # BLOCK SUPPLY - USE EQUILIBRIUM
 
-# equations 1.1, 1.2, 1.3 & 1.4
 @pv Q|O|[c] = MGR|O|[c] + CI|O|[c] + CH|O|[c] + G|O|[c] + I|O|[c] + X|O|[c] + DS|O|[c] if Q|O|[c] <> 0
 
+
+@pv CI|O|[c] = sum(CI|O|[c, s] if CI|O|[c, s] <> 0 on s) if CI|O|[c] > 0
+
+
+PI|O|[c] * I|O|[c] = sum(PIA|O|[c] * IA|O|[c, s] if IA|O|[c, s] <> 0 on s) if I|O|[c] <> 0
+
+I|O|[c] = sum(IA|O|[c, s] if IA|O|[c, s] <> 0 on s) if I|O|[c] <> 0
+
+
+
+
 # equations 1.5 & 1.6
-#@pv |V|[c] = |V|D[c] + |V|M[c] if |V|[c] <> 0 where V in Q CH G I DS
+# @pv |V|[c] = |V|D[c] + |V|M[c] if |V|[c] <> 0 where V in Q CH G I DS
 
 # equation 1.7
-#PX[c] * X[c] = PXD[c] * XD[c] + PXM[c] * XM[c] if X[c] <> 0
+# PX[c] * X[c] = PXD[c] * XD[c] + PXM[c] * XM[c] if X[c] <> 0
 
 # equations 1.8, 1.9, 1.10 & 1.11
-#@pv |V||O| = sum(|V||O|[c] if |V||O|[c] <> 0 on c) where V in Q CH G I X DS CI MT MC
+# @pv |V||O| = sum(|V||O|[c] if |V||O|[c] <> 0 on c) where V in Q CH G I X DS CI MT MC
 
 # equations 1.12 & 1.13
-#@pv |V| = |V|D + |V|M where V in Q CH G I X DS CI
-|V| = |V|D + |V|M where V in MT MC
+# @pv |V| = |V|D + |V|M where V in Q CH G I X DS CI
+# |V| = |V|D + |V|M where V in MT MC
 
-# equations 1.14, 1.15, 1.16 & 1.17
-#@pv CI|O|[c] = sum(CI|O|[c, s] if CI|O|[c, s] <> 0 on s) if CI|O|[c] > 0
 
 # equations 1.18, 1.19, 1.20 & 1.21
 #PCI|O|[cm, s] = PMAT|O|[cm] if CI|O|[cm, s] > 0
@@ -72,8 +80,7 @@
 
 
 
-## Aggregate margins paid on the domesticaly pro-
-duced commodity c (value & volume):
+## Aggregate margins paid on the domesticaly produced commodity c (value & volume):
 
 #PMGPD * MGPD = sum(PMGPD[c] * MGPD[c] if MGPD[c] <> 0 on c) 
 
@@ -101,8 +108,7 @@ duced commodity c (value & volume):
 ### MGRD[c] = MGR[c] * YQ[c] / (YQ[c]+M[c])
 #### Valeur réelement nécessaire?
 
-## Margins c imported (value & vol-
-ume):
+## Margins c imported (value & volume):
 
 # MGRM[c] = MGR[c] * M[c] / (YQ[c]+M[c])
 ## More general: impose stable share, use logit for substututions
@@ -110,11 +116,6 @@ ume):
 
 
 
-# equations 1.42 & 1.44
-#PI|O|[c] * I|O|[c] = sum(PIA|O|[c] * IA|O|[c, s] if IA|O|[c, s] <> 0 on s) if I|O|[c] <> 0
-
-# equations 1.43 & 1.45
-#I|O|[c] = sum(IA|O|[c, s] if IA|O|[c, s] <> 0 on s) if I|O|[c] <> 0
 
 # equations 1.46 & 1.47
 #@pv VA[s] = Y[s] - MAT[s] - E[s]
