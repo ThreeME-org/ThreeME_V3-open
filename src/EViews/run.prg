@@ -49,6 +49,13 @@ if %load="new"  then
     ' Load the model specification from the model/ folder
     {%modelname}.load blocks
 
+    ' Put add factors to all equations
+    {%modelname}.addassign @all
+    ' Set add factor values so that the equation has no residual when evaluated at actuals
+    {%modelname}.addinit(v=n) @all
+    ' Show all add factors
+    show *_a
+
     ' Save the workfile for memory
 ''    wfsave {%wfname}
 
