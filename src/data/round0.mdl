@@ -43,13 +43,19 @@ PROG_L 	:=  1 * (1 + GR_PROG_L) ^ (@year - %baseyear)
 Y[c, s] := SUT($c,$s) * (1 + GR_REAL) ^ (@year - %baseyear)
 
 ### Import of commodities c at basic price 
-M[c] := SUT($c,7) * (1 + GR_REAL) ^ (@year - %baseyear)
+# M[c] := SUT($c,7) * (1 + GR_REAL) ^ (@year - %baseyear)
 
-### Margins paid to commodity cc on commodity c 
-MGP[cc, c] := SUT($c,$cc+7) * (1 + GR_REAL) ^ (@year - %baseyear)
+### Margins paid to commodity cc on the domestic commodity c 
+MGPD[cc, c] := SUT($c+16,$cc+7) * (1 + GR_REAL) ^ (@year - %baseyear)
 
-### Taxes on commodity c
-TAXC[c] := SUT($c,13) * (1 + GR_REAL) ^ (@year - %baseyear)
+### Margins paid to commodity cc on the imported commodity c 
+MGPM[cc, c] := SUT($c+25,$cc+7) * (1 + GR_REAL) ^ (@year - %baseyear)
+
+### Taxes on commodity c domestically produced
+TAXCD[c] := SUT($c+16,13) * (1 + GR_REAL) ^ (@year - %baseyear)
+
+### Taxes on imported commodity c
+TAXCM[c] := SUT($c+25,13) * (1 + GR_REAL) ^ (@year - %baseyear)
 
 ### Taxes on the production of sector s
 TAXP[s] := SUT(8,$s) * (1 + GR_REAL) ^ (@year - %baseyear)
@@ -74,9 +80,6 @@ K[s] := IA[s] * (1 + GR_REAL) / (Tdec[s] + GR_REAL)
 ### Use side (domestic)
 ############################
 
-### Taxes on commodity c domestically produced
-TAXCD[c] := SUT($c+16,13) * (1 + GR_REAL) ^ (@year - %baseyear)
-
 ### Domesticly produced margins recieved by commodity c 
 MGRD[c] := SUT($c+16,14) * (1 + GR_REAL) ^ (@year - %baseyear)
 
@@ -94,9 +97,6 @@ DSD[c] := SUT($c+16,30) * (1 + GR_REAL) ^ (@year - %baseyear)
 ############################
 ### Use side (domestic)
 ############################
-
-### Taxes on imported commodity c
-TAXCM[c] := SUT($c+25,13) * (1 + GR_REAL) ^ (@year - %baseyear)
 
 ### Imported margins recieved by commodity c
 MGRM[c] := SUT($c+25,14) * (1 + GR_REAL) ^ (@year - %baseyear)

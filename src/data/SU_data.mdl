@@ -1,25 +1,34 @@
 include ..\model\lists
 
+#####################
+###### USE SIDE #####
+#####################
+
 Q|O|[c] := MGR|O|[c] + CI|O|[c] + CH|O|[c] + G|O|[c] + I|O|[c] + X|O|[c] + DS|O|[c]
 
 CI|O|[c] := sum(CI|O|[c, s] on s)
 
 I|O|[c] := sum(IA|O|[c, s] on s)
 
-|V|[c] := |V|D[c] + |V|M[c] where V in Q CH G I DS
-
-X[c] := XD[c] + XM[c]
+|V|[c] := |V|D[c] + |V|M[c] where V in Q CH G I DS X
 
 |V||O| := sum(|V||O|[c] on c) where V in Q CH G I X DS CI MGR
 
 |V| := |V|D + |V|M where V in Q CH G I X DS CI MGR
 
+#####################
+###### SUPPY SIDE ###
+#####################
 
+MGP|O|[c] := sum(MGP|O|[cc, c] on cc)
 
+YQ[c]*PYQ[c] + PTAXCD[c]*TAXCD[c] + PMGPD[c]*MGPD[c] := PQD[c]*QD[c]
 
+M[c]*PM[c] + PTAXCM[c]*TAXCM[c] + PMGPM[c]*MGPM[c] := PQM[c]*QM[c]
 
+MGPD := sum(MGPD[c] on c) 
 
-
+MGPM := sum(MGPM[c] on c) 
 
 
 

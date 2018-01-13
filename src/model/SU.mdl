@@ -26,11 +26,8 @@ I|O|[c] = sum(IA|O|[c, s] if IA|O|[c, s] <> 0 on s) if I|O|[c] <> 0
 ### Aggregation of imports and domestic production for commodity c per use
 ### For Q (production of commodities at market price); CH (households'consumption); G (public spendings); I (private investiment); DS (change in inventories)
 
-@pv |V|[c] = |V|D[c] + |V|M[c] if |V|[c] <> 0 where V in Q CH G I DS
+@pv |V|[c] = |V|D[c] + |V|M[c] if |V|[c] <> 0 where V in Q CH G I DS X
 
-### For exports
-### The volume of X[c] is already defined through the export (behavor) equation
-PX[c] * X[c] = PXD[c] * XD[c] + PXM[c] * XM[c] if X[c] <> 0
 
 ### Aggregation of imports and domestic production per use
 @pv |V||O| = sum(|V||O|[c] if |V||O|[c] <> 0 on c) if |V||O| <> 0 where V in Q CH G I X DS CI MGR
@@ -45,64 +42,46 @@ PX[c] * X[c] = PXD[c] * XD[c] + PXM[c] * XM[c] if X[c] <> 0
 ###### SUPPY SIDE ###
 #####################
 
+### Margins paid to on domestic and imported commodity c 
+@pv MGP|O|[c] = sum(MGP|O|[cc, c] if MGP|O|[cc, c] <> 0 on cc) if MGP|O|[c] <> 0
 
 ###  Domestic production of commodity c at basic price:
+###  The price can not be defined as an index because it is already defined as a function of the production price in the price block.
 
-#### ICI: Il faut modifier la base de donnée car MGPD[c] n'est pas défini!
-#YQ[c]*PYQ[c] + PTXACD[c]*TXACD[c] + PMGPD[c]*MGPD[c] = PQD[c]*QD[c] if YQ[c] <> 0
+YQ[c]*PYQ[c] + PTAXCD[c]*TAXCD[c] + PMGPD[c]*MGPD[c] = PQD[c]*QD[c] if YQ[c] <> 0
 
-# equation 1.33
-#YQbis[c] + TXACD[c] + MGPD[c] = QD[c] if YQ[c] <> 0
+### Same variable calculated from volumes. For verification.
+YQbis[c] + TAXCD[c] + MGPD[c] = QD[c] if YQ[c] <> 0
 
+###  Imported production of commodity c at basic price:
+###  The price can not be defined as an index because it is already defined as a function of the production price in the price block.
 
-# PROBLEME! Eq. PMbis et PQbis devrait être utilisée pour calculer les volumes. Voir si la spécification actuelle est équivalente.
+M[c]*PM[c] + PTAXCM[c]*TAXCM[c] + PMGPM[c]*MGPM[c] = PQM[c]*QM[c] if M[c] <> 0
 
-# equation 1.34
-#M[c]*PM[c] + PTXACM[c]*TXACM[c] + PMGPM[c]*MGPM[c] = PQM[c]*QM[c] if M[c] <> 0
-
-# equation 1.35
-#Mbis[c] + TXACM[c] + MGPM[c] = QM[c] if M[c] <> 0
-
-
-#equation 1.36 1.37  PROBLEME! Double indice sur les prix superflux. Corriger après l#ambiguité sur les indices. Puis endogeneiser PMTD_%mar (sans _%com)
-
-# equations 1.36, 1.37, 1.38 & 1.39
-
+### Same variable calculated from volumes. For verification.
+Mbis[c] + TAXCM[c] + MGPM[c] = QM[c] if M[c] <> 0
 
 
 ## Aggregate margins paid on the domesticaly produced commodity c (value & volume):
 
-#PMGPD * MGPD = sum(PMGPD[c] * MGPD[c] if MGPD[c] <> 0 on c) 
+PMGPD * MGPD = sum(PMGPD[c] * MGPD[c] if MGPD[c] <> 0 on c) 
 
-#        MGPD = sum(           MGPD[c] if MGPD[c] <> 0 on c) 
+        MGPD = sum(           MGPD[c] if MGPD[c] <> 0 on c) 
 
 ## Aggregate margins paid on the imported commodity c (value & volume):
 
-#PMGPM * MGPM = sum(PMGPM[c] * MGPM[c] if MGPM[c] <> 0 on c) 
+PMGPM * MGPM = sum(PMGPM[c] * MGPM[c] if MGPM[c] <> 0 on c) 
 
-#        MGPM = sum(           MGPM[c] if MGPM[c] <> 0 on c) 
+        MGPM = sum(           MGPM[c] if MGPM[c] <> 0 on c) 
 
-## Margins paid to commodity cc on commodity c 
-#d(log(MGP[cc, c])) = d(log(YQ[c]+M[c])) + d(SUBST_MGPD[cc, c]) if MGP[cc, c] <> 0
-###### For producer block
 
+#### Ici
 ## Margins recieved by commodity cc (value & volume):
 
 #PMGR[cc] * MGR[cc] = sum(PMGP[cc, c] * MGP[cc, c] if MGP[cc, c] <> 0 on cc) 
 
 #           MGR[cc] = sum(    	 	   MGP[cc, c] if MGP[cc, c] <> 0 on cc) 
 
-## Margins c domesticly produced (value & volume):
-#d(log(MGRD[c])) = d(log(MGR[c]))  
-## More general: impose stable share, use logit for substututions
-### MGRD[c] = MGR[c] * YQ[c] / (YQ[c]+M[c])
-#### Valeur réelement nécessaire?
-
-## Margins c imported (value & volume):
-
-# MGRM[c] = MGR[c] * M[c] / (YQ[c]+M[c])
-## More general: impose stable share, use logit for substututions
-#d(log(MGRM[c])) = d(log(MGR[c]))  
 
 
 
@@ -168,10 +147,6 @@ GDP = CH + G + I + X + DS - M 		if GDP <> 0
 
 ## Agregated GDP (value & volume) calculated from the GDP per using commodity
 @pv GDPbis = sum(GDP[c] if GDP[c] <> 0 on c) 		if GDPbis <> 0
-
-
-
-
 
 
 

@@ -1,0 +1,11 @@
+include ..\model\lists
+
+### This file defines the alias variables. They will generally be used in the behavor equation.
+
+### Export of commodity c be used in the corresponding behavor equation
+Xbis[c] := X[c]
+
+
+YQbis[c] := YQ[c]
+
+Mbis[c] := M[c] 
