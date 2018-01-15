@@ -61,39 +61,42 @@ M[c]*PM[c] + PTAXCM[c]*TAXCM[c] + PMGPM[c]*MGPM[c] = PQM[c]*QM[c] if M[c] <> 0
 ### Same variable calculated from volumes. For verification.
 Mbis[c] + TAXCM[c] + MGPM[c] = QM[c] if Mbis[c] <> 0
 
-
-#3# Aggregate margins paid on the domesticaly produced commodity c (value & volume):
-## juste des agregation
-PMGPD * MGPD = sum(PMGPD[c] * MGPD[c] if MGPD[c] <> 0 on c) if MGPD <> 0
-
-        MGPD = sum(           MGPD[c] if MGPD[c] <> 0 on c) if MGPD <> 0
-
-#4## Aggregate margins paid on the imported commodity c (value & volume):
-
-PMGPM * MGPM = sum(PMGPM[c] * MGPM[c] if MGPM[c] <> 0 on c) if MGPM <> 0
-
-        MGPM = sum(           MGPM[c] if MGPM[c] <> 0 on c) if MGPM <> 0
-
-
-#2## Margins recieved by commodity cc (value & volume):
-
-PMGR[cc] * MGR[cc] = sum(PMGP[cc, c] * MGP[cc, c] if MGP[cc, c] <> 0 on c) if MGR[cc] <> 0
-
-           MGR[cc] = sum(    	 	   MGP[cc, c] if MGP[cc, c] <> 0 on c) if MGR[cc] <> 0
-
-#1## Margins paid to commodity cc on commodity c (value & volume):
-#### ICICI Sans doute inutile car déjà eq dans producteur 
+### Margins paid to commodity cc on commodity c (value & volume):
 PMGP[cc, c] * MGP[cc, c] = PMGPD[cc, c] * MGPD[cc, c] + PMGPM[cc, c] * MGPM[cc, c] if MGP[cc, c] <> 0
 
 			  MGP[cc, c] = 				  MGPD[cc, c] + 			   MGPM[cc, c] if MGP[cc, c] <> 0
 
 
+### Margins recieved by commodity cc (value & volume):
+PMGR[cc] * MGR[cc] = sum(PMGP[cc, c] * MGP[cc, c] if MGP[cc, c] <> 0 on c) if MGR[cc] <> 0
 
+           MGR[cc] = sum(    	 	   MGP[cc, c] if MGP[cc, c] <> 0 on c) if MGR[cc] <> 0
+
+### Remark about margins:  
+### The margins paid MGPD[cc, c] and MGPM[cc, c] are defined with behavor equations. They follow YQ[c] and M[c] (more or less proportionnally because of possibility of substitutions between margins). See producer block. The margins paid are then agregated to define the margins recieved MGR[cc]. The latter is then desagrated between the domestic and imported margins recieved (MGRD[c] and MGRM[c]). See producer block.  
+
+### Aggregate margins paid on the domesticaly produced commodity c (value & volume):
+PMGPD * MGPD = sum(PMGPD[c] * MGPD[c] if MGPD[c] <> 0 on c) if MGPD <> 0
+
+        MGPD = sum(           MGPD[c] if MGPD[c] <> 0 on c) if MGPD <> 0
+
+### Aggregate margins paid on the imported commodity c (value & volume):
+
+PMGPM * MGPM = sum(PMGPM[c] * MGPM[c] if MGPM[c] <> 0 on c) if MGPM <> 0
+
+        MGPM = sum(           MGPM[c] if MGPM[c] <> 0 on c) if MGPM <> 0
 
 ### Aggregation of imports 
-@pv M = sum(M[c] if M[c] <> 0 on c)
+@pv M = sum(M[c] if M[c] <> 0 on c) if M <> 0
 
 
+### Domestic and imported intermediary raw material consumption of sector s (value & volume):
+
+@pv CI|O|[s] = sum(CI|O|[c, s] if CI|O|[c, s] <> 0 on c) if CI|O|[s] <> 0
+
+### Intermediary raw material consumption of sector s (value & volume):
+
+@pv CI[s] = CID[s] + CIM[s] if CI[s] <> 0
 
 
 # equations 1.46 & 1.47

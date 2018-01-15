@@ -1,0 +1,9 @@
+include ..\model\lists
+
+### This file defines the variables that are not loaded and that can not be calculated from their equation in the model. There may be several reasons: 
+### - they are defined by a behavor equation.
+### - using the equation of the model generate a circular reference
+
+### Export of commodity c be used in the corresponding behavor equation
+Xbis[c] := X[c]
+

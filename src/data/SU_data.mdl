@@ -24,7 +24,11 @@ MGP|O|[c] := sum(MGP|O|[cc, c] on cc)
 
 YQ[c]*PYQ[c] + PTAXCD[c]*TAXCD[c] + PMGPD[c]*MGPD[c] := PQD[c]*QD[c]
 
+YQbis[c] + TAXCD[c] + MGPD[c] := QD[c]
+
 M[c]*PM[c] + PTAXCM[c]*TAXCM[c] + PMGPM[c]*MGPM[c] := PQM[c]*QM[c]
+
+Mbis[c] + TAXCM[c] + MGPM[c] := QM[c]
 
 MGPD := sum(MGPD[c] on c) 
 
@@ -34,8 +38,21 @@ MGR[cc] := sum(MGP[cc, c] on c)
 
 MGP[cc, c] := MGPD[cc, c] + MGPM[cc, c]
 
-
 M := sum(M[c] on c)
+
+CI|O|[s] := sum(CI|O|[c, s] on c)
+
+CI[s] := CID[s] + CIM[s]
+
+
+
+
+
+
+
+
+
+
 
 ### GDP definitions
 

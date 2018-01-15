@@ -39,7 +39,7 @@ if %load="new"  then
     call export_all_to_csv
 
     ' Create the series using the dependencies (add-ins "series")
-    {%modelname}.series round0 Prices_data SU_data Alias_data
+    {%modelname}.series round0 Prices_data SU_data Special_data
     ' round1 round2 demography government household exceptions_fr_data ghg carbon_tax exceptions_tracker
 
     ' Export all variables to a csv file (used by the external compiler)
@@ -54,7 +54,9 @@ if %load="new"  then
     ' Set add factor values so that the equation has no residual when evaluated at actuals
     {%modelname}.addinit(v=n) @all
     ' Show all add factors
-    show *_a
+    group a_addfactors *_a
+    show a_addfactors
+
 
     ' Save the workfile for memory
 ''    wfsave {%wfname}
