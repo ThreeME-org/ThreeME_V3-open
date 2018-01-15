@@ -30,7 +30,9 @@ MGPD := sum(MGPD[c] on c)
 
 MGPM := sum(MGPM[c] on c) 
 
+MGR[cc] := sum(MGP[cc, c] on c)
 
+MGP[cc, c] := MGPD[cc, c] + MGPM[cc, c]
 
 
 M := sum(M[c] on c)

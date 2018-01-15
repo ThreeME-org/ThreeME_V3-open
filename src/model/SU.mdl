@@ -51,7 +51,7 @@ I|O|[c] = sum(IA|O|[c, s] if IA|O|[c, s] <> 0 on s) if I|O|[c] <> 0
 YQ[c]*PYQ[c] + PTAXCD[c]*TAXCD[c] + PMGPD[c]*MGPD[c] = PQD[c]*QD[c] if YQ[c] <> 0
 
 ### Same variable calculated from volumes. For verification.
-YQbis[c] + TAXCD[c] + MGPD[c] = QD[c] if YQ[c] <> 0
+YQbis[c] + TAXCD[c] + MGPD[c] = QD[c] if YQbis[c] <> 0
 
 ###  Imported production of commodity c at basic price:
 ###  The price can not be defined as an index because it is already defined as a function of the production price in the price block.
@@ -59,28 +59,33 @@ YQbis[c] + TAXCD[c] + MGPD[c] = QD[c] if YQ[c] <> 0
 M[c]*PM[c] + PTAXCM[c]*TAXCM[c] + PMGPM[c]*MGPM[c] = PQM[c]*QM[c] if M[c] <> 0
 
 ### Same variable calculated from volumes. For verification.
-Mbis[c] + TAXCM[c] + MGPM[c] = QM[c] if M[c] <> 0
+Mbis[c] + TAXCM[c] + MGPM[c] = QM[c] if Mbis[c] <> 0
 
 
-## Aggregate margins paid on the domesticaly produced commodity c (value & volume):
+#3# Aggregate margins paid on the domesticaly produced commodity c (value & volume):
+## juste des agregation
+PMGPD * MGPD = sum(PMGPD[c] * MGPD[c] if MGPD[c] <> 0 on c) if MGPD <> 0
 
-PMGPD * MGPD = sum(PMGPD[c] * MGPD[c] if MGPD[c] <> 0 on c) 
+        MGPD = sum(           MGPD[c] if MGPD[c] <> 0 on c) if MGPD <> 0
 
-        MGPD = sum(           MGPD[c] if MGPD[c] <> 0 on c) 
+#4## Aggregate margins paid on the imported commodity c (value & volume):
 
-## Aggregate margins paid on the imported commodity c (value & volume):
+PMGPM * MGPM = sum(PMGPM[c] * MGPM[c] if MGPM[c] <> 0 on c) if MGPM <> 0
 
-PMGPM * MGPM = sum(PMGPM[c] * MGPM[c] if MGPM[c] <> 0 on c) 
-
-        MGPM = sum(           MGPM[c] if MGPM[c] <> 0 on c) 
+        MGPM = sum(           MGPM[c] if MGPM[c] <> 0 on c) if MGPM <> 0
 
 
-#### Ici
-## Margins recieved by commodity cc (value & volume):
+#2## Margins recieved by commodity cc (value & volume):
 
-#PMGR[cc] * MGR[cc] = sum(PMGP[cc, c] * MGP[cc, c] if MGP[cc, c] <> 0 on cc) 
+PMGR[cc] * MGR[cc] = sum(PMGP[cc, c] * MGP[cc, c] if MGP[cc, c] <> 0 on c) if MGR[cc] <> 0
 
-#           MGR[cc] = sum(    	 	   MGP[cc, c] if MGP[cc, c] <> 0 on cc) 
+           MGR[cc] = sum(    	 	   MGP[cc, c] if MGP[cc, c] <> 0 on c) if MGR[cc] <> 0
+
+#1## Margins paid to commodity cc on commodity c (value & volume):
+#### ICICI Sans doute inutile car déjà eq dans producteur 
+PMGP[cc, c] * MGP[cc, c] = PMGPD[cc, c] * MGPD[cc, c] + PMGPM[cc, c] * MGPM[cc, c] if MGP[cc, c] <> 0
+
+			  MGP[cc, c] = 				  MGPD[cc, c] + 			   MGPM[cc, c] if MGP[cc, c] <> 0
 
 
 

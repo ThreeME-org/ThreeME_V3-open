@@ -2,14 +2,18 @@
 
 ###### For producer block
 ## Margins paid to commodity cc on commodity c 
-#d(log(MGP[cc, c])) = d(log(YQ[c]+M[c])) + d(SUBST_MGPD[cc, c]) if MGP[cc, c] <> 0
+### d(log(MGP[cc, c])) = d(log(YQ[c]+M[c])) + d(SUBST_MGP[cc, c]) if MGP[cc, c] <> 0
+###### Préférable de partir du niveau inférieur: 
+# d(log(MGPD[cc, c])) = d(log(YQ[c])) + d(SUBST_MGPD[cc, c]) if MGPD[cc, c] <> 0
+# d(log(MGPM[cc, c])) = d(log( M[c])) + d(SUBST_MGPM[cc, c]) if MGPM[cc, c] <> 0
+
 
 
 ## Margins c domesticly produced (value & volume):
 #d(log(MGRD[c])) = d(log(MGR[c]))  
 ## More general: impose stable share, use logit for substutions
 ### MGRD[c] = MGR[c] * YQ[c] / (YQ[c]+M[c])
-#### Valeur réelement nécessaire?
+#### Valeur réelement nécessaire? NON
 
 ## Margins c imported (value & volume):
 
