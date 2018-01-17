@@ -14,9 +14,9 @@ I|O|[c] := sum(I|O|[c, s] on s)
 
 MGRbis[c] := MGRD[c] + MGRM[c]
 
-|V||O| := sum(|V||O|[c] on c) where V in Q CH G I X DS CI MGR
+|V||O| := sum(|V||O|[c] on c) where V in Q MGR CI CH G I X DS
 
-|V| := |V|D + |V|M where V in Q CH G I X DS CI MGR
+|V| := |V|D + |V|M where V in Q MGR CI CH G I X DS
 
 #####################
 ###### SUPPY SIDE ###
@@ -40,20 +40,41 @@ MGR[cc] := sum(MGP[cc, c] on c)
 
 MGP[cc, c] := MGPD[cc, c] + MGPM[cc, c]
 
+YQ := sum(YQ[c] on c)
+
 M := sum(M[c] on c)
+
+TAXC[c] := TAXCD[c] + TAXCM[c]
+
+TAXC := sum(TAXC[c] on c)
 
 CI|O|[s] := sum(CI|O|[c, s] on c)
 
 CI[s] := CID[s] + CIM[s]
 
+CIbis := sum(CI[s] on s)
 
+I|O|[s] := sum(I|O|[c, s] on c)
 
+I[s] := ID[s] + IM[s]
 
+Ibis := sum(I[s] on s)
 
+Y[s] := sum(Y[c, s] on c)
 
+Y := sum(Y[s] on s)
 
+VA[s] := Y[s] - CI[s]
 
+VA := sum(VA[s] on s)
 
+WAGES := sum(WAGES[s] on s)
+
+TAXP := sum(TAXP[s] on s)
+
+GOS[s] := VA[s] - WAGES[s] - TAXP[s]
+
+GOS := sum(GOS[s] on s)
 
 
 ### GDP definitions
@@ -64,3 +85,4 @@ GDP[c] := CH[c] + G[c] + I[c] + X[c] + DS[c] - M[c]
 
 GDPbis := sum(GDP[c] on c)
 
+GDPter := VA + TAXC

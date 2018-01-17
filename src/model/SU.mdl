@@ -29,11 +29,10 @@
 @pv MGRbis[c] = MGRD[c] + MGRM[c] if MGRbis[c] <> 0
 
 ### Aggregation of imports and domestic production per use
-@pv |V||O| = sum(|V||O|[c] if |V||O|[c] <> 0 on c) if |V||O| <> 0 where V in Q CH G I X DS CI MGR
+@pv |V||O| = sum(|V||O|[c] if |V||O|[c] <> 0 on c) if |V||O| <> 0 where V in Q MGR CI CH G I X DS
 
 ### Aggregation per use
-@pv |V| = |V|D + |V|M if |V| <> 0 where V in Q CH G I X DS CI MGR
-
+@pv |V| = |V|D + |V|M if |V| <> 0 where V in Q MGR CI CH G I X DS
 
 
 
@@ -72,7 +71,7 @@ PMGR[cc] * MGR[cc] = sum(PMGP[cc, c] * MGP[cc, c] if MGP[cc, c] <> 0 on c) if MG
            MGR[cc] = sum(    	 	   MGP[cc, c] if MGP[cc, c] <> 0 on c) if MGR[cc] <> 0
 
 ### Remark about margins:  
-### The margins paid MGPD[cc, c] and MGPM[cc, c] are defined with behavor equations. They follow YQ[c] and M[c] (more or less proportionnally because of possibility of substitutions between margins). See producer block. The margins paid are then agregated to define the margins recieved MGR[cc]. The latter is then desagrated between the domestic and imported margins recieved (MGRD[c] and MGRM[c]). See producer block.  
+### The margins paid MGPD[cc, c] and MGPM[cc, c] are defined with behavor equations. They follow YQ[c] and M[c] (more or less proportionnally depending on the possibility of substitutions between margins). See producer block. The margins paid are then agregated to define the margins recieved MGR[cc]. The latter is then disagrated between the domestic and imported margins recieved (MGRD[c] and MGRM[c]). See producer block.  
 
 ### Aggregate margins paid on the domesticaly produced commodity c (value & volume):
 PMGPD * MGPD = sum(PMGPD[c] * MGPD[c] if MGPD[c] <> 0 on c) if MGPD <> 0
@@ -85,9 +84,17 @@ PMGPM * MGPM = sum(PMGPM[c] * MGPM[c] if MGPM[c] <> 0 on c) if MGPM <> 0
 
         MGPM = sum(           MGPM[c] if MGPM[c] <> 0 on c) if MGPM <> 0
 
-### Aggregation of imports 
+###  Aggregate domestic production of commodity c at basic price:
+@pv YQ = sum(YQ[c] if YQ[c] <> 0 on c) if YQ <> 0
+
+### Aggregate imports of commodity c at basic price:
 @pv M = sum(M[c] if M[c] <> 0 on c) if M <> 0
 
+### Taxes on commodity c:
+@pv TAXC[c] = TAXCD[c] + TAXCM[c] if TAXC[c] <> 0
+
+### Aggregate taxes on commodity:
+@pv TAXC = sum(TAXC[c] if TAXC[c] <> 0 on c) if TAXC <> 0
 
 ### Domestic and imported intermediary raw material consumption of sector s (value & volume):
 
@@ -97,49 +104,50 @@ PMGPM * MGPM = sum(PMGPM[c] * MGPM[c] if MGPM[c] <> 0 on c) if MGPM <> 0
 
 @pv CI[s] = CID[s] + CIM[s] if CI[s] <> 0
 
+### Intermediary raw material from sector agregation (value & volume) :
 
-# equations 1.46 & 1.47
-#@pv VA[s] = Y[s] - MAT[s] - E[s]
-
-# equations 1.48 & 1.49
-#@pv VA = sum(VA[s] on s)
+@pv CIbis = sum(CI[s] if CI[s] <> 0 on s) if CI <> 0
 
 
+### Domestic and imported investment of sector s (value & volume):
 
-# GDP: VALUE ADDED DEFINITION
-# equation 1.30
-# To do.
-#PGDPter * GDPter = PVA * VA + PTAX * TAX 		if GDPter <> 0
+@pv I|O|[s] = sum(I|O|[c, s] if I|O|[c, s] <> 0 on c) if I|O|[s] <> 0
 
+### Investment of sector s (value & volume):
 
-##GDPter = VA + TAXC 	if GDPter <> 0
+I[s] = ID[s] + IM[s] if I[s] <> 0
 
+### Investment from sector agregation (value & volume) :
 
-
-
-# equations 1.50 & 1.51
-# PEBE[s]*EBE[s] = PVA[s]*VA[s] - CL[s] * L[s] * PROG_L[s] - PIY[s]*IY[s] - PSY[s]*SY[s] where s in %list_sec
-# EBE[s] = VA[s] - (CL[s] / PEBE[s]) * L[s] * PROG_L[s] - IY[s] - SY[s]
-
-# equations 1.52 & 1.53
-# @pv EBE = sum(EBE[s] on s)
-
-# equations 1.54 & 1.55
-# PRF[s]*RF[s] = PEBE[s]*EBE[s] - PK[s]{-1} * Tdec[s] * K[s]{-1} where s in %list_sec
-# RF[s] = EBE[s] - @elem(PK[s]{-1}, %baseyear) * Tdec[s] * K[s]{-1}
-
-# equations 1.56 & 1.57
-# @pv RF = sum(RF[s] on s)
-
-#RF_NET[sm] = @elem(PRF[sm]{-1}, %baseyear) * RF[sm]{-1} - IS[sm]
-# PRF_NET[sm]*RF_NET[sm] = PRF[sm]{-1}*RF[sm]{-1} - PIS[sm] * IS[sm]
-
-# @pv RF_NET = sum(RF_NET[sm] on sm)
-
-#@pv |V| = sum(|V|[s] if |V|[s] <> 0 on s) where V in Y I
-#@pv YQ = sum(YQ[c] if YQ[c] <> 0 on c)
+@pv Ibis = sum(I[s] if I[s] <> 0 on s) if I <> 0
 
 
+### Production of sector s (value & volume):
+### A mettre probablement en bis! Car defini dans producteur
+@pv Y[s] = sum(Y[c, s] if Y[c, s] <> 0 on c) if Y[s] <> 0
+
+### Aggregate production (value & volume):
+@pv Y = sum(Y[s] if Y[s] <> 0 on s) if Y <> 0
+
+### Value-added of sector s (value & volume):
+@pv VA[s] = Y[s] - CI[s] if VA[s] <> 0
+
+### Aggregate bruto wages paid by sector s (including employees and employers' social contribution) (value & volume)
+@pv WAGES = sum(WAGES[s] if WAGES[s] <> 0 on s) if WAGES <> 0
+
+### Aggregate taxes on production (value & volume)
+@pv TAXP = sum(TAXP[s] if TAXP[s] <> 0 on s) if TAXP <> 0
+
+# Gross operating surplus of sector s (value & volume)
+@pv GOS[s] = VA[s] - WAGES[s] - TAXP[s] if GOS[s] <> 0
+
+# Aggregate gross operating surplus (value & volume)
+@pv GOS = sum(GOS[s] if GOS[s] <> 0 on s) if GOS <> 0
+
+
+#####################################################
+##### GDP CALCULATED ACCORDING TO VARIOUS DEFINITION
+#####################################################
 
 ################################
 # GDP: USE DEFINITON
@@ -155,8 +163,11 @@ GDP = CH + G + I + X + DS - M 		if GDP <> 0
 ## Agregated GDP (value & volume) calculated from the GDP per using commodity
 @pv GDPbis = sum(GDP[c] if GDP[c] <> 0 on c) 		if GDPbis <> 0
 
+################################
+# GDP: VALUE ADDED DEFINITION
+PGDPter * GDPter = PVA * VA + PTAXC * TAXC 		if GDPter <> 0
 
-
+GDPter = VA + TAXC 	if GDPter <> 0
 
 
 
@@ -197,4 +208,14 @@ GDP = CH + G + I + X + DS - M 		if GDP <> 0
 #PCI|O|[ce, s] = PE|O|[ce] + TCO_VAL|O|[ce, s] / E|O|[ce, s] if CI|O|[ce, s] > 0
 #CI|O|[ce, s] = E|O|[ce, s] if CI|O|[ce, s] > 0
 
+# equations 1.54 & 1.55
+# PRF[s]*RF[s] = PEBE[s]*EBE[s] - PK[s]{-1} * Tdec[s] * K[s]{-1} where s in %list_sec
+# RF[s] = EBE[s] - @elem(PK[s]{-1}, %baseyear) * Tdec[s] * K[s]{-1}
 
+# equations 1.56 & 1.57
+# @pv RF = sum(RF[s] on s)
+
+#RF_NET[sm] = @elem(PRF[sm]{-1}, %baseyear) * RF[sm]{-1} - IS[sm]
+# PRF_NET[sm]*RF_NET[sm] = PRF[sm]{-1}*RF[sm]{-1} - PIS[sm] * IS[sm]
+
+# @pv RF_NET = sum(RF_NET[sm] on sm)

@@ -66,9 +66,6 @@ WAGES[s] := SUT(9,$s) * (1 + GR_NOMI) ^ (@year - %baseyear)
 ### Labor of sector s 
 L[s] := SUT(10,$s) * (1 + GR_POP) ^ (@year - %baseyear)
 
-### Investment of sector s 
-I[s] := SUT(11,$s) * (1 + GR_REAL) ^ (@year - %baseyear)
-
 ### Depreciation rate of the capital of sector s
 Tdec[s] := SUT(12,$s) 
 # TO DO. Use an english name: TDepr
