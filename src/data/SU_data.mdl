@@ -8,9 +8,11 @@ Q|O|[c] := MGR|O|[c] + CI|O|[c] + CH|O|[c] + G|O|[c] + I|O|[c] + X|O|[c] + DS|O|
 
 CI|O|[c] := sum(CI|O|[c, s] on s)
 
-I|O|[c] := sum(IA|O|[c, s] on s)
+I|O|[c] := sum(I|O|[c, s] on s)
 
-|V|[c] := |V|D[c] + |V|M[c] where V in Q CH G I DS X
+|V|[c] := |V|D[c] + |V|M[c] where V in Q CI CH G I X DS
+
+MGRbis[c] := MGRD[c] + MGRM[c]
 
 |V||O| := sum(|V||O|[c] on c) where V in Q CH G I X DS CI MGR
 
