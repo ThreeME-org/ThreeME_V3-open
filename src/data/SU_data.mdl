@@ -24,11 +24,11 @@ MGRbis[c] := MGRD[c] + MGRM[c]
 
 MGP|O|[c] := sum(MGP|O|[cc, c] on cc)
 
-YQ[c]*PYQ[c] + PNTAXCD[c]*NTAXCD[c] + PMGPD[c]*MGPD[c] := PQD[c]*QD[c]
+YQ[c]*PYQ[c] + NTAXCD_VAL[c] + PMGPD[c]*MGPD[c] := PQD[c]*QD[c]
 
 YQbis[c] + NTAXCD[c] + MGPD[c] := QD[c]
 
-M[c]*PM[c] + PNTAXCM[c]*NTAXCM[c] + PMGPM[c]*MGPM[c] := PQM[c]*QM[c]
+M[c]*PM[c] + NTAXCM_VAL[c] + PMGPM[c]*MGPM[c] := PQM[c]*QM[c]
 
 Mbis[c] + NTAXCM[c] + MGPM[c] := QM[c]
 
@@ -43,6 +43,8 @@ MGP[cc, c] := MGPD[cc, c] + MGPM[cc, c]
 YQ := sum(YQ[c] on c)
 
 M := sum(M[c] on c)
+
+NTAXC_VAL[c] := NTAXCD_VAL[c] + NTAXCM_VAL[c]
 
 NTAXC[c] := NTAXCD[c] + NTAXCM[c]
 
@@ -66,19 +68,27 @@ Y := sum(Y[s] on s)
 
 VA[s] := Y[s] - CI[s]
 
+VA_VAL[s] := PY[s] * Y[s] - PCI[s] * CI[s]
+
 VA := sum(VA[s] on s)
 
 WAGES := sum(WAGES[s] on s)
 
+NTAXP_VAL := sum(NTAXP_VAL[s] on s)
+
 NTAXP := sum(NTAXP[s] on s)
+
+GOS_VAL[s] := VA_VAL[s] - PWAGES[s] * WAGES[s] - NTAXP_VAL[s]
 
 GOS[s] := VA[s] - WAGES[s] - NTAXP[s]
 
 GOS := sum(GOS[s] on s)
 
-NOS_VAL[s] := PGOS[s]*GOS[s] - PK[s]{-1} * Tdec[s] * K[s]{-1}
+NOS_VAL[s] := GOS_VAL[s] - PK[s]{-1} * Tdec[s] * K[s]{-1}
 
 NOS[s] := GOS[s] - @elem(PK[s]{-1}, %baseyear) * Tdec[s] * K[s]{-1}
+
+NOS := sum(NOS[s] on s)
 
 ### GDP definitions
 
