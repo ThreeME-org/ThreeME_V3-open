@@ -58,9 +58,6 @@ PROG_K[s] := 1 * (1 + GR_PROG_K[s]) ^ (@year - %baseyear)
 ### Production of commodity c by sector s at basic price        
 Y[c, s] := SUT($c,$s) * (1 + GR_REAL) ^ (@year - %baseyear)
 
-### Import of commodities c at basic price 
-# M[c] := SUT($c,7) * (1 + GR_REAL) ^ (@year - %baseyear)
-
 ### Margins paid to commodity cc on the domestic commodity c 
 MGPD[cc, c] := SUT($c+16,$cc+7) * (1 + GR_REAL) ^ (@year - %baseyear)
 
@@ -69,11 +66,11 @@ MGPM[cc, c] := SUT($c+25,$cc+7) * (1 + GR_REAL) ^ (@year - %baseyear)
 
 ### Net taxes on commodity c domestically produced
 NTAXCD[c] := SUT($c+16,13) * (1 + GR_REAL) ^ (@year - %baseyear)
-NTAXCD_VAL[c] := SUT($c+16,13) * (1 + GR_NOMI) ^ (@year - %baseyear)
+# NTAXCD_VAL[c] := SUT($c+16,13) * (1 + GR_NOMI) ^ (@year - %baseyear)
 
 ### Net taxes on imported commodity c
 NTAXCM[c] := SUT($c+25,13) * (1 + GR_REAL) ^ (@year - %baseyear)
-NTAXCM_VAL[c] := SUT($c+25,13) * (1 + GR_NOMI) ^ (@year - %baseyear)
+# NTAXCM_VAL[c] := SUT($c+25,13) * (1 + GR_NOMI) ^ (@year - %baseyear)
 
 ### Net taxes on the production of sector s
 NTAXP[s] := SUT(8,$s) * (1 + GR_REAL) ^ (@year - %baseyear)

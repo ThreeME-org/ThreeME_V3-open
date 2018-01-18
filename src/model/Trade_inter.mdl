@@ -73,6 +73,23 @@ PMC|O|[ccm] * MC|O|[ccm] = -|V|[ccm] / (YQ[ccm] + M[ccm]) * (sum(value(MCM[c] + 
 
 MC|O|[ccm] = -|V|[ccm] / (YQ[ccm] + M[ccm]) * (sum(MCM[c] + MCD[c] on c in %list_com \ %list_com_commarg)) if MC|O|[ccm] <> 0 where (O, V) in (D M, YQ M)
 
+
+# Government consumption
+
+# equations 3.75 & 3.76
+PEXPG[c] = PG[c]
+d(log(EXPG[c])) = d(log(EXPG)) if EXPG[c] <> 0
+
+# equation 3.77
+d(log(GD[c])) = d(log(EXPG[c])) + d(SUBST_GD[c]) if GD[c] <> 0
+d(SUBST_GD_n[c]) = - ES_GOV(1, $c) * d(log(PGD[c]) - log(PGM[c])) * (PGM[c]{-1} * GM[c]{-1}/(PG[c]{-1} * G[c]{-1})) if GD[c] <> 0
+
+#equation 3.78
+GM[c] = (EXPG[c] - GD[c] > 0 ) * (EXPG[c]-GD[c]) + (EXPG[c]-GD[c] =< 0)*(0.00001) if GM[c] <> 0
+d(SUBST_GM_n[c])= - ES_GOV(1, $c) * d(log(PGM[c]) - log(PGD[c])) * (PGD[c]{-1} * GD[c]{-1}/(PG[c]{-1} * G[c]{-1})) if GM[c] <> 0
+
+
+
 # Exports
 
 # La variable World Demand (WD) est exogene

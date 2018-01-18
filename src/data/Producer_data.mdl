@@ -9,6 +9,15 @@ include ..\model\lists
 
 
 # NOT in Producer block but calculated from model equation
+
+### From Price
 YQS[c] := YQ[c] + NTAXCD[c] + MGPD[c]
 
 MS[c] := M[c] + NTAXCM[c] + MGPM[c] 
+
+
+
+### From GOV:
+NTAXCD_VAL[c] := RNTAXCD[c]*PYQ[c]*YQ[c]
+
+NTAXCM_VAL[c] := RNTAXCM[c]*PM[c]*M[c]

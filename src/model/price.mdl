@@ -88,13 +88,6 @@ PYQS[c]*YQS[c] = PYQ[c]*YQ[c] + NTAXCD_VAL[c] + PMGPD[c]*MGPD[c]
 		d(log(YQSbis[c])) = d(log(YQ[c]))
 		
 
-### Net taxes on commodity c domestically produced
-### Non trivial: le taux peux être définit de 2 manières. !!!!!!
-### Aucune de ces equations ne dois être utilisée pour contruire des données   !!!!!
-NTAXCD_VAL[c] = RNTAXCD[c]*PYQ[c]*YQ[c]
-
-	NTAXCD[c] = RNTAXCD[c]*YQ[c]
-
 
 
 ### Average selling price for imported commodity c
@@ -110,12 +103,7 @@ PMS[c]*MS[c] = PM[c]*M[c] + NTAXCM_VAL[c] + PMGPM[c]*MGPM[c]
 		d(log(MSbis[c])) = d(log(M[c]))
 
 
-### Net taxes on imported commodity c 
-### Non trivial: le taux peux être définit de 2 manières. !!!!!!
-### Aucune de ces equations ne dois être utilisée pour contruire des données   !!!!!
-NTAXCM_VAL[c] = RNTAXCM[c]*PM[c]*M[c]
 
-	NTAXCM[c] = RNTAXCM[c]*M[c]
 
 
 

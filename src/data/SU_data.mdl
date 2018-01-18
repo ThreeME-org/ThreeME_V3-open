@@ -26,11 +26,13 @@ MGRbis[c] := MGRD[c] + MGRM[c]
 
 MGP|O|[c] := sum(MGP|O|[cc, c] on cc)
 
-YQ[c]*PYQ[c] + NTAXCD_VAL[c] + PMGPD[c]*MGPD[c] := PQD[c]*QD[c]
+# YQ[c] can not be calibrated from equation because circular reference with NTAXCD_VAL[c] that depends on YQ[c]. Use instead YQ[c] := sum(Y[c, s] on s)
+# YQ[c]*PYQ[c] + NTAXCD_VAL[c] + PMGPD[c]*MGPD[c] := PQD[c]*QD[c]
 
 YQbis[c] + NTAXCD[c] + MGPD[c] := QD[c]
 
-M[c]*PM[c] + NTAXCM_VAL[c] + PMGPM[c]*MGPM[c] := PQM[c]*QM[c]
+# M[c] can not be calibrated from equation because circular reference with NTAXCM_VAL[c] that depends on M[c]. Use round 0 instead.
+# M[c]*PM[c] + NTAXCM_VAL[c] + PMGPM[c]*MGPM[c] := PQM[c]*QM[c]
 
 Mbis[c] + NTAXCM[c] + MGPM[c] := QM[c]
 

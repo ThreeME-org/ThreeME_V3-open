@@ -4,9 +4,11 @@ include ..\model\SU
 include ..\model\Producer
 include ..\model\Price
 
+include ..\model\Government
+
 # include ..\model\GHG
 # include ..\model\Consumer
-# include ..\model\Government
+
 
 # include ..\model\Demography
 # include ..\model\Adjustments

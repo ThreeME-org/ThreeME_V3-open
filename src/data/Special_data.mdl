@@ -15,9 +15,20 @@ PhiY[c, s] := Y[c, s]/YQ[c]
 W[s] := WAGES[s] * PWAGES[s] / L[s] 
 (1 + TMD[s]) := PY_n[s] / CU_n[s]
 
-## Non trivial:  2 eq. peuvent définir ce paramettre, celle en valeur et celle en volume. Comment selectionner?
 RNTAXCD[c] := NTAXCD[c]/YQ[c]
 RNTAXCM[c] := NTAXCM[c]/ M[c]
+
+### Calibrated from the volume version of an equation in value. Volume not in the model because of cirlar reference. 
+### We can not use the Eq of the model:  YQ[c]*PYQ[c] + NTAXCD_VAL[c] + PMGPD[c]*MGPD[c] := PQD[c]*QD[c]
+### because circular reference with NTAXCD_VAL[c] that depends on YQ[c].
+### 
+YQ[c] := sum(Y[c, s] on s)
+
+
+### Idem for M[c]. M[c]*PM[c] + NTAXCM_VAL[c] + PMGPM[c]*MGPM[c] := PQM[c]*QM[c]
+### because circular reference with NTAXCM_VAL[c] that depends on M[c]. Use round 0 instead:
+
+M[c] := SUT($c,7) * (1 + GR_REAL) ^ (@year - %baseyear)
 
 
 # Alias to be used in behavor equations
