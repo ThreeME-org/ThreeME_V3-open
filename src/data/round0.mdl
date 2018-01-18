@@ -61,7 +61,7 @@ TAXCM[c] := SUT($c+25,13) * (1 + GR_REAL) ^ (@year - %baseyear)
 TAXP[s] := SUT(8,$s) * (1 + GR_REAL) ^ (@year - %baseyear)
 
 ### Super bruto wages paid by sector s (including employees and employers' social contribution)
-WAGES[s] := SUT(9,$s) * (1 + GR_NOMI) ^ (@year - %baseyear)            
+WAGES[s] := SUT(9,$s) * (1 + GR_REAL) ^ (@year - %baseyear)            
 
 ### Labor of sector s 
 L[s] := SUT(10,$s) * (1 + GR_POP) ^ (@year - %baseyear)

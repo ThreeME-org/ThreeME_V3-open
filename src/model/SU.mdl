@@ -144,6 +144,10 @@ I[s] = ID[s] + IM[s] if I[s] <> 0
 # Aggregate gross operating surplus (value & volume)
 @pv GOS = sum(GOS[s] if GOS[s] <> 0 on s) if GOS <> 0
 
+# Net operating surplus of sector s (value & volume)
+NOS_VAL[s] = PGOS[s]*GOS[s] - PK[s]{-1} * Tdec[s] * K[s]{-1}
+
+NOS[s] = GOS[s] - @elem(PK[s]{-1}, %baseyear) * Tdec[s] * K[s]{-1}
 
 #####################################################
 ##### GDP CALCULATED ACCORDING TO VARIOUS DEFINITION
