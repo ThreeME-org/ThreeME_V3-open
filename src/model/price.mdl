@@ -1,32 +1,16 @@
-## BLOCK 5: PRICES
-#
-####  Domestic production price of commodity c:
-#PYQ[c] * YQ[c] = sum(PY[s] * Y[c, s] if Y[c, s] <> 0 on s) if YQ[c] <> 0
-#
-#
-#
-#
-## equation 5.1
-##PY_n[s]*Y[s] = (CK[s]*K_n[s]+ CL[s]*L_n[s]*PROG_L[s] + PE[s]*E_n[s] + PMAT[s]*MAT_n[s]) * (1 + TMD[s]) if Y[s] > 0 where s in %list_sec
-#
-#PY_n[s] = NCU_n[s] * (1 + TMD[s]) if Y[s] > 0
-#
-#NCU_n[s] * Y[s] = CU_n[s] * Y[s] + PIY[s] * IY[s] + PSY[s] * SY[s] + PIS[s] * IS[s] if Y[s] > 0
-#
-#CU_n[s] * Y[s] = CK[s] * K_n[s] + CL[s] * L_n[s] * PROG_L[s] + PE[s] * E_n[s] + PMAT[s] * MAT_n[s] if Y[s] > 0
-#
-##equation average mark-up of activities per commodities
-#
-#(1 + MARKUP[c]) = PYQ[c] * YQ[c] / (sum(NCU_n[s] * Y[c, s] if Y[c, s] <> 0 on s)) if YQ[c] <> 0
-#
-## equation 5.2
-#NCU[s]*Y[s] = CU[s]*Y[s] + PIY[s]*IY[s] + PSY[s]*SY[s] + PIS[s]*IS[s] if Y[s] > 0
-#
-## equation 5.3
-#CU[s]*Y[s] = CK[s]*K[s] + CL[s]*L[s]*PROG_L[s] + PE[s]*E[s] + PMAT[s]*MAT[s] if Y[s] > 0
-#
-## equation 5.4
-#CL[s]*L[s] = CL_S[s]*L_S[s] + CL_SE[s]*L_SE[s] if Y[s] > 0
+########################################################
+#########         PRICES         #####################
+########################################################
+### This file provides the equations defining the prices.
+
+### Domestic production price of commodity c:
+PYQ[c] * YQ[c] = sum(PY[s] * Y[c, s] if Y[c, s] <> 0 on s) if YQ[c] <> 0
+
+### Notional production price of sector s 
+
+PY_n[s] = CU_n[s] * (1 + TMD[s])
+
+
 #
 ## equation 5.5
 #d(log(1+TMD_n[s])) = STEADYSTATE(49,1) * ( d(log(Y[s])) - d(log(Y[s]{-1})) ) if Y[s] > 0
@@ -41,61 +25,102 @@
 #		+ d(log(MAT[s])) * PMAT[s]{-1} * MAT[s]{-1} / (CU[s]{-1} * Y[s]{-1}) _
 #		  if YOPT[s] <> 0
 #
-## equation 5.7 5.8 labor cost in activity a
-#CL_S[s] =  W_S[s]*(1+TCSE[s]) / PROG_L[s] if L_S[s] > 0
-#CL_SE[s] = W_SE[s] / PROG_L[s] if L_SE[s] > 0
+
+
+#equation average mark-up of activities per commodities
 #
-## equation 5.9 5.10 capital cost in activity a
-### A modifier Utiliser PK[s] !!!!!
-## CK[s] = PK[s] * (Tdec[s] + r[s]) if K[s] > 0
-#### It is preferable to calculate the user cost of capital based on the price of capital rather than on the price of investment. Indeed the price of the average capital installed is lower than the one of investment because of inflation. Using the price of investment tend to over estimate the cost of capital because it assumes that the debt contracted to finance past investments is indexed on inflation which is not the case in reality.  
-#
-## equation 2.10
-#### Price of capital of sector s
-#### The price of capital is calibrated by rewriting this equation in the long run. It is always smaller than 1.
-#### PK[s] := PI[s]*(Tdec[s]+GR_REAL)*(1+GR_PRICES)/(Tdec[s]-1+(1+GR_REAL)*(1+GR_PRICES))
-#
-#PK[s] * K[s] = (1 - Tdec[s]) * PK[s]{-1} * K[s]{-1} + PIA[s] * IA[s] if K[s] <> 0
-#
-#
-## equation 5.11
-#PMAT[s]*MAT[s] = sum(PMAT[cm, s]*MAT[cm, s] if MAT[cm, s] <> 0 on cm) if MAT[s] <> 0
-#
-## equation 5.12: Energy cost in activity a
-#PE[s]*E[s] = sum(PE[ce, s]*E[ce, s] if E[ce, s] <> 0 on ce) if E[s] <> 0
-#
-## equation 5.14
-#PMAT[cm, s]*MAT[cm, s] = PMATD[cm]*MATD[cm, s] + PMATM[cm]*MATM[cm, s] if MAT[cm, s] <> 0
-#
-## equation 5.15
-#PE[ce,s]*E[ce,s] = PED[ce]*ED[ce, s] + PEM[ce]*EM[ce, s] + TCO_VAL[ce, s] if E[ce,s] <> 0
-#
-## equation 5.16
-#PIA[c, s]*IA[c, s] = PIAD[c]*IAD[c, s] + PIAM[c]*IAM[c, s] if IA[c, s] <> 0
-#
-## equation 5.17
-#PIA[s]*IA[s] = sum(PIA[c, s]*IA[c, s] if IA[c, s] <> 0 on c) if IA[s] <> 0
-#
-## equation 5.18
-#PYQS[c]*YQS[c] = PYQ[c]*YQ[c]*(1 + TothtD[c]) + YQ[c]*(TenertD[c] + TsubD[c]) + PMTD[c]*MTD[c] + PMCD[c]*MCD[c] if YQS[c] > 0 where c in %list_com \ %list_trsp_services_E_CO2
-#
-#PYQS[c]*YQS[c] = PYQ[c]*YQ[c]*(1+TothtD[c]) + YQ[c]*(TenertD[c] + TsubD[c]) if YQS[c] > 0 where c in %list_trsp_services
-#
-#PYQS[c]*YQS[c] = PYQ[c]*YQ[c]*(1+TothtD[c]) + YQ[c]*(TenertD[c] + TsubD[c]) + PMTD[c]*MTD[c] + PMCD[c]*MCD[c] if YQS[c] > 0 where c in %list_com_E_CO2
-#
-## equation 5.19
-#d(log(YQS[c])) = d(log(YQ[c])) if YQS[c] > 0
-#
-#
-## equation 5.20
-#PMS[c]*MS[c] = PM[c]*M[c]*(1 + TothtM[c]) + M[c]*(TenertM[c] + TsubM[c]) + PMTM[c]*MTM[c] + PMCM[c]*MCM[c] if MS[c] > 0 where c in %list_com \ %list_trsp_services_E_CO2
-#
-#PMS[c]*MS[c] = PM[c]*M[c]*(1 + TothtM[c]) + M[c]*(TenertM[c] + TsubM[c]) if MS[c] > 0 where c in %list_trsp_services
-#
-#PMS[ce2]*MS[ce2] = PM[ce2]*M[ce2]*(1 + TothtM[ce2]) + M[ce2]*(TenertM[ce2] + TsubM[ce2]) + PMTM[ce2]*MTM[ce2] + PMCM[ce2]*MCM[ce2] if MS[ce2] > 0
-#
-## equation 5.21
-#d(log(MS[c])) = d(log(M[c])) if MS[c] > 0
+#(1 + MARKUP[c]) = PYQ[c] * YQ[c] / (sum(NCU_n[s] * Y[c, s] if Y[c, s] <> 0 on s)) if YQ[c] <> 0
+
+
+
+
+
+
+
+
+## Notional unit cost of production in sector s
+## To define the notional price, it is preferable to use the notional unit cost of production insteard of the effective one. This lead to a more stable dynamic and gives a better representation of anticipation.
+
+CU_n[s] * Y[s] = CK[s] * K_n[s] + CL[s] * L_n[s] * PROG_L[s] + PE[s] * E_n[s] + PMAT[s]*MAT_n[s] + NTAXP_VAL[s]
+
+## Unit cost of production in sector s
+CU[s]*Y[s] = CK[s]*K[s] + CL[s]*L[s]*PROG_L[s] + PE[s]*E[s] + PMAT[s]*MAT[s] + NTAXP_VAL[s]
+
+## Labor cost in sector s
+CL[s] =  W[s] / PROG_L[s]
+
+### Capital cost in sector s
+### It is preferable to calculate the user cost of capital based on the price of capital rather than on the price of investment. Indeed the price of the average capital installed is lower than the one of investment because of inflation. Using the price of investment tend to over estimate the cost of capital because it assumes that the debt contracted to finance past investments is indexed on inflation which is not the case in reality. 
+
+CK[s] = PK[s] * (Tdec[s] + r[s])
+ 
+### Price of capital in sector s
+### The price of capital is calibrated by rewriting this equation in the long run. It is always smaller than 1 because it is calibrated as follows: PK[s] = PI[s]*(Tdec[s]+GR_REAL)*(1+GR_PRICES)/(Tdec[s]-1+(1+GR_REAL)*(1+GR_PRICES))
+
+PK[s] * K[s] = (1 - Tdec[s]) * PK[s]{-1} * K[s]{-1} + PI[s] * I[s]
+
+### Volume and price of the super bruto wages paid by sector s (including employees and employers' social contribution) 
+### To derive the volume, we assume that the price is the consumer price 
+
+WAGES[s] * PWAGES[s] = W[s] * L[s]
+
+PWAGES[s] = P
+
+
+### Material consumption price for sector s
+PMAT[s]*MAT[s] = sum(PCI[cm, s]*CI[cm, s] if CI[cm, s] <> 0 on cm) if MAT[s] <> 0
+
+### Energy price for sector s
+PE[s]*E[s] = sum(PCI[ce, s]*CI[ce, s] if CI[ce, s] <> 0 on ce) if E[s] <> 0
+
+
+### Average selling price for domestic commodity c
+
+## Y QSc is the volume of the production expressed at market price before VAT. It should not be seen as a composite of several "goods": production at base price and margins. Indeed, its does not increase when the volume of the commercial and transport margins increase. The price does instead. Its speciation is hich is equivalent to 5.18, that is to assuming that Y QSc is always proportionnal to Y Qc. Writing it following the specification composite of several goods, would lead to inacurate results since a decrease in the quantity of transport used per unit of production would not lead to a decrease of the selling price. Notice that the similarity with the specification of the volume of a tax or a subvention. As specified earlier, we assume that an increase in the tax rate does not increase the volume of the tax but increases its price. The volume of the tax increases only when the volume of the taxe bases (e.g. consumption, production) increases.
+
+PYQS[c]*YQS[c] = PYQ[c]*YQ[c] + NTAXCD_VAL[c] + PMGPD[c]*MGPD[c]
+
+
+		YQS[c] = YQ[c] + NTAXCD[c] + MGPD[c]
+
+# Should be Equivalent to
+
+		d(log(YQSbis[c])) = d(log(YQ[c]))
+		
+
+### Net taxes on commodity c domestically produced
+### Non trivial: le taux peux être définit de 2 manières. !!!!!!
+### Aucune de ces equations ne dois être utilisée pour contruire des données   !!!!!
+NTAXCD_VAL[c] = RNTAXCD[c]*PYQ[c]*YQ[c]
+
+	NTAXCD[c] = RNTAXCD[c]*YQ[c]
+
+
+
+### Average selling price for imported commodity c
+
+PMS[c]*MS[c] = PM[c]*M[c] + NTAXCM_VAL[c] + PMGPM[c]*MGPM[c] 
+
+
+       MS[c] = M[c] + NTAXCM[c] + MGPM[c] 
+
+
+# Should be Equivalent to
+
+		d(log(MSbis[c])) = d(log(M[c]))
+
+
+### Net taxes on imported commodity c 
+### Non trivial: le taux peux être définit de 2 manières. !!!!!!
+### Aucune de ces equations ne dois être utilisée pour contruire des données   !!!!!
+NTAXCM_VAL[c] = RNTAXCM[c]*PM[c]*M[c]
+
+	NTAXCM[c] = RNTAXCM[c]*M[c]
+
+
+
+
+
 #
 ## equation 5.22 & 5.24
 #PMAT|O|[cm] = P|V|S[cm] * (1 + Tvat|O|oth[cm]) / (1 + @elem(Tvat|O|oth[cm], %baseyear)) if CI|O|[cm] <> 0 where (O, V) in (D M, YQ M)
@@ -133,7 +158,7 @@
 #PM[c] = TC*PWD[c] if M[c] <> 0
 #
 ## equation 5.41
-#d(log(W_S_n[s])) = RHO($s,1) + RHO($s,2)*d(log(P_e)) + RHO($s,3)*d(log(PROG_L[s])) - RHO($s,4)*(sum(Y[c, s]{-1}/Y[s]{-1}*M[c]{-1}/(YQ[c]{-1}+M[c]{-1})*d(log(PM[c]/PY[s])) if Y[c, s] <> 0 on c)) - RHO($s,5)*UnR_TOT - RHO($s,6)*d(UnR_TOT) + RHO($s,7)*d(log(L_S[s]) - log(L))+DNAIRU*RHO($s,5) if W_S_n[s] <> 0
+#d(log(W_n[s])) = RHO($s,1) + RHO($s,2)*d(log(P_e)) + RHO($s,3)*d(log(PROG_L[s])) - RHO($s,4)*(sum(Y[c, s]{-1}/Y[s]{-1}*M[c]{-1}/(YQ[c]{-1}+M[c]{-1})*d(log(PM[c]/PY[s])) if Y[c, s] <> 0 on c)) - RHO($s,5)*UnR_TOT - RHO($s,6)*d(UnR_TOT) + RHO($s,7)*d(log(L_S[s]) - log(L))+DNAIRU*RHO($s,5) if W_S_n[s] <> 0
 #
 #d(log(W_SE[s])) = d(log(W_S[s])) if W_SE[s] <> 0
 #

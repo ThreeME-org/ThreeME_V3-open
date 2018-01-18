@@ -1,2 +1,14 @@
 include ..\model\lists
 
+
+
+
+
+
+
+
+
+# NOT in Producer block but calculated from model equation
+YQS[c] := YQ[c] + NTAXCD[c] + MGPD[c]
+
+MS[c] := M[c] + NTAXCM[c] + MGPM[c] 

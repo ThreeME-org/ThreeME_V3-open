@@ -7,8 +7,18 @@ include ..\model\lists
 ### Export of commodity c be used in the corresponding behavor equation
 Xbis[c] := X[c]
 
+YQSbis[c] := YQS[c]
+MSbis[c] := MS[c]
+
 ### Calibration of parameter from Equations
 PhiY[c, s] := Y[c, s]/YQ[c]
+W[s] := WAGES[s] * PWAGES[s] / L[s] 
+(1 + TMD[s]) := PY_n[s] / CU_n[s]
+
+## Non trivial:  2 eq. peuvent définir ce paramettre, celle en valeur et celle en volume. Comment selectionner?
+RNTAXCD[c] := NTAXCD[c]/YQ[c]
+RNTAXCM[c] := NTAXCM[c]/ M[c]
+
 
 # Alias to be used in behavor equations
 IA[s] := I[s]

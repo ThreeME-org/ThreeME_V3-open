@@ -7,10 +7,6 @@ TC := 1
 |V|[s] := P where V in PI PY PY_n PY_e PMAT PE PWAGES
 
 PCI[c, s] := P
-PMAT[cm, s] := P  # A virer?
-PE[ce, s] := P 		# A virer?
-PMAT|O|[cm] := P
-PE|O|[ce] := P
 PCI|O|[s] := P
 PCI[s] :=P 
 
@@ -32,7 +28,22 @@ PI|O|[s] := P
 PWD[c] := P
 PM[c] := P
 
+################################
 ### Prices not calibrated to 1
+
+##################
+### From Equation
+
+CL[s] :=  W[s] / PROG_L[s]
+
+CK[s] := PK[s] * (Tdec[s] + r[s])
+
+CU[s]*Y[s] := CK[s]*K[s] + CL[s]*L[s]*PROG_L[s] + PE[s]*E[s] + PMAT[s]*MAT[s] + NTAXP_VAL[s]
+
+CU_n[s] * Y[s] := CK[s] * K_n[s] + CL[s] * L_n[s] * PROG_L[s] + PE[s] * E_n[s] + PMAT[s]*MAT_n[s] + NTAXP_VAL[s]
+
+######################
+### Not from Equation
 
 ### Price of capital of sector s
 ### In the model the price of capital is defined by:
