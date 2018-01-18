@@ -1,6 +1,6 @@
 include ..\model\lists
 
-VERIF_|V| := 0 where V in PY_PYQ Y_YQ PIAxIA_PIxI PIA_PI IA_I GDP_GDPBIS GDP_GDPTER PGDP_PGDPBIS PGDP_PGDPTER ValGDP_ValGDPTER
+
 VERIF_PEXP_CES[h] := 0
 
 FISC := 0
@@ -102,24 +102,7 @@ E_SEC[ce] := E_SECD[ce] + E_SECM[ce]
 E_ESEC|O|[ce] := sum(E|O|[ce, se] on se)
 E_ESEC[ce] := E_ESECD[ce] + E_ESECM[ce]
 
-# Expected and nominal variables are initialised to their real value
-|V|_n[s] := |V|[s] where V in IA L E MAT K Kbis
-|V|_e[s] := |V|[s] where V in IA L E MAT K Kbis
 
-SUBST_|V|_n[s] := 0 where V in IA L E MAT K Kbis
-SUBST_|V|[s] := 0 where V in IA L E MAT K Kbis
-
-SUBST_|V|_n[c, s] := 0 where V in IA IAD IAM
-SUBST_|V|[c, s] := 0 where V in IA IAD IAM
-SUBST_|V|_n[ce, s] := 0 where V in E ED EM
-SUBST_|V|[ce, s] := 0 where V in E ED EM
-SUBST_|V|_n[cm, s] := 0 where V in MAT MATD MATM
-SUBST_|V|[cm, s] := 0 where V in MAT MATD MATM
-
-SUBST_|V|_n[c] := 0 where V in CHD CHM GD GM X XD XM
-SUBST_|V|[c] := 0 where V in CHD CHM GD GM X XD XM
-SUBST_|V|_n[trsp, c] := 0 where V in MTD MTM, c in %list_com \ %list_trsp
-SUBST_|V|[trsp, c] := 0 where V in MTD MTM, c in %list_com \ %list_trsp
 
 IY := sum(IY[s] on s)
 SY := sum(SY[s] on s)

@@ -51,13 +51,13 @@ MGPD[cc, c] := SUT($c+16,$cc+7) * (1 + GR_REAL) ^ (@year - %baseyear)
 ### Margins paid to commodity cc on the imported commodity c 
 MGPM[cc, c] := SUT($c+25,$cc+7) * (1 + GR_REAL) ^ (@year - %baseyear)
 
-### Taxes on commodity c domestically produced
+### Net taxes on commodity c domestically produced
 NTAXCD[c] := SUT($c+16,13) * (1 + GR_REAL) ^ (@year - %baseyear)
 
-### Taxes on imported commodity c
+### Net taxes on imported commodity c
 NTAXCM[c] := SUT($c+25,13) * (1 + GR_REAL) ^ (@year - %baseyear)
 
-### Taxes on the production of sector s
+### Net taxes on the production of sector s
 NTAXP[s] := SUT(8,$s) * (1 + GR_REAL) ^ (@year - %baseyear)
 
 ### Super bruto wages paid by sector s (including employees and employers' social contribution)
