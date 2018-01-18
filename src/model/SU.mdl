@@ -138,8 +138,9 @@ I[s] = ID[s] + IM[s] if I[s] <> 0
 ### Aggregate taxes on production (value & volume)
 @pv TAXP = sum(TAXP[s] if TAXP[s] <> 0 on s) if TAXP <> 0
 
-# Gross operating surplus of sector s (value & volume)
+### Gross operating surplus of sector s (value & volume)
 @pv GOS[s] = VA[s] - WAGES[s] - TAXP[s] if GOS[s] <> 0
+### The exact definition of the GOS generally exclude tax on profit. We do not do it here for simplicity and assume that TAXP[s] includes all net taxes on capital (i.e. tax on production and profits). This should be taken into account if one wants to use the GOS as a basis for the profit taxes.
 
 # Aggregate gross operating surplus (value & volume)
 @pv GOS = sum(GOS[s] if GOS[s] <> 0 on s) if GOS <> 0

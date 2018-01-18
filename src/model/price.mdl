@@ -40,7 +40,17 @@ CL_S[s] =  W_S[s]*(1+TCSE[s]) / PROG_L[s] if L_S[s] > 0
 CL_SE[s] = W_SE[s] / PROG_L[s] if L_SE[s] > 0
 
 # equation 5.9 5.10 capital cost in activity a
-CK[s] = PIA[s] * (Tdec[s] + r[s]) if K[s] > 0
+## A modifier Utiliser PK[s] !!!!!
+# CK[s] = PK[s] * (Tdec[s] + r[s]) if K[s] > 0
+### It is preferable to calculate the user cost of capital based on the price of capital rather than on the price of investment. Indeed the price of the average capital installed is lower than the one of investment because of inflation. Using the price of investment tend to over estimate the cost of capital because it assumes that the debt contracted to finance past investments is indexed on inflation which is not the case in reality.  
+
+# equation 2.10
+### Price of capital of sector s
+### The price of capital is calibrated by rewriting this equation in the long run. It is always smaller than 1.
+### PK[s] := PI[s]*(Tdec[s]+GR_REAL)*(1+GR_PRICES)/(Tdec[s]-1+(1+GR_REAL)*(1+GR_PRICES))
+
+PK[s] * K[s] = (1 - Tdec[s]) * PK[s]{-1} * K[s]{-1} + PIA[s] * IA[s] if K[s] <> 0
+
 
 # equation 5.11
 PMAT[s]*MAT[s] = sum(PMAT[cm, s]*MAT[cm, s] if MAT[cm, s] <> 0 on cm) if MAT[s] <> 0

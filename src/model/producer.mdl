@@ -81,8 +81,6 @@ verif_phi_input[s] = 1 - phi_K[s] - phi_L[s] - phi_E[s] - phi_MAT[s]
 # equation 2.09
 d(log(IA[c, s])) = d(log(IA[s])) if IA[c, s] <> 0
 
-# equation 2.10
-PK[s] * K[s] = (1 - Tdec[s]) * PK[s]{-1} * K[s]{-1} + PIA[s] * IA[s] if K[s] <> 0
 
 # equation 2.11
 K[s] = (1 - Tdec[s]) * K[s]{-1} + IA[s] if K[s] <> 0

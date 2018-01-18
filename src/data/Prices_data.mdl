@@ -6,9 +6,7 @@ TC := 1
 
 |V|[s] := P where V in PI PY PY_n PY_e PMAT PE PVA PGOS PWAGES PTAXP
 
-PK[s] := PI[s]*(Tdec[s]+GR_REAL)*(1+GR_PRICES)/(Tdec[s]-1+(1+GR_REAL)*(1+GR_PRICES))
-
-PMAT[cm, s] := P
+MAT[cm, s] := P
 PE[ce, s] := P
 PMAT|O|[cm] := P
 PE|O|[ce] := P
@@ -31,6 +29,15 @@ PI|O|[c, s] := P
 PI|O|[s] := P
 
 PWD[c] := P
-PM[c] := PWD[c] * TC
+PM[c] := P
+
+### Prices not calibrated to 1
+
+### Price of capital of sector s
+### In the model the price of capital is defined by:
+### PK[s] * K[s] = (1 - Tdec[s]) * PK[s]{-1} * K[s]{-1} + PI[s] * I[s]
+### The price of capital is calibrated by rewrting this equation in the long run. It is always smaller than 1.
+
+PK[s] := PI[s]*(Tdec[s]+GR_REAL)*(1+GR_PRICES)/(Tdec[s]-1+(1+GR_REAL)*(1+GR_PRICES))
 
 R[s] := R
