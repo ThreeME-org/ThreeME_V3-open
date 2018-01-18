@@ -1,4 +1,20 @@
+### Margins c domesticly produced (value & volume):
+##d(log(MGRD[c])) = d(log(MGR[c]))  
+### More general: impose stable share, use logit for substutions
+#### MGRD[c] = MGR[c] * YQ[c] / (YQ[c]+M[c])
+##### Valeur réelement nécessaire? NON
+#
+### Margins c imported (value & volume):
+#
+## MGRM[c] = MGR[c] * M[c] / (YQ[c]+M[c])
+### More general: impose stable share, use logit for substututions
+##d(log(MGRM[c])) = d(log(MGR[c]))  
+
+
 # Level III
+
+
+
 
 # Notional Demand for imported material c of the sector
 

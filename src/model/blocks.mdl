@@ -2,11 +2,12 @@ include ..\model\lists
 
 include ..\model\SU
 include ..\model\Producer
+include ..\model\Price
 
 # include ..\model\GHG
 # include ..\model\Consumer
 # include ..\model\Government
-# include ..\model\Price
+
 # include ..\model\Demography
 # include ..\model\Adjustments
 # include ..\model\Exceptions_fr

@@ -7,8 +7,15 @@ include ..\model\lists
 ### Population growth rate
 GR_POP    := 0.0029
 
-### Labor productivity growth rate
+### Growth rate of labor technical progress 
 GR_PROG_L := 0.0170
+
+### Growth rate of capital technical progress
+GR_PROG_K := 0.0
+
+### Growth rate of energy technical progress
+GR_PROG_E := 0.0
+
 
 ### Inflation (growth rate of prices)
 GR_PRICES := 0.0200
@@ -28,11 +35,20 @@ GR_NOMIW := (1 + GR_PRICES)*(1 + GR_PROG_L) - 1
 ### Interest rate
 R := GR_NOMI - RISKPREM
 
+### Grothw rate of technical progress in sectors
+GR_PROG_L[s] := GR_PROG_L
+GR_PROG_E[s] := GR_PROG_E
+GR_PROG_K[s] := GR_PROG_K
+
 ##############
 ### Indexes
 ##############
 P 		:=  1 * (1 + GR_PRICES) ^ (@year - %baseyear)
 PROG_L 	:=  1 * (1 + GR_PROG_L) ^ (@year - %baseyear)
+
+PROG_L[s] := 1 * (1 + GR_PROG_L[s]) ^ (@year - %baseyear)
+PROG_E[s] := 1 * (1 + GR_PROG_E[s]) ^ (@year - %baseyear)
+PROG_K[s] := 1 * (1 + GR_PROG_K[s]) ^ (@year - %baseyear)
 
 
 ##############

@@ -6,8 +6,9 @@ TC := 1
 
 |V|[s] := P where V in PI PY PY_n PY_e PMAT PE PWAGES
 
-MAT[cm, s] := P
-PE[ce, s] := P
+PCI[c, s] := P
+PMAT[cm, s] := P  # A virer?
+PE[ce, s] := P 		# A virer?
 PMAT|O|[cm] := P
 PE|O|[ce] := P
 PCI|O|[s] := P

@@ -7,17 +7,28 @@ include ..\model\lists
 ### Export of commodity c be used in the corresponding behavor equation
 Xbis[c] := X[c]
 
+### Calibration of parameter from Equations
+PhiY[c, s] := Y[c, s]/YQ[c]
 
+# Alias to be used in behavor equations
+IA[s] := I[s]
+E[s] := sum(CI[ce, s] on ce)
+MAT[s] := sum(CI[cm, s] on cm)
 
-# VERIF_|V| := 0 where V in PY_PYQ Y_YQ PIAxIA_PIxI PIA_PI IA_I GDP_GDPBIS GDP_GDPTER PGDP_PGDPBIS PGDP_PGDPTER ValGDP_ValGDPTER
 
 
 # Expected and nominal variables are initialised to their real value
-#|V|_n[s] := |V|[s] where V in IA L E MAT K Kbis
-#|V|_e[s] := |V|[s] where V in IA L E MAT K Kbis
+|V|_n[s] := |V|[s] where V in IA L E MAT K
+|V|_e[s] := |V|[s] where V in IA L E MAT K
 
-#SUBST_|V|_n[s] := 0 where V in IA L E MAT K Kbis
-#SUBST_|V|[s] := 0 where V in IA L E MAT K Kbis
+
+
+# All variable started by SUBST are calibrated to zero
+SUBST_MGPD[cc, c] := 0
+SUBST_MGPM[cc, c] := 0
+
+SUBST_|V|_n[s] := 0 where V in IA L E MAT K
+SUBST_|V|[s] := 0 where V in IA L E MAT K
 
 #SUBST_|V|_n[c, s] := 0 where V in IA IAD IAM
 #SUBST_|V|[c, s] := 0 where V in IA IAD IAM
@@ -30,3 +41,11 @@ Xbis[c] := X[c]
 #SUBST_|V|[c] := 0 where V in CHD CHM GD GM X XD XM
 #SUBST_|V|_n[trsp, c] := 0 where V in MTD MTM, c in %list_com \ %list_trsp
 #SUBST_|V|[trsp, c] := 0 where V in MTD MTM, c in %list_com \ %list_trsp
+
+
+
+
+
+# VERIF_|V| := 0 where V in PY_PYQ Y_YQ PIAxIA_PIxI PIA_PI IA_I GDP_GDPBIS GDP_GDPTER PGDP_PGDPBIS PGDP_PGDPTER ValGDP_ValGDPTER
+
+

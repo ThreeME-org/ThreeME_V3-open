@@ -21,6 +21,9 @@
 
 @pv I|O|[c] = sum(I|O|[c, s] if I|O|[c, s] <> 0 on s) if I|O|[c] <> 0
 
+### Intermediary raw material consumption c of sector s (value & volume):
+@pv CI[c, s] = CID[c, s] + CIM[c, s] if CI[c, s] <> 0
+
 ### Aggregation of imports and domestic production for commodity c per use
 ### For Q (production of commodities at market price); CH (households'consumption); G (public spendings); I (private investiment); DS (change in inventories)
 
@@ -63,7 +66,6 @@ Mbis[c] + NTAXCM[c] + MGPM[c] = QM[c] if Mbis[c] <> 0
 PMGP[cc, c] * MGP[cc, c] = PMGPD[cc, c] * MGPD[cc, c] + PMGPM[cc, c] * MGPM[cc, c] if MGP[cc, c] <> 0
 
 			  MGP[cc, c] = 				  MGPD[cc, c] + 			   MGPM[cc, c] if MGP[cc, c] <> 0
-
 
 ### Margins recieved by commodity cc (value & volume):
 PMGR[cc] * MGR[cc] = sum(PMGP[cc, c] * MGP[cc, c] if MGP[cc, c] <> 0 on c) if MGR[cc] <> 0
