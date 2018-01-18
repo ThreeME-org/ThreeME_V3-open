@@ -1,139 +1,140 @@
-# BLOCK 2: PRODUCER
-
-###### For producer block
-## Margins paid to commodity cc on commodity c 
-### d(log(MGP[cc, c])) = d(log(YQ[c]+M[c])) + d(SUBST_MGP[cc, c]) if MGP[cc, c] <> 0
-###### Préférable de partir du niveau inférieur: 
-# d(log(MGPD[cc, c])) = d(log(YQ[c])) + d(SUBST_MGPD[cc, c]) if MGPD[cc, c] <> 0
-# d(log(MGPM[cc, c])) = d(log( M[c])) + d(SUBST_MGPM[cc, c]) if MGPM[cc, c] <> 0
-
-
-
-## Margins c domesticly produced (value & volume):
-#d(log(MGRD[c])) = d(log(MGR[c]))  
-## More general: impose stable share, use logit for substutions
-### MGRD[c] = MGR[c] * YQ[c] / (YQ[c]+M[c])
-#### Valeur réelement nécessaire? NON
-
-## Margins c imported (value & volume):
-
-# MGRM[c] = MGR[c] * M[c] / (YQ[c]+M[c])
-## More general: impose stable share, use logit for substututions
-#d(log(MGRM[c])) = d(log(MGR[c]))  
-
-
-
-# equation 2.01
-PYQ[c] * YQ[c] = sum(PY[s] * Y[c, s] if Y[c, s] <> 0 on s) if YQ[c] <> 0
-
-# equation 2.02
-Y[c, s] = PhiY[c, s] * YQ[c] if Y[c, s] <> 0
-Y[s] = sum(Y[c, s] if Y[c, s] <> 0 on c)
-
-# Level I
-
-# equation 2.04
-d(log(K_n[s])) = d(log(Y[s])) + d(SUBST_K[s]) - d(log(PROG_K[s])) + IMP_BUD[s] * @elem(GDP, %baseyear) / @elem(K_n[s], %baseyear) if K_n[s] <> 0
-
-d(SUBST_K_n[s]) = _
-  -ES_KLEM($s, 1) * d(log(CK[s]) - log(CL[s]))   * (L[s]{-1}   * PROG_L[s]{-1} * CL[s]{-1} / (CU[s]{-1} * Y[s]{-1})) _
-  -ES_KLEM($s, 2) * d(log(CK[s]) - log(PE[s]))   * (E[s]{-1}   * PE[s]{-1}                 / (CU[s]{-1} * Y[s]{-1})) _
-  -ES_KLEM($s, 3) * d(log(CK[s]) - log(PMAT[s])) * (MAT[s]{-1} * PMAT[s]{-1}               / (CU[s]{-1} * Y[s]{-1})) _
-  if K_n[s] <> 0
-
-# equation 2.05
-d(log(L_n[s])) = d(log(Y[s])) - d(log(PROG_L[s])) + d(SUBST_L[s]) if L_n[s] <> 0
-
-d(SUBST_L_n[s]) = _
-  -ES_KLEM($s, 1) * d(log(CL[s]) - log(CK[s]))   * (K[s]{-1} * CK[s]{-1}     / (CU[s]{-1} * Y[s]{-1})) _
-  -ES_KLEM($s, 4) * d(log(CL[s]) - log(PE[s]))   * (E[s]{-1} * PE[s]{-1}     / (CU[s]{-1} * Y[s]{-1})) _
-  -ES_KLEM($s, 5) * d(log(CL[s]) - log(PMAT[s])) * (MAT[s]{-1} * PMAT[s]{-1} / (CU[s]{-1} * Y[s]{-1})) _
-  if L_n[s] <> 0
-
-# equation 2.06
-d(log(E_n[s])) = d(log(Y[s])) + d(SUBST_E[s]) - d(log(PROG_E[s])) if E_n[s] <> 0
-
-d(SUBST_E_n[s]) = _
-  -ES_KLEM($s, 2) * d(log(PE[s]) - log(CK[s]))   * (K[s]{-1}   * CK[s]{-1}                 / (CU[s]{-1} * Y[s]{-1})) _
-  -ES_KLEM($s, 4) * d(log(PE[s]) - log(CL[s]))   * (L[s]{-1}   * PROG_L[s]{-1} * CL[s]{-1} / (CU[s]{-1} * Y[s]{-1})) _
-  -ES_KLEM($s, 6) * d(log(PE[s]) - log(PMAT[s])) * (MAT[s]{-1} * PMAT[s]{-1}               / (CU[s]{-1} * Y[s]{-1})) _
-if E_n[s] <> 0
-
-# equation 2.07
-d(log(MAT_n[s])) = d(log(Y[s])) + d(SUBST_MAT[s]) if MAT_n[s] <> 0
-
-d(SUBST_MAT_n[s]) = _
-  -ES_KLEM($s, 3) * d(log(PMAT[s]) - log(CK[s])) * (K[s]{-1} * CK[s]{-1}                 / (CU[s]{-1} * Y[s]{-1})) _
-  -ES_KLEM($s, 5) * d(log(PMAT[s]) - log(CL[s])) * (L[s]{-1} * PROG_L[s]{-1} * CL[s]{-1} / (CU[s]{-1} * Y[s]{-1})) _
-  -ES_KLEM($s, 6) * d(log(PMAT[s]) - log(PE[s])) * (E[s]{-1} * PE[s]{-1}                 / (CU[s]{-1} * Y[s]{-1})) _
-if MAT_n[s] <> 0
-
-# Calcul Input shares
-phi_K[s]   = K[s] * CK[s]             / (CU[s] * Y[s])
-phi_L[s]   = L[s] * PROG_L[s] * CL[s] / (CU[s] * Y[s])
-phi_E[s]   = E[s] * PE[s]             / (CU[s] * Y[s])
-phi_MAT[s] = MAT[s] * PMAT[s]         / (CU[s] * Y[s])
-
-verif_phi_input[s] = 1 - phi_K[s] - phi_L[s] - phi_E[s] - phi_MAT[s]
-
-
-
-# equation 2.09
-d(log(IA[c, s])) = d(log(IA[s])) if IA[c, s] <> 0
-
-
-# equation 2.11
-K[s] = (1 - Tdec[s]) * K[s]{-1} + IA[s] if K[s] <> 0
-
-d(log(IA[s])) = ADJUST(1, 1) * d(log(IA[s]{-1})) + ADJUST(1, 2) * d(log(Y_e[s])) + ADJUST(1, 3) * (log(K_n[s]{-1}) - log(K[s]{-1})) + ADJUST(1, 4) * d(SUBST_K[s]) + IMP_BUD[s] * @elem(GDP, %baseyear) / @elem(IA[s], %baseyear) if K[s] <> 0
-
-d(log(Y_e[s])) = ADJUST(71,2) * d(log(Y_e[s]{-1})) + (1 - ADJUST(71,2)) * d(log(Y[s]))
-
-# Transport margins
-
-# equation 2.12 & 2.13
-d(log(MT|O|[trsp, c])) = d(log(|V|[c])) + d(SUBST_MT|O|[trsp, c]) if MT|O|[trsp, c] <> 0 where (O, V) in (D M, YQ M), c in %list_com \ %list_trsp
-
-# equation 2.14 & 2.15
-d(log(MC|O|[c])) = d(log(|V|[c])) if MC|O|[c] <> 0 where (O, V) in (D M, YQ M), c in %list_com \ %list_com_commarg
-
-# Stock inventories for commodity c
-
-# equations 2.17 & 2.19
-S|O|_n[c] = STEADYSTATE(50,1) * (CI|O|[c] + CH|O|[c] + G|O|[c] + I|O|[c] + X|O|[c]) if S|O|[c] <> 0
-
-# Level II
-# Sectorial notional energy demand by type of energy
-
-# equation 2.20
-d(log(E[ce, s])) = d(log(E[s])) + d(SUBST_E[ce, s]) if E[ce, s] <> 0
-
-d(SUBST_E_n[ce, s]) = sum( -ES_NRJ($s, cols_ce(ce, ce_oth)) * d(log(PE[ce, s]) - log(PE[ce_oth, s])) * _
-                           value(E[ce_oth, s]{-1} / (E[s]{-1}) ) if ce_oth <> ce on ce_oth in %list_com_E) _
-                      if E[ce, s] <> 0
-
-# Self employed and employed
-
-# equation 2.21
-d(log(L_S[s])) = d(log(L[s]))
-L_SE[s] = L[s] - L_S[s] if L_SE[s] <> 0
-
-# equation 2.22
-L_S = sum(L_S[s] if L_S[s] <> 0 on s)
-
-# equation 2.23
-L_SE = sum(L_SE[s] if L_SE[s] <> 0 on s)
-
-# Notional demand for material c of the sector a
-
-# equation 2.24
-d(log(MAT[cm, s])) = d(log(MAT[s])) + d(SUBST_MAT[cm, s]) if MAT[cm, s] <> 0
-
-
-
-
-PROG_K[s] = PROG_K[s]{-1} * (1 + GR_PROG_K[s])
-PROG_L[s] = PROG_L[s]{-1} * (1 + GR_PROG_L[s])
-PROG_E[s] = PROG_E[s]{-1} * (1 + GR_PROG_E[s])
-
-GR_PROG_E[s] =  alpha_PROG_E[s] + alpha_PROG_E_PE*((log(PE[s])- log(PCH)>0)*d(log(PE[s])-log(PCH)))
+## BLOCK 2: PRODUCER
+#
+####### For producer block
+### Margins paid to commodity cc on commodity c 
+#### d(log(MGP[cc, c])) = d(log(YQ[c]+M[c])) + d(SUBST_MGP[cc, c]) if MGP[cc, c] <> 0
+####### Préférable de partir du niveau inférieur: 
+## d(log(MGPD[cc, c])) = d(log(YQ[c])) + d(SUBST_MGPD[cc, c]) if MGPD[cc, c] <> 0
+## d(log(MGPM[cc, c])) = d(log( M[c])) + d(SUBST_MGPM[cc, c]) if MGPM[cc, c] <> 0
+#
+#
+#
+### Margins c domesticly produced (value & volume):
+##d(log(MGRD[c])) = d(log(MGR[c]))  
+### More general: impose stable share, use logit for substutions
+#### MGRD[c] = MGR[c] * YQ[c] / (YQ[c]+M[c])
+##### Valeur réelement nécessaire? NON
+#
+### Margins c imported (value & volume):
+#
+## MGRM[c] = MGR[c] * M[c] / (YQ[c]+M[c])
+### More general: impose stable share, use logit for substututions
+##d(log(MGRM[c])) = d(log(MGR[c]))  
+#
+#
+#
+## equation 2.01
+##PYQ[c] * YQ[c] = sum(PY[s] * Y[c, s] if Y[c, s] <> 0 on s) if YQ[c] <> 0
+#
+## equation 2.02
+##Y[c, s] = PhiY[c, s] * YQ[c] if Y[c, s] <> 0
+##Y[s] = sum(Y[c, s] if Y[c, s] <> 0 on c)
+#
+## Level I
+#
+## equation 2.04
+##d(log(K_n[s])) = d(log(Y[s])) + d(SUBST_K[s]) - d(log(PROG_K[s])) + IMP_BUD[s] * @elem(GDP, %baseyear) / @elem(K_n[s], %baseyear) if K_n[s] <> 0
+#
+##d(SUBST_K_n[s]) = _
+#  -ES_KLEM($s, 1) * d(log(CK[s]) - log(CL[s]))   * (L[s]{-1}   * PROG_L[s]{-1} * CL[s]{-1} / (CU[s]{-1} * Y[s]{-1})) _
+#  -ES_KLEM($s, 2) * d(log(CK[s]) - log(PE[s]))   * (E[s]{-1}   * PE[s]{-1}                 / (CU[s]{-1} * Y[s]{-1})) _
+#  -ES_KLEM($s, 3) * d(log(CK[s]) - log(PMAT[s])) * (MAT[s]{-1} * PMAT[s]{-1}               / (CU[s]{-1} * Y[s]{-1})) _
+#  if K_n[s] <> 0
+#
+## equation 2.05
+#d(log(L_n[s])) = d(log(Y[s])) - d(log(PROG_L[s])) + d(SUBST_L[s]) if L_n[s] <> 0
+#
+#d(SUBST_L_n[s]) = _
+#  -ES_KLEM($s, 1) * d(log(CL[s]) - log(CK[s]))   * (K[s]{-1} * CK[s]{-1}     / (CU[s]{-1} * Y[s]{-1})) _
+#  -ES_KLEM($s, 4) * d(log(CL[s]) - log(PE[s]))   * (E[s]{-1} * PE[s]{-1}     / (CU[s]{-1} * Y[s]{-1})) _
+#  -ES_KLEM($s, 5) * d(log(CL[s]) - log(PMAT[s])) * (MAT[s]{-1} * PMAT[s]{-1} / (CU[s]{-1} * Y[s]{-1})) _
+#  if L_n[s] <> 0
+#
+## equation 2.06
+#d(log(E_n[s])) = d(log(Y[s])) + d(SUBST_E[s]) - d(log(PROG_E[s])) if E_n[s] <> 0
+#
+#d(SUBST_E_n[s]) = _
+#  -ES_KLEM($s, 2) * d(log(PE[s]) - log(CK[s]))   * (K[s]{-1}   * CK[s]{-1}                 / (CU[s]{-1} * Y[s]{-1})) _
+#  -ES_KLEM($s, 4) * d(log(PE[s]) - log(CL[s]))   * (L[s]{-1}   * PROG_L[s]{-1} * CL[s]{-1} / (CU[s]{-1} * Y[s]{-1})) _
+#  -ES_KLEM($s, 6) * d(log(PE[s]) - log(PMAT[s])) * (MAT[s]{-1} * PMAT[s]{-1}               / (CU[s]{-1} * Y[s]{-1})) _
+#if E_n[s] <> 0
+#
+## equation 2.07
+#d(log(MAT_n[s])) = d(log(Y[s])) + d(SUBST_MAT[s]) if MAT_n[s] <> 0
+#
+#d(SUBST_MAT_n[s]) = _
+#  -ES_KLEM($s, 3) * d(log(PMAT[s]) - log(CK[s])) * (K[s]{-1} * CK[s]{-1}                 / (CU[s]{-1} * Y[s]{-1})) _
+#  -ES_KLEM($s, 5) * d(log(PMAT[s]) - log(CL[s])) * (L[s]{-1} * PROG_L[s]{-1} * CL[s]{-1} / (CU[s]{-1} * Y[s]{-1})) _
+#  -ES_KLEM($s, 6) * d(log(PMAT[s]) - log(PE[s])) * (E[s]{-1} * PE[s]{-1}                 / (CU[s]{-1} * Y[s]{-1})) _
+#if MAT_n[s] <> 0
+#
+## Calcul Input shares
+#phi_K[s]   = K[s] * CK[s]             / (CU[s] * Y[s])
+#phi_L[s]   = L[s] * PROG_L[s] * CL[s] / (CU[s] * Y[s])
+#phi_E[s]   = E[s] * PE[s]             / (CU[s] * Y[s])
+#phi_MAT[s] = MAT[s] * PMAT[s]         / (CU[s] * Y[s])
+#
+#verif_phi_input[s] = 1 - phi_K[s] - phi_L[s] - phi_E[s] - phi_MAT[s]
+#
+#
+#
+## equation 2.09
+#d(log(IA[c, s])) = d(log(IA[s])) if IA[c, s] <> 0
+#
+#
+## equation 2.11
+#K[s] = (1 - Tdec[s]) * K[s]{-1} + IA[s] if K[s] <> 0
+#
+#d(log(IA[s])) = ADJUST(1, 1) * d(log(IA[s]{-1})) + ADJUST(1, 2) * d(log(Y_e[s])) + ADJUST(1, 3) * (log(K_n[s]{-1}) - log(K[s]{-1})) + ADJUST(1, 4) * d(SUBST_K[s]) + IMP_BUD[s] * @elem(GDP, %baseyear) / @elem(IA[s], %baseyear) if K[s] <> 0
+#
+#d(log(Y_e[s])) = ADJUST(71,2) * d(log(Y_e[s]{-1})) + (1 - ADJUST(71,2)) * d(log(Y[s]))
+#
+## Transport margins
+#
+## equation 2.12 & 2.13
+#d(log(MT|O|[trsp, c])) = d(log(|V|[c])) + d(SUBST_MT|O|[trsp, c]) if MT|O|[trsp, c] <> 0 where (O, V) in (D M, YQ M), c in %list_com \ %list_trsp
+#
+## equation 2.14 & 2.15
+#d(log(MC|O|[c])) = d(log(|V|[c])) if MC|O|[c] <> 0 where (O, V) in (D M, YQ M), c in %list_com \ %list_com_commarg
+#
+## Stock inventories for commodity c
+#
+## equations 2.17 & 2.19
+#S|O|_n[c] = STEADYSTATE(50,1) * (CI|O|[c] + CH|O|[c] + G|O|[c] + I|O|[c] + X|O|[c]) if S|O|[c] <> 0
+#
+## Level II
+## Sectorial notional energy demand by type of energy
+#
+## equation 2.20
+#d(log(E[ce, s])) = d(log(E[s])) + d(SUBST_E[ce, s]) if E[ce, s] <> 0
+#
+#d(SUBST_E_n[ce, s]) = sum( -ES_NRJ($s, cols_ce(ce, ce_oth)) * d(log(PE[ce, s]) - log(PE[ce_oth, s])) * _
+#                           value(E[ce_oth, s]{-1} / (E[s]{-1}) ) if ce_oth <> ce on ce_oth in %list_com_E) _
+#                      if E[ce, s] <> 0
+#
+## Self employed and employed
+#
+## equation 2.21
+#d(log(L_S[s])) = d(log(L[s]))
+#L_SE[s] = L[s] - L_S[s] if L_SE[s] <> 0
+#
+## equation 2.22
+#L_S = sum(L_S[s] if L_S[s] <> 0 on s)
+#
+## equation 2.23
+#L_SE = sum(L_SE[s] if L_SE[s] <> 0 on s)
+#
+## Notional demand for material c of the sector a
+#
+## equation 2.24
+#d(log(MAT[cm, s])) = d(log(MAT[s])) + d(SUBST_MAT[cm, s]) if MAT[cm, s] <> 0
+#
+#
+#
+#
+#PROG_K[s] = PROG_K[s]{-1} * (1 + GR_PROG_K[s])
+#PROG_L[s] = PROG_L[s]{-1} * (1 + GR_PROG_L[s])
+#PROG_E[s] = PROG_E[s]{-1} * (1 + GR_PROG_E[s])
+#
+#GR_PROG_E[s] =  alpha_PROG_E[s] + alpha_PROG_E_PE*((log(PE[s])- log(PCH)>0)*d(log(PE[s])-log(PCH)))
+#

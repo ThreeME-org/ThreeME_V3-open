@@ -1,9 +1,10 @@
 include ..\model\lists
 
 include ..\model\SU
+include ..\model\Producer
+
 # include ..\model\GHG
 # include ..\model\Consumer
-# include ..\model\Producer
 # include ..\model\Government
 # include ..\model\Price
 # include ..\model\Demography
