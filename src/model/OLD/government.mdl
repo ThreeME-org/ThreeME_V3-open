@@ -1,0 +1,250 @@
+# BLOCK 3: GOVERNMENT
+
+# Taxes on energy
+
+# equation 3.1
+PENERTD[c] * ENERTD[c] = TENERTD[c] * YQ[c] if ENERTD[c] <> 0
+
+# equation 3.2
+ENERTD[c] = @elem(TENERTD[c], %baseyear) * YQ[c] if ENERTD[c] <> 0
+
+# equation 3.3
+PENERTM[c] * ENERTM[c] = TENERTM[c] * M[c] if ENERTM[c] <> 0
+
+# equation 3.4
+ENERTM[c] = @elem(TENERTM[c], %baseyear) * M[c] if ENERTM[c] <> 0
+
+# equation 3.5, 3.6
+@pv ENERT[c] = sum(ENERT|O|[c] on O) if ENERT[c] <> 0
+
+# equation 3.7, 3.8
+@pv ENERT = sum(ENERT[c] if ENERT[c] <> 0 on c)
+
+# VAT taxes on commodity c
+# equations 3.9, 3.11
+PVAT|O|[c] * VAT|O|[c] = TVAT|O|[c] * (PCH|O|[c] * CH|O|[c])/(1 + TVAT|O|[c]) + _
+                         TVAT|O|OTH[c] * (PI|O|[c] * I|O|[c] + PCI|O|[c] * CI|O|[c] + PG|O|[c] * G|O|[c]) / (1 + TVAT|O|OTH[c]) _
+                         if VAT|O|[c] <> 0
+
+# equations 3.10, 3.12
+VAT|O|[c] = @elem(TVAT|O|[c],    %baseyear) *  CH|O|[c]                      / (1 + @elem(TVAT|O|[c],    %baseyear)) + _
+            @elem(TVAT|O|OTH[c], %baseyear) * (I|O|[c] + CI|O|[c] + G|O|[c]) / (1 + @elem(TVAT|O|OTH[c], %baseyear)) _
+            if VAT|O|[c] <> 0
+
+# equations 3.13 & 3.14
+@pv VAT[c] = sum(VAT|O|[c] on O) if VAT[c] <> 0
+
+# equations 3.15 & 3.16
+@pv VAT = sum(VAT[c] if VAT[c] <> 0 on c)
+
+# Other taxes on commodity c
+
+# equations 3.17
+POTHTD[c] * OTHTD[c] = TOTHTD[c] * PYQ[c] * YQ[c] if OTHTD[c] <> 0
+
+# equations 3.18
+OTHTD[c] = @elem(TOTHTD[c], %baseyear) * YQ[c] if OTHTD[c] <> 0
+
+# equation 3.19
+POTHTM[c] * OTHTM[c] = TOTHTM[c] * PM[c] * M[c] if OTHTM[c] <> 0
+
+# equation 3.20
+OTHTM[c] = @elem(TOTHTM[c], %baseyear) * M[c] if OTHTM[c] <> 0
+
+# equations 3.21 & 3.22
+@pv OTHT[c] = sum(OTHT|O|[c] on O) if OTHT[c] <> 0
+
+# equations 3.23 & 3.24
+@pv OTHT = sum(OTHT[c] if OTHT[c] <> 0 on c)
+
+# Total taxes on commodity c
+
+# equation 3.25
+TAX[c] = VAT[c] + ENERT[c] + OTHT[c] if TAX[c] <> 0
+
+# equation 3.26
+PTAX[c] * TAX[c] = PVAT[c] * VAT[c] + PENERT[c] * ENERT[c] + POTHT[c] * OTHT[c] + TCO_VAL_SOU[c] + TCO_VAL_HH_SOU[c] if TAX[c] <> 0
+
+# equations 3.27 & 3.2
+@pv TAX = sum(TAX[c] if TAX[c] <> 0 on c)
+
+# Taxes on profits (by activity)
+
+# equation 3.29
+PIS[s] * IS[s] = TIS * PRF[s]{-1} * RF[s]{-1} * (RF[s]{-1}>0) + 0.00000001 * (RF[s]{-1} =< 0) if IS[s] <> 0
+
+# equation 3.30
+IS[s] = @elem(TIS * PRF[s]{-1}, %baseyear) * RF[s]{-1} * (RF[s]{-1}>0) + 0.00000001 * (RF[s]{-1} =< 0) if IS[s] <> 0
+
+# equations 3.31 & 3.32
+@pv IS = sum(IS[s] if IS[s] <> 0 on s)
+
+# equations 3.33
+IR_VAL[h] = TIR[h] * DISPINC_AI_VAL[h]
+d(TIR[h]) = -d(PHI_TCO[h] * TCO_VAL_HH / DISPINC_AI_VAL[h]) 
+
+#verification
+d(TIR_bis[h]) = 0
+IR_VAL_bis[h]= TIR_bis[h] * DISPINC_AI_VAL[h]
+
+# equation 3.34
+IR_VAL = sum(IR_VAL[h] if IR_VAL[h] <> 0 on h)
+
+#verification
+IR_VAL_bis = sum(IR_VAL_bis[h] if IR_VAL_bis[h] <> 0 on h)
+Verif_TCO_VAL_HH =  TCO_VAL_HH - (IR_VAL_BIS - IR_VAL)
+
+# Taxes on capital
+# equation 3.35
+AIC_VAL[h] = TAIC[h] * DISPINC_AI_VAL[h]
+
+# equation 3.36
+AIC_VAL = sum(AIC_VAL[h] if AIC_VAL[h] <> 0 on h)
+
+# Subventions on commodity c
+
+# equations 3.37
+PSUBD[c] * SUBD[c] = TSUBD[c] * YQ[c] if SUBD[c] <> 0
+PSUBM[c] * SUBM[c] = TSUBM[c] * M[c] if SUBM[c] <> 0
+
+# equation 3.38
+SUBD[c] = @elem(TSUBD[c], %baseyear) * YQ[c] if SUBD[c] <> 0
+SUBM[c] = @elem(TSUBDM[c], %baseyear) * M[c] if SUBM[c] <> 0
+@pv SUB[c] = SUBD[c] + SUBM[c] if SUB[c] <> 0
+
+# equations 3.39 & 3.40
+@pv SUBD = sum(SUBD[c] if SUBD[c] <> 0 on c)
+@pv SUBM = sum(SUBM[c] if SUBM[c] <> 0 on c) if SUBM <> 0
+@pv SUB = SUBD + SUBM
+
+# Taxes and subventions on activity
+
+# equations 3.41
+IY[s]  = @elem(TIYN[s], %baseyear) * Y[s] if IY[s] <> 0
+
+# equation 3.42
+PIY[s] * IY[s]  = TIYN[s] * PY[s] * Y[s] if IY[s] <> 0
+
+# equations 3.43 & 3.44
+@pv IY  = sum(IY[s] if IY[s] <> 0 on s)
+
+# equation 3.45
+SY[s]  = @elem(TSYN[s], %baseyear) * Y[s] if SY[s] <> 0
+
+# equation 3.46
+PSY[s] * SY[s]  = TSYN[s] * PY[s] * Y[s] if SY[s] <> 0
+
+# equations 3.47 & 3.48
+@pv SY  = sum(SY[s] if SY[s] <> 0 where s in %list_sec)
+
+# Social Security accounting
+
+# For ETS sectors
+
+TCSE[s] = @elem(TCSE[s], %baseyear) - Phi_Tco_ETS * Rec_TCO_Val_ETS / WAGES_ETS + Shock_TCSE where s in %list_ETS
+TCSE_bis[s] = @elem(TCSE[s], %baseyear) where s in %list_ETS
+
+# For non-ETS sectors
+TCSE[s] = @elem(TCSE[s], %baseyear) - Phi_Tco_NETS * Rec_TCO_Val_NETS / WAGES_NETS + Shock_TCSE where s in %list_NETS
+TCSE_bis[s] = @elem(TCSE[s], %baseyear) where s in %list_NETS
+
+# equations 3.49 & 3.50
+CSE[s] * PCSE[s] = TCSE[s] * L_S[s] * W_S[s]
+PCSE[s] = PCH[ccm]
+CSE_bis[s] * PCSE_bis[s] = TCSE_bis[s] * L_S[s] * W_S[s]
+
+# equations 3.51 & 3.52
+@pv CSE = sum(CSE[s] if CSE[s] <> 0 on s)
+CSE_bis * PCSE_bis =  sum(CSE_bis[s]*PCSE_bis[s] if CSE_bis[s] <> 0 on s)
+TCSE = PCSE*CSE/(L_S*W_S)
+
+#verification
+verif_TCO_VAL_SEC = TCO_VAL_SEC - (CSE_bis * PCSE_bis - CSE * PCSE)
+
+# equation 3.53
+CSE_ROW*PCSE_ROW = TCSE_ROW*SB_ROW
+
+# equation 3.54
+PCSE_ROW = PCH[ccm]
+
+# equation 3.55
+PCSE_TOT*CSE_TOT = PCSE*CSE + PCSE_ROW*CSE_ROW
+
+# equation 3.56
+CSE_TOT = CSE + CSE_ROW
+
+# equations 3.57, 3.58, 3.59 & 3.60
+CSS[s] * PCSS[s] = TCSS * L_S[s] * W_S[s]
+PCSS[s] = PCH[ccm]
+CSS_SE[s] * PCSS_SE[s] = TCSS_SE * L_SE[s] * W_SE[s]
+PCSS_SE[s] = PCH[ccm]
+
+# equations 3.61 & 3.62
+@pv CSS  = sum(CSS[s] if CSS[s] <> 0 on s)
+
+# equations 3.63 & 3.64
+@pv CSS_SE = sum(CSS_SE[s] if CSS_SE[s] <> 0 on s)
+
+# equation 3.65
+PCSS_TOT*CSS_TOT = PCSS_SE*CSS_SE + PCSS * (CSS + CSS_ROW)
+
+# equation 3.66
+CSS_TOT = CSS + CSS_SE + CSS_ROW
+
+# Total receipts
+DIV_GOV_VAL_n = alpha_GOV_FW*PRF_NET*RF_NET
+
+
+# Public spending
+
+# Social spending
+# Une fraction des prestations sociales (RSA; aide médicale généralisée etc... diminue avec le chômage et la pauvreté)
+
+# equation 3.69
+PRESOC_DOM_U_VAL = STEADYSTATE(54,1) * W_S * Un_TOT
+
+# equation 3.70
+d(log(PRESOC_DOM_Oth_VAL)) = STEADYSTATE(53,1) * d(log(PROG_L)) + d(log(P)) + d(log(POP_tot))
+
+# equation 3.71
+PRESOC_DOM_VAL = PRESOC_DOM_Oth_VAL + PRESOC_DOM_U_VAL
+
+# equation 3.72
+PRESOC_VAL = PRESOC_ROW_VAL + PRESOC_DOM_VAL
+
+# Government consumption
+
+# equations 3.75 & 3.76
+PEXPG[c] = PG[c]
+d(log(EXPG[c])) = d(log(EXPG)) if EXPG[c] <> 0
+
+# equation 3.77
+d(log(GD[c])) = d(log(EXPG[c])) + d(SUBST_GD[c]) if GD[c] <> 0
+d(SUBST_GD_n[c]) = - ES_GOV(1, $c) * d(log(PGD[c]) - log(PGM[c])) * (PGM[c]{-1} * GM[c]{-1}/(PG[c]{-1} * G[c]{-1})) if GD[c] <> 0
+
+#equation 3.78
+GM[c] = (EXPG[c] - GD[c] > 0 ) * (EXPG[c]-GD[c]) + (EXPG[c]-GD[c] =< 0)*(0.00001) if GM[c] <> 0
+d(SUBST_GM_n[c])= - ES_GOV(1, $c) * d(log(PGM[c]) - log(PGD[c])) * (PGD[c]{-1} * GD[c]{-1}/(PG[c]{-1} * G[c]{-1})) if GM[c] <> 0
+
+
+
+# Deficit and Public Debt
+
+# Deficit
+# equation 3.80
+BF_G_VAL = DEP_VAL - REC_VAL
+
+# equation 3.81
+DP_G_VAL = BF_G_VAL / (PGDP*GDP)
+
+SP_G_VAL = BF_G_VAL - R_G{-1}*DEBT_G_VAL{-1}
+
+DP_SP_G_VAL = SP_G_VAL / (PGDP*GDP)
+
+# Public Debt
+# equation 3.82
+DEBT_G_VAL = DEBT_G_VAL{-1} + BF_G_VAL
+
+d(log(EXPG)) = ADJUST(69,1)*(d(log(EXPG_trend)) - STEADYSTATE(62,1)*(DP_G_VAL - DP_G_VAL_n)*PGDP{-1}*GDP{-1} / (PG{-1}*EXPG{-1})) + (1-ADJUST(69,1))*d(log(EXPG{-1}))
+
+d(FISC) = STEADYSTATE(58,1)*(DP_G_VAL-@elem(DP_G_VAL,%baseyear)) - STEADYSTATE(59,1)*(UNR_TOT-(@elem(UNR_TOT,%baseyear)+DNAIRU))
