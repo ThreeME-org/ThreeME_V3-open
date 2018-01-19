@@ -7,9 +7,6 @@ include ..\model\lists
 ### Export of commodity c be used in the corresponding behavor equation
 Xbis[c] := X[c]
 
-YQSbis[c] := YQS[c]
-MSbis[c] := MS[c]
-
 ### Calibration of parameter from Equations
 PhiY[c, s] := Y[c, s]/YQ[c]
 W[s] := WAGES[s] * PWAGES[s] / L[s] 
@@ -17,18 +14,6 @@ W[s] := WAGES[s] * PWAGES[s] / L[s]
 
 RNTAXCD[c] := NTAXCD[c]/YQ[c]
 RNTAXCM[c] := NTAXCM[c]/ M[c]
-
-### Calibrated from the volume version of an equation in value. Volume not in the model because of cirlar reference. 
-### We can not use the Eq of the model:  YQ[c]*PYQ[c] + NTAXCD_VAL[c] + PMGPD[c]*MGPD[c] := PQD[c]*QD[c]
-### because circular reference with NTAXCD_VAL[c] that depends on YQ[c].
-### 
-YQ[c] := sum(Y[c, s] on s)
-
-
-### Idem for M[c]. M[c]*PM[c] + NTAXCM_VAL[c] + PMGPM[c]*MGPM[c] := PQM[c]*QM[c]
-### because circular reference with NTAXCM_VAL[c] that depends on M[c]. Use round 0 instead:
-
-M[c] := SUT($c,7) * (1 + GR_REAL) ^ (@year - %baseyear)
 
 
 # Alias to be used in behavor equations
@@ -68,5 +53,24 @@ SUBST_|V|[s] := 0 where V in IA L E MAT K
 
 
 # VERIF_|V| := 0 where V in PY_PYQ Y_YQ PIAxIA_PIxI PIA_PI IA_I GDP_GDPBIS GDP_GDPTER PGDP_PGDPBIS PGDP_PGDPTER ValGDP_ValGDPTER
+
+
+
+## Other Calibrations
+### Calibrated from the volume version of an equation in value. Volume not in the model because of cirlar reference. 
+### We can not use the Eq of the model:  YQ[c]*PYQ[c] + NTAXCD_VAL[c] + PMGPD[c]*MGPD[c] := PQD[c]*QD[c]
+### because circular reference with NTAXCD_VAL[c] that depends on YQ[c].
+### 
+YQ[c] := sum(Y[c, s] on s)
+
+
+### Idem for M[c]. M[c]*PM[c] + NTAXCM_VAL[c] + PMGPM[c]*MGPM[c] := PQM[c]*QM[c]
+### because circular reference with NTAXCM_VAL[c] that depends on M[c]. Use round 0 instead:
+
+M[c] := SUT($c,7) * (1 + GR_REAL) ^ (@year - %baseyear)
+
+# As explained, these can not be the eq of the model (otherwise incorrect price)
+YQS[c] := YQ[c] + NTAXCD[c] + MGPD[c]
+MS[c] := M[c] + NTAXCM[c] + MGPM[c] 
 
 

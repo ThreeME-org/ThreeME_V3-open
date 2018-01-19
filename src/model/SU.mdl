@@ -123,7 +123,7 @@ PNTAXC * NTAXC = sum(NTAXC_VAL[c] on c)
 
 ### Investment of sector s (value & volume):
 
-I[s] = ID[s] + IM[s] if I[s] <> 0
+@pv I[s] = ID[s] + IM[s] if I[s] <> 0
 
 ### Investment from sector agregation (value & volume) :
 

@@ -74,62 +74,64 @@ PMAT[s]*MAT[s] = sum(PCI[cm, s]*CI[cm, s] if CI[cm, s] <> 0 on cm) if MAT[s] <> 
 PE[s]*E[s] = sum(PCI[ce, s]*CI[ce, s] if CI[ce, s] <> 0 on ce) if E[s] <> 0
 
 
-### Average selling price for domestic commodity c
+### Average selling price for domestic commodity c (Value & volume)
 
-## Y QSc is the volume of the production expressed at market price before VAT. It should not be seen as a composite of several "goods": production at base price and margins. Indeed, its does not increase when the volume of the commercial and transport margins increase. The price does instead. Its speciation is hich is equivalent to 5.18, that is to assuming that Y QSc is always proportionnal to Y Qc. Writing it following the specification composite of several goods, would lead to inacurate results since a decrease in the quantity of transport used per unit of production would not lead to a decrease of the selling price. Notice that the similarity with the specification of the volume of a tax or a subvention. As specified earlier, we assume that an increase in the tax rate does not increase the volume of the tax but increases its price. The volume of the tax increases only when the volume of the taxe bases (e.g. consumption, production) increases.
+## YQS[c] is the volume of the production expressed at market price. It should not be seen as a composite of several "goods": production at base price, margins and taxes. Its does not increase when the volume of the margins and taxes increase. The price does instead. This is equivalent to assuming that YQS[c] is always proportionnal to and YQ[c] since the volume of margins and taxes depends on the latter. Writing it following the specification composite of several goods, YQS[c] = YQ[c] + MGPD[c] + NTAXCD[c], would lead to inacurate results since a decrease in the quantity of margins used per unit of production would not lead to a decrease of the selling price. 
 
-PYQS[c]*YQS[c] = PYQ[c]*YQ[c] + NTAXCD_VAL[c] + PMGPD[c]*MGPD[c]
+PYQS[c]*YQS[c] = PYQ[c]*YQ[c] + PMGPD[c]*MGPD[c] + NTAXCD_VAL[c]  if YQS[c] <> 0 
 
-
-		YQS[c] = YQ[c] + NTAXCD[c] + MGPD[c]
-
-# Should be Equivalent to
-
-		d(log(YQSbis[c])) = d(log(YQ[c]))
-		
-
-
+  d(log(YQS[c])) = d(log(YQ[c]))	 if YQS[c] <> 0 
 
 ### Average selling price for imported commodity c
+PMS[c]*MS[c] = PM[c]*M[c] + NTAXCM_VAL[c] + PMGPM[c]*MGPM[c]  if MS[c] <> 0 
 
-PMS[c]*MS[c] = PM[c]*M[c] + NTAXCM_VAL[c] + PMGPM[c]*MGPM[c] 
+		d(log(MS[c])) = d(log(M[c]))  if MS[c] <> 0 
+
+### Price of domesticly produced margins recieved by commodity c 
+PMGRD[c] = PYQS[c] if MGRD[c] <> 0 
+
+### Price of imported margins recieved by commodity c
+PMGRM[c] = PMS[c]  if MGRM[c] <> 0 
+
+#####
+### A definir !!!! + Corriger erreur ci-dessous
+# PMGPM[c] 
+# PMGPD[c]
+
+### Price of the margins paid to commodity cc on the domestic commodity c 
+### ERREUR!!!! Refaire calmement. fonction de PYQS[c] et PM[c] 
+PMGPD[cc, c] = PYQS[c] if MGPD[cc, c] <> 0
+
+### Margins paid to commodity cc on the imported commodity c 
+### ERREUR!!!! Refaire calmement. fonction de PYQS[c] et PM[c] 
+PMGPM[cc, c] = PMS[c]  if MGPM[cc, c] <> 0 
+
+### Price of intermediary raw material consumption domestically produced c of sector s
+PCID[c, s] = PYQS[c] if CID[c, s] <> 0 
+
+### Price of the imported intermediary raw material consumption c of sector s
+PCIM[c, s] = PMS[c]  if CIM[c, s] <> 0 
+
+PCHD[c] = PYQS[c] if CHD[c] <> 0 
+PCHM[c] = PMS[c]  if CHM[c] <> 0 
 
 
-       MS[c] = M[c] + NTAXCM[c] + MGPM[c] 
+PGD[c] = PYQS[c] if GD[c] <> 0 
+PGM[c] = PMS[c]  if GM[c] <> 0 
 
 
-# Should be Equivalent to
+PID[c, s] = PYQS[c] if ID[c, s] <> 0 
+PIM[c, s] = PMS[c]  if IM[c, s] <> 0 
 
-		d(log(MSbis[c])) = d(log(M[c]))
-
-
-
-
+PXD[c] = PYQS[c] if XD[c] <> 0 
+PXM[c] = PMS[c]  if XM[c] <> 0 
 
 
+PDSD[c] = PYQS[c] if DSD[c] <> 0 
+PDSM[c] = PMS[c]  if DSM[c] <> 0 
 
 
-#
-## equation 5.22 & 5.24
-#PMAT|O|[cm] = P|V|S[cm] * (1 + Tvat|O|oth[cm]) / (1 + @elem(Tvat|O|oth[cm], %baseyear)) if CI|O|[cm] <> 0 where (O, V) in (D M, YQ M)
-#
-## equation 5.23 & 5.25
-#PE|O|[ce] = P|V|S[ce] * (1 + Tvat|O|oth[ce]) / (1 + @elem(Tvat|O|oth[ce], %baseyear)) if CI|O|[ce] <> 0 where (O, V) in (D M, YQ M)
-#
-## equation 5.26 & 5.27
-#PCH|O|[c] = P|V|S[c]*(1 + Tvat|O|[c]) / (1 + @elem(Tvat|O|[c], %baseyear)) if CH|O|[c] <> 0 where c in %list_com \ %list_com_E_CO2, (O, V) in (D M, YQ M)
-#
-#PCH|O|[ce2] = P|V|S[ce2]*(1 + Tvat|O|[ce2]) / (1 + @elem(Tvat|O|[ce2], %baseyear)) + Ttco[ce2]*EMS_HH[ce2]/EXP[ce2] if CH|O|[ce2] <> 0 where (O, V) in (D M, YQ M)
-#
-## equation 5.28 & 5.29
-#PG|O|[c] = P|V|S[c]*((1 + Tvat|O|oth[c]) / (1 + @elem(Tvat|O|oth[c], %baseyear))) if G|O|[c] <> 0 where (O, V) in (D M, YQ M)
-#
-## equation 5.30 & 5.31
-#PIA|O|[c] = P|V|S[c]*((1 + Tvat|O|oth[c]) / (1 + @elem(Tvat|O|oth[c], %baseyear))) if I|O|[c] <> 0 where (O, V) in (D M, YQ M)
-#
-## equation 5.32, 5.33, 5.34 & 5.35
-#P|VV||O|[c] = P|V|S[c] if |VV||O|[c] <> 0 where VV in X DS, (O, V) in (D M, YQ M)
-#
+
 ## equation 5.36
 #PMTD[trsp, c] = YQ[trsp] / (YQ[trsp] + M[trsp]) * PYQS[trsp] + M[trsp] / (YQ[trsp]+M[trsp])*PMS[trsp] if MTD[trsp, c] <> 0 where c in %list_com \ %list_trsp_services
 #
@@ -142,8 +144,8 @@ PMS[c]*MS[c] = PM[c]*M[c] + NTAXCM_VAL[c] + PMGPM[c]*MGPM[c]
 ## equation 5.39
 #PMCM[c] = PMCD[c] if MCM[c] <> 0 where c in %list_com \ %list_trsp_services
 #
-## equation 5.40
-#PM[c] = TC*PWD[c] if M[c] <> 0
+## Price of imported commodity c
+PM[c] = TC*PWD[c] if M[c] <> 0
 #
 ## equation 5.41
 #d(log(W_n[s])) = RHO($s,1) + RHO($s,2)*d(log(P_e)) + RHO($s,3)*d(log(PROG_L[s])) - RHO($s,4)*(sum(Y[c, s]{-1}/Y[s]{-1}*M[c]{-1}/(YQ[c]{-1}+M[c]{-1})*d(log(PM[c]/PY[s])) if Y[c, s] <> 0 on c)) - RHO($s,5)*UnR_TOT - RHO($s,6)*d(UnR_TOT) + RHO($s,7)*d(log(L_S[s]) - log(L))+DNAIRU*RHO($s,5) if W_S_n[s] <> 0
