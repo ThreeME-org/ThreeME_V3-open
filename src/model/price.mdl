@@ -87,24 +87,20 @@ PMS[c]*MS[c] = PM[c]*M[c] + NTAXCM_VAL[c] + PMGPM[c]*MGPM[c]  if MS[c] <> 0
 
 		d(log(MS[c])) = d(log(M[c]))  if MS[c] <> 0 
 
+
+### Price of the margins paid to commodity cc on the domestic commodity c 
+### We assume that the margins paid on domestic and imported commodities can be produced by domestic and foreign (using the import share of the margin recieved). The price of the margins paid to commodity cc is assumed commun to all commodity c.     
+PMGPD[cc, c] * MGR[cc] = MGRD[cc] * PMGRD[cc] + MGRM[cc] * PMGRM[cc]   if MGPD[cc, c] <> 0
+
+### Price of the margins paid to commodity cc on the imported commodity c
+### This price is the same as the one paid on domestic commodity because of the assumption given in the previous equation.  
+PMGPM[cc, c] = PMGPD[cc, c] if MGPM[cc, c] <> 0 
+
 ### Price of domesticly produced margins recieved by commodity c 
 PMGRD[c] = PYQS[c] if MGRD[c] <> 0 
 
 ### Price of imported margins recieved by commodity c
 PMGRM[c] = PMS[c]  if MGRM[c] <> 0 
-
-#####
-### A definir !!!! + Corriger erreur ci-dessous
-# PMGPM[c] 
-# PMGPD[c]
-
-### Price of the margins paid to commodity cc on the domestic commodity c 
-### ERREUR!!!! Refaire calmement. fonction de PYQS[c] et PM[c] 
-PMGPD[cc, c] = PYQS[c] if MGPD[cc, c] <> 0
-
-### Margins paid to commodity cc on the imported commodity c 
-### ERREUR!!!! Refaire calmement. fonction de PYQS[c] et PM[c] 
-PMGPM[cc, c] = PMS[c]  if MGPM[cc, c] <> 0 
 
 ### Price of intermediary raw material consumption domestically produced c of sector s
 PCID[c, s] = PYQS[c] if CID[c, s] <> 0 
