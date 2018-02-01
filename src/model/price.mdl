@@ -127,19 +127,6 @@ PDSD[c] = PYQS[c] if DSD[c] <> 0
 PDSM[c] = PMS[c]  if DSM[c] <> 0 
 
 
-
-## equation 5.36
-#PMTD[trsp, c] = YQ[trsp] / (YQ[trsp] + M[trsp]) * PYQS[trsp] + M[trsp] / (YQ[trsp]+M[trsp])*PMS[trsp] if MTD[trsp, c] <> 0 where c in %list_com \ %list_trsp_services
-#
-## equation 5.37
-#PMTM[trsp, c] = PMTD[trsp, c] if MTM[trsp, c] <> 0 where c in %list_com \ %list_trsp_services
-#
-## equation 5.38
-#PMCD[c] = YQ[ccm]/(YQ[ccm] + M[ccm])*PYQS[ccm] + M[ccm]/(YQ[ccm] + M[ccm])*PMS[ccm] if MCD[c] <> 0 where c in %list_com \ %list_trsp_services
-#
-## equation 5.39
-#PMCM[c] = PMCD[c] if MCM[c] <> 0 where c in %list_com \ %list_trsp_services
-#
 ## Price of imported commodity c
 PM[c] = TC*PWD[c] if M[c] <> 0
 #
