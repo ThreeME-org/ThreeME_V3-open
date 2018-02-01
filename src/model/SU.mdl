@@ -49,18 +49,18 @@
 ###  Domestic production of commodity c at basic price:
 ###  The price can not be defined as an index because it is already defined as a function of the production price in the price block.
 
-YQ[c]*PYQ[c] + NTAXCD_VAL[c] + PMGPD[c]*MGPD[c] = PQD[c]*QD[c] if YQ[c] <> 0
+YQ[c]*PYQ[c] + NTAXPD_VAL[c] + PMGPD[c]*MGPD[c] = PQD[c]*QD[c] if YQ[c] <> 0
 
 ### Same variable calculated from volumes. For verification.
-YQbis[c] + NTAXCD[c] + MGPD[c] = QD[c] if YQbis[c] <> 0
+YQbis[c] + NTAXPD[c] + MGPD[c] = QD[c] if YQbis[c] <> 0
 
 ###  Imported production of commodity c at basic price:
 ###  The price can not be defined as an index because it is already defined as a function of the production price in the price block.
 
-M[c]*PM[c] + NTAXCM_VAL[c] + PMGPM[c]*MGPM[c] = PQM[c]*QM[c] if M[c] <> 0
+M[c]*PM[c] + NTAXPM_VAL[c] + PMGPM[c]*MGPM[c] = PQM[c]*QM[c] if M[c] <> 0
 
 ### Same variable calculated from volumes. For verification.
-Mbis[c] + NTAXCM[c] + MGPM[c] = QM[c] if Mbis[c] <> 0
+Mbis[c] + NTAXPM[c] + MGPM[c] = QM[c] if Mbis[c] <> 0
 
 ### Margins paid to commodity cc on commodity c (value & volume):
 PMGP[cc, c] * MGP[cc, c] = PMGPD[cc, c] * MGPD[cc, c] + PMGPM[cc, c] * MGPM[cc, c] if MGP[cc, c] <> 0
@@ -94,14 +94,14 @@ PMGPM * MGPM = sum(PMGPM[c] * MGPM[c] if MGPM[c] <> 0 on c) if MGPM <> 0
 
 ### Net taxes on commodity c:
 ### Same remark than for VA
-NTAXC_VAL[c] = NTAXCD_VAL[c] + NTAXCM_VAL[c]
+NTAXP_VAL[c] = NTAXPD_VAL[c] + NTAXPM_VAL[c]
 
-	NTAXC[c] = NTAXCD[c] + NTAXCM[c]
+	NTAXP[c] = NTAXPD[c] + NTAXPM[c]
 
 ### Aggregate net taxes on commodity:
-PNTAXC * NTAXC = sum(NTAXC_VAL[c] on c)
+PNTAXP * NTAXP = sum(NTAXP_VAL[c] on c)
 
-	     NTAXC = sum(NTAXC[c] on c)
+	     NTAXP = sum(NTAXP[c] on c)
 
 
 ### Domestic and imported intermediary raw material consumption of sector s (value & volume):
@@ -158,18 +158,18 @@ PVA * VA = sum(VA_VAL[s] on s)
 ### Aggregate net taxes on production (value & volume)
 ### Same remark than for VA
 
-NTAXP_VAL = sum(NTAXP_VAL[s] on s)
+NTAXI_VAL = sum(NTAXI_VAL[s] on s)
 
-	NTAXP = sum(NTAXP[s] on s)
+	NTAXI = sum(NTAXI[s] on s)
 
 ### Gross operating surplus of sector s (value & volume)
 ### Same remark than for VA
 
-GOS_VAL[s] = VA_VAL[s] - PWAGES[s] * WAGES[s] - NTAXP_VAL[s]
+GOS_VAL[s] = VA_VAL[s] - PWAGES[s] * WAGES[s] - NTAXI_VAL[s]
 
-	GOS[s] = VA[s] - WAGES[s] - NTAXP[s]
+	GOS[s] = VA[s] - WAGES[s] - NTAXI[s]
 
-### The exact definition of the GOS generally exclude tax on profit. We do not do it here for simplicity and assume that NTAXP[s] includes all net taxes on capital (i.e. tax on production and profits). This should be taken into account if one wants to use the GOS as a basis for the profit taxes.
+### The exact definition of the GOS generally exclude tax on profit. We do not do it here for simplicity and assume that NTAXI[s] includes all net taxes on capital (i.e. tax on production and profits). This should be taken into account if one wants to use the GOS as a basis for the profit taxes.
 
 # Aggregate gross operating surplus (value & volume)
 
@@ -209,9 +209,9 @@ PGDP*GDP = PCH*CH + PG*G + PI*I + PX*X + PDS*DS - PM*M
 
 ################################
 # GDP: VALUE ADDED DEFINITION
-PGDPter * GDPter = PVA * VA + PNTAXC * NTAXC
+PGDPter * GDPter = PVA * VA + PNTAXP * NTAXP
 
-GDPter = VA + NTAXC
+GDPter = VA + NTAXP
 
 
 

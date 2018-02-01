@@ -26,15 +26,15 @@ MGRbis[c] := MGRD[c] + MGRM[c]
 
 MGP|O|[c] := sum(MGP|O|[cc, c] on cc)
 
-# YQ[c] can not be calibrated from equation because circular reference with NTAXCD_VAL[c] that depends on YQ[c]. Use instead YQ[c] := sum(Y[c, s] on s)
-# YQ[c]*PYQ[c] + NTAXCD_VAL[c] + PMGPD[c]*MGPD[c] := PQD[c]*QD[c]
+# YQ[c] can not be calibrated from equation because circular reference with NTAXPD_VAL[c] that depends on YQ[c]. Use instead YQ[c] := sum(Y[c, s] on s)
+# YQ[c]*PYQ[c] + NTAXPD_VAL[c] + PMGPD[c]*MGPD[c] := PQD[c]*QD[c]
 
-YQbis[c] + NTAXCD[c] + MGPD[c] := QD[c]
+YQbis[c] + NTAXPD[c] + MGPD[c] := QD[c]
 
-# M[c] can not be calibrated from equation because circular reference with NTAXCM_VAL[c] that depends on M[c]. Use round 0 instead.
-# M[c]*PM[c] + NTAXCM_VAL[c] + PMGPM[c]*MGPM[c] := PQM[c]*QM[c]
+# M[c] can not be calibrated from equation because circular reference with NTAXPM_VAL[c] that depends on M[c]. Use round 0 instead.
+# M[c]*PM[c] + NTAXPM_VAL[c] + PMGPM[c]*MGPM[c] := PQM[c]*QM[c]
 
-Mbis[c] + NTAXCM[c] + MGPM[c] := QM[c]
+Mbis[c] + NTAXPM[c] + MGPM[c] := QM[c]
 
 MGPD := sum(MGPD[c] on c) 
 
@@ -48,11 +48,11 @@ YQ := sum(YQ[c] on c)
 
 M := sum(M[c] on c)
 
-NTAXC_VAL[c] := NTAXCD_VAL[c] + NTAXCM_VAL[c]
+NTAXP_VAL[c] := NTAXPD_VAL[c] + NTAXPM_VAL[c]
 
-NTAXC[c] := NTAXCD[c] + NTAXCM[c]
+NTAXP[c] := NTAXPD[c] + NTAXPM[c]
 
-NTAXC := sum(NTAXC[c] on c)
+NTAXP := sum(NTAXP[c] on c)
 
 CI|O|[s] := sum(CI|O|[c, s] on c)
 
@@ -78,13 +78,13 @@ VA := sum(VA[s] on s)
 
 WAGES := sum(WAGES[s] on s)
 
-NTAXP_VAL := sum(NTAXP_VAL[s] on s)
+NTAXI_VAL := sum(NTAXI_VAL[s] on s)
 
-NTAXP := sum(NTAXP[s] on s)
+NTAXI := sum(NTAXI[s] on s)
 
-GOS_VAL[s] := VA_VAL[s] - PWAGES[s] * WAGES[s] - NTAXP_VAL[s]
+GOS_VAL[s] := VA_VAL[s] - PWAGES[s] * WAGES[s] - NTAXI_VAL[s]
 
-GOS[s] := VA[s] - WAGES[s] - NTAXP[s]
+GOS[s] := VA[s] - WAGES[s] - NTAXI[s]
 
 GOS := sum(GOS[s] on s)
 
@@ -102,4 +102,4 @@ GDP[c] := CH[c] + G[c] + I[c] + X[c] + DS[c] - M[c]
 
 GDPbis := sum(GDP[c] on c)
 
-GDPter := VA + NTAXC
+GDPter := VA + NTAXP

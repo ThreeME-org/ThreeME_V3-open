@@ -2,7 +2,7 @@ include ..\model\lists
 
 TC := 1
 
-|V| := P where V in PQD PQM PCID PCIM PCHD PCHM PGD PGM PID PIM PXD PXM PDSD PDSM PQ PCI PCIbis PCH PG  PI PIbis PX PDS PGDP PM PGDP PGDPbis PGDPter PYQ PY PY_n PY_e PYQS PMS PVA PNTAX PSUB PEXPH PNEXP PEXPG PI P_e PE PMAT PK PMATM PMATD PMGRD PMGRM PMGR PMGPD PMGPM PNTAXC PGOS PNOS PWAGES
+|V| := P where V in PQD PQM PCID PCIM PCHD PCHM PGD PGM PID PIM PXD PXM PDSD PDSM PQ PCI PCIbis PCH PG  PI PIbis PX PDS PGDP PM PGDP PGDPbis PGDPter PYQ PY PY_n PY_e PYQS PMS PVA PNTAX PSUB PEXPH PNEXP PEXPG PI P_e PE PMAT PK PMATM PMATD PMGRD PMGRM PMGR PMGPD PMGPM PNTAXP PGOS PNOS PWAGES
 
 |V|[s] := P where V in PI PY PY_n PY_e PMAT PE PWAGES
 
@@ -38,9 +38,9 @@ CL[s] :=  W[s] / PROG_L[s]
 
 CK[s] := PK[s] * (Tdec[s] + r[s])
 
-CU[s]*Y[s] := CK[s]*K[s] + CL[s]*L[s]*PROG_L[s] + PE[s]*E[s] + PMAT[s]*MAT[s] + NTAXP_VAL[s]
+CU[s]*Y[s] := CK[s]*K[s] + CL[s]*L[s]*PROG_L[s] + PE[s]*E[s] + PMAT[s]*MAT[s] + NTAXI_VAL[s]
 
-CU_n[s] * Y[s] := CK[s] * K_n[s] + CL[s] * L_n[s] * PROG_L[s] + PE[s] * E_n[s] + PMAT[s]*MAT_n[s] + NTAXP_VAL[s]
+CU_n[s] * Y[s] := CK[s] * K_n[s] + CL[s] * L_n[s] * PROG_L[s] + PE[s] * E_n[s] + PMAT[s]*MAT_n[s] + NTAXI_VAL[s]
 
 ######################
 ### Not from Equation

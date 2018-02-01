@@ -5,14 +5,14 @@
 ### Net taxes on commodity c domestically produced
 ### We assume that the volume of the tax varies only when the volume of the taxe bases (e.g. production, consumption) varies. Hence an increase in the tax rate does not increase the volume of the tax but increases its price. This is coherent with the specification of the price of the tax bases: increasing the tax rate on production increases the production price but not production. 
 
-NTAXCD_VAL[c] = RNTAXCD[c]*PYQ[c]*YQ[c]
+NTAXPD_VAL[c] = RNTAXPD[c]*PYQ[c]*YQ[c]
 
-	NTAXCD[c] = @elem(RNTAXCD[c], %baseyear) * YQ[c]
+	NTAXPD[c] = @elem(RNTAXPD[c], %baseyear) * YQ[c]
 
 ### Net taxes on imported commodity c 
-NTAXCM_VAL[c] = RNTAXCM[c]*PM[c]*M[c]
+NTAXPM_VAL[c] = RNTAXPM[c]*PM[c]*M[c]
 
-	NTAXCM[c] = @elem(RNTAXCM[c], %baseyear) * M[c]
+	NTAXPM[c] = @elem(RNTAXPM[c], %baseyear) * M[c]
 
 
 

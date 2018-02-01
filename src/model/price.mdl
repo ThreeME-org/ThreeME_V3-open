@@ -41,10 +41,10 @@ PY_n[s] = CU_n[s] * (1 + TMD[s])
 ## Notional unit cost of production in sector s
 ## To define the notional price, it is preferable to use the notional unit cost of production insteard of the effective one. This lead to a more stable dynamic and gives a better representation of anticipation.
 
-CU_n[s] * Y[s] = CK[s] * K_n[s] + CL[s] * L_n[s] * PROG_L[s] + PE[s] * E_n[s] + PMAT[s]*MAT_n[s] + NTAXP_VAL[s]
+CU_n[s] * Y[s] = CK[s] * K_n[s] + CL[s] * L_n[s] * PROG_L[s] + PE[s] * E_n[s] + PMAT[s]*MAT_n[s] + NTAXI_VAL[s]
 
 ## Unit cost of production in sector s
-CU[s]*Y[s] = CK[s]*K[s] + CL[s]*L[s]*PROG_L[s] + PE[s]*E[s] + PMAT[s]*MAT[s] + NTAXP_VAL[s]
+CU[s]*Y[s] = CK[s]*K[s] + CL[s]*L[s]*PROG_L[s] + PE[s]*E[s] + PMAT[s]*MAT[s] + NTAXI_VAL[s]
 
 ## Labor cost in sector s
 CL[s] =  W[s] / PROG_L[s]
@@ -76,14 +76,14 @@ PE[s]*E[s] = sum(PCI[ce, s]*CI[ce, s] if CI[ce, s] <> 0 on ce) if E[s] <> 0
 
 ### Average selling price for domestic commodity c (Value & volume)
 
-## YQS[c] is the volume of the production expressed at market price. It should not be seen as a composite of several "goods": production at base price, margins and taxes. Its does not increase when the volume of the margins and taxes increase. The price does instead. This is equivalent to assuming that YQS[c] is always proportionnal to and YQ[c] since the volume of margins and taxes depends on the latter. Writing it following the specification composite of several goods, YQS[c] = YQ[c] + MGPD[c] + NTAXCD[c], would lead to inacurate results since a decrease in the quantity of margins used per unit of production would not lead to a decrease of the selling price. 
+## YQS[c] is the volume of the production expressed at market price. It should not be seen as a composite of several "goods": production at base price, margins and taxes. Its does not increase when the volume of the margins and taxes increase. The price does instead. This is equivalent to assuming that YQS[c] is always proportionnal to and YQ[c] since the volume of margins and taxes depends on the latter. Writing it following the specification composite of several goods, YQS[c] = YQ[c] + MGPD[c] + NTAXPD[c], would lead to inacurate results since a decrease in the quantity of margins used per unit of production would not lead to a decrease of the selling price. 
 
-PYQS[c]*YQS[c] = PYQ[c]*YQ[c] + PMGPD[c]*MGPD[c] + NTAXCD_VAL[c]  if YQS[c] <> 0 
+PYQS[c]*YQS[c] = PYQ[c]*YQ[c] + PMGPD[c]*MGPD[c] + NTAXPD_VAL[c]  if YQS[c] <> 0 
 
   d(log(YQS[c])) = d(log(YQ[c]))	 if YQS[c] <> 0 
 
 ### Average selling price for imported commodity c
-PMS[c]*MS[c] = PM[c]*M[c] + NTAXCM_VAL[c] + PMGPM[c]*MGPM[c]  if MS[c] <> 0 
+PMS[c]*MS[c] = PM[c]*M[c] + NTAXPM_VAL[c] + PMGPM[c]*MGPM[c]  if MS[c] <> 0 
 
 		d(log(MS[c])) = d(log(M[c]))  if MS[c] <> 0 
 

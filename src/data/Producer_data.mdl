@@ -13,6 +13,6 @@ include ..\model\lists
 
 
 ### From GOV:
-NTAXCD_VAL[c] := RNTAXCD[c]*PYQ[c]*YQ[c]
+NTAXPD_VAL[c] := RNTAXPD[c]*PYQ[c]*YQ[c]
 
-NTAXCM_VAL[c] := RNTAXCM[c]*PM[c]*M[c]
+NTAXPM_VAL[c] := RNTAXPM[c]*PM[c]*M[c]
