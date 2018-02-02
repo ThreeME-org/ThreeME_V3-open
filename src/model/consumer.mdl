@@ -3,25 +3,11 @@
 include ..\model\lists
 
 # equation 4.1
-W_S = (sum(W_S[s] * L_S[s] on s))/L_S
+W * L = (sum(W[s] * L[s] on s))
 
-# equation 4.2
-W_SE = (sum(W_SE[s] * L_SE[s] on s))/L_SE
 
-# equations 4.3
-CL_S = (sum(CL_S[s] * L_S[s] on s))/L_S
+CL * L = (sum(CL[s] * L[s] on s))
 
-# equation 4.4
-CL_SE = (sum(CL_SE[s] * L_SE[s] on s))/L_SE
-
-# equation 4.5
-W * L = W_S * L_S + W_SE * L_SE
-
-# equation 4.6
-CL*L = (CL_S * L_S + CL_SE * L_SE)
-
-# equation 4.7
-L = L_S + L_SE
 
 # equation 4.9
 INT_VAL = Stock_S{-1} * R_S
@@ -45,22 +31,16 @@ FW_VAL[h] = DIV_HH_VAL[h] + INT_VAL[h]
 # equation 4.10
 DISPINC_AI_VAL = (W_S * L_S + SB_ROW) * (1-TCSS) + (W_SE * L_SE) * (1-TCSS_SE) + PRESOC_DOM_VAL + FW_VAL + TR_ROW_VAL
 
-# equation 4.11
-DISPINC_AI_VAL[h] = (W_S[h] * L_S[h] + SB_ROW[h]) * (1-TCSS[h]) + (W_SE[h] * L_SE[h]) * (1-TCSS_SE[h]) + PRESOC_DOM_VAL[h] + FW_VAL[h] + TR_ROW_VAL[h]
 
 # equation 4.12
-DISPINC_VAL[h] = DISPINC_AI_VAL[h] - IR_VAL[h] - AIC_VAL[h]
+DISPINC_VAL = DISPINC_AI_VAL - IR_VAL - AIC_VAL
 
-# equation 4.13
-DISPINC_VAL = sum(DISPINC_VAL[h] if DISPINC_VAL[h] <> 0 on h)
 
 # *** HOUSEHOLDS LES ***
 
 # equation 4.14 & 4.15
-@pv EXP[h] = sum(EXP[c, h] on c)
+@pv EXP = sum(EXP[c] on c)
 
-# equation 4.16 & 4.17
-@pv EXPH = sum(EXP[h] on h)
 
 # equation 4.18
 d(MPS[h])= household(52, $h) * d(UNR_TOT) + household(53, $h)* d(R - infl_FR) + household(54, $h) * d(DEBT_G_VAL / (PGDP * GDP))
@@ -100,15 +80,6 @@ EXP[c] = sum(EXP[c, h] if EXP[c, h] <> 0 on h)
 # equation 4.30 & 4.31
 Phi_EXP[c, h] = EXP[c, h]/EXP[c] if EXP[c] <> 0
 PEXP[c, h] = PCH[c]
-
-# *** LEVEL V ***
-# equation 4.32
-d(log(CHD[c])) = d(log(EXP[c])) + d(SUBST_CHD[c]) if CHD[c] <> 0
-d(SUBST_CHD_n[c])= - ES_LVL4_HH(1, $c) * d(log(PCHD[c]) - log(PCHM[c])) * (PCHM[c]{-1} * CHM[c]{-1} / (PCH[c]{-1} * CH[c]{-1})) if CHD[c] <> 0
-
-# equation 4.33
-CHM[c] = (EXP[c]-CHD[c] > 0) * (EXP[c] - CHD[c]) + (EXP[c] - CHD[c] =< 0) * (0.00001) if CHM[c] <> 0
-d(SUBST_CHM_n[c]) = -ES_LVL4_HH(1, $c) * d(log(PCHM[c]) - log(PCHD[c])) * (PCHD[c]{-1} * CHD[c]{-1} / (PCH[c]{-1} * CH[c]{-1})) if CHM[c] <> 0
 
 # Ajustment Line LES--->Ajustement de demande notionnelle de la part des ménages
 

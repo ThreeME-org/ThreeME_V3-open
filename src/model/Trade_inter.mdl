@@ -44,6 +44,17 @@ d(log(ED[ce, s])) = d(log(E[ce, s])) + d(SUBST_ED[ce, s]) if ED[ce, s] <> 0
 
 d(SUBST_ED_n[ce, s]) = -ES_CIM($s, 20 + $ce) * d(log(PED[ce]) - log(PEM[ce])) * (PEM[ce]{-1} * EM[ce, s]{-1} / (PE[ce, s]{-1} * E[ce, s]{-1})) if (EM[ce, s] <> 0) * (ED[ce, s] <> 0)
 
+# *** LEVEL V ***
+# equation 4.32
+d(log(CHD[c])) = d(log(EXP[c])) + d(SUBST_CHD[c]) if CHD[c] <> 0
+d(SUBST_CHD_n[c])= - ES_LVL4_HH(1, $c) * d(log(PCHD[c]) - log(PCHM[c])) * (PCHM[c]{-1} * CHM[c]{-1} / (PCH[c]{-1} * CH[c]{-1})) if CHD[c] <> 0
+
+# equation 4.33
+CHM[c] = (EXP[c]-CHD[c] > 0) * (EXP[c] - CHD[c]) + (EXP[c] - CHD[c] =< 0) * (0.00001) if CHM[c] <> 0
+d(SUBST_CHM_n[c]) = -ES_LVL4_HH(1, $c) * d(log(PCHM[c]) - log(PCHD[c])) * (PCHD[c]{-1} * CHD[c]{-1} / (PCH[c]{-1} * CH[c]{-1})) if CHM[c] <> 0
+
+
+
 # Allocation of Investment between domestic and import (Imports)
 
 # equation 2.29
