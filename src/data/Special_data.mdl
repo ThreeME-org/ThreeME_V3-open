@@ -36,10 +36,14 @@ SUBST_MGPM[cc, c] := 0
 SUBST_|V|_n[s] := 0 where V in IA L E MAT K
 SUBST_|V|[s] := 0 where V in IA L E MAT K
 
+SUBST_CI_n[ce, s] := 0
+SUBST_CI[ce, s] := 0
+
+
 #SUBST_|V|_n[c, s] := 0 where V in IA IAD IAM
 #SUBST_|V|[c, s] := 0 where V in IA IAD IAM
-#SUBST_|V|_n[ce, s] := 0 where V in E ED EM
-#SUBST_|V|[ce, s] := 0 where V in E ED EM
+#SUBST_|V|_n[ce, s] := 0 where V in E  ED EM
+#SUBST_|V|[ce, s] := 0 where V in E  ED EM
 #SUBST_|V|_n[cm, s] := 0 where V in MAT MATD MATM
 #SUBST_|V|[cm, s] := 0 where V in MAT MATD MATM
 

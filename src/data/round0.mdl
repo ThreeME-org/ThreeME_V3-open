@@ -108,7 +108,7 @@ XD[c]  := SUT($c+16,29) * (1 + GR_REAL) ^ (@year - %baseyear)
 DSD[c] := SUT($c+16,30) * (1 + GR_REAL) ^ (@year - %baseyear)
 
 ############################
-### Use side (domestic)
+### Use side (imported)
 ############################
 
 ### Imported margins recieved by commodity c
@@ -126,5 +126,13 @@ DSM[c] := SUT($c+25,30) * (1 + GR_REAL) ^ (@year - %baseyear)
 XM[c]  := SUT($c+25,29) * (1 + GR_REAL) ^ (@year - %baseyear)
 
 
+########################################
+### Calibration of parameters
+########################################
 
 
+################################
+### Elastiscity of substitutions
+################################
+
+ES_NRJ[ce, cee, s] := 0.3
