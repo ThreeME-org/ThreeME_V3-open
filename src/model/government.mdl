@@ -15,6 +15,9 @@ NTAXPM_VAL[c] = RNTAXPM[c]*PM[c]*M[c]
 	NTAXPM[c] = @elem(RNTAXPM[c], %baseyear) * M[c]
 
 
+# equations 3.75 & 3.76
+#PEXPG[c] = PG[c]
+#d(log(EXPG[c])) = d(log(EXPG)) if EXPG[c] <> 0
 
 
 

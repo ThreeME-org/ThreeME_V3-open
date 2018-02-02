@@ -135,4 +135,10 @@ XM[c]  := SUT($c+25,29) * (1 + GR_REAL) ^ (@year - %baseyear)
 ### Elastiscity of substitutions
 ################################
 
+## Between energy intermediary consumption
 ES_NRJ[ce, cee, s] := 0.3
+
+## Between domestic and imported commodities for margins recieved, private and public consumption, investment and exports
+ES_|V|M[c] := 0.6 where V in MGR CH G I X
+
+ES_|V|M[c, s] := 0.6 where V in CI I

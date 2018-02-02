@@ -15,12 +15,19 @@ W[s] := WAGES[s] * PWAGES[s] / L[s]
 RNTAXPD[c] := NTAXPD[c]/YQ[c]
 RNTAXPM[c] := NTAXPM[c]/ M[c]
 
+# Import share of commodity c for margins recieved, private and public consumption, investment and exports 
+phi_|V|M[c] := |V|M[c]/|V|[c] where V in MGR CH G X
 
-# Alias to be used in behavor equations
+# Import share of commodity c bought by sector s for intermediary consumption and investment
+#phi_|V|M[c, s] := |V|M[c, s]/|V|[c, s] where V in CI I
+
+# Alias or defined to be used in behavor equations
 IA[s] := I[s]
 E[s] := sum(CI[ce, s] on ce)
 MAT[s] := sum(CI[cm, s] on cm)
 
+CI[c, s] := CID[c, s] + CIM[c, s]
+I[c, s] := CID[c, s] + CIM[c, s]
 
 
 # Expected and nominal variables are initialised to their real value
@@ -38,6 +45,15 @@ SUBST_|V|[s] := 0 where V in IA L E MAT K
 
 SUBST_CI_n[ce, s] := 0
 SUBST_CI[ce, s] := 0
+
+SUBST_|V|M_n[c] := 0 where V in MGR CH G X
+SUBST_|V|M[c] := 0 where V in MGR CH G X
+
+SUBST_|V|M_n[c, s] := 0 where V in CI I
+SUBST_|V|M[c, s] := 0 where V in CI I
+
+
+
 
 
 #SUBST_|V|_n[c, s] := 0 where V in IA IAD IAM

@@ -67,12 +67,15 @@ WAGES[s] * PWAGES[s] = W[s] * L[s]
 PWAGES[s] = P
 
 
+
+### Price of intermediary raw material consumption c of sector s
+PCI[c, s] * CI[c, s] = PCID[c, s] * CID[c, s] + PCIM[c, s] * CIM[c, s] if CI[c, s] <> 0
+
 ### Material consumption price for sector s
 PMAT[s]*MAT[s] = sum(PCI[cm, s]*CI[cm, s] if CI[cm, s] <> 0 on cm) if MAT[s] <> 0
 
 ### Energy price for sector s
 PE[s]*E[s] = sum(PCI[ce, s]*CI[ce, s] if CI[ce, s] <> 0 on ce) if E[s] <> 0
-
 
 ### Average selling price for domestic commodity c (Value & volume)
 
@@ -88,9 +91,10 @@ PMS[c]*MS[c] = PM[c]*M[c] + NTAXPM_VAL[c] + PMGPM[c]*MGPM[c]  if MS[c] <> 0
 		d(log(MS[c])) = d(log(M[c]))  if MS[c] <> 0 
 
 
+
 ### Price of the margins paid to commodity cc on the domestic commodity c 
 ### We assume that the margins paid on domestic and imported commodities can be produced by domestic and foreign (using the import share of the margin recieved). The price of the margins paid to commodity cc is assumed commun to all commodity c.     
-PMGPD[cc, c] * MGR[cc] = MGRD[cc] * PMGRD[cc] + MGRM[cc] * PMGRM[cc]   if MGPD[cc, c] <> 0
+PMGPD[cc, c] * MGR[cc] = PMGRD[cc] * MGRD[cc] + PMGRM[cc] * MGRM[cc]   if MGPD[cc, c] <> 0
 
 ### Price of the margins paid to commodity cc on the imported commodity c
 ### This price is the same as the one paid on domestic commodity because of the assumption given in the previous equation.  
