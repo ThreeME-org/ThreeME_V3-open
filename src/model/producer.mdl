@@ -91,7 +91,7 @@ d(log(MAT_n[s])) = d(log(Y[s])) + d(SUBST_MAT[s]) if MAT_n[s] <> 0
 ## equation 2.20
 d(log(CI[ce, s])) = d(log(E[s])) + d(SUBST_CI[ce,s]) if CI[ce, s] <> 0
 
-d(SUBST_CI_n[ce, s]) = sum(- ES_NRJ[ce, cee, s] * d(log(PCI[ce, s]) - log(PCI[cee, s])) * PCI[cee, s]{-1}*CI[cee, s]{-1} / (PCI[s]{-1} * CI[s]{-1}) on cee) if CI[ce, s] <> 0
+d(SUBST_CI_n[ce, s]) = sum(- ES_NRJ[ce, cee, s] * d(log(PCI[ce, s]) - log(PCI[cee, s])) * PCI[cee, s]{-1}*CI[cee, s]{-1} / (PE[s]*E[s]) on cee) if CI[ce, s] <> 0
 
 ## Self employed and employed
 #
