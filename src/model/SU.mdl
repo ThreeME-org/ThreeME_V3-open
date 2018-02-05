@@ -22,9 +22,9 @@
 @pv I|O|[c] = sum(I|O|[c, s] if I|O|[c, s] <> 0 on s) if I|O|[c] <> 0
 
 ### Aggregation of imports and domestic production for commodity c per use
-### For Q (production of commodities at market price); CH (households'consumption); G (public spendings); I (private investiment); DS (change in inventories)
+### For Q (production of commodities at market price); CI (intermediary consumption); I (private investiment); DS (change in inventories)
 
-@pv |V|[c] = |V|D[c] + |V|M[c] if |V|[c] <> 0 where V in Q CI CH G I X DS
+@pv |V|[c] = |V|D[c] + |V|M[c] if |V|[c] <> 0 where V in Q CI I DS
 
 @pv MGRbis[c] = MGRD[c] + MGRM[c] if MGRbis[c] <> 0
 

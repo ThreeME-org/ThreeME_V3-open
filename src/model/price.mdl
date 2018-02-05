@@ -66,7 +66,9 @@ WAGES[s] * PWAGES[s] = W[s] * L[s]
 
 PWAGES[s] = P
 
-
+### Price of commodity c
+### For CH (households'consumption); G (public spendings); X (exports)
+P|V|[c] * |V|[c] = P|V|D[c] * |V|D[c] + P|V|M[c] * |V|M[c] if |V|[c] <> 0 where V in CH G X
 
 ### Price of intermediary raw material consumption c of sector s
 PCI[c, s] * CI[c, s] = PCID[c, s] * CID[c, s] + PCIM[c, s] * CIM[c, s] if CI[c, s] <> 0

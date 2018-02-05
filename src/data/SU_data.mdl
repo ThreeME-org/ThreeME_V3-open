@@ -10,7 +10,7 @@ CI|O|[c] := sum(CI|O|[c, s] on s)
 
 I|O|[c] := sum(I|O|[c, s] on s)
 
-|V|[c] := |V|D[c] + |V|M[c] where V in Q CI CH G I X DS
+|V|[c] := |V|D[c] + |V|M[c] where V in Q CI I DS
 
 MGRbis[c] := MGRD[c] + MGRM[c]
 

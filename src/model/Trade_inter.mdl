@@ -1,33 +1,34 @@
+########################################################
+#########     INTERNATIONAL TRADE  #####################
+########################################################
+### This file provides the equations defining the allocation between domestic and imported goods per use.
+### The differenciation per use allows for distinguishing import share per use and therefore a more realistic representation of the economy than model that assume a commun import share. Indeed, the import share of export is generally smaller than for consumption.
+
+# Domestic commodity c for margins recieved, private and public consumption and exports
 |V|D[c] = (1 - phi_|V|M[c]) * |V|[c] if |V|D[c] <> 0 where V in MGR CH G X
 
+# Imported commodity c for margins recieved, private and public consumption and exports
+
 |V|M[c] = phi_|V|M[c] * |V|[c] if |V|M[c] <> 0 where V in MGR CH G X
+
+# Import share of commodity c for margins recieved, private and public consumption and exports 
 
 phi_|V|M[c] = 1/(1 + @elem(|V|D[c]/|V|M[c], %baseyear)*exp(SUBST_|V|M[c])) if |V|M[c] <> 0 where V in MGR CH G X
 
 d(SUBST_|V|M_n[c]) = - ES_|V|M[c] * d(log(P|V|D[c]) - log(P|V|M[c])) if |V|M[c] <> 0 where V in MGR CH G X
 
+# Domestic commodity c for sector s's intermediary consumption and investment
 
+|V|D[c, s] = (1 - phi_|V|M[c, s]) * |V|[c, s] if |V|D[c, s] <> 0 where V in CI I
 
+# Imported commodity c for sector s's intermediary consumption and investment
 
+|V|M[c, s] = phi_|V|M[c, s] * |V|[c, s] if |V|M[c, s] <> 0 where V in CI I
 
-#|V|D[c, s] = (1 - phi_|V|M[c, s]) * |V|[c, s] if |V|D[c, s] <> 0 where V in CI I
+# Import share of commodity c bought by sector s for intermediary consumption and investment
+phi_|V|M[c, s] = 1/(1 + @elem(|V|D[c, s]/|V|M[c, s], %baseyear)*exp(SUBST_|V|M[c, s])) if |V|M[c, s] <> 0 where V in CI I
 
-#|V|M[c, s] = phi_|V|M[c, s] * |V|[c, s] if |V|M[c, s] <> 0 where V in CI I
-
-#phi_|V|M[c, s] = 1/(1 + @elem(|V|D[c, s]/|V|M[c, s], %baseyear)*exp(SUBST_|V|M[c, s])) if |V|M[c, s] <> 0 where V in CI I
-
-#d(SUBST_|V|M_n[c, s]) = - ES_|V|M[c, s] * d(log(P|V|D[c, s]) - log(P|V|M[c, s])) if |V|M[c, s] <> 0 where V in CI I
-
-
-
-
-
-
-
-# CI I
-
-
-
+d(SUBST_|V|M_n[c, s]) = - ES_|V|M[c, s] * d(log(P|V|D[c, s]) - log(P|V|M[c, s])) if |V|M[c, s] <> 0 where V in CI I
 
 # Exports
 

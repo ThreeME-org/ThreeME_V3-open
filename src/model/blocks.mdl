@@ -5,7 +5,7 @@ include ..\model\Producer
 include ..\model\Price
 
 include ..\model\Government
-#include ..\model\Trade_inter
+include ..\model\Trade_inter
 
 
 # include ..\model\GHG

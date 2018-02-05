@@ -19,7 +19,7 @@ RNTAXPM[c] := NTAXPM[c]/ M[c]
 phi_|V|M[c] := |V|M[c]/|V|[c] where V in MGR CH G X
 
 # Import share of commodity c bought by sector s for intermediary consumption and investment
-#phi_|V|M[c, s] := |V|M[c, s]/|V|[c, s] where V in CI I
+phi_|V|M[c, s] := |V|M[c, s]/|V|[c, s] where V in CI I
 
 # Alias or defined to be used in behavor equations
 IA[s] := I[s]
@@ -28,6 +28,7 @@ MAT[s] := sum(CI[cm, s] on cm)
 
 CI[c, s] := CID[c, s] + CIM[c, s]
 I[c, s] := CID[c, s] + CIM[c, s]
+|V|[c] := |V|D[c] + |V|M[c] where V in CH G X
 
 
 # Expected and nominal variables are initialised to their real value
