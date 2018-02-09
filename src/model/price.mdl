@@ -59,7 +59,7 @@ CK[s] = PK[s] * (Tdec[s] + r[s])
 
 PK[s] * K[s] = (1 - Tdec[s]) * PK[s]{-1} * K[s]{-1} + PI[s] * I[s]
 
-### Volume and price of the super bruto wages paid by sector s (including employees and employers' social contribution) 
+### Volume and price of the bruto wages paid by sector s including employees (but not employers)' social contribution
 ### To derive the volume, we assume that the price is the consumer price 
 
 WAGES[s] * PWAGES[s] = W[s] * L[s]

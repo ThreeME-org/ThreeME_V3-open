@@ -149,7 +149,8 @@ PVA * VA = sum(VA_VAL[s] on s)
 
 	  VA = sum(VA[s] on s)
 
-### Aggregate super bruto wages paid by sector s (including employees and employers' social contribution) (value & volume)
+### Aggregate bruto wages paid by sector s including employees (but not employers)' social contribution
+
 @pv WAGES = sum(WAGES[s] if WAGES[s] <> 0 on s) if WAGES <> 0
 
 ### Aggregate net taxes on production (value & volume)

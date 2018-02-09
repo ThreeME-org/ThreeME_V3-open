@@ -59,17 +59,17 @@ PROG_K[s] := 1 * (1 + GR_PROG_K[s]) ^ (@year - %baseyear)
 Y[c, s] := SUT($c,$s) * (1 + GR_REAL) ^ (@year - %baseyear)
 
 ### Margins paid to commodity cc on the domestic commodity c 
-MGPD[cc, c] := SUT($c+16,$cc+7) * (1 + GR_REAL) ^ (@year - %baseyear)
+MGPD[cc, c] := SUT($c+17,$cc+7) * (1 + GR_REAL) ^ (@year - %baseyear)
 
 ### Margins paid to commodity cc on the imported commodity c 
-MGPM[cc, c] := SUT($c+25,$cc+7) * (1 + GR_REAL) ^ (@year - %baseyear)
+MGPM[cc, c] := SUT($c+26,$cc+7) * (1 + GR_REAL) ^ (@year - %baseyear)
 
 ### Net taxes on commodity c domestically produced
-NTAXPD[c] := SUT($c+16,13) * (1 + GR_REAL) ^ (@year - %baseyear)
+NTAXPD[c] := SUT($c+17,13) * (1 + GR_REAL) ^ (@year - %baseyear)
 # NTAXPD_VAL[c] := SUT($c+16,13) * (1 + GR_NOMI) ^ (@year - %baseyear)
 
 ### Net taxes on imported commodity c
-NTAXPM[c] := SUT($c+25,13) * (1 + GR_REAL) ^ (@year - %baseyear)
+NTAXPM[c] := SUT($c+26,13) * (1 + GR_REAL) ^ (@year - %baseyear)
 # NTAXPM_VAL[c] := SUT($c+25,13) * (1 + GR_NOMI) ^ (@year - %baseyear)
 
 ### Net taxes on the production of sector s
@@ -77,13 +77,18 @@ NTAXI[s] := SUT(8,$s) * (1 + GR_REAL) ^ (@year - %baseyear)
 NTAXI_VAL[s] := SUT(8,$s) * (1 + GR_NOMI) ^ (@year - %baseyear)
 
 ### Super bruto wages paid by sector s (including employees and employers' social contribution)
+
+### Bruto wages paid by sector s including employees (but not employers)' social contribution
 WAGES[s] := SUT(9,$s) * (1 + GR_REAL) ^ (@year - %baseyear)            
 
+### Employers' social security contribution paid by sector s
+RSSC[s] := SUT(10,$s) * (1 + GR_REAL) ^ (@year - %baseyear) 
+
 ### Labor of sector s 
-L[s] := SUT(10,$s) * (1 + GR_POP) ^ (@year - %baseyear)
+L[s] := SUT(11,$s) * (1 + GR_POP) ^ (@year - %baseyear)
 
 ### Depreciation rate of the capital of sector s
-Tdec[s] := SUT(12,$s) 
+Tdec[s] := SUT(13,$s) 
 # TO DO. Use an english name: TDepr
 
 ### Capital stock of sector s 
@@ -94,36 +99,36 @@ K[s] := I[s] * (1 + GR_REAL) / (Tdec[s] + GR_REAL)
 ############################
 
 ### Domesticly produced margins recieved by commodity c 
-MGRD[c] := SUT($c+16,14) * (1 + GR_REAL) ^ (@year - %baseyear)
+MGRD[c] := SUT($c+17,14) * (1 + GR_REAL) ^ (@year - %baseyear)
 
 ### Intermediary raw material consumption domestically produced c of sector s
-CID[c, s] := SUT($c+16,$s+14) * (1 + GR_REAL) ^ (@year - %baseyear)
+CID[c, s] := SUT($c+17,$s+14) * (1 + GR_REAL) ^ (@year - %baseyear)
 
-CHD[c] := SUT($c+16,21) * (1 + GR_REAL) ^ (@year - %baseyear)
-GD[c]  := SUT($c+16,22) * (1 + GR_REAL) ^ (@year - %baseyear)
+CHD[c] := SUT($c+17,21) * (1 + GR_REAL) ^ (@year - %baseyear)
+GD[c]  := SUT($c+17,22) * (1 + GR_REAL) ^ (@year - %baseyear)
 
-ID[c, s] := SUT($c+16,$s+22) * (1 + GR_REAL) ^ (@year - %baseyear)
+ID[c, s] := SUT($c+17,$s+22) * (1 + GR_REAL) ^ (@year - %baseyear)
 
-XD[c]  := SUT($c+16,29) * (1 + GR_REAL) ^ (@year - %baseyear)
-DSD[c] := SUT($c+16,30) * (1 + GR_REAL) ^ (@year - %baseyear)
+XD[c]  := SUT($c+17,29) * (1 + GR_REAL) ^ (@year - %baseyear)
+DSD[c] := SUT($c+17,30) * (1 + GR_REAL) ^ (@year - %baseyear)
 
 ############################
 ### Use side (imported)
 ############################
 
 ### Imported margins recieved by commodity c
-MGRM[c] := SUT($c+25,14) * (1 + GR_REAL) ^ (@year - %baseyear)
+MGRM[c] := SUT($c+26,14) * (1 + GR_REAL) ^ (@year - %baseyear)
 
 ### Impoted intermediary raw material consumption c of sector s
-CIM[c, s] := SUT($c+25,$s+14) * (1 + GR_REAL) ^ (@year - %baseyear)        
+CIM[c, s] := SUT($c+26,$s+14) * (1 + GR_REAL) ^ (@year - %baseyear)        
 
-CHM[c] := SUT($c+25,21) * (1 + GR_REAL) ^ (@year - %baseyear)
-GM[c]  := SUT($c+25,22) * (1 + GR_REAL) ^ (@year - %baseyear)
+CHM[c] := SUT($c+26,21) * (1 + GR_REAL) ^ (@year - %baseyear)
+GM[c]  := SUT($c+26,22) * (1 + GR_REAL) ^ (@year - %baseyear)
 
-IM[c, s] := SUT($c+25,$s+22) * (1 + GR_REAL) ^ (@year - %baseyear)
+IM[c, s] := SUT($c+26,$s+22) * (1 + GR_REAL) ^ (@year - %baseyear)
 
-DSM[c] := SUT($c+25,30) * (1 + GR_REAL) ^ (@year - %baseyear)
-XM[c]  := SUT($c+25,29) * (1 + GR_REAL) ^ (@year - %baseyear)
+DSM[c] := SUT($c+26,30) * (1 + GR_REAL) ^ (@year - %baseyear)
+XM[c]  := SUT($c+26,29) * (1 + GR_REAL) ^ (@year - %baseyear)
 
 
 ########################################
