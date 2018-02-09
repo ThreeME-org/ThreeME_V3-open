@@ -30,7 +30,7 @@ E[s] := sum(CI[ce, s] on ce)
 MAT[s] := sum(CI[cm, s] on cm)
 
 CI[c, s] := CID[c, s] + CIM[c, s]
-I[c, s] := CID[c, s] + CIM[c, s]
+I[c, s] := ID[c, s] + IM[c, s]
 |V|[c] := |V|D[c] + |V|M[c] where V in CH G X
 
 
