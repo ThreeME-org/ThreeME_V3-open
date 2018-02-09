@@ -14,6 +14,11 @@ NTAXPM_VAL[c] = RNTAXPM[c]*PM[c]*M[c]
 
 	NTAXPM[c] = @elem(RNTAXPM[c], %baseyear) * M[c]
 
+### Employers' social security contribution paid by sector s
+### RSSC = employeRs' Social Security Contribution 
+RSSC[s] * PRSSC[s] = W[s] * L[s] * (1 + RRSSC[s])
+
+		  PRSSC[s] = P
 
 # equations 3.75 & 3.76
 #PEXPG[c] = PG[c]

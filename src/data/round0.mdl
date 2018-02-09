@@ -82,6 +82,7 @@ NTAXI_VAL[s] := SUT(8,$s) * (1 + GR_NOMI) ^ (@year - %baseyear)
 WAGES[s] := SUT(9,$s) * (1 + GR_REAL) ^ (@year - %baseyear)            
 
 ### Employers' social security contribution paid by sector s
+### RSSC = employeRs' Social Security Contribution 
 RSSC[s] := SUT(10,$s) * (1 + GR_REAL) ^ (@year - %baseyear) 
 
 ### Labor of sector s 
