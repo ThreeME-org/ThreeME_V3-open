@@ -132,10 +132,19 @@ DSM[c] := SUT($c+26,30) * (1 + GR_REAL) ^ (@year - %baseyear)
 XM[c]  := SUT($c+26,29) * (1 + GR_REAL) ^ (@year - %baseyear)
 
 
+############################
+### DEMOGRAPHY DATA
+############################
+
+POP := WAPop/0.6
+WAPop := LF/0.7
+LF := L/(1 - 0.1)
+empl := L
+
+
 ########################################
 ### Calibration of parameters
 ########################################
-
 
 ################################
 ### Elastiscity of substitutions
@@ -148,3 +157,20 @@ ES_NRJ[ce, cee, s] := 0.3
 ES_|V|M[c] := 0.6 where V in MGR CH G I X
 
 ES_|V|M[c, s] := 0.6 where V in CI I
+
+################################
+### Other elastiscities
+################################
+
+# In the wage equation
+RHO_W_P[s] := 1
+RHO_W_PROG[s] := 0
+RHO_W_U[s] := 0.2
+RHO_W_DU[s] := 0.65
+RHO_W_L[s] := 0
+
+RHO_W_Cons[s] := log(1+GR_NOMIW) - RHO_W_P[s]*log(1+GR_PRICES) - RHO_W_PROG[s]*log(1+GR_PROG_L) + RHO_W_U[s] * UnR 
+
+
+# In the labor force participation rate equation
+RHO_PART := 0.3

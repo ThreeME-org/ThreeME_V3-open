@@ -135,12 +135,10 @@ PDSM[c] = PMS[c]  if DSM[c] <> 0
 
 ## Price of imported commodity c
 PM[c] = TC*PWD[c] if M[c] <> 0
-#
-## equation 5.41
-#d(log(W_n[s])) = RHO($s,1) + RHO($s,2)*d(log(P_e)) + RHO($s,3)*d(log(PROG_L[s])) - RHO($s,4)*(sum(Y[c, s]{-1}/Y[s]{-1}*M[c]{-1}/(YQ[c]{-1}+M[c]{-1})*d(log(PM[c]/PY[s])) if Y[c, s] <> 0 on c)) - RHO($s,5)*UnR_TOT - RHO($s,6)*d(UnR_TOT) + RHO($s,7)*d(log(L_S[s]) - log(L))+DNAIRU*RHO($s,5) if W_S_n[s] <> 0
-#
-#d(log(W_SE[s])) = d(log(W_S[s])) if W_SE[s] <> 0
-#
+
+## Notional wage in sector s
+d(log(W_n[s])) = RHO_W_Cons[s] + RHO_W_P[s]*d(log(P_e)) + RHO_W_PROG[s]*d(log(PROG_L[s])) - RHO_W_U[s] * (UnR - DNAIRU) - RHO_W_DU[s]*d(UnR) + RHO_W_L[s]*d(log(L[s]) - log(L)) if W_n[s] <> 0
+
 ## TAYLOR RULE and interest rates
 #
 ## equation 5.42

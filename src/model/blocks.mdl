@@ -1,18 +1,22 @@
 include ..\model\lists
 
 include ..\model\SU
-include ..\model\Producer
 include ..\model\Price
 
+include ..\model\Producer
+
 include ..\model\Government
+
 include ..\model\Trade_inter
+
+include ..\model\Demography
+
 
 
 # include ..\model\GHG
 # include ..\model\Consumer
 
 
-# include ..\model\Demography
 # include ..\model\Adjustments
 # include ..\model\Exceptions_fr
 # include ..\model\carbon_tax

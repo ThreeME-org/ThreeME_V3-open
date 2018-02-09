@@ -39,7 +39,7 @@ if %load="new"  then
     call export_all_to_csv
 
     ' Create the series using the dependencies (add-ins "series")
-    {%modelname}.series round0 Prices_data SU_data Producer_data Special_data 
+    {%modelname}.series round0 Prices_data SU_data Producer_data Special_data Other_data 
     ' round1 round2 demography government household exceptions_fr_data ghg carbon_tax exceptions_tracker
 
     ' Export all variables to a csv file (used by the external compiler)

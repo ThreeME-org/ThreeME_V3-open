@@ -15,6 +15,8 @@ W[s] := WAGES[s] * PWAGES[s] / L[s]
 RNTAXPD[c] := NTAXPD[c]/YQ[c]
 RNTAXPM[c] := NTAXPM[c]/ M[c]
 
+PARTR := LF/WAPop
+
 # Tax rate for the Employers' social security contribution paid by sector s
 (1 + RRSSC[s]) := RSSC[s] * PRSSC[s] / (W[s] * L[s])
 
@@ -33,12 +35,16 @@ CI[c, s] := CID[c, s] + CIM[c, s]
 I[c, s] := ID[c, s] + IM[c, s]
 |V|[c] := |V|D[c] + |V|M[c] where V in CH G X
 
-
 # Expected and nominal variables are initialised to their real value
-|V|_n[s] := |V|[s] where V in IA L E MAT K
-|V|_e[s] := |V|[s] where V in IA L E MAT K
+|V|_n[s] := |V|[s] where V in IA L E MAT K W
+|V|_e[s] := |V|[s] where V in IA L E MAT K W
+
+|V|_n := |V| where V in PARTR
+
+PARTR_trend := PARTR
 
 
+DNAIRU := 0
 
 # All variable started by SUBST are calibrated to zero
 SUBST_MGPD[cc, c] := 0
@@ -96,5 +102,9 @@ M[c] := SUT($c,7) * (1 + GR_REAL) ^ (@year - %baseyear)
 # As explained, these can not be the eq of the model (otherwise incorrect price)
 YQS[c] := YQ[c] + NTAXPD[c] + MGPD[c]
 MS[c] := M[c] + NTAXPM[c] + MGPM[c] 
+
+
+
+
 
 

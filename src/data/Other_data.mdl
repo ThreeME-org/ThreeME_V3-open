@@ -1,0 +1,6 @@
+include ..\model\lists
+
+### From Demographic block
+L := sum(L[s] on s)
+Un := LF - Empl
+UnR := Un / LF
