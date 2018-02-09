@@ -16,7 +16,24 @@ Y[c, s] = PhiY[c, s] * YQ[c] if Y[c, s] <> 0
 
 
 ## equation 2.04
-d(log(K_n[s])) = d(log(Y[s])) + d(SUBST_K[s]) - d(log(PROG_K[s])) if K_n[s] <> 0
+#d(log(F_n[f, s])) = d(log(Y[s])) - d(log(PROG[f, s])) + d(SUBST_F[f, s])  if F_n[f, s] <> 0
+
+#d(log(PROG[f, s]))=0
+
+#d(SUBST_F_n[f, s]) = sum(- ES[f, ff, s] * phi[ff, s]{-1} * d(log(C[f, s]) - log(C[ff, s])) on ff) if F_n[f, s] <> 0
+
+#phi[f, s] = C[f, s] * F_n[f, s] / (sum(C[ff, s] * F_n[ff, s] on ff))
+
+#C[K, s] = PK[s] * (Tdec[s] + r[s])
+
+#C[L, s] =  W[s] * (1 + RRSSC[s]) / PROG[L, s]
+
+#C[E, s] = PE[s]
+
+#C[MAT, s] = PMAT[s] 
+
+#ES[f, ff, s] = 0.1
+
 
 ##d(SUBST_K_n[s]) = _
 #  -ES_KLEM($s, 1) * d(log(CK[s]) - log(CL[s]))   * (L[s]{-1}   * PROG_L[s]{-1} * CL[s]{-1} / (CU[s]{-1} * Y[s]{-1})) _

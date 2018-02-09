@@ -4,6 +4,8 @@
 %list_com_MAT := CIND CTRP CSER   #[cm]
 %list_com_E := CNJN CNJM  #[ce]
 
+%list_F := K L E MAT  #[f]
+
 # Default iterators
 s in %list_sec
 
@@ -15,6 +17,8 @@ cm in %list_com_MAT
 ce in %list_com_E
 cee in %list_com_E
 
+f in %list_F
+ff in %list_F
 
 O in D M
 
