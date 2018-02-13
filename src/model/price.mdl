@@ -56,7 +56,7 @@ C[K, s] = PK[s] * (Rdep[s] + r[s])
 ### Price of capital in sector s
 ### The price of capital is calibrated by rewriting this equation in the long run. It is always smaller than 1 because it is calibrated as follows: PK[s] = PI[s]*(Rdep[s]+GR_REAL)*(1+GR_PRICES)/(Rdep[s]-1+(1+GR_REAL)*(1+GR_PRICES))
 
-PK[s] * K[s] = (1 - Rdep[s]) * PK[s]{-1} * K[s]{-1} + PI[s] * I[s]
+PK[s] * F[K, s] = (1 - Rdep[s]) * PK[s]{-1} * F[K, s]{-1} + PI[s] * I[s]
 
 ### Energy costs in sector s
 ### In first approximation the cost of energy correspond to the energy price. However if the producer is forward looking, she will integrate the anticipation of price increase in it definition of the user cost of energy. In this case the specification becomes ....

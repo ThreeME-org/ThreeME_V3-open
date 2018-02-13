@@ -178,9 +178,9 @@ PGOS * GOS = sum(GOS_VAL[s] on s)
 # Net operating surplus of sector s (value & volume)
 ### Same remark than for VA
 
-NOS_VAL[s] = GOS_VAL[s] - PK[s]{-1} * Rdep[s] * K[s]{-1}
+NOS_VAL[s] = GOS_VAL[s] - PK[s]{-1} * Rdep[s] * F[K, s]{-1}
 
-	NOS[s] = GOS[s] - @elem(PK[s]{-1}, %baseyear) * Rdep[s] * K[s]{-1}
+	NOS[s] = GOS[s] - @elem(PK[s]{-1}, %baseyear) * Rdep[s] * F[K, s]{-1}
 
 # Aggregate net operating surplus (value & volume)
 PNOS * NOS = sum(NOS_VAL[s] on s)

@@ -86,7 +86,7 @@ Rdep[s] := SUT(13,$s)
 # TO DO. Use an english name: TDepr
 
 ### Capital stock of sector s 
-K[s] := I[s] * (1 + GR_REAL) / (Rdep[s] + GR_REAL)
+F[K, s] := I[s] * (1 + GR_REAL) / (Rdep[s] + GR_REAL)
 
 ############################
 ### Use side (domestic)
