@@ -145,6 +145,11 @@ PM[c] = TC*PWD[c] if M[c] <> 0
 ## Notional wage in sector s
 d(log(W_n[s])) = RHO_W_Cons[s] + RHO_W_P[s]*d(log(P_e)) + RHO_W_PROG[s]*d(log(PROG_L[s])) - RHO_W_U[s] * (UnR - DNAIRU) - RHO_W_DU[s]*d(UnR) + RHO_W_L[s]*d(log(F[L, s]) - log(F[L])) if W_n[s] <> 0
 
+## Expected price
+## The Error Correction Model garanty that the expected and effective price are equal in the long run
+d(log(P_e)) = ADJUST_Pe_P1 * d(log(P{-1})) + (1 - ADJUST_Pe_P1) * d(log(P_e{-1})) - ADJUST_Pe_PeP1*log(P_e{-1}/P{-1})
+
+
 ## TAYLOR RULE and interest rates
 #
 ## equation 5.42
@@ -170,5 +175,4 @@ d(log(W_n[s])) = RHO_W_Cons[s] + RHO_W_P[s]*d(log(P_e)) + RHO_W_PROG[s]*d(log(PR
 #
 #d(R[s]) = d(R)
 #
-#d(log(P_e)) = ADJUST(68,2)*d(log(P_e{-1})) + (1-ADJUST(68,2))*d(log(P{-1})) - ADJUST(68,6)*log(P_e{-1}/P{-1})
 #

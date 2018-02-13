@@ -177,6 +177,11 @@ ADJUST_IA_Kn[s] := 0.05
 
 ADJUST_Ye_Y[s] := 0.7
 
+
+ADJUST_Pe_P1 := 0.7
+ADJUST_Pe_PeP1 := 0
+
+
 # In the wage equation
 RHO_W_P[s] := 1
 RHO_W_PROG[s] := 0
