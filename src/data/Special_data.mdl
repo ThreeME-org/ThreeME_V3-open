@@ -27,6 +27,7 @@ phi_|V|M[c] := |V|M[c]/|V|[c] where V in MGR CH G X
 phi_|V|M[c, s] := |V|M[c, s]/|V|[c, s] where V in CI I
 
 # Alias or defined to be used in behavor equations
+
 IA[s] := I[s]
 
 
@@ -45,6 +46,8 @@ I[c, s] := ID[c, s] + IM[c, s]
 # Expected and nominal variables are initialised to their real value
 |V|_n[s] := |V|[s] where V in IA W
 |V|_e[s] := |V|[s] where V in IA W
+
+Y_e[s] := Y[s]
 
 |V|_n := |V| where V in PARTR
 

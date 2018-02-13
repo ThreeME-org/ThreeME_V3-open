@@ -163,6 +163,15 @@ ES_|V|M[c, s] := 0.6 where V in CI I
 ### Other elastiscities
 ################################
 
+# In the investment equation
+ADJUST_IA_Ye[s] := 1
+ADJUST_IA_IA1[s] := 0
+ADJUST_IA_SUBST[s] := 0.5
+ADJUST_IA_Kn[s] := 0.05
+
+
+ADJUST_Ye_Y[s] := 0.7
+
 # In the wage equation
 RHO_W_P[s] := 1
 RHO_W_PROG[s] := 0

@@ -34,14 +34,16 @@ phi[f, s] = C[f, s] * F_n[f, s] / (sum(C[ff, s] * F_n[ff, s] on ff))
 d(log(I[c, s])) = d(log(IA[s])) if I[c, s] <> 0
 
 
-## equation 2.11
-#K[s] = (1 - Rdep[s]) * K[s]{-1} + IA[s] if K[s] <> 0
-#
-#d(log(IA[s])) = ADJUST(1, 1) * d(log(IA[s]{-1})) + ADJUST(1, 2) * d(log(Y_e[s])) + ADJUST(1, 3) * (log(K_n[s]{-1}) - log(K[s]{-1})) + ADJUST(1, 4) * d(SUBST_K[s]) + IMP_BUD[s] * @elem(GDP, %baseyear) / @elem(IA[s], %baseyear) if K[s] <> 0
-#
-#d(log(Y_e[s])) = ADJUST(71,2) * d(log(Y_e[s]{-1})) + (1 - ADJUST(71,2)) * d(log(Y[s]))
-#
+## Capital stock of sector s
+F[K, s] = (1 - Rdep[s]) * F[K, s]{-1} + IA[s] if F[K, s] <> 0
 
+## Investment in sector s
+## Put IMPULSE!
+## Explain this equation
+d(log(IA[s])) = ADJUST_IA_Ye[s] * d(log(Y_e[s])) + ADJUST_IA_IA1[s] * d(log(IA[s]{-1}))  + ADJUST_IA_SUBST[s] * d(SUBST_F[K, s]) + ADJUST_IA_Kn[s] * (log(F_n[K, s]{-1}) - log(F[K, s]{-1})) if F[K, s] <> 0
+
+## In Adjustement !
+d(log(Y_e[s])) = ADJUST_Ye_Y[s] * d(log(Y[s])) + (1 - ADJUST_Ye_Y[s]) * d(log(Y_e[s]{-1})) + 
 
 ## Energy demand by type of energy in sector s
 d(log(CI[ce, s])) = d(log(F[E, s])) + d(SUBST_CI[ce,s]) if CI[ce, s] <> 0
