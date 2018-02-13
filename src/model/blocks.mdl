@@ -1,7 +1,7 @@
 include ..\model\lists
 
-#include ..\model\SU
-#include ..\model\Price
+include ..\model\SU
+include ..\model\Price
 
 include ..\model\Producer
 

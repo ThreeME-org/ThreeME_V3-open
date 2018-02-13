@@ -33,14 +33,9 @@ PM[c] := P
 
 ##################
 ### From Equation
+CU_n[s] * Y[s] := sum(C[f, s] * F_n[f, s] on f) + NTAXI_VAL[s]
 
-CL[s] :=  W[s] * (1 + RRSSC[s]) / PROG_L[s]
-
-CK[s] := PK[s] * (Rdep[s] + r[s])
-
-CU[s]*Y[s] := CK[s]*K[s] + CL[s]*L[s]*PROG_L[s] + PE[s]*E[s] + PMAT[s]*MAT[s] + NTAXI_VAL[s]
-
-CU_n[s] * Y[s] := CK[s] * K_n[s] + CL[s] * L_n[s] * PROG_L[s] + PE[s] * E_n[s] + PMAT[s]*MAT_n[s] + NTAXI_VAL[s]
+CU[s] * Y[s] := sum(C[f, s] * F[f, s] on f) + NTAXI_VAL[s]
 
 ######################
 ### Not from Equation

@@ -31,10 +31,15 @@ IA[s] := I[s]
 E[s] := sum(CI[ce, s] on ce)
 MAT[s] := sum(CI[cm, s] on cm)
 
-F_n[K, s] := K[s]
-F_n[L, s] := L[s]
-F_n[E, s] := E[s]
-F_n[MAT, s] := MAT[s]
+F[K, s] := K[s]
+F[L, s] := L[s]
+F[E, s] := E[s]
+F[MAT, s] := MAT[s]
+
+F_n[K, s] := F[K, s]
+F_n[L, s] := F[L, s]
+F_n[E, s] := F[E, s]
+F_n[MAT, s] := F[MAT, s]
 
 CI[c, s] := CID[c, s] + CIM[c, s]
 I[c, s] := ID[c, s] + IM[c, s]

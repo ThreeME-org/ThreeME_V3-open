@@ -29,21 +29,11 @@ d(SUBST_F_n[f, s]) = sum(- ES[f, ff, s] * phi[ff, s]{-1} * d(log(C[f, s]/PROG[f,
 
 phi[f, s] = C[f, s] * F_n[f, s] / (sum(C[ff, s] * F_n[ff, s] on ff))
 
-C[K, s] = PK[s] * (Rdep[s] + r[s])
+## Investment in commodity c by sector s
+## For a given sector, we assume that the investment structure is fixed over time. In other words, the investment good is a composite of several commodities in fixed proportion. 
+d(log(I[c, s])) = d(log(IA[s])) if I[c, s] <> 0
 
-C[L, s] =  W[s] * (1 + RRSSC[s])
 
-C[E, s] = PE[s]
-
-C[MAT, s] = PMAT[s] 
-
-#
-#
-#
-## equation 2.09
-#d(log(IA[c, s])) = d(log(IA[s])) if IA[c, s] <> 0
-#
-#
 ## equation 2.11
 #K[s] = (1 - Rdep[s]) * K[s]{-1} + IA[s] if K[s] <> 0
 #
@@ -51,18 +41,7 @@ C[MAT, s] = PMAT[s]
 #
 #d(log(Y_e[s])) = ADJUST(71,2) * d(log(Y_e[s]{-1})) + (1 - ADJUST(71,2)) * d(log(Y[s]))
 #
-## Transport margins
-#
-## equation 2.12 & 2.13
-#d(log(MT|O|[trsp, c])) = d(log(|V|[c])) + d(SUBST_MT|O|[trsp, c]) if MT|O|[trsp, c] <> 0 where (O, V) in (D M, YQ M), c in %list_com \ %list_trsp
-#
-## equation 2.14 & 2.15
-#d(log(MC|O|[c])) = d(log(|V|[c])) if MC|O|[c] <> 0 where (O, V) in (D M, YQ M), c in %list_com \ %list_com_commarg
-#
-## Stock inventories for commodity c
-#
-## equations 2.17 & 2.19
-#S|O|_n[c] = STEADYSTATE(50,1) * (CI|O|[c] + CH|O|[c] + G|O|[c] + I|O|[c] + X|O|[c]) if S|O|[c] <> 0
+
 #
 ## Level II
 ## Sectorial notional energy demand by type of energy

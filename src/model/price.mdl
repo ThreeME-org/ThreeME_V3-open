@@ -39,25 +39,31 @@ PY_n[s] = CU_n[s] * (1 + TMD[s])
 
 
 ## Notional unit cost of production in sector s
-## To define the notional price, it is preferable to use the notional unit cost of production insteard of the effective one. This lead to a more stable dynamic and gives a better representation of anticipation.
-
-CU_n[s] * Y[s] = CK[s] * K_n[s] + CL[s] * L_n[s] * PROG_L[s] + PE[s] * E_n[s] + PMAT[s]*MAT_n[s] + NTAXI_VAL[s]
+## To define the notional price, it is preferable to use the notional unit cost of production instead of the effective one. This lead to a more stable dynamic and gives a better representation of anticipation. 
+CU_n[s] * Y[s] = sum(C[f, s] * F_n[f, s] on f) + NTAXI_VAL[s]
 
 ## Unit cost of production in sector s
-CU[s]*Y[s] = CK[s]*K[s] + CL[s]*L[s]*PROG_L[s] + PE[s]*E[s] + PMAT[s]*MAT[s] + NTAXI_VAL[s]
+CU[s] * Y[s] = sum(C[f, s] * F[f, s] on f) + NTAXI_VAL[s]
 
 ## Labor cost in sector s
-CL[s] =  W[s] * (1 + RRSSC[s]) / PROG_L[s]
+C[L, s] =  W[s] * (1 + RRSSC[s])
 
 ### Capital cost in sector s
 ### It is preferable to calculate the user cost of capital based on the price of capital rather than on the price of investment. Indeed the price of the average capital installed is lower than the one of investment because of inflation. Using the price of investment tend to over estimate the cost of capital because it assumes that the debt contracted to finance past investments is indexed on inflation which is not the case in reality. 
 
-CK[s] = PK[s] * (Rdep[s] + r[s])
+C[K, s] = PK[s] * (Rdep[s] + r[s])
  
 ### Price of capital in sector s
 ### The price of capital is calibrated by rewriting this equation in the long run. It is always smaller than 1 because it is calibrated as follows: PK[s] = PI[s]*(Rdep[s]+GR_REAL)*(1+GR_PRICES)/(Rdep[s]-1+(1+GR_REAL)*(1+GR_PRICES))
 
 PK[s] * K[s] = (1 - Rdep[s]) * PK[s]{-1} * K[s]{-1} + PI[s] * I[s]
+
+### Energy costs in sector s
+### In first approximation the cost of energy correspond to the energy price. However if the producer is forward looking, she will integrate the anticipation of price increase in it definition of the user cost of energy. In this case the specification becomes ....
+C[E, s] = PE[s]
+
+### Materal costs in sector s
+C[MAT, s] = PMAT[s] 
 
 ### Volume and price of the bruto wages paid by sector s including employees (but not employers)' social contribution
 ### To derive the volume, we assume that the price is the consumer price 
