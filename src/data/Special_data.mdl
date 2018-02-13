@@ -28,10 +28,10 @@ phi_|V|M[c, s] := |V|M[c, s]/|V|[c, s] where V in CI I
 
 # Alias or defined to be used in behavor equations
 IA[s] := I[s]
-MAT[s] := sum(CI[cm, s] on cm)
+
 
 F[E, s] := sum(CI[ce, s] on ce)
-F[MAT, s] := MAT[s]
+F[MAT, s] := sum(CI[cm, s] on cm)
 
 F_n[K, s] := F[K, s]
 F_n[L, s] := F[L, s]
@@ -43,8 +43,8 @@ I[c, s] := ID[c, s] + IM[c, s]
 |V|[c] := |V|D[c] + |V|M[c] where V in CH G X
 
 # Expected and nominal variables are initialised to their real value
-|V|_n[s] := |V|[s] where V in IA MAT W
-|V|_e[s] := |V|[s] where V in IA MAT W
+|V|_n[s] := |V|[s] where V in IA W
+|V|_e[s] := |V|[s] where V in IA W
 
 |V|_n := |V| where V in PARTR
 

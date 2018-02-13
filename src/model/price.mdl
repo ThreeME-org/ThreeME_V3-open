@@ -80,7 +80,7 @@ P|V|[c] * |V|[c] = P|V|D[c] * |V|D[c] + P|V|M[c] * |V|M[c] if |V|[c] <> 0 where 
 PCI[c, s] * CI[c, s] = PCID[c, s] * CID[c, s] + PCIM[c, s] * CIM[c, s] if CI[c, s] <> 0
 
 ### Material consumption price for sector s
-PMAT[s]*MAT[s] = sum(PCI[cm, s]*CI[cm, s] if CI[cm, s] <> 0 on cm) if MAT[s] <> 0
+PMAT[s]*F[MAT, s] = sum(PCI[cm, s]*CI[cm, s] if CI[cm, s] <> 0 on cm) if F[MAT, s] <> 0
 
 ### Energy price for sector s
 PE[s]*F[E, s] = sum(PCI[ce, s]*CI[ce, s] if CI[ce, s] <> 0 on ce) if F[E, s] <> 0

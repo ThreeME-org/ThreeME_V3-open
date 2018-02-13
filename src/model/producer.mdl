@@ -65,7 +65,7 @@ phi[E, ce, s] = PCI[ce, s]*CI[ce, s] / (sum(PCI[cee, s]*CI[cee, s] on cee))
 ## Notional demand for material c of the sector a
 #
 ## equation 2.24
-#d(log(MAT[cm, s])) = d(log(MAT[s])) + d(SUBST_MAT[cm, s]) if MAT[cm, s] <> 0
+#d(log(MAT[cm, s])) = d(log(F[MAT, s]])) + d(SUBST_MAT[cm, s]) if MAT[cm, s] <> 0
 #
 #
 #
