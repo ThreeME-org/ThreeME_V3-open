@@ -55,6 +55,9 @@ DNAIRU := 0
 SUBST_MGPD[cc, c] := 0
 SUBST_MGPM[cc, c] := 0
 
+SUBST_MGPD_n[cc, c] := 0
+SUBST_MGPM_n[cc, c] := 0
+
 SUBST_|V|_n[s] := 0 where V in IA L E MAT K
 SUBST_|V|[s] := 0 where V in IA L E MAT K
 
@@ -87,7 +90,11 @@ SUBST_|V|M[c, s] := 0 where V in CI I
 
 
 ## Verification variable: ok if equal to 0
-verif_phi_input[s] := 0
+verif_phi_F[s] := 0
+
+verif_phi_MGPD[c] := 0
+
+verif_phi_MGPM[c] := 0
 
 #VERIF_|V| := 0 where V in PY_PYQ Y_YQ PIAxIA_PIxI PIA_PI IA_I GDP_GDPBIS GDP_GDPTER PGDP_PGDPBIS PGDP_PGDPTER ValGDP_ValGDPTER
 #VERIF_PEXP_CES[h] := 0

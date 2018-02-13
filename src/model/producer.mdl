@@ -7,15 +7,22 @@
 ### Margins paid to commodity cc on the domestic commodity c 
 d(log(MGPD[cc, c])) = d(log(YQ[c])) + d(SUBST_MGPD[cc, c]) if MGPD[cc, c] <> 0
 
+SUBST_MGPD_n[cc, c] = sum(- ES_MGPD[cc, ccc, c] * phi_MGPD[ccc, c]{-1} * d(log(PMGPD[cc, c]) - log(PMGPD[ccc, c])) if MGPD[ccc, c] <> 0 on ccc) if MGPD[cc, c] <> 0
+
+phi_MGPD[cc, c] = PMGPD[cc, c] * MGPD[cc, c] / (sum(PMGPD[ccc, c] * MGPD[ccc, c] on ccc)) if MGPD[cc, c] <> 0
+
 ### Margins paid to commodity cc on the imported commodity c 
 d(log(MGPM[cc, c])) = d(log( M[c])) + d(SUBST_MGPM[cc, c]) if MGPM[cc, c] <> 0
 
+SUBST_MGPM_n[cc, c] = sum(- ES_MGPM[cc, ccc, c] * phi_MGPM[ccc, c]{-1} * d(log(PMGPM[cc, c]) - log(PMGPM[ccc, c])) if MGPM[ccc, c] <> 0 on ccc) if MGPM[cc, c] <> 0
+
+phi_MGPM[cc, c] = PMGPM[cc, c] * MGPM[cc, c] / (sum(PMGPM[ccc, c] * MGPM[ccc, c] on ccc)) if MGPM[cc, c] <> 0
 
 ### Production of commodity c by sector s 
 Y[c, s] = PhiY[c, s] * YQ[c] if Y[c, s] <> 0
 
 
-## equation 2.04
+## Demand for production factors of sector s
 d(log(F_n[f, s])) = d(log(Y[s])) - d(log(PROG[f, s])) + d(SUBST_F[f, s])  if F_n[f, s] <> 0
 
 d(SUBST_F_n[f, s]) = sum(- ES[f, ff, s] * phi[ff, s]{-1} * d(log(C[f, s]/PROG[f, s]) - log(C[ff, s]/PROG[ff, s])) on ff) if F_n[f, s] <> 0

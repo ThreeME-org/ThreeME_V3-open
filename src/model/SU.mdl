@@ -72,12 +72,12 @@ PMGR[cc] * MGR[cc] = sum(PMGP[cc, c] * MGP[cc, c] if MGP[cc, c] <> 0 on c) if MG
 ### Remark about margins:  
 ### The margins paid MGPD[cc, c] and MGPM[cc, c] are defined with behavor equations. They follow YQ[c] and M[c] (more or less proportionnally depending on the possibility of substitutions between margins). See producer block. The margins paid are then agregated to define the margins recieved MGR[cc]. The latter is then disagrated between the domestic and imported margins recieved (MGRD[c] and MGRM[c]). See producer block.  
 
-### Aggregate margins paid on the domesticaly produced commodity c (value & volume):
+### Aggregate margins paid on the domesticaly produced commodity (value & volume):
 PMGPD * MGPD = sum(PMGPD[c] * MGPD[c] if MGPD[c] <> 0 on c) if MGPD <> 0
 
         MGPD = sum(           MGPD[c] if MGPD[c] <> 0 on c) if MGPD <> 0
 
-### Aggregate margins paid on the imported commodity c (value & volume):
+### Aggregate margins paid on the imported commodity (value & volume):
 
 PMGPM * MGPM = sum(PMGPM[c] * MGPM[c] if MGPM[c] <> 0 on c) if MGPM <> 0
 

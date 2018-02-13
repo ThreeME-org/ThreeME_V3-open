@@ -143,6 +143,11 @@ empl := L
 ### Elastiscity of substitutions
 ################################
 
+
+## Between margins paid on the domestic and imported commodity c
+ES_MGPD[ccc, cc, c] := 0.1
+ES_MGPM[ccc, cc, c] := 0.1
+
 ## Between production factors
 ES[f, ff, s] := 0.3
 
