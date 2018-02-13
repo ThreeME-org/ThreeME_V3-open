@@ -36,7 +36,7 @@ PM[c] := P
 
 CL[s] :=  W[s] * (1 + RRSSC[s]) / PROG_L[s]
 
-CK[s] := PK[s] * (Tdec[s] + r[s])
+CK[s] := PK[s] * (Rdep[s] + r[s])
 
 CU[s]*Y[s] := CK[s]*K[s] + CL[s]*L[s]*PROG_L[s] + PE[s]*E[s] + PMAT[s]*MAT[s] + NTAXI_VAL[s]
 
@@ -47,9 +47,9 @@ CU_n[s] * Y[s] := CK[s] * K_n[s] + CL[s] * L_n[s] * PROG_L[s] + PE[s] * E_n[s] +
 
 ### Price of capital of sector s
 ### In the model the price of capital is defined by:
-### PK[s] * K[s] = (1 - Tdec[s]) * PK[s]{-1} * K[s]{-1} + PI[s] * I[s]
+### PK[s] * K[s] = (1 - Rdep[s]) * PK[s]{-1} * K[s]{-1} + PI[s] * I[s]
 ### The price of capital is calibrated by rewrting this equation in the long run. It is always smaller than 1.
 
-PK[s] := PI[s]*(Tdec[s]+GR_REAL)*(1+GR_PRICES)/(Tdec[s]-1+(1+GR_REAL)*(1+GR_PRICES))
+PK[s] := PI[s]*(Rdep[s]+GR_REAL)*(1+GR_PRICES)/(Rdep[s]-1+(1+GR_REAL)*(1+GR_PRICES))
 
 R[s] := R

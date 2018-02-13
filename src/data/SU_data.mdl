@@ -86,9 +86,9 @@ GOS[s] := VA[s] - WAGES[s] - NTAXI[s]
 
 GOS := sum(GOS[s] on s)
 
-NOS_VAL[s] := GOS_VAL[s] - PK[s]{-1} * Tdec[s] * K[s]{-1}
+NOS_VAL[s] := GOS_VAL[s] - PK[s]{-1} * Rdep[s] * K[s]{-1}
 
-NOS[s] := GOS[s] - @elem(PK[s]{-1}, %baseyear) * Tdec[s] * K[s]{-1}
+NOS[s] := GOS[s] - @elem(PK[s]{-1}, %baseyear) * Rdep[s] * K[s]{-1}
 
 NOS := sum(NOS[s] on s)
 

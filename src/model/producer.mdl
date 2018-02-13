@@ -22,7 +22,7 @@ d(SUBST_F_n[f, s]) = sum(- ES[f, ff, s] * phi[ff, s]{-1} * d(log(C[f, s]/PROG[f,
 
 phi[f, s] = C[f, s] * F_n[f, s] / (sum(C[ff, s] * F_n[ff, s] on ff))
 
-C[K, s] = PK[s] * (Tdec[s] + r[s])
+C[K, s] = PK[s] * (Rdep[s] + r[s])
 
 C[L, s] =  W[s] * (1 + RRSSC[s])
 
@@ -38,7 +38,7 @@ C[MAT, s] = PMAT[s]
 #
 #
 ## equation 2.11
-#K[s] = (1 - Tdec[s]) * K[s]{-1} + IA[s] if K[s] <> 0
+#K[s] = (1 - Rdep[s]) * K[s]{-1} + IA[s] if K[s] <> 0
 #
 #d(log(IA[s])) = ADJUST(1, 1) * d(log(IA[s]{-1})) + ADJUST(1, 2) * d(log(Y_e[s])) + ADJUST(1, 3) * (log(K_n[s]{-1}) - log(K[s]{-1})) + ADJUST(1, 4) * d(SUBST_K[s]) + IMP_BUD[s] * @elem(GDP, %baseyear) / @elem(IA[s], %baseyear) if K[s] <> 0
 #

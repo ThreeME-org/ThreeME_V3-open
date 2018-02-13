@@ -52,12 +52,12 @@ CL[s] =  W[s] * (1 + RRSSC[s]) / PROG_L[s]
 ### Capital cost in sector s
 ### It is preferable to calculate the user cost of capital based on the price of capital rather than on the price of investment. Indeed the price of the average capital installed is lower than the one of investment because of inflation. Using the price of investment tend to over estimate the cost of capital because it assumes that the debt contracted to finance past investments is indexed on inflation which is not the case in reality. 
 
-CK[s] = PK[s] * (Tdec[s] + r[s])
+CK[s] = PK[s] * (Rdep[s] + r[s])
  
 ### Price of capital in sector s
-### The price of capital is calibrated by rewriting this equation in the long run. It is always smaller than 1 because it is calibrated as follows: PK[s] = PI[s]*(Tdec[s]+GR_REAL)*(1+GR_PRICES)/(Tdec[s]-1+(1+GR_REAL)*(1+GR_PRICES))
+### The price of capital is calibrated by rewriting this equation in the long run. It is always smaller than 1 because it is calibrated as follows: PK[s] = PI[s]*(Rdep[s]+GR_REAL)*(1+GR_PRICES)/(Rdep[s]-1+(1+GR_REAL)*(1+GR_PRICES))
 
-PK[s] * K[s] = (1 - Tdec[s]) * PK[s]{-1} * K[s]{-1} + PI[s] * I[s]
+PK[s] * K[s] = (1 - Rdep[s]) * PK[s]{-1} * K[s]{-1} + PI[s] * I[s]
 
 ### Volume and price of the bruto wages paid by sector s including employees (but not employers)' social contribution
 ### To derive the volume, we assume that the price is the consumer price 

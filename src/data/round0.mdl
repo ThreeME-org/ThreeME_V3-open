@@ -82,11 +82,11 @@ RSSC[s] := SUT(10,$s) * (1 + GR_REAL) ^ (@year - %baseyear)
 L[s] := SUT(11,$s) * (1 + GR_POP) ^ (@year - %baseyear)
 
 ### Depreciation rate of the capital of sector s
-Tdec[s] := SUT(13,$s) 
+Rdep[s] := SUT(13,$s) 
 # TO DO. Use an english name: TDepr
 
 ### Capital stock of sector s 
-K[s] := I[s] * (1 + GR_REAL) / (Tdec[s] + GR_REAL)
+K[s] := I[s] * (1 + GR_REAL) / (Rdep[s] + GR_REAL)
 
 ############################
 ### Use side (domestic)
