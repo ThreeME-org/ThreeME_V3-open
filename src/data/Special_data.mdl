@@ -31,6 +31,11 @@ IA[s] := I[s]
 E[s] := sum(CI[ce, s] on ce)
 MAT[s] := sum(CI[cm, s] on cm)
 
+F_n[K, s] := K[s]
+F_n[L, s] := L[s]
+F_n[E, s] := E[s]
+F_n[MAT, s] := MAT[s]
+
 CI[c, s] := CID[c, s] + CIM[c, s]
 I[c, s] := ID[c, s] + IM[c, s]
 |V|[c] := |V|D[c] + |V|M[c] where V in CH G X
@@ -53,6 +58,9 @@ SUBST_MGPM[cc, c] := 0
 SUBST_|V|_n[s] := 0 where V in IA L E MAT K
 SUBST_|V|[s] := 0 where V in IA L E MAT K
 
+SUBST_F_n[f, s] := 0
+SUBST_F[f, s] := 0
+
 SUBST_CI_n[ce, s] := 0
 SUBST_CI[ce, s] := 0
 
@@ -61,9 +69,6 @@ SUBST_|V|M[c] := 0 where V in MGR CH G X
 
 SUBST_|V|M_n[c, s] := 0 where V in CI I
 SUBST_|V|M[c, s] := 0 where V in CI I
-
-
-
 
 
 #SUBST_|V|_n[c, s] := 0 where V in IA IAD IAM
@@ -81,8 +86,12 @@ SUBST_|V|M[c, s] := 0 where V in CI I
 
 
 
+## Verification variable: ok if equal to 0
+verif_phi_input[s] := 0
 
-# VERIF_|V| := 0 where V in PY_PYQ Y_YQ PIAxIA_PIxI PIA_PI IA_I GDP_GDPBIS GDP_GDPTER PGDP_PGDPBIS PGDP_PGDPTER ValGDP_ValGDPTER
+#VERIF_|V| := 0 where V in PY_PYQ Y_YQ PIAxIA_PIxI PIA_PI IA_I GDP_GDPBIS GDP_GDPTER PGDP_PGDPBIS PGDP_PGDPTER ValGDP_ValGDPTER
+#VERIF_PEXP_CES[h] := 0
+
 
 
 

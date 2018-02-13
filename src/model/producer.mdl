@@ -16,65 +16,20 @@ Y[c, s] = PhiY[c, s] * YQ[c] if Y[c, s] <> 0
 
 
 ## equation 2.04
-#d(log(F_n[f, s])) = d(log(Y[s])) - d(log(PROG[f, s])) + d(SUBST_F[f, s])  if F_n[f, s] <> 0
+d(log(F_n[f, s])) = d(log(Y[s])) - d(log(PROG[f, s])) + d(SUBST_F[f, s])  if F_n[f, s] <> 0
 
-#d(log(PROG[f, s]))=0
+d(SUBST_F_n[f, s]) = sum(- ES[f, ff, s] * phi[ff, s]{-1} * d(log(C[f, s]/PROG[f, s]) - log(C[ff, s]/PROG[ff, s])) on ff) if F_n[f, s] <> 0
 
-#d(SUBST_F_n[f, s]) = sum(- ES[f, ff, s] * phi[ff, s]{-1} * d(log(C[f, s]) - log(C[ff, s])) on ff) if F_n[f, s] <> 0
+phi[f, s] = C[f, s] * F_n[f, s] / (sum(C[ff, s] * F_n[ff, s] on ff))
 
-#phi[f, s] = C[f, s] * F_n[f, s] / (sum(C[ff, s] * F_n[ff, s] on ff))
+C[K, s] = PK[s] * (Tdec[s] + r[s])
 
-#C[K, s] = PK[s] * (Tdec[s] + r[s])
+C[L, s] =  W[s] * (1 + RRSSC[s])
 
-#C[L, s] =  W[s] * (1 + RRSSC[s]) / PROG[L, s]
+C[E, s] = PE[s]
 
-#C[E, s] = PE[s]
+C[MAT, s] = PMAT[s] 
 
-#C[MAT, s] = PMAT[s] 
-
-#ES[f, ff, s] = 0.1
-
-
-##d(SUBST_K_n[s]) = _
-#  -ES_KLEM($s, 1) * d(log(CK[s]) - log(CL[s]))   * (L[s]{-1}   * PROG_L[s]{-1} * CL[s]{-1} / (CU[s]{-1} * Y[s]{-1})) _
-#  -ES_KLEM($s, 2) * d(log(CK[s]) - log(PE[s]))   * (E[s]{-1}   * PE[s]{-1}                 / (CU[s]{-1} * Y[s]{-1})) _
-#  -ES_KLEM($s, 3) * d(log(CK[s]) - log(PMAT[s])) * (MAT[s]{-1} * PMAT[s]{-1}               / (CU[s]{-1} * Y[s]{-1})) _
-#  if K_n[s] <> 0
-#
-## equation 2.05
-d(log(L_n[s])) = d(log(Y[s])) - d(log(PROG_L[s])) + d(SUBST_L[s]) if L_n[s] <> 0
-#
-#d(SUBST_L_n[s]) = _
-#  -ES_KLEM($s, 1) * d(log(CL[s]) - log(CK[s]))   * (K[s]{-1} * CK[s]{-1}     / (CU[s]{-1} * Y[s]{-1})) _
-#  -ES_KLEM($s, 4) * d(log(CL[s]) - log(PE[s]))   * (E[s]{-1} * PE[s]{-1}     / (CU[s]{-1} * Y[s]{-1})) _
-#  -ES_KLEM($s, 5) * d(log(CL[s]) - log(PMAT[s])) * (MAT[s]{-1} * PMAT[s]{-1} / (CU[s]{-1} * Y[s]{-1})) _
-#  if L_n[s] <> 0
-#
-## equation 2.06
-d(log(E_n[s])) = d(log(Y[s])) + d(SUBST_E[s]) - d(log(PROG_E[s])) if E_n[s] <> 0
-#
-#d(SUBST_E_n[s]) = _
-#  -ES_KLEM($s, 2) * d(log(PE[s]) - log(CK[s]))   * (K[s]{-1}   * CK[s]{-1}                 / (CU[s]{-1} * Y[s]{-1})) _
-#  -ES_KLEM($s, 4) * d(log(PE[s]) - log(CL[s]))   * (L[s]{-1}   * PROG_L[s]{-1} * CL[s]{-1} / (CU[s]{-1} * Y[s]{-1})) _
-#  -ES_KLEM($s, 6) * d(log(PE[s]) - log(PMAT[s])) * (MAT[s]{-1} * PMAT[s]{-1}               / (CU[s]{-1} * Y[s]{-1})) _
-#if E_n[s] <> 0
-#
-## equation 2.07
-d(log(MAT_n[s])) = d(log(Y[s])) + d(SUBST_MAT[s]) if MAT_n[s] <> 0
-#
-#d(SUBST_MAT_n[s]) = _
-#  -ES_KLEM($s, 3) * d(log(PMAT[s]) - log(CK[s])) * (K[s]{-1} * CK[s]{-1}                 / (CU[s]{-1} * Y[s]{-1})) _
-#  -ES_KLEM($s, 5) * d(log(PMAT[s]) - log(CL[s])) * (L[s]{-1} * PROG_L[s]{-1} * CL[s]{-1} / (CU[s]{-1} * Y[s]{-1})) _
-#  -ES_KLEM($s, 6) * d(log(PMAT[s]) - log(PE[s])) * (E[s]{-1} * PE[s]{-1}                 / (CU[s]{-1} * Y[s]{-1})) _
-#if MAT_n[s] <> 0
-#
-## Calcul Input shares
-#phi_K[s]   = K[s] * CK[s]             / (CU[s] * Y[s])
-#phi_L[s]   = L[s] * PROG_L[s] * CL[s] / (CU[s] * Y[s])
-#phi_E[s]   = E[s] * PE[s]             / (CU[s] * Y[s])
-#phi_MAT[s] = MAT[s] * PMAT[s]         / (CU[s] * Y[s])
-#
-#verif_phi_input[s] = 1 - phi_K[s] - phi_L[s] - phi_E[s] - phi_MAT[s]
 #
 #
 #

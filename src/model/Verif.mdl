@@ -1,0 +1,7 @@
+########################################################
+#########     VERIFICATION  #####################
+########################################################
+### This file provides the equations defining check variables
+### Check variables begins with verif. They should always be equal to zero in the calibration and in the simulation.
+
+verif_phi_input[s] = 1 - (sum(phi[ff, s] on ff))

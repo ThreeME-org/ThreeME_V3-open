@@ -11,7 +11,7 @@ include ..\model\Trade_inter
 
 include ..\model\Demography
 
-
+include ..\model\Verif
 
 # include ..\model\GHG
 # include ..\model\Consumer

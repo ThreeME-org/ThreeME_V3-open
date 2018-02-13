@@ -1,5 +1,20 @@
 include ..\model\lists
 
+### From producer block
+
+phi[f, s] := C[f, s] * F_n[f, s] / (sum(C[ff, s] * F_n[ff, s] on ff))
+
+C[K, s] := PK[s] * (Tdec[s] + r[s])
+C[L, s] :=  W[s] * (1 + RRSSC[s])
+C[E, s] := PE[s]
+C[MAT, s] := PMAT[s] 
+
+
+### From GOV:
+NTAXPD_VAL[c] := RNTAXPD[c]*PYQ[c]*YQ[c]
+
+NTAXPM_VAL[c] := RNTAXPM[c]*PM[c]*M[c]
+
 ### From Demographic block
 L := sum(L[s] on s)
 Un := LF - Empl

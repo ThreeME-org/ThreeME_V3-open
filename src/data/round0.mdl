@@ -7,14 +7,12 @@ include ..\model\lists
 ### Population growth rate
 GR_POP    := 0.0029
 
-### Growth rate of labor technical progress 
-GR_PROG_L := 0.0170
+### Growth rate of technical progress for capital, labor, energy and material
+GR_PROG[L] := 0.0170
 
-### Growth rate of capital technical progress
-GR_PROG_K := 0.0
-
-### Growth rate of energy technical progress
-GR_PROG_E := 0.0
+GR_PROG[K] := 0.0
+GR_PROG[E] := 0.0
+GR_PROG[MAT] := 0.0
 
 
 ### Inflation (growth rate of prices)
@@ -35,10 +33,8 @@ GR_NOMIW := (1 + GR_PRICES)*(1 + GR_PROG_L) - 1
 ### Interest rate
 R := GR_NOMI - RISKPREM
 
-### Grothw rate of technical progress in sectors
-GR_PROG_L[s] := GR_PROG_L
-GR_PROG_E[s] := GR_PROG_E
-GR_PROG_K[s] := GR_PROG_K
+### Grothw rate of technical progress in sectors for the production factors
+GR_PROG[f, s] := GR_PROG[f]
 
 ##############
 ### Indexes
@@ -46,10 +42,7 @@ GR_PROG_K[s] := GR_PROG_K
 P 		:=  1 * (1 + GR_PRICES) ^ (@year - %baseyear)
 PROG_L 	:=  1 * (1 + GR_PROG_L) ^ (@year - %baseyear)
 
-PROG_L[s] := 1 * (1 + GR_PROG_L[s]) ^ (@year - %baseyear)
-PROG_E[s] := 1 * (1 + GR_PROG_E[s]) ^ (@year - %baseyear)
-PROG_K[s] := 1 * (1 + GR_PROG_K[s]) ^ (@year - %baseyear)
-
+PROG[f, s] := 1 * (1 + GR_PROG[f, s]) ^ (@year - %baseyear)
 
 ##############
 ### Supply side
@@ -149,6 +142,9 @@ empl := L
 ################################
 ### Elastiscity of substitutions
 ################################
+
+## Between production factors
+ES[f, ff, s] := 0.3
 
 ## Between energy intermediary consumption
 ES_NRJ[ce, cee, s] := 0.3
