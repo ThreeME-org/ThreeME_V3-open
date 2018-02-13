@@ -14,6 +14,10 @@ C[E, s] := PE[s]
 C[MAT, s] := PMAT[s] 
 
 
+phi[E, ce, s] := PCI[ce, s]*CI[ce, s] / (sum(PCI[cee, s]*CI[cee, s] on cee))
+
+
+
 ### From GOV:
 NTAXPD_VAL[c] := RNTAXPD[c]*PYQ[c]*YQ[c]
 

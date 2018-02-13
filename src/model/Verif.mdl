@@ -9,3 +9,4 @@ verif_phi_F[s] = 1 - (sum(phi[ff, s] on ff))
 verif_phi_MGPD[c] = 1 - (sum(phi_MGPD[cc, c] on cc)) if MGPD[c] <> 0
 verif_phi_MGPM[c] = 1 - (sum(phi_MGPM[cc, c] on cc)) if MGPM[c] <> 0
 
+verif_phi[E, s] = 1 - (sum(phi[E, ce, s] on ce)) if F[E, s] <> 0

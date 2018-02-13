@@ -42,14 +42,13 @@ d(log(I[c, s])) = d(log(IA[s])) if I[c, s] <> 0
 #d(log(Y_e[s])) = ADJUST(71,2) * d(log(Y_e[s]{-1})) + (1 - ADJUST(71,2)) * d(log(Y[s]))
 #
 
-#
-## Level II
-## Sectorial notional energy demand by type of energy
-#
-## equation 2.20
-d(log(CI[ce, s])) = d(log(E[s])) + d(SUBST_CI[ce,s]) if CI[ce, s] <> 0
 
-d(SUBST_CI_n[ce, s]) = sum(- ES_NRJ[ce, cee, s] * d(log(PCI[ce, s]) - log(PCI[cee, s])) * PCI[cee, s]{-1}*CI[cee, s]{-1} / (PE[s]*E[s]) on cee) if CI[ce, s] <> 0
+## Energy demand by type of energy in sector s
+d(log(CI[ce, s])) = d(log(F[E, s])) + d(SUBST_CI[ce,s]) if CI[ce, s] <> 0
+
+d(SUBST_CI_n[ce, s]) = sum(- ES_NRJ[ce, cee, s] * phi[E, cee, s] * d(log(PCI[ce, s]) - log(PCI[cee, s])) on cee) if CI[ce, s] <> 0
+
+phi[E, ce, s] = PCI[ce, s]*CI[ce, s] / (sum(PCI[cee, s]*CI[cee, s] on cee))
 
 ## Self employed and employed
 #

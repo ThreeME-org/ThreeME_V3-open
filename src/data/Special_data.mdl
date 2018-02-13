@@ -28,10 +28,9 @@ phi_|V|M[c, s] := |V|M[c, s]/|V|[c, s] where V in CI I
 
 # Alias or defined to be used in behavor equations
 IA[s] := I[s]
-E[s] := sum(CI[ce, s] on ce)
 MAT[s] := sum(CI[cm, s] on cm)
 
-F[E, s] := E[s]
+F[E, s] := sum(CI[ce, s] on ce)
 F[MAT, s] := MAT[s]
 
 F_n[K, s] := F[K, s]
@@ -44,8 +43,8 @@ I[c, s] := ID[c, s] + IM[c, s]
 |V|[c] := |V|D[c] + |V|M[c] where V in CH G X
 
 # Expected and nominal variables are initialised to their real value
-|V|_n[s] := |V|[s] where V in IA E MAT W
-|V|_e[s] := |V|[s] where V in IA E MAT W
+|V|_n[s] := |V|[s] where V in IA MAT W
+|V|_e[s] := |V|[s] where V in IA MAT W
 
 |V|_n := |V| where V in PARTR
 
@@ -98,6 +97,8 @@ verif_phi_F[s] := 0
 verif_phi_MGPD[c] := 0
 
 verif_phi_MGPM[c] := 0
+
+verif_phi[E, s] := 0
 
 #VERIF_|V| := 0 where V in PY_PYQ Y_YQ PIAxIA_PIxI PIA_PI IA_I GDP_GDPBIS GDP_GDPTER PGDP_PGDPBIS PGDP_PGDPTER ValGDP_ValGDPTER
 #VERIF_PEXP_CES[h] := 0
