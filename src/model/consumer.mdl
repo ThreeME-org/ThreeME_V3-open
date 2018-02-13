@@ -3,10 +3,10 @@
 include ..\model\lists
 
 # equation 4.1
-W * L = (sum(W[s] * L[s] on s))
+W * F[L] = (sum(W[s] * F[L, s] on s))
 
 
-CL * L = (sum(CL[s] * L[s] on s))
+CL * F[L] = (sum(CL[s] * F[L, s] on s))
 
 
 # equation 4.9

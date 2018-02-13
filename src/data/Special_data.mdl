@@ -9,7 +9,7 @@ Xbis[c] := X[c]
 
 ### Calibration of parameter from Equations
 PhiY[c, s] := Y[c, s]/YQ[c]
-W[s] := WAGES[s] * PWAGES[s] / L[s] 
+W[s] := WAGES[s] * PWAGES[s] / F[L, s]
 (1 + TMD[s]) := PY_n[s] / CU_n[s]
 
 RNTAXPD[c] := NTAXPD[c]/YQ[c]
@@ -18,7 +18,7 @@ RNTAXPM[c] := NTAXPM[c]/ M[c]
 PARTR := LF/WAPop
 
 # Tax rate for the Employers' social security contribution paid by sector s
-(1 + RRSSC[s]) := RSSC[s] * PRSSC[s] / (W[s] * L[s])
+(1 + RRSSC[s]) := RSSC[s] * PRSSC[s] / (W[s] * F[L, s])
 
 # Import share of commodity c for margins recieved, private and public consumption, investment and exports 
 phi_|V|M[c] := |V|M[c]/|V|[c] where V in MGR CH G X
@@ -31,7 +31,6 @@ IA[s] := I[s]
 E[s] := sum(CI[ce, s] on ce)
 MAT[s] := sum(CI[cm, s] on cm)
 
-F[L, s] := L[s]
 F[E, s] := E[s]
 F[MAT, s] := MAT[s]
 
@@ -45,8 +44,8 @@ I[c, s] := ID[c, s] + IM[c, s]
 |V|[c] := |V|D[c] + |V|M[c] where V in CH G X
 
 # Expected and nominal variables are initialised to their real value
-|V|_n[s] := |V|[s] where V in IA L E MAT W
-|V|_e[s] := |V|[s] where V in IA L E MAT W
+|V|_n[s] := |V|[s] where V in IA E MAT W
+|V|_e[s] := |V|[s] where V in IA E MAT W
 
 |V|_n := |V| where V in PARTR
 

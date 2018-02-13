@@ -68,7 +68,7 @@ C[MAT, s] = PMAT[s]
 ### Volume and price of the bruto wages paid by sector s including employees (but not employers)' social contribution
 ### To derive the volume, we assume that the price is the consumer price 
 
-WAGES[s] * PWAGES[s] = W[s] * L[s]
+WAGES[s] * PWAGES[s] = W[s] * F[L, s]
 
 PWAGES[s] = P
 
@@ -143,7 +143,7 @@ PDSM[c] = PMS[c]  if DSM[c] <> 0
 PM[c] = TC*PWD[c] if M[c] <> 0
 
 ## Notional wage in sector s
-d(log(W_n[s])) = RHO_W_Cons[s] + RHO_W_P[s]*d(log(P_e)) + RHO_W_PROG[s]*d(log(PROG_L[s])) - RHO_W_U[s] * (UnR - DNAIRU) - RHO_W_DU[s]*d(UnR) + RHO_W_L[s]*d(log(L[s]) - log(L)) if W_n[s] <> 0
+d(log(W_n[s])) = RHO_W_Cons[s] + RHO_W_P[s]*d(log(P_e)) + RHO_W_PROG[s]*d(log(PROG_L[s])) - RHO_W_U[s] * (UnR - DNAIRU) - RHO_W_DU[s]*d(UnR) + RHO_W_L[s]*d(log(F[L, s]) - log(F[L])) if W_n[s] <> 0
 
 ## TAYLOR RULE and interest rates
 #

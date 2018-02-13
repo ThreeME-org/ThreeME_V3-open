@@ -5,11 +5,11 @@ include ..\model\Price
 
 include ..\model\Producer
 
-#include ..\model\Government
+include ..\model\Government
 
-#include ..\model\Trade_inter
+include ..\model\Trade_inter
 
-#include ..\model\Demography
+include ..\model\Demography
 
 include ..\model\Verif
 

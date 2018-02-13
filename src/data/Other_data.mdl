@@ -20,6 +20,6 @@ NTAXPD_VAL[c] := RNTAXPD[c]*PYQ[c]*YQ[c]
 NTAXPM_VAL[c] := RNTAXPM[c]*PM[c]*M[c]
 
 ### From Demographic block
-L := sum(L[s] on s)
+F[L] := sum(F[L, s] on s)
 Un := LF - Empl
 UnR := Un / LF

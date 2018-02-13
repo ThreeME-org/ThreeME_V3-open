@@ -79,7 +79,7 @@ WAGES[s] := SUT(9,$s) * (1 + GR_REAL) ^ (@year - %baseyear)
 RSSC[s] := SUT(10,$s) * (1 + GR_REAL) ^ (@year - %baseyear) 
 
 ### Labor of sector s 
-L[s] := SUT(11,$s) * (1 + GR_POP) ^ (@year - %baseyear)
+F[L, s] := SUT(11,$s) * (1 + GR_POP) ^ (@year - %baseyear)
 
 ### Depreciation rate of the capital of sector s
 Rdep[s] := SUT(13,$s) 
@@ -131,8 +131,8 @@ XM[c]  := SUT($c+26,29) * (1 + GR_REAL) ^ (@year - %baseyear)
 
 POP := WAPop/0.6
 WAPop := LF/0.7
-LF := L/(1 - 0.1)
-empl := L
+LF := F[L]/(1 - 0.1)
+empl := F[L]
 
 
 ########################################

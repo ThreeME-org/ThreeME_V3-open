@@ -16,7 +16,7 @@ NTAXPM_VAL[c] = RNTAXPM[c]*PM[c]*M[c]
 
 ### Employers' social security contribution paid by sector s
 ### RSSC = employeRs' Social Security Contribution 
-RSSC[s] * PRSSC[s] = W[s] * L[s] * (1 + RRSSC[s])
+RSSC[s] * PRSSC[s] = W[s] * F[L, s] * (1 + RRSSC[s])
 
 		  PRSSC[s] = P
 
