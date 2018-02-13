@@ -241,23 +241,6 @@ GDPter = VA + NTAXP
 
 
 
-### To do. Voir si cela ne peut pas être simplifié. Eviter que TCO_val apparaisse ici 
-
-# equations 1.18, 1.19, 1.20 & 1.21
-#PCI|O|[cm, s] = PMAT|O|[cm] if CI|O|[cm, s] <> 0
-#CI|O|[cm, s] = MAT|O|[cm, s] if CI|O|[cm, s] <> 0
 
 #PCI|O|[ce, s] = PE|O|[ce] + TCO_VAL|O|[ce, s] / E|O|[ce, s] if CI|O|[ce, s] > 0
 #CI|O|[ce, s] = E|O|[ce, s] if CI|O|[ce, s] > 0
-
-# equations 1.54 & 1.55
-# PRF[s]*RF[s] = PEBE[s]*EBE[s] - PK[s]{-1} * Rdep[s] * K[s]{-1} where s in %list_sec
-# RF[s] = EBE[s] - @elem(PK[s]{-1}, %baseyear) * Rdep[s] * K[s]{-1}
-
-# equations 1.56 & 1.57
-# @pv RF = sum(RF[s] on s)
-
-#RF_NET[sm] = @elem(PRF[sm]{-1}, %baseyear) * RF[sm]{-1} - IS[sm]
-# PRF_NET[sm]*RF_NET[sm] = PRF[sm]{-1}*RF[sm]{-1} - PIS[sm] * IS[sm]
-
-# @pv RF_NET = sum(RF_NET[sm] on sm)
