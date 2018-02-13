@@ -68,17 +68,16 @@ d(SUBST_CI_n[ct, s]) = sum(- ES_TRSP[ct, ctt, s] * phi_TRSP[ctt, s] * d(log(PCI[
 
 phi_TRSP[ct, s] = PCI[ct, s]*CI[ct, s] / (sum(PCI[ctt, s]*CI[ctt, s] on ctt))
 
-## Notional demand for material c of the sector a
-#
-## equation 2.24
-#d(log(MAT[cm, s])) = d(log(F[MAT, s]])) + d(SUBST_MAT[cm, s]) if MAT[cm, s] <> 0
-#
-#
-#
-#
-#PROG_K[s] = PROG_K[s]{-1} * (1 + GR_PROG_K[s])
-#PROG_L[s] = PROG_L[s]{-1} * (1 + GR_PROG_L[s])
-#PROG_E[s] = PROG_E[s]{-1} * (1 + GR_PROG_E[s])
-#
-#GR_PROG_E[s] =  alpha_PROG_E[s] + alpha_PROG_E_PE*((log(PE[s])- log(PCH)>0)*d(log(PE[s])-log(PCH)))
-#
+
+## Technical progress of the production factor f
+
+PROG[f, s] = PROG[f, s]{-1} * (1 + GR_PROG[f, s])
+
+## Endogenous energy efficiency
+GR_PROG[E, s] = @elem(GR_PROG[E, s], %baseyear) + rho_PROG_E_PE * (log(PE[s]) - log(P) > 0) * d(log(PE[s])-log(P))
+
+## Doute sur le specification ci-dessus qui reprend celle existante:
+# GR_PROG_E[s] =  alpha_PROG_E[s] + alpha_PROG_E_PE*((log(PE[s])- log(PCH)>0)*d(log(PE[s])-log(PCH)))
+### On a une variation qui affecte un niveau. L'effet doit être faible.
+## Je serais tenter de mettre plutot (à discuter!!!):
+#GR_PROG[E, s] = @elem(GR_PROG[E, s], %baseyear) + rho_PROG_E_PE * (log(PE[s]) - log(P) > 0) * (log(PE[s])-log(P))

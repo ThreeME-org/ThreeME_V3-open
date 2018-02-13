@@ -189,3 +189,6 @@ RHO_W_Cons[s] := log(1+GR_NOMIW) - RHO_W_P[s]*log(1+GR_PRICES) - RHO_W_PROG[s]*l
 
 # In the labor force participation rate equation
 RHO_PART := 0.3
+
+# Endogenous energy efficiency
+rho_PROG_E_PE := 0
