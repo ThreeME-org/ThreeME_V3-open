@@ -2,6 +2,10 @@
 
 %list_com := CIND CTRP CSER CNJN CNJM #[c]
 %list_com_MAT := CIND CTRP CSER   #[cm]
+
+%list_com_TRSP := CTRP   #[ct]
+%list_com_MATO := CIND CSER   #[cmo]
+
 %list_com_E := CNJN CNJM  #[ce]
 
 %list_F := K L E MAT  #[f]
@@ -15,8 +19,14 @@ ccc in %list_com
 
 cm in %list_com_MAT
 
+ct in %list_com_TRSP
+ctt in %list_com_TRSP
+
+cmo in %list_com_MATO
+
 ce in %list_com_E
 cee in %list_com_E
+
 
 f in %list_F
 ff in %list_F

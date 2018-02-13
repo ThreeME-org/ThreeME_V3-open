@@ -34,6 +34,8 @@ IA[s] := I[s]
 F[E, s] := sum(CI[ce, s] on ce)
 F[MAT, s] := sum(CI[cm, s] on cm)
 
+TRSP[s] := sum(CI[ct, s] on ct)
+
 F_n[K, s] := F[K, s]
 F_n[L, s] := F[L, s]
 F_n[E, s] := F[E, s]
@@ -69,8 +71,8 @@ SUBST_|V|[s] := 0 where V in IA L E MAT K
 SUBST_F_n[f, s] := 0
 SUBST_F[f, s] := 0
 
-SUBST_CI_n[ce, s] := 0
-SUBST_CI[ce, s] := 0
+SUBST_CI_n[c, s] := 0
+SUBST_CI[c, s] := 0
 
 SUBST_|V|M_n[c] := 0 where V in MGR CH G X
 SUBST_|V|M[c] := 0 where V in MGR CH G X
@@ -102,6 +104,8 @@ verif_phi_MGPD[c] := 0
 verif_phi_MGPM[c] := 0
 
 verif_phi[E, s] := 0
+
+verif_phi_TRSP[s] := 0
 
 #VERIF_|V| := 0 where V in PY_PYQ Y_YQ PIAxIA_PIxI PIA_PI IA_I GDP_GDPBIS GDP_GDPTER PGDP_PGDPBIS PGDP_PGDPTER ValGDP_ValGDPTER
 #VERIF_PEXP_CES[h] := 0

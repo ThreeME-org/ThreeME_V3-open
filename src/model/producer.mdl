@@ -52,18 +52,22 @@ d(SUBST_CI_n[ce, s]) = sum(- ES_NRJ[ce, cee, s] * phi[E, cee, s] * d(log(PCI[ce,
 
 phi[E, ce, s] = PCI[ce, s]*CI[ce, s] / (sum(PCI[cee, s]*CI[cee, s] on cee))
 
-## Self employed and employed
-#
-## equation 2.21
-#d(log(L_S[s])) = d(log(L[s]))
-#L_SE[s] = L[s] - L_S[s] if L_SE[s] <> 0
-#
-## equation 2.22
-#L_S = sum(L_S[s] if L_S[s] <> 0 on s)
-#
-## equation 2.23
-#L_SE = sum(L_SE[s] if L_SE[s] <> 0 on s)
-#
+## Demand for material commodity cmo by sector s
+## Intermediary consumption that are not transport or energy commodities
+## Leontief hypothesis
+d(log(CI[cmo, s])) = d(log(F[MAT, s])) if CI[cmo, s] <> 0
+
+### Demand for transport commodities by sector s
+## Leontief hypothesis
+d(log(TRSP[s])) = d(log(F[MAT, s])) if TRSP[s] <> 0
+
+## Demand for transport commodity ct by sector s
+d(log(CI[ct, s])) = d(log(TRSP[s])) + d(SUBST_CI[ct,s]) if CI[ct, s] <> 0
+
+d(SUBST_CI_n[ct, s]) = sum(- ES_TRSP[ct, ctt, s] * phi_TRSP[ctt, s] * d(log(PCI[ct, s]) - log(PCI[ctt, s])) on ctt) if CI[ct, s] <> 0
+
+phi_TRSP[ct, s] = PCI[ct, s]*CI[ct, s] / (sum(PCI[ctt, s]*CI[ctt, s] on ctt))
+
 ## Notional demand for material c of the sector a
 #
 ## equation 2.24

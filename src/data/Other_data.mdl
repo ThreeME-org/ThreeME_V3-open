@@ -16,6 +16,7 @@ C[MAT, s] := PMAT[s]
 
 phi[E, ce, s] := PCI[ce, s]*CI[ce, s] / (sum(PCI[cee, s]*CI[cee, s] on cee))
 
+phi_TRSP[ct, s] := PCI[ct, s]*CI[ct, s] / (sum(PCI[ctt, s]*CI[ctt, s] on ctt))
 
 
 ### From GOV:

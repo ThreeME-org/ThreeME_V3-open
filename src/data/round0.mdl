@@ -154,6 +154,11 @@ ES[f, ff, s] := 0.3
 ## Between energy intermediary consumption
 ES_NRJ[ce, cee, s] := 0.3
 
+
+## Between transport intermediary consumption
+ES_TRSP[ct, ctt, s] := 0.6 
+
+
 ## Between domestic and imported commodities for margins recieved, private and public consumption, investment and exports
 ES_|V|M[c] := 0.6 where V in MGR CH G I X
 
