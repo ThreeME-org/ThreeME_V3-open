@@ -51,7 +51,7 @@ I[c, s] := ID[c, s] + IM[c, s]
 
 Y_e[s] := Y[s]
 
-|V|_n := |V| where V in PARTR
+|V|_n := |V| where V in PARTR R
 
 PARTR_trend := PARTR
 

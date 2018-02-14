@@ -30,8 +30,13 @@ GR_NOMI := (1 + GR_POP)*(1 + GR_PROG_L)*(1 + GR_PRICES) - 1
 ### Growth rate of the nominal wage
 GR_NOMIW := (1 + GR_PRICES)*(1 + GR_PROG_L) - 1
 
-### Interest rate
+### Interest rates
+# Of the Central Bank
 R := GR_NOMI - RISKPREM
+
+# Of sectors and of the Government (Interest of the CB plus a premium)
+R[s] := R + 0
+R_G := R + 0
 
 ### Grothw rate of technical progress in sectors for the production factors
 GR_PROG[f, s] := GR_PROG[f]
@@ -190,6 +195,15 @@ RHO_W_DU[s] := 0.65
 RHO_W_L[s] := 0
 
 RHO_W_Cons[s] := log(1+GR_NOMIW) - RHO_W_P[s]*log(1+GR_PRICES) - RHO_W_PROG[s]*log(1+GR_PROG_L) + RHO_W_U[s] * UnR 
+
+
+# In the interest rate equation
+### If the country is part of a currency zone, a share is applied in the elasticity between the interest rate and inflation or the unemployment rate. For instance, we assume that France weight in the Euro Zone is 21 %. A approximation of a policy appplied at the EU level would consist in applying a weight of 100%.
+
+RHO_Rdir_P 	  := 0.21 * (1 + 0.5)
+RHO_Rdir_UnR  := 0.21 * 0.5 
+# To simulate a monetary policy shock
+RHO_Rdir_Cons := 0
 
 
 # In the labor force participation rate equation

@@ -46,5 +46,3 @@ CU[s] * Y[s] := sum(C[f, s] * F[f, s] on f) + NTAXI_VAL[s]
 ### The price of capital is calibrated by rewrting this equation in the long run. It is always smaller than 1.
 
 PK[s] := PI[s]*(Rdep[s]+GR_REAL)*(1+GR_PRICES)/(Rdep[s]-1+(1+GR_REAL)*(1+GR_PRICES))
-
-R[s] := R
