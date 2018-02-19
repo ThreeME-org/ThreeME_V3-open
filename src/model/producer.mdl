@@ -74,10 +74,10 @@ phi_TRSP[ct, s] = PCI[ct, s]*CI[ct, s] / (sum(PCI[ctt, s]*CI[ctt, s] on ctt))
 PROG[f, s] = PROG[f, s]{-1} * (1 + GR_PROG[f, s])
 
 ## Endogenous energy efficiency
-GR_PROG[E, s] = @elem(GR_PROG[E, s], %baseyear) + rho_PROG_E_PE * (log(PE[s]) - log(P) > 0) * d(log(PE[s])-log(P))
+GR_PROG[E, s] = @elem(GR_PROG[E, s], %baseyear) + RHO_PROG_E_PE * (log(PE[s]) - log(P) > 0) * d(log(PE[s])-log(P))
 
 ## Doute sur le specification ci-dessus qui reprend celle existante:
 # GR_PROG_E[s] =  alpha_PROG_E[s] + alpha_PROG_E_PE*((log(PE[s])- log(PCH)>0)*d(log(PE[s])-log(PCH)))
 ### On a une variation qui affecte un niveau. L'effet doit être faible.
 ## Je serais tenter de mettre plutot (à discuter!!!):
-#GR_PROG[E, s] = @elem(GR_PROG[E, s], %baseyear) + rho_PROG_E_PE * (log(PE[s]) - log(P) > 0) * (log(PE[s])-log(P))
+#GR_PROG[E, s] = @elem(GR_PROG[E, s], %baseyear) + RHO_PROG_E_PE * (log(PE[s]) - log(P) > 0) * (log(PE[s])-log(P))

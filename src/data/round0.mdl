@@ -53,6 +53,9 @@ PROG[f, s] := 1 * (1 + GR_PROG[f, s]) ^ (@year - %baseyear)
 ### Supply side
 ##############
 
+### Production capacity (depends on the hypothesis regarding the long term capacity utilisation ratio)
+YCAP[s] := Y[s] / 0.8
+
 ### Production of commodity c by sector s at basic price        
 Y[c, s] := SUT($c,$s) * (1 + GR_REAL) ^ (@year - %baseyear)
 
@@ -183,9 +186,16 @@ ADJUST_IA_Kn[s] := 0.05
 ADJUST_Ye_Y[s] := 0.7
 
 
+ADJUST_MARKUP[s] := 0.5
+
+ADJUST_YCAP_Y[s] := 0.05
+
 ADJUST_Pe_P1 := 0.7
 ADJUST_Pe_PeP1 := 0
 
+
+## Notional mark-up
+RHO_MARKUP_Y := 0.75
 
 # In the wage equation
 RHO_W_P[s] := 1
@@ -207,7 +217,7 @@ RHO_Rdir_Cons := 0
 
 
 # In the labor force participation rate equation
-RHO_PART := 0.3
+RHO_PART_UnR := 0.3
 
 # Endogenous energy efficiency
-rho_PROG_E_PE := 0
+RHO_PROG_E_PE := 0

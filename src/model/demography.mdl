@@ -12,7 +12,7 @@ LF = PARTR * WAPop
 # Labor force participation ratio
 # Because of discouraged worker effect, the participation ratio depends generally negatively on the unemployment rate
 
-d(PARTR_n) = d(PARTR_trend) - RHO_PART * d(UnR)
+d(PARTR_n) = d(PARTR_trend) - RHO_PART_UnR * d(UnR)
 
 # Labor
 F[L] = sum(F[L, s] on s)

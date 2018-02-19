@@ -10,7 +10,7 @@ Xbis[c] := X[c]
 ### Calibration of parameter from Equations
 PhiY[c, s] := Y[c, s]/YQ[c]
 W[s] := WAGES[s] * PWAGES[s] / F[L, s]
-(1 + TMD[s]) := PY_n[s] / CU_n[s]
+(1 + MARKUP[s]) := PY_n[s] / CU_n[s]
 
 RNTAXPD[c] := NTAXPD[c]/YQ[c]
 RNTAXPM[c] := NTAXPM[c]/ M[c]
@@ -46,7 +46,7 @@ I[c, s] := ID[c, s] + IM[c, s]
 |V|[c] := |V|D[c] + |V|M[c] where V in CH G X
 
 # Expected and nominal variables are initialised to their real value
-|V|_n[s] := |V|[s] where V in IA W
+|V|_n[s] := |V|[s] where V in IA W MARKUP
 |V|_e[s] := |V|[s] where V in IA W
 
 Y_e[s] := Y[s]

@@ -8,35 +8,28 @@ PYQ[c] * YQ[c] = sum(PY[s] * Y[c, s] if Y[c, s] <> 0 on s) if YQ[c] <> 0
 
 ### Notional production price of sector s 
 
-PY_n[s] = CU_n[s] * (1 + TMD[s])
+PY_n[s] = CU_n[s] * (1 + MARKUP[s])
 
+## Notional mark-up
 
-#
-## equation 5.5
-#d(log(1+TMD_n[s])) = STEADYSTATE(49,1) * ( d(log(Y[s])) - d(log(Y[s]{-1})) ) if Y[s] > 0
-#
-## From v1, rigidities on mark-up adjustments
-#TMD[s] = ADJUST(75, 1) * TMD_n[s] + (1 - ADJUST(75, 1)) * TMD[s]{-1} if Y[s] > 0
-#
-## equation 5.6
-#d(log(YOPT[s])) = d(log(K[s])) * CK[s]{-1} * K[s]{-1} / (CU[s]{-1} * Y[s]{-1}) _
-#		+ d(log(L[s] * PROG_L[s])) * CL[s]{-1} * L[s]{-1} * PROG_L[s]{-1} / (CU[s]{-1} * Y[s]{-1}) _
-#		+ d(log(E[s] + (E[s] >= 0) * (E[s] <= 0) * 0.0000000001)) * PE[s]{-1} * E[s]{-1} / (CU[s]{-1} * Y[s]{-1}) _
-#		+ d(log(MAT[s])) * PMAT[s]{-1} * MAT[s]{-1} / (CU[s]{-1} * Y[s]{-1}) _
-#		  if YOPT[s] <> 0
-#
+## Notional mark-up
+d(log(1+MARKUP_n[s])) = RHO_MARKUP_Y * d(log(CUR[s])) if Y[s] > 0
 
+# Notice that this is strictly equivalent to:
+# d(log(1+MARKUP_n[s])) = RHO_MARKUP_Y * (d(log(Y[s])) - d(log(YCAP[s]{-1}))) if Y[s] > 0
+# Which is quite close to the specification previously used:
+# d(log(1+MARKUP_n[s])) = RHO_MARKUP_Y * (d(log(Y[s])) - d(log(Y[s]{-1}))) if Y[s] > 0
 
-#equation average mark-up of activities per commodities
-#
-#(1 + MARKUP[c]) = PYQ[c] * YQ[c] / (sum(NCU_n[s] * Y[c, s] if Y[c, s] <> 0 on s)) if YQ[c] <> 0
+## Mark-up adjustments
+MARKUP[s] = ADJUST_MARKUP[s] * MARKUP_n[s] + (1 - ADJUST_MARKUP[s]) * MARKUP[s]{-1} if Y[s] > 0
 
+d(log(YCAP[s])) = sum(phi[f, s]{-1} * d(log(F[f, s]*PROG[f, s])) if F[f, s] <> 0 on f) + ADJUST_YCAP_Y[s] * (log(Y[s]{-1}) - log(YCAP[s]{-1} * @elem(CUR[s], %baseyear))) if YCAP[s] <> 0
 
+# Capacity Utilisation ratio
+CUR[s] = Y[s] / YCAP[s]
 
-
-
-
-
+# Average mark-up of activities per commodities
+(1 + MARKUP[c]) = PYQ[c] * YQ[c] / (sum(CU[s] * Y[c, s] if Y[c, s] <> 0 on s)) if YQ[c] <> 0
 
 ## Notional unit cost of production in sector s
 ## To define the notional price, it is preferable to use the notional unit cost of production instead of the effective one. This lead to a more stable dynamic and gives a better representation of anticipation. 
