@@ -15,6 +15,14 @@ W[s] := WAGES[s] * PWAGES[s] / F[L, s]
 RNTAXPD[c] := NTAXPD[c]/YQ[c]
 RNTAXPM[c] := NTAXPM[c]/ M[c]
 
+
+RINC_SOC_TAX := INC_SOC_TAX_VAL / DISPINC_BT_VAL
+phi_PROP_INC := PROP_INC_VAL / (PNOS * NOS) 
+
+(1 - MPS) := CH_VAL / DISPINC_AT_VAL 
+
+phi_MCH[c] := (CH_n[c] - NCH[c]) * PCH[c] / (CH_VAL - PNCH * NCH)
+
 PARTR := LF/WAPop
 
 # Tax rate for the Employers' social security contribution paid by sector s
@@ -26,10 +34,12 @@ phi_|V|M[c] := |V|M[c]/|V|[c] where V in MGR CH G X
 # Import share of commodity c bought by sector s for intermediary consumption and investment
 phi_|V|M[c, s] := |V|M[c, s]/|V|[c, s] where V in CI I
 
+# From equilibrated steady state
+Stock_SAVH := SAVH * (1 + GR_NOMI) / GR_NOMI
+
+
 # Alias or defined to be used in behavor equations
-
 IA[s] := I[s]
-
 
 F[E, s] := sum(CI[ce, s] on ce)
 F[MAT, s] := sum(CI[cm, s] on cm)
@@ -45,13 +55,20 @@ CI[c, s] := CID[c, s] + CIM[c, s]
 I[c, s] := ID[c, s] + IM[c, s]
 |V|[c] := |V|D[c] + |V|M[c] where V in CH G X
 
+CH_VAL := PCH * CH
+
 # Expected and nominal variables are initialised to their real value
 |V|_n[s] := |V|[s] where V in IA W MARKUP
 |V|_e[s] := |V|[s] where V in IA W
 
+|V|_n[c] := |V|[c] where V in CH
+|V|_e[c] := |V|[c] where V in CH
+
+
+
 Y_e[s] := Y[s]
 
-|V|_n := |V| where V in PARTR R
+|V|_n := |V| where V in PARTR R MPS
 
 PARTR_trend := PARTR
 
@@ -97,6 +114,8 @@ SUBST_|V|M[c, s] := 0 where V in CI I
 
 
 ## Verification variable: ok if equal to 0
+### Pour le compilateur: avoir un nom réservé pour Verif?
+
 verif_phi_F[s] := 0
 
 verif_phi_MGPD[c] := 0
@@ -106,6 +125,12 @@ verif_phi_MGPM[c] := 0
 verif_phi[E, s] := 0
 
 verif_phi_TRSP[s] := 0
+
+Verif_PCH_CES := 0 
+
+Verif_phi_CH := 0 
+
+Verif_phi_MCH := 0 
 
 #VERIF_|V| := 0 where V in PY_PYQ Y_YQ PIAxIA_PIxI PIA_PI IA_I GDP_GDPBIS GDP_GDPTER PGDP_PGDPBIS PGDP_PGDPTER ValGDP_ValGDPTER
 #VERIF_PEXP_CES[h] := 0

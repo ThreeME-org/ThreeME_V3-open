@@ -28,3 +28,17 @@ UnR := Un / LF
 
 
 ### From consumer
+DISPINC_BT_VAL := PWAGES * WAGES + PROP_INC_VAL + SOC_BENF_VAL + TRSF_HH_VAL
+
+DISPINC_AT_VAL := DISPINC_BT_VAL - INC_SOC_TAX_VAL
+
+NCH := sum(NCH[c] on c)
+
+PCH_CES := (sum(@elem(phi_MCH[c], %baseyear) * PCH[c] ^ (1 - ES_LESCES) on c)) ^ (1 / (1 - ES_LESCES))
+
+Phi_CH[c] := CH[c]/CH
+
+SAVH := DISPINC_AT_VAL - PCH * CH
+
+# Households savings rate
+RSAVH := SAVH / DISPINC_AT_VAL

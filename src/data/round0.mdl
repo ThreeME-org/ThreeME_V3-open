@@ -132,6 +132,20 @@ IM[c, s] := SUT($c+26,$s+22) * (1 + GR_REAL) ^ (@year - %baseyear)
 DSM[c] := SUT($c+26,30) * (1 + GR_REAL) ^ (@year - %baseyear)
 XM[c]  := SUT($c+26,29) * (1 + GR_REAL) ^ (@year - %baseyear)
 
+############################
+### CONSUMER DATA
+############################
+
+
+SOC_BENF_VAL := 1.2 * (1 + GR_NOMI) ^ (@year - %baseyear)
+TRSF_HH_VAL := 0 * (1 + GR_NOMI) ^ (@year - %baseyear)
+PROP_INC_VAL := 19 * (1 + GR_NOMI) ^ (@year - %baseyear) 
+
+INC_SOC_TAX_VAL := 5 * (1 + GR_NOMI) ^ (@year - %baseyear) 
+
+
+NCH[c] := 0.1 * CH[c]
+
 
 ############################
 ### DEMOGRAPHY DATA
@@ -151,6 +165,8 @@ empl := F[L]
 ### Elastiscity of substitutions
 ################################
 
+## Between household consumption commodities
+ES_LESCES := 0.5
 
 ## Between margins paid on the domestic and imported commodity c
 ES_MGPD[ccc, cc, c] := 0.1
@@ -215,6 +231,10 @@ RHO_Rdir_UnR  := 0.21 * 0.5
 # To simulate a monetary policy shock
 RHO_Rdir_Cons := 0
 
+
+# In the equation of the marginal propensity to save
+RHO_MPS_R := 0.5
+RHO_MPS_UnR := 0.1
 
 # In the labor force participation rate equation
 RHO_PART_UnR := 0.3

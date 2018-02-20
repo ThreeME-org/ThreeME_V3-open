@@ -2,66 +2,56 @@
 
 include ..\model\lists
 
-
-
-# Agregate labor cost
-# Dans producer!
-#CL * F[L] = (sum(CL[s] * F[L, s] on s))
-
-
 # Disposable income before tax
 # The disposable income before tax is used as base for the income tax.
 
-#DISPINC_BT_VAL = PWAGES * WAGES + PROP_INC_VAL + SOC_BENF_VAL + TRSF_HH_VAL
+DISPINC_BT_VAL = PWAGES * WAGES + PROP_INC_VAL + SOC_BENF_VAL + TRSF_HH_VAL
 
 ## Disposable income after tax
 # The definition of the disposable income after tax corresponds to the definition of "gross diposable income" defined in the annual account by institutional sector of Eurostat (b.6.g). 
 
-#DISPINC_AT_VAL = DISPINC_BT_VAL - INC_SOC_TAX_VAL
-
-#INC_SOC_TAX_VAL = RINC_SOC_TAX * DISPINC_BT_VAL
-
-#PROP_INC_VAL = phi_PROP_INC * PNOS * NOS
-
-#SOC_BENF_VAL = 
-
-#TRSF_HH_VAL = 
-
-# equation 4.14 & 4.15
-#@pv EXP[h] = sum(EXP[c, h] on c)
-
-# equation 4.16 & 4.17
-#@pv EXPH = sum(EXP[h] on h)
-
-# equation 4.18
-#d(MPS[h])= household_oth(5, 1) * d(UNR_TOT) + household_oth(6, 1)* d(R - infl_FR) + household_oth(7, 1) * d(DEBT_G_VAL / (PGDP * GDP)) # Should be changed if several type of households
-
-# equation 4.21 4.22
-#S = DISPINC_AT_VAL - PEXPH*EXPH
-#TS = S/DISPINC_AT_VAL
-#Stock_S = Stock_S{-1}+S
-
-# equation 4.23
-#(EXP_n[c] - NEXP[c]) * PEXP[c] = BetaExp[c] * (DISPINC_AT_VAL * (1 - MPS[h]) - PNEXP * NEXP) if EXP[c] <> 0
-
-# equation 4.24
-#d(log(BetaExp[c])) = (1 - ES_LESCES) * d(log(PEXP[c] / PEXP_CES)) if BetaExp[c] <> 0
+DISPINC_AT_VAL = DISPINC_BT_VAL - INC_SOC_TAX_VAL
 
 
-# equation 4.25
-#PEXP_CES = (sum(@elem(BetaExp[c], %baseyear) * PEXP[c] ^ (1 - ES_LESCES) on c)) ^ (1 / (1 - ES_LESCES)) if ES_LESCES <> 1
-#Verif_PEXP_CES = PEXP - PEXP_CES  if ES_LESCES <> 1
+## Income & Social Taxes
+INC_SOC_TAX_VAL = RINC_SOC_TAX * DISPINC_BT_VAL
+
+## Property incomes
+PROP_INC_VAL = phi_PROP_INC * PNOS * NOS
+
+# Social benefits
+### CHOISIR UNE SPECIFICATION DE BASE: CONTRACYCLIQUE?
+d(log(SOC_BENF_VAL)) = d(log(SOC_BENF_VAL{-1}))
+
+# Agregate household consumption in value
+CH_VAL = DISPINC_AT_VAL * (1 - MPS)
+
+# Notional marginal propensity to save
+d(MPS_n)= RHO_MPS_R * d(R - d(P)/P{-1}) + RHO_MPS_UnR * d(UnR) 
+
+# Household consumption of commodity c
+(CH_n[c] - NCH[c]) * PCH[c] = phi_MCH[c] * (CH_VAL - PNCH * NCH) if CH[c] <> 0
+
+# Necessary household consumption of commodity c
+PNCH * NCH = sum(PNCH[c] * NCH[c] on c) if NCH <> 0
+
+	   NCH = sum(NCH[c] on c) if NCH <> 0
 
 
-# equation 4.26 & 4.27
-#@pv NEXP = sum(NEXP[c] where c in %list_com) if NEXP <> 0
+# Share of commodity c in the marginal household consumption
+d(log(phi_MCH[c])) = (1 - ES_LESCES) * d(log(PCH[c] / PCH_CES)) if phi_MCH[c] <> 0
 
-#PNEXP[c] = PEXP[c] if NEXP <> 0
+# Share of commodity c in the household consumption
+Phi_CH[c] = CH[c]/CH if CH[c] <> 0
 
+# CES price index
+PCH_CES = (sum(@elem(phi_MCH[c], %baseyear) * PCH[c] ^ (1 - ES_LESCES) on c)) ^ (1 / (1 - ES_LESCES)) if ES_LESCES <> 1
 
-# equation 4.29
-#EXP[c] = sum(EXP[c] if EXP[c] <> 0 on h)
+# Households savings
+SAVH = DISPINC_AT_VAL - PCH * CH
 
-# equation 4.30 & 4.31
-#Phi_EXP[c] = EXP[c]/EXP[c] if EXP[c] <> 0
-#PEXP[c] = PCH[c]
+# Households savings rate
+RSAVH = SAVH / DISPINC_AT_VAL
+
+# Households savings stock
+Stock_SAVH = Stock_SAVH{-1} + SAVH
