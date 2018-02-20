@@ -1,5 +1,8 @@
 include ..\model\lists
 
+################################
+### Prices calibrated to 1 (or P)
+
 TC := 1
 
 |V| := P where V in PQD PQM PCID PCIM PCHD PCHM PGD PGM PID PIM PXD PXM PDSD PDSM PQ PCI PCIbis PCH PG  PI PIbis PX PDS PGDP PM PGDP PGDPbis PGDPter PYQ PY PY_n PY_e PYQS PMS PVA PNTAX PSUB PEXPH PNEXP PEXPG PI P_e PE PK PMGRD PMGRM PMGR PMGPD PMGPM PNTAXP PGOS PNOS PWAGES
@@ -29,13 +32,9 @@ PWD[c] := P
 PM[c] := P
 
 ################################
+################################
+################################
 ### Prices not calibrated to 1
-
-##################
-### From Equation
-CU_n[s] * Y[s] := sum(C[f, s] * F_n[f, s] on f) + NTAXI_VAL[s]
-
-CU[s] * Y[s] := sum(C[f, s] * F[f, s] on f) + NTAXI_VAL[s]
 
 ######################
 ### Not from Equation
@@ -51,3 +50,26 @@ PK[s] := PI[s]*(Rdep[s]+GR_REAL)*(1+GR_PRICES)/(Rdep[s]-1+(1+GR_REAL)*(1+GR_PRIC
 CUR[s] := Y[s] / YCAP[s]
 
 (1 + MARKUP[c]) := PYQ[c] * YQ[c] / (sum(CU[s] * Y[c, s] on s))
+
+
+##################
+### From Equation
+CU_n[s] * Y[s] := sum(C[f, s] * F_n[f, s] on f) + NTAXI_VAL[s]
+
+CU[s] * Y[s] := sum(C[f, s] * F[f, s] on f) + NTAXI_VAL[s]
+
+C[K, s] := PK[s] * (Rdep[s] + r[s])
+C[L, s] :=  W[s] * (1 + RRSSC[s])
+C[E, s] := PE[s]
+C[MAT, s] := PMAT[s] 
+
+C[K] * F[K] := sum(C[K, s] * F[K, s] on s)
+C[L] * F[L] := sum(C[L, s] * F[L, s] on s)
+C[E] * F[E] := sum(C[E, s] * F[E, s] on s)
+C[MAT] * F[MAT] := sum(C[MAT, s] * F[MAT, s] on s)
+
+
+W * F[L] := (sum(W[s] * F[L, s] on s))
+
+
+

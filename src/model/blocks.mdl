@@ -5,6 +5,8 @@ include ..\model\Price
 
 include ..\model\Producer
 
+include ..\model\Consumer
+
 include ..\model\Government
 
 include ..\model\Trade_inter
@@ -14,7 +16,7 @@ include ..\model\Demography
 include ..\model\Verif
 
 # include ..\model\GHG
-# include ..\model\Consumer
+
 
 
 # include ..\model\Adjustments

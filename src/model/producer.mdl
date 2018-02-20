@@ -29,6 +29,12 @@ d(SUBST_F_n[f, s]) = sum(- ES[f, ff, s] * phi[ff, s]{-1} * d(log(C[f, s]/PROG[f,
 
 phi[f, s] = C[f, s] * F_n[f, s] / (sum(C[ff, s] * F_n[ff, s] on ff))
 
+# Agregate production fcators for capital, labor, energy and material
+F[K] = sum(F[K, s] on s)
+F[L] = sum(F[L, s] on s)
+F[E] = sum(F[E, s] on s)
+F[MAT] = sum(F[MAT, s] on s)
+
 ## Investment in commodity c by sector s
 ## For a given sector, we assume that the investment structure is fixed over time. In other words, the investment good is a composite of several commodities in fixed proportion. 
 d(log(I[c, s])) = d(log(IA[s])) if I[c, s] <> 0

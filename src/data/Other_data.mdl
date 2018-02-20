@@ -8,16 +8,14 @@ phi_MGPM[cc, c] := PMGPM[cc, c] * MGPM[cc, c] / (sum(PMGPM[ccc, c] * MGPM[ccc, c
 
 phi[f, s] := C[f, s] * F_n[f, s] / (sum(C[ff, s] * F_n[ff, s] on ff))
 
-C[K, s] := PK[s] * (Rdep[s] + r[s])
-C[L, s] :=  W[s] * (1 + RRSSC[s])
-C[E, s] := PE[s]
-C[MAT, s] := PMAT[s] 
-
-
 phi[E, ce, s] := PCI[ce, s]*CI[ce, s] / (sum(PCI[cee, s]*CI[cee, s] on cee))
 
 phi_TRSP[ct, s] := PCI[ct, s]*CI[ct, s] / (sum(PCI[ctt, s]*CI[ctt, s] on ctt))
 
+F[K] := sum(F[K, s] on s)
+F[L] := sum(F[L, s] on s)
+F[E] := sum(F[E, s] on s)
+F[MAT] := sum(F[MAT, s] on s)
 
 ### From GOV:
 NTAXPD_VAL[c] := RNTAXPD[c]*PYQ[c]*YQ[c]
@@ -25,6 +23,8 @@ NTAXPD_VAL[c] := RNTAXPD[c]*PYQ[c]*YQ[c]
 NTAXPM_VAL[c] := RNTAXPM[c]*PM[c]*M[c]
 
 ### From Demographic block
-F[L] := sum(F[L, s] on s)
 Un := LF - Empl
 UnR := Un / LF
+
+
+### From consumer

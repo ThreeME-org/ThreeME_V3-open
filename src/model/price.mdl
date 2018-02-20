@@ -58,6 +58,14 @@ C[E, s] = PE[s]
 ### Materal costs in sector s
 C[MAT, s] = PMAT[s] 
 
+### Agregate costs for capital, labor, energy and material
+C[K] * F[K] = sum(C[K, s] * F[K, s] on s)
+C[L] * F[L] = sum(C[L, s] * F[L, s] on s)
+C[E] * F[E] = sum(C[E, s] * F[E, s] on s)
+C[MAT] * F[MAT] = sum(C[MAT, s] * F[MAT, s] on s)
+
+
+
 ### Volume and price of the bruto wages paid by sector s including employees (but not employers)' social contribution
 ### To derive the volume, we assume that the price is the consumer price 
 
@@ -137,6 +145,9 @@ PM[c] = TC*PWD[c] if M[c] <> 0
 
 ## Notional wage in sector s
 d(log(W_n[s])) = RHO_W_Cons[s] + RHO_W_P[s]*d(log(P_e)) + RHO_W_PROG[s]*d(log(PROG_L[s])) - RHO_W_U[s] * (UnR - DNAIRU) - RHO_W_DU[s]*d(UnR) + RHO_W_L[s]*d(log(F[L, s]) - log(F[L])) if W_n[s] <> 0
+
+# Average wage
+W * F[L] = (sum(W[s] * F[L, s] on s))
 
 ## Expected price
 ## The Error Correction Model garanty that the expected and effective price are equal in the long run
