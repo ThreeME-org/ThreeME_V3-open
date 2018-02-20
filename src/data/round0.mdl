@@ -136,13 +136,10 @@ XM[c]  := SUT($c+26,29) * (1 + GR_REAL) ^ (@year - %baseyear)
 ### CONSUMER DATA
 ############################
 
-
-SOC_BENF_VAL := 1.2 * (1 + GR_NOMI) ^ (@year - %baseyear)
-TRSF_HH_VAL := 0 * (1 + GR_NOMI) ^ (@year - %baseyear)
-PROP_INC_VAL := 19 * (1 + GR_NOMI) ^ (@year - %baseyear) 
-
-INC_SOC_TAX_VAL := 5 * (1 + GR_NOMI) ^ (@year - %baseyear) 
-
+PROP_INC_VAL := HH_INC(2,1) * (1 + GR_NOMI) ^ (@year - %baseyear) 
+SOC_BENF_VAL := HH_INC(3,1) * (1 + GR_NOMI) ^ (@year - %baseyear)
+TRSF_HH_VAL := HH_INC(4,1) * (1 + GR_NOMI) ^ (@year - %baseyear)
+INC_SOC_TAX_VAL := HH_INC(5,1) * (1 + GR_NOMI) ^ (@year - %baseyear) 
 
 NCH[c] := 0.1 * CH[c]
 

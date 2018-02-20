@@ -11,8 +11,8 @@ subroutine load_calibration
   matrix(40,40) SUT                                     ' Matrix of the SUT data
   SUT.read(E4,s=SUT) {%data_calibration}
 
-  matrix(37,7) ES_KLEM                                  ' Matrix of elasticity of substitution (level 1, KLEM)
-  ES_KLEM.read(B4,s=ELAS_L1_KLEM)          {%data_calibration}
+  matrix(7,1) HH_INC                                  ' Matrix of the households income data
+  HH_INC.read(D3,s=HH_INC)          {%data_calibration}
 
 
 
