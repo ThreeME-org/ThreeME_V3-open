@@ -21,7 +21,9 @@ PROP_INC_VAL = phi_PROP_INC * PNOS * NOS
 
 # Social benefits
 ### CHOISIR UNE SPECIFICATION DE BASE: CONTRACYCLIQUE?
-d(log(SOC_BENF_VAL)) = d(log(SOC_BENF_VAL{-1}))
+#d(log(SOC_BENF_VAL)) = d(log(SOC_BENF_VAL{-1}))
+
+SOC_BENF_VAL = RR_POP * W * POP + RR_Un * W * Un 
 
 # Agregate household consumption in value
 CH_VAL = DISPINC_AT_VAL * (1 - MPS)

@@ -143,6 +143,12 @@ INC_SOC_TAX_VAL := HH_INC(5,1) * (1 + GR_NOMI) ^ (@year - %baseyear)
 
 NCH[c] := 0.1 * CH[c]
 
+RR_Un := 0.3
+
+RR_POP * W * POP := SOC_BENF_VAL - RR_Un * W * Un
+
+
+
 
 ############################
 ### DEMOGRAPHY DATA
