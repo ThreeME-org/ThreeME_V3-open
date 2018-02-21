@@ -7,14 +7,14 @@
 ### Margins paid to commodity cc on the domestic commodity c 
 d(log(MGPD[cc, c])) = d(log(YQ[c])) + d(SUBST_MGPD[cc, c]) if MGPD[cc, c] <> 0
 
-SUBST_MGPD_n[cc, c] = sum(- ES_MGPD[cc, ccc, c] * phi_MGPD[ccc, c]{-1} * d(log(PMGPD[cc, c]) - log(PMGPD[ccc, c])) if MGPD[ccc, c] <> 0 on ccc) if MGPD[cc, c] <> 0
+SUBST_n_MGPD[cc, c] = sum(- ES_MGPD[cc, ccc, c] * phi_MGPD[ccc, c]{-1} * d(log(PMGPD[cc, c]) - log(PMGPD[ccc, c])) if MGPD[ccc, c] <> 0 on ccc) if MGPD[cc, c] <> 0
 
 phi_MGPD[cc, c] = PMGPD[cc, c] * MGPD[cc, c] / (sum(PMGPD[ccc, c] * MGPD[ccc, c] on ccc)) if MGPD[cc, c] <> 0
 
 ### Margins paid to commodity cc on the imported commodity c 
 d(log(MGPM[cc, c])) = d(log( M[c])) + d(SUBST_MGPM[cc, c]) if MGPM[cc, c] <> 0
 
-SUBST_MGPM_n[cc, c] = sum(- ES_MGPM[cc, ccc, c] * phi_MGPM[ccc, c]{-1} * d(log(PMGPM[cc, c]) - log(PMGPM[ccc, c])) if MGPM[ccc, c] <> 0 on ccc) if MGPM[cc, c] <> 0
+SUBST_n_MGPM[cc, c] = sum(- ES_MGPM[cc, ccc, c] * phi_MGPM[ccc, c]{-1} * d(log(PMGPM[cc, c]) - log(PMGPM[ccc, c])) if MGPM[ccc, c] <> 0 on ccc) if MGPM[cc, c] <> 0
 
 phi_MGPM[cc, c] = PMGPM[cc, c] * MGPM[cc, c] / (sum(PMGPM[ccc, c] * MGPM[ccc, c] on ccc)) if MGPM[cc, c] <> 0
 
@@ -25,11 +25,13 @@ Y[c, s] = PhiY[c, s] * YQ[c] if Y[c, s] <> 0
 ## Demand for production factors of sector s
 d(log(F_n[f, s])) = d(log(Y[s])) - d(log(PROG[f, s])) + d(SUBST_F[f, s])  if F_n[f, s] <> 0
 
-d(SUBST_F_n[f, s]) = sum(- ES[f, ff, s] * phi[ff, s]{-1} * d(log(C[f, s]/PROG[f, s]) - log(C[ff, s]/PROG[ff, s])) on ff) if F_n[f, s] <> 0
+d(SUBST_n_F[f, s]) = sum(- ES[f, ff, s] * phi[ff, s]{-1} * d(log(C[f, s]/PROG[f, s]) - log(C[ff, s]/PROG[ff, s])) on ff) if F_n[f, s] <> 0
 
 phi[f, s] = C[f, s] * F_n[f, s] / (sum(C[ff, s] * F_n[ff, s] on ff))
 
-# Agregate production fcators for capital, labor, energy and material
+# Agregate production factors for capital, labor, energy and material
+#### use list f !!!!!!@@@!!! 
+#### F[f] = sum(F[f, s] on s)
 F[K] = sum(F[K, s] on s)
 F[L] = sum(F[L, s] on s)
 F[E] = sum(F[E, s] on s)
@@ -40,21 +42,10 @@ F[MAT] = sum(F[MAT, s] on s)
 d(log(I[c, s])) = d(log(IA[s])) if I[c, s] <> 0
 
 
-## Capital stock of sector s
-F[K, s] = (1 - Rdep[s]) * F[K, s]{-1} + IA[s] if F[K, s] <> 0
-
-## Investment in sector s
-## Put IMPULSE!
-## Explain this equation
-d(log(IA[s])) = ADJUST_IA_Ye[s] * d(log(Y_e[s])) + ADJUST_IA_IA1[s] * d(log(IA[s]{-1}))  + ADJUST_IA_SUBST[s] * d(SUBST_F[K, s]) + ADJUST_IA_Kn[s] * (log(F_n[K, s]{-1}) - log(F[K, s]{-1})) if F[K, s] <> 0
-
-## In Adjustement !
-d(log(Y_e[s])) = ADJUST_Ye_Y[s] * d(log(Y[s])) + (1 - ADJUST_Ye_Y[s]) * d(log(Y_e[s]{-1})) + 
-
 ## Energy demand by type of energy in sector s
 d(log(CI[ce, s])) = d(log(F[E, s])) + d(SUBST_CI[ce,s]) if CI[ce, s] <> 0
 
-d(SUBST_CI_n[ce, s]) = sum(- ES_NRJ[ce, cee, s] * phi[E, cee, s] * d(log(PCI[ce, s]) - log(PCI[cee, s])) on cee) if CI[ce, s] <> 0
+d(SUBST_n_CI[ce, s]) = sum(- ES_NRJ[ce, cee, s] * phi[E, cee, s] * d(log(PCI[ce, s]) - log(PCI[cee, s])) on cee) if CI[ce, s] <> 0
 
 phi[E, ce, s] = PCI[ce, s]*CI[ce, s] / (sum(PCI[cee, s]*CI[cee, s] on cee))
 
@@ -70,7 +61,7 @@ d(log(TRSP[s])) = d(log(F[MAT, s])) if TRSP[s] <> 0
 ## Demand for transport commodity ct by sector s
 d(log(CI[ct, s])) = d(log(TRSP[s])) + d(SUBST_CI[ct,s]) if CI[ct, s] <> 0
 
-d(SUBST_CI_n[ct, s]) = sum(- ES_TRSP[ct, ctt, s] * phi_TRSP[ctt, s] * d(log(PCI[ct, s]) - log(PCI[ctt, s])) on ctt) if CI[ct, s] <> 0
+d(SUBST_n_CI[ct, s]) = sum(- ES_TRSP[ct, ctt, s] * phi_TRSP[ctt, s] * d(log(PCI[ct, s]) - log(PCI[ctt, s])) on ctt) if CI[ct, s] <> 0
 
 phi_TRSP[ct, s] = PCI[ct, s]*CI[ct, s] / (sum(PCI[ctt, s]*CI[ctt, s] on ctt))
 

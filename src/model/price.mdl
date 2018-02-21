@@ -20,8 +20,6 @@ d(log(1+MARKUP_n[s])) = RHO_MARKUP_Y * d(log(CUR[s])) if Y[s] > 0
 # Which is quite close to the specification previously used:
 # d(log(1+MARKUP_n[s])) = RHO_MARKUP_Y * (d(log(Y[s])) - d(log(Y[s]{-1}))) if Y[s] > 0
 
-## Mark-up adjustments
-MARKUP[s] = ADJUST_MARKUP[s] * MARKUP_n[s] + (1 - ADJUST_MARKUP[s]) * MARKUP[s]{-1} if Y[s] > 0
 
 d(log(YCAP[s])) = sum(phi[f, s]{-1} * d(log(F[f, s]*PROG[f, s])) if F[f, s] <> 0 on f) + ADJUST_YCAP_Y[s] * (log(Y[s]{-1}) - log(YCAP[s]{-1} * @elem(CUR[s], %baseyear))) if YCAP[s] <> 0
 
@@ -148,10 +146,6 @@ d(log(W_n[s])) = RHO_W_Cons[s] + RHO_W_P[s]*d(log(P_e)) + RHO_W_PROG[s]*d(log(PR
 
 # Average wage
 W * F[L] = (sum(W[s] * F[L, s] on s))
-
-## Expected price
-## The Error Correction Model garanty that the expected and effective price are equal in the long run
-d(log(P_e)) = ADJUST_Pe_P1 * d(log(P{-1})) + (1 - ADJUST_Pe_P1) * d(log(P_e{-1})) - ADJUST_Pe_PeP1*log(P_e{-1}/P{-1})
 
 
 ## Notional interest rate of the Central Bank (Taylor rule)

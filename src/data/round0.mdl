@@ -195,6 +195,53 @@ ES_|V|M[c, s] := 0.6 where V in CI I
 ### Other elastiscities
 ################################
 
+# In the price equation
+ADJUST0_PY[s] := 0.3
+ADJUST1_PY[s] := 0.4
+ADJUST2_PY[s] := 0.3
+ADJUST3_PY[s] := 1 - ADJUST1_PY[s] - ADJUST2_PY[s]
+
+
+# In the participation ratio equation
+ADJUST0_PARTR := 0.3
+ADJUST1_PARTR := 0.4
+ADJUST2_PARTR := 0.3
+ADJUST3_PARTR := 1 - ADJUST1_PARTR - ADJUST2_PARTR
+
+
+# In the interest rate equation
+ADJUST0_R := 0.3
+ADJUST1_R := 0.4
+ADJUST2_R := 0.3
+ADJUST3_R := 1 - ADJUST1_R - ADJUST2_R
+
+
+# In wage Equation
+ADJUST_W_Wn[s] := 0.3
+ADJUST_W_W1[s] := 1 - ADJUST_W_Wn[s]
+ADJUST_W_W1Wn1[s] := 0.01
+
+# In the production factor equation
+ADJUST0_F[f, s] := 0.5
+ADJUST1_F[f, s] := 0.4
+ADJUST2_F[f, s] := 0.3
+ADJUST3_F[f, s] := 1 - ADJUST1_F[f, s] - ADJUST2_F[f, s]
+
+# In the substitution of production factors
+# 6 for substitution (Eviews limit for variables in model: 24 letters)
+ADJUST6_F[f, s] := 0.4
+
+ADJUST6_MGPD[cc, c] := 0.4
+
+ADJUST6_MGPM[cc, c] := 0.4
+
+ADJUST6_CI[ce, s] := 0.4 
+ADJUST6_CI[ct, s] := 0.4
+
+ADJUST6_|V|M[c] := 0.4 where V in MGR CH G X
+
+ADJUST6_|V|M[c, s] := 0.4 where V in CI I
+
 # In the investment equation
 ADJUST_IA_Ye[s] := 1
 ADJUST_IA_IA1[s] := 0

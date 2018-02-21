@@ -15,7 +15,7 @@
 
 phi_|V|M[c] = 1/(1 + @elem(|V|D[c]/|V|M[c], %baseyear)*exp(SUBST_|V|M[c])) if |V|M[c] <> 0 where V in MGR CH G X
 
-d(SUBST_|V|M_n[c]) = - ES_|V|M[c] * d(log(P|V|D[c]) - log(P|V|M[c])) if |V|M[c] <> 0 where V in MGR CH G X
+d(SUBST_n_|V|M[c]) = - ES_|V|M[c] * d(log(P|V|D[c]) - log(P|V|M[c])) if |V|M[c] <> 0 where V in MGR CH G X
 
 # Domestic commodity c for sector s's intermediary consumption and investment
 
@@ -28,7 +28,7 @@ d(SUBST_|V|M_n[c]) = - ES_|V|M[c] * d(log(P|V|D[c]) - log(P|V|M[c])) if |V|M[c] 
 # Import share of commodity c bought by sector s for intermediary consumption and investment
 phi_|V|M[c, s] = 1/(1 + @elem(|V|D[c, s]/|V|M[c, s], %baseyear)*exp(SUBST_|V|M[c, s])) if |V|M[c, s] <> 0 where V in CI I
 
-d(SUBST_|V|M_n[c, s]) = - ES_|V|M[c, s] * d(log(P|V|D[c, s]) - log(P|V|M[c, s])) if |V|M[c, s] <> 0 where V in CI I
+d(SUBST_n_|V|M[c, s]) = - ES_|V|M[c, s] * d(log(P|V|D[c, s]) - log(P|V|M[c, s])) if |V|M[c, s] <> 0 where V in CI I
 
 # Exports
 

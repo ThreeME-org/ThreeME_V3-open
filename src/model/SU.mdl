@@ -129,7 +129,13 @@ PNTAXP * NTAXP = sum(NTAXP_VAL[c] on c)
 
 ### Production of sector s (value & volume):
 ### A mettre probablement en bis! Car defini dans producteur
-@pv Y[s] = sum(Y[c, s] if Y[c, s] <> 0 on c) if Y[s] <> 0
+## Mettre VERIF sur le PRIX !!!!! PYbis[s]
+#@pv Y[s] = sum(Y[c, s] if Y[c, s] <> 0 on c) if Y[s] <> 0
+
+Y[s] = sum(Y[c, s] if Y[c, s] <> 0 on c) if Y[s] <> 0
+
+
+
 
 ### Aggregate production (value & volume):
 @pv Y = sum(Y[s] if Y[s] <> 0 on s) if Y <> 0
