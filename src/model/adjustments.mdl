@@ -52,6 +52,11 @@ SUBST_|V|M[c, s] = ADJUST6_|V|M[c, s] * SUBST_n_|V|M[c, s] + (1 - ADJUST6_|V|M[c
 SUBST_X[c] = ADJUST6_X[c] * SUBST_n_X[c] + (1 - ADJUST6_X[c]) * SUBST_X[c]{-1} if X[c] <> 0
 
 
+# Adjustment for the consumption of commodity c
+log(CH[c]) = ADJUST0_CH[c] * log(CH_n[c]) + (1 - ADJUST0_CH[c]) * (log(CH[c]{-1}) + d(log(CH_e[c]))) if CH[c] <> 0
+
+d(log(CH_e[c])) = ADJUST1_CH[c] * d(log(CH_e[c]{-1})) + ADJUST2_CH[c] * d(log(CH[c]{-1})) + ADJUST3_CH[c] * d(log(CH_n[c])) if CH_e[c] <> 0
+
 
 log(PY[s]) = ADJUST0_PY[s] * log(PY_n[s]) + (1 - ADJUST0_PY[s]) * (log(PY[s]{-1}) + d(log(PY_e[s])))
 
@@ -70,8 +75,14 @@ d(log(PARTR_e)) = ADJUST1_PARTR * d(log(PARTR_e{-1})) + ADJUST2_PARTR * d(log(PA
 
 
 # Interest rate
+## Virer expected quand pas de dérives? 
+
 R = ADJUST0_R * R_n + (1 - ADJUST0_R) * (R{-1} + d(R_e))
 d(R_e) = ADJUST1_R * d(R_e{-1}) + ADJUST2_R * d(R{-1}) + ADJUST3_R * d(R_n)
+
+
+# Marginal propensity to save
+MPS = ADJUST0_MPS * MPS_n + (1 - ADJUST0_MPS) * MPS{-1}
 
 
 

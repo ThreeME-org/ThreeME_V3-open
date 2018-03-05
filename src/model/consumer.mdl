@@ -24,6 +24,7 @@ PROP_INC_VAL = phi_PROP_INC * PNOS * NOS
 SOC_BENF_VAL = RR_POP * W * POP + RR_Un * W * Un 
 
 # Agregate household consumption in value
+## Should be Notional!!!
 CH_VAL = DISPINC_AT_VAL * (1 - MPS)
 
 # Notional marginal propensity to save
