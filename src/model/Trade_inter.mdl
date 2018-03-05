@@ -31,11 +31,8 @@ phi_|V|M[c, s] = 1/(1 + @elem(|V|D[c, s]/|V|M[c, s], %baseyear)*exp(SUBST_|V|M[c
 d(SUBST_n_|V|M[c, s]) = - ES_|V|M[c, s] * d(log(P|V|D[c, s]) - log(P|V|M[c, s])) if |V|M[c, s] <> 0 where V in CI I
 
 # Exports
-
-# La variable World Demand (WD) est exogene
-# equation 2.39
-#d(log(X[c])) = d(log(WD[c])) + d(SUBST_X[c]) if X[c] <> 0
-#d(SUBST_X_n[c]) = -ES_X($c, 1) * d(log(PX[c]) - log(TC * PWD[c])) if X[c] <> 0
+d(log(X[c])) = d(log(WD[c])) + d(SUBST_X[c]) if X[c] <> 0
+d(SUBST_n_X[c]) = -ES_X[c] * d(log(PX[c]) - log(TC * PWD[c])) if X[c] <> 0
 
 
 # Commercial Balance

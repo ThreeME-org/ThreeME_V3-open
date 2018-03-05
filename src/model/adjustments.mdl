@@ -49,6 +49,9 @@ SUBST_|V|M[c] = ADJUST6_|V|M[c] * SUBST_n_|V|M[c] + (1 - ADJUST6_|V|M[c]) * SUBS
 SUBST_|V|M[c, s] = ADJUST6_|V|M[c, s] * SUBST_n_|V|M[c, s] + (1 - ADJUST6_|V|M[c, s]) * SUBST_|V|M[c, s]{-1} if |V|M[c, s] <> 0 where V in CI I
 
 
+SUBST_X[c] = ADJUST6_X[c] * SUBST_n_X[c] + (1 - ADJUST6_X[c]) * SUBST_X[c]{-1} if X[c] <> 0
+
+
 
 log(PY[s]) = ADJUST0_PY[s] * log(PY_n[s]) + (1 - ADJUST0_PY[s]) * (log(PY[s]{-1}) + d(log(PY_e[s])))
 
@@ -72,7 +75,7 @@ d(R_e) = ADJUST1_R * d(R_e{-1}) + ADJUST2_R * d(R{-1}) + ADJUST3_R * d(R_n)
 
 
 
-### Il manque EXPORT et consommation !!
+### Il manque consommation !!
 #SUBST_ZZZZ = ADJUST6_ZZZZ * SUBST_n_ZZZZ + (1 - ADJUST6_ZZZZ) * SUBST_ZZZZ{-1} if ZZZZ <> 0
 
 

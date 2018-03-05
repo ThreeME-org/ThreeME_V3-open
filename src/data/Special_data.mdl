@@ -101,6 +101,8 @@ SUBST_|V|M[c] := 0 where V in MGR CH G X
 SUBST_n_|V|M[c, s] := 0 where V in CI I
 SUBST_|V|M[c, s] := 0 where V in CI I
 
+SUBST_n_X[c] := 0
+SUBST_X[c] := 0
 
 #SUBST_|V|_n[c, s] := 0 where V in IA IAD IAM
 #SUBST_|V|[c, s] := 0 where V in IA IAD IAM

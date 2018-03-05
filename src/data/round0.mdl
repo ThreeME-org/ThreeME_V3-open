@@ -49,6 +49,8 @@ PROG_L 	:=  1 * (1 + GR_PROG_L) ^ (@year - %baseyear)
 
 PROG[f, s] := 1 * (1 + GR_PROG[f, s]) ^ (@year - %baseyear)
 
+WD[c] := 1 * (1 + GR_REAL) ^ (@year - %baseyear)
+
 ##############
 ### Supply side
 ##############
@@ -191,6 +193,9 @@ ES_|V|M[c] := 0.6 where V in MGR CH G I X
 
 ES_|V|M[c, s] := 0.6 where V in CI I
 
+## Between exported and the rest of world commodities sold abroad
+ES_X[c] := 0.6
+
 ################################
 ### Other elastiscities
 ################################
@@ -241,6 +246,8 @@ ADJUST6_CI[ct, s] := 0.4
 ADJUST6_|V|M[c] := 0.4 where V in MGR CH G X
 
 ADJUST6_|V|M[c, s] := 0.4 where V in CI I
+
+ADJUST6_X[c] := 0.4
 
 # In the investment equation
 ADJUST_IA_Ye[s] := 1
