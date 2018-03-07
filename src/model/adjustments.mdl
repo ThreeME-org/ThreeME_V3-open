@@ -81,8 +81,6 @@ R = ADJUST0_R * R_n + (1 - ADJUST0_R) * (R{-1} + d(R_e))
 d(R_e) = ADJUST1_R * d(R_e{-1}) + ADJUST2_R * d(R{-1}) + ADJUST3_R * d(R_n)
 
 
-# Marginal propensity to save
-MPS = ADJUST0_MPS * MPS_n + (1 - ADJUST0_MPS) * MPS{-1}
 
 
 

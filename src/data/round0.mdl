@@ -143,7 +143,7 @@ SOC_BENF_VAL := HH_INC(3,1) * (1 + GR_NOMI) ^ (@year - %baseyear)
 TRSF_HH_VAL := HH_INC(4,1) * (1 + GR_NOMI) ^ (@year - %baseyear)
 INC_SOC_TAX_VAL := HH_INC(5,1) * (1 + GR_NOMI) ^ (@year - %baseyear) 
 
-NCH[c] := 0.1 * CH[c]
+NCH[c] := 0.0 * CH[c]
 
 RR_Un := 0.3
 
@@ -221,9 +221,6 @@ ADJUST0_R := 0.3
 ADJUST1_R := 0.4
 ADJUST2_R := 0.3
 ADJUST3_R := 1 - ADJUST1_R - ADJUST2_R
-
-# In marginal propensity to save equation
-ADJUST0_MPS := 0.3
 
 # In wage Equation
 ADJUST_W_Wn[s] := 0.3
@@ -305,7 +302,7 @@ RHO_Rdir_Cons := 0
 
 # In the equation of the marginal propensity to save
 RHO_MPS_R := 0.5
-RHO_MPS_UnR := 0.1
+RHO_MPS_UnR := 0.0
 
 # In the labor force participation rate equation
 RHO_PART_UnR := 0.3

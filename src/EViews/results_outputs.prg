@@ -63,13 +63,13 @@ subroutine additional_outputs(string %user)
   if %user = "Fred" then
 
       %_x = "_0" 
-      graph a_graph_macro{%_x}.line(m) 100*@PCHY(GDP{%_x}) 100*@PCHY(Y{%_x}) 100*@PCHY(VA{%_x}) 100*@PCHY(CH{%_x}) 100*@PCHY(G{%_x}) 100*@PCHY(I{%_x}) 100*@PCHY(X{%_x}) 100*@PCHY(M{%_x}) 100*@PCHY(DISPINC_AT_VAL{%_x}/PCH{%_x}) 100*MPS{%_x} 100*@PCHY(PCH{%_x}) 100*@PCHY(PYQ{%_x}) 100*@PCHY(PX{%_x}) 100*@PCHY(PM{%_x}) 100*@PCHY(W{%_x}/PCH{%_x}) 100*@PCHY(C_L{%_x}/PY{%_x}) 100*r{%_x} 100*(UNR{%_x}) 100*@PCHY(F_L{%_x}) 
+      graph a_graph_macro{%_x}.line(m) 100*@PCHY(GDP{%_x}) 100*@PCHY(Y{%_x}) 100*@PCHY(VA{%_x}) 100*@PCHY(CH{%_x}) 100*@PCHY(G{%_x}) 100*@PCHY(I{%_x}) 100*@PCHY(X{%_x}) 100*@PCHY(M{%_x}) 100*@PCHY(DISPINC_AT_VAL{%_x}/PCH{%_x}) 100*RSAVH{%_x} 100*@PCHY(PCH{%_x}) 100*@PCHY(PYQ{%_x}) 100*@PCHY(PX{%_x}) 100*@PCHY(PM{%_x}) 100*@PCHY(W{%_x}/PCH{%_x}) 100*@PCHY(C_L{%_x}/PY{%_x}) 100*r{%_x} 100*(UNR{%_x}) 100*@PCHY(F_L{%_x}) 
       '100*DC_VAL{%_x}/(PGDP{%_x}*GDP{%_x}) -100*DP_G_VAL{%_x} 100*DEBT_G_VAL{%_x}/(PGDP{%_x}*GDP{%_x}) FISC{%_x} 
       show  a_graph_macro{%_x}
 
 
       %_x = "_1" 
-      graph a_graph_macro{%_x}.line(m) 100*@PCHY(GDP{%_x}) 100*@PCHY(Y{%_x}) 100*@PCHY(VA{%_x}) 100*@PCHY(CH{%_x}) 100*@PCHY(G{%_x}) 100*@PCHY(I{%_x}) 100*@PCHY(X{%_x}) 100*@PCHY(M{%_x}) 100*@PCHY(DISPINC_AT_VAL{%_x}/PCH{%_x}) 100*MPS{%_x} 100*@PCHY(PCH{%_x}) 100*@PCHY(PYQ{%_x}) 100*@PCHY(PX{%_x}) 100*@PCHY(PM{%_x}) 100*@PCHY(W{%_x}/PCH{%_x}) 100*@PCHY(C_L{%_x}/PY{%_x}) 100*r{%_x} 100*(UNR{%_x}) 100*@PCHY(F_L{%_x}) 
+      graph a_graph_macro{%_x}.line(m) 100*@PCHY(GDP{%_x}) 100*@PCHY(Y{%_x}) 100*@PCHY(VA{%_x}) 100*@PCHY(CH{%_x}) 100*@PCHY(G{%_x}) 100*@PCHY(I{%_x}) 100*@PCHY(X{%_x}) 100*@PCHY(M{%_x}) 100*@PCHY(DISPINC_AT_VAL{%_x}/PCH{%_x}) 100*RSAVH{%_x} 100*@PCHY(PCH{%_x}) 100*@PCHY(PYQ{%_x}) 100*@PCHY(PX{%_x}) 100*@PCHY(PM{%_x}) 100*@PCHY(W{%_x}/PCH{%_x}) 100*@PCHY(C_L{%_x}/PY{%_x}) 100*r{%_x} 100*(UNR{%_x}) 100*@PCHY(F_L{%_x}) 
       '100*DC_VAL{%_x}/(PGDP{%_x}*GDP{%_x}) -100*DP_G_VAL{%_x} 100*DEBT_G_VAL{%_x}/(PGDP{%_x}*GDP{%_x}) FISC{%_x} 
       show  a_graph_macro{%_x}
 

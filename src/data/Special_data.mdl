@@ -19,9 +19,9 @@ RNTAXPM[c] := NTAXPM[c]/ M[c]
 RINC_SOC_TAX := INC_SOC_TAX_VAL / DISPINC_BT_VAL
 phi_PROP_INC := PROP_INC_VAL / (PNOS * NOS) 
 
-(1 - MPS) := CH_VAL / DISPINC_AT_VAL 
+(1 - MPS_n) := CH_n_VAL / DISPINC_AT_VAL 
 
-phi_MCH[c] := (CH_n[c] - NCH[c]) * PCH[c] / (CH_VAL - PNCH * NCH)
+phi_MCH[c] := (CH_n[c] - NCH[c]) * PCH[c] / (CH_n_VAL - PNCH * NCH)
 
 PARTR := LF/WAPop
 
@@ -57,7 +57,7 @@ CI[c, s] := CID[c, s] + CIM[c, s]
 I[c, s] := ID[c, s] + IM[c, s]
 |V|[c] := |V|D[c] + |V|M[c] where V in CH G X
 
-CH_VAL := PCH * CH
+CH_n_VAL := PCH * CH
 
 EXPG := G 
 
@@ -72,7 +72,7 @@ EXPG := G
 
 Y_e[s] := Y[s]
 
-|V|_n := |V| where V in PARTR R MPS
+|V|_n := |V| where V in PARTR R
 
 ### Voir si on ne peux pas regrouper un peu !!!
 R_e := R

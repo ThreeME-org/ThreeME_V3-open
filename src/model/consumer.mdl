@@ -25,13 +25,13 @@ SOC_BENF_VAL = RR_POP * W * POP + RR_Un * W * Un
 
 # Agregate household consumption in value
 ## Should be Notional!!!
-CH_VAL = DISPINC_AT_VAL * (1 - MPS)
+CH_n_VAL = DISPINC_AT_VAL * (1 - MPS_n)
 
 # Notional marginal propensity to save
 d(MPS_n)= RHO_MPS_R * d(R - d(P)/P{-1}) + RHO_MPS_UnR * d(UnR) 
 
 # Household consumption of commodity c
-(CH_n[c] - NCH[c]) * PCH[c] = phi_MCH[c] * (CH_VAL - PNCH * NCH) if CH[c] <> 0
+(CH_n[c] - NCH[c]) * PCH[c] = phi_MCH[c] * (CH_n_VAL - PNCH * NCH) if CH[c] <> 0
 
 # Necessary household consumption of commodity c
 PNCH * NCH = sum(PNCH[c] * NCH[c] on c) if NCH <> 0
