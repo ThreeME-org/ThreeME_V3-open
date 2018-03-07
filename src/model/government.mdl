@@ -20,48 +20,12 @@ RSSC[s] * PRSSC[s] = W[s] * F[L, s] * (1 + RRSSC[s])
 
 		  PRSSC[s] = P
 
-# equations 3.75 & 3.76
-#PEXPG[c] = PG[c]
-#d(log(EXPG[c])) = d(log(EXPG)) if EXPG[c] <> 0
+
+# Public expenditures per commodities
+d(log(G[c])) = d(log(EXPG)) if CH[c] <> 0
 
 
 
-#
-## equations 3.33
-#IR_VAL[h] = TIR[h] * DISPINC_AI_VAL[h]
-#d(TIR[h]) = -d(PHI_TCO[h] * TCO_VAL_HH / DISPINC_AI_VAL[h]) 
-#
-##verification
-#d(TIR_bis[h]) = 0
-#IR_VAL_bis[h]= TIR_bis[h] * DISPINC_AI_VAL[h]
-#
-## equation 3.34
-#IR_VAL = sum(IR_VAL[h] if IR_VAL[h] <> 0 on h)
-#
-##verification
-#IR_VAL_bis = sum(IR_VAL_bis[h] if IR_VAL_bis[h] <> 0 on h)
-#Verif_TCO_VAL_HH =  TCO_VAL_HH - (IR_VAL_BIS - IR_VAL)
-#
-## Taxes on capital
-## equation 3.35
-#AIC_VAL[h] = TAIC[h] * DISPINC_AI_VAL[h]
-#
-## equation 3.36
-#AIC_VAL = sum(AIC_VAL[h] if AIC_VAL[h] <> 0 on h)
-#
-#
-## Social Security accounting
-#
-#
-## equations 3.49 & 3.50
-#CSE[s] * PCSE[s] = TCSE[s] * L_S[s] * W_S[s]
-#PCSE[s] = PCH[ccm]
-#CSE_bis[s] * PCSE_bis[s] = TCSE_bis[s] * L_S[s] * W_S[s]
-#
-#
-#
-## Deficit and Public Debt
-#
 ## Deficit
 ## equation 3.80
 #BF_G_VAL = DEP_VAL - REC_VAL
@@ -76,8 +40,4 @@ RSSC[s] * PRSSC[s] = W[s] * F[L, s] * (1 + RRSSC[s])
 ## Public Debt
 ## equation 3.82
 #DEBT_G_VAL = DEBT_G_VAL{-1} + BF_G_VAL
-#
-#d(log(EXPG)) = ADJUST(69,1)*(d(log(EXPG_trend)) - STEADYSTATE(62,1)*(DP_G_VAL - DP_G_VAL_n)*PGDP{-1}*GDP{-1} / (PG{-1}*EXPG{-1})) + (1-ADJUST(69,1))*d(log(EXPG{-1}))
-#
-#d(FISC) = STEADYSTATE(58,1)*(DP_G_VAL-@elem(DP_G_VAL,%baseyear)) - STEADYSTATE(59,1)*(UNR_TOT-(@elem(UNR_TOT,%baseyear)+DNAIRU))
 #

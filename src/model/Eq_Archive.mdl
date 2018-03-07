@@ -1,0 +1,5 @@
+
+#d(log(EXPG)) = ADJUST(69,1)*(d(log(EXPG_trend)) - STEADYSTATE(62,1)*(DP_G_VAL - DP_G_VAL_n)*PGDP{-1}*GDP{-1} / (PG{-1}*EXPG{-1})) + (1-ADJUST(69,1))*d(log(EXPG{-1}))
+#
+#d(FISC) = STEADYSTATE(58,1)*(DP_G_VAL-@elem(DP_G_VAL,%baseyear)) - STEADYSTATE(59,1)*(UNR_TOT-(@elem(UNR_TOT,%baseyear)+DNAIRU))
+#

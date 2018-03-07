@@ -56,10 +56,28 @@ subroutine dgec_outputs(scalar !i)
 
 endsub
 
-subroutine additional_outputs
+subroutine additional_outputs(string %user)
 
   smpl @all
 
+  if %user = "Fred" then
+
+      %_x = "_0" 
+      graph a_graph_macro{%_x}.line(m) 100*@PCHY(GDP{%_x}) 100*@PCHY(Y{%_x}) 100*@PCHY(VA{%_x}) 100*@PCHY(CH{%_x}) 100*@PCHY(G{%_x}) 100*@PCHY(I{%_x}) 100*@PCHY(X{%_x}) 100*@PCHY(M{%_x}) 100*@PCHY(DISPINC_AT_VAL{%_x}/PCH{%_x}) 100*MPS{%_x} 100*@PCHY(PCH{%_x}) 100*@PCHY(PYQ{%_x}) 100*@PCHY(PX{%_x}) 100*@PCHY(PM{%_x}) 100*@PCHY(W{%_x}/PCH{%_x}) 100*@PCHY(C_L{%_x}/PY{%_x}) 100*r{%_x} 100*(UNR{%_x}) 100*@PCHY(F_L{%_x}) 
+      '100*DC_VAL{%_x}/(PGDP{%_x}*GDP{%_x}) -100*DP_G_VAL{%_x} 100*DEBT_G_VAL{%_x}/(PGDP{%_x}*GDP{%_x}) FISC{%_x} 
+      show  a_graph_macro{%_x}
+
+
+      %_x = "_1" 
+      graph a_graph_macro{%_x}.line(m) 100*@PCHY(GDP{%_x}) 100*@PCHY(Y{%_x}) 100*@PCHY(VA{%_x}) 100*@PCHY(CH{%_x}) 100*@PCHY(G{%_x}) 100*@PCHY(I{%_x}) 100*@PCHY(X{%_x}) 100*@PCHY(M{%_x}) 100*@PCHY(DISPINC_AT_VAL{%_x}/PCH{%_x}) 100*MPS{%_x} 100*@PCHY(PCH{%_x}) 100*@PCHY(PYQ{%_x}) 100*@PCHY(PX{%_x}) 100*@PCHY(PM{%_x}) 100*@PCHY(W{%_x}/PCH{%_x}) 100*@PCHY(C_L{%_x}/PY{%_x}) 100*r{%_x} 100*(UNR{%_x}) 100*@PCHY(F_L{%_x}) 
+      '100*DC_VAL{%_x}/(PGDP{%_x}*GDP{%_x}) -100*DP_G_VAL{%_x} 100*DEBT_G_VAL{%_x}/(PGDP{%_x}*GDP{%_x}) FISC{%_x} 
+      show  a_graph_macro{%_x}
+
+      graph a_graph_macro_1L.line(m) 100*(GDP_1/GDP_0-1) 100*(CH_1/CH_0-1) 100*(G_1/G_0-1) 100*(I_1/I_0-1) 100*(X_1/X_0-1) 100*(M_1/M_0-1) 100*(DISPINC_AT_VAL_1/PCH_1/(DISPINC_AT_VAL_0/PCH_0)-1) 100*(PCH_1/PCH_0-1) 100*(PYQ_1/PYQ_0-1) 100*(PX_1/PX_0-1) 100*(PM_1/PM_0-1) 100*((W_1/PCH_1)/(W_0/PCH_0)-1) 100*((C_L_1/PY_1)/(C_L_0/PY_0)-1) F_L_1-F_L_0 100*(UNR_1-UNR_0) 
+      '100*(DC_VAL_1/(PGDP_1*GDP_1)-DC_VAL_0/(PGDP_0*GDP_0)) -100*(DP_G_VAL_1-DP_G_VAL_0) 100*(DEBT_G_VAL_1/(PGDP_1*GDP_1)-DEBT_G_VAL_0/(PGDP_0*GDP_0)) (FISC_1-FISC_0) 100*(r_1-r_0)
+      show  a_graph_macro_1L
+
+  endif
 
   if %save = "yes" and %tabopt = "VAR_MESANGE" then
 

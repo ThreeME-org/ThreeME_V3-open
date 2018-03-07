@@ -21,6 +21,8 @@ include .\load_calibration
 include .\tracker.prg
 include .\solve
 include .\run
+include .\run_extra
+
 
 ' Utility procedures
 include .\results_outputs

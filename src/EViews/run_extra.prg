@@ -4,8 +4,18 @@
 ' 'User defined subroutine (multi-scenarios, solver, targets, etc.)
 ' ============================================================================ 
 
-
 ' ============================================================================ 
+' ============================================================================ 
+' ============== RUN STANDARD SHOCKS =========================================
+' ============================================================================ 
+
+' The subroutines in this file set up the standard shocks used for comparing
+' the model behaviour with other models.
+'
+' Many of these shocks amount to 1% of baseline GDP, hence they must be calculated
+' from an ex-ante baseline run of the model. These subroutine should therefore be
+' run after the baseline has been solved.
+
 
 subroutine run_standard(string %scenario_list)
 
@@ -18,14 +28,53 @@ subroutine run_standard(string %scenario_list)
     call standard_shock(%scenario)
     call solvemodel(%solveopt)
     %grp = "Results" + %scenario
-    call standard_outputs(%grp, %index)
+''    call standard_outputs(%grp, %index)
   next
 
   ' Output to Excel
-  %path = @addquotes(@linepath + "..\..\results\results.vbs")
+''  %path = @addquotes(@linepath + "..\..\results\results.vbs")
   'shell(h) {%path}
 
 endsub
+
+subroutine standard_backup()
+
+  smpl @all
+  series EXPG_bckp = EXPG
+
+endsub
+
+subroutine standard_restore_backup()
+
+  smpl @all
+  EXPG = EXPG_bckp
+
+endsub
+
+subroutine standard_shock(string %shock)
+
+  call standard_restore_backup
+
+  smpl 2007 @last
+
+  ' 1% increase of public expenditure
+  if @lower(%shock) = "expg1" then
+
+    EXPG = EXPG + 0.01 * @elem(GDP, %baseyear)
+
+  endif
+
+  smpl @all
+
+endsub
+
+
+
+
+
+
+
+
 
 
 ' ============================================================================ 
@@ -149,10 +198,5 @@ subroutine calibrate_scenario(string %scenario, string %targets)
   '{%modelname}.fit objective_grp controls_grp growth_grp 2010 2050 5
 
 endsub
-
-
-
-' ============================================================================ 
-' ============================================================================ 
 
 

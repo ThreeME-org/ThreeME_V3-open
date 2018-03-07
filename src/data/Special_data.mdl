@@ -59,6 +59,8 @@ I[c, s] := ID[c, s] + IM[c, s]
 
 CH_VAL := PCH * CH
 
+EXPG := G 
+
 # Expected and nominal variables are initialised to their real value
 |V|_n[s] := |V|[s] where V in IA W MARKUP
 |V|_e[s] := |V|[s] where V in IA W

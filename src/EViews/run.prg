@@ -86,11 +86,14 @@ endif
       'call run_baseshock ' Perform a baseline and a shock
 
        call run_scenario("baseline")
+
+       call run_standard("EXPG1")
+
           ' call run_enr("PPE_ENRhaut")
  
   ' ***************************************
   ' Call (eventually) here the subroutine you want to use to analyse the results
-      ' call additional_outputs
+      call additional_outputs("Fred")
       ' call output_template(%scenario_name)
 
   ' *******************
