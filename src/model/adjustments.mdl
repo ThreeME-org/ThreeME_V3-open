@@ -81,19 +81,9 @@ R = ADJUST0_R * R_n + (1 - ADJUST0_R) * (R{-1} + d(R_e))
 d(R_e) = ADJUST1_R * d(R_e{-1}) + ADJUST2_R * d(R{-1}) + ADJUST3_R * d(R_n)
 
 
+# For property incomes
+log(PROP_INC_VAL) = ADJUST0_PROP_INC_VAL * log(PROP_INC_VAL_n) + (1 - ADJUST0_PROP_INC_VAL) * (log(PROP_INC_VAL{-1}) + d(log(PROP_INC_VAL_e))) if PROP_INC_VAL <> 0
+
+d(log(PROP_INC_VAL_e)) = ADJUST1_PROP_INC_VAL * d(log(PROP_INC_VAL_e{-1})) + ADJUST2_PROP_INC_VAL * d(log(PROP_INC_VAL{-1})) + ADJUST3_PROP_INC_VAL * d(log(PROP_INC_VAL_n)) if PROP_INC_VAL_e <> 0
 
 
-
-### Il manque consommation !!
-#SUBST_ZZZZ = ADJUST6_ZZZZ * SUBST_n_ZZZZ + (1 - ADJUST6_ZZZZ) * SUBST_ZZZZ{-1} if ZZZZ <> 0
-
-
-# equation 8.21
-# Ajustment Line 68
-#DIV_|V|_VAL = ADJUST(70, 1) * DIV_|V|_VAL_n + (1 - ADJUST(70, 1)) * (DIV_|V|_VAL{-1} + d(DIV_|V|_VAL_e)) where V in HH GOV
-#d(DIV_|V|_VAL_e) = ADJUST(70, 2) * d(DIV_|V|_VAL_e{-1}) _
-#		 + ADJUST(70, 3) * d(DIV_|V|_VAL{-1}) _
-#		 + ADJUST(70, 4) * d(DIV_|V|_VAL_n) _
-#		 + (1 + STEADYSTATE(1, 1)) ^ (@trend - (%baseyear - %firstdate)) * @elem(d(DIV_|V|_VAL_e) _
-#		 - (ADJUST(70, 2) * d(DIV_|V|_VAL_e{-1}) _
-#		 + ADJUST(70, 4) * d(DIV_|V|_VAL_n)), %baseyear) where V in HH GOV

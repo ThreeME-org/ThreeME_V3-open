@@ -3,3 +3,13 @@
 #
 #d(FISC) = STEADYSTATE(58,1)*(DP_G_VAL-@elem(DP_G_VAL,%baseyear)) - STEADYSTATE(59,1)*(UNR_TOT-(@elem(UNR_TOT,%baseyear)+DNAIRU))
 #
+
+# equation 8.21
+# Ajustment Line 68
+#DIV_|V|_VAL = ADJUST(70, 1) * DIV_|V|_VAL_n + (1 - ADJUST(70, 1)) * (DIV_|V|_VAL{-1} + d(DIV_|V|_VAL_e)) where V in HH GOV
+#d(DIV_|V|_VAL_e) = ADJUST(70, 2) * d(DIV_|V|_VAL_e{-1}) _
+#		 + ADJUST(70, 3) * d(DIV_|V|_VAL{-1}) _
+#		 + ADJUST(70, 4) * d(DIV_|V|_VAL_n) _
+#		 + (1 + STEADYSTATE(1, 1)) ^ (@trend - (%baseyear - %firstdate)) * @elem(d(DIV_|V|_VAL_e) _
+#		 - (ADJUST(70, 2) * d(DIV_|V|_VAL_e{-1}) _
+#		 + ADJUST(70, 4) * d(DIV_|V|_VAL_n)), %baseyear) where V in HH GOV
