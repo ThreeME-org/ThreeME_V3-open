@@ -138,6 +138,8 @@ Verif_phi_CH := 0
 
 Verif_phi_MCH := 0 
 
+Verif_ALL := 0 
+
 #VERIF_|V| := 0 where V in PY_PYQ Y_YQ PIAxIA_PIxI PIA_PI IA_I GDP_GDPBIS GDP_GDPTER PGDP_PGDPBIS PGDP_PGDPTER ValGDP_ValGDPTER
 #VERIF_PEXP_CES[h] := 0
 

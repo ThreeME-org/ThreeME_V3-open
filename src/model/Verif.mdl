@@ -18,3 +18,8 @@ Verif_PCH_CES = PCH - PCH_CES  if ES_LESCES <> 1
 Verif_phi_MCH = sum(phi_MCH[c] on c) - 1
 
 Verif_phi_CH = sum(phi_CH[c] on c) - 1
+
+
+
+
+Verif_ALL = ( sum(verif_phi_F[s]^2 on s) + sum(verif_phi_MGPD[c]^2 on c) + sum(verif_phi_MGPM[c]^2 on c) + sum(verif_phi[E, s]^2 on s) + sum(verif_phi_TRSP[s]^2 on s) + Verif_PCH_CES^2 +Verif_phi_MCH^2 + Verif_phi_CH^2 )^(1/2)
