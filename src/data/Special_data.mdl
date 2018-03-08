@@ -61,6 +61,9 @@ CH_n_VAL := PCH * CH
 
 EXPG := G 
 
+# For verif
+ES_|V|M_act[c] := ES_|V|M[c] where V in MGR CH G X
+
 # Expected and nominal variables are initialised to their real value
 |V|_n[s] := |V|[s] where V in IA W MARKUP
 |V|_e[s] := |V|[s] where V in IA W
@@ -143,6 +146,11 @@ Verif_phi_CH := 0
 Verif_phi_MCH := 0 
 
 Verif_ALL := 0 
+
+Verif_ALL_ES := 0 
+
+Verif_ES_|V|M[c] := 0  where V in MGR CH G X
+
 
 #VERIF_|V| := 0 where V in PY_PYQ Y_YQ PIAxIA_PIxI PIA_PI IA_I GDP_GDPBIS GDP_GDPTER PGDP_PGDPBIS PGDP_PGDPTER ValGDP_ValGDPTER
 #VERIF_PEXP_CES[h] := 0
