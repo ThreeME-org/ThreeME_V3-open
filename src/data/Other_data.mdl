@@ -22,6 +22,8 @@ NTAXPD_VAL[c] := RNTAXPD[c]*PYQ[c]*YQ[c]
 
 NTAXPM_VAL[c] := RNTAXPM[c]*PM[c]*M[c]
 
+NTAXI_VAL[s] := RNTAXI[s]*PY[s]*Y[s]
+
 ### From Demographic block
 Un := LF - Empl
 UnR := Un / LF

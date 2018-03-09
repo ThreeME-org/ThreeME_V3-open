@@ -15,6 +15,7 @@ W[s] := WAGES[s] * PWAGES[s] / F[L, s]
 RNTAXPD[c] := NTAXPD[c]/YQ[c]
 RNTAXPM[c] := NTAXPM[c]/ M[c]
 
+RNTAXI[s] := NTAXI[s]/Y[s]
 
 RINC_SOC_TAX := INC_SOC_TAX_VAL / DISPINC_BT_VAL
 phi_PROP_INC := PROP_INC_VAL_n / (PNOS * NOS) 

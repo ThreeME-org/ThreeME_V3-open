@@ -69,15 +69,12 @@ MGPM[cc, c] := SUT($c+26,$cc+7) * (1 + GR_REAL) ^ (@year - %baseyear)
 
 ### Net taxes on commodity c domestically produced
 NTAXPD[c] := SUT($c+17,13) * (1 + GR_REAL) ^ (@year - %baseyear)
-# NTAXPD_VAL[c] := SUT($c+16,13) * (1 + GR_NOMI) ^ (@year - %baseyear)
 
 ### Net taxes on imported commodity c
 NTAXPM[c] := SUT($c+26,13) * (1 + GR_REAL) ^ (@year - %baseyear)
-# NTAXPM_VAL[c] := SUT($c+25,13) * (1 + GR_NOMI) ^ (@year - %baseyear)
 
 ### Net taxes on the production of sector s
 NTAXI[s] := SUT(8,$s) * (1 + GR_REAL) ^ (@year - %baseyear)
-NTAXI_VAL[s] := SUT(8,$s) * (1 + GR_NOMI) ^ (@year - %baseyear)
 
 ### Super bruto wages paid by sector s (including employees and employers' social contribution)
 
