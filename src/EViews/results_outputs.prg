@@ -77,9 +77,8 @@ subroutine additional_outputs(string %user)
       '100*(DC_VAL_1/(PGDP_1*GDP_1)-DC_VAL_0/(PGDP_0*GDP_0)) -100*(DP_G_VAL_1-DP_G_VAL_0) 100*(DEBT_G_VAL_1/(PGDP_1*GDP_1)-DEBT_G_VAL_0/(PGDP_0*GDP_0)) (FISC_1-FISC_0) 100*(r_1-r_0)
       show  a_graph_macro_1L
 
-      graph a_graph_macro_2L.line(m) 100*(r_1-r_0) 100*(PCH_1/PCH_0-1) 100*(PYQ_1/PYQ_0-1) 100*(PX_1/PX_0-1) 100*(PM_1/PM_0-1) 100*((W_1/PCH_1)/(W_0/PCH_0)-1) 100*((C_L_1/PY_1)/(C_L_0/PY_0)-1)
-      show  a_graph_macro_2L
-
+      graph a_graph_macro_2L.line(m) 100*(PCH_1/PCH_0-1) 100*((W_1/PCH_1)/(W_0/PCH_0)-1) 100*(r_1-r_0) 100*(r_1-@PCH(PCH_1)-(r_0-@PCH(PCH_0))) 100*(PY_1/PY_0-1) 100*(PX_1/PX_0-1) 100*(PM_1/PM_0-1)  100*((C_L_1/PY_1)/(C_L_0/PY_0)-1)
+      show  a_graph_macro_2L 
 
 
 
