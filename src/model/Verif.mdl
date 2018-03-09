@@ -35,6 +35,9 @@ ES_|V|M_act[c] = ES_|V|M[c] _
 
 Verif_ES_|V|M[c] = ES_|V|M_act[c] - ES_|V|M[c] where V in MGR CH G X
 
+#ES_act[f, K, s] = ES[f, K, s] - (C[f, s]/PROG[f, s]/(C[K, s]/PROG[K, s])/ @elem(C[f, s]/PROG[f, s]/(C[K, s]/PROG[K, s]), %baseyear) <> 1) * (1)
+
+					#(log(F[f, s]*PROG[f, s]/(F[K, s]*PROG[K, s])/ @elem(F[f, s]*PROG[f, s]/(F[K, s]*PROG[K, s], %baseyear)))/ log(C[f, s]/PROG[f, s]/(C[K, s]/PROG[K, s])/ @elem(C[f, s]/PROG[f, s]/(C[K, s]/PROG[K, s]), %baseyear)) + ES[f, K, s]) 
 
 
 

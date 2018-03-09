@@ -65,6 +65,8 @@ EXPG := G
 # For verif
 ES_|V|M_act[c] := ES_|V|M[c] where V in MGR CH G X
 
+ES_act[f, ff, s] := ES[f, ff, s]
+
 # Expected and nominal variables are initialised to their real value
 |V|_n[s] := |V|[s] where V in IA W MARKUP
 |V|_e[s] := |V|[s] where V in IA W
