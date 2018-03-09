@@ -9,9 +9,10 @@ MARKUP[s] = ADJUST_MARKUP[s] * MARKUP_n[s] + (1 - ADJUST_MARKUP[s]) * MARKUP[s]{
 
 ## Expected price
 ## The Error Correction Model garanty that the expected and effective price are equal in the long run
+## Delete ECM if better with ADJUST_Pe_PeP1 = 0!!!!
 d(log(P_e)) = ADJUST_Pe_P1 * d(log(P{-1})) + (1 - ADJUST_Pe_P1) * d(log(P_e{-1})) - ADJUST_Pe_PeP1*log(P_e{-1}/P{-1})
 
-## EXpected production
+## Expected production
 d(log(Y_e[s])) = ADJUST_Ye_Y[s] * d(log(Y[s])) + (1 - ADJUST_Ye_Y[s]) * d(log(Y_e[s]{-1})) 
 
 

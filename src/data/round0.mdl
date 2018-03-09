@@ -197,96 +197,10 @@ ES_X[c] := 0.6
 ### Other elastiscities
 ################################
 
-# In the price equation
-ADJUST0_PY[s] := 0.3
-ADJUST1_PY[s] := 0.4
-ADJUST2_PY[s] := 0.3
-ADJUST3_PY[s] := 1 - ADJUST1_PY[s] - ADJUST2_PY[s]
-
-
-# In the participation ratio equation
-ADJUST0_PARTR := 0.3
-
-### Virer ajust 1-3 car pas de dérive!!!
-ADJUST1_PARTR := 0.4
-ADJUST2_PARTR := 0.3
-ADJUST3_PARTR := 1 - ADJUST1_PARTR - ADJUST2_PARTR
-
-
-# In the interest rate equation
-ADJUST0_R := 0.3
-ADJUST1_R := 0.4
-ADJUST2_R := 0.3
-ADJUST3_R := 1 - ADJUST1_R - ADJUST2_R
-
-
-# In the property income  equation
-ADJUST0_PROP_INC_VAL := 0.3
-ADJUST1_PROP_INC_VAL := 0.4
-ADJUST2_PROP_INC_VAL := 0.3
-ADJUST3_PROP_INC_VAL := 1 - ADJUST1_PROP_INC_VAL - ADJUST2_PROP_INC_VAL
-
-
-# In wage Equation
-ADJUST_W_Wn[s] := 0.3
-ADJUST_W_W1[s] := 1 - ADJUST_W_Wn[s]
-ADJUST_W_W1Wn1[s] := 0.01
-
-# In the production factor equation
-ADJUST0_F[f, s] := 0.5
-ADJUST1_F[f, s] := 0.4
-ADJUST2_F[f, s] := 0.3
-ADJUST3_F[f, s] := 1 - ADJUST1_F[f, s] - ADJUST2_F[f, s]
-
-# In consumption equation
-ADJUST0_CH[c] := 0.6
-ADJUST1_CH[c] := 0.9
-ADJUST2_CH[c] := 0.05
-ADJUST3_CH[c] := 1 - ADJUST1_CH[c] - ADJUST2_CH[c]
-
-
-
-# In the substitution of production factors
-# 6 for substitution (Eviews limit for variables in model: 24 letters)
-ADJUST6_F[f, s] := 0.4
-
-ADJUST6_MGPD[cc, c] := 0.4
-
-ADJUST6_MGPM[cc, c] := 0.4
-
-ADJUST6_CI[ce, s] := 0.4 
-ADJUST6_CI[ct, s] := 0.4
-
-ADJUST6_|V|M[c] := 0.4 where V in MGR CH G X
-
-ADJUST6_|V|M[c, s] := 0.4 where V in CI I
-
-ADJUST6_X[c] := 0.4
-
-
-
-# In the investment equation
-ADJUST_IA_Ye[s] := 1
-ADJUST_IA_IA1[s] := 0
-ADJUST_IA_SUBST[s] := 0.5
-ADJUST_IA_Kn[s] := 0.05
-
-
-ADJUST_Ye_Y[s] := 0.7
-
-
-ADJUST_MARKUP[s] := 0.5
-
-ADJUST_YCAP_Y[s] := 0.05
-
-ADJUST_Pe_P1 := 0.7
-ADJUST_Pe_PeP1 := 0
-
-
-## Notional mark-up
+## Elastiscity of the mark-up to the demand
 RHO_MARKUP_Y := 0.75
 
-# In the wage equation
+# Elastiscity of wages to prices, productivity, unemployment and labor
 RHO_W_P[s] := 1
 RHO_W_PROG[s] := 0
 RHO_W_U[s] := 0.2
@@ -314,3 +228,89 @@ RHO_PART_UnR := 0.3
 
 # Endogenous energy efficiency
 RHO_PROG_E_PE := 0
+
+################################
+### Adjustment parameters
+################################
+
+# In the price equation
+ADJUST0_PY[s] := 0.3
+ADJUST1_PY[s] := 0.4
+ADJUST2_PY[s] := 0.3
+ADJUST3_PY[s] := 1 - ADJUST1_PY[s] - ADJUST2_PY[s]
+
+## In the expected price equation
+
+ADJUST_Pe_P1 := 0.3
+ADJUST_Pe_PeP1 := 0
+
+# In wage Equation
+ADJUST_W_Wn[s] := 0.3
+ADJUST_W_W1[s] := 1 - ADJUST_W_Wn[s]
+ADJUST_W_W1Wn1[s] := 0.01
+
+# In the interest rate equation
+ADJUST0_R := 0.3
+ADJUST1_R := 0.4
+ADJUST2_R := 0.3
+ADJUST3_R := 1 - ADJUST1_R - ADJUST2_R
+
+# In the production factor equation
+ADJUST0_F[f, s] := 0.5
+ADJUST1_F[f, s] := 0.4
+ADJUST2_F[f, s] := 0.3
+ADJUST3_F[f, s] := 1 - ADJUST1_F[f, s] - ADJUST2_F[f, s]
+
+# In the investment equation
+ADJUST_IA_Ye[s] := 1
+ADJUST_IA_IA1[s] := 0
+ADJUST_IA_SUBST[s] := 0.5
+ADJUST_IA_Kn[s] := 0.05
+
+# In the substitution of production factors
+# 6 for substitution (Eviews limit for variables in model: 24 letters)
+ADJUST6_F[f, s] := 0.4
+
+ADJUST6_MGPD[cc, c] := 0.4
+
+ADJUST6_MGPM[cc, c] := 0.4
+
+ADJUST6_CI[ce, s] := 0.4 
+ADJUST6_CI[ct, s] := 0.4
+
+ADJUST6_|V|M[c] := 0.4 where V in MGR CH G X
+
+ADJUST6_|V|M[c, s] := 0.4 where V in CI I
+
+ADJUST6_X[c] := 0.4
+
+## In the expected production equation
+ADJUST_Ye_Y[s] := 0.7
+
+## In the mark-up equation
+
+ADJUST_MARKUP[s] := 0.5
+
+## In the production capacity equation
+ADJUST_YCAP_Y[s] := 0.05
+
+# In consumption equation
+ADJUST0_CH[c] := 0.6
+ADJUST1_CH[c] := 0.9
+ADJUST2_CH[c] := 0.05
+ADJUST3_CH[c] := 1 - ADJUST1_CH[c] - ADJUST2_CH[c]
+
+# In the participation ratio equation
+ADJUST0_PARTR := 0.3
+
+### Virer ajust 1-3 car pas de dérive!!!
+ADJUST1_PARTR := 1.0
+ADJUST2_PARTR := 0.0
+ADJUST3_PARTR := 1 - ADJUST1_PARTR - ADJUST2_PARTR
+
+
+# In the property income  equation
+ADJUST0_PROP_INC_VAL := 0.3
+ADJUST1_PROP_INC_VAL := 0.4
+ADJUST2_PROP_INC_VAL := 0.3
+ADJUST3_PROP_INC_VAL := 1 - ADJUST1_PROP_INC_VAL - ADJUST2_PROP_INC_VAL

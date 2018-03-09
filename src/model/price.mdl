@@ -20,7 +20,7 @@ d(log(1+MARKUP_n[s])) = RHO_MARKUP_Y * d(log(CUR[s])) if Y[s] > 0
 # Which is quite close to the specification previously used:
 # d(log(1+MARKUP_n[s])) = RHO_MARKUP_Y * (d(log(Y[s])) - d(log(Y[s]{-1}))) if Y[s] > 0
 
-
+## Production capacity 
 d(log(YCAP[s])) = sum(phi[f, s]{-1} * d(log(F[f, s]*PROG[f, s])) if F[f, s] <> 0 on f) + ADJUST_YCAP_Y[s] * (log(Y[s]{-1}) - log(YCAP[s]{-1} * @elem(CUR[s], %baseyear))) if YCAP[s] <> 0
 
 # Capacity Utilisation ratio
