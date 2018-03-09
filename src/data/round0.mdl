@@ -251,8 +251,8 @@ ADJUST_W_W1Wn1[s] := 0.01
 
 # In the interest rate equation
 ADJUST0_R := 0.3
-ADJUST1_R := 0.4
-ADJUST2_R := 0.3
+ADJUST1_R := 0.9
+ADJUST2_R := 0.05
 ADJUST3_R := 1 - ADJUST1_R - ADJUST2_R
 
 # In the production factor equation
@@ -304,8 +304,8 @@ ADJUST3_CH[c] := 1 - ADJUST1_CH[c] - ADJUST2_CH[c]
 ADJUST0_PARTR := 0.3
 
 ### Virer ajust 1-3 car pas de dérive!!!
-ADJUST1_PARTR := 1.0
-ADJUST2_PARTR := 0.0
+ADJUST1_PARTR := 0.9
+ADJUST2_PARTR := 0.05
 ADJUST3_PARTR := 1 - ADJUST1_PARTR - ADJUST2_PARTR
 
 
