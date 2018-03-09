@@ -40,9 +40,4 @@ Verif_ES_|V|M[c] = ES_|V|M_act[c] - ES_|V|M[c] where V in MGR CH G X
 
 Verif_ALL_ES = ( sum(Verif_ES_MGRM[c]^2 on c) + sum(Verif_ES_CHM[c]^2 on c) + sum(Verif_ES_GM[c]^2 on c) + sum(Verif_ES_XM[c]^2 on c))^(1/2) where V in MGR CH G X
 
-#Verif_ES_|V|M[c] = 0 + (@elem((ES_|V|M_act[c] - ES_|V|M[c]), @last) > 0.00000001)*@elem((ES_|V|M_act[c] - ES_|V|M[c]), @last) where V in MGR CH G X
-
-
-#Verif_ALL_ES = ( sum(Verif_ES_MGRM[c]^2 on c) + sum(Verif_ES_CHM[c]^2 on c) + sum(Verif_ES_GM[c]^2 on c) + sum(Verif_ES_XM[c]^2 on c))^(1/2) where V in MGR CH G X
-
 

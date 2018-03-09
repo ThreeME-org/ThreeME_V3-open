@@ -147,6 +147,8 @@ d(log(W_n[s])) = RHO_W_Cons[s] + RHO_W_P[s]*d(log(P_e)) + RHO_W_PROG[s]*d(log(PR
 # Average wage
 W * F[L] = (sum(W[s] * F[L, s] on s))
 
+# Price index (consumer price)
+P = PCH
 
 ## Notional interest rate of the Central Bank (Taylor rule)
 # "Original" rule
