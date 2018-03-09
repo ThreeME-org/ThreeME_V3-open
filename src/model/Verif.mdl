@@ -29,11 +29,11 @@ Verif_ALL = ( sum(verif_phi_F[s]^2 on s) + sum(verif_phi_MGPD[c]^2 on c) + sum(v
 ### Verification for the actual elasticities
 ## The series should converge asymptotically to the inputed elasticities.
 
-ES_|V|M_act[c] = ES_|V|M[c] _ 
+ES_act_|V|M[c] = ES_|V|M[c] _ 
 					- (P|V|D[c]/P|V|M[c] < 0.99999) * (log(|V|D[c]/|V|M[c]/@elem(|V|D[c]/|V|M[c], %baseyear)) / log(P|V|D[c]/P|V|M[c]) + ES_|V|M[c]) _
 					- (P|V|D[c]/P|V|M[c] > 1.00001) * (log(|V|D[c]/|V|M[c]/@elem(|V|D[c]/|V|M[c], %baseyear)) / log(P|V|D[c]/P|V|M[c]) + ES_|V|M[c]) if |V|M[c] <> 0 where V in MGR CH G X
 
-Verif_ES_|V|M[c] = ES_|V|M_act[c] - ES_|V|M[c] where V in MGR CH G X
+Verif_ES_|V|M[c] = ES_act_|V|M[c] - ES_|V|M[c] where V in MGR CH G X
 
 #ES_act[f, K, s] = ES[f, K, s] - (C[f, s]/PROG[f, s]/(C[K, s]/PROG[K, s])/ @elem(C[f, s]/PROG[f, s]/(C[K, s]/PROG[K, s]), %baseyear) <> 1) * (1)
 

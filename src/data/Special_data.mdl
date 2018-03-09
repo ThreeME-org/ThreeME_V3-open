@@ -63,7 +63,7 @@ CH_n_VAL := PCH * CH
 EXPG := G 
 
 # For verif
-ES_|V|M_act[c] := ES_|V|M[c] where V in MGR CH G X
+ES_act_|V|M[c] := ES_|V|M[c] where V in MGR CH G X
 
 ES_act[f, ff, s] := ES[f, ff, s]
 
