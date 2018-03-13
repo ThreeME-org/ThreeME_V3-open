@@ -24,6 +24,10 @@ NTAXPM_VAL[c] := RNTAXPM[c]*PM[c]*M[c]
 
 NTAXI_VAL[s] := RNTAXI[s]*PY[s]*Y[s]
 
+RSSC := sum(RSSC[s] on s)
+
+RRSSC := PRSSC * RSSC / (W * F[L]) 
+
 ### From Demographic block
 Un := LF - Empl
 UnR := Un / LF

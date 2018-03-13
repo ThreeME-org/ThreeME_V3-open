@@ -42,6 +42,10 @@ subroutine standard_backup()
   smpl @all
   series EXPG_bckp = EXPG
 
+  for %s {%list_sec}
+    series RRSSC_bckp_{%s} = RRSSC_{%s}
+  next  
+
 endsub
 
 subroutine standard_restore_backup()
@@ -49,6 +53,9 @@ subroutine standard_restore_backup()
   smpl @all
   EXPG = EXPG_bckp
 
+  for %s {%list_sec}
+    RRSSC_{%s} = RRSSC_bckp_{%s}
+  next  
 endsub
 
 subroutine standard_shock(string %shock)
@@ -67,9 +74,9 @@ subroutine standard_shock(string %shock)
   ' 1% GDP point decrease of the employer social security rate
   if @lower(%shock) = "rssc1" then
 
-''    EXPG = EXPG + 0.01 * @elem(GDP, %baseyear)
-'C[L, s] =  W[s] * (1 + RRSSC[s])
-'RSSC[s] * PRSSC[s] = W[s] * F[L, s] * (1 + RRSSC[s])
+  for %s {%list_sec}
+    RRSSC_{%s} = RRSSC_{%s} * (1 - 0.01 * @elem(GDP/RSSC, %baseyear))
+  next  
 
 
 

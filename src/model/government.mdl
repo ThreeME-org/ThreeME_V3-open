@@ -21,10 +21,17 @@ NTAXI_VAL[s] = RNTAXI[s]*PY[s]*Y[s]
 
 ### Employers' social security contribution paid by sector s
 ### RSSC = employeRs' Social Security Contribution 
-RSSC[s] * PRSSC[s] = W[s] * F[L, s] * (1 + RRSSC[s])
+RSSC[s] * PRSSC[s] = W[s] * F[L, s] * RRSSC[s]
 
 		  PRSSC[s] = P
 
+### Total employers' social security contribution
+PRSSC * RSSC = sum(PRSSC[s] * RSSC[s] on s)
+
+		RSSC = sum(RSSC[s] on s)
+
+### Average employers' social security contribution
+RRSSC = PRSSC * RSSC / (W * F[L]) 
 
 # Public expenditures per commodities
 d(log(G[c])) = d(log(EXPG)) if CH[c] <> 0
