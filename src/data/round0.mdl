@@ -175,7 +175,7 @@ ES_MGPD[ccc, cc, c] := 0.1
 ES_MGPM[ccc, cc, c] := 0.1
 
 ## Between production factors
-ES[f, ff, s] := 0.3
+ES[f, ff, s] := 0.5
 
 ## Between energy intermediary consumption
 ES_NRJ[ce, cee, s] := 0.3
@@ -263,7 +263,7 @@ ADJUST3_F[f, s] := 1 - ADJUST1_F[f, s] - ADJUST2_F[f, s]
 
 # In the investment equation
 ADJUST_IA_Ye[s] := 1
-ADJUST_IA_IA1[s] := 0
+ADJUST_IA_IA1[s] := 1 - ADJUST_IA_Ye[s]
 ADJUST_IA_SUBST[s] := 0.5
 ADJUST_IA_Kn[s] := 0.05
 
@@ -292,7 +292,7 @@ ADJUST_Ye_Y[s] := 0.7
 ADJUST_MARKUP[s] := 0.5
 
 ## In the production capacity equation
-ADJUST_YCAP_Y[s] := 0.05
+ADJUST_YCAP_Y[s] := 0.0
 
 # In consumption equation
 ADJUST0_CH[c] := 0.6

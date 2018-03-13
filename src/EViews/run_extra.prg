@@ -57,12 +57,25 @@ subroutine standard_shock(string %shock)
 
   smpl 2007 @last
 
-  ' 1% increase of public expenditure
+  ' 1% GDP point increase of public expenditure
   if @lower(%shock) = "expg1" then
 
     EXPG = EXPG + 0.01 * @elem(GDP, %baseyear)
 
   endif
+
+  ' 1% GDP point decrease of the employer social security rate
+  if @lower(%shock) = "rssc1" then
+
+''    EXPG = EXPG + 0.01 * @elem(GDP, %baseyear)
+'C[L, s] =  W[s] * (1 + RRSSC[s])
+'RSSC[s] * PRSSC[s] = W[s] * F[L, s] * (1 + RRSSC[s])
+
+
+
+  endif
+
+
 
   smpl @all
 
