@@ -62,6 +62,8 @@ CH_n_VAL := PCH * CH
 
 EXPG := G 
 
+MARKUP_n2[s] := MARKUP_n[s]
+
 # For verif
 ES_act_|V|M[c] := ES_|V|M[c] where V in MGR CH G X
 

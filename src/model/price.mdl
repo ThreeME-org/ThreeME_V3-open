@@ -14,6 +14,7 @@ PY_n[s] = CU_n[s] * (1 + MARKUP[s])
 
 ## Notional mark-up
 d(log(1+MARKUP_n[s])) = RHO_MARKUP_Y * d(log(CUR[s])) if Y[s] > 0
+d(log(1+MARKUP_n2[s])) = RHO_MARKUP_Y * (d(log(Y[s])) - d(log(Y[s]{-1}))) if Y[s] > 0
 
 # Notice that this is strictly equivalent to:
 # d(log(1+MARKUP_n[s])) = RHO_MARKUP_Y * (d(log(Y[s])) - d(log(YCAP[s]{-1}))) if Y[s] > 0
