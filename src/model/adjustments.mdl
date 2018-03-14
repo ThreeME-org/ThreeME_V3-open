@@ -7,10 +7,9 @@
 MARKUP[s] = ADJUST_MARKUP[s] * MARKUP_n[s] + (1 - ADJUST_MARKUP[s]) * MARKUP[s]{-1} if Y[s] > 0
 
 
-## Expected price
-## The Error Correction Model garanty that the expected and effective price are equal in the long run
-## Delete ECM if better with ADJUST_Pe_PeP1 = 0!!!!
-d(log(P_e)) = ADJUST_Pe_P1 * d(log(P{-1})) + (1 - ADJUST_Pe_P1) * d(log(P_e{-1})) - ADJUST_Pe_PeP1*log(P_e{-1}/P{-1})
+## Expected inflation
+## This equation define the expected inflation and not the expeected price. P_e does not necessary converge to P. If the wage equation is a WS curve, were  only in the very long terme may not converge does not 
+d(log(P_e)) = ADJUST_Pe_P1 * d(log(P{-1})) + (1 - ADJUST_Pe_P1) * d(log(P_e{-1}))
 
 ## Expected production
 d(log(Y_e[s])) = ADJUST_Ye_Y[s] * d(log(Y[s])) + (1 - ADJUST_Ye_Y[s]) * d(log(Y_e[s]{-1})) 
@@ -70,19 +69,11 @@ d(log(PY_e[s])) = ADJUST1_PY[s] * d(log(PY_e[s]{-1})) + ADJUST2_PY[s] * d(log(PY
 d(log(W[s])) = ADJUST_W_Wn[s] * d(log(W_n[s])) + ADJUST_W_W1[s] * d(log(W[s]{-1})) - ADJUST_W_W1Wn1[s]*log(W[s]{-1}/W_n[s]{-1}) if W[s] <> 0
 
 
-### Mettre eventuellememnt en niveau car c'est un taux.
-### D'une manière générale, classer les équations d'ajustement!
-log(PARTR) = ADJUST0_PARTR * log(PARTR_n) + (1 - ADJUST0_PARTR) * (log(PARTR{-1}) + d(log(PARTR_e)))
-
-d(log(PARTR_e)) = ADJUST1_PARTR * d(log(PARTR_e{-1})) + ADJUST2_PARTR * d(log(PARTR{-1})) + ADJUST3_PARTR * d(log(PARTR_n))
-
+### Labor participation ratio
+PARTR = ADJUST0_PARTR * PARTR_n + (1 - ADJUST0_PARTR) * PARTR{-1}
 
 # Interest rate
-## Virer expected quand pas de dérives? 
-
-R = ADJUST0_R * R_n + (1 - ADJUST0_R) * (R{-1} + d(R_e))
-d(R_e) = ADJUST1_R * d(R_e{-1}) + ADJUST2_R * d(R{-1}) + ADJUST3_R * d(R_n)
-
+R = ADJUST0_R * R_n + (1 - ADJUST0_R) * R{-1}
 
 # For property incomes
 log(PROP_INC_VAL) = ADJUST0_PROP_INC_VAL * log(PROP_INC_VAL_n) + (1 - ADJUST0_PROP_INC_VAL) * (log(PROP_INC_VAL{-1}) + d(log(PROP_INC_VAL_e))) if PROP_INC_VAL <> 0

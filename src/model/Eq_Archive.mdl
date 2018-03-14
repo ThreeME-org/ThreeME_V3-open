@@ -13,3 +13,32 @@
 #		 + (1 + STEADYSTATE(1, 1)) ^ (@trend - (%baseyear - %firstdate)) * @elem(d(DIV_|V|_VAL_e) _
 #		 - (ADJUST(70, 2) * d(DIV_|V|_VAL_e{-1}) _
 #		 + ADJUST(70, 4) * d(DIV_|V|_VAL_n)), %baseyear) where V in HH GOV
+
+## The Error Correction Model garanty that the expected and effective price are equal in the long run
+## Delete ECM if better with ADJUST_Pe_PeP1 = 0!!!!
+
+d(log(P_e)) = ADJUST_Pe_P1 * d(log(P{-1})) + (1 - ADJUST_Pe_P1) * d(log(P_e{-1})) - ADJUST_Pe_PeP1*log(P_e{-1}/P{-1})
+
+
+ADJUST1_R := 1.0
+ADJUST2_R := 0.0
+ADJUST3_R := 1 - ADJUST1_R - ADJUST2_R
+
+# Interest rate
+R = ADJUST0_R * R_n + (1 - ADJUST0_R) * (R{-1} + d(R_e))
+
+d(R_e) = ADJUST1_R * d(R_e{-1}) + ADJUST2_R * d(R{-1}) + ADJUST3_R * d(R_n)
+
+
+
+### Virer ajust 1-3 car pas de dérive!!!
+ADJUST1_PARTR := 1.0
+ADJUST2_PARTR := 0.0
+ADJUST3_PARTR := 1 - ADJUST1_PARTR - ADJUST2_PARTR
+
+### Mettre eventuellememnt en niveau car c'est un taux.
+### D'une manière générale, classer les équations d'ajustement!
+log(PARTR) = ADJUST0_PARTR * log(PARTR_n) + (1 - ADJUST0_PARTR) * (log(PARTR{-1}) + d(log(PARTR_e)))
+  
+d(log(PARTR_e)) = ADJUST1_PARTR * d(log(PARTR_e{-1})) + ADJUST2_PARTR * d(log(PARTR{-1})) + ADJUST3_PARTR * d(log(PARTR_n))
+
