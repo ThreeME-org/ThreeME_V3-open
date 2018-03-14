@@ -217,36 +217,13 @@ PGDPter * GDPter = PVA * VA + PNTAXP * NTAXP
 
 GDPter = VA + NTAXP
 
+################################
+# GDP: INCOME DEFINITION
+PGDP4 * GDP4 = PWAGES * WAGES + PGOS * GOS + NTAXI_VAL + PNTAXP * NTAXP
+
+GDP4 = WAGES + GOS + NTAXI + NTAXP
 
 
 
 
 
-
-
-
-
-
-# Verif Compta nat.
-
-#VERIF_PY_PYQ  = PY/PYQ-1
-#VERIF_Y_YQ  = PY/PYQ-1
-
-#VERIF_PIAxIA_PIxI = PIA * IA / (PI * I) - 1
-#VERIF_PIA_PI = PIA / PI - 1
-#VERIF_IA_I = IA / I - 1
-
-#VERIF_GDP_GDPBIS    =  GDP / GDPBIS - 1
-#VERIF_GDP_GDPTER    =  GDP / GDPTER - 1
-#VERIF_PGDP_PGDPBIS  = PGDP / PGDPBIS - 1
-#VERIF_PGDP_PGDPTER  = PGDP / PGDPTER - 1
-
-#VERIF_ValGDP_ValGDPTER = PGDP * GDP / (PGDPTER * GDPTER) - 1
-
-# verifYQbis, margins.  
-
-
-
-
-#PCI|O|[ce, s] = PE|O|[ce] + TCO_VAL|O|[ce, s] / E|O|[ce, s] if CI|O|[ce, s] > 0
-#CI|O|[ce, s] = E|O|[ce, s] if CI|O|[ce, s] > 0

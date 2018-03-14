@@ -101,3 +101,5 @@ GDP[c] := CH[c] + G[c] + I[c] + X[c] + DS[c] - M[c]
 GDPbis := sum(GDP[c] on c)
 
 GDPter := VA + NTAXP
+
+GDP4 := WAGES + GOS + NTAXI + NTAXP

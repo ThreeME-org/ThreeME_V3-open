@@ -145,11 +145,34 @@ verif_phi[E, s] := 0
 
 verif_phi_TRSP[s] := 0
 
+verif_Mbis[c] := 0
+
+verif_MGRbis[c] := 0
+verif_PMGRbis[c] := 0
+
+verif_YQbis[c] := 0
+
 Verif_PCH_CES := 0 
 
 Verif_phi_CH := 0 
 
 Verif_phi_MCH := 0 
+
+Verif_GDPbis := 0 
+Verif_PGDPbis := 0 
+
+Verif_GDPter := 0 
+Verif_PGDPter := 0 
+
+Verif_GDP4 := 0 
+Verif_PGDP4 := 0 
+
+Verif_CIbis := 0 
+Verif_PCIbis := 0 
+
+
+Verif_Ibis := 0 
+Verif_PIbis := 0 
 
 Verif_ALL := 0 
 

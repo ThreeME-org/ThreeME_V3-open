@@ -42,3 +42,8 @@ log(PARTR) = ADJUST0_PARTR * log(PARTR_n) + (1 - ADJUST0_PARTR) * (log(PARTR{-1}
   
 d(log(PARTR_e)) = ADJUST1_PARTR * d(log(PARTR_e{-1})) + ADJUST2_PARTR * d(log(PARTR{-1})) + ADJUST3_PARTR * d(log(PARTR_n))
 
+
+From THREEME-V2
+#PCI|O|[ce, s] = PE|O|[ce] + TCO_VAL|O|[ce, s] / E|O|[ce, s] if CI|O|[ce, s] > 0
+#CI|O|[ce, s] = E|O|[ce, s] if CI|O|[ce, s] > 0
+

@@ -13,17 +13,47 @@ verif_phi[E, s] = 1 - (sum(phi[E, ce, s] on ce)) if F[E, s] <> 0
 
 verif_phi_TRSP[s] = 1 - (sum(phi_TRSP[ct, s] on ct)) if TRSP[s] <> 0
 
+
+verif_Mbis[c] = Mbis[c] - M[c] if M[c] <> 0
+
+verif_MGRbis[c] = MGRbis[c] - MGR[c] if MGR[c] <> 0
+verif_PMGRbis[c] = PMGRbis[c] - PMGR[c] if MGR[c] <> 0
+
+verif_YQbis[c] = YQbis[c] - YQ[c]
+
 Verif_PCH_CES = PCH - PCH_CES  if ES_LESCES <> 1
 
 Verif_phi_MCH = sum(phi_MCH[c] on c) - 1
 
 Verif_phi_CH = sum(phi_CH[c] on c) - 1
 
+Verif_GDPbis = GDPbis - GDP
+Verif_PGDPbis = PGDPbis - PGDP
+
+Verif_GDPter = GDPter - GDP
+Verif_PGDPter = PGDPter - PGDP
+
+Verif_GDP4 = GDP4 - GDP
+Verif_PGDP4 = PGDP4 - PGDP
+
+Verif_CIbis = CIbis - CI
+Verif_PCIbis = PCIbis - PCI
 
 
+Verif_Ibis = Ibis - I
+Verif_PIbis = PIbis - PI
 
-Verif_ALL = ( sum(verif_phi_F[s]^2 on s) + sum(verif_phi_MGPD[c]^2 on c) + sum(verif_phi_MGPM[c]^2 on c) + sum(verif_phi[E, s]^2 on s) + sum(verif_phi_TRSP[s]^2 on s) + Verif_PCH_CES^2 +Verif_phi_MCH^2 + Verif_phi_CH^2 )^(1/2)
 
+Verif_ALL = ( sum(verif_phi_F[s]^2 on s) + sum(verif_phi_MGPD[c]^2 on c) + sum(verif_phi_MGPM[c]^2 on c) + sum(verif_phi[E, s]^2 on s) + sum(verif_phi_TRSP[s]^2 on s) + sum(verif_Mbis[c]^2 on c) + sum(verif_MGRbis[c]^2 on c) + sum(verif_PMGRbis[c]^2 on c) + sum(verif_YQbis[c]^2 on c) + Verif_PCH_CES^2 +Verif_phi_MCH^2 + Verif_phi_CH^2 + Verif_GDPbis^2 + Verif_PGDPbis^2 + Verif_GDPter^2 + Verif_PGDPter^2 + Verif_GDP4^2 + Verif_PGDP4^2 + Verif_CIbis^2 + Verif_PCIbis^2 + Verif_Ibis^2 + Verif_PIbis^2 )^(1/2)
+
+
+# Verif Compta nat.
+
+#VERIF_PY_PYQ  = PY/PYQ-1
+#VERIF_Y_YQ  = PY/PYQ-1
+
+#
+# verifYQbis, margins.  
 
 
 ### Verification for the actual elasticities
