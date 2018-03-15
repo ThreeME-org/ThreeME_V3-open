@@ -220,7 +220,7 @@ RHO_Rdir_Cons := 0
 
 
 # In the equation of the marginal propensity to save
-RHO_MPS_R := 0.5
+RHO_MPS_R := 0.0
 RHO_MPS_UnR := 0.0
 
 # In the labor force participation rate equation
@@ -234,26 +234,29 @@ RHO_PROG_E_PE := 0
 ################################
 
 # In the price equation
-ADJUST0_PY[s] := 0.3
+ADJUST0_PY[s] := 0.5
 ADJUST1_PY[s] := 0.7
 ADJUST2_PY[s] := 0.1
 ADJUST3_PY[s] := 1 - ADJUST1_PY[s] - ADJUST2_PY[s]
 
 ## In the expected price equation
 
-ADJUST_Pe_P1 := 0.3
+ADJUST_Pe_P1 := 0.7
 
 # In wage Equation
-ADJUST_W_Wn[s] := 0.3
+ADJUST_W_Wn[s] := 0.4
 ADJUST_W_W1[s] := 1 - ADJUST_W_Wn[s]
-ADJUST_W_W1Wn1[s] := 0.01
+ADJUST_W_W1Wn1[s] := 0.05
 
 # In the interest rate equation
-ADJUST0_R := 0.3
+ADJUST0_R := 0.5
 
 
 # In the production factor equation
-ADJUST0_F[f, s] := 0.5
+ADJUST0_F[L, s] := 0.5
+ADJUST0_F[E, s] := 0.9
+ADJUST0_F[MAT, s] := 0.9
+
 ADJUST1_F[f, s] := 0.7
 ADJUST2_F[f, s] := 0.1
 ADJUST3_F[f, s] := 1 - ADJUST1_F[f, s] - ADJUST2_F[f, s]
@@ -266,20 +269,20 @@ ADJUST_IA_Kn[s] := 0.05
 
 # In the substitution of production factors
 # 6 for substitution (Eviews limit for variables in model: 24 letters)
-ADJUST6_F[f, s] := 0.4
+ADJUST6_F[f, s] := 0.3
 
-ADJUST6_MGPD[cc, c] := 0.4
+ADJUST6_MGPD[cc, c] := 0.3
 
-ADJUST6_MGPM[cc, c] := 0.4
+ADJUST6_MGPM[cc, c] := 0.3
 
-ADJUST6_CI[ce, s] := 0.4 
-ADJUST6_CI[ct, s] := 0.4
+ADJUST6_CI[ce, s] := 0.3 
+ADJUST6_CI[ct, s] := 0.3
 
-ADJUST6_|V|M[c] := 0.4 where V in MGR CH G X
+ADJUST6_|V|M[c] := 0.3 where V in MGR CH G X
 
-ADJUST6_|V|M[c, s] := 0.4 where V in CI I
+ADJUST6_|V|M[c, s] := 0.3 where V in CI I
 
-ADJUST6_X[c] := 0.4
+ADJUST6_X[c] := 0.3
 
 ## In the expected production equation
 ADJUST_Ye_Y[s] := 0.7
@@ -289,6 +292,7 @@ ADJUST_Ye_Y[s] := 0.7
 ADJUST_MARKUP[s] := 0.5
 
 ## In the production capacity equation
+## To be deleted!!!!
 ADJUST_YCAP_Y[s] := 0.0
 
 # In consumption equation
@@ -298,11 +302,11 @@ ADJUST2_CH[c] := 0.1
 ADJUST3_CH[c] := 1 - ADJUST1_CH[c] - ADJUST2_CH[c]
 
 # In the participation ratio equation
-ADJUST0_PARTR := 0.3
+ADJUST0_PARTR := 0.5
 
 
 # In the property income  equation
-ADJUST0_PROP_INC_VAL := 0.3
+ADJUST0_PROP_INC_VAL := 0.2
 ADJUST1_PROP_INC_VAL := 0.7
 ADJUST2_PROP_INC_VAL := 0.1
 ADJUST3_PROP_INC_VAL := 1 - ADJUST1_PROP_INC_VAL - ADJUST2_PROP_INC_VAL
