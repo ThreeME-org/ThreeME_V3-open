@@ -33,5 +33,5 @@ ff in %list_F
 
 O in D M
 
-%baseyear := 2006
-%firstdate := 2004
+%baseyear := 2000
+%firstdate := 1998

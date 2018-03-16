@@ -62,7 +62,7 @@ subroutine standard_shock(string %shock)
 
   call standard_restore_backup
 
-  smpl 2007 @last
+  smpl {%baseyear}+1 @last
 
   ' 1% GDP point increase of public expenditure
   if @lower(%shock) = "expg1" then

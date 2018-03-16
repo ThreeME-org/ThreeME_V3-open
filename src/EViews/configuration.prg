@@ -4,13 +4,13 @@
 ' ============================================================================ 
 
 ' Set the begining of the sample
-%firstdate = "2004"
+%firstdate = "1998"
 
 ' Input the base year used for the calibration
-%baseyear = "2006"
+%baseyear = "2000"
 
 ' Set the end of the sample
-%lastdate = "2057"
+%lastdate = "2060"
 
 
 ' Data calibrations to be used in the model run - file names are space-separated and found inside data\calibration
