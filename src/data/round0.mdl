@@ -144,10 +144,8 @@ NCH[c] := 0.0 * CH[c]
 
 RR_Un := 0.3
 
-RR_POP * W * POP := SOC_BENF_VAL - RR_Un * W * Un
-
-
-
+#RR_POP * W * POP := SOC_BENF_VAL - RR_Un * W * Un
+RR_POP * @elem(W, %baseyear) * PROG_L * P * POP :=SOC_BENF_VAL - RR_Un * W * Un
 
 ############################
 ### DEMOGRAPHY DATA

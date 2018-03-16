@@ -21,7 +21,11 @@ PROP_INC_VAL_n = phi_PROP_INC * PNOS * NOS _
 				  + (PNOS * NOS <= 0 ) * (0.00001 - phi_PROP_INC * PNOS * NOS)
 
 # Social benefits
-SOC_BENF_VAL = RR_POP * W * POP + RR_Un * W * Un 
+# Rendre endogène avec vrai données!!!
+# SOC_BENF_VAL = RR_POP * @elem(W, %baseyear) * PROG_L * P * POP + RR_Un * W * Un 
+
+# The replacement ratio should be endogenous because of the duration limit of unmployment benefits. To be tested.
+# d(log(RR_Un)) = - 1.0 * d(log(UnR))
 
 ## Transferts of households
 ## Should be endogenous? Check V2
