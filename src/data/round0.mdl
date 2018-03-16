@@ -171,27 +171,43 @@ empl := F[L]
 ES_LESCES := 0.5
 
 ## Between margins paid on the domestic and imported commodity c
-ES_MGPD[ccc, cc, c] := 0.1
-ES_MGPM[ccc, cc, c] := 0.1
+ES_MGPD[ccc, cc, c] := 0.3
+ES_MGPM[ccc, cc, c] := 0.3
 
 ## Between production factors
-ES[f, ff, s] := 0.5
+#ES[f, ff, s] := 0.5
+ES[f, f, s] := 0.0
 
+ES[K, L, s] := 0.5
+ES[K, E, s] := 2.0
+ES[K, MAT, s] := 0.0
+ES[L, K, s] := ES[K, L, s]
+ES[E, K, s] := ES[K, E, s]
+ES[MAT, K, s] := ES[K, MAT, s]
+
+ES[L, E, s] := 0.2
+ES[L, MAT, s] := 0.0
+
+ES[E, L, s] := ES[L, E, s]
+ES[MAT, L, s] := ES[L, MAT, s]
+
+ES[E, MAT, s] := 0.0
+ES[MAT, E, s] := ES[E, MAT, s]
 ## Between energy intermediary consumption
-ES_NRJ[ce, cee, s] := 0.3
+ES_NRJ[ce, cee, s] := 0.6
 
 
 ## Between transport intermediary consumption
-ES_TRSP[ct, ctt, s] := 0.6 
+ES_TRSP[ct, ctt, s] := 0.3 
 
 
 ## Between domestic and imported commodities for margins recieved, private and public consumption, investment and exports
-ES_|V|M[c] := 0.6 where V in MGR CH G I X
+ES_|V|M[c] := 0.8 where V in MGR CH G I X
 
-ES_|V|M[c, s] := 0.6 where V in CI I
+ES_|V|M[c, s] := 0.8 where V in CI I
 
 ## Between exported and the rest of world commodities sold abroad
-ES_X[c] := 0.6
+ES_X[c] := 0.8
 
 ################################
 ### Other elastiscities
@@ -201,13 +217,15 @@ ES_X[c] := 0.6
 RHO_MARKUP_Y := 0.75
 
 # Elastiscity of wages to prices, productivity, unemployment and labor
-RHO_W_P[s] := 1
-RHO_W_PROG[s] := 0
+
+RHO_W_Pe[s] := 1
+RHO_W_P[s] := 1 - RHO_W_Pe[s]
+RHO_W_PROG[s] := 1
 RHO_W_U[s] := 0.2
 RHO_W_DU[s] := 0.65
 RHO_W_L[s] := 0
 
-RHO_W_Cons[s] := log(1+GR_NOMIW) - RHO_W_P[s]*log(1+GR_PRICES) - RHO_W_PROG[s]*log(1+GR_PROG_L) + RHO_W_U[s] * UnR 
+RHO_W_Cons[s] := log(1+GR_NOMIW) - (RHO_W_P[s] + RHO_W_Pe[s])*log(1+GR_PRICES) - RHO_W_PROG[s]*log(1+GR_PROG_L) + RHO_W_U[s] * UnR 
 
 
 # In the interest rate equation
