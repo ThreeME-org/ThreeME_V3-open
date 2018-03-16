@@ -33,6 +33,12 @@ F[K, s] = (1 - Rdep[s]) * F[K, s]{-1} + IA[s] if F[K, s] <> 0
 ## Explain this equation
 d(log(IA[s])) = ADJUST_IA_Ye[s] * d(log(Y_e[s])) + ADJUST_IA_IA1[s] * d(log(IA[s]{-1}))  + ADJUST_IA_SUBST[s] * d(SUBST_F[K, s]) + ADJUST_IA_Kn[s] * (log(F_n[K, s]{-1}) - log(F[K, s]{-1})) if F[K, s] <> 0
 
+# Try other specifications:
+#log(IA[s]) = ADJUST0_IA[s] * log(IA_n[s]) + (1 - ADJUST0_F[f, s]) * (log(IA[s]{-1})
+# IA_n[s] = F_n[K, s] - (1 - Rdep[s]) * F[K, s]{-1} _
+# 	+ (F_n[K, s] - (1 - Rdep[s]) * F[K, s]{-1} =< 0.00001) * (0.00001 - (F_n[K, s] - (1 - Rdep[s]) * F[K, s]{-1})) if F[K, s] <> 0
+
+
 
 SUBST_F[f, s] = ADJUST6_F[f, s] * SUBST_n_F[f, s] + (1 - ADJUST6_F[f, s]) * SUBST_F[f, s]{-1} if F[f, s] <> 0
 

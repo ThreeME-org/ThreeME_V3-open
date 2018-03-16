@@ -146,6 +146,9 @@ PM[c] = TC*PWD[c] if M[c] <> 0
 ## This general specification combines various wage equation found in the literature: the Phillips curve and the WS curve. The WS curve à la Layard et al. (2005) requires the following constraints : RHO_W_P[s] = RHO_W_PROG[s] = 1, RHO_W_U[s] = RHO_W_Cons[s] = 0.  
 d(log(W_n[s])) = RHO_W_Cons[s] + RHO_W_P[s]*d(log(P)) + RHO_W_Pe[s]*d(log(P_e)) + RHO_W_PROG[s]*d(log(PROG_L[s])) - RHO_W_U[s] * (UnR - DNAIRU) - RHO_W_DU[s]*d(UnR) + RHO_W_L[s]*d(log(F[L, s]) - log(F[L])) if W_n[s] <> 0
 
+# In order to have a NAIRU that is not predetermined, we have to assume that the constant is a function of the unemployment rate:
+# d(RHO_W_Cons[s]) = 1.0 * RHO_W_U[s] * d(UnR)
+
 # Average wage
 W * F[L] = (sum(W[s] * F[L, s] on s))
 
