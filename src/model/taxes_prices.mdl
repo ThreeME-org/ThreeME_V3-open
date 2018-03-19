@@ -3,31 +3,28 @@
 ########################################################
 ### This file provides the equations defining with more detailled taxes and prices.
 
-#@over NTAXPD_VAL[c] = PVATD[c]*VATD[c] + POTHPTD[c]*OTHPTD[c] + PSUBPD[c]*SUBPD[c]
+#@over  
+NTAXPD_VAL[c] = PVATD[c]*VATD[c] + POTHPTD[c]*OTHPTD[c] + PSUBPD[c]*SUBPD[c]
 
-#@over NTAXPD[c] = VATD[c] + OTHPTD[c] + SUBPD[c]
+#@over 
+NTAXPD[c] = VATD[c] + OTHPTD[c] + SUBPD[c]
 
-
-
-
-
-#NTAXPD[c]
-#RNTAXPD[c] = NTAXPD_VAL[c] / (PYQ[c]*YQ[c])
+RNTAXPD[c] = NTAXPD_VAL[c] / (PYQ[c]*YQ[c])
 
 # Value-added tax
-#PVATD[c]*VATD[c] = RVATD[c] * PCHD[c] * CHD[c] / (1 + RVATD[c]) 
+PVATD[c]*VATD[c] = RVATD[c] * PCHD[c] * CHD[c] / (1 + RVATD[c]) 
 
-#VATD[c] = @elem(RVATD[c],%baseyear)*CHD[c]/(1+@elem(RVATD[c], %baseyear)) 
+VATD[c] = @elem(RVATD[c],%baseyear)*CHD[c]/(1+@elem(RVATD[c], %baseyear)) 
 
 # Other product tax
-#POTHPTD[c] * OTHPTD[c] = ROTHPTD[c] * PYQ[c]  * YQ[c]
+POTHPTD[c] * OTHPTD[c] = ROTHPTD[c] * PYQ[c]  * YQ[c]
 
-#OTHPTD[c] = @elem(ROTHPTD[c], %baseyear) * YQ[c]
+OTHPTD[c] = @elem(ROTHPTD[c], %baseyear) * YQ[c]
 
 # Subsidies on product
-#PSUBPD[c] * SUBPD[c] = RSUBPD[c] * YQ[c]
+PSUBPD[c] * SUBPD[c] = RSUBPD[c] * YQ[c]
 
-#SUBPD[c] = @elem(RSUBPD[c], %baseyear) * YQ[c]
+SUBPD[c] = @elem(RSUBPD[c], %baseyear) * YQ[c]
 
 
 

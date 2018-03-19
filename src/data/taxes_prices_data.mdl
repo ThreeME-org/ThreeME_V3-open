@@ -1,2 +1,19 @@
 include ..\model\lists
 
+# From R
+VATD[c] := 0.7 * NTAXPD[c]
+
+OTHPTD[c] := 0.5 * NTAXPD[c] 
+
+SUBPD[c] := NTAXPD[c] - (VATD[c] + OTHPTD[c])
+
+# From inversion of eq.
+
+RVATD[c] := VATD[c] / (CHD[c] - VATD[c])
+
+ROTHPTD[c] := OTHPTD[c] / YQ[c] 
+
+# Subsidy on quantities: the rate increase with the price 
+RSUBPD[c] := SUBPD[c] / YQ[c] * P
+
+
