@@ -10,7 +10,7 @@
 %baseyear = "2000"
 
 ' Set the end of the sample
-%lastdate = "2200"
+%lastdate = "2050"
 
 
 ' Data calibrations to be used in the model run - file names are space-separated and found inside data\calibration

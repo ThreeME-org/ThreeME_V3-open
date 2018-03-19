@@ -39,7 +39,7 @@ if %load="new"  then
     call export_all_to_csv
 
     ' Create the series using the dependencies (add-ins "series")
-    {%modelname}.series round0 Prices_data SU_data Special_data Other_data 
+    {%modelname}.series round0 Prices_data SU_data Special_data Other_data taxes_prices_data
     ' round1 round2 demography government household exceptions_fr_data ghg carbon_tax exceptions_tracker
 
     ' Export all variables to a csv file (used by the external compiler)
@@ -88,13 +88,13 @@ endif
        call run_scenario("baseline")
 
 ''       call run_standard("RSSC1")
-       call run_standard("EXPG1")
+''       call run_standard("EXPG1")
 
           ' call run_enr("PPE_ENRhaut")
  
   ' ***************************************
   ' Call (eventually) here the subroutine you want to use to analyse the results
-      call additional_outputs("Fred")
+''      call additional_outputs("Fred")
       ' call output_template(%scenario_name)
 
   ' *******************

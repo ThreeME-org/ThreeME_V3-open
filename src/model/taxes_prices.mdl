@@ -1,0 +1,65 @@
+########################################################
+#########         TAXES & PRICES   #####################
+########################################################
+### This file provides the equations defining with more detailled taxes and prices.
+
+#@over NTAXPD_VAL[c] = PVATD[c]*VATD[c] + POTHPTD[c]*OTHPTD[c] + PSUBPD[c]*SUBPD[c]
+
+#@over NTAXPD[c] = VATD[c] + OTHPTD[c] + SUBPD[c]
+
+
+
+
+
+#NTAXPD[c]
+#RNTAXPD[c] = NTAXPD_VAL[c] / (PYQ[c]*YQ[c])
+
+# Value-added tax
+#PVATD[c]*VATD[c] = RVATD[c] * PCHD[c] * CHD[c] / (1 + RVATD[c]) 
+
+#VATD[c] = @elem(RVATD[c],%baseyear)*CHD[c]/(1+@elem(RVATD[c], %baseyear)) 
+
+# Other product tax
+#POTHPTD[c] * OTHPTD[c] = ROTHPTD[c] * PYQ[c]  * YQ[c]
+
+#OTHPTD[c] = @elem(ROTHPTD[c], %baseyear) * YQ[c]
+
+# Subsidies on product
+#PSUBPD[c] * SUBPD[c] = RSUBPD[c] * YQ[c]
+
+#SUBPD[c] = @elem(RSUBPD[c], %baseyear) * YQ[c]
+
+
+
+
+### Price of domesticly produced margins recieved by commodity c 
+#@over PMGRD[c] = PYQS[c] + 1 - 1 if MGRD[c] <> 0 
+
+### Price of imported margins recieved by commodity c
+PMGRM[c] = PMS[c]  if MGRM[c] <> 0 
+
+### Price of intermediary raw material consumption domestically produced c of sector s
+#PCID[c, s] = PYQS[c] if CID[c, s] <> 0 
+
+### Price of the imported intermediary raw material consumption c of sector s
+#PCIM[c, s] = PMS[c]  if CIM[c, s] <> 0 
+
+#PCHD[c] = PYQS[c] if CHD[c] <> 0 
+#PCHM[c] = PMS[c]  if CHM[c] <> 0 
+
+
+#PGD[c] = PYQS[c] if GD[c] <> 0 
+#PGM[c] = PMS[c]  if GM[c] <> 0 
+
+
+#PID[c, s] = PYQS[c] if ID[c, s] <> 0 
+#PIM[c, s] = PMS[c]  if IM[c, s] <> 0 
+
+#PXD[c] = PYQS[c] if XD[c] <> 0 
+#PXM[c] = PMS[c]  if XM[c] <> 0 
+
+
+#PDSD[c] = PYQS[c] if DSD[c] <> 0 
+#PDSM[c] = PMS[c]  if DSM[c] <> 0 
+
+
