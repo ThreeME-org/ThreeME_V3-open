@@ -285,10 +285,10 @@ ADJUST_IA_IA1[s] := 1 - ADJUST_IA_Ye[s]
 ADJUST_IA_SUBST[s] := 0.5
 ADJUST_IA_Kn[s] := 0.05
 
-ADJUST0_IA[s] := 0.05
-ADJUST1_IA[s] := 1.0
-ADJUST2_IA[s] := 0.0
-ADJUST3_IA[s] := 1 - ADJUST1_IA[s] - ADJUST2_IA[s]
+#ADJUST0_IA[s] := 0.05
+#ADJUST1_IA[s] := 1.0
+#ADJUST2_IA[s] := 0.0
+#ADJUST3_IA[s] := 1 - ADJUST1_IA[s] - ADJUST2_IA[s]
 
 # In the substitution of production factors
 # 6 for substitution (Eviews limit for variables in model: 24 letters)
