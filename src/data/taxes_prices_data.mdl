@@ -1,11 +1,11 @@
 include ..\model\lists
 
-# From R
-VATD[c] := 0.7 * NTAXPD[c]
+# From R / Excel
+VATD[c] := TAXES($c,1) * (1 + GR_REAL) ^ (@year - %baseyear)
 
-OTHPTD[c] := 0.5 * NTAXPD[c] 
+OTHPTD[c] := TAXES($c,2) * (1 + GR_REAL) ^ (@year - %baseyear)
 
-SUBPD[c] := NTAXPD[c] - (VATD[c] + OTHPTD[c])
+SUBPD[c] := TAXES($c,3) * (1 + GR_REAL) ^ (@year - %baseyear)
 
 # From inversion of eq.
 
