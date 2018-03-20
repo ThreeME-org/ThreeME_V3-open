@@ -3,10 +3,8 @@
 ########################################################
 ### This file provides the equations defining with more detailled taxes and prices.
 
-#@over  
-NTAXPD_VAL[c] = PVATD[c]*VATD[c] + POTHPTD[c]*OTHPTD[c] + PSUBPD[c]*SUBPD[c] if NTAXPD_VAL[c] <> 0
-#@over 
-NTAXPD[c] = VATD[c] + OTHPTD[c] + SUBPD[c] if NTAXPD[c]  <> 0
+@over NTAXPD_VAL[c] = PVATD[c]*VATD[c] + POTHPTD[c]*OTHPTD[c] + PSUBPD[c]*SUBPD[c] if NTAXPD_VAL[c] <> 0
+@over NTAXPD[c] = VATD[c] + OTHPTD[c] + SUBPD[c] if NTAXPD[c]  <> 0
 
 RNTAXPD[c] = NTAXPD_VAL[c] / (PYQ[c]*YQ[c])
 
@@ -88,46 +86,33 @@ PMSBVAT[c]*MSBVAT[c] = PM[c]*M[c] * (1+ROTHPTM[c]) + RSUBPM[c] * M[c] + PMGPM[c]
 		d(log(MSBVAT[c])) = d(log(M[c]))  if MSBVAT[c] <> 0 
 
 ### Price of domesticly produced margins recieved by commodity c 
-#@over 
-PMGRD[c] = PYQSBVAT[c] if MGRD[c] <> 0 
+@over PMGRD[c] = PYQSBVAT[c] if MGRD[c] <> 0 
 
 ### Price of imported margins recieved by commodity c
-#@over 
-PMGRM[c] = PMSBVAT[c]  if MGRM[c] <> 0 
+@over PMGRM[c] = PMSBVAT[c]  if MGRM[c] <> 0 
 
 ### Price of intermediary raw material consumption domestically produced c of sector s
-#@over 
-PCID[c, s] = PYQSBVAT[c] if CID[c, s] <> 0 
+@over PCID[c, s] = PYQSBVAT[c] if CID[c, s] <> 0 
 
 ### Price of the imported intermediary raw material consumption c of sector s
-#@over 
-PCIM[c, s] = PMSBVAT[c]  if CIM[c, s] <> 0 
+@over PCIM[c, s] = PMSBVAT[c]  if CIM[c, s] <> 0 
 
-#@over 
-PCHD[c] = PYQSBVAT[c] * (1 + RVATD[c]) / (1 + @elem(RVATD[c], %baseyear)) if CHD[c] <> 0 
+@over PCHD[c] = PYQSBVAT[c] * (1 + RVATD[c]) / (1 + @elem(RVATD[c], %baseyear)) if CHD[c] <> 0
 
+@over PCHM[c] = PMSBVAT[c] * (1 + RVATM[c]) / (1 + @elem(RVATM[c], %baseyear)) if CHM[c] <> 0 
 
-#@over 
-PCHM[c] = PMSBVAT[c] * (1 + RVATM[c]) / (1 + @elem(RVATM[c], %baseyear)) if CHM[c] <> 0 
+@over PGD[c] = PYQSBVAT[c] if GD[c] <> 0 
 
-#@over 
-PGD[c] = PYQSBVAT[c] if GD[c] <> 0 
-#@over 
-PGM[c] = PMSBVAT[c]  if GM[c] <> 0 
+@over PGM[c] = PMSBVAT[c]  if GM[c] <> 0 
 
-#@over 
-PID[c, s] = PYQSBVAT[c] if ID[c, s] <> 0 
-#@over 
-PIM[c, s] = PMSBVAT[c]  if IM[c, s] <> 0 
+@over PID[c, s] = PYQSBVAT[c] if ID[c, s] <> 0 
 
-#@over 
-PXD[c] = PYQSBVAT[c] if XD[c] <> 0 
-#@over 
-PXM[c] = PMSBVAT[c]  if XM[c] <> 0 
+@over PIM[c, s] = PMSBVAT[c]  if IM[c, s] <> 0 
 
-#@over 
-PDSD[c] = PYQSBVAT[c] if DSD[c] <> 0 
-#@over 
-PDSM[c] = PMSBVAT[c]  if DSM[c] <> 0 
+@over PXD[c] = PYQSBVAT[c] if XD[c] <> 0 
 
+@over PXM[c] = PMSBVAT[c]  if XM[c] <> 0 
 
+@over PDSD[c] = PYQSBVAT[c] if DSD[c] <> 0 
+
+@over PDSM[c] = PMSBVAT[c]  if DSM[c] <> 0 

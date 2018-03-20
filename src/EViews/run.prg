@@ -50,12 +50,12 @@ if %load="new"  then
     {%modelname}.load blocks
 
     ' Put add factors to all equations
-    {%modelname}.addassign @all
+    '{%modelname}.addassign @all
     ' Set add factor values so that the equation has no residual when evaluated at actuals
-    {%modelname}.addinit(v=n) @all
+    '{%modelname}.addinit(v=n) @all
     ' Show all add factors
-    group a_addfactors *_a
-    show a_addfactors
+    'group a_addfactors *_a
+    'show a_addfactors
 
 
     ' Save the workfile for memory
@@ -88,13 +88,13 @@ endif
        call run_scenario("baseline")
 
 ''       call run_standard("RSSC1")
-''       call run_standard("EXPG1")
+       call run_standard("EXPG1")
 
           ' call run_enr("PPE_ENRhaut")
  
   ' ***************************************
   ' Call (eventually) here the subroutine you want to use to analyse the results
-''      call additional_outputs("Fred")
+    call additional_outputs("Fred")
       ' call output_template(%scenario_name)
 
   ' *******************
