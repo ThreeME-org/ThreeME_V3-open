@@ -30,6 +30,7 @@ Verif_phi_CH = sum(phi_CH[c] on c) - 1
 Verif_GDPbis = GDPbis - GDP
 Verif_PGDPbis = PGDPbis - PGDP
 
+## Rounding error between GDP definitions: GDP and GDPter/GDP4. Therefore the error is measured in percentage difference
 Verif_GDPter = GDPter - GDP
 Verif_PGDPter = PGDPter - PGDP
 

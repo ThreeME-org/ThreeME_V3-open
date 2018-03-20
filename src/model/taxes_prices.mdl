@@ -8,6 +8,11 @@
 
 RNTAXPD[c] = NTAXPD_VAL[c] / (PYQ[c]*YQ[c])
 
+@over NTAXPM_VAL[c] = PVATM[c]*VATM[c] + POTHPTM[c]*OTHPTM[c] + PSUBPM[c]*SUBPM[c] if NTAXPM_VAL[c] <> 0
+@over NTAXPM[c] = VATM[c] + OTHPTM[c] + SUBPM[c] if NTAXPM[c]  <> 0
+
+RNTAXPM[c] = NTAXPM_VAL[c] / (PM[c]*M[c])
+
 # Value-added tax on domestic commodities
 PVATD[c]*VATD[c] = RVATD[c] * PCHD[c] * CHD[c] / (1 + RVATD[c]) if VATD[c] <> 0 
 
