@@ -39,9 +39,8 @@ if %load="new"  then
     call export_all_to_csv
 
     ' Create the series using the dependencies (add-ins "series")
-    {%modelname}.series round0 Prices_data SU_data Special_data Other_data taxes_prices_data
-    ' round1 round2 demography government household exceptions_fr_data ghg carbon_tax exceptions_tracker
-
+    {%modelname}.series round0 Prices_data SU_data Special_data Other_data Exception_taxes_prices_data
+    
     ' Export all variables to a csv file (used by the external compiler)
     call export_all_to_csv
 
