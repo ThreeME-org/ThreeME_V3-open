@@ -7,13 +7,37 @@ OTHPTD[c] := TAXES($c,2) * (1 + GR_REAL) ^ (@year - %baseyear)
 
 SUBPD[c] := TAXES($c,3) * (1 + GR_REAL) ^ (@year - %baseyear)
 
+VATM[c] := TAXES($c,9) * (1 + GR_REAL) ^ (@year - %baseyear)
+
+OTHPTM[c] := TAXES($c,10) * (1 + GR_REAL) ^ (@year - %baseyear)
+
+SUBPM[c] := TAXES($c,11) * (1 + GR_REAL) ^ (@year - %baseyear)
+
 # From inversion of eq.
 
 RVATD[c] := VATD[c] / (CHD[c] - VATD[c])
 
 ROTHPTD[c] := OTHPTD[c] / YQ[c] 
 
-# Subsidy on quantities: the rate increase with the price 
+RVATM[c] := VATM[c] / (CHM[c] - VATM[c])
+
+ROTHPTM[c] := OTHPTM[c] / M[c] 
+
+# Subsidy on quantities: the rate increases with the price (necessary for a steady state) 
 RSUBPD[c] := SUBPD[c] / YQ[c] * P
 
+RSUBPM[c] := SUBPM[c] / M[c] * P
+
+## Directly from equations
+VATD := sum(VATD[c] on c)
+OTHPTD := sum(OTHPTD[c] on c)
+SUBPD := sum(SUBPD[c] on c)
+
+VATM := sum(VATM[c] on c)
+OTHPTM := sum(OTHPTM[c] on c)
+SUBPM := sum(SUBPM[c] on c)
+
+VAT := VATD + VATM
+OTHPT := OTHPTD + OTHPTM
+SUBP := SUBPD + SUBPM
 

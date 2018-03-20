@@ -4,28 +4,78 @@
 ### This file provides the equations defining with more detailled taxes and prices.
 
 #@over  
-NTAXPD_VAL[c] = PVATD[c]*VATD[c] + POTHPTD[c]*OTHPTD[c] + PSUBPD[c]*SUBPD[c]
-
+NTAXPD_VAL[c] = PVATD[c]*VATD[c] + POTHPTD[c]*OTHPTD[c] + PSUBPD[c]*SUBPD[c] if NTAXPD_VAL[c] <> 0
 #@over 
-NTAXPD[c] = VATD[c] + OTHPTD[c] + SUBPD[c]
+NTAXPD[c] = VATD[c] + OTHPTD[c] + SUBPD[c] if NTAXPD[c]  <> 0
 
 RNTAXPD[c] = NTAXPD_VAL[c] / (PYQ[c]*YQ[c])
 
-# Value-added tax
-PVATD[c]*VATD[c] = RVATD[c] * PCHD[c] * CHD[c] / (1 + RVATD[c]) 
+# Value-added tax on domestic commodities
+PVATD[c]*VATD[c] = RVATD[c] * PCHD[c] * CHD[c] / (1 + RVATD[c]) if VATD[c] <> 0 
 
-VATD[c] = @elem(RVATD[c],%baseyear)*CHD[c]/(1+@elem(RVATD[c], %baseyear)) 
+VATD[c] = @elem(RVATD[c],%baseyear)*CHD[c]/(1+@elem(RVATD[c], %baseyear)) if VATD[c] <> 0
 
-# Other product tax
-POTHPTD[c] * OTHPTD[c] = ROTHPTD[c] * PYQ[c]  * YQ[c]
+# Other product tax on domestic commodities
+POTHPTD[c] * OTHPTD[c] = ROTHPTD[c] * PYQ[c]  * YQ[c] if OTHPTD[c] <> 0
 
-OTHPTD[c] = @elem(ROTHPTD[c], %baseyear) * YQ[c]
+OTHPTD[c] = @elem(ROTHPTD[c], %baseyear) * YQ[c] if OTHPTD[c] <> 0
 
-# Subsidies on product
-PSUBPD[c] * SUBPD[c] = RSUBPD[c] * YQ[c]
+# Subsidies on product on domestic commodities
+PSUBPD[c] * SUBPD[c] = RSUBPD[c] * YQ[c] if SUBPD[c] <> 0
 
-SUBPD[c] = @elem(RSUBPD[c], %baseyear) * YQ[c]
+SUBPD[c] = @elem(RSUBPD[c], %baseyear) * YQ[c] if SUBPD[c] <> 0
+ 
 
+# Value-added tax on imported commodities
+PVATM[c]*VATM[c] = RVATM[c] * PCHM[c] * CHM[c] / (1 + RVATM[c]) if VATM[c] <> 0
+
+VATM[c] = @elem(RVATM[c],%baseyear)*CHM[c]/(1+@elem(RVATM[c], %baseyear)) if VATM[c] <> 0
+
+# Other product tax on imported commodities
+POTHPTM[c] * OTHPTM[c] = ROTHPTM[c] * PM[c]  * M[c] if OTHPTM[c] <> 0
+
+OTHPTM[c] = @elem(ROTHPTM[c], %baseyear) * M[c] if OTHPTM[c] <> 0
+
+# Subsidies on product on imported commodities
+PSUBPM[c] * SUBPM[c] = RSUBPM[c] * M[c] if SUBPM[c] <> 0
+
+SUBPM[c] = @elem(RSUBPM[c], %baseyear) * M[c] if SUBPM[c] <> 0
+
+## Agrgation of taxes
+PVATD * VATD = sum(PVATD[c] * VATD[c] if VATD[c] <> 0 on c) if VATD <> 0
+
+        VATD = sum(           VATD[c] if VATD[c] <> 0 on c) if VATD <> 0
+
+
+POTHPTD * OTHPTD = sum(POTHPTD[c] * OTHPTD[c] if OTHPTD[c] <> 0 on c) if OTHPTD <> 0
+
+          OTHPTD = sum(             OTHPTD[c] if OTHPTD[c] <> 0 on c) if OTHPTD <> 0
+
+PSUBPD * SUBPD = sum(PSUBPD[c] * SUBPD[c] if SUBPD[c] <> 0 on c) if SUBPD <> 0
+
+         SUBPD = sum(            SUBPD[c] if SUBPD[c] <> 0 on c) if SUBPD <> 0
+
+PVATM * VATM = sum(PVATM[c] * VATM[c] if VATM[c] <> 0 on c) if VATM <> 0
+
+        VATM = sum(           VATM[c] if VATM[c] <> 0 on c) if VATM <> 0
+
+POTHPTM * OTHPTM = sum(POTHPTM[c] * OTHPTM[c] if OTHPTM[c] <> 0 on c) if OTHPTM <> 0
+
+          OTHPTM = sum(             OTHPTM[c] if OTHPTM[c] <> 0 on c) if OTHPTM <> 0
+
+PSUBPM * SUBPM = sum(PSUBPM[c] * SUBPM[c] if SUBPM[c] <> 0 on c) if SUBPM <> 0
+
+         SUBPM = sum(            SUBPM[c] if SUBPM[c] <> 0 on c) if SUBPM <> 0
+
+
+PVAT * VAT = PVATD * VATD + PVATM * VATM if VAT <> 0
+       VAT =         VATD +         VATM if VAT <> 0
+
+POTHPT * OTHPT = POTHPTD * OTHPTD + POTHPTM * OTHPTM if OTHPT <> 0
+      	 OTHPT =           OTHPTD +           OTHPTM if OTHPT <> 0
+
+PSUBP * SUBP = PSUBPD * SUBPD + PSUBPM * SUBPM if SUBP <> 0
+        SUBP =          SUBPD +          SUBPM if SUBP <> 0
 
 
 
