@@ -77,36 +77,57 @@ POTHPT * OTHPT = POTHPTD * OTHPTD + POTHPTM * OTHPTM if OTHPT <> 0
 PSUBP * SUBP = PSUBPD * SUBPD + PSUBPM * SUBPM if SUBP <> 0
         SUBP =          SUBPD +          SUBPM if SUBP <> 0
 
+### Selling price before VAT for domestic commodity c (Value & volume)
+PYQSBVAT[c]*YQSBVAT[c] = PYQ[c]*YQ[c] * (1 + ROTHPTD[c]) + RSUBPD[c] * YQ[c] + PMGPD[c]*MGPD[c] if YQSBVAT[c] <> 0 
 
+  d(log(YQSBVAT[c])) = d(log(YQ[c]))	 if YQSBVAT[c] <> 0 
+
+### Selling price before VAT for imported commodity c
+PMSBVAT[c]*MSBVAT[c] = PM[c]*M[c] * (1+ROTHPTM[c]) + RSUBPM[c] * M[c] + PMGPM[c]*MGPM[c]  if MSBVAT[c] <> 0 
+
+		d(log(MSBVAT[c])) = d(log(M[c]))  if MSBVAT[c] <> 0 
 
 ### Price of domesticly produced margins recieved by commodity c 
-#@over PMGRD[c] = PYQS[c] + 1 - 1 if MGRD[c] <> 0 
+#@over 
+PMGRD[c] = PYQSBVAT[c] if MGRD[c] <> 0 
 
 ### Price of imported margins recieved by commodity c
-PMGRM[c] = PMS[c]  if MGRM[c] <> 0 
+#@over 
+PMGRM[c] = PMSBVAT[c]  if MGRM[c] <> 0 
 
 ### Price of intermediary raw material consumption domestically produced c of sector s
-#PCID[c, s] = PYQS[c] if CID[c, s] <> 0 
+#@over 
+PCID[c, s] = PYQSBVAT[c] if CID[c, s] <> 0 
 
 ### Price of the imported intermediary raw material consumption c of sector s
-#PCIM[c, s] = PMS[c]  if CIM[c, s] <> 0 
+#@over 
+PCIM[c, s] = PMSBVAT[c]  if CIM[c, s] <> 0 
 
-#PCHD[c] = PYQS[c] if CHD[c] <> 0 
-#PCHM[c] = PMS[c]  if CHM[c] <> 0 
-
-
-#PGD[c] = PYQS[c] if GD[c] <> 0 
-#PGM[c] = PMS[c]  if GM[c] <> 0 
+#@over 
+PCHD[c] = PYQSBVAT[c] * (1 + RVATD[c]) / (1 + @elem(RVATD[c], %baseyear)) if CHD[c] <> 0 
 
 
-#PID[c, s] = PYQS[c] if ID[c, s] <> 0 
-#PIM[c, s] = PMS[c]  if IM[c, s] <> 0 
+#@over 
+PCHM[c] = PMSBVAT[c] * (1 + RVATM[c]) / (1 + @elem(RVATM[c], %baseyear)) if CHM[c] <> 0 
 
-#PXD[c] = PYQS[c] if XD[c] <> 0 
-#PXM[c] = PMS[c]  if XM[c] <> 0 
+#@over 
+PGD[c] = PYQSBVAT[c] if GD[c] <> 0 
+#@over 
+PGM[c] = PMSBVAT[c]  if GM[c] <> 0 
 
+#@over 
+PID[c, s] = PYQSBVAT[c] if ID[c, s] <> 0 
+#@over 
+PIM[c, s] = PMSBVAT[c]  if IM[c, s] <> 0 
 
-#PDSD[c] = PYQS[c] if DSD[c] <> 0 
-#PDSM[c] = PMS[c]  if DSM[c] <> 0 
+#@over 
+PXD[c] = PYQSBVAT[c] if XD[c] <> 0 
+#@over 
+PXM[c] = PMSBVAT[c]  if XM[c] <> 0 
+
+#@over 
+PDSD[c] = PYQSBVAT[c] if DSD[c] <> 0 
+#@over 
+PDSM[c] = PMSBVAT[c]  if DSM[c] <> 0 
 
 

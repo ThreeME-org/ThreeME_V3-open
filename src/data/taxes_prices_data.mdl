@@ -13,7 +13,7 @@ OTHPTM[c] := TAXES($c,10) * (1 + GR_REAL) ^ (@year - %baseyear)
 
 SUBPM[c] := TAXES($c,11) * (1 + GR_REAL) ^ (@year - %baseyear)
 
-# From inversion of eq.
+# Special data (inversion of eq. / modification of the equation)
 
 RVATD[c] := VATD[c] / (CHD[c] - VATD[c])
 
@@ -27,6 +27,9 @@ ROTHPTM[c] := OTHPTM[c] / M[c]
 RSUBPD[c] := SUBPD[c] / YQ[c] * P
 
 RSUBPM[c] := SUBPM[c] / M[c] * P
+
+YQSBVAT[c] := YQ[c] * (1 + ROTHPTD[c] + @elem(RSUBPD[c], %baseyear)) + MGPD[c]
+MSBVAT[c]  :=  M[c] * (1 + ROTHPTM[c] + @elem(RSUBPM[c], %baseyear)) + MGPM[c]
 
 ## Directly from equations
 VATD := sum(VATD[c] on c)
