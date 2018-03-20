@@ -28,8 +28,8 @@ RSUBPD[c] := SUBPD[c] / YQ[c] * P
 
 RSUBPM[c] := SUBPM[c] / M[c] * P
 
-YQSBVAT[c] := YQ[c] * (1 + ROTHPTD[c] + @elem(RSUBPD[c], %baseyear)) + MGPD[c]
-MSBVAT[c]  :=  M[c] * (1 + ROTHPTM[c] + @elem(RSUBPM[c], %baseyear)) + MGPM[c]
+YQSBVAT[c] := YQ[c] + OTHPTD[c] + SUBPD[c] + MGPD[c]
+MSBVAT[c] :=  M[c] + OTHPTM[c] + SUBPM[c] + MGPM[c]
 
 ## Directly from equations
 VATD := sum(VATD[c] on c)

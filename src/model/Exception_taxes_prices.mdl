@@ -59,14 +59,15 @@ SUBPM[c] = @elem(RSUBPM[c], %baseyear) * M[c] if SUBPM[c] <> 0
 ##  Prices should be defined in coherence with the above specification of taxes
 
 ### Selling price before VAT for domestic commodity c (Value & volume)
-PYQSBVAT[c]*YQSBVAT[c] = PYQ[c]*YQ[c] * (1 + ROTHPTD[c]) + RSUBPD[c] * YQ[c] + PMGPD[c]*MGPD[c] if YQSBVAT[c] <> 0 
+PYQSBVAT[c]*YQSBVAT[c] = PYQ[c]*YQ[c] + POTHPTD[c] * OTHPTD[c] + PSUBPD[c] * SUBPD[c] + PMGPD[c]*MGPD[c] if YQSBVAT[c] <> 0 
 
-  d(log(YQSBVAT[c])) = d(log(YQ[c]))	 if YQSBVAT[c] <> 0 
 
-### Selling price before VAT for imported commodity c
-PMSBVAT[c]*MSBVAT[c] = PM[c]*M[c] * (1+ROTHPTM[c]) + RSUBPM[c] * M[c] + PMGPM[c]*MGPM[c]  if MSBVAT[c] <> 0 
+d(log(YQSBVAT[c])) = d(log(YQ[c]))	 if YQSBVAT[c] <> 0 
 
-		d(log(MSBVAT[c])) = d(log(M[c]))  if MSBVAT[c] <> 0 
+### Selling price before VAT for imported commodity c (Value & volume)
+PMSBVAT[c]*MSBVAT[c] = PM[c]*M[c] + POTHPTM[c] * OTHPTM[c] + PSUBPM[c] * SUBPM[c] + PMGPM[c]*MGPM[c]  if MSBVAT[c] <> 0
+
+d(log(MSBVAT[c])) = d(log(M[c]))  if MSBVAT[c] <> 0 
 
 ### Price of domesticly produced margins recieved by commodity c 
 @over PMGRD[c] = PYQSBVAT[c] if MGRD[c] <> 0 
