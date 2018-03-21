@@ -56,8 +56,10 @@ RRSSC = PRSSC * RSSC / (W * F[L])
 d(log(G[c])) = d(log(EXPG)) if CH[c] <> 0
 
 
+## Property incomes of the Government
+
 # Incomes of the government
-#INC_G_VAL = 
+#INC_G_VAL = PNTAXP * NTAXP + NTAXI_VAL + INC_SOC_TAX_VAL + PRSSC * RSSC 
 
 # Spendings of the government
 

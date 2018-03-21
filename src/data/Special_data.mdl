@@ -18,7 +18,7 @@ RNTAXPM[c] := NTAXPM[c]/ M[c]
 RNTAXI[s] := NTAXI[s]/Y[s]
 
 RINC_SOC_TAX := INC_SOC_TAX_VAL / DISPINC_BT_VAL
-phi_PROP_INC := PROP_INC_VAL_n / (PNOS * NOS) 
+phi_PROP_INC_H := PROP_INC_H_VAL_n / (PNOS * NOS) 
 
 (1 - MPS_n) := CH_n_VAL / DISPINC_AT_VAL 
 
@@ -81,9 +81,9 @@ ES_act[f, ff, s] := ES[f, ff, s]
 
 Y_e[s] := Y[s]
 
-|V|_n := |V| where V in PARTR R PROP_INC_VAL
+|V|_n := |V| where V in PARTR R PROP_INC_H_VAL
 
-PROP_INC_VAL_e := PROP_INC_VAL
+PROP_INC_H_VAL_e := PROP_INC_H_VAL
 
 ### Voir si on ne peux pas regrouper un peu !!!
 R_e := R

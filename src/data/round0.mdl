@@ -135,7 +135,7 @@ XM[c]  := SUT($c+26,29) * (1 + GR_REAL) ^ (@year - %baseyear)
 ### CONSUMER DATA
 ############################
 
-PROP_INC_VAL := HH_INC(2,1) * (1 + GR_NOMI) ^ (@year - %baseyear) 
+PROP_INC_H_VAL := HH_INC(2,1) * (1 + GR_NOMI) ^ (@year - %baseyear) 
 SOC_BENF_VAL := HH_INC(3,1) * (1 + GR_NOMI) ^ (@year - %baseyear)
 TRSF_HH_VAL := HH_INC(4,1) * (1 + GR_NOMI) ^ (@year - %baseyear)
 INC_SOC_TAX_VAL := HH_INC(5,1) * (1 + GR_NOMI) ^ (@year - %baseyear) 
@@ -329,7 +329,7 @@ ADJUST0_PARTR := 0.5
 
 
 # In the property income  equation
-ADJUST0_PROP_INC_VAL := 0.2
-ADJUST1_PROP_INC_VAL := 0.7
-ADJUST2_PROP_INC_VAL := 0.1
-ADJUST3_PROP_INC_VAL := 1 - ADJUST1_PROP_INC_VAL - ADJUST2_PROP_INC_VAL
+ADJUST0_PROP_INC_H_VAL := 0.2
+ADJUST1_PROP_INC_H_VAL := 0.7
+ADJUST2_PROP_INC_H_VAL := 0.1
+ADJUST3_PROP_INC_H_VAL := 1 - ADJUST1_PROP_INC_H_VAL - ADJUST2_PROP_INC_H_VAL
