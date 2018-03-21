@@ -14,10 +14,29 @@ NTAXPM_VAL[c] = RNTAXPM[c]*PM[c]*M[c]
 
 	NTAXPM[c] = @elem(RNTAXPM[c], %baseyear) * M[c]
 
+### Net taxes on commodity c:
+### Same remark than for VA
+NTAXP_VAL[c] = NTAXPD_VAL[c] + NTAXPM_VAL[c]
+
+	NTAXP[c] = NTAXPD[c] + NTAXPM[c]
+
+### Aggregate net taxes on commodity:
+PNTAXP * NTAXP = sum(NTAXP_VAL[c] on c)
+
+	     NTAXP = sum(NTAXP[c] on c)
+
+
 ### Net taxes on industry s
 NTAXI_VAL[s] = RNTAXI[s]*PY[s]*Y[s]
 
 	NTAXI[s] = @elem(RNTAXI[s], %baseyear)*Y[s]
+
+### Aggregate net taxes on production (value & volume)
+### Same remark than for VA
+
+NTAXI_VAL = sum(NTAXI_VAL[s] on s)
+
+	NTAXI = sum(NTAXI[s] on s)
 
 ### Employers' social security contribution paid by sector s
 ### RSSC = employeRs' Social Security Contribution 
@@ -37,10 +56,18 @@ RRSSC = PRSSC * RSSC / (W * F[L])
 d(log(G[c])) = d(log(EXPG)) if CH[c] <> 0
 
 
+# Incomes of the government
+#INC_G_VAL = 
+
+# Spendings of the government
+
+#SPEND_G_VAL =
 
 ## Deficit
-## equation 3.80
 #BF_G_VAL = DEP_VAL - REC_VAL
+
+
+
 #
 ## equation 3.81
 #DP_G_VAL = BF_G_VAL / (PGDP*GDP)

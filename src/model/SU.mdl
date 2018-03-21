@@ -89,18 +89,6 @@ PMGPM * MGPM = sum(PMGPM[c] * MGPM[c] if MGPM[c] <> 0 on c) if MGPM <> 0
 ### Aggregate imports of commodity c at basic price:
 @pv M = sum(M[c] if M[c] <> 0 on c) if M <> 0
 
-### Net taxes on commodity c:
-### Same remark than for VA
-NTAXP_VAL[c] = NTAXPD_VAL[c] + NTAXPM_VAL[c]
-
-	NTAXP[c] = NTAXPD[c] + NTAXPM[c]
-
-### Aggregate net taxes on commodity:
-PNTAXP * NTAXP = sum(NTAXP_VAL[c] on c)
-
-	     NTAXP = sum(NTAXP[c] on c)
-
-
 ### Domestic and imported intermediary raw material consumption of sector s (value & volume):
 
 @pv CI|O|[s] = sum(CI|O|[c, s] if CI|O|[c, s] <> 0 on c) if CI|O|[s] <> 0
@@ -158,13 +146,6 @@ PVA * VA = sum(VA_VAL[s] on s)
 ### Aggregate bruto wages paid by sector s including employees (but not employers)' social contribution
 
 @pv WAGES = sum(WAGES[s] if WAGES[s] <> 0 on s) if WAGES <> 0
-
-### Aggregate net taxes on production (value & volume)
-### Same remark than for VA
-
-NTAXI_VAL = sum(NTAXI_VAL[s] on s)
-
-	NTAXI = sum(NTAXI[s] on s)
 
 ### Gross operating surplus of sector s (value & volume)
 ### Same remark than for VA
