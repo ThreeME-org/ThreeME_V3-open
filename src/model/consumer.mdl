@@ -18,7 +18,7 @@ INC_SOC_TAX_VAL = RINC_SOC_TAX * DISPINC_BT_VAL
 
 ## Property incomes
 PROP_INC_H_VAL_n = phi_PROP_INC_H * PNOS * NOS _
-				  + (PNOS * NOS <= 0 ) * (0.00001 - phi_PROP_INC_H * PNOS * NOS)
+				  + (PNOS * NOS <= 0.00001 ) * (0.00001 - phi_PROP_INC_H * PNOS * NOS)
 
 # Social benefits
 # Rendre endogène avec vrai données!!!

@@ -57,18 +57,31 @@ d(log(G[c])) = d(log(EXPG)) if CH[c] <> 0
 
 
 ## Property incomes of the Government
+PROP_INC_G_VAL_n = phi_PROP_INC_G * PNOS * NOS _
+				  + (PNOS * NOS <= 0.00001 ) * (0.00001 - phi_PROP_INC_G * PNOS * NOS)
 
-# Incomes of the government
-#INC_G_VAL = PNTAXP * NTAXP + NTAXI_VAL + INC_SOC_TAX_VAL + PRSSC * RSSC 
+# Incomes of the Government
+INC_G_VAL = PNTAXP * NTAXP + NTAXI_VAL + INC_SOC_TAX_VAL + PRSSC * RSSC + PROP_INC_G_VAL
 
-# Spendings of the government
+# Spendings of the Government
 
-#SPEND_G_VAL =
+SPEND_G_VAL = PG  * G  + SOC_BENF_VAL + DEBT_G{-1}*(Phi_RD_G{-1} + r_DEBT_G{-1}) 
 
-## Deficit
-#BF_G_VAL = DEP_VAL - REC_VAL
+# Government's savings
+SAV_G = INC_G_VAL - SPEND_G_VAL
 
+# Primary balance of the Governement (deficit)
+# It corresponds to the savings excluding the reimbursement and the interest on the debt
+Bal_G_Prim = SAV_G + DEBT_G{-1}*(Phi_RD_G{-1} + r_DEBT_G{-1})
+# Bal_G_Prim_bis = INC_G_VAL - (PG  * G  + SOC_BENF_VAL)
 
+# Total balance of the Governement (deficit)
+# It corresponds to the saving excluding the reimbursement but not the interest on the debt
+
+Bal_G_Tot = Bal_G_Prim - DEBT_G{-1}*r_DEBT_G{-1} 
+
+# Government's debt
+DEBT_G = DEBT_G{-1}*(1-Phi_RD_G{-1}) - SAV_G # pour verif
 
 #
 ## equation 3.81

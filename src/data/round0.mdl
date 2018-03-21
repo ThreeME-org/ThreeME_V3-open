@@ -36,7 +36,7 @@ R := GR_NOMI - RISKPREM
 
 # Of sectors and of the Government (Interest of the CB plus a premium)
 R[s] := R + 0
-R_G := R + 0
+r_DEBT_G := r + 0
 
 ### Grothw rate of technical progress in sectors for the production factors
 GR_PROG[f, s] := GR_PROG[f]
@@ -155,6 +155,23 @@ POP := WAPop/0.6
 WAPop := LF/0.7
 LF := F[L]/(1 - 0.1)
 empl := F[L]
+
+############################
+### OTHER DATA
+############################
+
+## Share of Governement debt reimbursed every year
+Phi_RD_G := 1/20
+
+# Debt of the Governement
+DEBT_G := 0.6 * P * Y
+
+## Share of the net operating surplus going to the Government
+phi_PROP_INC_G := (1 - phi_PROP_INC_H)*0.3
+
+## Share of the net operating surplus going to the Rest of the World
+phi_PROP_INC_ROW := 1 - phi_PROP_INC_H - phi_PROP_INC_G
+
 
 
 ########################################
@@ -328,8 +345,14 @@ ADJUST3_CH[c] := 1 - ADJUST1_CH[c] - ADJUST2_CH[c]
 ADJUST0_PARTR := 0.5
 
 
-# In the property income  equation
+# In the households property income  equation
 ADJUST0_PROP_INC_H_VAL := 0.2
 ADJUST1_PROP_INC_H_VAL := 0.7
 ADJUST2_PROP_INC_H_VAL := 0.1
 ADJUST3_PROP_INC_H_VAL := 1 - ADJUST1_PROP_INC_H_VAL - ADJUST2_PROP_INC_H_VAL
+
+# In the Government property income  equation
+ADJUST0_PROP_INC_G_VAL := 0.2
+ADJUST1_PROP_INC_G_VAL := 0.7
+ADJUST2_PROP_INC_G_VAL := 0.1
+ADJUST3_PROP_INC_G_VAL := 1 - ADJUST1_PROP_INC_G_VAL - ADJUST2_PROP_INC_G_VAL

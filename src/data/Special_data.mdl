@@ -65,6 +65,9 @@ EXPG := G
 
 MARKUP_n2[s] := MARKUP_n[s]
 
+## Need to use @elem. Otherwither the variable is not defined at %baseyear-2. Missing data error in the simulation.
+PROP_INC_G_VAL := @elem(phi_PROP_INC_G * PNOS * NOS, %baseyear) * (1 + GR_NOMI) ^ (@year - %baseyear)
+
 # For verif
 ES_act_|V|M[c] := ES_|V|M[c] where V in MGR CH G X
 
@@ -81,9 +84,10 @@ ES_act[f, ff, s] := ES[f, ff, s]
 
 Y_e[s] := Y[s]
 
-|V|_n := |V| where V in PARTR R PROP_INC_H_VAL
+|V|_n := |V| where V in PARTR R PROP_INC_H_VAL PROP_INC_G_VAL
 
 PROP_INC_H_VAL_e := PROP_INC_H_VAL
+PROP_INC_G_VAL_e := PROP_INC_G_VAL
 
 ### Voir si on ne peux pas regrouper un peu !!!
 R_e := R

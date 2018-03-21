@@ -165,4 +165,4 @@ d(R[s]) = d(R)
 
 # Interest rate paid by the Governement on its debt
 # We assume a constant premiun on the interest rate of the Central Bank
-d(R_G) = d(R)
+d(r_DEBT_G) = d(r)

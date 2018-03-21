@@ -28,6 +28,17 @@ RSSC := sum(RSSC[s] on s)
 
 RRSSC := PRSSC * RSSC / (W * F[L]) 
 
+INC_G_VAL := PNTAXP * NTAXP + NTAXI_VAL + INC_SOC_TAX_VAL + PRSSC * RSSC + PROP_INC_G_VAL
+
+SPEND_G_VAL := PG  * G  + SOC_BENF_VAL + DEBT_G{-1}*(Phi_RD_G{-1} + r_DEBT_G{-1}) 
+
+SAV_G := INC_G_VAL - SPEND_G_VAL
+
+Bal_G_Prim := SAV_G + DEBT_G{-1}*(Phi_RD_G{-1} + r_DEBT_G{-1})
+
+Bal_G_Tot := Bal_G_Prim - DEBT_G{-1}*r_DEBT_G{-1} 
+
+
 ### From Demographic block
 Un := LF - Empl
 UnR := Un / LF
