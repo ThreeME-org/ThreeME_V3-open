@@ -22,7 +22,7 @@ phi_MGPM[cc, c] = PMGPM[cc, c] * MGPM[cc, c] / (sum(PMGPM[ccc, c] * MGPM[ccc, c]
 Y[c, s] = PhiY[c, s] * YQ[c] if Y[c, s] <> 0
 
 
-## Demand for production factors of sector s
+## Demand for production factor f of sector s
 d(log(F_n[f, s])) = d(log(Y[s])) - d(log(PROG[f, s])) + d(SUBST_F[f, s])  if F_n[f, s] <> 0
 
 d(SUBST_n_F[f, s]) = sum(- ES[f, ff, s] * phi[ff, s]{-1} * d(log(C[f, s]/PROG[f, s]) - log(C[ff, s]/PROG[ff, s])) on ff) if F_n[f, s] <> 0
