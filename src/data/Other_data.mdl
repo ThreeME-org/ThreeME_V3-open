@@ -68,3 +68,11 @@ SAV_H_VAL := DISPINC_AT_VAL - PCH * CH
 
 # Households savings rate
 RSAV_H_VAL := SAV_H_VAL / DISPINC_AT_VAL
+
+
+# From International trade
+Bal_Trade_VAL[c] := PX[c] * X[c] - PM[c] * M[c]
+
+Bal_Trade_VAL := sum(Bal_Trade_VAL[c] on c)
+
+RBal_Trade_VAL := Bal_Trade_VAL / (PGDP * GDP)

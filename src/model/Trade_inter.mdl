@@ -34,11 +34,11 @@ d(SUBST_n_|V|M[c, s]) = - ES_|V|M[c, s] * d(log(P|V|D[c, s]) - log(P|V|M[c, s]))
 d(log(X[c])) = d(log(WD[c])) + d(SUBST_X[c]) if X[c] <> 0
 d(SUBST_n_X[c]) = -ES_X[c] * d(log(PX[c]) - log(TC * PWD[c])) if X[c] <> 0
 
+# Trade Balance for commodity c
+Bal_Trade_VAL[c] = PX[c] * X[c] - PM[c] * M[c] if Bal_Trade_VAL[c] <> 0
 
-# Trade Balance
+# Agregate trade Balance
+Bal_Trade_VAL = sum(Bal_Trade_VAL[c] if Bal_Trade_VAL[c] <> 0 on c)
 
-# equation 2.42
-#DC_VAL[c] = PX[c] * X[c] - PM[c] * M[c]
-
-# equation 2.43
-#DC_VAL = sum(DC_VAL[c] on c)
+# Trade Balance over GDP ratio
+RBal_Trade_VAL = Bal_Trade_VAL / (PGDP * GDP)

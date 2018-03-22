@@ -64,9 +64,8 @@ subroutine additional_outputs(string %user)
 
 For %_x _0 _1
 
-      graph a_graph_macro{%_x}.line(m) 100*@PCHY(GDP{%_x}) 100*@PCHY(Y{%_x}) 100*@PCHY(VA{%_x}) 100*@PCHY(CH{%_x}) 100*@PCHY(G{%_x}) 100*@PCHY(I{%_x}) 100*@PCHY(X{%_x}) 100*@PCHY(M{%_x}) 100*@PCHY(DISPINC_AT_VAL{%_x}/PCH{%_x}) 100*RSAV_H_VAL{%_x} 100*(UNR{%_x}) 100*@PCHY(F_L{%_x}) 100*RBal_G_Prim_VAL{%_x} 100*RBal_G_Tot_VAL{%_x} 100*RSAV_G_VAL{%_x} 100*RDEBT_G_VAL{%_x}
+      graph a_graph_macro{%_x}.line(m) 100*@PCHY(GDP{%_x}) 100*@PCHY(Y{%_x}) 100*@PCHY(VA{%_x}) 100*@PCHY(CH{%_x}) 100*@PCHY(G{%_x}) 100*@PCHY(I{%_x}) 100*@PCHY(X{%_x}) 100*@PCHY(M{%_x}) 100*@PCHY(DISPINC_AT_VAL{%_x}/PCH{%_x}) 100*RSAV_H_VAL{%_x} 100*(UNR{%_x}) 100*@PCHY(F_L{%_x}) 100*RBal_G_Prim_VAL{%_x} 100*RBal_G_Tot_VAL{%_x} 100*RSAV_G_VAL{%_x} 100*RDEBT_G_VAL{%_x} 100*RBal_Trade_VAL{%_x}
 
-      '100*DC_VAL{%_x}/(PGDP{%_x}*GDP{%_x}) 
       show  a_graph_macro{%_x}
 
 
@@ -76,9 +75,8 @@ For %_x _0 _1
 
 next
 
-      graph a_graph_macro_1L.line(m) 100*(GDP_1/GDP_0-1) 100*(CH_1/CH_0-1) 100*(G_1/G_0-1) 100*(I_1/I_0-1) 100*(X_1/X_0-1) 100*(M_1/M_0-1) 100*(DISPINC_AT_VAL_1/PCH_1/(DISPINC_AT_VAL_0/PCH_0)-1) F_L_1-F_L_0 100*(UNR_1-UNR_0) 100*(RBal_G_Prim_VAL_1 - RBal_G_Prim_VAL_0) 100*(RBal_G_Tot_VAL_1 - RBal_G_Tot_VAL_0) 100*(RSAV_G_VAL_1 - RSAV_G_VAL_0) 100*(RDEBT_G_VAL_1 - RDEBT_G_VAL_0)
+      graph a_graph_macro_1L.line(m) 100*(GDP_1/GDP_0-1) 100*(CH_1/CH_0-1) 100*(G_1/G_0-1) 100*(I_1/I_0-1) 100*(X_1/X_0-1) 100*(M_1/M_0-1) 100*(DISPINC_AT_VAL_1/PCH_1/(DISPINC_AT_VAL_0/PCH_0)-1) F_L_1-F_L_0 100*(UNR_1-UNR_0) 100*(RBal_G_Prim_VAL_1 - RBal_G_Prim_VAL_0) 100*(RBal_G_Tot_VAL_1 - RBal_G_Tot_VAL_0) 100*(RSAV_G_VAL_1 - RSAV_G_VAL_0) 100*(RDEBT_G_VAL_1 - RDEBT_G_VAL_0) 100*(RBal_Trade_VAL_1 - RBal_Trade_VAL_0)
 
-      '100*(DC_VAL_1/(PGDP_1*GDP_1)-DC_VAL_0/(PGDP_0*GDP_0))
       show  a_graph_macro_1L
 
       graph a_graph_macro_2L.line(m) 100*(PCH_1/PCH_0-1) 100*((W_1/PCH_1)/(W_0/PCH_0)-1) 100*(r_1-r_0) 100*(r_1-@PCH(PCH_1)-(r_0-@PCH(PCH_0))) 100*(PY_1/PY_0-1) 100*(PX_1/PX_0-1) 100*(PM_1/PM_0-1)  100*((C_L_1/PY_1)/(C_L_0/PY_0)-1)
