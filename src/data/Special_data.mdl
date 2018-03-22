@@ -184,6 +184,7 @@ Verif_ALL_ES := 0
 
 Verif_ES_|V|M[c] := 0  where V in MGR CH G X
 
+Verif_Bal_G_Prim_VAbis := 0
 
 #VERIF_|V| := 0 where V in PY_PYQ Y_YQ PIAxIA_PIxI PIA_PI IA_I GDP_GDPBIS GDP_GDPTER PGDP_PGDPBIS PGDP_PGDPTER ValGDP_ValGDPTER
 #VERIF_PEXP_CES[h] := 0

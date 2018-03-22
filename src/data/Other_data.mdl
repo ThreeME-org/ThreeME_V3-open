@@ -30,13 +30,22 @@ RRSSC := PRSSC * RSSC / (W * F[L])
 
 INC_G_VAL := PNTAXP * NTAXP + NTAXI_VAL + INC_SOC_TAX_VAL + PRSSC * RSSC + PROP_INC_G_VAL
 
-SPEND_G_VAL := PG  * G  + SOC_BENF_VAL + DEBT_G{-1}*(Phi_RD_G{-1} + r_DEBT_G{-1}) 
+SPEND_G_VAL := PG  * G  + SOC_BENF_VAL + DEBT_G_VAL{-1}*(Phi_RD_G{-1} + r_DEBT_G{-1}) 
 
-SAV_G := INC_G_VAL - SPEND_G_VAL
+SAV_G_VAL := INC_G_VAL - SPEND_G_VAL
 
-Bal_G_Prim := SAV_G + DEBT_G{-1}*(Phi_RD_G{-1} + r_DEBT_G{-1})
+Bal_G_Prim_VAL := SAV_G_VAL + DEBT_G_VAL{-1}*(Phi_RD_G{-1} + r_DEBT_G{-1})
+Bal_G_Prim_VALbis := INC_G_VAL - (PG  * G  + SOC_BENF_VAL)
 
-Bal_G_Tot := Bal_G_Prim - DEBT_G{-1}*r_DEBT_G{-1} 
+Bal_G_Tot_VAL := Bal_G_Prim_VAL - DEBT_G_VAL{-1}*r_DEBT_G{-1} 
+
+RSAV_G_VAL := SAV_G_VAL / (PGDP * GDP)
+
+RBal_G_Prim_VAL := Bal_G_Prim_VAL / (PGDP * GDP)
+
+RBal_G_Tot_VAL := Bal_G_Tot_VAL / (PGDP * GDP)
+
+RDEBT_G_VAL := DEBT_G_VAL / (PGDP * GDP)
 
 
 ### From Demographic block

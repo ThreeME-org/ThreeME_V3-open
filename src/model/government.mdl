@@ -65,33 +65,39 @@ INC_G_VAL = PNTAXP * NTAXP + NTAXI_VAL + INC_SOC_TAX_VAL + PRSSC * RSSC + PROP_I
 
 # Spendings of the Government
 
-SPEND_G_VAL = PG  * G  + SOC_BENF_VAL + DEBT_G{-1}*(Phi_RD_G{-1} + r_DEBT_G{-1}) 
+SPEND_G_VAL = PG  * G  + SOC_BENF_VAL + DEBT_G_VAL{-1}*(Phi_RD_G{-1} + r_DEBT_G{-1}) 
 
 # Government's savings
-SAV_G = INC_G_VAL - SPEND_G_VAL
+SAV_G_VAL = INC_G_VAL - SPEND_G_VAL
 
 # Primary balance of the Governement (deficit)
 # It corresponds to the savings excluding the reimbursement and the interest on the debt
-Bal_G_Prim = SAV_G + DEBT_G{-1}*(Phi_RD_G{-1} + r_DEBT_G{-1})
-# Bal_G_Prim_bis = INC_G_VAL - (PG  * G  + SOC_BENF_VAL)
+Bal_G_Prim_VAL = SAV_G_VAL + DEBT_G_VAL{-1}*(Phi_RD_G{-1} + r_DEBT_G{-1})
+
+Bal_G_Prim_VALbis = INC_G_VAL - (PG  * G  + SOC_BENF_VAL)
 
 # Total balance of the Governement (deficit)
 # It corresponds to the saving excluding the reimbursement but not the interest on the debt
 
-Bal_G_Tot = Bal_G_Prim - DEBT_G{-1}*r_DEBT_G{-1} 
+Bal_G_Tot_VAL = Bal_G_Prim_VAL - DEBT_G_VAL{-1}*r_DEBT_G{-1} 
 
 # Government's debt
-DEBT_G = DEBT_G{-1}*(1-Phi_RD_G{-1}) - SAV_G # pour verif
+DEBT_G_VAL = DEBT_G_VAL{-1}*(1-Phi_RD_G{-1}) - SAV_G_VAL # pour verif
 
-#
-## equation 3.81
-#DP_G_VAL = BF_G_VAL / (PGDP*GDP)
-#
-#SP_G_VAL = BF_G_VAL - R_G{-1}*DEBT_G_VAL{-1}
-#
-#DP_SP_G_VAL = SP_G_VAL / (PGDP*GDP)
-#
-## Public Debt
-## equation 3.82
-#DEBT_G_VAL = DEBT_G_VAL{-1} + BF_G_VAL
-#
+#t_inc * INC := p*G - DEBT_G_VAL * (GR_nml - r_DEBT_G{-1}) / (1 + GR_nml)
+# SAV_G_VAL := t_inc * INC - p*G - DEBT_G_VAL{-1}*(Phi_RD_G{-1} + r_DEBT_G{-1}) 
+
+# Government's savings over GDP ratio
+RSAV_G_VAL = SAV_G_VAL / (PGDP * GDP)
+
+# Primary balance of the Governement over GDP ratio
+RBal_G_Prim_VAL = Bal_G_Prim_VAL / (PGDP * GDP)
+
+# Total balance of the Governement over GDP ratio
+RBal_G_Tot_VAL = Bal_G_Tot_VAL / (PGDP * GDP)
+
+# Ratio of the Government's debt over GDP
+RDEBT_G_VAL = DEBT_G_VAL / (PGDP * GDP)
+
+
+

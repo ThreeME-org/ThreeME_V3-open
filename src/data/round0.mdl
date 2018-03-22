@@ -164,7 +164,7 @@ empl := F[L]
 Phi_RD_G := 1/20
 
 # Debt of the Governement
-DEBT_G := 0.6 * P * Y
+DEBT_G_VAL := 0.6 * P * Y
 
 ## Share of the net operating surplus going to the Government
 phi_PROP_INC_G := (1 - phi_PROP_INC_H)*0.3

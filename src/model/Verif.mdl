@@ -44,8 +44,12 @@ Verif_PCIbis = PCIbis - PCI
 Verif_Ibis = Ibis - I
 Verif_PIbis = PIbis - PI
 
+# To be consistant the nam should be ZVerif_Bal_G_Prim_VALbis. But E-Views has a limit of 24 caracters. It does not read the associated add factor Verif_Bal_G_Prim_VALbis_a. Changed name to Verif_Bal_G_Prim_VAbis. 
+Verif_Bal_G_Prim_VAbis = Bal_G_Prim_VALbis - Bal_G_Prim_VAL
 
-Verif_ALL = ( sum(verif_phi_F[s]^2 on s) + sum(verif_phi_MGPD[c]^2 on c) + sum(verif_phi_MGPM[c]^2 on c) + sum(verif_phi[E, s]^2 on s) + sum(verif_phi_TRSP[s]^2 on s) + sum(verif_Mbis[c]^2 on c) + sum(verif_MGRbis[c]^2 on c) + sum(verif_PMGRbis[c]^2 on c) + sum(verif_YQbis[c]^2 on c) + Verif_PCH_CES^2 +Verif_phi_MCH^2 + Verif_phi_CH^2 + Verif_GDPbis^2 + Verif_PGDPbis^2 + Verif_GDPter^2 + Verif_PGDPter^2 + Verif_GDP4^2 + Verif_PGDP4^2 + Verif_CIbis^2 + Verif_PCIbis^2 + Verif_Ibis^2 + Verif_PIbis^2 )^(1/2)
+
+
+Verif_ALL = ( sum(verif_phi_F[s]^2 on s) + sum(verif_phi_MGPD[c]^2 on c) + sum(verif_phi_MGPM[c]^2 on c) + sum(verif_phi[E, s]^2 on s) + sum(verif_phi_TRSP[s]^2 on s) + sum(verif_Mbis[c]^2 on c) + sum(verif_MGRbis[c]^2 on c) + sum(verif_PMGRbis[c]^2 on c) + sum(verif_YQbis[c]^2 on c) + Verif_PCH_CES^2 +Verif_phi_MCH^2 + Verif_phi_CH^2 + Verif_GDPbis^2 + Verif_PGDPbis^2 + Verif_GDPter^2 + Verif_PGDPter^2 + Verif_GDP4^2 + Verif_PGDP4^2 + Verif_CIbis^2 + Verif_PCIbis^2 + Verif_Ibis^2 + Verif_PIbis^2 + Verif_Bal_G_Prim_VAbis^2)^(1/2)
 
 
 # Verif Compta nat.
@@ -68,13 +72,13 @@ ES_act_|V|M[c] = ES_|V|M[c] _
 					- (P|V|D[c]/P|V|M[c] < 0.99999) * (log(|V|D[c]/|V|M[c]/@elem(|V|D[c]/|V|M[c], %baseyear)) / log(P|V|D[c]/P|V|M[c]*1.0000000001) + ES_|V|M[c]) _
 					- (P|V|D[c]/P|V|M[c] > 1.00001) * (log(|V|D[c]/|V|M[c]/@elem(|V|D[c]/|V|M[c], %baseyear)) / log(P|V|D[c]/P|V|M[c]*1.0000000001) + ES_|V|M[c]) if |V|M[c] <> 0 where V in MGR CH G X
 
-Verif_ES_|V|M[c] = ES_act_|V|M[c] - ES_|V|M[c] where V in MGR CH G X
+# Verif_ES_|V|M[c] = ES_act_|V|M[c] - ES_|V|M[c] where V in MGR CH G X
 
 ES_act[f, ff, s] = ES[f, ff, s] - (C[f, s]/PROG[f, s]/(C[ff, s]/PROG[ff, s])/ @elem(C[f, s]/PROG[f, s]/(C[ff, s]/PROG[ff, s]), %baseyear) < 0.99999) * (log(F[f, s]*PROG[f, s]/(F[ff, s]*PROG[ff, s])/@elem(F[f, s]*PROG[f, s]/(F[ff, s]*PROG[ff, s]), %baseyear))/ log(C[f, s]/PROG[f, s]/(C[ff, s]/PROG[ff, s])/@elem(C[f, s]/PROG[f, s]/(C[ff, s]/PROG[ff, s]), %baseyear)*1.0000000001) + ES[f, ff, s]	) - (C[f, s]/PROG[f, s]/(C[ff, s]/PROG[ff, s])/ @elem(C[f, s]/PROG[f, s]/(C[ff, s]/PROG[ff, s]), %baseyear) > 1.00001) * (log(F[f, s]*PROG[f, s]/(F[ff, s]*PROG[ff, s])/@elem(F[f, s]*PROG[f, s]/(F[ff, s]*PROG[ff, s]), %baseyear))/ log(C[f, s]/PROG[f, s]/(C[ff, s]/PROG[ff, s])/@elem(C[f, s]/PROG[f, s]/(C[ff, s]/PROG[ff, s]), %baseyear)*1.0000000001) + ES[f, ff, s]	)
 
 
 
 
-Verif_ALL_ES = ( sum(Verif_ES_MGRM[c]^2 on c) + sum(Verif_ES_CHM[c]^2 on c) + sum(Verif_ES_GM[c]^2 on c) + sum(Verif_ES_XM[c]^2 on c))^(1/2) where V in MGR CH G X
+# Verif_ALL_ES = ( sum(Verif_ES_MGRM[c]^2 on c) + sum(Verif_ES_CHM[c]^2 on c) + sum(Verif_ES_GM[c]^2 on c) + sum(Verif_ES_XM[c]^2 on c))^(1/2) where V in MGR CH G X
 
 
