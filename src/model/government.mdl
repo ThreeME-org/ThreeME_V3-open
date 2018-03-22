@@ -84,9 +84,6 @@ Bal_G_Tot_VAL = Bal_G_Prim_VAL - DEBT_G_VAL{-1}*r_DEBT_G{-1}
 # Government's debt
 DEBT_G_VAL = DEBT_G_VAL{-1}*(1-Phi_RD_G{-1}) - SAV_G_VAL # pour verif
 
-#t_inc * INC := p*G - DEBT_G_VAL * (GR_nml - r_DEBT_G{-1}) / (1 + GR_nml)
-# SAV_G_VAL := t_inc * INC - p*G - DEBT_G_VAL{-1}*(Phi_RD_G{-1} + r_DEBT_G{-1}) 
-
 # Government's savings over GDP ratio
 RSAV_G_VAL = SAV_G_VAL / (PGDP * GDP)
 
