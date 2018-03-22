@@ -57,10 +57,10 @@ Phi_CH[c] = CH[c]/CH if CH[c] <> 0
 PCH_CES = (sum(@elem(phi_MCH[c], %baseyear) * PCH[c] ^ (1 - ES_LESCES) on c)) ^ (1 / (1 - ES_LESCES)) if ES_LESCES <> 1
 
 # Households savings
-SAVH = DISPINC_AT_VAL - PCH * CH
+SAV_H_VAL = DISPINC_AT_VAL - PCH * CH
 
 # Households savings rate
-RSAVH = SAVH / DISPINC_AT_VAL
+RSAV_H_VAL = SAV_H_VAL / DISPINC_AT_VAL
 
 # Households savings stock
-Stock_SAVH = Stock_SAVH{-1} + SAVH
+Stock_SAV_H_VAL = Stock_SAV_H_VAL{-1} + SAV_H_VAL

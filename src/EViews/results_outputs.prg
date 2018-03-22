@@ -64,7 +64,7 @@ subroutine additional_outputs(string %user)
 
 For %_x _0 _1
 
-      graph a_graph_macro{%_x}.line(m) 100*@PCHY(GDP{%_x}) 100*@PCHY(Y{%_x}) 100*@PCHY(VA{%_x}) 100*@PCHY(CH{%_x}) 100*@PCHY(G{%_x}) 100*@PCHY(I{%_x}) 100*@PCHY(X{%_x}) 100*@PCHY(M{%_x}) 100*@PCHY(DISPINC_AT_VAL{%_x}/PCH{%_x}) 100*RSAVH{%_x} 100*(UNR{%_x}) 100*@PCHY(F_L{%_x}) 100*RBal_G_Prim_VAL{%_x} 100*RBal_G_Tot_VAL{%_x} 100*RSAV_G_VAL{%_x} 100*RDEBT_G_VAL{%_x}
+      graph a_graph_macro{%_x}.line(m) 100*@PCHY(GDP{%_x}) 100*@PCHY(Y{%_x}) 100*@PCHY(VA{%_x}) 100*@PCHY(CH{%_x}) 100*@PCHY(G{%_x}) 100*@PCHY(I{%_x}) 100*@PCHY(X{%_x}) 100*@PCHY(M{%_x}) 100*@PCHY(DISPINC_AT_VAL{%_x}/PCH{%_x}) 100*RSAV_H_VAL{%_x} 100*(UNR{%_x}) 100*@PCHY(F_L{%_x}) 100*RBal_G_Prim_VAL{%_x} 100*RBal_G_Tot_VAL{%_x} 100*RSAV_G_VAL{%_x} 100*RDEBT_G_VAL{%_x}
 
       '100*DC_VAL{%_x}/(PGDP{%_x}*GDP{%_x}) 
       show  a_graph_macro{%_x}

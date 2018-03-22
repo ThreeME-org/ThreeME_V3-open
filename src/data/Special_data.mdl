@@ -37,7 +37,7 @@ phi_|V|M[c] := |V|M[c]/|V|[c] where V in MGR CH G X
 phi_|V|M[c, s] := |V|M[c, s]/|V|[c, s] where V in CI I
 
 # From equilibrated steady state
-Stock_SAVH := SAVH * (1 + GR_NOMI) / GR_NOMI
+Stock_SAV_H_VAL := SAV_H_VAL * (1 + GR_NOMI) / GR_NOMI
 
 
 # Alias or defined to be used in behavor equations

@@ -64,7 +64,7 @@ PCH_CES := (sum(@elem(phi_MCH[c], %baseyear) * PCH[c] ^ (1 - ES_LESCES) on c)) ^
 
 Phi_CH[c] := CH[c]/CH
 
-SAVH := DISPINC_AT_VAL - PCH * CH
+SAV_H_VAL := DISPINC_AT_VAL - PCH * CH
 
 # Households savings rate
-RSAVH := SAVH / DISPINC_AT_VAL
+RSAV_H_VAL := SAV_H_VAL / DISPINC_AT_VAL
