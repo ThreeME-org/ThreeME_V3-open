@@ -80,9 +80,9 @@ NTAXI_VAL := sum(NTAXI_VAL[s] on s)
 
 NTAXI := sum(NTAXI[s] on s)
 
-GOS_VAL[s] := VA_VAL[s] - PWAGES[s] * WAGES[s] - NTAXI_VAL[s]
+GOS_VAL[s] := VA_VAL[s] - PWAGES[s] * WAGES[s] - PRSSC[s] * RSSC[s] - NTAXI_VAL[s]
 
-GOS[s] := VA[s] - WAGES[s] - NTAXI[s]
+GOS[s] := VA[s] - WAGES[s] - RSSC[s] - NTAXI[s]
 
 GOS := sum(GOS[s] on s)
 
@@ -102,4 +102,4 @@ GDPbis := sum(GDP[c] on c)
 
 GDPter := VA + NTAXP
 
-GDP4 := WAGES + GOS + NTAXI + NTAXP
+GDP4 := GOS + WAGES + RSSC + NTAXI + NTAXP

@@ -153,9 +153,9 @@ PVA * VA = sum(VA_VAL[s] on s)
 ### Gross operating surplus of sector s (value & volume)
 ### Same remark than for VA
 
-GOS_VAL[s] = VA_VAL[s] - PWAGES[s] * WAGES[s] - NTAXI_VAL[s]
+GOS_VAL[s] = VA_VAL[s] - PWAGES[s] * WAGES[s] - PRSSC[s] * RSSC[s] - NTAXI_VAL[s]
 
-	GOS[s] = VA[s] - WAGES[s] - NTAXI[s]
+	GOS[s] = VA[s] - WAGES[s] - RSSC[s] - NTAXI[s]
 
 ### The exact definition of the GOS generally exclude tax on profit. We do not do it here for simplicity and assume that NTAXI[s] includes all net taxes on capital (i.e. tax on production and profits). This should be taken into account if one wants to use the GOS as a basis for the profit taxes.
 
@@ -203,9 +203,9 @@ GDPter = VA + NTAXP
 
 ################################
 # GDP: INCOME DEFINITION
-PGDP4 * GDP4 = PWAGES * WAGES + PGOS * GOS + NTAXI_VAL + PNTAXP * NTAXP
+PGDP4 * GDP4 = PGOS * GOS + PWAGES * WAGES + PRSSC * RSSC + NTAXI_VAL + PNTAXP * NTAXP
 
-GDP4 = WAGES + GOS + NTAXI + NTAXP
+GDP4 = GOS + WAGES + RSSC + NTAXI + NTAXP
 
 
 
