@@ -59,7 +59,7 @@ WD[c] := 1 * (1 + GR_REAL) ^ (@year - %baseyear)
 YCAP[s] := Y[s] / 0.8
 
 ### Production of commodity c by sector s at basic price        
-Y[c, s] := SUT($c,$s) * (1 + GR_REAL) ^ (@year - %baseyear)
+Y[c, s] := SUT($c+17,$s) * (1 + GR_REAL) ^ (@year - %baseyear)
 
 ### Margins paid to commodity cc on the domestic commodity c 
 MGPD[cc, c] := SUT($c+17,$cc+7) * (1 + GR_REAL) ^ (@year - %baseyear)

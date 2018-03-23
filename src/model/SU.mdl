@@ -50,6 +50,8 @@ YQ[c]*PYQ[c] + NTAXPD_VAL[c] + PMGPD[c]*MGPD[c] = PQD[c]*QD[c] if YQ[c] <> 0
 
 ### Same variable calculated from volumes. For verification.
 YQbis[c] + NTAXPD[c] + MGPD[c] = QD[c] if YQbis[c] <> 0
+PYQbis[c] * YQ[c] + NTAXPD_VAL[c] + PMGPD[c]*MGPD[c] = PQD[c]*QD[c] if YQ[c] <> 0
+
 
 ###  Imported production of commodity c at basic price:
 ###  The price can not be defined as an index because it is already defined as a function of the production price in the price block.
@@ -58,6 +60,7 @@ M[c]*PM[c] + NTAXPM_VAL[c] + PMGPM[c]*MGPM[c] = PQM[c]*QM[c] if M[c] <> 0
 
 ### Same variable calculated from volumes. For verification.
 Mbis[c] + NTAXPM[c] + MGPM[c] = QM[c] if Mbis[c] <> 0
+PMbis[c]*M[c] + NTAXPM_VAL[c] + PMGPM[c]*MGPM[c] = PQM[c]*QM[c] if M[c] <> 0
 
 ### Margins paid to commodity cc on commodity c (value & volume):
 PMGP[cc, c] * MGP[cc, c] = PMGPD[cc, c] * MGPD[cc, c] + PMGPM[cc, c] * MGPM[cc, c] if MGP[cc, c] <> 0

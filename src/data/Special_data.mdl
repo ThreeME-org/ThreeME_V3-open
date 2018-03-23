@@ -150,11 +150,13 @@ verif_phi[E, s] := 0
 verif_phi_TRSP[s] := 0
 
 verif_Mbis[c] := 0
+verif_PMbis[c] := 0
 
 verif_MGRbis[c] := 0
 verif_PMGRbis[c] := 0
 
 verif_YQbis[c] := 0
+verif_PYQbis[c] := 0
 
 Verif_PCH_CES := 0 
 
@@ -186,10 +188,8 @@ Verif_ES_|V|M[c] := 0  where V in MGR CH G X
 
 Verif_Bal_G_Prim_VAbis := 0
 
-#VERIF_|V| := 0 where V in PY_PYQ Y_YQ PIAxIA_PIxI PIA_PI IA_I GDP_GDPBIS GDP_GDPTER PGDP_PGDPBIS PGDP_PGDPTER ValGDP_ValGDPTER
-#VERIF_PEXP_CES[h] := 0
-
-
+Verif_PYQ := 0
+Verif_YQ := 0
 
 
 ## Other Calibrations
