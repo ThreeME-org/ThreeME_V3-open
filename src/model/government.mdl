@@ -53,7 +53,7 @@ PRSSC * RSSC = sum(PRSSC[s] * RSSC[s] on s)
 RRSSC = PRSSC * RSSC / (W * F[L]) 
 
 # Public expenditures per commodities
-d(log(G[c])) = d(log(EXPG)) if CH[c] <> 0
+d(log(G[c])) = d(log(EXPG)) if G[c] <> 0
 
 
 ## Property incomes of the Government
