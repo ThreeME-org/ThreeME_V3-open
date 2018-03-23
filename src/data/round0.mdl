@@ -138,7 +138,7 @@ XM[c]  := SUT($c+26,29) * (1 + GR_REAL) ^ (@year - %baseyear)
 PROP_INC_H_VAL := HH_INC(2,1) * (1 + GR_NOMI) ^ (@year - %baseyear) 
 SOC_BENF_VAL := HH_INC(3,1) * (1 + GR_NOMI) ^ (@year - %baseyear)
 TRSF_HH_VAL := HH_INC(4,1) * (1 + GR_NOMI) ^ (@year - %baseyear)
-INC_SOC_TAX_VAL := HH_INC(5,1) * (1 + GR_NOMI) ^ (@year - %baseyear) 
+# INC_SOC_TAX_VAL := HH_INC(5,1) * (1 + GR_NOMI) ^ (@year - %baseyear) 
 
 
 NCH[c] := 0.0 * CH[c]
@@ -166,14 +166,14 @@ Phi_RD_G := 1/20
 
 ## Debt of the Governement
 ## The debt of the Governement is calibrated such that the ratio between the debt and the GDP is constant at the steady state (given the public spendings and the governmental incomes at the base year). It may thus differ from the effective debt. 
-DEBT_G_VAL * (GR_NOMI - r_DEBT_G{-1}) / (1 + GR_NOMI) := (PG  * G  + SOC_BENF_VAL) - INC_G_VAL
+# DEBT_G_VAL * (GR_NOMI - r_DEBT_G{-1}) / (1 + GR_NOMI) := (PG  * G  + SOC_BENF_VAL) - INC_G_VAL
 
 ## To have a steady state, we can alternatively use the effective debt at the base year and derive the social and income taxes (INC_SOC_TAX_VAL) that would allows a constant ratio between the debt and the GDP over time. In this case, the calibrated value of the social and income taxes may differ from the efective ones. To do so we need to use the following formulas:    
-## DEBT_G_VAL := 0.6 * PGDP * GDP
-## INC_SOC_TAX_VAL := (PG  * G  + SOC_BENF_VAL) - DEBT_G_VAL * (GR_NOMI - r_DEBT_G{-1}) / (1 + GR_NOMI) - (PNTAXP * NTAXP + NTAXI_VAL + PRSSC * RSSC + PROP_INC_G_VAL)
+DEBT_G_VAL := 0.816 * PGDP * GDP
+INC_SOC_TAX_VAL := (PG  * G  + SOC_BENF_VAL) - DEBT_G_VAL * (GR_NOMI - r_DEBT_G{-1}) / (1 + GR_NOMI) - (PNTAXP * NTAXP + NTAXI_VAL + PRSSC * RSSC + PROP_INC_G_VAL)
 
 ## Share of the net operating surplus going to the Government
-phi_PROP_INC_G := (1 - phi_PROP_INC_H)*0.3
+phi_PROP_INC_G := (1 - phi_PROP_INC_H)*1
 
 ## Share of the net operating surplus going to the Rest of the World
 phi_PROP_INC_ROW := 1 - phi_PROP_INC_H - phi_PROP_INC_G
