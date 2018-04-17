@@ -1,0 +1,213 @@
+########################################################
+######### SUPPLY - USE EQUILIBRIUM #####################
+########################################################
+### This file provides the equations defining the supply use - equilibrium for the domestic and imported products and at the agregate level.
+### It also derives the GDP according to various definitions. 
+### Since each relation is written in value and in volume, the value equation defines the price.
+
+#####################
+###### USE SIDE #####
+#####################
+
+### Domestic and foreign equilibrium for commodities c (value & volume):
+
+@pv Q|O|[c] = MGR|O|[c] + CI|O|[c] + CH|O|[c] + G|O|[c] + I|O|[c] + X|O|[c] + DS|O|[c] if Q|O|[c] <> 0
+
+### Domestic and imported intermediary raw material consumption c (value & volume):
+
+@pv CI|O|[c] = sum(CI|O|[c, s] if CI|O|[c, s] <> 0 on s) if CI|O|[c] <> 0
+
+### Domestic and imported investment in commodity c (value & volume):
+
+@pv I|O|[c] = sum(I|O|[c, s] if I|O|[c, s] <> 0 on s) if I|O|[c] <> 0
+
+### Aggregation of imports and domestic production for commodity c per use
+### For Q (production of commodities at market price); CI (intermediary consumption); I (private investiment); DS (change in inventories)
+
+@pv |V|[c] = |V|D[c] + |V|M[c] if |V|[c] <> 0 where V in Q CI I DS
+
+@pv MGRbis[c] = MGRD[c] + MGRM[c] if MGRbis[c] <> 0
+
+### Aggregation of imports and domestic production per use
+@pv |V||O| = sum(|V||O|[c] if |V||O|[c] <> 0 on c) if |V||O| <> 0 where V in Q MGR CI CH G I X DS
+
+### Aggregation per use
+@pv |V| = |V|D + |V|M if |V| <> 0 where V in Q MGR CI CH G I X DS
+
+
+
+#####################
+###### SUPPY SIDE ###
+#####################
+
+### Margins paid to on domestic and imported commodity c 
+@pv MGP|O|[c] = sum(MGP|O|[cc, c] if MGP|O|[cc, c] <> 0 on cc) if MGP|O|[c] <> 0
+
+###  Domestic production of commodity c at basic price:
+###  The price can not be defined as an index because it is already defined as a function of the production price in the price block.
+
+YQ[c]*PYQ[c] + NTAXPD_VAL[c] + PMGPD[c]*MGPD[c] = PQD[c]*QD[c] if YQ[c] <> 0
+
+### Same variable calculated from volumes. For verification.
+YQbis[c] + NTAXPD[c] + MGPD[c] = QD[c] if YQbis[c] <> 0
+PYQbis[c] * YQ[c] + NTAXPD_VAL[c] + PMGPD[c]*MGPD[c] = PQD[c]*QD[c] if YQ[c] <> 0
+
+
+###  Imported production of commodity c at basic price:
+###  The price can not be defined as an index because it is already defined as a function of the production price in the price block.
+
+M[c]*PM[c] + NTAXPM_VAL[c] + PMGPM[c]*MGPM[c] = PQM[c]*QM[c] if M[c] <> 0
+
+### Same variable calculated from volumes. For verification.
+Mbis[c] + NTAXPM[c] + MGPM[c] = QM[c] if Mbis[c] <> 0
+PMbis[c]*M[c] + NTAXPM_VAL[c] + PMGPM[c]*MGPM[c] = PQM[c]*QM[c] if M[c] <> 0
+
+### Margins paid to commodity cc on commodity c (value & volume):
+PMGP[cc, c] * MGP[cc, c] = PMGPD[cc, c] * MGPD[cc, c] + PMGPM[cc, c] * MGPM[cc, c] if MGP[cc, c] <> 0
+
+			  MGP[cc, c] = 				  MGPD[cc, c] + 			   MGPM[cc, c] if MGP[cc, c] <> 0
+
+### Margins recieved by commodity cc (value & volume):
+PMGR[cc] * MGR[cc] = sum(PMGP[cc, c] * MGP[cc, c] if MGP[cc, c] <> 0 on c) if MGR[cc] <> 0
+
+           MGR[cc] = sum(    	 	   MGP[cc, c] if MGP[cc, c] <> 0 on c) if MGR[cc] <> 0
+
+### Remark about margins:  
+### The margins paid MGPD[cc, c] and MGPM[cc, c] are defined with behavor equations. They follow YQ[c] and M[c] (more or less proportionnally depending on the possibility of substitutions between margins). See producer block. The margins paid are then agregated to define the margins recieved MGR[cc]. The latter is then disagrated between the domestic and imported margins recieved (MGRD[c] and MGRM[c]). See producer block.  
+
+### Aggregate margins paid on the domesticaly produced commodity (value & volume):
+PMGPD * MGPD = sum(PMGPD[c] * MGPD[c] if MGPD[c] <> 0 on c) if MGPD <> 0
+
+        MGPD = sum(           MGPD[c] if MGPD[c] <> 0 on c) if MGPD <> 0
+
+### Aggregate margins paid on the imported commodity (value & volume):
+
+PMGPM * MGPM = sum(PMGPM[c] * MGPM[c] if MGPM[c] <> 0 on c) if MGPM <> 0
+
+        MGPM = sum(           MGPM[c] if MGPM[c] <> 0 on c) if MGPM <> 0
+
+###  Aggregate domestic production of commodity c at basic price:
+@pv YQ = sum(YQ[c] if YQ[c] <> 0 on c) if YQ <> 0
+
+### Aggregate imports of commodity c at basic price:
+@pv M = sum(M[c] if M[c] <> 0 on c) if M <> 0
+
+### Domestic and imported intermediary raw material consumption of sector s (value & volume):
+
+@pv CI|O|[s] = sum(CI|O|[c, s] if CI|O|[c, s] <> 0 on c) if CI|O|[s] <> 0
+
+### Intermediary raw material consumption of sector s (value & volume):
+
+@pv CI[s] = CID[s] + CIM[s] if CI[s] <> 0
+
+### Intermediary raw material from sector agregation (value & volume) :
+
+@pv CIbis = sum(CI[s] if CI[s] <> 0 on s) if CI <> 0
+
+
+### Domestic and imported investment of sector s (value & volume):
+
+@pv I|O|[s] = sum(I|O|[c, s] if I|O|[c, s] <> 0 on c) if I|O|[s] <> 0
+
+### Investment of sector s (value & volume):
+
+@pv I[s] = ID[s] + IM[s] if I[s] <> 0
+
+### Investment from sector agregation (value & volume) :
+
+@pv Ibis = sum(I[s] if I[s] <> 0 on s) if I <> 0
+
+
+### Production of sector s (value & volume):
+### A mettre probablement en bis! Car defini dans producteur
+## Mettre VERIF sur le PRIX !!!!! PYbis[s]
+#@pv Y[s] = sum(Y[c, s] if Y[c, s] <> 0 on c) if Y[s] <> 0
+
+Y[s] = sum(Y[c, s] if Y[c, s] <> 0 on c) if Y[s] <> 0
+
+
+
+
+### Aggregate production (value & volume):
+@pv Y = sum(Y[s] if Y[s] <> 0 on s) if Y <> 0
+
+### Value-added of sector s (value & volume):
+### It may not be possible to calculate the price of the value-added (VA) since the VA may be equal to zero at the sector level. For this reason, we define the VA in value (VA_VAL). To avoid any bug, desactivate the equation of PVA[s]. Moreover there should be an equation for the VA even if it is equal to zero at the base year.
+
+VA_VAL[s] = PY[s] * Y[s] - PCI[s] * CI[s]
+
+	VA[s] = Y[s] - CI[s]
+
+# PVA[s] * VA[s] = VA_VAL[s] 
+
+### Aggregate value-added (value & volume):
+
+PVA * VA = sum(VA_VAL[s] on s)
+
+	  VA = sum(VA[s] on s)
+
+### Aggregate bruto wages paid by sector s including employees (but not employers)' social contribution
+
+@pv WAGES = sum(WAGES[s] if WAGES[s] <> 0 on s) if WAGES <> 0
+
+### Gross operating surplus of sector s (value & volume)
+### Same remark than for VA
+
+GOS_VAL[s] = VA_VAL[s] - PWAGES[s] * WAGES[s] - PRSSC[s] * RSSC[s] - NTAXI_VAL[s]
+
+	GOS[s] = VA[s] - WAGES[s] - RSSC[s] - NTAXI[s]
+
+### The exact definition of the GOS generally exclude tax on profit. We do not do it here for simplicity and assume that NTAXI[s] includes all net taxes on capital (i.e. tax on production and profits). This should be taken into account if one wants to use the GOS as a basis for the profit taxes.
+
+# Aggregate gross operating surplus (value & volume)
+
+PGOS * GOS = sum(GOS_VAL[s] on s)
+
+	   GOS = sum(GOS[s] on s)
+
+# Net operating surplus of sector s (value & volume)
+### Same remark than for VA
+
+NOS_VAL[s] = GOS_VAL[s] - PK[s]{-1} * Rdep[s] * F[K, s]{-1}
+
+	NOS[s] = GOS[s] - @elem(PK[s]{-1}, %baseyear) * Rdep[s] * F[K, s]{-1}
+
+# Aggregate net operating surplus (value & volume)
+PNOS * NOS = sum(NOS_VAL[s] on s)
+
+	   NOS = sum(NOS[s] on s)
+
+#####################################################
+##### GDP CALCULATED ACCORDING TO VARIOUS DEFINITION
+#####################################################
+
+################################
+# GDP: USE DEFINITON
+
+## Agregated GDP (value & volume) calculated by using agregates
+PGDP*GDP = PCH*CH + PG*G + PI*I + PX*X + PDS*DS - PM*M
+
+	 GDP = CH + G + I + X + DS - M
+
+# GDP for commodity c (value & volume)
+@pv GDP[c] = CH[c] + G[c] + I[c] + X[c] + DS[c] - M[c]
+
+## Agregated GDP (value & volume) calculated from the GDP per using commodity
+@pv GDPbis = sum(GDP[c] on c)
+
+################################
+# GDP: VALUE ADDED DEFINITION
+PGDPter * GDPter = PVA * VA + PNTAXP * NTAXP
+
+GDPter = VA + NTAXP
+
+################################
+# GDP: INCOME DEFINITION
+PGDP4 * GDP4 = PGOS * GOS + PWAGES * WAGES + PRSSC * RSSC + NTAXI_VAL + PNTAXP * NTAXP
+
+GDP4 = GOS + WAGES + RSSC + NTAXI + NTAXP
+
+
+
+
+
