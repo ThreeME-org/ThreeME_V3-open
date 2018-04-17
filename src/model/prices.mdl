@@ -11,8 +11,6 @@ PYQ[c] * YQ[c] = sum(PY[s] * Y[c, s] if Y[c, s] <> 0 on s) if YQ[c] <> 0
 PY_n[s] = CU_n[s] * (1 + MARKUP[s])
 
 ## Notional mark-up
-
-## Notional mark-up
 d(log(1+MARKUP_n[s])) = RHO_MARKUP_Y * d(log(CUR[s])) if Y[s] > 0
 d(log(1+MARKUP_n2[s])) = RHO_MARKUP_Y * (d(log(Y[s])) - d(log(Y[s]{-1}))) if Y[s] > 0
 
@@ -58,9 +56,9 @@ C[E, s] = PE[s]
 C[MAT, s] = PMAT[s] 
 
 ### Agregate costs for capital, labor, energy and material
-C[K] * F[K] = sum(C[K, s] * F[K, s] on s)
-C[L] * F[L] = sum(C[L, s] * F[L, s] on s)
-C[E] * F[E] = sum(C[E, s] * F[E, s] on s)
+C[K]   * F[K]   = sum(C[K, s] * F[K, s] on s)
+C[L]   * F[L]   = sum(C[L, s] * F[L, s] on s)
+C[E]   * F[E]   = sum(C[E, s] * F[E, s] on s)
 C[MAT] * F[MAT] = sum(C[MAT, s] * F[MAT, s] on s)
 
 
@@ -74,7 +72,12 @@ PWAGES[s] = P
 
 ### Price of commodity c
 ### For CH (households'consumption); G (public spendings); X (exports)
-P|V|[c] * |V|[c] = P|V|D[c] * |V|D[c] + P|V|M[c] * |V|M[c] if |V|[c] <> 0 where V in CH G X
+
+PCH[c] * CH[c] = PCHD[c] * CHD[c] + PCHM[c] * CHM[c] if CH[c] <> 0
+
+PG[c]  * G[c]  = PGD[c]  * GD[c]  + PGM[c]  * GM[c]  if G[c] <> 0
+
+PX[c]  * X[c]  = PXD[c]  * XD[c]  + PXM[c]  * XM[c]  if X[c] <> 0
 
 ### Price of intermediary raw material consumption c of sector s
 PCI[c, s] * CI[c, s] = PCID[c, s] * CID[c, s] + PCIM[c, s] * CIM[c, s] if CI[c, s] <> 0
@@ -120,23 +123,35 @@ PCID[c, s] = PYQS[c] if CID[c, s] <> 0
 ### Price of the imported intermediary raw material consumption c of sector s
 PCIM[c, s] = PMS[c]  if CIM[c, s] <> 0 
 
-PCHD[c] = PYQS[c] if CHD[c] <> 0 
-PCHM[c] = PMS[c]  if CHM[c] <> 0 
+### Price of household consumption domestically produced c of sector s
+PCHD[c]   = PYQS[c] if CHD[c] <> 0 
 
+### Price of imported household consumption c of sector s
+PCHM[c]   = PMS[c]  if CHM[c] <> 0 
 
-PGD[c] = PYQS[c] if GD[c] <> 0 
-PGM[c] = PMS[c]  if GM[c] <> 0 
+### Price of governmental consumption domestically produced c of sector s
+PGD[c]    = PYQS[c] if GD[c] <> 0
 
+### Price of imported governmental consumption c of sector s
+PGM[c]    = PMS[c]  if GM[c] <> 0 
 
+### Price of investment commodity domestically produced c of sector s
 PID[c, s] = PYQS[c] if ID[c, s] <> 0 
+
+### Price of imported investment commodity c of sector s
 PIM[c, s] = PMS[c]  if IM[c, s] <> 0 
 
-PXD[c] = PYQS[c] if XD[c] <> 0 
-PXM[c] = PMS[c]  if XM[c] <> 0 
+### Price of exported commodity domestically produced c of sector s
+PXD[c]    = PYQS[c] if XD[c] <> 0 
 
+### Price of re-exported commodity c of sector s
+PXM[c]    = PMS[c]  if XM[c] <> 0 
 
-PDSD[c] = PYQS[c] if DSD[c] <> 0 
-PDSM[c] = PMS[c]  if DSM[c] <> 0 
+### Price of stock variation commodity domestically produced c of sector s
+PDSD[c]   = PYQS[c] if DSD[c] <> 0 
+
+### Price of imported stock variation commodity of sector s
+PDSM[c]   = PMS[c]  if DSM[c] <> 0 
 
 
 ## Price of imported commodity c

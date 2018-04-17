@@ -55,10 +55,16 @@ SUBST_CI[ce, s] = ADJUST6_CI[ce, s] * SUBST_n_CI[ce, s] + (1 - ADJUST6_CI[ce, s]
 
 SUBST_CI[ct, s] = ADJUST6_CI[ct, s] * SUBST_n_CI[ct, s] + (1 - ADJUST6_CI[ct, s]) * SUBST_CI[ct, s]{-1} if CI[ct, s] <> 0
 
-SUBST_|V|M[c] = ADJUST6_|V|M[c] * SUBST_n_|V|M[c] + (1 - ADJUST6_|V|M[c]) * SUBST_|V|M[c]{-1} if |V|M[c] <> 0 where V in MGR CH G X
 
-SUBST_|V|M[c, s] = ADJUST6_|V|M[c, s] * SUBST_n_|V|M[c, s] + (1 - ADJUST6_|V|M[c, s]) * SUBST_|V|M[c, s]{-1} if |V|M[c, s] <> 0 where V in CI I
 
+SUBST_MGRM[c] = ADJUST6_MGRM[c] * SUBST_n_MGRM[c] + (1 - ADJUST6_MGRM[c]) * SUBST_MGRM[c]{-1} if MGRM[c] <> 0
+SUBST_CHM[c] = ADJUST6_CHM[c] * SUBST_n_CHM[c] + (1 - ADJUST6_CHM[c]) * SUBST_CHM[c]{-1} if CHM[c] <> 0 
+SUBST_GM[c] = ADJUST6_GM[c] * SUBST_n_GM[c] + (1 - ADJUST6_GM[c]) * SUBST_GM[c]{-1} if GM[c] <> 0 
+SUBST_XM[c] = ADJUST6_XM[c] * SUBST_n_XM[c] + (1 - ADJUST6_XM[c]) * SUBST_XM[c]{-1} if XM[c] <> 0
+
+
+SUBST_CIM[c, s] = ADJUST6_CIM[c, s] * SUBST_n_CIM[c, s] + (1 - ADJUST6_CIM[c, s]) * SUBST_CIM[c, s]{-1} if CIM[c, s] <> 0
+SUBST_IM[c, s] = ADJUST6_IM[c, s] * SUBST_n_IM[c, s] + (1 - ADJUST6_IM[c, s]) * SUBST_IM[c, s]{-1} if IM[c, s] <> 0
 
 SUBST_X[c] = ADJUST6_X[c] * SUBST_n_X[c] + (1 - ADJUST6_X[c]) * SUBST_X[c]{-1} if X[c] <> 0
 

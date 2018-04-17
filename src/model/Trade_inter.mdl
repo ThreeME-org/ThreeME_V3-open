@@ -4,31 +4,75 @@
 ### This file provides the equations defining the allocation between domestic and imported goods per use.
 ### The differenciation per use allows for distinguishing import share per use and therefore a more realistic representation of the economy than model that assume a commun import share. Indeed, the import share of export is generally smaller than for consumption.
 
-# Domestic commodity c for margins recieved, private and public consumption and exports
-|V|D[c] = (1 - phi_|V|M[c]) * |V|[c] if |V|D[c] <> 0 where V in MGR CH G X
+# Domestic commodity c for margins received, private and public consumption and exports
+
+MGRD[c] = (1 - phi_MGRM[c]) * MGR[c] if MGRD[c] <> 0
+
+CHD[c]  = (1 - phi_CHM[c])  * CH[c]  if CHD[c] <> 0 
+ 
+GD[c]   = (1 - phi_GM[c])   * G[c]   if GD[c] <> 0 
+
+XD[c]   = (1 - phi_XM[c])   * X[c]   if XD[c] <> 0 
+
 
 # Imported commodity c for margins recieved, private and public consumption and exports
 
-|V|M[c] = phi_|V|M[c] * |V|[c] if |V|M[c] <> 0 where V in MGR CH G X
+MGRM[c] = phi_MGRM[c] * MGR[c] if MGRM[c] <> 0 
+ 
+CHM[c]  = phi_CHM[c]  * CH[c]  if CHM[c] <> 0 
+
+GM[c]   = phi_GM[c]   * G[c]   if GM[c] <> 0 
+
+XM[c]   = phi_XM[c]   * X[c]   if XM[c] <> 0 
 
 # Import share of commodity c for margins recieved, private and public consumption and exports 
 
-phi_|V|M[c] = 1/(1 + @elem(|V|D[c]/|V|M[c], %baseyear)*exp(SUBST_|V|M[c])) if |V|M[c] <> 0 where V in MGR CH G X
+phi_MGRM[c] = 1/(1 + @elem(MGRD[c]/MGRM[c], %baseyear) * exp(SUBST_MGRM[c])) if MGRM[c] <> 0
 
-d(SUBST_n_|V|M[c]) = - ES_|V|M[c] * d(log(P|V|D[c]) - log(P|V|M[c])) if |V|M[c] <> 0 where V in MGR CH G X
+phi_CHM[c] 	= 1/(1 + @elem(CHD[c]/CHM[c], %baseyear)   * exp(SUBST_CHM[c])) if CHM[c] <> 0
+
+phi_GM[c] 	= 1/(1 + @elem(GD[c]/GM[c], %baseyear)	   * exp(SUBST_GM[c])) if GM[c] <> 0
+
+phi_XM[c] 	= 1/(1 + @elem(XD[c]/XM[c], %baseyear)	   * exp(SUBST_XM[c])) if XM[c] <> 0
+
+
+
+d(SUBST_n_MGRM[c]) 	= - ES_MGRM[c] * d(log(PMGRD[c]) - log(PMGRM[c])) 	if MGRM[c] <> 0
+
+d(SUBST_n_CHM[c]) 	= - ES_CHM[c]  * d(log(PCHD[c])  - log(PCHM[c])) 	if CHM[c] <> 0
+
+d(SUBST_n_GM[c]) 	= - ES_GM[c]   * d(log(PGD[c])   - log(PGM[c])) 	if GM[c] <> 0
+
+d(SUBST_n_XM[c]) 	= - ES_XM[c]   * d(loX(PXD[c])   - loX(PXM[c])) 	if XM[c] <> 0
 
 # Domestic commodity c for sector s's intermediary consumption and investment
 
-|V|D[c, s] = (1 - phi_|V|M[c, s]) * |V|[c, s] if |V|D[c, s] <> 0 where V in CI I
+CID[c, s] = (1 - phi_CIM[c, s]) * CI[c, s] if CID[c, s] <> 0
+
+ID[c, s]  = (1 - phi_IM[c, s])  * I[c, s]  if ID[c, s] <> 0
 
 # Imported commodity c for sector s's intermediary consumption and investment
 
-|V|M[c, s] = phi_|V|M[c, s] * |V|[c, s] if |V|M[c, s] <> 0 where V in CI I
+
+CIM[c, s] = phi_CIM[c, s] * CI[c, s] if CIM[c, s] <> 0
+
+IM[c, s]  = phi_IM[c, s]  * I[c, s]  if IM[c, s] <> 0
+
+
 
 # Import share of commodity c bought by sector s for intermediary consumption and investment
-phi_|V|M[c, s] = 1/(1 + @elem(|V|D[c, s]/|V|M[c, s], %baseyear)*exp(SUBST_|V|M[c, s])) if |V|M[c, s] <> 0 where V in CI I
 
-d(SUBST_n_|V|M[c, s]) = - ES_|V|M[c, s] * d(log(P|V|D[c, s]) - log(P|V|M[c, s])) if |V|M[c, s] <> 0 where V in CI I
+
+phi_CIM[c, s] = 1/(1 + @elem(CID[c, s]/CIM[c, s], %baseyear) * exp(SUBST_CIM[c, s])) if CIM[c, s] <> 0
+
+phi_IM[c, s]  = 1/(1 + @elem(ID[c, s]/IM[c, s], %baseyear)   * exp(SUBST_IM[c, s]))  if IM[c, s] <> 0
+
+
+d(SUBST_n_CIM[c, s]) = - ES_CIM[c, s] * d(log(PCID[c, s]) - log(PCIM[c, s])) if CIM[c, s] <> 0
+
+d(SUBST_n_IM[c, s])  = - ES_IM[c, s] * d(log(PID[c, s]) - log(PIM[c, s]))    if IM[c, s] <> 0
+
+
 
 # Exports
 d(log(X[c])) = d(log(WD[c])) + d(SUBST_X[c]) if X[c] <> 0

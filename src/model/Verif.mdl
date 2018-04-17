@@ -68,11 +68,28 @@ Verif_ALL = ( sum(verif_phi_F[s]^2 on s) + sum(verif_phi_MGPD[c]^2 on c) + sum(v
 ## - the condition <> 1 may not be read because of rounding error: for the reason we use < 0.99999 and > 1.00001
 ## Moreover the compiler does not recognise the operator "OR" in the condition. Therefore, we have to write it twice.
      
-ES_act_|V|M[c] = ES_|V|M[c] _ 
-					- (P|V|D[c]/P|V|M[c] < 0.99999) * (log(|V|D[c]/|V|M[c]/@elem(|V|D[c]/|V|M[c], %baseyear)) / log(P|V|D[c]/P|V|M[c]*1.0000000001) + ES_|V|M[c]) _
-					- (P|V|D[c]/P|V|M[c] > 1.00001) * (log(|V|D[c]/|V|M[c]/@elem(|V|D[c]/|V|M[c], %baseyear)) / log(P|V|D[c]/P|V|M[c]*1.0000000001) + ES_|V|M[c]) if |V|M[c] <> 0 where V in MGR CH G X
 
-# Verif_ES_|V|M[c] = ES_act_|V|M[c] - ES_|V|M[c] where V in MGR CH G X
+ES_act_MGRM[c] = ES_MGRM[c] _ 
+				- (PMGRD[c]/PMGRM[c] < 0.99999) * (log(MGRD[c]/MGRM[c]/@elem(MGRD[c]/MGRM[c], %baseyear)) / log(PMGRD[c]/PMGRM[c]*1.0000000001) + ES_MGRM[c]) _
+				- (PMGRD[c]/PMGRM[c] > 1.00001) * (log(MGRD[c]/MGRM[c]/@elem(MGRD[c]/MGRM[c], %baseyear)) / log(PMGRD[c]/PMGRM[c]*1.0000000001) + ES_MGRM[c]) if MGRM[c] <> 0 
+ES_act_CHM[c] = ES_CHM[c] _ 
+				- (PCHD[c]/PCHM[c] < 0.99999) * (log(CHD[c]/CHM[c]/@elem(CHD[c]/CHM[c], %baseyear)) / log(PCHD[c]/PCHM[c]*1.0000000001) + ES_CHM[c]) _
+				- (PCHD[c]/PCHM[c] > 1.00001) * (log(CHD[c]/CHM[c]/@elem(CHD[c]/CHM[c], %baseyear)) / log(PCHD[c]/PCHM[c]*1.0000000001) + ES_CHM[c]) if CHM[c] <> 0 
+
+ES_act_GM[c] = ES_GM[c] _ 
+				- (PGD[c]/PGM[c] < 0.99999) * (log(GD[c]/GM[c]/@elem(GD[c]/GM[c], %baseyear)) / log(PGD[c]/PGM[c]*1.0000000001) + ES_GM[c]) _
+				- (PGD[c]/PGM[c] > 1.00001) * (log(GD[c]/GM[c]/@elem(GD[c]/GM[c], %baseyear)) / log(PGD[c]/PGM[c]*1.0000000001) + ES_GM[c]) if GM[c] <> 0 
+
+ES_act_XM[c] = ES_XM[c] _ 
+				- (PXD[c]/PXM[c] < 0.99999) * (log(XD[c]/XM[c]/@elem(XD[c]/XM[c], %baseyear)) / log(PXD[c]/PXM[c]*1.0000000001) + ES_XM[c]) _
+				- (PXD[c]/PXM[c] > 1.00001) * (log(XD[c]/XM[c]/@elem(XD[c]/XM[c], %baseyear)) / log(PXD[c]/PXM[c]*1.0000000001) + ES_XM[c]) if XM[c] <> 0 
+
+
+
+#Verif_ES_MGRM[c] = ES_act_MGRM[c] - ES_MGRM[c]
+#Verif_ES_CHM[c] = ES_act_CHM[c] - ES_CHM[c]
+#Verif_ES_GM[c] = ES_act_GM[c] - ES_GM[c]
+#Verif_ES_XM[c] = ES_act_XM[c] - ES_XM[c]
 
 ES_act[f, ff, s] = ES[f, ff, s] - (C[f, s]/PROG[f, s]/(C[ff, s]/PROG[ff, s])/ @elem(C[f, s]/PROG[f, s]/(C[ff, s]/PROG[ff, s]), %baseyear) < 0.99999) * (log(F[f, s]*PROG[f, s]/(F[ff, s]*PROG[ff, s])/@elem(F[f, s]*PROG[f, s]/(F[ff, s]*PROG[ff, s]), %baseyear))/ log(C[f, s]/PROG[f, s]/(C[ff, s]/PROG[ff, s])/@elem(C[f, s]/PROG[f, s]/(C[ff, s]/PROG[ff, s]), %baseyear)*1.0000000001) + ES[f, ff, s]	) - (C[f, s]/PROG[f, s]/(C[ff, s]/PROG[ff, s])/ @elem(C[f, s]/PROG[f, s]/(C[ff, s]/PROG[ff, s]), %baseyear) > 1.00001) * (log(F[f, s]*PROG[f, s]/(F[ff, s]*PROG[ff, s])/@elem(F[f, s]*PROG[f, s]/(F[ff, s]*PROG[ff, s]), %baseyear))/ log(C[f, s]/PROG[f, s]/(C[ff, s]/PROG[ff, s])/@elem(C[f, s]/PROG[f, s]/(C[ff, s]/PROG[ff, s]), %baseyear)*1.0000000001) + ES[f, ff, s]	)
 
