@@ -43,7 +43,7 @@ d(SUBST_n_CHM[c]) 	= - ES_CHM[c]  * d(log(PCHD[c])  - log(PCHM[c])) 	if CHM[c] <
 
 d(SUBST_n_GM[c]) 	= - ES_GM[c]   * d(log(PGD[c])   - log(PGM[c])) 	if GM[c] <> 0
 
-d(SUBST_n_XM[c]) 	= - ES_XM[c]   * d(loX(PXD[c])   - loX(PXM[c])) 	if XM[c] <> 0
+d(SUBST_n_XM[c]) 	= - ES_XM[c]   * d(log(PXD[c])   - log(PXM[c])) 	if XM[c] <> 0
 
 # Domestic commodity c for sector s's intermediary consumption and investment
 

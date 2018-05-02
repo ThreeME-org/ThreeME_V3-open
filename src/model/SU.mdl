@@ -12,7 +12,7 @@
 ### Domestic and foreign equilibrium for commodities c (value & volume):
 
 
-PQD[c] * QD[c] = PMGRD[c] * MGRD[c] + PCID[c] * CID[c] + PCHD[c] * CHD[c]+ PD[c] * GD[c]+ PID[c] * ID[c]+ PXD[c] *XD[c] + PDSD[c] * DSD[c] if QD[c] <> 0
+PQD[c] * QD[c] = PMGRD[c] * MGRD[c] + PCID[c] * CID[c] + PCHD[c] * CHD[c]+ PGD[c] * GD[c]+ PID[c] * ID[c]+ PXD[c] *XD[c] + PDSD[c] * DSD[c] if QD[c] <> 0
 		 QD[c] = 			MGRD[c] + 			CID[c] + 		   CHD[c] + 	   GD[c] + 		   ID[c] + 		  XD[c] + 			DSD[c] if QD[c] <> 0
 
 
@@ -57,8 +57,7 @@ PDS[c] * DS[c] = PDSD[c] * DSD[c] + PDSM[c] * DSM[c] if DS[c]
 		 DS[c] = 		   DSD[c] + 		  DSM[c] if DS[c]
 
 
-
-PMGRbis[c] * MGRbis[c] = PMGRD[c] * MGRD[c] + PMGRM[c] * PMGRM[c] if PMGRbis[c] <> 0
+PMGRbis[c] * MGRbis[c] = PMGRD[c] * MGRD[c] + PMGRM[c] * PMGRM[c] if MGRbis[c] <> 0
 			 MGRbis[c] = 			MGRD[c] + 			 MGRM[c] if MGRbis[c] <> 0
 
 ### Aggregation of imports and domestic production per use OK 
@@ -181,12 +180,12 @@ PMGPM * MGPM = sum( PMGPM[c] * MGPM[c] if MGPM[c] <> 0 on c ) if MGPM <> 0
 
 ###  Aggregate domestic production of commodity c at basic price:
 
-PYQ * YQ = sum( PYQ * YQ[c] if YQ[c] <> 0 on c ) if YQ <> 0
+PYQ * YQ = sum( PYQ[c] * YQ[c] if YQ[c] <> 0 on c ) if YQ <> 0
 	  YQ = sum(		  YQ[c] if YQ[c] <> 0 on c ) if YQ <> 0
 
 ### Aggregate imports of commodity c at basic price:
 
-PM * M = sum( PM * M[c] if M[c] <> 0 on c ) if M <> 0
+PM * M = sum( PM[c] * M[c] if M[c] <> 0 on c ) if M <> 0
 	 M = sum(	   M[c] if M[c] <> 0 on c ) if M <> 0
 
 ### Domestic and imported intermediary raw material consumption of sector s (value & volume): OK
@@ -202,7 +201,6 @@ PCIM[s] * CIM[s] = sum(PCIM[c, s] * CIM[c, s] if CIM[c, s] <> 0 on c) if CIM[s] 
 
 PCI[s] * CI[s] = PCID[s] * CID[s] + PCID[s] * CIM[s] if CI[s] <> 0
 		 CI[s] = 		   CID[s] + 		  CIM[s] if CI[s] <> 0
-
 
 ### Intermediary raw material from sector agregation (value & volume) :
 
@@ -239,7 +237,6 @@ PIbis * Ibis = sum( PI[s] * I[s] if I[s] <> 0 on s) if I <> 0
 		Y[s] = sum(			  Y[c, s] if Y[c, s] <> 0 on c) if Y[s] <> 0
 
 
-
 ### Aggregate production (value & volume):
 
 PY * Y = sum( PY[s] * Y[s] if Y[s] <> 0 on s) if Y <> 0
@@ -250,15 +247,14 @@ PY * Y = sum( PY[s] * Y[s] if Y[s] <> 0 on s) if Y <> 0
 
 VA_VAL[s] = PY[s] * Y[s] - PCI[s] * CI[s]
 
-	VA[s] = Y[s] - CI[s]
-
 # PVA[s] * VA[s] = VA_VAL[s] 
 
 ### Aggregate value-added (value & volume):
 
 PVA * VA = sum(VA_VAL[s] on s)
 
-	  VA = sum(VA[s] on s)
+#	  VA = sum(VA[s] on s)
+
 
 ### Aggregate bruto wages paid by sector s including employees (but not employers)' social contribution
 
@@ -303,6 +299,10 @@ PNOS * NOS = sum(NOS_VAL[s] on s)
 PGDP * GDP = PCH * CH + PG * G + PI * I + PX * X + PDS * DS - PM * M
 	   GDP = 	   CH + 	 G + 	  I + 	   X + 		 DS - 	   M
 
+
+	  VA = sum(VA[s] on s)
+
+
 # GDP for commodity c (value & volume)
 
 PGDP[c] * GDP[c] = PCH[c] * CH[c] + PG[c] * G[c] + PI[c] * I[c] + PX[c] * X[c] + PDS[c] * DS[c] - PM[c] * M[c]
@@ -323,8 +323,4 @@ GDPter = VA + NTAXP
 PGDP4 * GDP4 = PGOS * GOS + PWAGES * WAGES + PRSSC * RSSC + NTAXI_VAL + PNTAXP * NTAXP
 
 GDP4 = GOS + WAGES + RSSC + NTAXI + NTAXP
-
-
-
-
 
