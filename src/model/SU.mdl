@@ -13,45 +13,38 @@
 
 
 PQD[c] * QD[c] = PMGRD[c] * MGRD[c] + PCID[c] * CID[c] + PCHD[c] * CHD[c]+ PGD[c] * GD[c]+ PID[c] * ID[c]+ PXD[c] *XD[c] + PDSD[c] * DSD[c] if QD[c] <> 0
-		 QD[c] = 			MGRD[c] + 			CID[c] + 		   CHD[c] + 	   GD[c] + 		   ID[c] + 		  XD[c] + 			DSD[c] if QD[c] <> 0
-
+		 QD[c] = 			MGRD[c] + 			CID[c] + 		   CHD[c] + 	   GD[c] + 		   ID[c] + 		  XD[c] + 			DSD[c]  if QD[c] <> 0
 
 PQM[c] * QM[c] = PMGRM[c] * MGRM[c] + PCIM[c] * CIM[c] + PCHM[c] * CHM[c]+ PGM[c] * GM[c]+ PIM[c] * IM[c] + PXM[c] * XM[c] + PDSM[c] * DSM[c] if QM[c] <> 0
-		 QM[c] = 			MGRM[c] + 			CIM[c] + 		   CHM[c] + 	   GM[c] + 		   IM[c] + 		   XM[c] + 			 DSM[c] if QM[c] <> 0
+		 QM[c] = 			MGRM[c] + 			CIM[c] + 		   CHM[c] + 	    GM[c] + 		IM[c] + 		 XM[c] + 		   DSM[c] if QM[c] <> 0
 
 ### Domestic and imported intermediary raw material consumption c (value & volume):
 
 PCID[c] * CID[c] = sum( PCID[c, s] * CID[c, s] if CID[c, s] <> 0 on s ) if CID[c] <> 0
 		  CID[c] = sum( 			 CID[c, s] if CID[c, s] <> 0 on s ) if CID[c] <> 0
 
-
-
 PCIM[c] * CIM[c] = sum( PCIM[c, s] * CIM[c, s] if CIM[c, s] <> 0 on s ) if CIM[c] <> 0
 		  CIM[c] = sum( 			 CIM[c, s] if CIM[c, s] <> 0 on s ) if CIM[c] <> 0
 
 ### Domestic and imported investment in commodity c (value & volume)
 
-PID[c] * ID[c] = sum( PID[c, s] * ID[c, s] if ID[c, s] <> 0 on s ) if ID[c] <> 0
-		 ID[c] = sum( 			  ID[c, s] if ID[c, s] <> 0 on s ) if ID[c] <> 0
+PID[c] * ID[c]   = sum( PID[c, s] * ID[c, s] if ID[c, s] <> 0 on s ) if ID[c] <> 0
+		 ID[c]   = sum( 			ID[c, s] if ID[c, s] <> 0 on s ) if ID[c] <> 0
 
-
-
-PIM[c] * IM[c] = sum( PIM[c, s] * IM[c, s] if IM[c, s] <> 0 on s ) if IM[c] <> 0
-		 IM[c] = sum( 		      IM[c, s] if IM[c, s] <> 0 on s ) if IM[c] <> 0
+PIM[c] * IM[c]   = sum( PIM[c, s] * IM[c, s] if IM[c, s] <> 0 on s ) if IM[c] <> 0
+		 IM[c]   = sum( 		    IM[c, s] if IM[c, s] <> 0 on s ) if IM[c] <> 0
 
 ### Aggregation of imports and domestic production for commodity c per use 
 ### For Q (production of commodities at market price); CI (intermediary consumption); I (private investiment); DS (change in inventories)
 
-PQ[c] * Q[c] = PQD[c] * QD[c] + PQM[c] * QM[c] if Q[c]
-		Q[c] = 			QD[c] +			 QM[c] if Q[c]
-
+PQ[c]  * Q[c]  = PQD[c]  * QD[c]  + PQM[c]  * QM[c]  if Q[c]
+		 Q[c]  = 		   QD[c]  +			  QM[c]  if Q[c]
 
 PCI[c] * CI[c] = PCID[c] * CID[c] + PCIM[c] * CIM[c] if CI[c]
 		 CI[c] = 		   CID[c] + 		  CIM[c] if CI[c]
 
-
-PI[c] * I[c] = PID[c] * ID[c] + PIM[c] * IM[c] if I[c]
-		I[c] = 			ID[c] + 		 IM[c] if I[c]
+PI[c]  * I[c]  = PID[c]  * ID[c]  + PIM[c]  * IM[c]  if I[c]
+		 I[c]  = 		   ID[c]  + 		  IM[c]  if I[c]
 
 PDS[c] * DS[c] = PDSD[c] * DSD[c] + PDSM[c] * DSM[c] if DS[c]
 		 DS[c] = 		   DSD[c] + 		  DSM[c] if DS[c]
@@ -62,68 +55,82 @@ PMGRbis[c] * MGRbis[c] = PMGRD[c] * MGRD[c] + PMGRM[c] * MGRM[c] if MGRbis[c] <>
 
 ### Aggregation of imports and domestic production per use 
 
-PQD * QD = sum( PQD[c] * QD[c] if QD[c] <> 0 on c ) if QD <> 0 
-	  QD = sum( 		 QD[c] if QD[c] <> 0 on c ) if QD <> 0 
-PQM * QM = sum( PQM[c] * QM[c] if QM[c] <> 0 on c ) if QM <> 0 
-	  QM = sum( 		 QM[c] if QM[c] <> 0 on c ) if QM <> 0
+PQD   * QD   = sum( PQD[c]   * QD[c]   if QD[c]   <> 0 on c ) if   QD <> 0 
+	    QD   = sum( 		   QD[c]   if QD[c]   <> 0 on c ) if   QD <> 0 
+PQM   * QM   = sum( PQM[c]   * QM[c]   if QM[c]   <> 0 on c ) if   QM <> 0 
+	    QM   = sum( 		   QM[c]   if QM[c]   <> 0 on c ) if   QM <> 0
  
 PMGRD * MGRD = sum( PMGRD[c] * MGRD[c] if MGRD[c] <> 0 on c ) if MGRD <> 0 
 		MGRD = sum( 		   MGRD[c] if MGRD[c] <> 0 on c ) if MGRD <> 0
 PMGRM * MGRM = sum( PMGRM[c] * MGRM[c] if MGRM[c] <> 0 on c ) if MGRM <> 0 
 		MGRM = sum( 		   MGRM[c] if MGRM[c] <> 0 on c ) if MGRM <> 0 
  
-PCID * CID = sum( PCID[c] * CID[c] if CID[c] <> 0 on c ) if CID <> 0 
-	   CID = sum( 			CID[c] if CID[c] <> 0 on c ) if CID <> 0
-PCIM * CIM = sum( PCIM[c] * CIM[c] if CIM[c] <> 0 on c ) if CIM <> 0 
-	   CIM = sum( 			CIM[c] if CIM[c] <> 0 on c ) if CIM <> 0
+PCID  * CID  = sum( PCID[c]  * CID[c]  if CID[c]  <> 0 on c ) if  CID <> 0 
+	    CID  = sum( 		   CID[c]  if CID[c]  <> 0 on c ) if  CID <> 0
+PCIM  * CIM  = sum( PCIM[c]  * CIM[c]  if CIM[c]  <> 0 on c ) if  CIM <> 0 
+	    CIM  = sum( 		   CIM[c]  if CIM[c]  <> 0 on c ) if  CIM <> 0
 
-PCHD * CHD = sum( PCHD[c] * CHD[c] if CHD[c] <> 0 on c ) if CHD <> 0 
-	   CHD = sum( 			CHD[c] if CHD[c] <> 0 on c ) if CHD <> 0
-PCHM * CHM = sum( PCHM[c] * CHM[c] if CHM[c] <> 0 on c ) if CHM <> 0 
-	   CHM = sum( 			CHM[c] if CHM[c] <> 0 on c ) if CHM <> 0
+PCHD  * CHD  = sum( PCHD[c]  * CHD[c]  if CHD[c]  <> 0 on c ) if  CHD <> 0 
+	    CHD  = sum( 		   CHD[c]  if CHD[c]  <> 0 on c ) if  CHD <> 0
+PCHM  * CHM  = sum( PCHM[c]  * CHM[c]  if CHM[c]  <> 0 on c ) if  CHM <> 0 
+	    CHM  = sum( 		   CHM[c]  if CHM[c]  <> 0 on c ) if  CHM <> 0
 
-PGD * GD = sum( PGD[c] * GD[c] if GD[c] <> 0 on c ) if GD <> 0 
-	  GD = sum( 		 GD[c] if GD[c] <> 0 on c ) if GD <> 0
-PGM * GM = sum( PGM[c] * GM[c] if GM[c] <> 0 on c ) if GM <> 0 
-	  GM = sum( 		 GM[c] if GM[c] <> 0 on c ) if GM <> 0
+PGD   * GD   = sum( PGD[c]   * GD[c]   if GD[c]   <> 0 on c ) if   GD <> 0 
+	    GD   = sum( 		   GD[c]   if GD[c]   <> 0 on c ) if   GD <> 0
+PGM   * GM   = sum( PGM[c]   * GM[c]   if GM[c]   <> 0 on c ) if   GM <> 0 
+	    GM   = sum( 		   GM[c]   if GM[c]   <> 0 on c ) if   GM <> 0
 
-PID * ID = sum( PID[c] * ID[c] if ID[c] <> 0 on c ) if ID <> 0 
-	  ID = sum( 		 ID[c] if ID[c] <> 0 on c ) if ID <> 0 
-PIM * IM = sum( PIM[c] * IM[c] if IM[c] <> 0 on c ) if IM <> 0 
-	  IM = sum( 		 IM[c] if IM[c] <> 0 on c ) if IM <> 0
+PID   * ID   = sum( PID[c]   * ID[c]   if ID[c]   <> 0 on c ) if   ID <> 0 
+	    ID   = sum( 		   ID[c]   if ID[c]   <> 0 on c ) if   ID <> 0 
+PIM   * IM   = sum( PIM[c]   * IM[c]   if IM[c]   <> 0 on c ) if   IM <> 0 
+	    IM   = sum( 		   IM[c]   if IM[c]   <> 0 on c ) if   IM <> 0
 
-PXD * XD = sum( PXD[c] * XD[c] if XD[c] <> 0 on c ) if XD <> 0 
-	  XD = sum( 		 XD[c] if XD[c] <> 0 on c ) if XD <> 0
-PXM * XM = sum( PXM[c] * XM[c] if XM[c] <> 0 on c ) if XM <> 0 
-	  XM = sum( 		 XM[c] if XM[c] <> 0 on c ) if XM <> 0
+PXD   * XD   = sum( PXD[c]   * XD[c]   if XD[c]   <> 0 on c ) if   XD <> 0 
+	    XD   = sum( 		   XD[c]   if XD[c]   <> 0 on c ) if   XD <> 0
+PXM   * XM   = sum( PXM[c]   * XM[c]   if XM[c]   <> 0 on c ) if   XM <> 0 
+	    XM   = sum( 		   XM[c]   if XM[c]   <> 0 on c ) if   XM <> 0
 
-PDSD * DSD = sum( PDSD[c] * DSD[c] if DSD[c] <> 0 on c ) if DSD <> 0 
-	   DSD = sum( 			DSD[c] if DSD[c] <> 0 on c ) if DSD <> 0 
-PDSM * DSM = sum( PDSM[c] * DSM[c] if DSM[c] <> 0 on c ) if DSM <> 0 
-	   DSM = sum( 		    DSM[c] if DSM[c] <> 0 on c ) if DSM <> 0
+PDSD *  DSD  = sum( PDSD[c]  * DSD[c] if DSD[c]   <> 0 on c ) if  DSD <> 0 
+	    DSD  = sum( 		   DSD[c] if DSD[c]   <> 0 on c ) if  DSD <> 0 
+PDSM *  DSM  = sum( PDSM[c]  * DSM[c] if DSM[c]   <> 0 on c ) if  DSM <> 0 
+	    DSM  = sum( 		   DSM[c] if DSM[c]   <> 0 on c ) if  DSM <> 0
 
-### Aggregation per use 
+### Aggregation per use of total production (value & volume)
 
 PQ * Q = PQD * QD + PQM * QM if Q <> 0 
 	 Q = 	   QD + 	  QM if Q <> 0 
 
+### Aggregation per use of margins (value & volume) 
+
 PMGR * MGR = PMGRD * MGRD + PMGRM * MGRM if MGR <> 0 
 	   MGR = 		 MGRD + 		MGRM if MGR <> 0 
+
+### Aggregation per use of intermediate consumptions (value & volume) 
 
 PCI * CI = PCID * CID + PCIM * CIM if CI <> 0 
 	  CI = 		  CID + 	   CIM if CI <> 0
 
+### Aggregation per use of households consumption (value & volume) 
+
 PCH * CH = PCHD * CHD + PCHM * CHM if CH <> 0 
 	  CH = 		  CHD + 	   CHM if CH <> 0 
+
+### Aggregation per use of government consumption (value & volume) 
 
 PG * G = PGD * GD + PGM * GM if G <> 0 
 	 G = 	   GD + 	  GM if G <> 0 
 
+### Aggregation per use of investment (value & volume)
+
 PI * I = PID * ID + PIM * IM if I <> 0 
 	 I = 	   ID + 	  IM if I <> 0 
 
+### Aggregation per use of exports (value & volume)
+
 PX * X = PXD * XD + PXM * XM if X <> 0 
 	 X = 	   XD + 	  XM if X <> 0 
+
+### Aggregation of total stock variation (value & volume)
 
 PDS * DS = PDSD * DSD + PDSM * DSM if DS <> 0 
 	  DS = 		  DSD + 	   DSM if DS <> 0 
@@ -135,43 +142,44 @@ PDS * DS = PDSD * DSD + PDSM * DSM if DS <> 0
 ###### SUPPY SIDE ###
 #####################
 
-### Margins paid to on domestic and imported commodity c OK
-
+### Margins paid to on domestic and imported commodity c 
 
 PMGPD[c] * MGPD[c] = sum( PMGPD[cc, c] * MGPD[cc, c] if MGPD[cc, c] <> 0 on cc ) if MGPD[c] <> 0
-		   MGPD[c] = sum(			     MGPD[cc, c] if MGPD[cc, c] <> 0 on cc) if MGPD[c] <> 0
-
+		   MGPD[c] = sum(			     MGPD[cc, c] if MGPD[cc, c] <> 0 on cc ) if MGPD[c] <> 0
 
 PMGPM[c] * MGPM[c] = sum( PMGPM[cc, c] * MGPM[cc, c] if MGPM[cc, c] <> 0 on cc ) if MGPM[c] <> 0
-		   MGPM[c] = sum(				 MGPM[cc, c] if MGPM[cc, c] <> 0 on cc) if MGPM[c] <> 0
+		   MGPM[c] = sum(				 MGPM[cc, c] if MGPM[cc, c] <> 0 on cc ) if MGPM[c] <> 0
 
 ###  Domestic production of commodity c at basic price:
 ###  The price can not be defined as an index because it is already defined as a function of the production price in the price block.
 
-YQ[c]*PYQ[c] + NTAXPD_VAL[c] + PMGPD[c]*MGPD[c] = PQD[c]*QD[c] if YQ[c] <> 0
+YQ[c] * PYQ[c] + NTAXPD_VAL[c] + PMGPD[c] * MGPD[c] = PQD[c] * QD[c] if YQ[c] <> 0
 
-### Same variable calculated from volumes. For verification.
-YQbis[c] + NTAXPD[c] + MGPD[c] = QD[c] if YQbis[c] <> 0
+### Same variable calculated from values & volumes. For verification.
+
 PYQbis[c] * YQ[c] + NTAXPD_VAL[c] + PMGPD[c]*MGPD[c] = PQD[c]*QD[c] if YQ[c] <> 0
+YQbis[c] + NTAXPD[c] + MGPD[c] = QD[c] if YQbis[c] <> 0
+
 
 
 ###  Imported production of commodity c at basic price:
 ###  The price can not be defined as an index because it is already defined as a function of the production price in the price block.
 
-M[c]*PM[c] + NTAXPM_VAL[c] + PMGPM[c]*MGPM[c] = PQM[c]*QM[c] if M[c] <> 0
+M[c] * PM[c] + NTAXPM_VAL[c] + PMGPM[c] * MGPM[c] = PQM[c] * QM[c] if M[c] <> 0
 
 ### Same variable calculated from volumes. For verification.
-Mbis[c] + NTAXPM[c] + MGPM[c] = QM[c] if Mbis[c] <> 0
+
 PMbis[c]*M[c] + NTAXPM_VAL[c] + PMGPM[c]*MGPM[c] = PQM[c]*QM[c] if M[c] <> 0
+
+Mbis[c] + NTAXPM[c] + MGPM[c] = QM[c] if Mbis[c] <> 0
+
 
 ### Margins paid to commodity cc on commodity c (value & volume):
 PMGP[cc, c] * MGP[cc, c] = PMGPD[cc, c] * MGPD[cc, c] + PMGPM[cc, c] * MGPM[cc, c] if MGP[cc, c] <> 0
-
 			  MGP[cc, c] = 				  MGPD[cc, c] + 			   MGPM[cc, c] if MGP[cc, c] <> 0
 
 ### Margins recieved by commodity cc (value & volume):
 PMGR[cc] * MGR[cc] = sum( PMGP[cc, c] * MGP[cc, c] if MGP[cc, c] <> 0 on c ) if MGR[cc] <> 0
-
            MGR[cc] = sum(     	 	    MGP[cc, c] if MGP[cc, c] <> 0 on c ) if MGR[cc] <> 0
 
 
@@ -180,34 +188,33 @@ PMGR[cc] * MGR[cc] = sum( PMGP[cc, c] * MGP[cc, c] if MGP[cc, c] <> 0 on c ) if 
 ### The margins paid MGPD[cc, c] and MGPM[cc, c] are defined with behavor equations. They follow YQ[c] and M[c] (more or less proportionnally depending on the possibility of substitutions between margins). See producer block. The margins paid are then agregated to define the margins recieved MGR[cc]. The latter is then disagrated between the domestic and imported margins recieved (MGRD[c] and MGRM[c]). See producer block.  
 
 ### Aggregate margins paid on the domesticaly produced commodity (value & volume):
-PMGPD * MGPD = sum( PMGPD[c] * MGPD[c] if MGPD[c] <> 0 on c ) if MGPD <> 0
 
+PMGPD * MGPD = sum( PMGPD[c] * MGPD[c] if MGPD[c] <> 0 on c ) if MGPD <> 0
         MGPD = sum(            MGPD[c] if MGPD[c] <> 0 on c ) if MGPD <> 0
 
 ### Aggregate margins paid on the imported commodity (value & volume):
 
 PMGPM * MGPM = sum( PMGPM[c] * MGPM[c] if MGPM[c] <> 0 on c ) if MGPM <> 0
-
         MGPM = sum(            MGPM[c] if MGPM[c] <> 0 on c ) if MGPM <> 0
 
 ###  Aggregate domestic production of commodity c at basic price:
 
 PYQ * YQ = sum( PYQ[c] * YQ[c] if YQ[c] <> 0 on c ) if YQ <> 0
-	  YQ = sum(		  YQ[c] if YQ[c] <> 0 on c ) if YQ <> 0
+	  YQ = sum(		     YQ[c] if YQ[c] <> 0 on c ) if YQ <> 0
 
 ### Aggregate imports of commodity c at basic price:
 
 PM * M = sum( PM[c] * M[c] if M[c] <> 0 on c ) if M <> 0
-	 M = sum(	   M[c] if M[c] <> 0 on c ) if M <> 0
+	 M = sum(	      M[c] if M[c] <> 0 on c ) if M <> 0
 
-### Domestic and imported intermediary raw material consumption of sector s (value & volume): OK
+### Domestic and imported intermediary raw material consumption of sector s (value & volume):
 
 
-PCID[s] * CID[s] = sum(PCID[c, s] * CID[c, s] if CID[c, s] <> 0 on c) if CID[s] <> 0
-		  CID[s] = sum(			    CID[c, s] if CID[c, s] <> 0 on c) if CID[s] <> 0
+PCID[s] * CID[s] = sum( PCID[c, s] * CID[c, s] if CID[c, s] <> 0 on c ) if CID[s] <> 0
+		  CID[s] = sum(			     CID[c, s] if CID[c, s] <> 0 on c ) if CID[s] <> 0
 
-PCIM[s] * CIM[s] = sum(PCIM[c, s] * CIM[c, s] if CIM[c, s] <> 0 on c) if CIM[s] <> 0
-		  CIM[s] = sum(				CIM[c, s] if CIM[c, s] <> 0 on c) if CIM[s] <> 0
+PCIM[s] * CIM[s] = sum( PCIM[c, s] * CIM[c, s] if CIM[c, s] <> 0 on c ) if CIM[s] <> 0
+		  CIM[s] = sum(				 CIM[c, s] if CIM[c, s] <> 0 on c ) if CIM[s] <> 0
 
 ### Intermediary raw material consumption of sector s (value & volume):
 
@@ -220,14 +227,14 @@ PCI[s] * CI[s] = PCID[s] * CID[s] + PCIM[s] * CIM[s] if CI[s] <> 0
 PCIbis * CIbis = sum( PCI[s] * CI[s] if CI[s] <> 0 on s ) if CI <> 0
 		 CIbis = sum(		   CI[s] if CI[s] <> 0 on s ) if CI <> 0
 
-### Domestic and imported investment of sector s (value & volume): OK
+### Domestic and imported investment of sector s (value & volume):
 
-PID[s] * ID[s] = sum(PID[c, s] * ID[c, s] if ID[c, s] <> 0 on c) if ID[s] <> 0
-		 ID[s] = sum(			 ID[c, s] if ID[c, s] <> 0 on c) if ID[s] <> 0
+PID[s] * ID[s] = sum( PID[c, s] * ID[c, s] if ID[c, s] <> 0 on c ) if ID[s] <> 0
+		 ID[s] = sum( 			  ID[c, s] if ID[c, s] <> 0 on c ) if ID[s] <> 0
 
 
-PIM[s] * IM[s] = sum(PIM[c, s] * IM[c, s] if IM[c, s] <> 0 on c) if IM[s] <> 0
-		 IM[s] = sum(			 IM[c, s] if IM[c, s] <> 0 on c) if IM[s] <> 0
+PIM[s] * IM[s] = sum( PIM[c, s] * IM[c, s] if IM[c, s] <> 0 on c ) if IM[s] <> 0
+		 IM[s] = sum(			  IM[c, s] if IM[c, s] <> 0 on c ) if IM[s] <> 0
 
 ### Investment of sector s (value & volume):
 
@@ -235,39 +242,36 @@ PIM[s] * IM[s] = sum(PIM[c, s] * IM[c, s] if IM[c, s] <> 0 on c) if IM[s] <> 0
 PI[s] * I[s] = PID[s] * ID[s] + PIM[s] * IM[s] if I[s] <> 0
 		I[s] = 			ID[s] + 		 IM[s] if I[s] <> 0
 
-### Investment from sector agregation (value & volume) :
+### Investment from sector agregation (value & volume) (summed directly on the aggregate per product c). For verification:
 
-Ibis = sum(I[s] if I[s] <> 0 on s) if I <> 0
-PIbis * Ibis = sum( PI[s] * I[s] if I[s] <> 0 on s) if I <> 0
-
-### Production of sector s (value & volume): OK 
+PIbis * Ibis = sum( PI[s] * I[s] if I[s] <> 0 on s ) if I <> 0
+		Ibis = sum( 		I[s] if I[s] <> 0 on s ) if I <> 0
+### Production of sector s (value & volume):
 ### A mettre probablement en bis! Car defini dans producteur
 ## Mettre VERIF sur le PRIX !!!!! PYbis[s]
 
 
-#PY[s] * Y[s] = sum(PY[c, s] * Y[c, s] if Y[c, s] <> 0 on c) if Y[s] <> 0
-		Y[s] = sum(			  Y[c, s] if Y[c, s] <> 0 on c) if Y[s] <> 0
+#PY[s] * Y[s] = sum( PY[c, s] * Y[c, s] if Y[c, s] <> 0 on c ) if Y[s] <> 0
+		 Y[s] = sum(			Y[c, s] if Y[c, s] <> 0 on c ) if Y[s] <> 0
 
 
 ### Aggregate production (value & volume):
 
-PY * Y = sum( PY[s] * Y[s] if Y[s] <> 0 on s) if Y <> 0
-	 Y = sum( 		  Y[s] if Y[s] <> 0 on s) if Y <> 0
+PY * Y = sum( PY[s] * Y[s] if Y[s] <> 0 on s ) if Y <> 0
+	 Y = sum( 		  Y[s] if Y[s] <> 0 on s ) if Y <> 0
 
 ### Value-added of sector s (value & volume):
 ### It may not be possible to calculate the price of the value-added (VA) since the VA may be equal to zero at the sector level. For this reason, we define the VA in value (VA_VAL). To avoid any bug, desactivate the equation of PVA[s]. Moreover there should be an equation for the VA even if it is equal to zero at the base year.
 
 VA_VAL[s] = PY[s] * Y[s] - PCI[s] * CI[s]
+VA[s] 	  = 		Y[s] - 			CI[s]
 
-	VA[s] = 		Y[s] - 			CI[s]
-
-# PVA[s] * VA[s] = VA_VAL[s] 
+#PVA[s] * VA[s] = VA_VAL[s] 
 
 ### Aggregate value-added (value & volume):
 
-PVA * VA = sum(VA_VAL[s] on s)
-
-#	  VA = sum(VA[s] on s)
+PVA * VA = sum( VA_VAL[s] on s )
+	  VA = sum( VA[s] on s )
 
 
 ### Aggregate bruto wages paid by sector s including employees (but not employers)' social contribution
@@ -279,28 +283,24 @@ PWAGES * WAGES = sum( PWAGES[s] * WAGES[s] if WAGES[s] <> 0 on s) if WAGES <> 0
 ### Same remark than for VA
 
 GOS_VAL[s] = VA_VAL[s] - PWAGES[s] * WAGES[s] - PRSSC[s] * RSSC[s] - NTAXI_VAL[s]
-
-	GOS[s] = VA[s] - 				 WAGES[s] - 		   RSSC[s] - NTAXI[s]
+GOS[s] 	   = VA[s] - 				 WAGES[s] - 		   RSSC[s] - NTAXI[s]
 
 ### The exact definition of the GOS generally exclude tax on profit. We do not do it here for simplicity and assume that NTAXI[s] includes all net taxes on capital (i.e. tax on production and profits). This should be taken into account if one wants to use the GOS as a basis for the profit taxes.
 
 # Aggregate gross operating surplus (value & volume)
 
-PGOS * GOS = sum(GOS_VAL[s] on s)
-
-	   GOS = sum(GOS[s] on s)
+PGOS * GOS = sum( GOS_VAL[s] on s )
+	   GOS = sum( GOS[s] on s )
 
 # Net operating surplus of sector s (value & volume)
 ### Same remark than for VA
 
-NOS_VAL[s] = GOS_VAL[s] - PK[s]{-1} * Rdep[s] * F[K, s]{-1}  
-
-	NOS[s] = GOS[s] - @elem(PK[s]{-1}, %baseyear) * Rdep[s] * F[K, s]{-1}
+NOS_VAL[s] = GOS_VAL[s] - PK[s]{-1} 				  * Rdep[s] * F[K, s]{-1}  
+NOS[s] 	   = GOS[s]     - @elem(PK[s]{-1}, %baseyear) * Rdep[s] * F[K, s]{-1}
 
 # Aggregate net operating surplus (value & volume)
-PNOS * NOS = sum(NOS_VAL[s] on s)
-
-	   NOS = sum(NOS[s] on s)
+PNOS * NOS = sum( NOS_VAL[s] on s )
+	   NOS = sum( NOS[s] on s )
 
 #####################################################
 ##### GDP CALCULATED ACCORDING TO VARIOUS DEFINITION
@@ -313,10 +313,6 @@ PNOS * NOS = sum(NOS_VAL[s] on s)
 PGDP * GDP = PCH * CH + PG * G + PI * I + PX * X + PDS * DS - PM * M
 	   GDP = 	   CH + 	 G + 	  I + 	   X + 		 DS - 	   M
 
-
-	  VA = sum(VA[s] on s)
-
-
 # GDP for commodity c (value & volume)
 
 PGDP[c] * GDP[c] = PCH[c] * CH[c] + PG[c] * G[c] + PI[c] * I[c] + PX[c] * X[c] + PDS[c] * DS[c] - PM[c] * M[c]
@@ -328,13 +324,14 @@ PGDPbis * GDPbis = sum( PGDP[c] * GDP[c] on c )
 		  GDPbis = sum( 		  GDP[c] on c )
 ################################
 # GDP: VALUE ADDED DEFINITION
+
 PGDPter * GDPter = PVA * VA + PNTAXP * NTAXP
 
 GDPter = VA + NTAXP
 
 ################################
 # GDP: INCOME DEFINITION
-PGDP4 * GDP4 = PGOS * GOS + PWAGES * WAGES + PRSSC * RSSC + NTAXI_VAL + PNTAXP * NTAXP
 
-GDP4 = GOS + WAGES + RSSC + NTAXI + NTAXP
+PGDP4 * GDP4 = PGOS * GOS + PWAGES * WAGES + PRSSC * RSSC + NTAXI_VAL + PNTAXP * NTAXP
+		GDP4 = 		  GOS + 		 WAGES + 		 RSSC + NTAXI 	  + 		 NTAXP
 
