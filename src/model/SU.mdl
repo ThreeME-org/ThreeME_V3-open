@@ -34,6 +34,8 @@ PID[c] * ID[c]   = sum( PID[c, s] * ID[c, s] if ID[c, s] <> 0 on s ) if ID[c] <>
 PIM[c] * IM[c]   = sum( PIM[c, s] * IM[c, s] if IM[c, s] <> 0 on s ) if IM[c] <> 0
 		 IM[c]   = sum( 		    IM[c, s] if IM[c, s] <> 0 on s ) if IM[c] <> 0
 
+
+
 ### Aggregation of imports and domestic production for commodity c per use 
 ### For Q (production of commodities at market price); CI (intermediary consumption); I (private investiment); DS (change in inventories)
 
@@ -49,10 +51,6 @@ PI[c]  * I[c]  = PID[c]  * ID[c]  + PIM[c]  * IM[c]  if I[c]
 PDS[c] * DS[c] = PDSD[c] * DSD[c] + PDSM[c] * DSM[c] if DS[c]
 		 DS[c] = 		   DSD[c] + 		  DSM[c] if DS[c]
 
-
-PMGRbis[c] * MGRbis[c] = PMGRD[c] * MGRD[c] + PMGRM[c] * MGRM[c] if MGRbis[c] <> 0
-			 MGRbis[c] = 			MGRD[c] + 			 MGRM[c] if MGRbis[c] <> 0
-
 ### Aggregation of imports and domestic production per use 
 
 PQD   * QD   = sum( PQD[c]   * QD[c]   if QD[c]   <> 0 on c ) if   QD <> 0 
@@ -60,89 +58,105 @@ PQD   * QD   = sum( PQD[c]   * QD[c]   if QD[c]   <> 0 on c ) if   QD <> 0
 PQM   * QM   = sum( PQM[c]   * QM[c]   if QM[c]   <> 0 on c ) if   QM <> 0 
 	    QM   = sum( 		   QM[c]   if QM[c]   <> 0 on c ) if   QM <> 0
  
+ ### Aggregation of imports and domestic margins per use 
+
 PMGRD * MGRD = sum( PMGRD[c] * MGRD[c] if MGRD[c] <> 0 on c ) if MGRD <> 0 
 		MGRD = sum( 		   MGRD[c] if MGRD[c] <> 0 on c ) if MGRD <> 0
 PMGRM * MGRM = sum( PMGRM[c] * MGRM[c] if MGRM[c] <> 0 on c ) if MGRM <> 0 
 		MGRM = sum( 		   MGRM[c] if MGRM[c] <> 0 on c ) if MGRM <> 0 
+
+### Aggregation of imports and domestic intermediate consumption per use 
  
 PCID  * CID  = sum( PCID[c]  * CID[c]  if CID[c]  <> 0 on c ) if  CID <> 0 
 	    CID  = sum( 		   CID[c]  if CID[c]  <> 0 on c ) if  CID <> 0
 PCIM  * CIM  = sum( PCIM[c]  * CIM[c]  if CIM[c]  <> 0 on c ) if  CIM <> 0 
 	    CIM  = sum( 		   CIM[c]  if CIM[c]  <> 0 on c ) if  CIM <> 0
 
+### Aggregation of imports and domestic households consumption per use 
+
 PCHD  * CHD  = sum( PCHD[c]  * CHD[c]  if CHD[c]  <> 0 on c ) if  CHD <> 0 
 	    CHD  = sum( 		   CHD[c]  if CHD[c]  <> 0 on c ) if  CHD <> 0
 PCHM  * CHM  = sum( PCHM[c]  * CHM[c]  if CHM[c]  <> 0 on c ) if  CHM <> 0 
 	    CHM  = sum( 		   CHM[c]  if CHM[c]  <> 0 on c ) if  CHM <> 0
+
+### Aggregation of imports and domestic government consumption per use 
 
 PGD   * GD   = sum( PGD[c]   * GD[c]   if GD[c]   <> 0 on c ) if   GD <> 0 
 	    GD   = sum( 		   GD[c]   if GD[c]   <> 0 on c ) if   GD <> 0
 PGM   * GM   = sum( PGM[c]   * GM[c]   if GM[c]   <> 0 on c ) if   GM <> 0 
 	    GM   = sum( 		   GM[c]   if GM[c]   <> 0 on c ) if   GM <> 0
 
+### Aggregation of imports and domestic investment per use 
+
 PID   * ID   = sum( PID[c]   * ID[c]   if ID[c]   <> 0 on c ) if   ID <> 0 
 	    ID   = sum( 		   ID[c]   if ID[c]   <> 0 on c ) if   ID <> 0 
 PIM   * IM   = sum( PIM[c]   * IM[c]   if IM[c]   <> 0 on c ) if   IM <> 0 
 	    IM   = sum( 		   IM[c]   if IM[c]   <> 0 on c ) if   IM <> 0
+
+### Aggregation of imports and domestic exports per use 
 
 PXD   * XD   = sum( PXD[c]   * XD[c]   if XD[c]   <> 0 on c ) if   XD <> 0 
 	    XD   = sum( 		   XD[c]   if XD[c]   <> 0 on c ) if   XD <> 0
 PXM   * XM   = sum( PXM[c]   * XM[c]   if XM[c]   <> 0 on c ) if   XM <> 0 
 	    XM   = sum( 		   XM[c]   if XM[c]   <> 0 on c ) if   XM <> 0
 
+### Aggregation of imports and domestic stock variation per use 
+
 PDSD *  DSD  = sum( PDSD[c]  * DSD[c] if DSD[c]   <> 0 on c ) if  DSD <> 0 
 	    DSD  = sum( 		   DSD[c] if DSD[c]   <> 0 on c ) if  DSD <> 0 
 PDSM *  DSM  = sum( PDSM[c]  * DSM[c] if DSM[c]   <> 0 on c ) if  DSM <> 0 
 	    DSM  = sum( 		   DSM[c] if DSM[c]   <> 0 on c ) if  DSM <> 0
 
-### Aggregation per use of total production (value & volume)
+### Aggregation per use of total production 					(value & volume)
 
-PQ * Q = PQD * QD + PQM * QM if Q <> 0 
-	 Q = 	   QD + 	  QM if Q <> 0 
+PQ 	 * Q   = PQD   * QD   + PQM   * QM   if Q 	<> 0 
+	   Q   = 	     QD   + 	    QM 	 if Q 	<> 0 
 
-### Aggregation per use of margins (value & volume) 
+### Aggregation per use of margins 								(value & volume) 
 
 PMGR * MGR = PMGRD * MGRD + PMGRM * MGRM if MGR <> 0 
 	   MGR = 		 MGRD + 		MGRM if MGR <> 0 
 
-### Aggregation per use of intermediate consumptions (value & volume) 
+### Aggregation per use of intermediate consumptions 			(value & volume) 
 
-PCI * CI = PCID * CID + PCIM * CIM if CI <> 0 
-	  CI = 		  CID + 	   CIM if CI <> 0
+PCI  * CI  = PCID  * CID  + PCIM  * CIM  if CI  <> 0 
+	   CI  = 		 CID  + 	    CIM  if CI  <> 0
 
-### Aggregation per use of households consumption (value & volume) 
+### Aggregation per use of households consumption 				(value & volume) 
 
-PCH * CH = PCHD * CHD + PCHM * CHM if CH <> 0 
-	  CH = 		  CHD + 	   CHM if CH <> 0 
+PCH  * CH  = PCHD  * CHD  + PCHM  * CHM  if CH  <> 0 
+	   CH  = 		 CHD  + 	    CHM  if CH  <> 0 
 
-### Aggregation per use of government consumption (value & volume) 
+### Aggregation per use of government consumption 				(value & volume) 
 
-PG * G = PGD * GD + PGM * GM if G <> 0 
-	 G = 	   GD + 	  GM if G <> 0 
+PG   * G   = PGD   * GD   + PGM   * GM   if G   <> 0 
+	   G   = 	     GD   + 	    GM   if G   <> 0 
 
-### Aggregation per use of investment (value & volume)
+### Aggregation per use of investment 							(value & volume)
 
-PI * I = PID * ID + PIM * IM if I <> 0 
-	 I = 	   ID + 	  IM if I <> 0 
+PI   * I   = PID   * ID   + PIM   * IM 	 if I   <> 0 
+	   I   = 	     ID   + 	    IM   if I   <> 0 
 
-### Aggregation per use of exports (value & volume)
+### Aggregation per use of exports 								(value & volume)
 
-PX * X = PXD * XD + PXM * XM if X <> 0 
-	 X = 	   XD + 	  XM if X <> 0 
+PX   * X   = PXD   * XD   + PXM   * XM   if X   <> 0 
+	   X   = 	     XD   + 	    XM   if X   <> 0 
 
-### Aggregation of total stock variation (value & volume)
+### Aggregation of total stock variation 						(value & volume)
 
-PDS * DS = PDSD * DSD + PDSM * DSM if DS <> 0 
-	  DS = 		  DSD + 	   DSM if DS <> 0 
+PDS  * DS  = PDSD  * DSD  + PDSM  * DSM  if DS  <> 0 
+	   DS  = 		 DSD  + 	    DSM  if DS  <> 0 
 
+### Aggregation per use of margins bis (for verif) 				(value & volume) 
 
-
+PMGRbis[c] * MGRbis[c] = PMGRD[c] * MGRD[c] + PMGRM[c] * MGRM[c] if MGRbis[c] <> 0
+			 MGRbis[c] = 			MGRD[c] + 			 MGRM[c] if MGRbis[c] <> 0
 
 #####################
 ###### SUPPY SIDE ###
 #####################
 
-### Margins paid to on domestic and imported commodity c 
+### Margins paid to on domestic and imported commodity c 		(value & volume) 
 
 PMGPD[c] * MGPD[c] = sum( PMGPD[cc, c] * MGPD[cc, c] if MGPD[cc, c] <> 0 on cc ) if MGPD[c] <> 0
 		   MGPD[c] = sum(			     MGPD[cc, c] if MGPD[cc, c] <> 0 on cc ) if MGPD[c] <> 0
@@ -157,8 +171,8 @@ YQ[c] * PYQ[c] + NTAXPD_VAL[c] + PMGPD[c] * MGPD[c] = PQD[c] * QD[c] if YQ[c] <>
 
 ### Same variable calculated from values & volumes. For verification.
 
-PYQbis[c] * YQ[c] + NTAXPD_VAL[c] + PMGPD[c]*MGPD[c] = PQD[c]*QD[c] if YQ[c] <> 0
-YQbis[c] + NTAXPD[c] + MGPD[c] = QD[c] if YQbis[c] <> 0
+PYQbis[c] * YQ[c] 	 + NTAXPD_VAL[c] + PMGPD[c]* MGPD[c] = PQD[c]* QD[c] if YQ[c] 	 <> 0
+			YQbis[c] + NTAXPD[c] 	 + 			 MGPD[c] = 		   QD[c] if YQbis[c] <> 0
 
 
 
