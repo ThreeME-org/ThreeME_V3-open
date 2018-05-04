@@ -16,7 +16,7 @@ PQD[c] * QD[c] = PMGRD[c] * MGRD[c] + PCID[c] * CID[c] + PCHD[c] * CHD[c]+ PGD[c
 		 QD[c] = 			MGRD[c] + 			CID[c] + 		   CHD[c] + 	   GD[c] + 		   ID[c] + 		  XD[c] + 			DSD[c] if QD[c] <> 0
 
 
-PQM[c] * QM[c] = PMGRM[c] * MGRM[c] + PCIM[c] * CIM[c] + PCHM[c] * CHM[c]+ PM[c] * GM[c]+ PIM[c] * IM[c]+ PXM[c] * XM[c] + PDSM[c] * DSM[c] if QM[c] <> 0
+PQM[c] * QM[c] = PMGRM[c] * MGRM[c] + PCIM[c] * CIM[c] + PCHM[c] * CHM[c]+ PGM[c] * GM[c]+ PIM[c] * IM[c] + PXM[c] * XM[c] + PDSM[c] * DSM[c] if QM[c] <> 0
 		 QM[c] = 			MGRM[c] + 			CIM[c] + 		   CHM[c] + 	   GM[c] + 		   IM[c] + 		   XM[c] + 			 DSM[c] if QM[c] <> 0
 
 ### Domestic and imported intermediary raw material consumption c (value & volume):
@@ -47,7 +47,7 @@ PQ[c] * Q[c] = PQD[c] * QD[c] + PQM[c] * QM[c] if Q[c]
 
 
 PCI[c] * CI[c] = PCID[c] * CID[c] + PCIM[c] * CIM[c] if CI[c]
-		 CI[c] = 		   CID[c] + 		  CIM[c] if Q[c]
+		 CI[c] = 		   CID[c] + 		  CIM[c] if CI[c]
 
 
 PI[c] * I[c] = PID[c] * ID[c] + PIM[c] * IM[c] if I[c]
@@ -57,10 +57,10 @@ PDS[c] * DS[c] = PDSD[c] * DSD[c] + PDSM[c] * DSM[c] if DS[c]
 		 DS[c] = 		   DSD[c] + 		  DSM[c] if DS[c]
 
 
-PMGRbis[c] * MGRbis[c] = PMGRD[c] * MGRD[c] + PMGRM[c] * PMGRM[c] if MGRbis[c] <> 0
+PMGRbis[c] * MGRbis[c] = PMGRD[c] * MGRD[c] + PMGRM[c] * MGRM[c] if MGRbis[c] <> 0
 			 MGRbis[c] = 			MGRD[c] + 			 MGRM[c] if MGRbis[c] <> 0
 
-### Aggregation of imports and domestic production per use OK 
+### Aggregation of imports and domestic production per use 
 
 PQD * QD = sum( PQD[c] * QD[c] if QD[c] <> 0 on c ) if QD <> 0 
 	  QD = sum( 		 QD[c] if QD[c] <> 0 on c ) if QD <> 0 
@@ -82,10 +82,20 @@ PCHD * CHD = sum( PCHD[c] * CHD[c] if CHD[c] <> 0 on c ) if CHD <> 0
 PCHM * CHM = sum( PCHM[c] * CHM[c] if CHM[c] <> 0 on c ) if CHM <> 0 
 	   CHM = sum( 			CHM[c] if CHM[c] <> 0 on c ) if CHM <> 0
 
+PGD * GD = sum( PGD[c] * GD[c] if GD[c] <> 0 on c ) if GD <> 0 
+	  GD = sum( 		 GD[c] if GD[c] <> 0 on c ) if GD <> 0
+PGM * GM = sum( PGM[c] * GM[c] if GM[c] <> 0 on c ) if GM <> 0 
+	  GM = sum( 		 GM[c] if GM[c] <> 0 on c ) if GM <> 0
+
 PID * ID = sum( PID[c] * ID[c] if ID[c] <> 0 on c ) if ID <> 0 
 	  ID = sum( 		 ID[c] if ID[c] <> 0 on c ) if ID <> 0 
 PIM * IM = sum( PIM[c] * IM[c] if IM[c] <> 0 on c ) if IM <> 0 
 	  IM = sum( 		 IM[c] if IM[c] <> 0 on c ) if IM <> 0
+
+PXD * XD = sum( PXD[c] * XD[c] if XD[c] <> 0 on c ) if XD <> 0 
+	  XD = sum( 		 XD[c] if XD[c] <> 0 on c ) if XD <> 0
+PXM * XM = sum( PXM[c] * XM[c] if XM[c] <> 0 on c ) if XM <> 0 
+	  XM = sum( 		 XM[c] if XM[c] <> 0 on c ) if XM <> 0
 
 PDSD * DSD = sum( PDSD[c] * DSD[c] if DSD[c] <> 0 on c ) if DSD <> 0 
 	   DSD = sum( 			DSD[c] if DSD[c] <> 0 on c ) if DSD <> 0 
@@ -97,25 +107,27 @@ PDSM * DSM = sum( PDSM[c] * DSM[c] if DSM[c] <> 0 on c ) if DSM <> 0
 PQ * Q = PQD * QD + PQM * QM if Q <> 0 
 	 Q = 	   QD + 	  QM if Q <> 0 
 
-
 PMGR * MGR = PMGRD * MGRD + PMGRM * MGRM if MGR <> 0 
 	   MGR = 		 MGRD + 		MGRM if MGR <> 0 
 
- 
 PCI * CI = PCID * CID + PCIM * CIM if CI <> 0 
 	  CI = 		  CID + 	   CIM if CI <> 0
-
 
 PCH * CH = PCHD * CHD + PCHM * CHM if CH <> 0 
 	  CH = 		  CHD + 	   CHM if CH <> 0 
 
+PG * G = PGD * GD + PGM * GM if G <> 0 
+	 G = 	   GD + 	  GM if G <> 0 
 
 PI * I = PID * ID + PIM * IM if I <> 0 
 	 I = 	   ID + 	  IM if I <> 0 
 
+PX * X = PXD * XD + PXM * XM if X <> 0 
+	 X = 	   XD + 	  XM if X <> 0 
 
 PDS * DS = PDSD * DSD + PDSM * DSM if DS <> 0 
 	  DS = 		  DSD + 	   DSM if DS <> 0 
+
 
 
 
@@ -199,7 +211,7 @@ PCIM[s] * CIM[s] = sum(PCIM[c, s] * CIM[c, s] if CIM[c, s] <> 0 on c) if CIM[s] 
 
 ### Intermediary raw material consumption of sector s (value & volume):
 
-PCI[s] * CI[s] = PCID[s] * CID[s] + PCID[s] * CIM[s] if CI[s] <> 0
+PCI[s] * CI[s] = PCID[s] * CID[s] + PCIM[s] * CIM[s] if CI[s] <> 0
 		 CI[s] = 		   CID[s] + 		  CIM[s] if CI[s] <> 0
 
 ### Intermediary raw material from sector agregation (value & volume) :
@@ -246,6 +258,8 @@ PY * Y = sum( PY[s] * Y[s] if Y[s] <> 0 on s) if Y <> 0
 ### It may not be possible to calculate the price of the value-added (VA) since the VA may be equal to zero at the sector level. For this reason, we define the VA in value (VA_VAL). To avoid any bug, desactivate the equation of PVA[s]. Moreover there should be an equation for the VA even if it is equal to zero at the base year.
 
 VA_VAL[s] = PY[s] * Y[s] - PCI[s] * CI[s]
+
+	VA[s] = 		Y[s] - 			CI[s]
 
 # PVA[s] * VA[s] = VA_VAL[s] 
 

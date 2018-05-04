@@ -1,4 +1,4 @@
-+MGRD_CTRP  = ( 1  - phi_MGRM_CTRP )  * MGR_CTRP
+MGRD_CTRP  = ( 1  - phi_MGRM_CTRP )  * MGR_CTRP
 
 MGRM_CTRP  = phi_MGRM_CTRP  * MGR_CTRP
 
