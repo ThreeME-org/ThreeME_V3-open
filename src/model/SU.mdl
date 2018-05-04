@@ -36,6 +36,9 @@ PIM[c] * IM[c]   = sum( PIM[c, s] * IM[c, s] if IM[c, s] <> 0 on s ) if IM[c] <>
 
 
 
+
+
+
 ### Aggregation of imports and domestic production for commodity c per use 
 ### For Q (production of commodities at market price); CI (intermediary consumption); I (private investiment); DS (change in inventories)
 
@@ -147,10 +150,6 @@ PX   * X   = PXD   * XD   + PXM   * XM   if X   <> 0
 PDS  * DS  = PDSD  * DSD  + PDSM  * DSM  if DS  <> 0 
 	   DS  = 		 DSD  + 	    DSM  if DS  <> 0 
 
-### Aggregation per use of margins bis (for verif) 				(value & volume) 
-
-PMGRbis[c] * MGRbis[c] = PMGRD[c] * MGRD[c] + PMGRM[c] * MGRM[c] if MGRbis[c] <> 0
-			 MGRbis[c] = 			MGRD[c] + 			 MGRM[c] if MGRbis[c] <> 0
 
 #####################
 ###### SUPPY SIDE ###
@@ -195,6 +194,11 @@ PMGP[cc, c] * MGP[cc, c] = PMGPD[cc, c] * MGPD[cc, c] + PMGPM[cc, c] * MGPM[cc, 
 ### Margins recieved by commodity cc (value & volume):
 PMGR[cc] * MGR[cc] = sum( PMGP[cc, c] * MGP[cc, c] if MGP[cc, c] <> 0 on c ) if MGR[cc] <> 0
            MGR[cc] = sum(     	 	    MGP[cc, c] if MGP[cc, c] <> 0 on c ) if MGR[cc] <> 0
+
+ #(for verif) 	(value & volume) 
+
+PMGRbis[c] * MGRbis[c] = PMGRD[c] * MGRD[c] + PMGRM[c] * MGRM[c] if MGRbis[c] <> 0
+			 MGRbis[c] = 			MGRD[c] + 			 MGRM[c] if MGRbis[c] <> 0
 
 
 
