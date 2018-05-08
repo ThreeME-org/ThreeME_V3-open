@@ -45,7 +45,7 @@ d(log(I[c, s])) = d(log(IA[s])) if I[c, s] <> 0
 ## Energy demand by type of energy in sector s
 d(log(CI[ce, s])) = d(log(F[E, s])) + d(SUBST_CI[ce,s]) if CI[ce, s] <> 0
 
-d(SUBST_n_CI[ce, s]) = sum(- ES_NRJ[ce, cee, s] * phi[E, cee, s] * d(log(PCI[ce, s]) - log(PCI[cee, s])) on cee) if CI[ce, s] <> 0
+d(SUBST_n_CI[ce, s]) = sum(- ES_NRJ[ce, cee, s] * phi[E, cee, s]{-1} * d(log(PCI[ce, s]) - log(PCI[cee, s])) on cee) if CI[ce, s] <> 0
 
 phi[E, ce, s] = PCI[ce, s]*CI[ce, s] / (sum(PCI[cee, s]*CI[cee, s] on cee))
 
@@ -61,7 +61,7 @@ d(log(TRSP[s])) = d(log(F[MAT, s])) if TRSP[s] <> 0
 ## Demand for transport commodity ct by sector s
 d(log(CI[ct, s])) = d(log(TRSP[s])) + d(SUBST_CI[ct,s]) if CI[ct, s] <> 0
 
-d(SUBST_n_CI[ct, s]) = sum(- ES_TRSP[ct, ctt, s] * phi_TRSP[ctt, s] * d(log(PCI[ct, s]) - log(PCI[ctt, s])) on ctt) if CI[ct, s] <> 0
+d(SUBST_n_CI[ct, s]) = sum(- ES_TRSP[ct, ctt, s] * phi_TRSP[ctt, s]{-1} * d(log(PCI[ct, s]) - log(PCI[ctt, s])) on ctt) if CI[ct, s] <> 0
 
 phi_TRSP[ct, s] = PCI[ct, s]*CI[ct, s] / (sum(PCI[ctt, s]*CI[ctt, s] on ctt))
 
