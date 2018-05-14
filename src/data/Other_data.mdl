@@ -76,3 +76,34 @@ Bal_Trade_VAL[c] := PX[c] * X[c] - PM[c] * M[c]
 Bal_Trade_VAL := sum(Bal_Trade_VAL[c] on c)
 
 RBal_Trade_VAL := Bal_Trade_VAL / (PGDP * GDP)
+
+
+# From emissions
+
+EMS_CI[ghg,c] := sum(EMS_CI[ghg,c,s] on s)
+
+EMS_CI[ghg,s] := sum(EMS_CI[ghg,c,s] on c)
+
+EMS_CI[ghg] := sum(EMS_CI[ghg,s] on s)
+
+EMS_CIbis[ghg] := sum(EMS_CI[ghg,c] on c)
+
+EMS_MAT[ghg] := sum(EMS_MAT[ghg,s] on s)
+
+EMS_Y[ghg] := sum(EMS_Y[ghg,s] on s)
+
+EMS_CH[ghg] := sum(EMS_CH[ghg,c] on c)
+
+EMS[ghg] := EMS_CI[ghg] + EMS_MAT[ghg] + EMS_Y[ghg] + EMS_CH[ghg]
+
+EMS_CI := sum(EMS_CI[ghg] on ghg)
+
+EMS_MAT := sum(EMS_MAT[ghg] on ghg)
+
+EMS_Y := sum(EMS_Y[ghg] on ghg)
+
+EMS_CH := sum(EMS_CH[ghg] on ghg)
+
+EMS := EMS_CI + EMS_MAT + EMS_Y + EMS_CH
+
+EMSbis := sum(EMS[ghg] on ghg)

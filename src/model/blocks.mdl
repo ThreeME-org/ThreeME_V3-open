@@ -17,7 +17,7 @@ include ..\model\Adjustments
 
 include ..\model\Verif
 
-# include ..\model\GHG
+include ..\model\ghg_emissions
 
 
 # include ..\model\Exceptions_fr

@@ -191,6 +191,10 @@ Verif_Bal_G_Prim_VAbis := 0
 Verif_PYQ := 0
 Verif_YQ := 0
 
+verif_EMS_CIbis[ghg] := 0
+
+verif_EMSbis := 0
+
 
 ## Other Calibrations
 ### Calibrated from the volume version of an equation in value. Volume not in the model because of cirlar reference. 

@@ -53,13 +53,13 @@ Verif_PYQ = (PYQ/PY - 1)*100
 # To be consistant the name should be Verif_Bal_G_Prim_VALbis. But E-Views has a limit of 24 caracters. It does not read the associated add factor Verif_Bal_G_Prim_VALbis_a. Changed name to Verif_Bal_G_Prim_VAbis. 
 Verif_Bal_G_Prim_VAbis = (Bal_G_Prim_VALbis/Bal_G_Prim_VAL - 1)*100
 
+verif_EMS_CIbis[ghg] = (EMS_CIbis[ghg]/EMS_CI[ghg] - 1)*100 if EMS_CIbis[ghg] <> 0
+
+verif_EMSbis = (EMSbis/EMS - 1)*100
 
 
-Verif_ALL = ( sum(verif_phi_F[s]^2 on s) + sum(verif_phi_MGPD[c]^2 on c) + sum(verif_phi_MGPM[c]^2 on c) + sum(verif_phi[E, s]^2 on s) + sum(verif_phi_TRSP[s]^2 on s) + sum(verif_Mbis[c]^2 on c) + sum(verif_PMbis[c]^2 on c) + sum(verif_MGRbis[c]^2 on c) + sum(verif_PMGRbis[c]^2 on c) + sum(verif_YQbis[c]^2 on c) + sum(verif_PYQbis[c]^2 on c) + Verif_PCH_CES^2 +Verif_phi_MCH^2 + Verif_phi_CH^2 + Verif_GDPbis^2 + Verif_PGDPbis^2 + Verif_GDPter^2 + Verif_PGDPter^2 + Verif_GDP4^2 + Verif_PGDP4^2 + Verif_CIbis^2 + Verif_PCIbis^2 + Verif_Ibis^2 + Verif_PIbis^2 + Verif_YQ^2 + Verif_PYQ^2 + Verif_Bal_G_Prim_VAbis^2)^(1/2)
 
-
-
-
+Verif_ALL = ( sum(verif_phi_F[s]^2 on s) + sum(verif_phi_MGPD[c]^2 on c) + sum(verif_phi_MGPM[c]^2 on c) + sum(verif_phi[E, s]^2 on s) + sum(verif_phi_TRSP[s]^2 on s) + sum(verif_Mbis[c]^2 on c) + sum(verif_PMbis[c]^2 on c) + sum(verif_MGRbis[c]^2 on c) + sum(verif_PMGRbis[c]^2 on c) + sum(verif_YQbis[c]^2 on c) + sum(verif_PYQbis[c]^2 on c) + Verif_PCH_CES^2 +Verif_phi_MCH^2 + Verif_phi_CH^2 + Verif_GDPbis^2 + Verif_PGDPbis^2 + Verif_GDPter^2 + Verif_PGDPter^2 + Verif_GDP4^2 + Verif_PGDP4^2 + Verif_CIbis^2 + Verif_PCIbis^2 + Verif_Ibis^2 + Verif_PIbis^2 + Verif_YQ^2 + Verif_PYQ^2 + Verif_Bal_G_Prim_VAbis^2 + sum(verif_EMS_CIbis[ghg]^2 on ghg) + verif_EMSbis^2 )^(1/2)
 
 ### Verification for the actual elasticities
 ## The series should converge asymptotically to the inputed elasticities.

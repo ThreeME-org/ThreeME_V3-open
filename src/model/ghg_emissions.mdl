@@ -1,44 +1,74 @@
-# BLOCK 6 : GREEN HOUSE GASES EMISSIONS
+########################################################
+######### GREEN HOUSE GASES EMISSIONS ##################
+########################################################
+### This file provides the equations defining the path of Green House Gases (GHG) emissions. Emissions are defined for the following list: ghg = {CO2 CH4 N2O SF6 HFC PFC}. All emission types are expressed in CO2-equivalent to facilitate agragation. For the same emission type (e.g. CO2), several equation are defined depending in the emission basis: intermediary consumption, household consumption or production.
 
 include ..\model\lists
 
-# ***CO2 SECTORS EMISSIONS***
-# equation 6.1: CO2 emissions per sector and source
-  d(log(EMS_SEC[ce2,s])) = (@year>%baseyear)*d(log(E[ce2,s]*IC[ce2,s])) + (@year=<%baseyear)*log(1 + STEADYSTATE(2,1)) if EMS_SEC[ce2,s] <> 0
 
-# equation 6.2: CO2 emissions from decarbonation per sector 
-  d(log(EMS_DC[s])) = d(log(MAT[s])) if EMS_DC[s] <> 0
+# Emissions ghg related to the consumption of intermediary c by sector s
+# In practice only a few intermediaries generate emissions (e.g. coal, gas, petrol). IEMS_CI[ghg,c,s] is the corresponding emission intensity calibated to 1 in the baseyear. It may change over time because of the increase of the share of biofuels.
+d(log(EMS_CI[ghg,c,s])) = d(log(CI[c,s]*IEMS_CI[ghg,c,s])) if EMS_CI[ghg,c,s] <> 0
 
-# equation 6.3: CO2 emissions per household and source  
-  d(log(EMS_HH[ce2,h])) = (@year>%baseyear)*d(log(EXP[ce2,h]*IC_HH[ce2,h])) + (@year=<%baseyear)*log(1 + STEADYSTATE(2,1)) if EMS_HH[ce2,h] <> 0
+# Emissions ghg related to the total material consumption of sector s
+# This mainly corresponds to the CO2 emissions from decarbonation.
+d(log(EMS_MAT[ghg,s])) = d(log(F[MAT,s]*IEMS_MAT[ghg,s])) if EMS_MAT[ghg,s] <> 0
 
-# ***AGREGATION OF CO2 EMISSIONS***
-# equation 6.4: CO2 emissions per sector
-  EMS_SEC[s] = sum(EMS_SEC[ce2,s] if EMS_SEC[ce2,s] <> 0 on ce2) if EMS_SEC[s] <> 0
 
-# equation 6.5: CO2 emissions of all sectors
-  EMS_SEC = sum(EMS_SEC[s] if EMS_SEC[s] <> 0 on s)
+# Emissions ghg related to the production of sector s
+# This mainly correspond to the CO2 emissions from decarbonation
+d(log(EMS_Y[ghg,s])) = d(log(Y[s]*IEMS_Y[ghg,s])) if EMS_Y[ghg,s] <> 0
 
-# equation 6.6: CO2 emissions from decarbonation of all sectors   
-  EMS_DC = sum(EMS_DC[s] if EMS_DC[s] <> 0 on s)  
 
-# equation 6.7: CO2 emissions per source of all sectors
-  EMS_SECSOU[ce2] = sum(EMS_SEC[ce2,s] if EMS_SEC[ce2,s] <> 0 on s)
- 
-# equation 6.8: CO2 emissions of all sectors
-  EMS_SECSOU = sum(EMS_SECSOU[ce2] if EMS_SECSOU[ce2] <> 0 on ce2)  
-  Verif_EMS = EMS_SEC - EMS_SECSOU
-  
-# equation 6.9: CO2 emissions all households per source
-  EMS_HH[ce2] = sum(EMS_HH[ce2, h] on h)
+# Emissions ghg related to the household consumption c
+d(log(EMS_CH[ghg,c])) = d(log(CH[c]*IEMS_CH[ghg,c])) if EMS_CH[ghg,c] <> 0
 
-# equation 6.10: CO2 emissions all households
-  EMS_HH = sum(EMS_HH[ce2] on ce2)
 
-# equation 6.11: Total CO2 emissions 
-  EMS_TOT = EMS_SEC + EMS_DC + EMS_HH
+# ***AGREGATION OF EMISSIONS***
 
-  EMS_SOU = EMS_SECSOU + EMS_HH
-  EMS_SOU[ce2] = EMS_SECSOU[ce2] + EMS_HH[ce2]
-  
-  verif_EMS_SOU = sum(EMS_SOU[ce2] on ce2) - EMS_SOU   
+# Emissions ghg related to the consumption of intermediary c
+EMS_CI[ghg,c] = sum(EMS_CI[ghg,c,s] if EMS_CI[ghg,c,s] <> 0 on s) if EMS_CI[ghg,c] <> 0
+
+# Emissions ghg related to the agragate intermediary consumption of sector s
+EMS_CI[ghg,s] = sum(EMS_CI[ghg,c,s] if EMS_CI[ghg,c,s] <> 0 on c) if EMS_CI[ghg,s] <> 0
+
+# Emissions ghg related to the consumption of intermediaries
+EMS_CI[ghg] = sum(EMS_CI[ghg,s] if EMS_CI[ghg,s] <> 0 on s) if EMS_CI[ghg] <> 0
+
+EMS_CIbis[ghg] = sum(EMS_CI[ghg,c] if EMS_CI[ghg,c] <> 0 on c) if EMS_CIbis[ghg] <> 0
+
+
+
+
+# Emissions ghg related to the total material consumption of sectors
+
+EMS_MAT[ghg] = sum(EMS_MAT[ghg,s] if EMS_MAT[ghg,s] <> 0 on s) if EMS_MAT[ghg] <> 0
+
+# Emissions ghg related to the production of sectors
+EMS_Y[ghg] = sum(EMS_Y[ghg,s] if EMS_Y[ghg,s] <> 0 on s) if EMS_Y[ghg] <> 0
+
+# Emissions ghg related to the household consumption c
+EMS_CH[ghg] = sum(EMS_CH[ghg,c] if EMS_CH[ghg,c] <> 0 on c) if EMS_CH[ghg] <> 0
+
+
+# Total emissions ghg
+EMS[ghg] = EMS_CI[ghg] + EMS_MAT[ghg] + EMS_Y[ghg] + EMS_CH[ghg] if EMS[ghg] <> 0
+
+
+# Total emissions related to the intermediary consumption
+EMS_CI = sum(EMS_CI[ghg] if EMS_CI[ghg] <> 0 on ghg) if EMS_CI <> 0
+
+# Total emissions related to material consumption
+EMS_MAT = sum(EMS_MAT[ghg] if EMS_MAT[ghg] <> 0 on ghg) if EMS_MAT <> 0
+
+# Total emissions related to the production of sectors
+EMS_Y = sum(EMS_Y[ghg] if EMS_Y[ghg] <> 0 on ghg) if EMS_Y <> 0
+
+# Total emissions related to the household consumption
+EMS_CH = sum(EMS_CH[ghg] if EMS_CH[ghg] <> 0 on ghg) if EMS_CH <> 0
+
+
+# Total emissions
+EMS = EMS_CI + EMS_MAT + EMS_Y + EMS_CH
+
+EMSbis = sum(EMS[ghg] if EMS[ghg] <> 0 on ghg)

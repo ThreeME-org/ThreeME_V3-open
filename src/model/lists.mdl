@@ -1,14 +1,28 @@
+# List of sectors
 %list_sec := AIND ATPT ATPO ASER ANRE ANFO #[s]
 
+# List of commodities
 %list_com := CIND CTRP CSER CNJN CNJM #[c]
+
+# List of material commodities
 %list_com_MAT := CIND CTRP CSER   #[cm]
 
+# List of transport commodities
 %list_com_TRSP := CTRP   #[ct]
-%list_com_MATO := CIND CSER   #[cmo]
 
+# List of energy commodities
 %list_com_E := CNJN CNJM  #[ce]
 
+# List of other material commodities
+%list_com_MATO := CIND CSER   #[cmo]
+
+# List of production factors
 %list_F := K L E MAT  #[f]
+
+# List of Green House Gases (GHG)
+%list_GHG := CO2 CH4 N2O SF6 HFC PFC #[ghg]
+
+
 
 # Default iterators
 s in %list_sec
@@ -30,6 +44,8 @@ cee in %list_com_E
 
 f in %list_F
 ff in %list_F
+
+ghg in %list_GHG
 
 O in D M
 
