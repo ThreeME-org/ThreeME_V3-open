@@ -1,0 +1,69 @@
+########################################################
+#########     NESTED CES PRODUCTION FUNCTION   #########
+########################################################
+### This file provides the equations defining a nested CES production function. The nested structure is a follows:
+#
+#          Y
+#		  / \
+#		 M	KEL
+#			/ \
+#		   KE  L
+#		   /\
+#		  K  E
+#
+# Calibration
+# ES between material and the agregate capital-energy-labor
+
+ES_NEST_MAT_KEL[s] := 0.0
+ES_NEST_KE_L[s] := 0.5
+ES_NEST_K_E[s] := 1.5
+
+
+ES[MAT, K, s] := ES_NEST_MAT_KEL[s]
+ES[MAT, E, s] := ES_NEST_MAT_KEL[s]
+ES[MAT, L, s] := ES_NEST_MAT_KEL[s]
+
+ES[K, E, s] := ES_NEST_K_E[s]/(1 - phi[MAT, s] - phi[L, s]) - ES_NEST_MAT_KEL[s]/(1 - phi[MAT, s]) - ES_NEST_KE_L[s] * phi[L, s] / (1 - phi[MAT, s]) / (1 - phi[MAT, s] - phi[L, s])
+
+ES[K, L, s] := (ES_NEST_KE_L[s] - ES_NEST_MAT_KEL[s] * phi[MAT, s]) / (1 - phi[MAT, s])
+
+ES[E, L, s] := ES[K, L, s] 
+
+# As the ES is symetric, we also have:
+ES[K, MAT, s] := ES[MAT, K, s]
+ES[E, MAT, s] := ES[MAT, E, s]
+ES[L, MAT, s] := ES[MAT, L, s]
+
+ES[E, K, s] := ES[K, E, s]
+
+ES[L, K, s] := ES[K, L, s]
+
+ES[L, E, s] := ES[E, L, s]
+
+
+
+# Eq. Model!!
+# ES between production factors
+ES[MAT, K, s] = ES_NEST_MAT_KEL[s]
+ES[MAT, E, s] = ES_NEST_MAT_KEL[s]
+ES[MAT, L, s] = ES_NEST_MAT_KEL[s]
+
+ES[K, E, s] = ES_NEST_K_E[s]/(1 - phi[MAT, s] - phi[L, s]) - ES_NEST_MAT_KEL[s]/(1 - phi[MAT, s]) - ES_NEST_KE_L[s] * phi[L, s] / (1 - phi[MAT, s]) / (1 - phi[MAT, s] - phi[L, s])
+
+ES[K, L, s] = (ES_NEST_KE_L[s] - ES_NEST_MAT_KEL[s] * phi[MAT, s]) / (1 - phi[MAT, s])
+
+ES[E, L, s] = ES[K, L, s] 
+
+# As the ES is symetric, we also have:
+ES[K, MAT, s] = ES[MAT, K, s]
+ES[E, MAT, s] = ES[MAT, E, s]
+ES[L, MAT, s] = ES[MAT, L, s]
+
+ES[E, K, s] = ES[K, E, s]
+
+ES[L, K, s] = ES[K, L, s]
+
+ES[L, E, s] = ES[E, L, s]
+
+
+
