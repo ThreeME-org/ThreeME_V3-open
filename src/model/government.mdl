@@ -3,98 +3,91 @@
 
 
 ### Net taxes on commodity c domestically produced
-### We assume that the volume of the tax varies only when the volume of the taxe bases (e.g. production, consumption) varies. Hence an increase in the tax rate does not increase the volume of the tax but increases its price. This is coherent with the specification of the price of the tax bases: increasing the tax rate on production increases the production price but not production. 
+### We assume that the volume of the tax varies only when the volume of the taxe bases (e.g. production, consumption) varies. Hence an increase in the tax rate does not increase the volume of the tax but increases its price. This is coherent with the specification of the price of the tax bases: increasing the tax rate on production increases the production price but not production.
 
-NTAXPD_VAL[c] = RNTAXPD[c]*PYQ[c]*YQ[c]
+NTAXPD_VAL[c] = 			RNTAXPD[c]	* PYQ[c]	  * YQ[c]
 
-	NTAXPD[c] = @elem(RNTAXPD[c], %baseyear) * YQ[c]
+NTAXPD[c] 		= @elem(RNTAXPD[c], %baseyear)  * YQ[c]
 
-### Net taxes on imported commodity c 
-NTAXPM_VAL[c] = RNTAXPM[c]*PM[c]*M[c]
+### Net taxes on imported commodity c
+NTAXPM_VAL[c]  = 	 	   RNTAXPM[c]	* PM[c] 	  * M[c]
 
-	NTAXPM[c] = @elem(RNTAXPM[c], %baseyear) * M[c]
+NTAXPM[c] 		 = @elem(RNTAXPM[c], %baseyear) * M[c]
 
 ### Net taxes on commodity c:
 ### Same remark than for VA
-NTAXP_VAL[c] = NTAXPD_VAL[c] + NTAXPM_VAL[c]
+NTAXP_VAL[c] 	 = NTAXPD_VAL[c] + NTAXPM_VAL[c]
 
-	NTAXP[c] = NTAXPD[c] + NTAXPM[c]
+NTAXP[c] 		 	 = NTAXPD[c] 		 + NTAXPM[c]
 
 ### Aggregate net taxes on commodity:
 PNTAXP * NTAXP = sum(NTAXP_VAL[c] on c)
 
-	     NTAXP = sum(NTAXP[c] on c)
-
+	     	 NTAXP = sum(NTAXP[c] 		on c)
 
 ### Net taxes on industry s
-NTAXI_VAL[s] = RNTAXI[s]*PY[s]*Y[s]
+NTAXI_VAL[s] 	 = 			 RNTAXI[s]	* PY[s]	    * Y[s]
 
-	NTAXI[s] = @elem(RNTAXI[s], %baseyear)*Y[s]
+NTAXI[s] 		   = @elem(RNTAXI[s], %baseyear)  * Y[s]
 
 ### Aggregate net taxes on production (value & volume)
 ### Same remark than for VA
-
 NTAXI_VAL = sum(NTAXI_VAL[s] on s)
 
-	NTAXI = sum(NTAXI[s] on s)
+NTAXI 		= sum(NTAXI[s] 		 on s)
 
 ### Employers' social security contribution paid by sector s
-### RSSC = employeRs' Social Security Contribution 
+### RSSC = employeRs' Social Security Contribution
 RSSC[s] * PRSSC[s] = W[s] * F[L, s] * RRSSC[s]
 
-		  PRSSC[s] = P
+		  		PRSSC[s] = P
 
 ### Total employers' social security contribution
 PRSSC * RSSC = sum(PRSSC[s] * RSSC[s] on s)
 
-		RSSC = sum(RSSC[s] on s)
+				RSSC = sum(						RSSC[s] on s)
 
 ### Average employers' social security contribution
-RRSSC = PRSSC * RSSC / (W * F[L]) 
+RRSSC 			 = 		 PRSSC 		* RSSC / (W * F[L])
 
 # Public expenditures per commodities
 d(log(G[c])) = d(log(EXPG)) if G[c] <> 0
 
-
 ## Property incomes of the Government
-PROP_INC_G_VAL_n = phi_PROP_INC_G * PNOS * NOS _
-				  + (PNOS * NOS <= 0.00001 ) * (0.00001 - phi_PROP_INC_G * PNOS * NOS)
+PROP_INC_G_VAL_n  = phi_PROP_INC_G * PNOS * NOS + (PNOS * NOS <= 0.00001 ) * (0.00001 - phi_PROP_INC_G * PNOS * NOS)
 
 # Incomes of the Government
-INC_G_VAL = PNTAXP * NTAXP + NTAXI_VAL + INC_SOC_TAX_VAL + PRSSC * RSSC + PROP_INC_G_VAL
+INC_G_VAL 			  = PNTAXP * NTAXP + NTAXI_VAL + INC_SOC_TAX_VAL + PRSSC * RSSC + PROP_INC_G_VAL
 
 # Spendings of the Government
 
-SPEND_G_VAL = PG  * G  + SOC_BENF_VAL + DEBT_G_VAL{-1}*(Phi_RD_G{-1} + r_DEBT_G{-1}) 
+SPEND_G_VAL 		  = PG  * G  + SOC_BENF_VAL + DEBT_G_VAL{-1}*(Phi_RD_G{-1} + r_DEBT_G{-1})
 
 # Government's savings
-SAV_G_VAL = INC_G_VAL - SPEND_G_VAL
+SAV_G_VAL 	  	  = INC_G_VAL - SPEND_G_VAL
 
 # Primary balance of the Governement (deficit)
 # It corresponds to the savings excluding the reimbursement and the interest on the debt
-Bal_G_Prim_VAL = SAV_G_VAL + DEBT_G_VAL{-1}*(Phi_RD_G{-1} + r_DEBT_G{-1})
+Bal_G_Prim_VAL 		= SAV_G_VAL + DEBT_G_VAL{-1} * (Phi_RD_G{-1} + r_DEBT_G{-1})
 
 Bal_G_Prim_VALbis = INC_G_VAL - (PG  * G  + SOC_BENF_VAL)
 
 # Total balance of the Governement (deficit)
 # It corresponds to the saving excluding the reimbursement but not the interest on the debt
 
-Bal_G_Tot_VAL = Bal_G_Prim_VAL - DEBT_G_VAL{-1}*r_DEBT_G{-1} 
+Bal_G_Tot_VAL 	  = Bal_G_Prim_VAL - DEBT_G_VAL{-1} * r_DEBT_G{-1}
 
 # Government's debt
-DEBT_G_VAL = DEBT_G_VAL{-1}*(1-Phi_RD_G{-1}) - SAV_G_VAL # pour verif
+DEBT_G_VAL 		 	  = DEBT_G_VAL{-1} * (1-Phi_RD_G{-1}) - SAV_G_VAL # pour verif
 
 # Government's savings over GDP ratio
-RSAV_G_VAL = SAV_G_VAL / (PGDP * GDP)
+RSAV_G_VAL 			  = SAV_G_VAL 		 / (PGDP * GDP)
 
 # Primary balance of the Governement over GDP ratio
-RBal_G_Prim_VAL = Bal_G_Prim_VAL / (PGDP * GDP)
+RBal_G_Prim_VAL   = Bal_G_Prim_VAL / (PGDP * GDP)
 
 # Total balance of the Governement over GDP ratio
-RBal_G_Tot_VAL = Bal_G_Tot_VAL / (PGDP * GDP)
+RBal_G_Tot_VAL 	  = Bal_G_Tot_VAL  / (PGDP * GDP)
 
 # Ratio of the Government's debt over GDP
-RDEBT_G_VAL = DEBT_G_VAL / (PGDP * GDP)
-
-
-
+RDEBT_G_VAL 		  = DEBT_G_VAL 		 / (PGDP * GDP)
