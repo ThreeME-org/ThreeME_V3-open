@@ -1,69 +1,43 @@
 ########################################################
 #########     NESTED CES PRODUCTION FUNCTION   #########
 ########################################################
-### This file provides the equations defining a nested CES production function. The nested structure is a follows:
-#
-#          Y
-#		  / \
-#		 M	KEL
-#			/ \
-#		   KE  L
-#		   /\
-#		  K  E
-#
-# Calibration
-# ES between material and the agregate capital-energy-labor
 
-ES_NEST_MAT_KEL[s] := 0.0
-ES_NEST_KE_L[s] := 0.5
-ES_NEST_K_E[s] := 1.5
+### This file provides the equations defining a nested CES production function. The nested structure is a follows: K (capital), L (labor), E (energy), M (material). 
+###
+###        Y
+###		  / \    --> ES_NEST_MAT_KEL
+###		 M	KEL
+###			/ \  --> ES_NEST_KE_L
+###		   KE  L
+###		   /\    --> ES_NEST_K_E
+###		  K  E
+###
+### The speficication of the ES used between two inputs is the one presented in Reynès (2018, Appendix B): 
+### Reynès, F. (2018), "The Cobb-Douglas function as a flexible function. A new perspective on homogenous functions through the lens of output elasticities", Mathematical Social Sciences, Forthcoming.
 
+# From the ES in the different levels of the nest, it is possible the actual elasticity between two inputs. Since the ES between two inputs is symetric, we have:
 
-ES[MAT, K, s] := ES_NEST_MAT_KEL[s]
-ES[MAT, E, s] := ES_NEST_MAT_KEL[s]
-ES[MAT, L, s] := ES_NEST_MAT_KEL[s]
-
-ES[K, E, s] := ES_NEST_K_E[s]/(1 - phi[MAT, s] - phi[L, s]) - ES_NEST_MAT_KEL[s]/(1 - phi[MAT, s]) - ES_NEST_KE_L[s] * phi[L, s] / (1 - phi[MAT, s]) / (1 - phi[MAT, s] - phi[L, s])
-
-ES[K, L, s] := (ES_NEST_KE_L[s] - ES_NEST_MAT_KEL[s] * phi[MAT, s]) / (1 - phi[MAT, s])
-
-ES[E, L, s] := ES[K, L, s] 
-
-# As the ES is symetric, we also have:
-ES[K, MAT, s] := ES[MAT, K, s]
-ES[E, MAT, s] := ES[MAT, E, s]
-ES[L, MAT, s] := ES[MAT, L, s]
-
-ES[E, K, s] := ES[K, E, s]
-
-ES[L, K, s] := ES[K, L, s]
-
-ES[L, E, s] := ES[E, L, s]
-
-
-
-# Eq. Model!!
-# ES between production factors
+# ES between material and capital
 ES[MAT, K, s] = ES_NEST_MAT_KEL[s]
-ES[MAT, E, s] = ES_NEST_MAT_KEL[s]
-ES[MAT, L, s] = ES_NEST_MAT_KEL[s]
-
-ES[K, E, s] = ES_NEST_K_E[s]/(1 - phi[MAT, s] - phi[L, s]) - ES_NEST_MAT_KEL[s]/(1 - phi[MAT, s]) - ES_NEST_KE_L[s] * phi[L, s] / (1 - phi[MAT, s]) / (1 - phi[MAT, s] - phi[L, s])
-
-ES[K, L, s] = (ES_NEST_KE_L[s] - ES_NEST_MAT_KEL[s] * phi[MAT, s]) / (1 - phi[MAT, s])
-
-ES[E, L, s] = ES[K, L, s] 
-
-# As the ES is symetric, we also have:
 ES[K, MAT, s] = ES[MAT, K, s]
+
+# ES between material and energy
+ES[MAT, E, s] = ES_NEST_MAT_KEL[s]
 ES[E, MAT, s] = ES[MAT, E, s]
+
+# ES between material and labor
+ES[MAT, L, s] = ES_NEST_MAT_KEL[s]
 ES[L, MAT, s] = ES[MAT, L, s]
 
+# ES between capital and energy
+ES[K, E, s] = ES_NEST_K_E[s]/(1 - phi[MAT, s] - phi[L, s]) - ES_NEST_MAT_KEL[s]/(1 - phi[MAT, s]) - ES_NEST_KE_L[s] * phi[L, s] / (1 - phi[MAT, s]) / (1 - phi[MAT, s] - phi[L, s])
 ES[E, K, s] = ES[K, E, s]
 
+
+# ES between capital and labor
+ES[K, L, s] = (ES_NEST_KE_L[s] - ES_NEST_MAT_KEL[s] * phi[MAT, s]) / (1 - phi[MAT, s])
 ES[L, K, s] = ES[K, L, s]
 
+# ES between energy and labor
+ES[E, L, s] = ES[K, L, s] 
 ES[L, E, s] = ES[E, L, s]
-
-
-
