@@ -274,7 +274,7 @@ VA[s] 	  = 		Y[s] - 			CI[s]
 ### Aggregate value-added (value & volume):
 
 PVA * VA = sum(VA_VAL[s] on s)
-	  VA = sum(VA[s] on s)
+	  VA = sum(VA[s]     on s)
 
 ### Aggregate bruto wages paid by sector s including employees (but not employers)' social contribution
 

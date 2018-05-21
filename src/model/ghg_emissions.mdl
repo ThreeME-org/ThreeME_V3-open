@@ -9,63 +9,63 @@ include ..\model\lists
 # Emissions ghg related to the consumption of intermediary c by sector s
 # In practice only a few intermediaries generate emissions (e.g. coal, gas, petrol). IEMS_CI[ghg,c,s] is the corresponding emission intensity calibated to 1 in the baseyear. It may change over time because of the increase of the share of biofuels.
 
-d(log(EMS_CI[ghg,c,s])) = d(log(CI[c,s]*IEMS_CI[ghg,c,s])) if EMS_CI[ghg,c,s] <> 0
+d(log(EMS_CI[ghg,c,s])) = d(log(CI[c,s]*IEMS_CI[ghg,c,s]))              if EMS_CI[ghg,c,s] <> 0
 
 # Emissions ghg related to the total material consumption of sector s
 # This mainly corresponds to the CO2 emissions from decarbonation.
 
-d(log(EMS_MAT[ghg,s]))  = d(log(F[MAT,s]*IEMS_MAT[ghg,s])) if EMS_MAT[ghg,s] <> 0
+d(log(EMS_MAT[ghg,s]))  = d(log(F[MAT,s]*IEMS_MAT[ghg,s]))              if EMS_MAT[ghg,s]  <> 0
 
 # Emissions ghg related to the production of sector s
 # This mainly correspond to the emissions from agriculture.
 
-d(log(EMS_Y[ghg,s]))    = d(log(Y[s]*IEMS_Y[ghg,s]))       if EMS_Y[ghg,s] <> 0
+d(log(EMS_Y[ghg,s]))    = d(log(Y[s]*IEMS_Y[ghg,s]))                    if EMS_Y[ghg,s]    <> 0
 
 # Emissions ghg related to the household consumption c
 
-d(log(EMS_CH[ghg,c]))   = d(log(CH[c]*IEMS_CH[ghg,c]))     if EMS_CH[ghg,c] <> 0
+d(log(EMS_CH[ghg,c]))   = d(log(CH[c]*IEMS_CH[ghg,c]))                  if EMS_CH[ghg,c]   <> 0
 
 
 # ***AGREGATION OF EMISSIONS***
 
 # Emissions ghg related to the consumption of intermediary c
 
-EMS_CI[ghg,c]  = sum( EMS_CI[ghg,c,s] if EMS_CI[ghg,c,s] <> 0 on s )   if EMS_CI[ghg,c]  <> 0
+EMS_CI[ghg,c]  = sum( EMS_CI[ghg,c,s] if EMS_CI[ghg,c,s] <> 0 on s )    if EMS_CI[ghg,c]   <> 0
 
-EMS_CI[ghg,s]  = sum( EMS_CI[ghg,c,s] if EMS_CI[ghg,c,s] <> 0 on c )   if EMS_CI[ghg,s]  <> 0
+EMS_CI[ghg,s]  = sum( EMS_CI[ghg,c,s] if EMS_CI[ghg,c,s] <> 0 on c )    if EMS_CI[ghg,s]   <> 0
 
 
-EMS_CI[ghg]    = sum( EMS_CI[ghg,s]   if EMS_CI[ghg,s]   <> 0 on s )   if EMS_CI[ghg]    <> 0
+EMS_CI[ghg]    = sum( EMS_CI[ghg,s]   if EMS_CI[ghg,s]   <> 0 on s )    if EMS_CI[ghg]     <> 0
 
-EMS_CIbis[ghg] = sum( EMS_CI[ghg,c]   if EMS_CI[ghg,c]   <> 0 on c )   if EMS_CIbis[ghg] <> 0
+EMS_CIbis[ghg] = sum( EMS_CI[ghg,c]   if EMS_CI[ghg,c]   <> 0 on c )    if EMS_CIbis[ghg]  <> 0
 
 # Emissions ghg related to the total material consumption of sectors
 
-EMS_MAT[ghg]   = sum( EMS_MAT[ghg,s]  if EMS_MAT[ghg,s]  <> 0 on s )   if EMS_MAT[ghg]   <> 0
+EMS_MAT[ghg]   = sum( EMS_MAT[ghg,s]  if EMS_MAT[ghg,s]  <> 0 on s )    if EMS_MAT[ghg]    <> 0
 
 # Emissions ghg related to the production of sectors
-EMS_Y[ghg]     = sum( EMS_Y[ghg,s]    if EMS_Y[ghg,s]    <> 0 on s )   if EMS_Y[ghg]     <> 0
+EMS_Y[ghg]     = sum( EMS_Y[ghg,s]    if EMS_Y[ghg,s]    <> 0 on s )    if EMS_Y[ghg]      <> 0
 
 # Emissions ghg related to the household consumption c
-EMS_CH[ghg]    = sum( EMS_CH[ghg,c]   if EMS_CH[ghg,c]   <> 0 on c )   if EMS_CH[ghg]    <> 0
+EMS_CH[ghg]    = sum( EMS_CH[ghg,c]   if EMS_CH[ghg,c]   <> 0 on c )    if EMS_CH[ghg]     <> 0
 
 # Total emissions ghg
-EMS[ghg]       = EMS_CI[ghg] + EMS_MAT[ghg] + EMS_Y[ghg] + EMS_CH[ghg] if EMS[ghg]       <> 0
+EMS[ghg]       = EMS_CI[ghg] + EMS_MAT[ghg] + EMS_Y[ghg] + EMS_CH[ghg]  if EMS[ghg]       <> 0
 
 # Total emissions related to the intermediary consumption
-EMS_CI         = sum( EMS_CI[ghg]     if EMS_CI[ghg]     <> 0 on ghg ) if EMS_CI         <> 0
+EMS_CI         = sum( EMS_CI[ghg]     if EMS_CI[ghg]     <> 0 on ghg )  if EMS_CI         <> 0
 
 # Total emissions related to material consumption
-EMS_MAT        = sum( EMS_MAT[ghg]    if EMS_MAT[ghg]    <> 0 on ghg ) if EMS_MAT        <> 0
+EMS_MAT        = sum( EMS_MAT[ghg]    if EMS_MAT[ghg]    <> 0 on ghg )  if EMS_MAT        <> 0
 
 # Total emissions related to the production of sectors
-EMS_Y          = sum( EMS_Y[ghg]      if EMS_Y[ghg]      <> 0 on ghg ) if EMS_Y          <> 0
+EMS_Y          = sum( EMS_Y[ghg]      if EMS_Y[ghg]      <> 0 on ghg )  if EMS_Y          <> 0
 
 # Total emissions related to the household consumption
-EMS_CH         = sum( EMS_CH[ghg]     if EMS_CH[ghg]     <> 0 on ghg ) if EMS_CH         <> 0
+EMS_CH         = sum( EMS_CH[ghg]     if EMS_CH[ghg]     <> 0 on ghg )  if EMS_CH         <> 0
 
 # Total emissions
 
 EMS            = EMS_CI + EMS_MAT + EMS_Y + EMS_CH
 
-EMSbis         = sum( EMS[ghg]       if EMS[ghg]        <> 0 on ghg )
+EMSbis         = sum( EMS[ghg]        if EMS[ghg]        <> 0 on ghg )

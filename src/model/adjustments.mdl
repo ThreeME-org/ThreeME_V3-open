@@ -9,17 +9,17 @@ MARKUP[s] = ADJUST_MARKUP[s] * MARKUP_n[s] + (1 - ADJUST_MARKUP[s]) * MARKUP[s]{
 
 ## Expected inflation
 ## This equation define the expected inflation and not the expeected price. P_e does not necessary converge to P. If the wage equation is a WS curve, were  only in the very long terme may not converge does not
-d(log(P_e))       = ADJUST_Pe_P1    * d(log(P{-1})) + (1 - ADJUST_Pe_P1)   * d(log(P_e{-1}))
+d(log(P_e))       = ADJUST_Pe_P1    * d(log(P{-1}))         + (1 - ADJUST_Pe_P1)    * d(log(P_e{-1}))
 
 ## Expected production
-d(log(Y_e[s]))    = ADJUST_Ye_Y[s]  * d(log(Y[s]))  + (1 - ADJUST_Ye_Y[s]) * d(log(Y_e[s]{-1}))
+d(log(Y_e[s]))    = ADJUST_Ye_Y[s]  * d(log(Y[s]))          + (1 - ADJUST_Ye_Y[s])  * d(log(Y_e[s]{-1}))
 
 
 
 # Adjustment for Labor, Energy and Material of sector s
-log(F[f, s])      = ADJUST0_F[f, s] * log(F_n[f, s]) + (1 - ADJUST0_F[f, s]) * (log(F[f, s]{-1}) + d(log(F_e[f, s])))                     if F[f, s]   <> 0 where f in %list_F \ K
+log(F[f, s])      = ADJUST0_F[f, s] * log(F_n[f, s])        + (1 - ADJUST0_F[f, s]) * (log(F[f, s]{-1})   +                   d(log(F_e[f, s]))) if F[f, s]   <> 0 where f in %list_F \ K
 
-d(log(F_e[f, s])) = ADJUST1_F[f, s] * d(log(F_e[f, s]{-1})) + ADJUST2_F[f, s] * d(log(F[f, s]{-1})) + ADJUST3_F[f, s] * d(log(F_n[f, s])) if F_e[f, s] <> 0 where f in %list_F \ K
+d(log(F_e[f, s])) = ADJUST1_F[f, s] * d(log(F_e[f, s]{-1})) + ADJUST2_F[f, s]       * d(log(F[f, s]{-1})) + ADJUST3_F[f, s] * d(log(F_n[f, s]))  if F_e[f, s] <> 0 where f in %list_F \ K
 
 
 
@@ -40,6 +40,9 @@ F[K, s] = (1 - Rdep[s]) * F[K, s]{-1} + IA[s] if F[K, s] <> 0
 # log(IA[s]) = ADJUST0_IA[s] * log(IA_n[s]) + (1 - ADJUST0_IA[s]) * (log(IA[s]{-1}) + d(log(IA_e[s])))
 
 # d(log(IA_e[s])) = ADJUST1_IA[s] * d(log(IA_e[s]{-1})) + ADJUST2_IA[s] * d(log(IA[s]{-1})) + ADJUST3_IA[s] * d(log(IA_n[s]))
+
+
+
 SUBST_F[f, s]     = ADJUST6_F[f, s]     * SUBST_n_F[f, s]     + (1 - ADJUST6_F[f, s])     * SUBST_F[f, s]{-1}     if F[f, s]     <> 0
 
 SUBST_MGPD[cc, c] = ADJUST6_MGPD[cc, c] * SUBST_n_MGPD[cc, c] + (1 - ADJUST6_MGPD[cc, c]) * SUBST_MGPD[cc, c]{-1} if MGPD[cc, c] <> 0
@@ -50,8 +53,6 @@ SUBST_CI[ce, s]   = ADJUST6_CI[ce, s]   * SUBST_n_CI[ce, s]   + (1 - ADJUST6_CI[
 
 SUBST_CI[ct, s]   = ADJUST6_CI[ct, s]   * SUBST_n_CI[ct, s]   + (1 - ADJUST6_CI[ct, s])   * SUBST_CI[ct, s]{-1}   if CI[ct, s]   <> 0
 
-
-
 SUBST_MGRM[c]     = ADJUST6_MGRM[c]     * SUBST_n_MGRM[c]     + (1 - ADJUST6_MGRM[c])     * SUBST_MGRM[c]{-1}     if MGRM[c]     <> 0
 
 SUBST_CHM[c]      = ADJUST6_CHM[c]      * SUBST_n_CHM[c]      + (1 - ADJUST6_CHM[c])      * SUBST_CHM[c]{-1}      if CHM[c]      <> 0
@@ -59,7 +60,6 @@ SUBST_CHM[c]      = ADJUST6_CHM[c]      * SUBST_n_CHM[c]      + (1 - ADJUST6_CHM
 SUBST_GM[c]       = ADJUST6_GM[c]       * SUBST_n_GM[c]       + (1 - ADJUST6_GM[c])       * SUBST_GM[c]{-1}       if GM[c]       <> 0
 
 SUBST_XM[c]       = ADJUST6_XM[c]       * SUBST_n_XM[c]       + (1 - ADJUST6_XM[c])       * SUBST_XM[c]{-1}       if XM[c]       <> 0
-
 
 SUBST_CIM[c, s]   = ADJUST6_CIM[c, s]   * SUBST_n_CIM[c, s]   + (1 - ADJUST6_CIM[c, s])   * SUBST_CIM[c, s]{-1}   if CIM[c, s]   <> 0
 
@@ -69,32 +69,31 @@ SUBST_X[c]        = ADJUST6_X[c]        * SUBST_n_X[c]        + (1 - ADJUST6_X[c
 
 
 # Adjustment for the consumption of commodity c
-log(CH[c])      = ADJUST0_CH[c]  * log(CH_n[c])        + (1 - ADJUST0_CH[c]) * (log(CH[c]{-1})   +                     d(log(CH_e[c])))         if CH[c]   <> 0
+log(CH[c])      = ADJUST0_CH[c] * log(CH_n[c])        + (1 - ADJUST0_CH[c]) * (log(CH[c]{-1})   +                 d(log(CH_e[c]))) if CH[c]   <> 0
 
-d(log(CH_e[c])) = ADJUST1_CH[c]  * d(log(CH_e[c]{-1})) + ADJUST2_CH[c]       * d(log(CH[c]{-1})) + ADJUST3_CH[c]     * d(log(CH_n[c]))          if CH_e[c] <> 0
+d(log(CH_e[c])) = ADJUST1_CH[c] * d(log(CH_e[c]{-1})) + ADJUST2_CH[c]       * d(log(CH[c]{-1})) + ADJUST3_CH[c] * d(log(CH_n[c]))  if CH_e[c] <> 0
 
+log(PY[s])      = ADJUST0_PY[s] * log(PY_n[s])        + (1 - ADJUST0_PY[s]) * (log(PY[s]{-1})   +                 d(log(PY_e[s])))
 
-log(PY[s])      = ADJUST0_PY[s]  * log(PY_n[s])        + (1 - ADJUST0_PY[s]) * (log(PY[s]{-1})   +                     d(log(PY_e[s])))
-
-d(log(PY_e[s])) = ADJUST1_PY[s]  * d(log(PY_e[s]{-1})) + ADJUST2_PY[s]       * d(log(PY[s]{-1})) + ADJUST3_PY[s]     * d(log(PY_n[s]))
+d(log(PY_e[s])) = ADJUST1_PY[s] * d(log(PY_e[s]{-1})) + ADJUST2_PY[s]       * d(log(PY[s]{-1})) + ADJUST3_PY[s] * d(log(PY_n[s]))
 
 
 # Wage
-d(log(W[s]))    = ADJUST_W_Wn[s] * d(log(W_n[s]))      + ADJUST_W_W1[s]      * d(log(W[s]{-1}))  - ADJUST_W_W1Wn1[s] * log(W[s]{-1}/W_n[s]{-1}) if W[s] <> 0
+d(log(W[s])) = ADJUST_W_Wn[s] * d(log(W_n[s])) + ADJUST_W_W1[s] * d(log(W[s]{-1})) - ADJUST_W_W1Wn1[s]*log(W[s]{-1}/W_n[s]{-1})    if W[s]    <> 0
 
 
 ### Labor participation ratio
 PARTR = ADJUST0_PARTR * PARTR_n + (1 - ADJUST0_PARTR) * PARTR{-1}
 
 # Interest rate
-R = ADJUST0_R * R_n + (1 - ADJUST0_R) * R{-1}
+R    = ADJUST0_R      * R_n     + (1 - ADJUST0_R)     * R{-1}
 
 # For households property incomes
 log(PROP_INC_H_VAL)      = ADJUST0_PROP_INC_H_VAL * log(PROP_INC_H_VAL_n)        + (1 - ADJUST0_PROP_INC_H_VAL) * (log(PROP_INC_H_VAL{-1})   +                          d(log(PROP_INC_H_VAL_e))) if PROP_INC_H_VAL   <> 0
 
-d(log(PROP_INC_H_VAL_e)) = ADJUST1_PROP_INC_H_VAL * d(log(PROP_INC_H_VAL_e{-1})) + ADJUST2_PROP_INC_H_VAL       * d(log(PROP_INC_H_VAL{-1})) + ADJUST3_PROP_INC_H_VAL * d(log(PROP_INC_H_VAL_n))  if PROP_INC_H_VAL_e <> 0
+d(log(PROP_INC_H_VAL_e)) = ADJUST1_PROP_INC_H_VAL * d(log(PROP_INC_H_VAL_e{-1})) +      ADJUST2_PROP_INC_H_VAL  * d(log(PROP_INC_H_VAL{-1})) + ADJUST3_PROP_INC_H_VAL * d(log(PROP_INC_H_VAL_n))  if PROP_INC_H_VAL_e <> 0
 
 # For Government property incomes
 log(PROP_INC_G_VAL)      = ADJUST0_PROP_INC_G_VAL * log(PROP_INC_G_VAL_n)        + (1 - ADJUST0_PROP_INC_G_VAL) * (log(PROP_INC_G_VAL{-1})   +                          d(log(PROP_INC_G_VAL_e))) if PROP_INC_G_VAL   <> 0
 
-d(log(PROP_INC_G_VAL_e)) = ADJUST1_PROP_INC_G_VAL * d(log(PROP_INC_G_VAL_e{-1})) + ADJUST2_PROP_INC_G_VAL       * d(log(PROP_INC_G_VAL{-1})) + ADJUST3_PROP_INC_G_VAL * d(log(PROP_INC_G_VAL_n))  if PROP_INC_G_VAL_e <> 0
+d(log(PROP_INC_G_VAL_e)) = ADJUST1_PROP_INC_G_VAL * d(log(PROP_INC_G_VAL_e{-1})) +      ADJUST2_PROP_INC_G_VAL  * d(log(PROP_INC_G_VAL{-1})) + ADJUST3_PROP_INC_G_VAL * d(log(PROP_INC_G_VAL_n))  if PROP_INC_G_VAL_e <> 0

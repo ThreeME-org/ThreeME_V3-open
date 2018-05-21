@@ -1,56 +1,57 @@
 ########################################################
 #########         TAXES & PRICES   #####################
 ########################################################
-### This file provides the equations defining with more detailed taxes and prices.
+### This file provides the equations defining with more detailled taxes and prices.
 
 # Net taxes on commodity c domestically produced (value & volume)
 # This is not defined by simply assuming a constant rate over the production value : NTAXPD_VAL[c] = RNTAXPD[c]*PYQ[c]*YQ[c]. Different taxes are now defined depending on their basis.
 
-@over NTAXPD_VAL[c] = PVATD[c] * VATD[c] + POTHPTD[c] * OTHPTD[c] + PSUBPD[c] * SUBPD[c] if NTAXPD_VAL[c] <> 0
+@over NTAXPD_VAL[c] = PVATD[c] * VATD[c] + POTHPTD[c] * OTHPTD[c] + PSUBPD[c] * SUBPD[c]        if NTAXPD_VAL[c] <> 0
 
-@over NTAXPD[c]     =            VATD[c] +              OTHPTD[c] +             SUBPD[c] if NTAXPD[c]     <> 0
+@over NTAXPD[c]     =            VATD[c] +              OTHPTD[c] +             SUBPD[c]        if NTAXPD[c]     <> 0
 
 # Average tax rate on commodity c domestically produced
 # This rate become now endogenous by inverted the equation of NTAXPD_VAL[c]. This specification guaranty that equality accountancy between the various GDP definition.
-RNTAXPD[c] = NTAXPD_VAL[c] / (PYQ[c]*YQ[c])
+RNTAXPD[c] = NTAXPD_VAL[c] / (PYQ[c] * YQ[c])
 
 # Net taxes on imported commodity c (value & volume)
-@over NTAXPM_VAL[c] = PVATM[c] * VATM[c] + POTHPTM[c] * OTHPTM[c] + PSUBPM[c] * SUBPM[c] if NTAXPM_VAL[c] <> 0
-@over NTAXPM[c]     =            VATM[c] +              OTHPTM[c] +             SUBPM[c] if NTAXPM[c]     <> 0
+@over NTAXPM_VAL[c] = PVATM[c] * VATM[c] + POTHPTM[c] * OTHPTM[c] + PSUBPM[c] * SUBPM[c]        if NTAXPM_VAL[c] <> 0
+
+@over NTAXPM[c]     =            VATM[c] +              OTHPTM[c] +             SUBPM[c]        if NTAXPM[c]     <> 0
 
 # Average tax rate on imported commodity c
-RNTAXPM[c] = NTAXPM_VAL[c] / (PM[c]*M[c])
+RNTAXPM[c] = NTAXPM_VAL[c] / (PM[c]  * M[c] )
 
 # Value-added tax on domestic commodities c (value & volume)
-PVATD[c]   * VATD[c]   =       RVATD[c] * PCHD[c]     * CHD[c] / (1 + RVATD[c])                   if VATD[c]   <> 0
+PVATD[c]   * VATD[c]   =       RVATD[c] * PCHD[c]     * CHD[c] / (1 + RVATD[c])                 if VATD[c]       <> 0
 
-             VATD[c]   = @elem(RVATD[c],   %baseyear) * CHD[c] / (1+@elem(RVATD[c], %baseyear))   if VATD[c]   <> 0
+VATD[c]                = @elem(RVATD[c],%baseyear)    * CHD[c] / (1+@elem(RVATD[c], %baseyear)) if VATD[c]       <> 0
 
 # Other product tax on domestic commodities c (value & volume)
-POTHPTD[c] * OTHPTD[c] =       ROTHPTD[c] * PYQ[c]    * YQ[c]                                     if OTHPTD[c] <> 0
+POTHPTD[c] * OTHPTD[c] =       ROTHPTD[c]   * PYQ[c]  * YQ[c]                                   if OTHPTD[c]     <> 0
 
-             OTHPTD[c] = @elem(ROTHPTD[c], %baseyear) * YQ[c]                                     if OTHPTD[c] <> 0
+             OTHPTD[c] = @elem(ROTHPTD[c], %baseyear) * YQ[c]                                   if OTHPTD[c]     <> 0
 
 # Subsidies on product on domestic commodities c (value & volume)
 # We assume that subsidies are on volume.
-PSUBPD[c]  * SUBPD[c]  =       RSUBPD[c]              * YQ[c]                                     if SUBPD[c]  <> 0
+PSUBPD[c]  * SUBPD[c]  =       RSUBPD[c]              * YQ[c]                                   if SUBPD[c]      <> 0
 
-             SUBPD[c]  = @elem(RSUBPD[c],  %baseyear) * YQ[c]                                     if SUBPD[c]  <> 0
+             SUBPD[c]  = @elem(RSUBPD[c], %baseyear)  * YQ[c]                                   if SUBPD[c]      <> 0
 
 # Value-added tax on imported commodities c (value & volume)
-PVATM[c]   * VATM[c]   =       RVATM[c]   * PCHM[c]   * CHM[c] / (1 +      RVATM[c])              if VATM[c]   <> 0
+PVATM[c]   * VATM[c]   =       RVATM[c]  * PCHM[c]    * CHM[c] / (1 + RVATM[c])                 if VATM[c]       <> 0
 
-             VATM[c]   = @elem(RVATM[c],   %baseyear) * CHM[c] / (1 +@elem(RVATM[c], %baseyear))  if VATM[c]   <> 0
+             VATM[c]   = @elem(RVATM[c],%baseyear)    * CHM[c] / (1+@elem(RVATM[c], %baseyear)) if VATM[c]       <> 0
 
 # Other product tax on imported commodities c (value & volume)
-POTHPTM[c] * OTHPTM[c] =       ROTHPTM[c] * PM[c]     * M[c]                                      if OTHPTM[c] <> 0
+POTHPTM[c] * OTHPTM[c] =       ROTHPTM[c] * PM[c]     * M[c]                                    if OTHPTM[c]     <> 0
 
-             OTHPTM[c] = @elem(ROTHPTM[c], %baseyear) * M[c]                                      if OTHPTM[c] <> 0
+             OTHPTM[c] = @elem(ROTHPTM[c], %baseyear) * M[c]                                    if OTHPTM[c]     <> 0
 
 # Subsidies on product on imported commodities c (value & volume)
-PSUBPM[c]  * SUBPM[c]  =       RSUBPM[c]              * M[c]                                      if SUBPM[c]  <> 0
+PSUBPM[c]  *  SUBPM[c] =       RSUBPM[c]              * M[c]                                    if SUBPM[c]      <> 0
 
-             SUBPM[c]  = @elem(RSUBPM[c],  %baseyear) * M[c]                                      if SUBPM[c]  <> 0
+              SUBPM[c] = @elem(RSUBPM[c], %baseyear)  * M[c]                                    if SUBPM[c]      <> 0
 
 
 #######################################
@@ -61,13 +62,12 @@ PSUBPM[c]  * SUBPM[c]  =       RSUBPM[c]              * M[c]                    
 ### Selling price before VAT for domestic commodity c (Value & volume)
 PYQSBVAT[c] * YQSBVAT[c] = PYQ[c] * YQ[c] + POTHPTD[c] * OTHPTD[c] + PSUBPD[c] * SUBPD[c] + PMGPD[c] * MGPD[c] if YQSBVAT[c] <> 0
 
-
 d(log(YQSBVAT[c])) = d(log(YQ[c]))	                                                                           if YQSBVAT[c] <> 0
 
 ### Selling price before VAT for imported commodity c (Value & volume)
 PMSBVAT[c]  * MSBVAT[c]  = PM[c]  * M[c]  + POTHPTM[c] * OTHPTM[c] + PSUBPM[c] * SUBPM[c] + PMGPM[c] * MGPM[c] if MSBVAT[c]  <> 0
 
-d(log(MSBVAT[c]))  = d(log(M[c]))                                                                              if MSBVAT[c] <> 0
+d(log(MSBVAT[c] )) = d(log(M[c] ))                                                                             if MSBVAT[c]  <> 0
 
 ### Price of domesticly produced margins recieved by commodity c
 @over PMGRD[c]   = PYQSBVAT[c]                                                     if MGRD[c]   <> 0
@@ -104,35 +104,36 @@ d(log(MSBVAT[c]))  = d(log(M[c]))                                               
 ##################################
 ## Agregation of taxes
 
-PVATD   * VATD   = sum(PVATD[c]   * VATD[c]   if VATD[c]   <> 0 on c) if VATD   <> 0
+PVATD   * VATD = sum(PVATD[c] *     VATD[c]   if VATD[c]   <> 0 on c)  if VATD   <> 0
 
-          VATD   = sum(             VATD[c]   if VATD[c]   <> 0 on c) if VATD   <> 0
+          VATD = sum(               VATD[c]   if VATD[c]   <> 0 on c)  if VATD   <> 0
 
-POTHPTD * OTHPTD = sum(POTHPTD[c] * OTHPTD[c] if OTHPTD[c] <> 0 on c) if OTHPTD <> 0
+POTHPTD * OTHPTD = sum(POTHPTD[c] * OTHPTD[c] if OTHPTD[c] <> 0 on c)  if OTHPTD <> 0
 
-          OTHPTD = sum(             OTHPTD[c] if OTHPTD[c] <> 0 on c) if OTHPTD <> 0
+          OTHPTD = sum(             OTHPTD[c] if OTHPTD[c] <> 0 on c)  if OTHPTD <> 0
 
-PSUBPD  * SUBPD  = sum(PSUBPD[c]  * SUBPD[c]  if SUBPD[c]  <> 0 on c) if SUBPD  <> 0
+PSUBPD  * SUBPD  = sum(PSUBPD[c]  * SUBPD[c]  if SUBPD[c]  <> 0 on c)  if SUBPD  <> 0
 
-          SUBPD  = sum(             SUBPD[c]  if SUBPD[c]  <> 0 on c) if SUBPD  <> 0
+          SUBPD  = sum(             SUBPD[c]  if SUBPD[c]  <> 0 on c)  if SUBPD  <> 0
 
-PVATM   * VATM   = sum(PVATM[c]   * VATM[c]   if VATM[c]   <> 0 on c) if VATM   <> 0
+PVATM   * VATM   = sum(PVATM[c]   * VATM[c]   if VATM[c]   <> 0 on c)  if VATM   <> 0
 
-          VATM   = sum(             VATM[c]   if VATM[c]   <> 0 on c) if VATM   <> 0
+          VATM   = sum(             VATM[c]   if VATM[c]   <> 0 on c)  if VATM   <> 0
 
-POTHPTM * OTHPTM = sum(POTHPTM[c] * OTHPTM[c] if OTHPTM[c] <> 0 on c) if OTHPTM <> 0
+POTHPTM * OTHPTM = sum(POTHPTM[c] * OTHPTM[c] if OTHPTM[c] <> 0 on c)  if OTHPTM <> 0
 
-          OTHPTM = sum(             OTHPTM[c] if OTHPTM[c] <> 0 on c) if OTHPTM <> 0
+          OTHPTM = sum(             OTHPTM[c] if OTHPTM[c] <> 0 on c)  if OTHPTM <> 0
 
-PSUBPM  * SUBPM  = sum(PSUBPM[c]  * SUBPM[c]  if SUBPM[c]  <> 0 on c) if SUBPM  <> 0
+PSUBPM  * SUBPM  = sum(PSUBPM[c]  * SUBPM[c]  if SUBPM[c]  <> 0 on c)  if SUBPM  <> 0
 
-          SUBPM  = sum(             SUBPM[c]  if SUBPM[c]  <> 0 on c) if SUBPM  <> 0
+          SUBPM  = sum(             SUBPM[c]  if SUBPM[c]  <> 0 on c)  if SUBPM  <> 0
 
-PVAT    * VAT    =     PVATD   * VATD   + PVATM   * VATM              if VAT   <> 0
-          VAT    =               VATD   +           VATM              if VAT   <> 0
 
-POTHPT  * OTHPT  =     POTHPTD * OTHPTD + POTHPTM * OTHPTM            if OTHPT <> 0
-      	  OTHPT  =               OTHPTD +           OTHPTM            if OTHPT <> 0
+PVAT    * VAT    = PVATD   * VATD   + PVATM  * VATM                    if VAT    <> 0
+          VAT    =           VATD   +          VATM                    if VAT    <> 0
 
-PSUBP   * SUBP   =     PSUBPD *  SUBPD  + PSUBPM  * SUBPM             if SUBP  <> 0
-          SUBP   =               SUBPD  +           SUBPM             if SUBP  <> 0
+POTHPT  * OTHPT  = POTHPTD * OTHPTD + POTHPTM * OTHPTM                 if OTHPT  <> 0
+      	  OTHPT  =           OTHPTD +           OTHPTM                 if OTHPT  <> 0
+
+PSUBP   * SUBP   = PSUBPD  * SUBPD  + PSUBPM  * SUBPM                  if SUBP   <> 0
+          SUBP   =           SUBPD  +           SUBPM                  if SUBP   <> 0

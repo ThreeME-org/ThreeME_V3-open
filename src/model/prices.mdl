@@ -105,49 +105,49 @@ PMGPD[cc, c] * MGR[cc] = PMGRD[cc] * MGRD[cc] + PMGRM[cc] * MGRM[cc]        if M
 PMGPM[cc, c] = PMGPD[cc, c] if MGPM[cc, c] <> 0
 
 ### Price of domesticly produced margins recieved by commodity c
-PMGRD[c]   = PYQS[c]        if MGRD[c]     <> 0
+PMGRD[c]     = PYQS[c]      if MGRD[c]     <> 0
 
 ### Price of imported margins recieved by commodity c
-PMGRM[c]   = PMS[c]         if MGRM[c]     <> 0
+PMGRM[c]     = PMS[c]       if MGRM[c]     <> 0
 
 ### Price of intermediary raw material consumption domestically produced c of sector s
-PCID[c, s] = PYQS[c]        if CID[c, s]   <> 0
+PCID[c, s]   = PYQS[c]      if CID[c, s]   <> 0
 
 ### Price of the imported intermediary raw material consumption c of sector s
-PCIM[c, s] = PMS[c]         if CIM[c, s]   <> 0
+PCIM[c, s]   = PMS[c]       if CIM[c, s]   <> 0
 
 ### Price of household consumption domestically produced c of sector s
-PCHD[c]    = PYQS[c]        if CHD[c]      <> 0
+PCHD[c]      = PYQS[c]      if CHD[c]      <> 0
 
 ### Price of imported household consumption c of sector s
-PCHM[c]    = PMS[c]         if CHM[c]      <> 0
+PCHM[c]      = PMS[c]       if CHM[c]      <> 0
 
 ### Price of governmental consumption domestically produced c of sector s
-PGD[c]     = PYQS[c]        if GD[c]       <> 0
+PGD[c]       = PYQS[c]      if GD[c]       <> 0
 
 ### Price of imported governmental consumption c of sector s
-PGM[c]     = PMS[c]         if GM[c]       <> 0
+PGM[c]       = PMS[c]       if GM[c]       <> 0
 
 ### Price of investment commodity domestically produced c of sector s
-PID[c, s]  = PYQS[c]        if ID[c, s]    <> 0
+PID[c, s]    = PYQS[c]      if ID[c, s]    <> 0
 
 ### Price of imported investment commodity c of sector s
-PIM[c, s]  = PMS[c]         if IM[c, s]    <> 0
+PIM[c, s]    = PMS[c]       if IM[c, s]    <> 0
 
 ### Price of exported commodity domestically produced c of sector s
-PXD[c]     = PYQS[c]        if XD[c]       <> 0
+PXD[c]       = PYQS[c]      if XD[c]       <> 0
 
 ### Price of re-exported commodity c of sector s
-PXM[c]     = PMS[c]         if XM[c]       <> 0
+PXM[c]       = PMS[c]       if XM[c]       <> 0
 
 ### Price of stock variation commodity domestically produced c of sector s
-PDSD[c]    = PYQS[c]        if DSD[c]      <> 0
+PDSD[c]      = PYQS[c]      if DSD[c]      <> 0
 
 ### Price of imported stock variation commodity of sector s
-PDSM[c]    = PMS[c]         if DSM[c]      <> 0
+PDSM[c]      = PMS[c]       if DSM[c]      <> 0
 
 ## Price of imported commodity c
-PM[c]      = TC * PWD[c]    if M[c]        <> 0
+PM[c]        = TC * PWD[c]  if M[c]        <> 0
 
 ## Notional wage in sector s
 ## This general specification combines various wage equation found in the literature: the Phillips curve and the WS curve. The WS curve à la Layard et al. (2005) requires the following constraints : RHO_W_P[s] = RHO_W_PROG[s] = 1, RHO_W_U[s] = RHO_W_Cons[s] = 0.

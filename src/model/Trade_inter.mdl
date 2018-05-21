@@ -17,47 +17,47 @@ XD[c]   = (1 - phi_XM[c])   * X[c]   if XD[c]   <> 0
 
 # Imported commodity c for margins recieved, private and public consumption and exports
 
-MGRM[c] = phi_MGRM[c] * MGR[c] if MGRM[c] <> 0
+MGRM[c] =      phi_MGRM[c]  * MGR[c] if MGRM[c] <> 0
 
-CHM[c]  = phi_CHM[c]  * CH[c]  if CHM[c]  <> 0
+CHM[c]  =      phi_CHM[c]   * CH[c]  if CHM[c]  <> 0
 
-GM[c]   = phi_GM[c]   * G[c]   if GM[c]   <> 0
+GM[c]   =      phi_GM[c]    * G[c]   if GM[c]   <> 0
 
-XM[c]   = phi_XM[c]   * X[c]   if XM[c]   <> 0
+XM[c]   =      phi_XM[c]    * X[c]   if XM[c]   <> 0
 
 # Import share of commodity c for margins received, private and public consumption and exports
 
-phi_MGRM[c] = 1 /( 1 + @elem( MGRD[c]/MGRM[c], %baseyear) * exp( SUBST_MGRM[c] ) ) if MGRM[c] <> 0
+phi_MGRM[c] = 1 /( 1 + @elem( MGRD[c]/MGRM[c], %baseyear) * exp( SUBST_MGRM[c])) if MGRM[c]   <> 0
 
-phi_CHM[c] 	= 1 /( 1 + @elem( CHD[c]/CHM[c]  , %baseyear) * exp( SUBST_CHM[c] ) )  if CHM[c]  <> 0
+phi_CHM[c] 	= 1 /( 1 + @elem( CHD[c]/CHM[c]  , %baseyear) * exp( SUBST_CHM[c]))  if CHM[c]    <> 0
 
-phi_GM[c] 	= 1 /( 1 + @elem( GD[c]/GM[c]    , %baseyear)	* exp( SUBST_GM[c] ) )   if GM[c]   <> 0
+phi_GM[c] 	= 1 /( 1 + @elem( GD[c]/GM[c]    , %baseyear) * exp( SUBST_GM[c]))   if GM[c]     <> 0
 
-phi_XM[c] 	= 1 /( 1 + @elem( XD[c]/XM[c]    , %baseyear)	* exp( SUBST_XM[c] ) )   if XM[c]   <> 0
+phi_XM[c] 	= 1 /( 1 + @elem( XD[c]/XM[c]    , %baseyear) * exp( SUBST_XM[c]))   if XM[c]     <> 0
 
 
 
-d(SUBST_n_MGRM[c]) 	= - ES_MGRM[c] * d(log(PMGRD[c]) - log(PMGRM[c])) if MGRM[c] <> 0
+d(SUBST_n_MGRM[c]) 	= - ES_MGRM[c] * d(log(PMGRD[c]) - log(PMGRM[c]))            if MGRM[c]   <> 0
 
-d(SUBST_n_CHM[c]) 	= - ES_CHM[c]  * d(log(PCHD[c])  - log(PCHM[c])) 	if CHM[c]  <> 0
+d(SUBST_n_CHM[c]) 	= - ES_CHM[c]  * d(log(PCHD[c])  - log(PCHM[c])) 	         if CHM[c]    <> 0
 
-d(SUBST_n_GM[c]) 	  = - ES_GM[c]   * d(log(PGD[c])   - log(PGM[c])) 	if GM[c]   <> 0
+d(SUBST_n_GM[c]) 	= - ES_GM[c]   * d(log(PGD[c])   - log(PGM[c])) 	         if GM[c]     <> 0
 
-d(SUBST_n_XM[c]) 	  = - ES_XM[c]   * d(log(PXD[c])   - log(PXM[c])) 	if XM[c]   <> 0
+d(SUBST_n_XM[c]) 	= - ES_XM[c]   * d(log(PXD[c])   - log(PXM[c])) 	         if XM[c]     <> 0
 
 # Domestic commodity c for sector s's intermediary consumption and investment
 
-CID[c, s] = (1 - phi_CIM[c, s]) * CI[c, s] if CID[c, s] <> 0
+CID[c, s] = (1 - phi_CIM[c, s]) * CI[c, s]                                       if CID[c, s] <> 0
 
 
-ID[c, s]  = (1 - phi_IM[c, s])  * I[c, s]  if ID[c, s]  <> 0
+ID[c, s]  = (1 - phi_IM[c, s])  * I[c, s]                                        if ID[c, s]  <> 0
 
 # Imported commodity c for sector s's intermediary consumption and investment
 
 
-CIM[c, s] = phi_CIM[c, s]       * CI[c, s] if CIM[c, s] <> 0
+CIM[c, s] =      phi_CIM[c, s]  * CI[c, s]                                       if CIM[c, s] <> 0
 
-IM[c, s]  = phi_IM[c, s]        * I[c, s]  if IM[c, s]  <> 0
+IM[c, s]  =      phi_IM[c, s]   * I[c, s]                                        if IM[c, s]  <> 0
 
 
 
@@ -69,21 +69,21 @@ phi_CIM[c, s] = 1/(1 + @elem(CID[c, s]/CIM[c, s], %baseyear) * exp(SUBST_CIM[c, 
 phi_IM[c, s]  = 1/(1 + @elem(ID[c, s]/IM[c, s],   %baseyear) * exp(SUBST_IM[c, s]))  if IM[c, s]  <> 0
 
 
-d(SUBST_n_CIM[c, s]) = - ES_CIM[c, s] * d(log(PCID[c, s]) - log(PCIM[c, s])) if CIM[c, s] <> 0
+d(SUBST_n_CIM[c, s]) = - ES_CIM[c, s] * d(log(PCID[c, s]) - log(PCIM[c, s]))         if CIM[c, s] <> 0
 
-d(SUBST_n_IM[c, s])  = - ES_IM[c, s] * d(log(PID[c, s]) - log(PIM[c, s]))    if IM[c, s]  <> 0
+d(SUBST_n_IM[c, s])  = - ES_IM[c, s] * d(log(PID[c, s]) - log(PIM[c, s]))            if IM[c, s]  <> 0
 
 
 
 # Exports
-d(log(X[c])) = d(log(WD[c])) + d(SUBST_X[c]) if X[c] <> 0
-d(SUBST_n_X[c]) = -ES_X[c] * d(log(PX[c]) - log(TC * PWD[c])) if X[c] <> 0
+d(log(X[c])) = d(log(WD[c])) + d(SUBST_X[c])                                         if X[c] <> 0
+d(SUBST_n_X[c]) = -ES_X[c] * d(log(PX[c]) - log(TC * PWD[c]))                        if X[c] <> 0
 
 # Trade Balance for commodity c
-Bal_Trade_VAL[c] = PX[c] * X[c] - PM[c] * M[c] if Bal_Trade_VAL[c] <> 0
+Bal_Trade_VAL[c] = PX[c] * X[c] - PM[c] * M[c]          if Bal_Trade_VAL[c] <> 0
 
 # Agregate trade Balance
-Bal_Trade_VAL = sum(Bal_Trade_VAL[c] if Bal_Trade_VAL[c] <> 0 on c)
+Bal_Trade_VAL = sum(Bal_Trade_VAL[c]                    if Bal_Trade_VAL[c] <> 0 on c)
 
 # Trade Balance over GDP ratio
 RBal_Trade_VAL = Bal_Trade_VAL / (PGDP * GDP)
