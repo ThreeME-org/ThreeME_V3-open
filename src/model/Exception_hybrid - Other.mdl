@@ -1,17 +1,6 @@
 include ..\model\lists
 
-#######################################################
-#########         HYBRID         #####################
-########################################################
-### This file provides the equations defining the producer behaviour.
 
-
-# From ThreeME / Master_France_CGDD (30/05/2018)
-# Last commit was: 5f4949ffc7f75da1128dd53c2e1e4c62e1c4b051
-# Files: hybrid_new.mdl; exceptions_AME-AMS.mdl
-
-  # Equation H.4.36: Stock of building per households per
-                                         
  
 
 d(BUIL[ecl]) = (@year>%baseyear)*( phi_NewBUIL[ecl]*(d(BUIL)+BUIL[DES]) _
