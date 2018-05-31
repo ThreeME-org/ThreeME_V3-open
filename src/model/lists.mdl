@@ -23,6 +23,10 @@
 %list_GHG := CO2 CH4 N2O SF6 HFC PFC #[ghg]
 
 
+%list_ener_class := CA CB CC CD CE CF CG #[ecl]
+# %list_buil_class := CA CB CC CD CE CF CG DES #[bcl]
+
+
 
 # Default iterators
 s in %list_sec
@@ -46,6 +50,10 @@ f in %list_F
 ff in %list_F
 
 ghg in %list_GHG
+
+ecl in %list_ener_class
+ecl2 in %list_ener_class
+#bcl in %list_buil_class
 
 O in D M
 

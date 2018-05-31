@@ -5,9 +5,6 @@ subroutine load_calibration
   ' Load parameter from Excel and store them into a matrix (L,C)
 
   
-  matrix(150,1) STEADYSTATE                                     ' Matrix of the coefficients of the Steady state rate
-  STEADYSTATE.read(B2,s=BaselineHypotheses) {%data_calibration}
-
   matrix(40,40) SUT                                     ' Matrix of the SUT data
   SUT.read(E4,s=SUT) {%data_calibration}
 
@@ -16,6 +13,13 @@ subroutine load_calibration
 
   matrix(40,25) TAXES                                  ' Matrix of the detailled taxes data
   TAXES.read(D4,s=TAXES)          {%data_calibration}
+
+  matrix(200,1) Hybrid_BUIL                                  ' Matrix of the detailled taxes data
+  Hybrid_BUIL.read(E4,s=Hybrid_BUIL)          {%data_calibration}
+
+
+  matrix(40,10) Hybrid_TRANS                                  ' Matrix of the detailled taxes data
+  Hybrid_TRANS.read(D5,s=Hybrid_TRANS)          {%data_calibration}
 
 
 
