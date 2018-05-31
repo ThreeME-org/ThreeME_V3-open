@@ -2,30 +2,7 @@ include ..\model\lists
 
 
  
-
-d(BUIL[ecl]) = (@year>%baseyear)*( phi_NewBUIL[ecl]*(d(BUIL)+BUIL[DES]) _
-                                       + sum(REHAB[ecl2,ecl] if REHAB[ecl2,ecl] <> 0 on ecl2) _
-                                       + sum(delta_BUIL[ecl2,ecl]*BUIL[ecl2]{-1} if delta_BUIL[ecl2,ecl] <> 0 on ecl2) _
-                                       - (sum(REHAB[ecl,ecl2] if REHAB[ecl,ecl2] <> 0 on ecl2)) _
-                                       - (sum(delta_BUIL[ecl,bcl]*BUIL[ecl]{-1} if delta_BUIL[ecl,bcl] <> 0 on bcl)))
-
-
- @over d(BUIL[ecl]) = (@year>%baseyear)*( phi_NewBUIL[ecl]*(NewBUIL-BUIL[DES]) _
-                                            + sum(REHAB[ecl2,ecl] if REHAB[ecl2,ecl] <> 0 on ecl2) _
-                                            + sum(delta_BUIL[ecl2,ecl]*BUIL[ecl2]{-1} if delta_BUIL[ecl2,ecl] <> 0 on ecl2) _
-                                            - (sum(REHAB[ecl,ecl2] if REHAB[ecl,ecl2] <> 0 on ecl2)) _
-                                            - (sum(delta_BUIL[ecl,ecl2]*BUIL[ecl]{-1} if delta_BUIL[ecl,ecl2] <> 0 on ecl2))) + _
-                                            (@year<=%baseyear)*(BUIL[ecl]{-1}*STEADYSTATE(2,1))      # corrigé
-  # Equation H.4.37
-  
-  BUIL[DES] = (@year>%baseyear)*(sum(delta_BUIL[ecl,DES] * BUIL[ecl]{-1} if delta_BUIL[ecl,DES] <> 0 on ecl)) + _ 
-                 (@year<=%baseyear)*(@elem(BUIL[DES],%baseyear)*(1+STEADYSTATE(2,1))^(@year-%baseyear))
-   
-  #  Equation H.4.38
-  
-  d(log(BUIL)) = (@year>%baseyear)*(d(log(POP_tot)) + d(log(M2perCapita))) + (@year<=%baseyear)*log(1+STEADYSTATE(2,1)) 
-  
-    
+ 
    
   # Equation H.4.39  H.4.40
   
@@ -187,11 +164,6 @@ GR_PENER_m2_e[ecl] = (@year>%baseyear)*(ADJUST(72,2) * GR_PENER_m2_e[ecl]{-1} + 
    d(log( EXP_13_OTH_VAL ) ) = d( log( DISPINC_VAL ) ) + d( log( 1 - MPS_HH ) )
    
    
-   # Equation H.4.70
-   
-   NewBUIL[ecl] = ( @year > %baseyear ) * phi_NewBUIL[ecl] * ( d( BUIL ) + BUIL[DES] ) + _
-                     ( @year <= %baseyear ) * @elem(NewBUIL[ecl],%baseyear)*(1+STEADYSTATE(2,1))^(@year-%baseyear)
-
    
                        
    #------------------------------------------AGGREGATION NEWBUIL-----------------------------------------------------
