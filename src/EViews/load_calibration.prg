@@ -14,12 +14,12 @@ subroutine load_calibration
   matrix(40,25) TAXES                                  ' Matrix of the detailled taxes data
   TAXES.read(D4,s=TAXES)          {%data_calibration}
 
-  matrix(200,1) Hybrid_BUIL                                  ' Matrix of the detailled taxes data
-  Hybrid_BUIL.read(E4,s=Hybrid_BUIL)          {%data_calibration}
+''  matrix(200,1) Hybrid_BUIL                                  ' Matrix of the hybrid block data
+''  Hybrid_BUIL.read(E4,s=Hybrid_BUIL)          {%data_calibration}
 
 
-  matrix(40,10) Hybrid_TRANS                                  ' Matrix of the detailled taxes data
-  Hybrid_TRANS.read(D5,s=Hybrid_TRANS)          {%data_calibration}
+''  matrix(40,10) Hybrid_TRANS                                  ' Matrix of the hybrid block data
+''  Hybrid_TRANS.read(D5,s=Hybrid_TRANSITION)          {%data_calibration}
 
 
 
