@@ -1,32 +1,21 @@
 include ..\model\lists
 
-# From R / Excel
-VATD[c] := TAXES($c,1) * (1 + GR_REAL) ^ (@year - %baseyear)
 
-OTHPTD[c] := TAXES($c,2) * (1 + GR_REAL) ^ (@year - %baseyear)
-
-SUBPD[c] := TAXES($c,3) * (1 + GR_REAL) ^ (@year - %baseyear)
-
-VATM[c] := TAXES($c,9) * (1 + GR_REAL) ^ (@year - %baseyear)
-
-OTHPTM[c] := TAXES($c,10) * (1 + GR_REAL) ^ (@year - %baseyear)
-
-SUBPM[c] := TAXES($c,11) * (1 + GR_REAL) ^ (@year - %baseyear)
 
 # Special data (inversion of eq. / modification of the equation)
 
-RVATD[c] := VATD[c] / (CHD[c] - VATD[c])
+RVATD[c] := VATD[c] / (CHD[c] - VATD[c] + eps)
 
-ROTHPTD[c] := OTHPTD[c] / YQ[c] 
+ROTHPTD[c] := OTHPTD[c] / (YQ[c] + eps)
 
-RVATM[c] := VATM[c] / (CHM[c] - VATM[c])
+RVATM[c] := VATM[c] / (CHM[c] - VATM[c] + eps)
 
-ROTHPTM[c] := OTHPTM[c] / M[c] 
+ROTHPTM[c] := OTHPTM[c] / (M[c] + eps)
 
-# Subsidy on quantities: the rate increases with the price (necessary for a steady state) 
-RSUBPD[c] := SUBPD[c] / YQ[c] * P
+# Subsidy on quantities: the rate increases with the price (necessary for a steady state)
+RSUBPD[c] := SUBPD[c] / (YQ[c] * P + eps)
 
-RSUBPM[c] := SUBPM[c] / M[c] * P
+RSUBPM[c] := SUBPM[c] / (M[c] * P + eps)
 
 YQSBVAT[c] := YQ[c] + OTHPTD[c] + SUBPD[c] + MGPD[c]
 MSBVAT[c] :=  M[c] + OTHPTM[c] + SUBPM[c] + MGPM[c]
@@ -43,4 +32,3 @@ SUBPM := sum(SUBPM[c] on c)
 VAT := VATD + VATM
 OTHPT := OTHPTD + OTHPTM
 SUBP := SUBPD + SUBPM
-
