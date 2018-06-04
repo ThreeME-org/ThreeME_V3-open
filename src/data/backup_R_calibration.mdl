@@ -1,0 +1,96 @@
+##############
+### Supply side
+##############
+
+### Production of commodity c by sector s at basic price
+Y[c, s] := SUT($c+17,$s) * (1 + GR_REAL) ^ (@year - %baseyear)
+
+### Margins paid to commodity cc on the domestic commodity c
+MGPD[cc, c] := SUT($c+17,$cc+7) * (1 + GR_REAL) ^ (@year - %baseyear)
+
+### Margins paid to commodity cc on the imported commodity c
+MGPM[cc, c] := SUT($c+26,$cc+7) * (1 + GR_REAL) ^ (@year - %baseyear)
+
+### Net taxes on commodity c domestically produced
+NTAXPD[c] := SUT($c+17,13) * (1 + GR_REAL) ^ (@year - %baseyear)
+
+### Net taxes on imported commodity c
+NTAXPM[c] := SUT($c+26,13) * (1 + GR_REAL) ^ (@year - %baseyear)
+
+### Net taxes on the production of sector s
+NTAXI[s] := SUT(8,$s) * (1 + GR_REAL) ^ (@year - %baseyear)
+
+### Super bruto wages paid by sector s (including employees and employers' social contribution)
+
+### Bruto wages paid by sector s including employees (but not employers)' social contribution
+WAGES[s] := SUT(9,$s) * (1 + GR_REAL) ^ (@year - %baseyear)
+
+### Employers' social security contribution paid by sector s
+### RSSC = employeRs' Social Security Contribution
+RSSC[s] := SUT(10,$s) * (1 + GR_REAL) ^ (@year - %baseyear)
+
+### Labor of sector s
+F[L, s] := SUT(11,$s) * (1 + GR_POP) ^ (@year - %baseyear)
+
+### Depreciation rate of the capital of sector s
+Rdep[s] := SUT(13,$s)
+
+
+############################
+### Use side (domestic)
+############################
+
+### Domesticly produced margins recieved by commodity c
+MGRD[c] := SUT($c+17,14) * (1 + GR_REAL) ^ (@year - %baseyear)
+
+### Intermediary raw material consumption domestically produced c of sector s
+CID[c, s] := SUT($c+17,$s+14) * (1 + GR_REAL) ^ (@year - %baseyear)
+
+CHD[c] := SUT($c+17,21) * (1 + GR_REAL) ^ (@year - %baseyear)
+GD[c]  := SUT($c+17,22) * (1 + GR_REAL) ^ (@year - %baseyear)
+
+ID[c, s] := SUT($c+17,$s+22) * (1 + GR_REAL) ^ (@year - %baseyear)
+
+XD[c]  := SUT($c+17,29) * (1 + GR_REAL) ^ (@year - %baseyear)
+DSD[c] := SUT($c+17,30) * (1 + GR_REAL) ^ (@year - %baseyear)
+
+############################
+### Use side (imported)
+############################
+
+### Imported margins recieved by commodity c
+MGRM[c] := SUT($c+26,14) * (1 + GR_REAL) ^ (@year - %baseyear)
+
+### Impoted intermediary raw material consumption c of sector s
+CIM[c, s] := SUT($c+26,$s+14) * (1 + GR_REAL) ^ (@year - %baseyear)
+
+CHM[c] := SUT($c+26,21) * (1 + GR_REAL) ^ (@year - %baseyear)
+GM[c]  := SUT($c+26,22) * (1 + GR_REAL) ^ (@year - %baseyear)
+
+IM[c, s] := SUT($c+26,$s+22) * (1 + GR_REAL) ^ (@year - %baseyear)
+
+DSM[c] := SUT($c+26,30) * (1 + GR_REAL) ^ (@year - %baseyear)
+XM[c]  := SUT($c+26,29) * (1 + GR_REAL) ^ (@year - %baseyear)
+
+############################
+### CONSUMER DATA
+############################
+
+PROP_INC_H_VAL := HH_INC(2,1) * (1 + GR_NOMI) ^ (@year - %baseyear)
+SOC_BENF_VAL := HH_INC(3,1) * (1 + GR_NOMI) ^ (@year - %baseyear)
+TRSF_HH_VAL := HH_INC(4,1) * (1 + GR_NOMI) ^ (@year - %baseyear)
+# INC_SOC_TAX_VAL := HH_INC(5,1) * (1 + GR_NOMI) ^ (@year - %baseyear)
+
+
+# From R / Excel
+VATD[c] := TAXES($c,1) * (1 + GR_REAL) ^ (@year - %baseyear)
+
+OTHPTD[c] := TAXES($c,2) * (1 + GR_REAL) ^ (@year - %baseyear)
+
+SUBPD[c] := TAXES($c,3) * (1 + GR_REAL) ^ (@year - %baseyear)
+
+VATM[c] := TAXES($c,9) * (1 + GR_REAL) ^ (@year - %baseyear)
+
+OTHPTM[c] := TAXES($c,10) * (1 + GR_REAL) ^ (@year - %baseyear)
+
+SUBPM[c] := TAXES($c,11) * (1 + GR_REAL) ^ (@year - %baseyear)
