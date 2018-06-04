@@ -1,6 +1,6 @@
 include ..\model\lists
 
-### This file defines the variables that are not loaded and that can not be calculated from their equation in the model. There may be several reasons: 
+### This file defines the variables that are not loaded and that can not be calculated from their equation in the model. There may be several reasons:
 ### - they are defined by a behavor equation.
 ### - using the equation of the model generate a circular reference
 
@@ -8,33 +8,33 @@ include ..\model\lists
 Xbis[c] := X[c]
 
 ### Calibration of parameter from Equations
-PhiY[c, s] := Y[c, s]/YQ[c]
+PhiY[c, s] := Y[c, s] / (YQ[c] + eps)
 W[s] := WAGES[s] * PWAGES[s] / F[L, s]
 (1 + MARKUP[s]) := PY_n[s] / CU_n[s]
 
-RNTAXPD[c] := NTAXPD[c]/YQ[c]
-RNTAXPM[c] := NTAXPM[c]/ M[c]
+RNTAXPD[c] := NTAXPD[c] / (YQ[c] + eps)
+RNTAXPM[c] := NTAXPM[c] / ( M[c] + eps)
 
-RNTAXI[s] := NTAXI[s]/Y[s]
+RNTAXI[s] := NTAXI[s] / (Y[s] + eps)
 
 RINC_SOC_TAX := INC_SOC_TAX_VAL / DISPINC_BT_VAL
-phi_PROP_INC_H := PROP_INC_H_VAL_n / (PNOS * NOS) 
+phi_PROP_INC_H := PROP_INC_H_VAL_n / (PNOS * NOS + eps)
 
-(1 - MPS_n) := CH_n_VAL / DISPINC_AT_VAL 
+(1 - MPS_n) := CH_n_VAL / DISPINC_AT_VAL
 
-phi_MCH[c] := (CH_n[c] - NCH[c]) * PCH[c] / (CH_n_VAL - PNCH * NCH)
+phi_MCH[c] := (CH_n[c] - NCH[c]) * PCH[c] / (CH_n_VAL - PNCH * NCH + eps)
 
 PARTR := LF/WAPop
 
 # Tax rate for the Employers' social security contribution paid by sector s
-RRSSC[s] := RSSC[s] * PRSSC[s] / (W[s] * F[L, s])
+RRSSC[s] := RSSC[s] * PRSSC[s] / (W[s] * F[L, s] + eps)
 
 
-# Import share of commodity c for margins recieved, private and public consumption, investment and exports 
-phi_|V|M[c] := |V|M[c]/|V|[c] where V in MGR CH G X
+# Import share of commodity c for margins recieved, private and public consumption, investment and exports
+phi_|V|M[c] := |V|M[c] / (|V|[c] + eps) where V in MGR CH G X
 
 # Import share of commodity c bought by sector s for intermediary consumption and investment
-phi_|V|M[c, s] := |V|M[c, s]/|V|[c, s] where V in CI I
+phi_|V|M[c, s] := |V|M[c, s] / (|V|[c, s] + eps) where V in CI I
 
 # From equilibrated steady state
 Stock_SAV_H_VAL := SAV_H_VAL * (1 + GR_NOMI) / GR_NOMI
@@ -61,7 +61,7 @@ I[c, s] := ID[c, s] + IM[c, s]
 
 CH_n_VAL := PCH * CH
 
-EXPG := G 
+EXPG := G
 
 MARKUP_n2[s] := MARKUP_n[s]
 
@@ -158,31 +158,31 @@ verif_PMGRbis[c] := 0
 verif_YQbis[c] := 0
 verif_PYQbis[c] := 0
 
-Verif_PCH_CES := 0 
+Verif_PCH_CES := 0
 
-Verif_phi_CH := 0 
+Verif_phi_CH := 0
 
-Verif_phi_MCH := 0 
+Verif_phi_MCH := 0
 
-Verif_GDPbis := 0 
-Verif_PGDPbis := 0 
+Verif_GDPbis := 0
+Verif_PGDPbis := 0
 
-Verif_GDPter := 0 
-Verif_PGDPter := 0 
+Verif_GDPter := 0
+Verif_PGDPter := 0
 
-Verif_GDP4 := 0 
-Verif_PGDP4 := 0 
+Verif_GDP4 := 0
+Verif_PGDP4 := 0
 
-Verif_CIbis := 0 
-Verif_PCIbis := 0 
+Verif_CIbis := 0
+Verif_PCIbis := 0
 
 
-Verif_Ibis := 0 
-Verif_PIbis := 0 
+Verif_Ibis := 0
+Verif_PIbis := 0
 
-Verif_ALL := 0 
+Verif_ALL := 0
 
-Verif_ALL_ES := 0 
+Verif_ALL_ES := 0
 
 Verif_ES_|V|M[c] := 0  where V in MGR CH G X
 
@@ -197,24 +197,18 @@ verif_EMSbis := 0
 
 
 ## Other Calibrations
-### Calibrated from the volume version of an equation in value. Volume not in the model because of cirlar reference. 
+### Calibrated from the volume version of an equation in value. Volume not in the model because of cirlar reference.
 ### We can not use the Eq of the model:  YQ[c]*PYQ[c] + NTAXPD_VAL[c] + PMGPD[c]*MGPD[c] := PQD[c]*QD[c]
 ### because circular reference with NTAXPD_VAL[c] that depends on YQ[c].
-### 
+###
 YQ[c] := sum(Y[c, s] on s)
 
 
 ### Idem for M[c]. M[c]*PM[c] + NTAXPM_VAL[c] + PMGPM[c]*MGPM[c] := PQM[c]*QM[c]
 ### because circular reference with NTAXPM_VAL[c] that depends on M[c]. Use round 0 instead:
 
-M[c] := SUT($c,7) * (1 + GR_REAL) ^ (@year - %baseyear)
+# M[c] := SUT($c,7) * (1 + GR_REAL) ^ (@year - %baseyear)
 
 # As explained, these can not be the eq of the model (otherwise incorrect price)
 YQS[c] := YQ[c] + NTAXPD[c] + MGPD[c]
-MS[c] := M[c] + NTAXPM[c] + MGPM[c] 
-
-
-
-
-
-
+MS[c] := M[c] + NTAXPM[c] + MGPM[c]
