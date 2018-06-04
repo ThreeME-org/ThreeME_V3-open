@@ -1,0 +1,182 @@
+########################################
+### Calibration of parameters
+########################################
+
+################################
+### Elastiscity of substitutions
+################################
+
+## Between household consumption commodities
+ES_LESCES := 0.5
+
+## Between margins paid on the domestic and imported commodity c
+ES_MGPD[ccc, cc, c] := 0.3
+ES_MGPM[ccc, cc, c] := 0.3
+
+## Between production factors
+ES[f, ff, s] := 0.5
+
+# ES[f, f, s] := 0.0
+
+#ES[K, L, s] := 0.5
+#ES[K, E, s] := 2.0
+#ES[K, MAT, s] := 0.0
+#ES[L, K, s] := ES[K, L, s]
+#ES[E, K, s] := ES[K, E, s]
+#ES[MAT, K, s] := ES[K, MAT, s]
+
+#ES[L, E, s] := 0.2
+#ES[L, MAT, s] := 0.0
+
+#ES[E, L, s] := ES[L, E, s]
+#ES[MAT, L, s] := ES[L, MAT, s]
+
+#ES[E, MAT, s] := 0.0
+#ES[MAT, E, s] := ES[E, MAT, s]
+
+## Between energy intermediary consumption
+ES_NRJ[ce, cee, s] := 0.6
+
+
+## Between transport intermediary consumption
+ES_TRSP[ct, ctt, s] := 0.3
+
+
+## Between domestic and imported commodities for margins recieved, private and public consumption, investment and exports
+ES_|V|M[c] := 0.8 where V in MGR CH G I X
+
+ES_|V|M[c, s] := 0.8 where V in CI I
+
+## Between exported and the rest of world commodities sold abroad
+ES_X[c] := 0.8
+
+################################
+### Other elastiscities
+################################
+
+## Elastiscity of the mark-up to the demand
+RHO_MARKUP_Y := 0.75
+
+# Elastiscity of wages to prices, productivity, unemployment and labor
+
+RHO_W_Pe[s] := 1
+RHO_W_P[s] := 1 - RHO_W_Pe[s]
+RHO_W_PROG[s] := 1
+RHO_W_U[s] := 0.0
+RHO_W_DU[s] := 1.8
+RHO_W_L[s] := 0
+
+RHO_W_Cons[s] := log(1+GR_NOMIW) - (RHO_W_P[s] + RHO_W_Pe[s])*log(1+GR_PRICES) - RHO_W_PROG[s]*log(1+GR_PROG_L) + RHO_W_U[s] * UnR
+
+
+# In the interest rate equation
+### If the country is part of a currency zone, a share is applied in the elasticity between the interest rate and inflation or the unemployment rate. For instance, we assume that France weight in the Euro Zone is 21 %. A approximation of a policy appplied at the EU level would consist in applying a weight of 100%.
+
+RHO_Rdir_P 	  := 0.21 * (1 + 0.5)
+RHO_Rdir_UnR  := 0.21 * 0.5
+# To simulate a monetary policy shock
+RHO_Rdir_Cons := 0
+
+
+# In the equation of the marginal propensity to save
+RHO_MPS_R := 0.0
+RHO_MPS_UnR := 0.0
+
+# In the labor force participation rate equation
+RHO_PART_UnR := 0.3
+
+# Endogenous energy efficiency
+RHO_PROG_E_PE := 0
+
+################################
+### Adjustment parameters
+################################
+
+# In the price equation
+ADJUST0_PY[s] := 0.5
+ADJUST1_PY[s] := 0.7
+ADJUST2_PY[s] := 0.1
+ADJUST3_PY[s] := 1 - ADJUST1_PY[s] - ADJUST2_PY[s]
+
+## In the expected price equation
+
+ADJUST_Pe_P1 := 0.7
+
+# In wage Equation
+ADJUST_W_Wn[s] := 0.4
+ADJUST_W_W1[s] := 1 - ADJUST_W_Wn[s]
+ADJUST_W_W1Wn1[s] := 0.05
+
+# In the interest rate equation
+ADJUST0_R := 0.5
+
+
+# In the production factor equation
+ADJUST0_F[L, s] := 0.5
+ADJUST0_F[E, s] := 0.9
+ADJUST0_F[MAT, s] := 0.9
+
+ADJUST1_F[f, s] := 0.7
+ADJUST2_F[f, s] := 0.1
+ADJUST3_F[f, s] := 1 - ADJUST1_F[f, s] - ADJUST2_F[f, s]
+
+# In the investment equation
+ADJUST_IA_Ye[s] := 1
+ADJUST_IA_IA1[s] := 1 - ADJUST_IA_Ye[s]
+ADJUST_IA_SUBST[s] := 0.5
+ADJUST_IA_Kn[s] := 0.05
+
+#ADJUST0_IA[s] := 0.05
+#ADJUST1_IA[s] := 1.0
+#ADJUST2_IA[s] := 0.0
+#ADJUST3_IA[s] := 1 - ADJUST1_IA[s] - ADJUST2_IA[s]
+
+# In the substitution of production factors
+# 6 for substitution (Eviews limit for variables in model: 24 letters)
+ADJUST6_F[f, s] := 0.3
+
+ADJUST6_MGPD[cc, c] := 0.3
+
+ADJUST6_MGPM[cc, c] := 0.3
+
+ADJUST6_CI[ce, s] := 0.3
+ADJUST6_CI[ct, s] := 0.3
+
+ADJUST6_|V|M[c] := 0.3 where V in MGR CH G X
+
+ADJUST6_|V|M[c, s] := 0.3 where V in CI I
+
+ADJUST6_X[c] := 0.3
+
+## In the expected production equation
+ADJUST_Ye_Y[s] := 0.7
+
+## In the mark-up equation
+
+ADJUST_MARKUP[s] := 0.5
+
+## In the production capacity equation
+## To be deleted!!!!
+ADJUST_YCAP_Y[s] := 0.0
+
+# In consumption equation
+ADJUST0_CH[c] := 0.6
+ADJUST1_CH[c] := 0.7
+ADJUST2_CH[c] := 0.1
+ADJUST3_CH[c] := 1 - ADJUST1_CH[c] - ADJUST2_CH[c]
+
+# In the participation ratio equation
+ADJUST0_PARTR := 0.5
+
+
+# In the households property income  equation
+ADJUST0_PROP_INC_H_VAL := 0.2
+ADJUST1_PROP_INC_H_VAL := 0.7
+ADJUST2_PROP_INC_H_VAL := 0.1
+ADJUST3_PROP_INC_H_VAL := 1 - ADJUST1_PROP_INC_H_VAL - ADJUST2_PROP_INC_H_VAL
+
+# In the Government property income  equation
+ADJUST0_PROP_INC_G_VAL := 0.2
+ADJUST1_PROP_INC_G_VAL := 0.7
+ADJUST2_PROP_INC_G_VAL := 0.1
+ADJUST3_PROP_INC_G_VAL := 1 - ADJUST1_PROP_INC_G_VAL - ADJUST2_PROP_INC_G_VAL

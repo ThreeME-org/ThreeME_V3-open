@@ -1,45 +1,22 @@
 include ..\model\lists
 
-########################################################
-### Hypothesis for the long term of model
-########################################################
+include parameters
+include R_Calibration
+include elasticities
 
-### Population growth rate
-GR_POP    := 0.0029
+eps := 1e-12
 
-### Growth rate of technical progress for capital, labor, energy and material
-GR_PROG[L] := 0.0170
+### Production capacity (depends on the hypothesis regarding the long term capacity utilisation ratio)
+YCAP[s] := Y[s] / 0.8
 
-GR_PROG[K] := 0.0
-GR_PROG[E] := 0.0
-GR_PROG[MAT] := 0.0
+### Capital stock of sector s
+F[K, s] := I[s] * (1 + GR_REAL) / (Rdep[s] + GR_REAL)
 
+NCH[c] := 0.0 * CH[c]
 
-### Inflation (growth rate of prices)
-GR_PRICES := 0.0200
+RR_Un := 0.3
 
-### Risk premium
-RISKPREM := 0.0100
-
-### Growth rate of the real economy
-GR_REAL := (1 + GR_POP)*(1 + GR_PROG_L) - 1
-
-### Growth rate of the nominal economy
-GR_NOMI := (1 + GR_POP)*(1 + GR_PROG_L)*(1 + GR_PRICES) - 1
-
-### Growth rate of the nominal wage
-GR_NOMIW := (1 + GR_PRICES)*(1 + GR_PROG_L) - 1
-
-### Interest rates
-# Of the Central Bank
-R := GR_NOMI - RISKPREM
-
-# Of sectors and of the Government (Interest of the CB plus a premium)
-R[s] := R + 0
-r_DEBT_G := r + 0
-
-### Grothw rate of technical progress in sectors for the production factors
-GR_PROG[f, s] := GR_PROG[f]
+RR_POP * @elem(W, %baseyear) * PROG_L * P * POP :=SOC_BENF_VAL - RR_Un * W * Un
 
 ##############
 ### Indexes
@@ -51,102 +28,6 @@ PROG[f, s] := 1 * (1 + GR_PROG[f, s]) ^ (@year - %baseyear)
 
 WD[c] := 1 * (1 + GR_REAL) ^ (@year - %baseyear)
 
-##############
-### Supply side
-##############
-
-### Production capacity (depends on the hypothesis regarding the long term capacity utilisation ratio)
-YCAP[s] := Y[s] / 0.8
-
-### Production of commodity c by sector s at basic price        
-Y[c, s] := SUT($c+17,$s) * (1 + GR_REAL) ^ (@year - %baseyear)
-
-### Margins paid to commodity cc on the domestic commodity c 
-MGPD[cc, c] := SUT($c+17,$cc+7) * (1 + GR_REAL) ^ (@year - %baseyear)
-
-### Margins paid to commodity cc on the imported commodity c 
-MGPM[cc, c] := SUT($c+26,$cc+7) * (1 + GR_REAL) ^ (@year - %baseyear)
-
-### Net taxes on commodity c domestically produced
-NTAXPD[c] := SUT($c+17,13) * (1 + GR_REAL) ^ (@year - %baseyear)
-
-### Net taxes on imported commodity c
-NTAXPM[c] := SUT($c+26,13) * (1 + GR_REAL) ^ (@year - %baseyear)
-
-### Net taxes on the production of sector s
-NTAXI[s] := SUT(8,$s) * (1 + GR_REAL) ^ (@year - %baseyear)
-
-### Super bruto wages paid by sector s (including employees and employers' social contribution)
-
-### Bruto wages paid by sector s including employees (but not employers)' social contribution
-WAGES[s] := SUT(9,$s) * (1 + GR_REAL) ^ (@year - %baseyear)            
-
-### Employers' social security contribution paid by sector s
-### RSSC = employeRs' Social Security Contribution 
-RSSC[s] := SUT(10,$s) * (1 + GR_REAL) ^ (@year - %baseyear) 
-
-### Labor of sector s 
-F[L, s] := SUT(11,$s) * (1 + GR_POP) ^ (@year - %baseyear)
-
-### Depreciation rate of the capital of sector s
-Rdep[s] := SUT(13,$s) 
-# TO DO. Use an english name: TDepr
-
-### Capital stock of sector s 
-F[K, s] := I[s] * (1 + GR_REAL) / (Rdep[s] + GR_REAL)
-
-############################
-### Use side (domestic)
-############################
-
-### Domesticly produced margins recieved by commodity c 
-MGRD[c] := SUT($c+17,14) * (1 + GR_REAL) ^ (@year - %baseyear)
-
-### Intermediary raw material consumption domestically produced c of sector s
-CID[c, s] := SUT($c+17,$s+14) * (1 + GR_REAL) ^ (@year - %baseyear)
-
-CHD[c] := SUT($c+17,21) * (1 + GR_REAL) ^ (@year - %baseyear)
-GD[c]  := SUT($c+17,22) * (1 + GR_REAL) ^ (@year - %baseyear)
-
-ID[c, s] := SUT($c+17,$s+22) * (1 + GR_REAL) ^ (@year - %baseyear)
-
-XD[c]  := SUT($c+17,29) * (1 + GR_REAL) ^ (@year - %baseyear)
-DSD[c] := SUT($c+17,30) * (1 + GR_REAL) ^ (@year - %baseyear)
-
-############################
-### Use side (imported)
-############################
-
-### Imported margins recieved by commodity c
-MGRM[c] := SUT($c+26,14) * (1 + GR_REAL) ^ (@year - %baseyear)
-
-### Impoted intermediary raw material consumption c of sector s
-CIM[c, s] := SUT($c+26,$s+14) * (1 + GR_REAL) ^ (@year - %baseyear)        
-
-CHM[c] := SUT($c+26,21) * (1 + GR_REAL) ^ (@year - %baseyear)
-GM[c]  := SUT($c+26,22) * (1 + GR_REAL) ^ (@year - %baseyear)
-
-IM[c, s] := SUT($c+26,$s+22) * (1 + GR_REAL) ^ (@year - %baseyear)
-
-DSM[c] := SUT($c+26,30) * (1 + GR_REAL) ^ (@year - %baseyear)
-XM[c]  := SUT($c+26,29) * (1 + GR_REAL) ^ (@year - %baseyear)
-
-############################
-### CONSUMER DATA
-############################
-
-PROP_INC_H_VAL := HH_INC(2,1) * (1 + GR_NOMI) ^ (@year - %baseyear) 
-SOC_BENF_VAL := HH_INC(3,1) * (1 + GR_NOMI) ^ (@year - %baseyear)
-TRSF_HH_VAL := HH_INC(4,1) * (1 + GR_NOMI) ^ (@year - %baseyear)
-# INC_SOC_TAX_VAL := HH_INC(5,1) * (1 + GR_NOMI) ^ (@year - %baseyear) 
-
-
-NCH[c] := 0.0 * CH[c]
-
-RR_Un := 0.3
-
-#RR_POP * W * POP := SOC_BENF_VAL - RR_Un * W * Un
-RR_POP * @elem(W, %baseyear) * PROG_L * P * POP :=SOC_BENF_VAL - RR_Un * W * Un
 
 ############################
 ### DEMOGRAPHY DATA
@@ -162,16 +43,16 @@ empl := F[L]
 ############################
 
 EMS_CI[ghg,c,s] := 1 * (1 + GR_REAL) ^ (@year - %baseyear)
-IEMS_CI[ghg,c,s] := 1 
+IEMS_CI[ghg,c,s] := 1
 
 EMS_MAT[ghg,s] := 1 * (1 + GR_REAL) ^ (@year - %baseyear)
-IEMS_MAT[ghg,s] := 1 
+IEMS_MAT[ghg,s] := 1
 
 EMS_Y[ghg,s] := 1 * (1 + GR_REAL) ^ (@year - %baseyear)
-IEMS_Y[ghg,s] := 1 
+IEMS_Y[ghg,s] := 1
 
 EMS_CH[ghg,c] := 1 * (1 + GR_REAL) ^ (@year - %baseyear)
-IEMS_CH[ghg,c] := 1 
+IEMS_CH[ghg,c] := 1
 
 ############################
 ### OTHER DATA
@@ -181,10 +62,10 @@ IEMS_CH[ghg,c] := 1
 Phi_RD_G := 1/20
 
 ## Debt of the Governement
-## The debt of the Governement is calibrated such that the ratio between the debt and the GDP is constant at the steady state (given the public spendings and the governmental incomes at the base year). It may thus differ from the effective debt. 
+## The debt of the Governement is calibrated such that the ratio between the debt and the GDP is constant at the steady state (given the public spendings and the governmental incomes at the base year). It may thus differ from the effective debt.
 # DEBT_G_VAL * (GR_NOMI - r_DEBT_G{-1}) / (1 + GR_NOMI) := (PG  * G  + SOC_BENF_VAL) - INC_G_VAL
 
-## To have a steady state, we can alternatively use the effective debt at the base year and derive the social and income taxes (INC_SOC_TAX_VAL) that would allows a constant ratio between the debt and the GDP over time. In this case, the calibrated value of the social and income taxes may differ from the efective ones. To do so we need to use the following formulas:    
+## To have a steady state, we can alternatively use the effective debt at the base year and derive the social and income taxes (INC_SOC_TAX_VAL) that would allows a constant ratio between the debt and the GDP over time. In this case, the calibrated value of the social and income taxes may differ from the efective ones. To do so we need to use the following formulas:
 DEBT_G_VAL := 0.816 * PGDP * GDP
 INC_SOC_TAX_VAL := (PG  * G  + SOC_BENF_VAL) - DEBT_G_VAL * (GR_NOMI - r_DEBT_G{-1}) / (1 + GR_NOMI) - (PNTAXP * NTAXP + NTAXI_VAL + PRSSC * RSSC + PROP_INC_G_VAL)
 
@@ -193,188 +74,3 @@ phi_PROP_INC_G := (1 - phi_PROP_INC_H)*1
 
 ## Share of the net operating surplus going to the Rest of the World
 phi_PROP_INC_ROW := 1 - phi_PROP_INC_H - phi_PROP_INC_G
-
-
-
-########################################
-### Calibration of parameters
-########################################
-
-################################
-### Elastiscity of substitutions
-################################
-
-## Between household consumption commodities
-ES_LESCES := 0.5
-
-## Between margins paid on the domestic and imported commodity c
-ES_MGPD[ccc, cc, c] := 0.3
-ES_MGPM[ccc, cc, c] := 0.3
-
-## Between production factors
-ES[f, ff, s] := 0.5
-
-# ES[f, f, s] := 0.0
-
-#ES[K, L, s] := 0.5
-#ES[K, E, s] := 2.0
-#ES[K, MAT, s] := 0.0
-#ES[L, K, s] := ES[K, L, s]
-#ES[E, K, s] := ES[K, E, s]
-#ES[MAT, K, s] := ES[K, MAT, s]
-
-#ES[L, E, s] := 0.2
-#ES[L, MAT, s] := 0.0
-
-#ES[E, L, s] := ES[L, E, s]
-#ES[MAT, L, s] := ES[L, MAT, s]
-
-#ES[E, MAT, s] := 0.0
-#ES[MAT, E, s] := ES[E, MAT, s]
-
-## Between energy intermediary consumption
-ES_NRJ[ce, cee, s] := 0.6
-
-
-## Between transport intermediary consumption
-ES_TRSP[ct, ctt, s] := 0.3 
-
-
-## Between domestic and imported commodities for margins recieved, private and public consumption, investment and exports
-ES_|V|M[c] := 0.8 where V in MGR CH G I X
-
-ES_|V|M[c, s] := 0.8 where V in CI I
-
-## Between exported and the rest of world commodities sold abroad
-ES_X[c] := 0.8
-
-################################
-### Other elastiscities
-################################
-
-## Elastiscity of the mark-up to the demand
-RHO_MARKUP_Y := 0.75
-
-# Elastiscity of wages to prices, productivity, unemployment and labor
-
-RHO_W_Pe[s] := 1
-RHO_W_P[s] := 1 - RHO_W_Pe[s]
-RHO_W_PROG[s] := 1
-RHO_W_U[s] := 0.0
-RHO_W_DU[s] := 1.8
-RHO_W_L[s] := 0
-
-RHO_W_Cons[s] := log(1+GR_NOMIW) - (RHO_W_P[s] + RHO_W_Pe[s])*log(1+GR_PRICES) - RHO_W_PROG[s]*log(1+GR_PROG_L) + RHO_W_U[s] * UnR 
-
-
-# In the interest rate equation
-### If the country is part of a currency zone, a share is applied in the elasticity between the interest rate and inflation or the unemployment rate. For instance, we assume that France weight in the Euro Zone is 21 %. A approximation of a policy appplied at the EU level would consist in applying a weight of 100%.
-
-RHO_Rdir_P 	  := 0.21 * (1 + 0.5)
-RHO_Rdir_UnR  := 0.21 * 0.5 
-# To simulate a monetary policy shock
-RHO_Rdir_Cons := 0
-
-
-# In the equation of the marginal propensity to save
-RHO_MPS_R := 0.0
-RHO_MPS_UnR := 0.0
-
-# In the labor force participation rate equation
-RHO_PART_UnR := 0.3
-
-# Endogenous energy efficiency
-RHO_PROG_E_PE := 0
-
-################################
-### Adjustment parameters
-################################
-
-# In the price equation
-ADJUST0_PY[s] := 0.5
-ADJUST1_PY[s] := 0.7
-ADJUST2_PY[s] := 0.1
-ADJUST3_PY[s] := 1 - ADJUST1_PY[s] - ADJUST2_PY[s]
-
-## In the expected price equation
-
-ADJUST_Pe_P1 := 0.7
-
-# In wage Equation
-ADJUST_W_Wn[s] := 0.4
-ADJUST_W_W1[s] := 1 - ADJUST_W_Wn[s]
-ADJUST_W_W1Wn1[s] := 0.05
-
-# In the interest rate equation
-ADJUST0_R := 0.5
-
-
-# In the production factor equation
-ADJUST0_F[L, s] := 0.5
-ADJUST0_F[E, s] := 0.9
-ADJUST0_F[MAT, s] := 0.9
-
-ADJUST1_F[f, s] := 0.7
-ADJUST2_F[f, s] := 0.1
-ADJUST3_F[f, s] := 1 - ADJUST1_F[f, s] - ADJUST2_F[f, s]
-
-# In the investment equation
-ADJUST_IA_Ye[s] := 1
-ADJUST_IA_IA1[s] := 1 - ADJUST_IA_Ye[s]
-ADJUST_IA_SUBST[s] := 0.5
-ADJUST_IA_Kn[s] := 0.05
-
-#ADJUST0_IA[s] := 0.05
-#ADJUST1_IA[s] := 1.0
-#ADJUST2_IA[s] := 0.0
-#ADJUST3_IA[s] := 1 - ADJUST1_IA[s] - ADJUST2_IA[s]
-
-# In the substitution of production factors
-# 6 for substitution (Eviews limit for variables in model: 24 letters)
-ADJUST6_F[f, s] := 0.3
-
-ADJUST6_MGPD[cc, c] := 0.3
-
-ADJUST6_MGPM[cc, c] := 0.3
-
-ADJUST6_CI[ce, s] := 0.3 
-ADJUST6_CI[ct, s] := 0.3
-
-ADJUST6_|V|M[c] := 0.3 where V in MGR CH G X
-
-ADJUST6_|V|M[c, s] := 0.3 where V in CI I
-
-ADJUST6_X[c] := 0.3
-
-## In the expected production equation
-ADJUST_Ye_Y[s] := 0.7
-
-## In the mark-up equation
-
-ADJUST_MARKUP[s] := 0.5
-
-## In the production capacity equation
-## To be deleted!!!!
-ADJUST_YCAP_Y[s] := 0.0
-
-# In consumption equation
-ADJUST0_CH[c] := 0.6
-ADJUST1_CH[c] := 0.7
-ADJUST2_CH[c] := 0.1
-ADJUST3_CH[c] := 1 - ADJUST1_CH[c] - ADJUST2_CH[c]
-
-# In the participation ratio equation
-ADJUST0_PARTR := 0.5
-
-
-# In the households property income  equation
-ADJUST0_PROP_INC_H_VAL := 0.2
-ADJUST1_PROP_INC_H_VAL := 0.7
-ADJUST2_PROP_INC_H_VAL := 0.1
-ADJUST3_PROP_INC_H_VAL := 1 - ADJUST1_PROP_INC_H_VAL - ADJUST2_PROP_INC_H_VAL
-
-# In the Government property income  equation
-ADJUST0_PROP_INC_G_VAL := 0.2
-ADJUST1_PROP_INC_G_VAL := 0.7
-ADJUST2_PROP_INC_G_VAL := 0.1
-ADJUST3_PROP_INC_G_VAL := 1 - ADJUST1_PROP_INC_G_VAL - ADJUST2_PROP_INC_G_VAL
