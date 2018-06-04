@@ -1,20 +1,4 @@
-# List of sectors
-%list_sec := AIND ATPT ATPO ASER ANRE ANFO #[s]
-
-# List of commodities
-%list_com := CIND CTRP CSER CNJN CNJM #[c]
-
-# List of material commodities
-%list_com_MAT := CIND CTRP CSER   #[cm]
-
-# List of transport commodities
-%list_com_TRSP := CTRP   #[ct]
-
-# List of energy commodities
-%list_com_E := CNJN CNJM  #[ce]
-
-# List of other material commodities
-%list_com_MATO := CIND CSER   #[cmo]
+include .\R_lists
 
 # List of production factors
 %list_F := K L E MAT  #[f]
