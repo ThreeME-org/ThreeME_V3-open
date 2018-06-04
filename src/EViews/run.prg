@@ -1,13 +1,13 @@
-' ============================================================================ 
+' ============================================================================
 ' Series of subroutines used to run the model
 
 ' Additional user defined run subroutines in the file "run_extra.prg"
-' Here only the basic run subroutine! 
-' ============================================================================ 
+' Here only the basic run subroutine!
+' ============================================================================
 
 
 
-' ============================================================================ 
+' ============================================================================
 ' +++++++++++++++++++
 ' Subroutine "Run"
 ' +++++++++++++++++++
@@ -40,7 +40,7 @@ if %load="new"  then
 
     ' Create the series using the dependencies (add-ins "series")
     {%modelname}.series round0 Prices_data SU_data Special_data Other_data Exception_taxes_prices_data Exception_NestedCES_data
-    
+
     ' Export all variables to a csv file (used by the external compiler)
     call export_all_to_csv
 
@@ -72,7 +72,7 @@ endif
 
   ' Clean up results folder
   %cmd = @left(@linepath, 2) + " & cd " + @addquotes(@linepath) + " & del /Q ..\..\results\*.txt"
-  shell(h) {%cmd}
+  'shell(h) {%cmd}
 
   '************************************************
   '*********** SOLVE SCENARIOS ********************
@@ -90,7 +90,7 @@ endif
        call run_standard("EXPG1")
 
           ' call run_enr("PPE_ENRhaut")
- 
+
   ' ***************************************
   ' Call (eventually) here the subroutine you want to use to analyse the results
     call additional_outputs("Fred")
@@ -118,18 +118,18 @@ endif
 endsub
 
 
-' ============================================================================ 
+' ============================================================================
 ' +++++++++++++++++++++++++++
 ' Subroutine "run_baseshock"
 ' +++++++++++++++++++++++++++
 
 ' This subroutine performs a simple shock:
 ' - run the baseline scenario
-' - run the shock scenario 
+' - run the shock scenario
 
 ' Possibility to use list of hypothesis (specified in the file configuration.prg)
 ' - Data calibration
-' - Data shock 
+' - Data shock
 
 subroutine run_baseshock
 
@@ -147,7 +147,7 @@ subroutine run_baseshock
 
 endsub
 
-' ============================================================================ 
+' ============================================================================
 ' +++++++++++++++++++++++++++
 ' Subroutine "run_scenario"
 ' +++++++++++++++++++++++++++
@@ -180,4 +180,3 @@ subroutine run_scenario(string %scenario_name)
   endif
 
 endsub
-
