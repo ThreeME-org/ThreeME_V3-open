@@ -150,7 +150,7 @@ PDS   * DS   = PDSD  * DSD  + PDSM  * DSM  							 if DS   	<> 0
 ###### SUPPY SIDE ###
 #####################
 
-### Margins paid to on domestic and imported commodity c 		(value & volume)
+### Margins paid on domestic and imported commodity c 		(value & volume)
 
 PMGPD[c] * MGPD[c] = sum(PMGPD[cc, c] * MGPD[cc, c] if MGPD[cc, c] <> 0 on cc) 	   if MGPD[c]  	 <> 0
 		   MGPD[c] = sum(			    MGPD[cc, c] if MGPD[cc, c] <> 0 on cc) 	   if MGPD[c]  	 <> 0
