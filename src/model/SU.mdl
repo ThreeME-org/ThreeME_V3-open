@@ -317,8 +317,8 @@ PGDP 	* GDP 	 = PCH 	  * CH	  + PG 	  * G 	 + PI 	 * I 	+ PX 	* X    + PDS    * 
 
 # GDP for commodity c (value & volume)
 
-PGDP[c] * GDP[c] = PCH[c] * CH[c] + PG[c] * G[c] + PI[c] * I[c] + PX[c] * X[c] + PDS[c] * DS[c] - PM[c] * M[c]
-		  GDP[c] = 			CH[c] + 		G[c] + 		   I[c] + 		  X[c] + 		  DS[c] - 		  M[c]
+PGDP[c] * GDP[c] = PCH[c] * CH[c] + PG[c] * G[c] + PI[c] * I[c] + PX[c] * X[c] + PDS[c] * DS[c] - PM[c] * M[c] 		if GDP[c] <> 0
+		  GDP[c] = 			CH[c] + 		G[c] + 		   I[c] + 		  X[c] + 		  DS[c] - 		  M[c]		if GDP[c] <> 0
 
 ## Agregated GDP (value & volume) calculated from the GDP per using commodity
 

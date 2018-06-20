@@ -12,7 +12,7 @@
 
 # Average tax rate on commodity c domestically produced
 # This rate become now endogenous by inverted the equation of NTAXPD_VAL[c]. This specification guaranty that equality accountancy between the various GDP definition.
-RNTAXPD[c] = NTAXPD_VAL[c] / (PYQ[c] * YQ[c])
+RNTAXPD[c] = NTAXPD_VAL[c] / (PYQ[c] * YQ[c])     if YQ[c] <> 0
 
 # Net taxes on imported commodity c (value & volume)
 @over NTAXPM_VAL[c] = PVATM[c] * VATM[c] + POTHPTM[c] * OTHPTM[c] + PSUBPM[c] * SUBPM[c]        if NTAXPM_VAL[c] <> 0
@@ -20,7 +20,7 @@ RNTAXPD[c] = NTAXPD_VAL[c] / (PYQ[c] * YQ[c])
 @over NTAXPM[c]     =            VATM[c] +              OTHPTM[c] +             SUBPM[c]        if NTAXPM[c]     <> 0
 
 # Average tax rate on imported commodity c
-RNTAXPM[c] = NTAXPM_VAL[c] / (PM[c]  * M[c] )
+RNTAXPM[c] = NTAXPM_VAL[c] / (PM[c]  * M[c] )   if M[c] <> 0
 
 # Value-added tax on domestic commodities c (value & volume)
 PVATD[c]   * VATD[c]   =       RVATD[c] * PCHD[c]     * CHD[c] / (1 + RVATD[c])                 if VATD[c]       <> 0

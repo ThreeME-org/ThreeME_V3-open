@@ -21,7 +21,7 @@ verif_PMbis[c] = (PMbis[c]/PM[c] - 1)*100 if M[c] <> 0
 verif_MGRbis[c] = (MGRbis[c]/MGR[c] - 1)*100 if MGR[c] <> 0
 verif_PMGRbis[c] = (PMGRbis[c]/PMGR[c] - 1)*100 if MGR[c] <> 0
 
-verif_YQbis[c] = (YQbis[c]/YQ[c] - 1)*100
+verif_YQbis[c] = (YQbis[c]/YQ[c] - 1)*100  if YQ[c] <> 0
 verif_PYQbis[c] = (PYQbis[c]/PYQ[c] - 1)*100
 
 Verif_PCH_CES = (PCH/PCH_CES - 1)*100  if ES_LESCES <> 1

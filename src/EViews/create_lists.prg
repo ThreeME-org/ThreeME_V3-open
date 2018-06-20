@@ -4,11 +4,11 @@
 
 subroutine create_lists
 
-  %list_sec = "AIND ATPT ATPO ASER ANRE ANFO" '[s]
+  %list_sec = "sagr sfor smin sfoo sveh sgla spap sche spla smet sigo scgo scon srai sroa swat sair spri spub scoa soil sbif sgas senu seoi sega seco sewi seso sehy sech seot" '[s]
 
-  %list_com = "CIND CSER CNRJ" '[c]
-  %list_com_MAT = "CIND CSER"  '[cm]
-  %list_com_E = "CNRJ" '[ce]
+  %list_com = "cagr cfor cmin cfoo cveh cgla cpap cche cpla cmet cigo ccgo ccon crai croa cwat cair cpri cpub ccoa cfue coil cele cgas cbio chea" '[c]
+  %list_com_MAT = "cagr cfor cmin cfoo cveh cgla cpap cche cpla cmet cigo ccgo ccon crai croa cwat cair cpri cpub chea"  '[cm]
+  %list_com_E = "ccoa cfue coil cele cgas cbio" '[ce]
 
 
 endsub
