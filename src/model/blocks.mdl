@@ -7,13 +7,13 @@ include ..\model\Producer
 
 #include ..\model\Consumer
 
-#include ..\model\Government
+include ..\model\Government
 
-#include ..\model\Trade_inter
+include ..\model\Trade_inter
 
-#include ..\model\Demography
+include ..\model\Demography
 
-#include ..\model\Adjustments
+include ..\model\Adjustments
 
 include ..\model\Verif
 

@@ -287,7 +287,7 @@ PWAGES * WAGES = sum(PWAGES[s] * WAGES[s] if WAGES[s] <> 0 on s) if WAGES <> 0
 GOS_VAL[s] = VA_VAL[s] - PWAGES[s] * WAGES[s] - PRSSC[s] * RSSC[s] - NTAXI_VAL[s]
 GOS[s] 	   = VA[s] 	   - 			 WAGES[s] - 		   RSSC[s] - NTAXI[s]
 
-### The exact definition of the GOS generally exclude tax on profit. We do not do it here for simplicity and assume that NTAXI[s] includes all net taxes on capital (i.e. tax on production and profits). This should be taken into account if one wants to use the GOS as a basis for the profit taxes.
+### The exact definition of the GOS generally include tax on profit. For simplicity we exclude here by assuming that NTAXI[s] includes all net taxes on capital (i.e. tax on production and profits). This should be taken into account if one wants to use the GOS as a basis for the profit taxes.
 
 # Aggregate gross operating surplus (value & volume)
 
