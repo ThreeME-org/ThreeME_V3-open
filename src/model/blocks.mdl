@@ -5,7 +5,7 @@ include ..\model\Prices
 
 include ..\model\Producer
 
-#include ..\model\Consumer
+include ..\model\Consumer
 
 include ..\model\Government
 
