@@ -4,20 +4,20 @@
 ### This file provides the equations defining the producer behaviour.
 ### Equation are behavioral. They are not used to calibration variable. They may be inverted to calibrate a parameter.
 
-### Margins paid to commodity cc on the domestic commodity c
+### Margins paid to commodity m on the domestic commodity c
 ### the growth in demand for margins follows the growth of aggregate demand for the commodity c and a substitution term
-d(log(MGPD[cc, c])) = d(log(YQ[c])) + d(SUBST_MGPD[cc, c])                                                                                      if MGPD[cc, c] <> 0
+d(log(MGPD[m, c])) = d(log(YQ[c])) + d(SUBST_MGPD[m, c])                                                                                      if MGPD[m, c] <> 0
 
-SUBST_n_MGPD[cc, c] = sum(- ES_MGPD[cc, ccc, c] * phi_MGPD[ccc, c]{-1} * d(log(PMGPD[cc, c]) - log(PMGPD[ccc, c])) if MGPD[ccc, c] <> 0 on ccc) if MGPD[cc, c] <> 0
+SUBST_n_MGPD[m, c] = sum(- ES_MGPD[m, mm, c] * phi_MGPD[mm, c]{-1} * d(log(PMGPD[m, c]) - log(PMGPD[mm, c])) if MGPD[mm, c] <> 0 on mm) if MGPD[m, c] <> 0
 
-# phi_MGPD[cc, c]     = PMGPD[cc, c] * MGPD[cc, c] / (sum(PMGPD[ccc, c] * MGPD[ccc, c] on ccc))                                                   if MGPD[cc, c] <> 0
+phi_MGPD[m, c]     = PMGPD[m, c] * MGPD[m, c] / (sum(PMGPD[mm, c] * MGPD[mm, c] on mm))                                                   if MGPD[m, c] <> 0
 
-### Margins paid to commodity cc on the imported commodity c
-d(log(MGPM[cc, c])) = d(log( M[c])) + d(SUBST_MGPM[cc, c])                                                                                      if MGPM[cc, c] <> 0
+### Margins paid to commodity m on the imported commodity c
+d(log(MGPM[m, c])) = d(log( M[c])) + d(SUBST_MGPM[m, c])                                                                                      if MGPM[m, c] <> 0
 
-SUBST_n_MGPM[cc, c] = sum(- ES_MGPM[cc, ccc, c] * phi_MGPM[ccc, c]{-1} * d(log(PMGPM[cc, c]) - log(PMGPM[ccc, c])) if MGPM[ccc, c] <> 0 on ccc) if MGPM[cc, c] <> 0
+SUBST_n_MGPM[m, c] = sum(- ES_MGPM[m, mm, c] * phi_MGPM[mm, c]{-1} * d(log(PMGPM[m, c]) - log(PMGPM[mm, c])) if MGPM[mm, c] <> 0 on mm) if MGPM[m, c] <> 0
 
-# phi_MGPM[cc, c]     = PMGPM[cc, c] * MGPM[cc, c] / (sum(PMGPM[ccc, c] * MGPM[ccc, c] on ccc))                                                   if MGPM[cc, c] <> 0
+phi_MGPM[m, c]     = PMGPM[m, c] * MGPM[m, c] / (sum(PMGPM[mm, c] * MGPM[mm, c] on mm))                                                   if MGPM[m, c] <> 0
 
 ### Production of commodity c by sector s
 ### We assume that each activity s may produce more than one commodity c. Therefore the  production Y of commodity c by the activity s depends on the parameter PhiY which represents ²of aggregate production

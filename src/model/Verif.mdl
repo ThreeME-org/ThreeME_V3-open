@@ -6,8 +6,8 @@
 
 verif_phi_F[s] = (1 - (sum(phi[ff, s] on ff)))*100
 
-verif_phi_MGPD[c] = (1 - (sum(phi_MGPD[cc, c] on cc)))*100 if MGPD[c] <> 0
-verif_phi_MGPM[c] = (1 - (sum(phi_MGPM[cc, c] on cc)))*100 if MGPM[c] <> 0
+verif_phi_MGPD[c] = (1 - (sum(phi_MGPD[m, c] on m)))*100 if MGPD[c] <> 0
+verif_phi_MGPM[c] = (1 - (sum(phi_MGPM[m, c] on m)))*100 if MGPM[c] <> 0
 
 verif_phi[E, s] = (1 - (sum(phi[E, ce, s] on ce)))*100 if F[E, s] <> 0
 

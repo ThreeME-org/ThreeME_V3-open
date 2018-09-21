@@ -1,5 +1,10 @@
 include .\R_lists
 
+##################################################
+# List to be loaded from R directly
+%list_margins := crai croa cwat cair cpri
+###################################################
+
 # List of production factors
 %list_F := K L E MAT  #[f]
 
@@ -18,6 +23,11 @@ s in %list_sec
 c in %list_com
 cc in %list_com
 ccc in %list_com
+
+m in %list_margins
+mm in %list_margins
+mmm in %list_margins
+
 
 cm in %list_com_MAT
 
