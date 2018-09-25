@@ -28,3 +28,6 @@ test.csv
 .Rproj.user
 *.sublime-project
 *.sublime-workspace
+
+doc/*.aux
+doc/*.log
