@@ -1,9 +1,7 @@
 include .\R_lists
 
-##################################################
 # List to be loaded from R directly
 %list_margins := crai croa cwat cair cpri
-###################################################
 
 # List of production factors
 %list_F := K L E MAT  #[f]
@@ -13,7 +11,7 @@ include .\R_lists
 
 
 %list_ener_class := CA CB CC CD CE CF CG #[ecl]
-# %list_buil_class := CA CB CC CD CE CF CG DES #[bcl]
+%list_buil_class := CA CB CC CD CE CF CG DES #[bcl]
 
 
 
@@ -36,6 +34,8 @@ ctt in %list_com_TRSP
 
 cmo in %list_com_MATO
 
+# co in %list_com_oth
+
 ce in %list_com_E
 cee in %list_com_E
 
@@ -47,7 +47,7 @@ ghg in %list_GHG
 
 ecl in %list_ener_class
 ecl2 in %list_ener_class
-#bcl in %list_buil_class
+bcl in %list_buil_class
 
 O in D M
 

@@ -35,12 +35,24 @@ if %load="new"  then
     ' Load calibration data from the Excel file
     call load_calibration
 
+    ' Create the series using the dependencies (add-ins "series")
+''    {%modelname}.series Exception_Hybrid_data_0
+
     ' Export all variables to a csv file (used by the external compiler)
-    call export_all_to_csv
+''    call export_all_to_csv
+
+''   {%modelname}.series Exception_Hybrid_data_if
+
+    ' Create the series using the dependencies (add-ins "series")
+ ''   {%modelname}.series Exception_Hybrid_data
+
 
     ' Create the series using the dependencies (add-ins "series")
     {%modelname}.series round0 Prices_data SU_data Special_data Other_data Exception_taxes_prices_data Exception_NestedCES_data
 
+
+''    {%modelname}.series round0 Prices_data SU_data Special_data Other_data Exception_taxes_prices_data Exception_NestedCES_data Exception_Hybrid_data
+    
     ' Export all variables to a csv file (used by the external compiler)
     call export_all_to_csv
 
@@ -49,12 +61,15 @@ if %load="new"  then
     {%modelname}.load blocks
 
     ' Put add factors to all equations
+    smpl 1997 2000
     {%modelname}.addassign @all
     ' Set add factor values so that the equation has no residual when evaluated at actuals
     {%modelname}.addinit(v=n) @all
     ' Show all add factors
     group a_addfactors *_a
     show a_addfactors
+
+    smpl @all
 
 
     ' Save the workfile for memory
@@ -87,14 +102,15 @@ endif
        call run_scenario("baseline")
 
 ''       call run_standard("RSSC1")
-''       call run_standard("EXPG1")
+       call run_standard("EXPG1")
 
           ' call run_enr("PPE_ENRhaut")
 
   ' ***************************************
   ' Call (eventually) here the subroutine you want to use to analyse the results
-''    call additional_outputs("Fred")
-      ' call output_template(%scenario_name)
+    call additional_outputs("Fred")
+''    call additional_outputs("Fred_Hybrid")
+  ' call output_template(%scenario_name)
 
   ' *******************
   ' Error reporting

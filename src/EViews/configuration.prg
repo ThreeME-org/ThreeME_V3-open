@@ -4,7 +4,7 @@
 ' ============================================================================ 
 
 ' Set the begining of the sample
-%firstdate = "1998"
+%firstdate = "1997"
 
 ' Input the base year used for the calibration
 %baseyear = "2000"

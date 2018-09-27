@@ -1,9 +1,7 @@
-# BLOCK 4: CONSUMER
+#### Consumer
 
-include ..\model\lists
-
-# Disposable income before tax
-# The disposable income before tax is used as base for the income tax.
+## Disposable income before tax
+## The disposable income before tax is used as base for the income tax.
 
 DISPINC_BT_VAL   = PWAGES * WAGES + PROP_INC_H_VAL + SOC_BENF_VAL + TRSF_HH_VAL
 
@@ -20,47 +18,47 @@ INC_SOC_TAX_VAL  = RINC_SOC_TAX * DISPINC_BT_VAL
 ## Property incomes
 PROP_INC_H_VAL_n = phi_PROP_INC_H * PNOS * NOS + (PNOS * NOS <= 0.00001 ) * (0.00001 - phi_PROP_INC_H * PNOS * NOS)
 
-# Social benefits
+## Social benefits
 # Rendre endogène avec vrai données!!!
 SOC_BENF_VAL     = RR_POP * @elem(W, %baseyear) * PROG_L * P * POP + RR_Un * W * Un
 
 # The replacement ratio should be endogenous because of the duration limit of unmployment benefits. To be tested.
 # d(log(RR_Un)) = - 1.0 * d(log(UnR))
 
-## Transferts of households
-## Should be endogenous? Check V2
+## Transfers to households
+# Should be endogenous? Check V2
 # TRSF_HH_VAL = ?????
 
-# Agregate household consumption in value
-## Should be Notional!!!
+## Agregate household consumption in value
+# Should be Notional!!!
 CH_n_VAL = DISPINC_AT_VAL * (1 - MPS_n)
 
-# Notional marginal propensity to save
+## Notional marginal propensity to save
 d(MPS_n)= RHO_MPS_R * d(R - d(P)/P{-1}) + RHO_MPS_UnR * d(UnR)
 
-# Household consumption of commodity c
+## Household consumption of commodity $c$
 (CH_n[c] - NCH[c]) * PCH[c] = phi_MCH[c] * (CH_n_VAL - PNCH * NCH)  if CH[c]      <> 0
 
-# Necessary household consumption of commodity c
+## Necessary household consumption of commodity $c$
 PNCH * NCH = sum(PNCH[c] * NCH[c] on c) if NCH <> 0
 
 	   NCH = sum(NCH[c] 		  on c) if NCH <> 0
 
 
-# Share of commodity c in the marginal household consumption
+## Share of commodity $c$ in the marginal household consumption
 d(log(phi_MCH[c])) = (1 - ES_LESCES) * d(log(PCH[c] / PCH_CES))     if phi_MCH[c] <> 0
 
-# Share of commodity c in the household consumption
+## Share of commodity $c$ in the household consumption
 Phi_CH[c] = CH[c]/CH                                                if CH[c]      <> 0
 
 # CES price index
 PCH_CES = (sum(@elem(phi_MCH[c], %baseyear) * PCH[c] ^ (1 - ES_LESCES) if phi_MCH[c] <> 0 on c)) ^ (1 / (1 - ES_LESCES)) if ES_LESCES <> 1
 
-# Households savings
+## Households savings
 SAV_H_VAL  = DISPINC_AT_VAL - PCH * CH
 
-# Households savings rate
+## Households savings rate
 RSAV_H_VAL = SAV_H_VAL / DISPINC_AT_VAL
 
-# Households savings stock
+## Households savings stock
 Stock_SAV_H_VAL = Stock_SAV_H_VAL{-1} + SAV_H_VAL

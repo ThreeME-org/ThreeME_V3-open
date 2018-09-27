@@ -1,0 +1,215 @@
+include ..\model\lists
+
+
+
+####################################
+# From Round 0 (To be deleted / only to test Hybrid!!!!)
+####################################################
+### Population growth rate
+GR_POP    := 0.0029
+
+### Growth rate of technical progress for capital, labor, energy and material
+GR_PROG[L] := 0.0170
+
+GR_PROG[K] := 0.0
+GR_PROG[E] := 0.0
+GR_PROG[MAT] := 0.0
+
+
+### Inflation (growth rate of prices)
+GR_PRICES := 0.0200
+
+### Risk premium
+RISKPREM := 0.0100
+
+### Growth rate of the real economy
+GR_REAL := (1 + GR_POP)*(1 + GR_PROG_L) - 1
+
+### Growth rate of the nominal economy
+GR_NOMI := (1 + GR_POP)*(1 + GR_PROG_L)*(1 + GR_PRICES) - 1
+
+### Growth rate of the nominal wage
+GR_NOMIW := (1 + GR_PRICES)*(1 + GR_PROG_L) - 1
+
+### Interest rates
+# Of the Central Bank
+R := GR_NOMI - RISKPREM
+
+# Of sectors and of the Government (Interest of the CB plus a premium)
+R[s] := R + 0
+r_DEBT_G := r + 0
+
+### Grothw rate of technical progress in sectors for the production factors
+GR_PROG[f, s] := GR_PROG[f]
+
+##############
+### Indexes
+##############
+P 		:=  1 * (1 + GR_PRICES) ^ (@year - %baseyear)
+PROG_L 	:=  1 * (1 + GR_PROG_L) ^ (@year - %baseyear)
+
+PROG[f, s] := 1 * (1 + GR_PROG[f, s]) ^ (@year - %baseyear)
+
+WD[c] := 1 * (1 + GR_REAL) ^ (@year - %baseyear)
+
+
+### Labor of sector s 
+F[L, s] := SUT(11,$s) * (1 + GR_POP) ^ (@year - %baseyear)
+
+
+############################
+### DEMOGRAPHY DATA
+############################
+
+POP := WAPop/0.6
+WAPop := LF/0.7
+LF := F[L]/(1 - 0.1)
+F[L] := sum(F[L, s] on s)
+
+####################################
+# END From Round 0 (To be deleted / only to test Hybrid!!!!)
+####################################################
+
+#######################################
+###################################### 
+# Round 0 for Hybrid: Hypothesis specific to the htbrid block
+
+# Number of square meter per inhabitant
+M2perCapita := 37.8748670376437
+
+# Proportion of rehabilitated building from the class ecl's  
+tau_REHAB[CA] := 0.0000000001 # A value > 0 is required but no effect on the model
+tau_REHAB[CB] := 0.0000001
+tau_REHAB[CC] := 0.0000001
+tau_REHAB[CD] := 0.0100
+tau_REHAB[CE] := 0.0120
+tau_REHAB[CF] := 0.0125
+tau_REHAB[CG] := 0.0390
+
+# Maximum proportion of rehabilitated building from the class ecl's  
+tau_REHAB_MAX[ecl] := 0.15
+
+# Minimum proportion of rehabilitated building from the class ecl's  
+tau_REHAB_MIN[CA] := 0.0
+tau_REHAB_MIN[CB] := 0.00000001
+tau_REHAB_MIN[CC] := 0.00000001
+tau_REHAB_MIN[CD] := 0.005
+tau_REHAB_MIN[CE] := 0.005
+tau_REHAB_MIN[CF] := 0.005
+tau_REHAB_MIN[CG] := 0.005
+
+# Subsidy rate
+R_SUB[ecl,ecl2] := 0
+
+# Switching speed between the 2 regimes of the logistic function
+sigma[ecl] := 0.5
+
+ADJUST0_tau_REHAB := 0.5 
+
+ADJUST_phi_REHAB := 0.5 
+
+RHO_U_GAIN[ecl,ecl2] := 0
+
+PNEWBUIL[ecl] := 3500 / 1000000 * P
+
+# Share of housing investment paid cash
+# For (maintaining) a building of ecl in the same class
+R_CASH[ecl]  := 0.5
+# For rehabilitating a class ecl building in a more efficient class
+R_CASH_REHAB[ecl] := R_CASH[ecl]
+# For new buildings
+R_CASH_NewBUIL[ecl] := 0.2
+
+
+
+# Interest rate paid housing investment
+# For (maintaining) a building of ecl in the same class
+R_I_BUIL[ecl] := R + 0.01
+
+# For rehabilitating a class ecl building in a more efficient class
+R_I_REHAB[ecl] := R_I_BUIL[ecl]
+# For new buildings
+R_I_NewBUIL[ecl] := R_I_BUIL[ecl] 
+
+# For automobile
+R_I_AUTO[ecl] := R + 0.03
+
+# Loan duration for housing investment
+# For (maintaining) a building of ecl in the same class
+LD[ecl] := 25
+# For rehabilitating a class ecl building in a more efficient class
+LD_REHAB[ecl] := LD[ecl]
+LD_NewBUIL[ecl] := LD[ecl]
+
+
+R_RMBS_REHAB[ecl] := 1 / LD_REHAB[ecl]
+R_RMBS_NewBUIL[ecl] := 1 / LD_NewBUIL[ecl]
+
+
+# Life duration for a class ecl building
+BUIL_D[ecl] := 25
+
+# Life duration for a class ecl building (after rehabilitation)
+# USE DIRECTLTY BUIL_D ? 
+REHAB_D[ecl] := BUIL_D[ecl]
+
+# Adjustements
+ADJUST_GR_PENER_m2_e_1 := 0.2
+
+## From R / Excel
+
+BUIL[ecl] := Hybrid_BUIL($ecl, 1)
+M2perHOUSING := 91.35039201
+
+phi_NewBUIL[ecl] := Hybrid_BUIL(7 + $ecl, 1)
+
+PREHAB[ecl,ecl2] := Hybrid_TRANS($ecl, $ecl2) / M2perHOUSING / 1000000 * (1 + GR_PRICES) ^ (@year - %baseyear) 
+
+delta_BUIL[ecl,bcl] := Hybrid_TRANS(16 + $ecl, $bcl)
+phi_REHAB[ecl,ecl2] := Hybrid_TRANS( 8 + $ecl, $ecl2)
+
+ENER_BUIL[ ecl, ce] := Hybrid_BUIL(14 + $ecl + 7*($ce - 1), 1)
+
+
+# Needed to conditionnality in next round
+REHAB[ecl,ecl2] := (phi_REHAB[ecl,ecl2]*tau_REHAB[ecl]*BUIL[ecl]{-1})
+
+REHAB[ecl] := sum(REHAB[ecl,ecl2] on ecl2)
+
+U_REHAB[ecl,ecl2] := phi_REHAB[ecl,ecl2]
+
+
+PEXP[ce] := P
+
+
+# EXP_BUIL[ecl, ce] :=12
+
+EXP_BUIL_CA_CCOA :=   0
+EXP_BUIL_CA_CFUE :=   0.003653652549161451
+EXP_BUIL_CA_CELE :=   1.030034414425506
+EXP_BUIL_CA_CGAS :=   0
+EXP_BUIL_CB_CCOA :=   0
+EXP_BUIL_CB_CFUE :=   3.705832860366588
+EXP_BUIL_CB_CELE :=   113.6234783506017
+EXP_BUIL_CB_CGAS :=   8.899207467134992
+EXP_BUIL_CC_CCOA :=   0.1268193186804521
+EXP_BUIL_CC_CFUE :=   80.7276911259017
+EXP_BUIL_CC_CELE :=   1385.470328664956
+EXP_BUIL_CC_CGAS :=   181.3192331766506
+EXP_BUIL_CD_CCOA :=   3.428297596541721
+EXP_BUIL_CD_CFUE :=   905.9867688676392
+EXP_BUIL_CD_CELE :=   5532.793770088476
+EXP_BUIL_CD_CGAS :=   1048.482623463122
+EXP_BUIL_CE_CCOA :=   15.48654757514549
+EXP_BUIL_CE_CFUE :=   3424.976871237665
+EXP_BUIL_CE_CELE :=   6330.026417885951
+EXP_BUIL_CE_CGAS :=   3328.267802934658
+EXP_BUIL_CF_CCOA :=   18.9757483793394
+EXP_BUIL_CF_CFUE :=   3629.760510964306
+EXP_BUIL_CF_CELE :=   2995.269030455821
+EXP_BUIL_CF_CGAS :=   3056.724977588316
+EXP_BUIL_CG_CCOA :=   26.98258713029294
+EXP_BUIL_CG_CFUE :=   2157.613384248636
+EXP_BUIL_CG_CELE :=   1485.755622597812
+EXP_BUIL_CG_CGAS :=   2843.306155370118
+

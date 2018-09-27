@@ -1,0 +1,135 @@
+d(log(E_GWh[ce, sne])) = d(log(CID[ce, sne] + CIM[ce, sne])) if E_GWh[ce, sne] #(CID[ce, s] + CIM[ce, s]) <> 0
+
+E_GWh_Agri[ce] = E_GWh[ce, s] where s in 01
+E_GWh_Industry[ce] = sum(E_GWh[ce, sind] on sind)
+E_GWh_Rail[ce] = E_GWh[ce, 14]
+E_GWh_Buses[ce] = E_GWh[ce, 15]
+E_GWh_Trucks[ce] = E_GWh[ce, 16]
+E_GWh_Waterway[ce] = E_GWh[ce, 17]
+E_GWh_Air[ce] = E_GWh[ce, 18]
+E_GWh_Tertiary[ce] = sum(E_GWh[ce, ster] on ster)
+
+d(log(E_GWh_HH[ce])) = d(log(EXP[ce])) if E_GWh_HH[ce] <> 0
+
+d(log(Y_GWh[se])) = d(log(Y[se])) if Y_GWh[se] <> 0
+Y_GWh_Coal = Y_GWh[21]
+Y_GWh_Oil = sum(Y_GWh[se22] on se22)
+Y_GWh_Electricity = sum(Y_GWh[se23] on se23)
+Y_GWh_Gas = sum(Y_GWh[se24] on se24)
+
+
+E_GWh_HH = sum(E_GWh_HH[ce] on ce)
+E_GWh_Agri = sum(E_GWh_Agri[ce] on ce)
+E_GWh_Industry = sum(E_GWh_Industry[ce] on ce)
+E_GWh_Rail = sum(E_GWh_Rail[ce] on ce)
+E_GWh_Buses = sum(E_GWh_Buses[ce] on ce)
+E_GWh_Trucks = sum(E_GWh_Trucks[ce] on ce)
+E_GWh_Waterway = sum(E_GWh_Waterway[ce] on ce)
+E_GWh_Air = sum(E_GWh_Air[ce] on ce)
+E_GWh_Tertiary = sum(E_GWh_Tertiary[ce] on ce)
+
+# Total final energy demand by vector
+E_Gwh_Total[ce] = E_GWh_Agri[ce] + E_GWh_Industry[ce] + E_GWh_Tertiary[ce] + E_GWh_Rail[ce] + E_GWh_Buses[ce] + E_GWh_Trucks[ce] + E_GWh_Air[ce] + E_GWh_hh[ce]
+
+#PE_Signal[sind] = PE_Signal_industry
+#PE_Signal[ster] = PE_Signal_tertiary
+
+IA_Elec = sum(IA[se23] on se23)
+
+L_Services = L_19 + L_20
+L_Construction = L_13
+L_Elec_Ren = L_2305 + L_2306 + L_2307
+L_Trsp = sum(L[trsp] on trsp)
+L_Agro = L_01 + L_02
+L_Biofuels = L_2202 + L_2403 + L_2404
+L_Heat = L_2308 + L_2401 + L_2405 + L_2406
+L_Fossil = L_21 + L_2201 + L_2401
+L_Elec_Fossil = L_2302 + L_2303 + L_2304
+L_Auto = L_03
+L_Nuclear = L_2301
+L_Other = sum(L[s] on s in %list_sec_indus_no_cons \ 03)
+
+EXP_energy = sum(EXP[ce] on ce)
+
+# Real income after energy and energy retrofits / private vehicles
+REAL_INC = (DISPINC_VAL/PCH) - EXP_03 - EXP_13 - EXP_energy
+
+PE_I[s] = PE[s]
+@over PE_I[sind] = PE[sind] * exp(Pe_Signal_Ind / 100)
+@over PE_I[ster] = PE[ster] * exp(Pe_Signal_Ter / 100)
+@over PE_I[s] = PE[s] * exp(PE_Signal[s] / 100) where s in 01 14 15 16 18
+
+@over PE_SV[ce, sind] = PE_SV_ind[ce]
+@over PE_SV[ce, ster] = PE_SV_ter[ce]
+PE_I[ce, s] = PE[ce, s] * exp(PE_SV[ce, s] / 100)
+
+PEXP_I[c, h] = PEXP[c, h] * exp(PEXP_Signal[c] / 100)
+
+exo_SUBST_E[ce, sind] = exo_SUBST_E_ind[ce]
+exo_SUBST_E[ce, ster] = exo_SUBST_E_ter[ce]
+
+alpha_PROG_E[sind] = alpha_PROG_E_ind
+alpha_PROG_E[ster] = alpha_PROG_E_ter
+alpha_PROG_E_01 = alpha_PROG_E_agr
+
+
+@over d(SUBST_K_n[s]) = _
+  -ES_KLEM($s, 1) * d(log(CK[s]) - log(CL[s]))   * (L[s]{-1}   * PROG_L[s]{-1} * CL[s]{-1}                       / (CU[s]{-1} * Y[s]{-1})) _
+  -ES_KLEM($s, 2) * d(log(CK[s]) - log(PE_I[s]))   * (E[s]{-1} * PE_I[s]{-1} / (CU[s]{-1} * Y[s]{-1})) _
+  -ES_KLEM($s, 3) * d(log(CK[s]) - log(PMAT[s])) * (MAT[s]{-1} * PMAT[s]{-1}                                     / (CU[s]{-1} * Y[s]{-1})) _
+  if K_n[s] <> 0
+
+@over d(SUBST_L_n[s]) = _
+  -ES_KLEM($s, 1) * d(log(CL[s]) - log(CK[s]))   * (K[s]{-1} * CK[s]{-1}                                         / (CU[s]{-1} * Y[s]{-1})) _
+  -ES_KLEM($s, 4) * d(log(CL[s]) - log(PE_I[s]))   * (E[s]{-1} * PE_I[s]{-1}   / (CU[s]{-1} * Y[s]{-1})) _
+  -ES_KLEM($s, 5) * d(log(CL[s]) - log(PMAT[s])) * (MAT[s]{-1} * PMAT[s]{-1}                                     / (CU[s]{-1} * Y[s]{-1})) _
+  if L_n[s] <> 0
+
+@over d(SUBST_E_n[s]) = _
+  -ES_KLEM($s, 2) * d(log(PE_I[s]) - log(CK[s]))   * (K[s]{-1}   * CK[s]{-1}                 / (CU[s]{-1} * Y[s]{-1})) _
+  -ES_KLEM($s, 4) * d(log(PE_I[s]) - log(CL[s]))   * (L[s]{-1}   * PROG_L[s]{-1} * CL[s]{-1} / (CU[s]{-1} * Y[s]{-1})) _
+  -ES_KLEM($s, 6) * d(log(PE_I[s]) - log(PMAT[s])) * (MAT[s]{-1} * PMAT[s]{-1}               / (CU[s]{-1} * Y[s]{-1})) _
+if E_n[s] <> 0
+
+@over d(SUBST_MAT_n[s]) = _
+  -ES_KLEM($s, 3) * d(log(PMAT[s]) - log(CK[s])) * (K[s]{-1} * CK[s]{-1}                                       / (CU[s]{-1} * Y[s]{-1})) _
+  -ES_KLEM($s, 5) * d(log(PMAT[s]) - log(CL[s])) * (L[s]{-1} * PROG_L[s]{-1} * CL[s]{-1}                       / (CU[s]{-1} * Y[s]{-1})) _
+  -ES_KLEM($s, 6) * d(log(PMAT[s]) - log(PE_I[s])) * (E[s]{-1} * PE_I[s]{-1} / (CU[s]{-1} * Y[s]{-1})) _
+if MAT_n[s] <> 0
+
+# Direct shock on energy carriers growth rates...
+#@over d(log(E[ce, s])) = d(log(E[s])) + d(SUBST_E[ce, s]) + EXO_SUBST_E[ce, s] if E[ce, s] <> 0
+
+# Modal shift: consumers reduce their air transportation consumption,
+# but increase their rail and bus consumption
+@over d(log(BetaExp[c, h])) = (1 - ES_LESCES) * d(log(PEXP_I[c, h] / PEXP_CES[h])) if BetaExp[c, h] <> 0 where c in 14 15 18
+
+# Direct shock on transport margins growth rates...
+#@over d(log(MT|O|[trsp, c])) = d(log(|V|[c])) + d(SUBST_MT|O|[trsp, c]) + EXO_SUBST_MT[trsp] if MT|O|[trsp, c] <> 0 where (O, V) in (D M, YQ M), c in %list_com \ %list_trsp
+
+# Firms reduce their consumption of transportation by trucks
+@over d(SUBST_MT|O|_n[trsp, c]) = sum( -ES_TRANSP_MARG($c, cols_trsp(trsp, trsp_oth)) * d(log(PE[trsp] * exp(PT_Signal[trsp] / 100)) - log(PE[trsp_oth] * exp(PT_Signal[trsp_oth] / 100))) * _
+                                 value(MT|O|[trsp_oth, c]{-1} / (MT|O|[trsp, c]{-1} + MT|O|[trsp_oth, c]{-1})) if trsp_oth <> trsp on trsp_oth in %list_trsp \ 15) _
+                            if MT|O|[trsp, c] <> 0 where trsp in %list_trsp \ 15, c in %list_com \ %list_trsp
+
+
+
+@over d(SUBST_E_n[ce, s]) = sum( -ES_NRJ($s, cols_ce(ce, ce_oth)) * d(log(PE_I[ce, s]) - log(PE_I[ce_oth, s])) * _
+                           value(E[ce_oth, s]{-1} / (E[s]{-1}) ) if ce_oth <> ce on ce_oth in %list_com_E) _
+                      if E[ce, s] <> 0
+
+#@over d(log(E[ce, s])) = d(log(E[s])) + d(SUBST_E[ce, s]) + log(1 + (EXO_SUBST_E[ce, s]  - (sum(EXO_SUBST_E[ce_oth, s] if ce_oth <> ce on ce_oth in %list_com_E)))/E[s]{-1}) if E[ce, s] <> 0
+
+
+d(log(IC[22,s])) = d(log(PhiY[22, 2201]))
+d(log(IC[24,s])) = d(log(PhiY[24, 2401]))
+
+d(log(IC_HH[22,h])) = d(log(PhiY[22, 2201]))
+d(log(IC_HH[24,h])) = d(log(PhiY[24, 2401]))
+
+# CO2 emissions of sectors "for energy uses" per sector and source.
+@over d(log(EMS_SEC[ce2,s])) = (@year>%baseyear)*d(log(E[ce2,s]*IC[ce2,s])) + (@year=<%baseyear)*log(1 + real_g) if (EMS_SEC[ce2,s] <> 0) * (E[ce2, s] <> 0)
+
+# No adjustments for investments in the electricity sector
+#@over IA[se23] = (K_n[se23] > (1 - Tdec[se23]) * K_n[se23]{-1}) * (K_n[se23] - (1 - Tdec[se23]) * K_n[se23]{-1}) + _
+#                 (K_n[se23] <= (1 - Tdec[se23]) * K_n[se23]{-1}) * 0.1

@@ -85,6 +85,23 @@ next
 
   endif
 
+
+  if %user = "Fred_Hybrid" then
+
+For %_x _0
+
+      graph a_graph_hybrid{%_x}.line(m) BUIL_CA{%_x} BUIL_CB{%_x} BUIL_CC{%_x} BUIL_CD{%_x} BUIL_CE{%_x} BUIL_CF{%_x} BUIL_CG{%_x} BUIL_DES{%_x} 
+
+      show  a_graph_hybrid{%_x}
+next
+
+      'graph a_graph_macro_1L.line(m) 100*(GDP_1/GDP_0-1) 
+
+      'show  a_graph_macro_1L
+
+endif
+
+
   if %save = "yes" and %tabopt = "VAR_MESANGE" then
 
 
