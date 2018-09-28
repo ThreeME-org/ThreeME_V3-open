@@ -31,7 +31,7 @@ d(SUBST_n_F[f, s]) = sum(- ES[f, ff, s] * phi[ff, s]{-1} * d(log(C[f, s]/PROG[f,
 
 phi[f, s]          = (C[f, s] * F_n[f, s]) / (sum(C[ff, s] * F_n[ff, s] on ff))
 
-## Agregate production factors for capital, labor, energy and material
+## Aggregate production factors for capital, labor, energy and material
 # use list f !!!!!!@@@!!!
 # F[f] = sum(F[f, s] on s)
 
@@ -73,6 +73,8 @@ phi_TRSP[ct, s] = (PCI[ct, s]*CI[ct, s]) / (sum(PCI[ctt, s]*CI[ctt, s] on ctt))
 PROG[f, s] = PROG[f, s]{-1} * (1 + GR_PROG[f, s])
 
 ## Endogenous energy efficiency
+# This specification states that the productivity gain of energy input in the activity s for the energy type E depends on a steady-state trend (exogenous) and a price-induced component. This component is equal to a A RHO_PROG_E_PE share of the log-difference between the level of the general energy price index for the activity s to the general level of prices
+
 GR_PROG[E, s] = @elem(GR_PROG[E, s], %baseyear) + RHO_PROG_E_PE * (log(PE[s]) - log(P) > 0) * d(log(PE[s])-log(P))
 
 # Doute sur le specification ci-dessus qui reprend celle existante:

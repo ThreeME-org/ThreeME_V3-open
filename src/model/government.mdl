@@ -65,30 +65,31 @@ SPEND_G_VAL 		  = PG  * G  + SOC_BENF_VAL + DEBT_G_VAL{-1}*(Phi_RD_G{-1} + r_DEB
 ## Government's savings
 SAV_G_VAL 	  	  = INC_G_VAL - SPEND_G_VAL
 
-## Primary balance of the Governement (deficit).
+## Primary balance of the Government (deficit).
 ##
 ## It corresponds to the savings excluding the reimbursement and the interest on the debt
 Bal_G_Prim_VAL 		= SAV_G_VAL + DEBT_G_VAL{-1} * (Phi_RD_G{-1} + r_DEBT_G{-1})
 
 Bal_G_Prim_VALbis = INC_G_VAL - (PG  * G  + SOC_BENF_VAL)
 
-## Total balance of the Governement (deficit).
+## Total balance of the Government (deficit).
 ##
 ### It corresponds to the saving excluding the reimbursement but not the interest on the debt
 
 Bal_G_Tot_VAL 	  = Bal_G_Prim_VAL - DEBT_G_VAL{-1} * r_DEBT_G{-1}
 
 ## Government's debt
+# It corresponds to the previous year debt minus the reimbursement of the debt and the government savings.
 # Pour verif
 DEBT_G_VAL 		 	  = DEBT_G_VAL{-1} * (1-Phi_RD_G{-1}) - SAV_G_VAL 
 
 ## Government's savings over GDP ratio
 RSAV_G_VAL 			  = SAV_G_VAL 		 / (PGDP * GDP)
 
-## Primary balance of the Governement over GDP ratio
+## Primary balance of the Government over GDP ratio
 RBal_G_Prim_VAL   = Bal_G_Prim_VAL / (PGDP * GDP)
 
-## Total balance of the Governement over GDP ratio
+## Total balance of the Government over GDP ratio
 RBal_G_Tot_VAL 	  = Bal_G_Tot_VAL  / (PGDP * GDP)
 
 ## Ratio of the Government's debt over GDP

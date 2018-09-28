@@ -4,10 +4,11 @@
 ### This file provides the equations defining the demographic variables.
 
 # Working-age population
-
+# The working age population linearly grows with the total population
 d(log(WAPop)) = d(log(POP))
 
 # Labor force
+# The Labor force depends on a participation rate of the working-age population
 LF = PARTR * WAPop
 
 # Labor force participation ratio

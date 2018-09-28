@@ -6,7 +6,7 @@
 DISPINC_BT_VAL   = PWAGES * WAGES + PROP_INC_H_VAL + SOC_BENF_VAL + TRSF_HH_VAL
 
 ## Disposable income after tax
-# The definition of the disposable income after tax corresponds to the definition of "gross diposable income" defined in the annual account by institutional sector of Eurostat (b.6.g).
+# The definition of the disposable income after tax corresponds to the definition of "gross disposable income" defined in the annual account by institutional sector of Eurostat (b.6.g).
 
 DISPINC_AT_VAL   = DISPINC_BT_VAL - INC_SOC_TAX_VAL
 
@@ -22,7 +22,7 @@ PROP_INC_H_VAL_n = phi_PROP_INC_H * PNOS * NOS + (PNOS * NOS <= 0.00001 ) * (0.0
 # Rendre endogène avec vrai données!!!
 SOC_BENF_VAL     = RR_POP * @elem(W, %baseyear) * PROG_L * P * POP + RR_Un * W * Un
 
-# The replacement ratio should be endogenous because of the duration limit of unmployment benefits. To be tested.
+# The replacement ratio should be endogenous because of the duration limit of unemployment benefits. To be tested.
 # d(log(RR_Un)) = - 1.0 * d(log(UnR))
 
 ## Transfers to households

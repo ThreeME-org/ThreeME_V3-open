@@ -187,7 +187,7 @@ PMGRbis[c] * MGRbis[c] = PMGRD[c] * MGRD[c] + PMGRM[c] * MGRM[c] 				   if MGRbi
 			 MGRbis[c] = 		    MGRD[c] + 			 MGRM[c] 				   if MGRbis[c]  <> 0
 
 ## Remark about margins:
-## The margins paid $MGPD_{cc, c}$ and $MGPM_{cc, c}$ are defined with behavor equations. They follow $YQ_{c}$ and $M_{c}$ (more or less proportionnally depending on the possibility of substitutions between margins). See producer block. The margins paid are then agregated to define the margins recieved $MGR_{cc}$. The latter is then disagrated between the domestic and imported margins recieved ($MGRD_{c}$ and $MGRM_{c}$). See producer block.
+## The margins paid $MGPD_{cc, c}$ and $MGPM_{cc, c}$ are defined with behavorial equations. They follow $YQ_{c}$ and $M_{c}$ (more or less proportionnally depending on the possibility of substitutions between margins). See producer block. The margins paid are then agregated to define the margins recieved $MGR_{cc}$. The latter is then disagrated between the domestic and imported margins recieved ($MGRD_{c}$ and $MGRM_{c}$). See producer block.
 
 ## Aggregate margins paid on the domesticaly produced commodity (value & volume):
 
@@ -222,7 +222,7 @@ PCIM[s] * CIM[s] 	= sum(PCIM[c, s] * CIM[c, s] 	if CIM[c, s]  <> 0 on c) 		if CI
 PCI[s]  * CI[s]     = PCID[s] * CID[s] + PCIM[s] * CIM[s] 					 		if CI[s]  	 <> 0
 		  CI[s]     = 		    CID[s] + 		   CIM[s] 					 		if CI[s]  	 <> 0
 
-## Intermediary raw material from sector agregation (value & volume) :
+## Intermediary raw material from sector aggregation (value & volume) :
 
 PCIbis  * CIbis     = sum(PCI[s]     * CI[s] 		if CI[s] 	  <> 0 on s)    	if CI 	     <> 0
 		  CIbis     = sum(  	       CI[s] 		if CI[s] 	  <> 0 on s)        if CI 	     <> 0
@@ -253,13 +253,13 @@ PIbis   * Ibis      = sum(PI[s]      * I[s] 		if I[s]	  	  <> 0 on s) 		if I 		 
 #PY[s] * Y[s] = sum(PY[c, s] * Y[c, s] if Y[c, s] <> 0 on c) if Y[s] <> 0
 		Y[s]        = sum(Y[c, s] 			 	    if Y[c, s]    <> 0 on c) 		if Y[s] 	 <> 0
 
-## Aggregate production (value & volume):
+## Aggregate total production (value & volume):
 
 PY * Y              = sum(PY[s] * Y[s] 				if Y[s] 	  <> 0 on s) 		if Y 		 <> 0
 	 Y              = sum( 		  Y[s] 			    if Y[s] 	  <> 0 on s) 		if Y 		 <> 0
 
 ## Value-added of sector s (value & volume):
-## It may not be possible to calculate the price of the value-added (VA) since the VA may be equal to zero at the sector level. For this reason, we define the VA in value (VA_VAL). To avoid any bug, desactivate the equation of PVA[s]. Moreover there should be an equation for the VA even if it is equal to zero at the base year.
+## It may not be possible to calculate the price of the value-added (VA) since the VA may be equal to zero at the sector level. For this reason, we define the VA in value (VA_VAL). To avoid any bug, disable the equation of PVA[s]. Moreover there should be an equation for the VA even if it is equal to zero at the base year.
 
 VA_VAL[s] = PY[s] * Y[s] - PCI[s] * CI[s]
 VA[s] 	  = 		Y[s] - 			CI[s]
@@ -299,11 +299,13 @@ NOS[s] 	   = GOS[s]     - @elem(PK[s]{-1}, %baseyear) * Rdep[s] * F[K, s]{-1}
 PNOS * NOS = sum(NOS_VAL[s] on s)
 	   NOS = sum(NOS[s] 	on s)
 
-### GDP calculated according to various definitions
+### GDP calculated according to various approaches
 
-## GDP: Use definition
+## GDP: Expenditure approach
 
-## Agregated GDP (value & volume) calculated by using agregates
+## Agregated GDP (value & volume)
+## Calculated as the sum of the different components in the final uses of goods & services
+
 PGDP 	* GDP 	 = PCH 	  * CH	  + PG 	  * G 	 + PI 	 * I 	+ PX 	* X    + PDS    * DS 	- PM    * M
 		  GDP 	 = 	     	CH 	  + 	    G 	 + 	  	   I 	+ 	 	  X    + 	   	  DS 	- 	 	  M
 
@@ -317,13 +319,13 @@ PGDP[c] * GDP[c] = PCH[c] * CH[c] + PG[c] * G[c] + PI[c] * I[c] + PX[c] * X[c] +
 PGDPbis * GDPbis = sum(PGDP[c] * GDP[c] on c)
 		  GDPbis = sum(		  	 GDP[c] on c)
 
-## GDP: Value added definition
-
+## GDP: Production approach
+# Calculated as the sum of the gross value added plus the total net taxes
 PGDPter * GDPter = PVA * VA + PNTAXP * NTAXP
 		  GDPter = 		 VA + 		   NTAXP
 
 
-## GDP: Income definition
-
+## GDP: Income approach
+# Calculated as the sum of all the economic incomes (from labor and capital) corrected by the social & taxes transfers
 PGDP4 	* GDP4   = PGOS * GOS + PWAGES * WAGES + PRSSC * RSSC + NTAXI_VAL + PNTAXP * NTAXP
 		  GDP4   = 		  GOS + 		 WAGES + 		 RSSC + NTAXI 	  + 		 NTAXP

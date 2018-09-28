@@ -53,7 +53,7 @@ C[E, s]         = PE[s]
 ### Materal costs in sector s
 C[MAT, s]       = PMAT[s]
 
-### Agregate costs for capital, labor, energy and material
+### Aggregated costs for capital, labor, energy and material
 C[K]   * F[K]   = sum(C[K, s] * F[K, s] on s)
 C[L]   * F[L]   = sum(C[L, s] * F[L, s] on s)
 C[E]   * F[E]   = sum(C[E, s] * F[E, s] on s)
@@ -68,7 +68,7 @@ WAGES[s] * PWAGES[s] = W[s] * F[L, s]
 PWAGES[s] = P
 
 ### Price of commodity c
-### For CH (households'consumption); G (public spendings); X (exports)
+### For CH (households'consumption); G (public spending); X (exports)
 PCH[c]    * CH[c]     = PCHD[c]    * CHD[c]    + PCHM[c]    * CHM[c]        if CH[c]      <> 0
 
 PG[c]     * G[c]      = PGD[c]     * GD[c]     + PGM[c]     * GM[c]         if G[c]       <> 0
@@ -97,17 +97,17 @@ PMS[c]  * MS[c]  = PM[c]  * M[c]  + NTAXPM_VAL[c]    + PMGPM[c] * MGPM[c]   if M
 d(log(MS[c]))    =    d(log(M[c]))                                          if MS[c]       <> 0
 
 ### Price of the margins paid to commodity cc on the domestic commodity c
-### We assume that the margins paid on domestic and imported commodities can be produced by domestic and foreign (using the import share of the margin recieved). The price of the margins paid to commodity cc is assumed commun to all commodity c.
+### We assume that the margins paid on domestic and imported commodities can be produced by domestic and foreign (using the import share of the margin received). The price of the margins paid to commodity cc is assumed commun to all commodity c.
 PMGPD[cc, c] * MGR[cc] = PMGRD[cc] * MGRD[cc] + PMGRM[cc] * MGRM[cc]        if MGPD[cc, c] <> 0
 
 ### Price of the margins paid to commodity cc on the imported commodity c
 ### This price is the same as the one paid on domestic commodity because of the assumption given in the previous equation.
 PMGPM[cc, c] = PMGPD[cc, c] if MGPM[cc, c] <> 0
 
-### Price of domesticly produced margins recieved by commodity c
+### Price of domestically produced margins recieved by commodity c
 PMGRD[c]     = PYQS[c]      if MGRD[c]     <> 0
 
-### Price of imported margins recieved by commodity c
+### Price of imported margins received by commodity c
 PMGRM[c]     = PMS[c]       if MGRM[c]     <> 0
 
 ### Price of intermediary raw material consumption domestically produced c of sector s

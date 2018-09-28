@@ -2,7 +2,7 @@
 #########     INTERNATIONAL TRADE  #####################
 ########################################################
 ### This file provides the equations defining the allocation between domestic and imported goods per use.
-### The differenciation per use allows for distinguishing import share per use and therefore a more realistic representation of the economy than model that assume a commun import share. Indeed, the import share of export is generally smaller than for consumption.
+### The differentiation per use allows for distinguishing import share per use and therefore a more realistic representation of the economy than model that assume a common import share. Indeed, the import share of export is generally smaller than for consumption.
 
 # Domestic commodity c for margins received, private and public consumption and exports
 
@@ -15,7 +15,7 @@ GD[c]   = (1 - phi_GM[c])   * G[c]   if GD[c]   <> 0
 XD[c]   = (1 - phi_XM[c])   * X[c]   if XD[c]   <> 0
 
 
-# Imported commodity c for margins recieved, private and public consumption and exports
+# Imported commodity c for margins received, private and public consumption and exports
 
 MGRM[c] =      phi_MGRM[c]  * MGR[c] if MGRM[c] <> 0
 
@@ -35,7 +35,7 @@ phi_GM[c] 	= 1 /( 1 + @elem( GD[c]/GM[c]    , %baseyear) * exp( SUBST_GM[c]))   
 
 phi_XM[c] 	= 1 /( 1 + @elem( XD[c]/XM[c]    , %baseyear) * exp( SUBST_XM[c]))   if XM[c]     <> 0
 
-
+# Notional substitution effect induced by a change in the relative price between imported and domestic products c for margins received, private and public consumption, exports
 
 d(SUBST_n_MGRM[c]) 	= - ES_MGRM[c] * d(log(PMGRD[c]) - log(PMGRM[c]))            if MGRM[c]   <> 0
 
@@ -68,6 +68,7 @@ phi_CIM[c, s] = 1/(1 + @elem(CID[c, s]/CIM[c, s], %baseyear) * exp(SUBST_CIM[c, 
 
 phi_IM[c, s]  = 1/(1 + @elem(ID[c, s]/IM[c, s],   %baseyear) * exp(SUBST_IM[c, s]))  if IM[c, s]  <> 0
 
+# Notional substitution effect induced by a change in the relative price between imported and domestic products c in the activity s for intermediary consumption and investment
 
 d(SUBST_n_CIM[c, s]) = - ES_CIM[c, s] * d(log(PCID[c, s]) - log(PCIM[c, s]))         if CIM[c, s] <> 0
 
@@ -76,13 +77,16 @@ d(SUBST_n_IM[c, s])  = - ES_IM[c, s] * d(log(PID[c, s]) - log(PIM[c, s]))       
 
 
 # Exports
+# Foreign demand for exports which depends on the international demand and a substitution term
 d(log(X[c])) = d(log(WD[c])) + d(SUBST_X[c])                                         if X[c] <> 0
+
+# Notional substitution effect induced by a change in the relative price between domestic export prices  and international prices converted in domestic currency for the commodity c
 d(SUBST_n_X[c]) = -ES_X[c] * d(log(PX[c]) - log(TC * PWD[c]))                        if X[c] <> 0
 
 # Trade Balance for commodity c
 Bal_Trade_VAL[c] = PX[c] * X[c] - PM[c] * M[c]          if Bal_Trade_VAL[c] <> 0
 
-# Agregate trade Balance
+# Aggregate trade Balance
 Bal_Trade_VAL = sum(Bal_Trade_VAL[c]                    if Bal_Trade_VAL[c] <> 0 on c)
 
 # Trade Balance over GDP ratio
