@@ -62,7 +62,7 @@ INC_G_VAL 			  = PNTAXP * NTAXP + NTAXI_VAL + INC_SOC_TAX_VAL + PRSSC * RSSC + P
 
 SPEND_G_VAL 		  = PG  * G  + SOC_BENF_VAL + DEBT_G_VAL{-1}*(Phi_RD_G{-1} + r_DEBT_G{-1})
 
-## Government's savings
+## Government's savings (Net lending/borrowing: published deficit/savings of the Government)
 SAV_G_VAL 	  	  = INC_G_VAL - SPEND_G_VAL
 
 ## Primary balance of the Government (deficit).

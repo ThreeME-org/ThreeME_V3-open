@@ -1,22 +1,26 @@
-#### Supply-Use Equilibrium
+#### Supply-Use equilibrium
 
-## This file provides the equations defining the supply use - equilibrium for the domestic and imported products and at the agregate level.
-## It also derives the GDP according to various definitions.
-## Since each relation is written in value and in volume, the value equation defines the price.
+## This section provides the equations defining the supply use - equilibrium for the domestic and imported products and at the agregate level. It also derives the GDP according to various definitions. Since each relation is written in value and in volume, the value equation defines the price.
 
 ### Use side
 
-## Domestic and foreign equilibrium for commodities $c$ (value & volume):
+# Domestic and foreign equilibrium for commodities $c$ (value & volume):
 
-
+## Market price for the domestically produced commodity $c$
 PQD[c]  * QD[c]  = PMGRD[c] * MGRD[c] + PCID[c] * CID[c] + PCHD[c] * CHD[c] + PGD[c] * GD[c] + PID[c] * ID[c] + PXD[c] * XD[c] + PDSD[c] * DSD[c] if QD[c] <> 0
+
+## Quantity of domestically produced commodity $c$ expressed at market price
 		  QD[c]  = 	          MGRD[c] + 		  CID[c] + 		     CHD[c] + 	   	   GD[c] + 		    ID[c] + 		 XD[c] + 		   DSD[c] if QD[c] <> 0
 
+## Market price for imported commodity $c$
 PQM[c]  * QM[c]  = PMGRM[c] * MGRM[c] + PCIM[c] * CIM[c] + PCHM[c] * CHM[c] + PGM[c] * GM[c] + PIM[c] * IM[c] + PXM[c] * XM[c] + PDSM[c] * DSM[c] if QM[c] <> 0
+
+## Quantity of imported commodity $c$ expressed at market price
 		  QM[c]  = 		      MGRM[c] + 		  CIM[c] + 		     CHM[c] + 	       GM[c] + 		    IM[c] + 		 XM[c] + 		   DSM[c] if QM[c] <> 0
 
-## Domestic and imported intermediary raw material consumption c (value & volume):
+# Domestic and imported intermediary raw material consumption c (value & volume):
 
+## Market price for the domestically produced intermediary consumption commodity $c$
 PCID[c] * CID[c] = sum(PCID[c, s] * CID[c, s] if CID[c, s] <> 0 on s) if CID[c] <> 0
 		  CID[c] = sum( 			CID[c, s] if CID[c, s] <> 0 on s) if CID[c] <> 0
 
@@ -24,7 +28,6 @@ PCIM[c] * CIM[c] = sum(PCIM[c, s] * CIM[c, s] if CIM[c, s] <> 0 on s) if CIM[c] 
 		  CIM[c] = sum( 			CIM[c, s] if CIM[c, s] <> 0 on s) if CIM[c] <> 0
 
 ## Domestic and imported investment in commodity c (value & volume)
-
 PID[c]  * ID[c]  = sum(PID[c, s]  * ID[c, s]  if ID[c, s]  <> 0 on s) if ID[c]  <> 0
 		  ID[c]  = sum( 		    ID[c, s]  if ID[c, s]  <> 0 on s) if ID[c]  <> 0
 
