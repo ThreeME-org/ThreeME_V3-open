@@ -318,29 +318,33 @@ codeToTeX <- function(filename) {
     l <- str_trim(l)
     
     # Section header
-    processed <- if (str_detect(l, "^#### ")) {
+    processed <- if (str_detect(l, "^##### ")) {
       description <<- ""
-      str_c("\n\n", "\\section{", str_replace(cleanTeX(l), "^#### ", ""), "}", "\n\n")
+      str_c("\n\n", "\\section{", str_replace(cleanTeX(l), "^##### ", ""), "}", "\n\n")
     } 
     # Subsection header
+    else if (str_detect(l, "^#### ")) {
+      description <<- ""
+      str_c("\n\n", "\\subsection{", str_replace(cleanTeX(l), "^#### ", ""), "}", "\n\n")
+    }
+    # Subsubsection header
     else if (str_detect(l, "^### ")) {
       description <<- ""
-      str_c("\n\n", "\\subsection{", str_replace(cleanTeX(l), "^### ", ""), "}", "\n\n")
+      str_c("\n\n", "\\subsubsection{", str_replace(cleanTeX(l), "^### ", ""), "}", "\n\n")
     }
     # Blank line
     else if (l == "##") {
       "\n\n"
     }
+    # Variable description
+    else if (str_detect(l, "^##! ")) {
+      txt <- str_replace(cleanTeX(l), "^##! ", "")
+      description <<- txt 
+      str_c("\\textbf{", description, "} \\\\")
     # Pure text
-    else if (str_detect(l, "^## ")) {
-      txt <- str_replace(cleanTeX(l), "^## ", "")
-      if (description == "") { 
-        description <<- txt 
-        str_c("\\textbf{", description, "}")
-      } else {
-        txt
-      }
-      # If the line is not a comment nor empty
+    } else if (str_detect(l, "^## ")) {
+      str_replace(cleanTeX(l), "^## ", "")
+    # If the line is not a comment nor empty
     } else if (!str_detect(l, "^#") & (str_length(l) > 0)) {
       out$glossary[[dependentVar(l)]] <- description
       # Description title is consumed by the equation, reset it to blank
@@ -367,7 +371,7 @@ teXdoc <- function(sources, out = "doc") {
   }, 
   str_c(base.path, sources), 
   list(code = "", glossary = list()))
-  exportLateX("doc.tex", 
+  exportLateX(str_c(out, ".tex"), 
               str_c(compiled$code, "\n",
                     glossaryTeX(compiled$glossary)))
 }
