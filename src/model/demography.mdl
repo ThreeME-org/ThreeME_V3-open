@@ -1,31 +1,28 @@
-########################################################
-#########         DEMOGRAPHY       #####################
-########################################################
-### This file provides the equations defining the demographic variables.
+#### Demography
 
-# Working-age population
-# The working age population linearly grows with the total population
+
+##! Working-age population
+## The working age population linearly grows with the total population
 d(log(WAPop)) = d(log(POP))
 
-# Labor force
-# The Labor force depends on a participation rate of the working-age population
+##! Labor force
+## The Labor force depends on a participation rate of the working-age population
 LF = PARTR * WAPop
 
-# Labor force participation ratio
-# Because of discouraged worker effect, the participation ratio depends generally negatively on the unemployment rate
-
+##! Labor force participation ratio
+## Because of discouraged worker effect, the participation ratio depends generally negatively on the unemployment rate
 d(PARTR_n) = d(PARTR_trend) - RHO_PART_UnR * d(UnR)
 
-# Employment (ILO definition)
-# In general, labor according to the national account differ from the employment according to the ILO definition. One reason is that labor is express in FTE (full time equivalent). To calculate the unemployment rate, one need to use the employment according to the ILO definition.
+##! Employment (ILO definition)
+## In general, labor according to the national account differ from the employment according to the ILO definition. One reason is that labor is express in FTE (full time equivalent). To calculate the unemployment rate, one need to use the employment according to the ILO definition.
 ### We assume that the average work duration is constant over time, implying stability between the employment to labor ratio
 
 d(log(empl)) = d(log(F[L]))
 
-# Unemployment
-### Unemployment is determined as the difference between the total active population with the one which is employed
+##! Unemployment
+## Unemployment is determined as the difference between the total active population with the one which is employed
 Un  = LF - Empl
 
-# Unemployment rate
-### The Unemployment rate is defined as the ratio between the total unemployment and the active population
+##! Unemployment rate
+## The Unemployment rate is defined as the ratio between the total unemployment and the active population
 UnR = Un / LF
