@@ -14,9 +14,7 @@ LF = PARTR * WAPop
 d(PARTR_n) = d(PARTR_trend) - RHO_PART_UnR * d(UnR)
 
 ##! Employment (ILO definition)
-## In general, labor according to the national account differ from the employment according to the ILO definition. One reason is that labor is express in FTE (full time equivalent). To calculate the unemployment rate, one need to use the employment according to the ILO definition.
-### We assume that the average work duration is constant over time, implying stability between the employment to labor ratio
-
+## In general, labor according to the national account differ from the employment according to the ILO definition. One reason is that labor is express in FTE (full time equivalent). To calculate the unemployment rate, one need to use the employment according to the ILO definition. We assume that the average work duration is constant over time, implying stability between the employment to labor ratio
 d(log(empl)) = d(log(F[L]))
 
 ##! Unemployment
