@@ -8,6 +8,7 @@ library(stringr)
 # First evaluate the whole file (Run)
 # Then, example use:
 #   teXdoc(c("SU.mdl", "producer.mdl", "prices.mdl", "consumer.mdl", "adjustments.mdl"))
+teXdoc(c("SU.mdl", "producer.mdl", "prices.mdl", "consumer.mdl", "government.mdl",  "Trade_inter.mdl", "demography.mdl", "ghg_emissions.mdl", "adjustments.mdl"))#, "government.mdl",  "Trade_inter.mdl", "adjustments.mdl", "demography.mdl", "ghg_emissions.mdl"))
 
 rm(list = ls())
 
