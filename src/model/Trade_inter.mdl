@@ -1,93 +1,94 @@
-########################################################
-#########     INTERNATIONAL TRADE  #####################
-########################################################
-### This file provides the equations defining the allocation between domestic and imported goods per use.
-### The differentiation per use allows for distinguishing import share per use and therefore a more realistic representation of the economy than model that assume a common import share. Indeed, the import share of export is generally smaller than for consumption.
 
-# Domestic commodity c for margins received, private and public consumption and exports
+#### International Trade
+## This file provides the equations defining the allocation between domestic and imported goods per use.The differentiation per use allows for distinguishing import share per use and therefore a more realistic representation of the economy than model that assume a common import share. Indeed, the import share of export is generally smaller than for consumption.
 
+### Domestic production
+## Received margins on domestically produced commodity $c$
 MGRD[c] = (1 - phi_MGRM[c]) * MGR[c] if MGRD[c] <> 0
 
+## Private final consumption of domestically produced commodity $c$
 CHD[c]  = (1 - phi_CHM[c])  * CH[c]  if CHD[c]  <> 0
 
+## Public final consumption of domestically produced commodity $c$
 GD[c]   = (1 - phi_GM[c])   * G[c]   if GD[c]   <> 0
 
-XD[c]   = (1 - phi_XM[c])   * X[c]   if XD[c]   <> 0
-
-
-# Imported commodity c for margins received, private and public consumption and exports
-
+## Margins received from imported commodity $c$
 MGRM[c] =      phi_MGRM[c]  * MGR[c] if MGRM[c] <> 0
 
+## Private final consumption of imported commodity $c$
 CHM[c]  =      phi_CHM[c]   * CH[c]  if CHM[c]  <> 0
 
+## Public final consumption of imported commodity $c$
 GM[c]   =      phi_GM[c]    * G[c]   if GM[c]   <> 0
 
-XM[c]   =      phi_XM[c]    * X[c]   if XM[c]   <> 0
-
-# Import share of commodity c for margins received, private and public consumption and exports
-
+## Import share of commodity $c$ on received margins
 phi_MGRM[c] = 1 /( 1 + @elem( MGRD[c]/MGRM[c], %baseyear) * exp( SUBST_MGRM[c])) if MGRM[c]   <> 0
 
+## Import share of commodity $c$ for household final consumption
 phi_CHM[c] 	= 1 /( 1 + @elem( CHD[c]/CHM[c]  , %baseyear) * exp( SUBST_CHM[c]))  if CHM[c]    <> 0
 
+## Import share $\varphi_c$ of commodity $c$ on the governement final consumption
 phi_GM[c] 	= 1 /( 1 + @elem( GD[c]/GM[c]    , %baseyear) * exp( SUBST_GM[c]))   if GM[c]     <> 0
 
-phi_XM[c] 	= 1 /( 1 + @elem( XD[c]/XM[c]    , %baseyear) * exp( SUBST_XM[c]))   if XM[c]     <> 0
-
-# Notional substitution effect induced by a change in the relative price between imported and domestic products c for margins received, private and public consumption, exports
-
+## Notional substitution effect induced by a change in the relative price between imported and domestically produced commodity $c$ for margins received
 d(SUBST_n_MGRM[c]) 	= - ES_MGRM[c] * d(log(PMGRD[c]) - log(PMGRM[c]))            if MGRM[c]   <> 0
 
-d(SUBST_n_CHM[c]) 	= - ES_CHM[c]  * d(log(PCHD[c])  - log(PCHM[c])) 	         if CHM[c]    <> 0
+## Notional substitution effect induced by a change in the relative price between imported and domestically produced commodity $c$ for households final consumption
+d(SUBST_n_CHM[c]) 	= - ES_CHM[c]  * d(log(PCHD[c])  - log(PCHM[c])) 	           if CHM[c]    <> 0
 
-d(SUBST_n_GM[c]) 	= - ES_GM[c]   * d(log(PGD[c])   - log(PGM[c])) 	         if GM[c]     <> 0
+## Notional substitution effect induced by a change in the relative price between imported and domestically produced commodity $c$ for government final consumption
+d(SUBST_n_GM[c]) 	= - ES_GM[c]   * d(log(PGD[c])   - log(PGM[c])) 	             if GM[c]     <> 0
 
-d(SUBST_n_XM[c]) 	= - ES_XM[c]   * d(log(PXD[c])   - log(PXM[c])) 	         if XM[c]     <> 0
-
-# Domestic commodity c for sector s's intermediary consumption and investment
-
+## Intermediary consumption from sector $s$ in domestically produced commodity $c$
 CID[c, s] = (1 - phi_CIM[c, s]) * CI[c, s]                                       if CID[c, s] <> 0
 
-
+## Investment from sector $s$ in domestically produced commodity $c$
 ID[c, s]  = (1 - phi_IM[c, s])  * I[c, s]                                        if ID[c, s]  <> 0
 
-# Imported commodity c for sector s's intermediary consumption and investment
-
-
+## Intermediary consumption from sector $s$ in imported commodity $c$
 CIM[c, s] =      phi_CIM[c, s]  * CI[c, s]                                       if CIM[c, s] <> 0
 
+## Investment from sector $s$ in imported commodity $c$
 IM[c, s]  =      phi_IM[c, s]   * I[c, s]                                        if IM[c, s]  <> 0
 
-
-
-# Import share of commodity c bought by sector s for intermediary consumption and investment
-
-
+## Import share of intermediary consumption from sector $s$ in domestically produced commodity $c$
 phi_CIM[c, s] = 1/(1 + @elem(CID[c, s]/CIM[c, s], %baseyear) * exp(SUBST_CIM[c, s])) if CIM[c, s] <> 0
 
+## Import share of intermediary consumption from sector $s$ in imported commodity $c$
 phi_IM[c, s]  = 1/(1 + @elem(ID[c, s]/IM[c, s],   %baseyear) * exp(SUBST_IM[c, s]))  if IM[c, s]  <> 0
 
-# Notional substitution effect induced by a change in the relative price between imported and domestic products c in the activity s for intermediary consumption and investment
-
+## Notional substitution effect induced by a change in the relative price between imported and domestic intermediary consumption in commodity $c$ from the sector $s$
 d(SUBST_n_CIM[c, s]) = - ES_CIM[c, s] * d(log(PCID[c, s]) - log(PCIM[c, s]))         if CIM[c, s] <> 0
 
+## Notional substitution effect induced by a change in the relative price between imported and domestic investment in commodity $c$ from the sector $s$
 d(SUBST_n_IM[c, s])  = - ES_IM[c, s] * d(log(PID[c, s]) - log(PIM[c, s]))            if IM[c, s]  <> 0
 
 
 
-# Exports
-# Foreign demand for exports which depends on the international demand and a substitution term
-d(log(X[c])) = d(log(WD[c])) + d(SUBST_X[c])                                         if X[c] <> 0
+### Exports
+## Exports of domestically produced commodity $c$
+XD[c]   = (1 - phi_XM[c])   * X[c]                                                if XD[c]              <> 0
 
-# Notional substitution effect induced by a change in the relative price between domestic export prices  and international prices converted in domestic currency for the commodity c
-d(SUBST_n_X[c]) = -ES_X[c] * d(log(PX[c]) - log(TC * PWD[c]))                        if X[c] <> 0
+## Exports of imported commodity $c$
+XM[c]   =      phi_XM[c]    * X[c]                                                if XM[c]              <> 0
 
-# Trade Balance for commodity c
-Bal_Trade_VAL[c] = PX[c] * X[c] - PM[c] * M[c]          if Bal_Trade_VAL[c] <> 0
+## Import share of commodity $c$ exports
+phi_XM[c] 	= 1 /( 1 + @elem( XD[c]/XM[c]    , %baseyear) * exp( SUBST_XM[c]))    if XM[c]              <> 0
 
-# Aggregate trade Balance
-Bal_Trade_VAL = sum(Bal_Trade_VAL[c]                    if Bal_Trade_VAL[c] <> 0 on c)
+## Notional substitution effect induced by a change in the relative price between imported and domestic products $c$ for exports
+d(SUBST_n_XM[c]) 	= - ES_XM[c]   * d(log(PXD[c])   - log(PXM[c]))                 if XM[c]              <> 0
 
-# Trade Balance over GDP ratio
+## Foreign demand for exports of commmodity $c$
+d(log(X[c])) = d(log(WD[c])) + d(SUBST_X[c])                                      if X[c]               <> 0
+
+## Notional substitution effect induced by a change in the relative price between export prices and (converted in domestic currency) international prices for the commodity $c$
+d(SUBST_n_X[c]) = -ES_X[c] * d(log(PX[c]) - log(TC * PWD[c]))                     if X[c]               <> 0
+
+## Balance of trade of commodity $c$
+Bal_Trade_VAL[c] = PX[c] * X[c] - PM[c] * M[c]                                    if Bal_Trade_VAL[c]   <> 0
+
+## Aggregate balance of trade
+Bal_Trade_VAL = sum(Bal_Trade_VAL[c]                                              if Bal_Trade_VAL[c]   <> 0 on c)
+
+## Balance of trade (in percent of GDP)
 RBal_Trade_VAL = Bal_Trade_VAL / (PGDP * GDP)
