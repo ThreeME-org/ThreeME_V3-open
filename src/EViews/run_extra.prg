@@ -74,11 +74,16 @@ subroutine standard_shock(string %shock)
   ' 1% GDP point decrease of the employer social security rate
   if @lower(%shock) = "rssc1" then
 
-  for %s {%list_sec}
-    RRSSC_{%s} = RRSSC_{%s} * (1 - 0.01 * @elem(GDP/RSSC, %baseyear))
-  next  
+    for %s {%list_sec}
+      RRSSC_{%s} = RRSSC_{%s} * (1 - 0.01 * @elem(GDP/RSSC, %baseyear))
+    next  
+  
+  endif
 
+  ' 10% increase of the exchange rate
+  if @lower(%shock) = "exr10" then
 
+    EXR = EXR * 1.1
 
   endif
 
