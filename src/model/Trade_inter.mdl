@@ -83,7 +83,7 @@ d(SUBST_n_XM[c]) 	= - ES_XM[c]   * d(log(PXD[c])   - log(PXM[c]))               
 d(log(X[c])) = d(log(WD[c])) + d(SUBST_X[c])                                      if X[c]               <> 0
 
 ##! Notional substitution effect induced by a change in the relative price between export prices and (converted in domestic currency) international prices for the commodity $c$
-d(SUBST_n_X[c]) = -ES_X[c] * d(log(PX[c]) - log(TC * PWD[c]))                     if X[c]               <> 0
+d(SUBST_n_X[c]) = -ES_X[c] * d(log(PX[c]) - log(EXR * PWD[c]))                     if X[c]               <> 0
 
 ##! Balance of trade of commodity $c$
 Bal_Trade_VAL[c] = PX[c] * X[c] - PM[c] * M[c]                                    if Bal_Trade_VAL[c]   <> 0

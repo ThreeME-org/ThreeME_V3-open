@@ -170,7 +170,7 @@ PDSD[c]      = PYQS[c]      if DSD[c]      <> 0
 PDSM[c]      = PMS[c]       if DSM[c]      <> 0
 
 ##! Price of imported commodity $c$
-PM[c]        = TC * PWD[c]  if M[c]        <> 0
+PM[c]        = EXR * PWD[c]  if M[c]        <> 0
 
 ##! Notional wage in sector $s$
 ## This general specification combines various wage equation found in the literature: the Phillips curve and the WS curve. The WS curve à la Layard et al. (2005) requires the following constraints : RHO_W_P[s] = RHO_W_PROG[s] = 1, RHO_W_U[s] = RHO_W_Cons[s] = 0.
