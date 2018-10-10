@@ -290,7 +290,7 @@ toTeX <- function(eq) {
 glossaryTeX <- function(glossary) {
   glossary <- glossary[order(tolower(names(glossary)))]
   str_c("\\newpage
-        \\Large\\textbf{Glossary}
+        \\Large\\noindent\\textbf{Glossary}
         \\normalsize
         \\begin{longtable}{@{}p{4cm}p{9cm}@{}} \n",
         str_c(sapply(names(glossary), variableTeX), " & ", glossary, " \\\\", collapse = "\n \\midrule \n"),
