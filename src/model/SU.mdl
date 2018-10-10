@@ -1,10 +1,11 @@
-#### Supply-Use equilibrium
+##### Supply-Use equilibrium
 
-## This section provides the equations defining the supply use - equilibrium for the domestic and imported products and at the agregate level. It also derives the GDP according to various definitions. Since each relation is written in value and in volume, the value equation defines the price.
+## This section provides the equations defining the supply use - equilibrium for the domestic and imported products and at the agregate level. It also derives the GDP according to various definitions. All equations are therefore accounting identity. \\
+## Each identity is expressed in value and in volume. The value equation defines therefore a price index.
 
-### Use side
+#### Use side
 
-# Domestic and foreign equilibrium for commodities $c$ (value & volume):
+### Domestic and foreign equilibrium for commodities $c$ (value & volume):
 
 ##! Market price for the domestically produced commodity $c$
 PQD[c]  * QD[c]  = PMGRD[c] * MGRD[c] + PCID[c] * CID[c] + PCHD[c] * CHD[c] + PGD[c] * GD[c] + PID[c] * ID[c] + PXD[c] * XD[c] + PDSD[c] * DSD[c] if QD[c] <> 0
@@ -18,224 +19,218 @@ PQM[c]  * QM[c]  = PMGRM[c] * MGRM[c] + PCIM[c] * CIM[c] + PCHM[c] * CHM[c] + PG
 ##! Quantity of imported commodity $c$ expressed at market price
 		  QM[c]  = 		      MGRM[c] + 		  CIM[c] + 		     CHM[c] + 	       GM[c] + 		    IM[c] + 		 XM[c] + 		   DSM[c] if QM[c] <> 0
 
-# Domestic and imported intermediary raw material consumption c (value & volume):
+### Margins received (value & volume):
 
-##! Market price for the domestically produced commodity $c$ for intermediary consumption use
+
+
+### Agregation on sectors: production of commodity c per use for domestic and imported products, expressed at market price (value & volume)
+## This subsection provides the aggregates for commodity $c$ for various uses, for domestic and imported products. They are calculated through the aggregation of the corresponding sectoral data on the sector index. \\
+
+##! Market price for the domestically produced commodity $c$ used as intermediary consumption
 PCID[c] * CID[c] = sum(PCID[c, s] * CID[c, s] if CID[c, s] <> 0 on s) if CID[c] <> 0
 
-##! Quantity of domestically produced commodity $c$ for intermediary consumption use expressed at market price
+##! Quantity of domestically produced commodity $c$ used as intermediary consumption, expressed at market price
 		  CID[c] = sum( 			CID[c, s] if CID[c, s] <> 0 on s) if CID[c] <> 0
 
-##! Market price for imported commodity $c$ for intermediary consumption use
+##! Market price for imported commodity $c$ used as intermediary consumption
 PCIM[c] * CIM[c] = sum(PCIM[c, s] * CIM[c, s] if CIM[c, s] <> 0 on s) if CIM[c] <> 0
 
-##! Quantity of imported commodity $c$ for intermediary consumption use expressed at market price
+##! Quantity of imported commodity $c$ used as intermediary consumption, expressed at market price
 		  CIM[c] = sum( 			CIM[c, s] if CIM[c, s] <> 0 on s) if CIM[c] <> 0
 
-
-##! Market price for domestically produced commodity $c$ for investment use
+##! Market price for domestically produced commodity $c$ used as investment
 PID[c]  * ID[c]  = sum(PID[c, s]  * ID[c, s]  if ID[c, s]  <> 0 on s) if ID[c]  <> 0
 
-##! Quantity of imported commodity $c$ for investment use expressed at market price
+##! Quantity of imported commodity $c$ used as investment, expressed at market price
 		  ID[c]  = sum( 		    ID[c, s]  if ID[c, s]  <> 0 on s) if ID[c]  <> 0
 
-##! Market price for imported commodity $c$ for investment use
+##! Market price for imported commodity $c$ used as investment
 PIM[c]  * IM[c]  = sum(PIM[c, s]  * IM[c, s]  if IM[c, s]  <> 0 on s) if IM[c]  <> 0
 
-##! Quantity of imported commodity $c$ for investment use expressed at market price
+##! Quantity of imported commodity $c$ used as investment, expressed at market price
 		  IM[c]  = sum( 		    IM[c, s]  if IM[c, s]  <> 0 on s) if IM[c]  <> 0
 
+### Aggregation of imports and domestic production for commodity $c$ per use, expressed at market price (value & volume)
+## This subsection defines the prices indexes at market price for commodity $c$ per uses as a weighted average of imported and domestic production per uses: \textit{i.e.} for $Q$ (production of commodities ), $CI$ (intermediary consumption), $I$ (private investment) and $DS$ (change in inventories). \\
 
-# Aggregation of imports and domestic production for commodity $c$ per use
-# For $Q$ (production of commodities at market price); $CI$ (intermediary consumption); $I$ (private investiment); $DS$ (change in inventories)
-##! Market price of commodity $c$
+##! Market price of the production of commodity $c$
 PQ[c]  * Q[c]    = PQD[c]  * QD[c]  + PQM[c]  * QM[c]                 if Q[c]   <> 0
 
-##! Quantity of commodity $c$ expressed at market price
+##! Production of commodity $c$, expressed at market price
 		 Q[c]    = 		     QD[c]  +			QM[c]                 if Q[c]   <> 0
 
-##! Market price of commodity $c$ for intermediate consumption use
+##! Market price of the intermediate consumption of commodity $c$
 PCI[c] * CI[c]   = PCID[c] * CID[c] + PCIM[c] * CIM[c]                if CI[c]  <> 0
 
-##! Quantity of commodity $c$ expressed at market price for intermediate consumption use
+##! Intermediate consumption of commodity $c$, expressed at market price
 		 CI[c]   = 		     CID[c] + 		    CIM[c]                if CI[c]  <> 0
 
-##! Market price of commodity $c$ for investment use
+##! Market price of the investment in commodity $c$
 PI[c]  * I[c]    = PID[c]  * ID[c]  + PIM[c]  * IM[c]                 if I[c]   <> 0
 
-##! Quantity of commodity $c$ expressed at market price for investment use
+##! Investment in commodity $c$, expressed at market price
 		 I[c]    = 		     ID[c]  + 		    IM[c]                 if I[c]   <> 0
 
-##! Market price of commodity $c$ for change in inventories use
+##! Market price of the change in inventories of commodity $c$
 PDS[c] * DS[c]   = PDSD[c] * DSD[c] + PDSM[c] * DSM[c]                if DS[c]  <> 0
 
-##! Quantity of commodity $c$ expressed at market price for change in inventories use
+##! Change in inventories of commodity $c$, expressed at market price
 		 DS[c]   = 		     DSD[c] + 		    DSM[c]                if DS[c]  <> 0
 
-# Aggregation of imports and domestic production per use
+### Aggregation on commodities: imports and domestic agregate production per use, expressed at market price (value & volume)
+## This subsection provides the aggregate production for various uses, for domestic and imported products. They are calculated through the aggregation of commodity $c$ on the commodity index. \\
+
 ##! Aggregate market price for domestically produced commodities
 PQD   * QD   = sum(PQD[c]   * QD[c]   if QD[c]  <> 0 on c)  		  if QD  	<> 0
 
-##! Total quantity of domestically produced commodities
+##! Aggregate domestically produced commodities, expressed at market price
 	    QD   = sum( 		  QD[c]   if QD[c]  <> 0 on c) 			  if QD  	<> 0
 
 ##! Aggregate market price for imported commodities
 PQM   * QM   = sum(PQM[c]   * QM[c]   if QM[c]  <> 0 on c) 			  if QM  	<> 0
 
-##! Total quantity of imported commodities
+##! Aggregate imported commodities, expressed at market price
 	    QM   = sum( 		  QM[c]   if QM[c]  <> 0 on c)  		  if QM  	<> 0
 
-# Aggregation of imports and domestic margins per use
-##! Aggregate market price for margins received on domestically produced commodities
+##! Aggregate market price for the margins received on domestically produced commodities
 PMGRD * MGRD = sum(PMGRD[c] * MGRD[c] if MGRD[c] <> 0 on c) 		  if MGRD 	<> 0
 
-##! Total quantity of margins received on domestically produced commodities
+##! Aggregate margins received on domestically produced commodities, expressed at market price
 	    MGRD = sum(    		  MGRD[c] if MGRD[c] <> 0 on c) 		  if MGRD 	<> 0
 
-##! Aggregate market price for margins received on imported commodities
+##! Aggregate market price for the margins received on imported commodities
 PMGRM * MGRM = sum(PMGRM[c] * MGRM[c] if MGRM[c] <> 0 on c) 		  if MGRM 	<> 0
 
-##! Total quantity of margins received on imported commodities
+##! Aggregate margins received on imported commodities, expressed at market price
 	    MGRM = sum(		   	  MGRM[c] if MGRM[c] <> 0 on c) 		  if MGRM 	<> 0
 
-# Aggregation of imports and domestic intermediate consumption per use
-##! Aggregate market price on domestically produced commodities for intermediate consumption use
+##! Aggregate market price for domestically produced intermediate consumption
 PCID  * CID  = sum(PCID[c]  * CID[c]  if CID[c]  <> 0 on c) 		  if  CID 	<> 0
 
-##! Total quantity of domestically produced commodities for intermediate consumption use
+##! Aggregate domestically produced intermediate consumption, expressed at market price
 	    CID  = sum( 		  CID[c]  if CID[c]  <> 0 on c) 		  if  CID 	<> 0
 
-##! Aggregate market price on imported commodities for intermediate consumption use
+##! Aggregate market price for imported intermediate consumption
 PCIM  * CIM  = sum(PCIM[c]  * CIM[c]  if CIM[c]  <> 0 on c) 		  if  CIM 	<> 0
 
-##! Total quantity of imported commodities for intermediate consumption use
+##!  Aggregate imported intermediate consumption, expressed at market price
 	    CIM  = sum( 		  CIM[c]  if CIM[c]  <> 0 on c) 		  if  CIM 	<> 0
 
-# Aggregation of imports and domestic households consumption per use
-
-##! Aggregate market price on domestically produced commodities for households final consumption expenditure
+##! Aggregate market price for domestically produced households final consumption
 PCHD  * CHD  = sum(PCHD[c]  * CHD[c]  if CHD[c]  <> 0 on c) 		  if  CHD 	<> 0
 
-##! Total quantity of domestically produced commodities for hoexpenditureholds final consumption expenditure
+##! Aggregate domestically produced final consumption, expressed at market price
 	    CHD  = sum( 	      CHD[c]  if CHD[c]  <> 0 on c) 		  if  CHD 	<> 0
 
-##! Aggregate market price on imported commodities for households final consumption expenditure
+##! Aggregate market price for imported households final consumption
 PCHM  * CHM  = sum(PCHM[c]  * CHM[c]  if CHM[c]  <> 0 on c) 		  if  CHM 	<> 0
 
-##! Total quantity of imported commodities for households final consumption expenditure
+##! Aggregate imported households final consumption, expressed at market price
 	    CHM  = sum( 		  CHM[c]  if CHM[c]  <> 0 on c) 		  if  CHM 	<> 0
 
-# Aggregation of imports and domestic government consumption per use
-##! Aggregate market price on domestically produced commodities for government final consumption expenditure
+##! Aggregate market price for domestically produced Government final consumption
 PGD   * GD   = sum(PGD[c]   * GD[c]   if GD[c]   <> 0 on c) 		  if   GD 	<> 0
 
-##! Total quantity of domestically produced commodities for government final consumption expenditure
+##! Aggregate domestically produced Government final consumption, expressed at market price
 	    GD   = sum( 		  GD[c]   if GD[c]   <> 0 on c) 		  if   GD 	<> 0
 
-##! Aggregate market price on imported commodities for government final consumption expenditure
+##! Aggregate market price for imported Government final consumption
 PGM   * GM   = sum(PGM[c]   * GM[c]   if GM[c]   <> 0 on c) 		  if   GM 	<> 0
 
-##! Total quantity of imported commodities for government final consumption expenditure
+##! Aggregate imported Government final consumption, expressed at market price
 	    GM   = sum( 		  GM[c]   if GM[c]   <> 0 on c) 		  if   GM 	<> 0
 
-# Aggregation of imports and domestic investment per use
-
-##! Aggregate market price on domestically produced commodities for investment use
+##! Aggregate market price for domestically produced investment
 PID   * ID   = sum(PID[c]   * ID[c]   if ID[c]   <> 0 on c) 		  if   ID 	<> 0
 
-##! Total quantity of domestically produced commodities for investment use
+##! Aggregate domestically produced investment, expressed at market price
 	    ID   = sum( 		  ID[c]   if ID[c]   <> 0 on c) 		  if   ID 	<> 0
 
-##! Aggregate market price on imported produced commodities for investment use
+##! Aggregate market price for imported investment
 PIM   * IM   = sum(PIM[c]   * IM[c]   if IM[c]   <> 0 on c) 		  if   IM 	<> 0
 
-##! Total quantity of imported commodities for investment use
+##! Aggregate imported investment, expressed at market price
 	    IM   = sum( 		  IM[c]   if IM[c]   <> 0 on c) 		  if   IM 	<> 0
 
-# Aggregation of imports and domestic exports per use
-##! Aggregate market price on domestically produced commodities for exports use
+##! Aggregate market price for domestically produced exports
 PXD   * XD   = sum(PXD[c]   * XD[c]   if XD[c]   <> 0 on c) 		  if   XD 	<> 0
 
-##! Total quantity of domestically produced commodities for exports use
+##! Aggregate domestically produced exports, expressed at market price
 	    XD   = sum( 		  XD[c]   if XD[c]   <> 0 on c) 		  if   XD 	<> 0
 
-##! Aggregate market price on imported commodities for exports use
+##! Aggregate market price for imported exports (re-exports)
 PXM   * XM   = sum(PXM[c]   * XM[c]   if XM[c]   <> 0 on c) 		  if   XM 	<> 0
 
-##! Total quantity of imported commodities for exports use
+##! Aggregate imported exports (re-exports), expressed at market price
 	    XM   = sum( 		  XM[c]   if XM[c]   <> 0 on c) 		  if   XM 	<> 0
 
-# Aggregation of imports and domestic change in inventories per use
-##! Aggregate market price on domestically produced commodities for change in inventories use
+##! Aggregate market price for domestically produced change in inventories
 PDSD  * DSD  = sum(PDSD[c]  * DSD[c] if DSD[c]   <> 0 on c) 		  if  DSD 	<> 0
 
-##! Total quantity of domestically produced commodities for change in inventories use
+##! Aggregate domestically produced change in inventories, expressed at market price
 	    DSD  = sum( 		  DSD[c] if DSD[c]   <> 0 on c) 		  if  DSD 	<> 0
 
-##! Aggregate market price on imported commodities for change in inventories use
+##! Aggregate market price for imported change in inventories
 PDSM  * DSM  = sum(PDSM[c]  * DSM[c] if DSM[c]   <> 0 on c) 		  if  DSM 	<> 0
 
-##! Total quantity of imported commodities for change in inventories use
+##! Aggregate imported change in inventories, expressed at market price
 	    DSM  = sum( 		  DSM[c] if DSM[c]   <> 0 on c) 		  if  DSM 	<> 0
 
-# Aggregation per use of total production 					(value & volume)
-##! Aggregate market price of commodities
+
+### Aggregation of domestic and imported production per use, expressed at market price (value & volume)
+
+## This subsection provides the aggregate production for various uses by summing the corresponding domestic and imported agregates. \\
+
+##! Aggregate market price for production
 PQ 	  * Q    = PQD   * QD   + PQM   * QM   							  if Q    	<> 0
 
-##! Total quantity of commodities
+##! Aggregate production, expressed at market price
 	    Q    = 	       QD   + 	      QM   							  if Q    	<> 0
 
-# Aggregation per use of margins 								(value & volume)
-##! Aggregate market price of margins on commodities
+##! Aggregate market price for recieved margins
 PMGR  * MGR  = PMGRD * MGRD + PMGRM * MGRM 							  if MGR  	<> 0
 
-##! Total quantity of margins on commodities
+##! Aggregate recieved margins
 	    MGR  = 		   MGRD + 		  MGRM 							  if MGR  	<> 0
 
-# Aggregation per use of intermediate consumptions 			(value & volume)
-##! Aggregate market price of commodities for intermediate consumption use
+##! Aggregate market price for intermediate consumption
 PCI   * CI   = PCID  * CID  + PCIM  * CIM  							  if CI   	<> 0
 
-##! Total quantity of commodities for intermediate consumption use
+##! Aggregate intermediate consumption, expressed at market price
 	    CI   = 		   CID  + 	      CIM  							  if CI   	<> 0
 
-# Aggregation per use of households consumption 				(value & volume)
-##! Aggregate market price of commodities for household final consumption expenditure
+##! Aggregate market price for household final (consumer price index)
 PCH   * CH   = PCHD  * CHD  + PCHM  * CHM  							  if CH   	<> 0
 
-##! Total quantity of commodities for household final consumption expenditure
+##! Aggregate household final consumption, expressed at market price
 	    CH   = 		   CHD  + 	      CHM  							  if CH   	<> 0
 
-# Aggregation per use of government consumption 				(value & volume)
-##! Aggregate market price of commodities for government final consumption expenditure
+##! Aggregate market price for Government final consumption
 PG    * G    = PGD   * GD   + PGM   * GM   							  if G    	<> 0
 
-##! Total quantity of commodities for government final consumption expenditure
+##! Aggregate Government final consumption, expressed at market price
 	    G    = 	       GD   + 	      GM   							  if G    	<> 0
 
-# Aggregation per use of investment 							(value & volume)
-##! Aggregate market price of commodities for investment use
+##! Aggregate market price for investment
 PI    * I    = PID   * ID   + PIM   * IM   							  if I    	<> 0
 
-##! Total quantity of commodities for investment use
+##! Aggregate investment, expressed at market price
 	    I    = 	       ID   + 	      IM   							  if I    	<> 0
 
-# Aggregation per use of exports 								(value & volume)
-##! Aggregate market price of commodities for exports use
+##! Aggregate market price for exports
 PX    * X    = PXD   * XD   + PXM   * XM   							 if X    	<> 0
 
-##! Total quantity of commodities for exports use
+##! Aggregate exports, expressed at market price
 	    X    = 	       XD   + 	      XM   							 if X    	<> 0
 
-# Aggregation of total change in inventories 						(value & volume)
-##! Aggregate market price of commodities for change in inventories use
+##! Aggregate market price for change in inventories
 PDS   * DS   = PDSD  * DSD  + PDSM  * DSM  							 if DS   	<> 0
 
-##! Total quantity of commodities for change in inventories use
+##! Aggregate change in inventories, expressed at market price
 	    DS   = 		   DSD  + 	   	  DSM  							 if DS   	<> 0
 
 
-###! Supply side
+#### Supply side
 
 # Margins paid on domestic and imported commodity $c$ 		(value & volume)
 ##! price for margins paid on domestically produced commodity $c$
@@ -364,7 +359,7 @@ PIM[s]  * IM[s]     = sum(PIM[c, s]  * IM[c, s] 	if IM[c, s]   <> 0 on c) 	 	if 
 ##! Aggregate investment price of commmodities for investment use by the sector $s$
 PI[s]   * I[s]      = PID[s] * ID[s] + PIM[s] * IM[s] 						   	 	if I[s]   	 <> 0
 
-##! Total quantity of commodities for investment use by the sector $s$ expressed at investment price
+##! Aggregate of commodities for investment use by the sector $s$ expressed at investment price
 	      I[s]      = 		   ID[s] + 		    IM[s] 						   	 	if I[s]   	 <> 0
 
 ##! Investment from sector agregation (value & volume) (summed directly on the aggregate per product $c$). For verification: (NO COMMENT ?)
@@ -441,7 +436,7 @@ PNOS * NOS = sum(NOS_VAL[s] on s)
 ##! Total Net Operating Surplus
 	   NOS = sum(NOS[s] 	on s)
 
-### GDP calculated according to various approaches
+#### GDP calculated according to various approaches
 # GDP: Expenditure approach
 
 
