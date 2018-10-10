@@ -7,9 +7,8 @@ library(stringr)
 # 
 # First evaluate the whole file (Run)
 # Then, example use:
-#   teXdoc(c("SU.mdl", "producer.mdl", "prices.mdl", "consumer.mdl", "adjustments.mdl"))
-teXdoc(c("SU.mdl", "producer.mdl", "prices.mdl", "consumer.mdl", "government.mdl",  "Trade_inter.mdl", "demography.mdl", "ghg_emissions.mdl", "adjustments.mdl"))#, "government.mdl",  "Trade_inter.mdl", "adjustments.mdl", "demography.mdl", "ghg_emissions.mdl"))
-
+# teXdoc(c("SU.mdl", "producer.mdl", "prices.mdl", "consumer.mdl", "adjustments.mdl"))
+# teXdoc(c("SU.mdl", "producer.mdl", "prices.mdl", "consumer.mdl", "government.mdl",  "Trade_inter.mdl", "demography.mdl", "ghg_emissions.mdl", "adjustments.mdl"),"ThreeMEv3_eqs_01")
 rm(list = ls())
 
 peg <- new.parser()
@@ -341,7 +340,7 @@ codeToTeX <- function(filename) {
     else if (str_detect(l, "^##! ")) {
       txt <- str_replace(cleanTeX(l), "^##! ", "")
       description <<- txt 
-      str_c("\\textbf{", description, "} \\\\")
+      str_c("\\noindent\\textbf{", description, "} \\\\")
     # Pure text
     } else if (str_detect(l, "^## ")) {
       str_replace(cleanTeX(l), "^## ", "")
