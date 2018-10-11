@@ -1,0 +1,1106 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath}
+\usepackage{breqn}
+\numberwithin{equation}{section}
+\usepackage{longtable}
+\usepackage{booktabs}
+\begin{document}
+
+
+
+
+\section{Supply-Use equilibrium}
+
+
+
+This section provides the equations defining the supply use - equilibrium for the domestic and imported products and at the agregate level. It also derives the GDP according to various definitions. All equations are therefore accounting identity. \\  \\
+Each identity is expressed in value and in volume. The value equation defines therefore a price index. By convention, the variable $Z$ is always expressed in volume. $PZ$ is its price. Therefore the quantity expressed in value is $Z^{VAL} = PZ * Z$. In most case, values are expresed as $PZ * Z$. When there is a risk that a variable in volume is equal to zero in simulation, we shall defined value as $Z^{VAL}$ to avoid a division by zero issue. A typical exemple would be the value-added of sector $s$: $VA^{VAL}_{s} = PY_{s} \; Y_{s} - PCI_{s} \; CI_{s}$.
+
+
+
+\subsection{Use side}
+
+
+
+
+
+\subsubsection{Domestic and foreign equilibrium for commodities $c$ (value \& volume):}
+
+
+
+\noindent\textbf{Market price for the domestically produced commodity $c$} \\
+\begin{dmath}
+PQD_{c} \; QD_{c} = PMGRD_{c} \; MGRD_{c} + PCID_{c} \; CID_{c} + PCHD_{c} \; CHD_{c} + PGD_{c} \; GD_{c} + PID_{c} \; ID_{c} + PXD_{c} \; XD_{c} + PDSD_{c} \; DSD_{c}
+\end{dmath}
+
+\noindent\textbf{Quantity of domestically produced commodity $c$ expressed at market price} \\
+\begin{dmath}
+QD_{c} = MGRD_{c} + CID_{c} + CHD_{c} + GD_{c} + ID_{c} + XD_{c} + DSD_{c}
+\end{dmath}
+
+\noindent\textbf{Market price for imported commodity $c$} \\
+\begin{dmath}
+PQM_{c} \; QM_{c} = PMGRM_{c} \; MGRM_{c} + PCIM_{c} \; CIM_{c} + PCHM_{c} \; CHM_{c} + PGM_{c} \; GM_{c} + PIM_{c} \; IM_{c} + PXM_{c} \; XM_{c} + PDSM_{c} \; DSM_{c}
+\end{dmath}
+
+\noindent\textbf{Quantity of imported commodity $c$ expressed at market price} \\
+\begin{dmath}
+QM_{c} = MGRM_{c} + CIM_{c} + CHM_{c} + GM_{c} + IM_{c} + XM_{c} + DSM_{c}
+\end{dmath}
+
+
+
+\subsubsection{Margins received (value \& volume):}
+
+
+
+The margins received by commodity $cc$ corresponds to the margins supplied by this commodity. By definition, the margins received is the sum of the margins paid (or used) on the commodities $c$. \\ \\
+The margins paid on domestic and imported products ($MGPD_{cc, c}$ and $MGPM_{cc, c}$) are defined with behavorial equations in the producer block. They follow the domestic and imported production of commodity $c$ ($YQ_{c}$ and $M_{c}$) more or less proportionnally depending on the possibility of substitutions between margins. The margins paid are then agregated to define the margins recieved, $MGR_{cc}$. The latter is then disagrated between the domestic and imported margins recieved ($MGRD_{c}$ and $MGRM_{c}$). See specification in the producer block. \\
+
+\noindent\textbf{Market price of the margins received by commodity $cc$} \\
+\begin{dmath}
+PMGR_{cc} \; MGR_{cc} = \sum_{c} PMGP_{cc, c} \; MGP_{cc, c}
+\end{dmath}
+
+\noindent\textbf{Margins received by commodity $cc$, expressed at market price} \\
+\begin{dmath}
+MGR_{cc} = \sum_{c} MGP_{cc, c}
+\end{dmath}
+The margins received correspond to the sum of the margins paid to commodity $cc$ over all the commodities $c$ \\
+
+\noindent\textbf{Market price of the margins received by commodity $cc$ (for verification)} \\
+\begin{dmath}
+PMGR^{bis}_{c} \; MGR^{bis}_{c} = PMGRD_{c} \; MGRD_{c} + PMGRM_{c} \; MGRM_{c}
+\end{dmath}
+Same variable as $PMGR_{c}$ above to check the accounting consistency. \\
+
+\noindent\textbf{Margins received by commodity $cc$, expressed at market price (for verification)} \\
+\begin{dmath}
+MGR^{bis}_{c} = MGRD_{c} + MGRM_{c}
+\end{dmath}
+Same variable as $MGR_{c}$ above to check the accounting consistency. \\
+
+
+
+\subsubsection{Aggregation of imports and domestic production for commodity $c$ per use, expressed at market price (value \& volume)}
+
+
+This subsection agregates imports and domestic production for commodity $c$ for various uses. It does not do it for exports, household and Goverement final consumption ($X$, $CH$ and $G$) because these agregates are already defined in behaviour equations (see trade, consumer and Governement blocks). Expressed on value, this subsection also defines the prices indexes at market price for commodity $c$ per use as a weighted average of imported and domestic production per uses: \textit{i.e.} for $Q$ (production of commodities ), $CI$ (intermediary consumption), $I$ (private investment) and $DS$ (change in inventories). \\
+ \\
+
+\noindent\textbf{Market price of the production of commodity $c$} \\
+\begin{dmath}
+PQ_{c} \; Q_{c} = PQD_{c} \; QD_{c} + PQM_{c} \; QM_{c}
+\end{dmath}
+
+\noindent\textbf{Production of commodity $c$, expressed at market price} \\
+\begin{dmath}
+Q_{c} = QD_{c} + QM_{c}
+\end{dmath}
+
+\noindent\textbf{Market price of the intermediate consumption of commodity $c$} \\
+\begin{dmath}
+PCI_{c} \; CI_{c} = PCID_{c} \; CID_{c} + PCIM_{c} \; CIM_{c}
+\end{dmath}
+
+\noindent\textbf{Intermediate consumption of commodity $c$, expressed at market price} \\
+\begin{dmath}
+CI_{c} = CID_{c} + CIM_{c}
+\end{dmath}
+
+\noindent\textbf{Market price of the investment in commodity $c$} \\
+\begin{dmath}
+PI_{c} \; I_{c} = PID_{c} \; ID_{c} + PIM_{c} \; IM_{c}
+\end{dmath}
+
+\noindent\textbf{Investment in commodity $c$, expressed at market price} \\
+\begin{dmath}
+I_{c} = ID_{c} + IM_{c}
+\end{dmath}
+
+\noindent\textbf{Market price of the change in inventories of commodity $c$} \\
+\begin{dmath}
+PDS_{c} \; DS_{c} = PDSD_{c} \; DSD_{c} + PDSM_{c} \; DSM_{c}
+\end{dmath}
+
+\noindent\textbf{Change in inventories of commodity $c$, expressed at market price} \\
+\begin{dmath}
+DS_{c} = DSD_{c} + DSM_{c}
+\end{dmath}
+
+
+
+\subsubsection{Agregation on sectors: production of commodity $c$ per use for domestic and imported products, expressed at market price (value \& volume)}
+
+
+This subsection provides the aggregates for commodity $c$ for various uses, for domestic and imported products. They are calculated through the aggregation of the corresponding sectoral data on the sector index. \\
+
+\noindent\textbf{Market price for the domestically produced commodity $c$ used as intermediary consumption} \\
+\begin{dmath}
+PCID_{c} \; CID_{c} = \sum_{s} PCID_{c, s} \; CID_{c, s}
+\end{dmath}
+
+\noindent\textbf{Quantity of domestically produced commodity $c$ used as intermediary consumption, expressed at market price} \\
+\begin{dmath}
+CID_{c} = \sum_{s} CID_{c, s}
+\end{dmath}
+
+\noindent\textbf{Market price for imported commodity $c$ used as intermediary consumption} \\
+\begin{dmath}
+PCIM_{c} \; CIM_{c} = \sum_{s} PCIM_{c, s} \; CIM_{c, s}
+\end{dmath}
+
+\noindent\textbf{Quantity of imported commodity $c$ used as intermediary consumption, expressed at market price} \\
+\begin{dmath}
+CIM_{c} = \sum_{s} CIM_{c, s}
+\end{dmath}
+
+\noindent\textbf{Market price for domestically produced commodity $c$ used as investment} \\
+\begin{dmath}
+PID_{c} \; ID_{c} = \sum_{s} PID_{c, s} \; ID_{c, s}
+\end{dmath}
+
+\noindent\textbf{Quantity of imported commodity $c$ used as investment, expressed at market price} \\
+\begin{dmath}
+ID_{c} = \sum_{s} ID_{c, s}
+\end{dmath}
+
+\noindent\textbf{Market price for imported commodity $c$ used as investment} \\
+\begin{dmath}
+PIM_{c} \; IM_{c} = \sum_{s} PIM_{c, s} \; IM_{c, s}
+\end{dmath}
+
+\noindent\textbf{Quantity of imported commodity $c$ used as investment, expressed at market price} \\
+\begin{dmath}
+IM_{c} = \sum_{s} IM_{c, s}
+\end{dmath}
+
+
+
+
+\subsubsection{Agregation on commodities: imported, domestic and agregate intermediate consumption and investment of sector $s$, expressed at market price (value \& volume)}
+
+
+This subsection provides the intermediate consumption and investment of sector $s$ (imported, domestically produced and aggregated). They are calculated through the aggregation of the corresponding sectoral data on the commodity index. \\
+
+\noindent\textbf{Market price of domestically produced intermediate consumption of sector $s$} \\
+\begin{dmath}
+PCID_{s} \; CID_{s} = \sum_{c} PCID_{c, s} \; CID_{c, s}
+\end{dmath}
+
+\noindent\textbf{Domestically produced intermediate consumption of sector $s$, expressed at basic price, expressed at market price} \\
+\begin{dmath}
+CID_{s} = \sum_{c} CID_{c, s}
+\end{dmath}
+
+\noindent\textbf{Market price of imported intermediate consumption of sector $s$} \\
+\begin{dmath}
+PCIM_{s} \; CIM_{s} = \sum_{c} PCIM_{c, s} \; CIM_{c, s}
+\end{dmath}
+
+\noindent\textbf{Imported intermediate consumption of sector $s$, expressed at market price} \\
+\begin{dmath}
+CIM_{s} = \sum_{c} CIM_{c, s}
+\end{dmath}
+
+\noindent\textbf{Market price of intermediate consumption of sector $s$} \\
+\begin{dmath}
+PCI_{s} \; CI_{s} = PCID_{s} \; CID_{s} + PCIM_{s} \; CIM_{s}
+\end{dmath}
+
+\noindent\textbf{Intermediate consumption of sector $s$, expressed at market price} \\
+\begin{dmath}
+CI_{s} = CID_{s} + CIM_{s}
+\end{dmath}
+
+\noindent\textbf{Market price of intermediate consumption of sector $s$ (for verification)} \\
+\begin{dmath}
+PCI^{bis} . CI^{bis} = \sum_{s} PCI_{s} \; CI_{s}
+\end{dmath}
+\noindent\textbf{Intermediate consumption of sector $s$, expressed at market price (for verification)} \\
+\begin{dmath}
+CI^{bis} = \sum_{s} CI_{s}
+\end{dmath}
+
+\noindent\textbf{Market price of domestically produced investment of sector $s$} \\
+\begin{dmath}
+PID_{s} \; ID_{s} = \sum_{c} PID_{c, s} \; ID_{c, s}
+\end{dmath}
+
+\noindent\textbf{Domestically produced investment of sector $s$, expressed at market price} \\
+\begin{dmath}
+ID_{s} = \sum_{c} ID_{c, s}
+\end{dmath}
+
+\noindent\textbf{Market price of imported investment of sector $s$} \\
+\begin{dmath}
+PIM_{s} \; IM_{s} = \sum_{c} PIM_{c, s} \; IM_{c, s}
+\end{dmath}
+
+\noindent\textbf{Imported investment of sector $s$, expressed at market price} \\
+\begin{dmath}
+IM_{s} = \sum_{c} IM_{c, s}
+\end{dmath}
+
+\noindent\textbf{Market price of investment of sector $s$} \\
+\begin{dmath}
+PI_{s} \; I_{s} = PID_{s} \; ID_{s} + PIM_{s} \; IM_{s}
+\end{dmath}
+
+\noindent\textbf{Investment of sector $s$, expressed at market price} \\
+\begin{dmath}
+I_{s} = ID_{s} + IM_{s}
+\end{dmath}
+
+\noindent\textbf{Market price of investment of sector $s$ (for verification)} \\
+\begin{dmath}
+PI^{bis} . I^{bis} = \sum_{s} PI_{s} \; I_{s}
+\end{dmath}
+
+\noindent\textbf{Investment of sector $s$, expressed at market price (for verification)} \\
+\begin{dmath}
+I^{bis} = \sum_{s} I_{s}
+\end{dmath}
+
+
+
+\subsubsection{Aggregation on commodities: imports and domestic agregate production per use, expressed at market price (value \& volume)}
+
+
+This subsection provides the aggregate production for various uses, for domestic and imported products. They are calculated through the aggregation of commodity $c$ production per use on the commodity index. \\
+
+\noindent\textbf{Aggregate market price for domestically produced commodities} \\
+\begin{dmath}
+PQD . QD = \sum_{c} PQD_{c} \; QD_{c}
+\end{dmath}
+
+\noindent\textbf{Aggregate domestically produced commodities, expressed at market price} \\
+\begin{dmath}
+QD = \sum_{c} QD_{c}
+\end{dmath}
+
+\noindent\textbf{Aggregate market price for imported commodities} \\
+\begin{dmath}
+PQM . QM = \sum_{c} PQM_{c} \; QM_{c}
+\end{dmath}
+
+\noindent\textbf{Aggregate imported commodities, expressed at market price} \\
+\begin{dmath}
+QM = \sum_{c} QM_{c}
+\end{dmath}
+
+\noindent\textbf{Aggregate market price for the margins received on domestically produced commodities} \\
+\begin{dmath}
+PMGRD . MGRD = \sum_{c} PMGRD_{c} \; MGRD_{c}
+\end{dmath}
+
+\noindent\textbf{Aggregate margins received on domestically produced commodities, expressed at market price} \\
+\begin{dmath}
+MGRD = \sum_{c} MGRD_{c}
+\end{dmath}
+
+\noindent\textbf{Aggregate market price for the margins received on imported commodities} \\
+\begin{dmath}
+PMGRM . MGRM = \sum_{c} PMGRM_{c} \; MGRM_{c}
+\end{dmath}
+
+\noindent\textbf{Aggregate margins received on imported commodities, expressed at market price} \\
+\begin{dmath}
+MGRM = \sum_{c} MGRM_{c}
+\end{dmath}
+
+\noindent\textbf{Aggregate market price for domestically produced intermediate consumption} \\
+\begin{dmath}
+PCID . CID = \sum_{c} PCID_{c} \; CID_{c}
+\end{dmath}
+
+\noindent\textbf{Aggregate domestically produced intermediate consumption, expressed at market price} \\
+\begin{dmath}
+CID = \sum_{c} CID_{c}
+\end{dmath}
+
+\noindent\textbf{Aggregate market price for imported intermediate consumption} \\
+\begin{dmath}
+PCIM . CIM = \sum_{c} PCIM_{c} \; CIM_{c}
+\end{dmath}
+
+\noindent\textbf{ Aggregate imported intermediate consumption, expressed at market price} \\
+\begin{dmath}
+CIM = \sum_{c} CIM_{c}
+\end{dmath}
+
+\noindent\textbf{Aggregate market price for domestically produced households final consumption} \\
+\begin{dmath}
+PCHD . CHD = \sum_{c} PCHD_{c} \; CHD_{c}
+\end{dmath}
+
+\noindent\textbf{Aggregate domestically produced final consumption, expressed at market price} \\
+\begin{dmath}
+CHD = \sum_{c} CHD_{c}
+\end{dmath}
+
+\noindent\textbf{Aggregate market price for imported households final consumption} \\
+\begin{dmath}
+PCHM . CHM = \sum_{c} PCHM_{c} \; CHM_{c}
+\end{dmath}
+
+\noindent\textbf{Aggregate imported households final consumption, expressed at market price} \\
+\begin{dmath}
+CHM = \sum_{c} CHM_{c}
+\end{dmath}
+
+\noindent\textbf{Aggregate market price for domestically produced Government final consumption} \\
+\begin{dmath}
+PGD . GD = \sum_{c} PGD_{c} \; GD_{c}
+\end{dmath}
+
+\noindent\textbf{Aggregate domestically produced Government final consumption, expressed at market price} \\
+\begin{dmath}
+GD = \sum_{c} GD_{c}
+\end{dmath}
+
+\noindent\textbf{Aggregate market price for imported Government final consumption} \\
+\begin{dmath}
+PGM . GM = \sum_{c} PGM_{c} \; GM_{c}
+\end{dmath}
+
+\noindent\textbf{Aggregate imported Government final consumption, expressed at market price} \\
+\begin{dmath}
+GM = \sum_{c} GM_{c}
+\end{dmath}
+
+\noindent\textbf{Aggregate market price for domestically produced investment} \\
+\begin{dmath}
+PID . ID = \sum_{c} PID_{c} \; ID_{c}
+\end{dmath}
+
+\noindent\textbf{Aggregate domestically produced investment, expressed at market price} \\
+\begin{dmath}
+ID = \sum_{c} ID_{c}
+\end{dmath}
+
+\noindent\textbf{Aggregate market price for imported investment} \\
+\begin{dmath}
+PIM . IM = \sum_{c} PIM_{c} \; IM_{c}
+\end{dmath}
+
+\noindent\textbf{Aggregate imported investment, expressed at market price} \\
+\begin{dmath}
+IM = \sum_{c} IM_{c}
+\end{dmath}
+
+\noindent\textbf{Aggregate market price for domestically produced exports} \\
+\begin{dmath}
+PXD . XD = \sum_{c} PXD_{c} \; XD_{c}
+\end{dmath}
+
+\noindent\textbf{Aggregate domestically produced exports, expressed at market price} \\
+\begin{dmath}
+XD = \sum_{c} XD_{c}
+\end{dmath}
+
+\noindent\textbf{Aggregate market price for imported exports (re-exports)} \\
+\begin{dmath}
+PXM . XM = \sum_{c} PXM_{c} \; XM_{c}
+\end{dmath}
+
+\noindent\textbf{Aggregate imported exports (re-exports), expressed at market price} \\
+\begin{dmath}
+XM = \sum_{c} XM_{c}
+\end{dmath}
+
+\noindent\textbf{Aggregate market price for domestically produced change in inventories} \\
+\begin{dmath}
+PDSD . DSD = \sum_{c} PDSD_{c} \; DSD_{c}
+\end{dmath}
+
+\noindent\textbf{Aggregate domestically produced change in inventories, expressed at market price} \\
+\begin{dmath}
+DSD = \sum_{c} DSD_{c}
+\end{dmath}
+
+\noindent\textbf{Aggregate market price for imported change in inventories} \\
+\begin{dmath}
+PDSM . DSM = \sum_{c} PDSM_{c} \; DSM_{c}
+\end{dmath}
+
+\noindent\textbf{Aggregate imported change in inventories, expressed at market price} \\
+\begin{dmath}
+DSM = \sum_{c} DSM_{c}
+\end{dmath}
+
+
+
+
+\subsubsection{Aggregation of domestic and imported production per use, expressed at market price (value \& volume)}
+
+
+
+This subsection provides the aggregate production for various uses by summing the corresponding domestic and imported agregates. \\
+
+\noindent\textbf{Aggregate market price for production} \\
+\begin{dmath}
+PQ . Q = PQD . QD + PQM . QM
+\end{dmath}
+
+\noindent\textbf{Aggregate production, expressed at market price} \\
+\begin{dmath}
+Q = QD + QM
+\end{dmath}
+
+\noindent\textbf{Aggregate market price for recieved margins} \\
+\begin{dmath}
+PMGR . MGR = PMGRD . MGRD + PMGRM . MGRM
+\end{dmath}
+
+\noindent\textbf{Aggregate recieved margins} \\
+\begin{dmath}
+MGR = MGRD + MGRM
+\end{dmath}
+
+\noindent\textbf{Aggregate market price for intermediate consumption} \\
+\begin{dmath}
+PCI . CI = PCID . CID + PCIM . CIM
+\end{dmath}
+
+\noindent\textbf{Aggregate intermediate consumption, expressed at market price} \\
+\begin{dmath}
+CI = CID + CIM
+\end{dmath}
+
+\noindent\textbf{Aggregate market price for household final (consumer price index)} \\
+\begin{dmath}
+PCH . CH = PCHD . CHD + PCHM . CHM
+\end{dmath}
+
+\noindent\textbf{Aggregate household final consumption, expressed at market price} \\
+\begin{dmath}
+CH = CHD + CHM
+\end{dmath}
+
+\noindent\textbf{Aggregate market price for Government final consumption} \\
+\begin{dmath}
+PG . G = PGD . GD + PGM . GM
+\end{dmath}
+
+\noindent\textbf{Aggregate Government final consumption, expressed at market price} \\
+\begin{dmath}
+G = GD + GM
+\end{dmath}
+
+\noindent\textbf{Aggregate market price for investment} \\
+\begin{dmath}
+PI . I = PID . ID + PIM . IM
+\end{dmath}
+
+\noindent\textbf{Aggregate investment, expressed at market price} \\
+\begin{dmath}
+I = ID + IM
+\end{dmath}
+
+\noindent\textbf{Aggregate market price for exports} \\
+\begin{dmath}
+PX . X = PXD . XD + PXM . XM
+\end{dmath}
+
+\noindent\textbf{Aggregate exports, expressed at market price} \\
+\begin{dmath}
+X = XD + XM
+\end{dmath}
+
+\noindent\textbf{Aggregate market price for change in inventories} \\
+\begin{dmath}
+PDS . DS = PDSD . DSD + PDSM . DSM
+\end{dmath}
+
+\noindent\textbf{Aggregate change in inventories, expressed at market price} \\
+\begin{dmath}
+DS = DSD + DSM
+\end{dmath}
+
+\newpage
+
+
+\subsection{Supply side}
+
+
+
+
+
+\subsubsection{Domestic and foreign equilibrium for commodities $c$ (value \& volume):}
+
+
+
+
+\noindent\textbf{Production of commodity $c$, expressed at basic price} \\
+
+\begin{dmath}
+YQ_{c} \; PYQ_{c} + NTAXPD^{VAL}_{c} + PMGPD_{c} \; MGPD_{c} = PQD_{c} \; QD_{c}
+\end{dmath}
+
+\noindent\textbf{Basic price of the production of commodity $c$ (for verification)} \\
+\begin{dmath}
+PYQ^{bis}_{c} \; YQ_{c} + NTAXPD^{VAL}_{c} + PMGPD_{c} \; MGPD_{c} = PQD_{c} \; QD_{c}
+\end{dmath}
+ This price is already defined as a weighted average of the production price of the sectors producing commodity $c$ in the price block: $PYQ . YQ = \sum_{c} PYQ_{c} \; YQ_{c}$. To verify accountancy consistancy, we define it here under an alias name. \\
+
+\noindent\textbf{Production of commodity $c$, expressed at basic price (for verification)} \\
+\begin{dmath}
+YQ^{bis}_{c} + NTAXPD_{c} + MGPD_{c} = QD_{c}
+\end{dmath}
+Same variable as $YQ_{c}$ above to check the accounting consistency. \\
+
+\noindent\textbf{Imports of commodity $c$, expressed at basic price} \\
+\begin{dmath}
+M_{c} \; PM_{c} + NTAXPM^{VAL}_{c} + PMGPM_{c} \; MGPM_{c} = PQM_{c} \; QM_{c}
+\end{dmath}
+
+\noindent\textbf{Basic price of imports of commodity $c$ (for verification)} \\
+\begin{dmath}
+PM^{bis}_{c} \; M_{c} + NTAXPM^{VAL}_{c} + PMGPM_{c} \; MGPM_{c} = PQM_{c} \; QM_{c}
+\end{dmath}
+ This price is already defined in the price block as $PM_{c} = EXR . PWD_{c}$. To verify accountancy consistancy, we define it here under an alias name. \\
+
+\noindent\textbf{Imports of commodity $c$, expressed at basic price (for verification)} \\
+\begin{dmath}
+M^{bis}_{c} + NTAXPM_{c} + MGPM_{c} = QM_{c}
+\end{dmath}
+Same variable as $M_{c}$ above to check the accounting consistency. \\
+
+
+
+\subsubsection{Margins paid (value \& volume)}
+
+
+\noindent\textbf{Price of the margins paid on domestically produced commodity $c$} \\
+\begin{dmath}
+PMGPD_{c} \; MGPD_{c} = \sum_{cc} PMGPD_{cc, c} \; MGPD_{cc, c}
+\end{dmath}
+
+\noindent\textbf{Margins paid on the domestically produced commodity $c$} \\
+\begin{dmath}
+MGPD_{c} = \sum_{cc} MGPD_{cc, c}
+\end{dmath}
+
+\noindent\textbf{Price of the margins paid on imported commodity $c$} \\
+\begin{dmath}
+PMGPM_{c} \; MGPM_{c} = \sum_{cc} PMGPM_{cc, c} \; MGPM_{cc, c}
+\end{dmath}
+
+\noindent\textbf{Margins paid on imported commodity $c$} \\
+\begin{dmath}
+MGPM_{c} = \sum_{cc} MGPM_{cc, c}
+\end{dmath}
+
+\noindent\textbf{Price of the margins paid to commodity $cc$ on commodity $c$} \\
+\begin{dmath}
+PMGP_{cc, c} \; MGP_{cc, c} = PMGPD_{cc, c} \; MGPD_{cc, c} + PMGPM_{cc, c} \; MGPM_{cc, c}
+\end{dmath}
+
+\noindent\textbf{Margins paid to commodity $cc$ on commodity $c$} \\
+\begin{dmath}
+MGP_{cc, c} = MGPD_{cc, c} + MGPM_{cc, c}
+\end{dmath}
+
+
+
+
+\subsubsection{Aggregation on commodities: supply side agregates (value \& volume)}
+
+
+
+\noindent\textbf{Aggregate price of the margins paid on domestically produced commodity} \\
+\begin{dmath}
+PMGPD . MGPD = \sum_{c} PMGPD_{c} \; MGPD_{c}
+\end{dmath}
+
+\noindent\textbf{Margins paid on domestically produced commodities} \\
+\begin{dmath}
+MGPD = \sum_{c} MGPD_{c}
+\end{dmath}
+
+\noindent\textbf{Aggregate price of the margins paid on imported commodities} \\
+\begin{dmath}
+PMGPM . MGPM = \sum_{c} PMGPM_{c} \; MGPM_{c}
+\end{dmath}
+
+\noindent\textbf{Margins paid on imported commodities} \\
+\begin{dmath}
+MGPM = \sum_{c} MGPM_{c}
+\end{dmath}
+
+\noindent\textbf{Aggregate basic price of domestic production} \\
+\begin{dmath}
+PYQ . YQ = \sum_{c} PYQ_{c} \; YQ_{c}
+\end{dmath}
+
+\noindent\textbf{Domestic production, expressed at basic price} \\
+\begin{dmath}
+YQ = \sum_{c} YQ_{c}
+\end{dmath}
+
+\noindent\textbf{Aggregate basic price of imports} \\
+\begin{dmath}
+PM . M = \sum_{c} PM_{c} \; M_{c}
+\end{dmath}
+
+\noindent\textbf{Imports, expressed at basic price} \\
+\begin{dmath}
+M = \sum_{c} M_{c}
+\end{dmath}
+
+
+
+
+\subsubsection{Supply indicators of sector $s$ (value \& volume):}
+
+
+
+\noindent\textbf{Production of sector $s$, expressed at basic price} \\
+\begin{dmath}
+Y_{s} = \sum_{c} Y_{c, s}
+\end{dmath}
+The production price of sector $s$ is defined in the producer block as a behavour equation. It can not therefore be defined here as an index. \\
+
+\noindent\textbf{Value-added of sector $s$ expressed in value} \\
+\begin{dmath}
+VA^{VAL}_{s} = PY_{s} \; Y_{s} - PCI_{s} \; CI_{s}
+\end{dmath}
+
+\noindent\textbf{Value-added of sector $s$} \\
+\begin{dmath}
+VA_{s} = Y_{s} - CI_{s}
+\end{dmath}
+
+\noindent\textbf{Gross operating surplus of sector $s$ expressed in value} \\
+\begin{dmath}
+GOS^{VAL}_{s} = VA^{VAL}_{s} - PWAGES_{s} \; WAGES_{s} - PRSSC_{s} \; RSSC_{s} - NTAXI^{VAL}_{s}
+\end{dmath}
+The standard definition of the Gross Operating Surplus (GOS) generally include tax on profits. For simplicity, we assume that $NTAXI_{s}$ includes all net taxes on capital (i.e. tax on production and profits). In our definition, the tax on profit is therefore excluded from the GOS. This should be taken into account if one wants to use the GOS as a basis for the tax on profits. \\
+
+\noindent\textbf{Gross operating surplus of sector $s$} \\
+\begin{dmath}
+GOS_{s} = VA_{s} - WAGES_{s} - RSSC_{s} - NTAXI_{s}
+\end{dmath}
+
+\noindent\textbf{Net operating surplus of sector $s$ expressed in value} \\
+\begin{dmath}
+NOS^{VAL}_{s} = GOS^{VAL}_{s} - PK_{s, t-1} \; \delta_{s} \; F_{K, s, t-1}
+\end{dmath}
+
+\noindent\textbf{Net operating surplus of sector $s$} \\
+\begin{dmath}
+NOS_{s} = GOS_{s} - PK_{s, t_{0}-1} \; \delta_{s} \; F_{K, s, t-1}
+\end{dmath}
+
+
+
+
+\subsubsection{Aggregation on sectors: supply indicators of all sectors  (value \& volume)}
+
+
+
+\noindent\textbf{Basic price of aggregate production} \\
+\begin{dmath}
+PY . Y = \sum_{s} PY_{s} \; Y_{s}
+\end{dmath}
+
+\noindent\textbf{Aggregate production, expressed at basic price} \\
+\begin{dmath}
+Y = \sum_{s} Y_{s}
+\end{dmath}
+
+\noindent\textbf{Value-added price} \\
+\begin{dmath}
+PVA . VA = \sum_{s} VA^{VAL}_{s}
+\end{dmath}
+
+\noindent\textbf{Aggregate value-added} \\
+\begin{dmath}
+VA = \sum_{s} VA_{s}
+\end{dmath}
+
+\noindent\textbf{Gross wage index paid by sectors} \\
+\begin{dmath}
+PWAGES . WAGES = \sum_{s} PWAGES_{s} \; WAGES_{s}
+\end{dmath}
+The gross wage includes employees (but not employers)' social contribution \\
+
+
+\noindent\textbf{Aggregate gross wages paid by sectors} \\
+\begin{dmath}
+WAGES = \sum_{s} WAGES_{s}
+\end{dmath}
+
+
+\noindent\textbf{Price of the aggregate gross operating surplus} \\
+\begin{dmath}
+PGOS . GOS = \sum_{s} GOS^{VAL}_{s}
+\end{dmath}
+
+\noindent\textbf{Aggregate gross operating surplus} \\
+\begin{dmath}
+GOS = \sum_{s} GOS_{s}
+\end{dmath}
+
+\noindent\textbf{Price of the aggregate net operating surplus} \\
+\begin{dmath}
+PNOS . NOS = \sum_{s} NOS^{VAL}_{s}
+\end{dmath}
+
+\noindent\textbf{Aggregate net operating surplus} \\
+\begin{dmath}
+NOS = \sum_{s} NOS_{s}
+\end{dmath}
+
+
+
+\subsection{Gross Domestic Product (GDP)}
+
+
+
+In this subsection, GDP is calculated according to different approaches. All approaches lead to same result.
+
+
+
+\subsubsection{Expenditure approach}
+
+
+
+\noindent\textbf{Price of GDP (expenditure definition)} \\
+\begin{dmath}
+PGDP . GDP = PCH . CH + PG . G + PI . I + PX . X + PDS . DS - PM . M
+\end{dmath}
+According to expenditure approach, GDP is calculated as the sum of the different components in the final uses of goods and services. \\
+
+
+\noindent\textbf{GDP (expenditure definition)} \\
+\begin{dmath}
+GDP = CH + G + I + X + DS - M
+\end{dmath}
+
+\noindent\textbf{Price of GDP of commodity $c$ (expenditure definition)} \\
+\begin{dmath}
+PGDP_{c} \; GDP_{c} = PCH_{c} \; CH_{c} + PG_{c} \; G_{c} + PI_{c} \; I_{c} + PX_{c} \; X_{c} + PDS_{c} \; DS_{c} - PM_{c} \; M_{c}
+\end{dmath}
+
+\noindent\textbf{GDP of commodity $c$ (expenditure definition)} \\
+\begin{dmath}
+GDP_{c} = CH_{c} + G_{c} + I_{c} + X_{c} + DS_{c} - M_{c}
+\end{dmath}
+
+\noindent\textbf{Price of GDP (expenditure definition, for verification)} \\
+\begin{dmath}
+PGDP^{bis} . GDP^{bis} = \sum_{c} PGDP_{c} \; GDP_{c}
+\end{dmath}
+\noindent\textbf{GDP (expenditure definition, for verification)} \\
+\begin{dmath}
+GDP^{bis} = \sum_{c} GDP_{c}
+\end{dmath}
+
+
+
+\subsubsection{Production approach}
+
+
+\noindent\textbf{Price of GDP (production definition)} \\
+\begin{dmath}
+PGDP^{ter} . GDP^{ter} = PVA . VA + PNTAXP . NTAXP
+\end{dmath}
+According to production approach, GDP is calculated as the sum of the value added plus the total net taxes on commodities. \\
+
+\noindent\textbf{ GDP (production definition)} \\
+\begin{dmath}
+GDP^{ter} = VA + NTAXP
+\end{dmath}
+
+
+
+\subsubsection{Income approach}
+
+
+\noindent\textbf{Price of GDP (income definition)} \\
+\begin{dmath}
+PGDP4 . GDP4 = PGOS . GOS + PWAGES . WAGES + PRSSC . RSSC + NTAXI^{VAL} + PNTAXP . NTAXP
+\end{dmath}
+According to the income approach, GDP is calculated as the sum of all the economic incomes (from labor and capital) corrected by the social and taxes transfers. \\
+
+\noindent\textbf{  GDP (income definition)} \\
+\begin{dmath}
+GDP4 = GOS + WAGES + RSSC + NTAXI + NTAXP
+\end{dmath}
+\newpage
+        \Large\noindent\textbf{Glossary}
+        \normalsize
+        \begin{longtable}{@{}p{4cm}p{9cm}@{}} 
+$CH$ & Aggregate household final consumption, expressed at market price \\
+ \midrule 
+$CHD$ & Aggregate domestically produced final consumption, expressed at market price \\
+ \midrule 
+$CHM$ & Aggregate imported households final consumption, expressed at market price \\
+ \midrule 
+$CI$ & Aggregate intermediate consumption, expressed at market price \\
+ \midrule 
+$CI_{c}$ & Intermediate consumption of commodity $c$, expressed at market price \\
+ \midrule 
+$CI_{s}$ & Intermediate consumption of sector $s$, expressed at market price \\
+ \midrule 
+$CI^{bis}$ & Intermediate consumption of sector $s$, expressed at market price (for verification) \\
+ \midrule 
+$CID$ & Aggregate domestically produced intermediate consumption, expressed at market price \\
+ \midrule 
+$CID_{c}$ & Quantity of domestically produced commodity $c$ used as intermediary consumption, expressed at market price \\
+ \midrule 
+$CID_{s}$ & Domestically produced intermediate consumption of sector $s$, expressed at basic price, expressed at market price \\
+ \midrule 
+$CIM$ &  Aggregate imported intermediate consumption, expressed at market price \\
+ \midrule 
+$CIM_{c}$ & Quantity of imported commodity $c$ used as intermediary consumption, expressed at market price \\
+ \midrule 
+$CIM_{s}$ & Imported intermediate consumption of sector $s$, expressed at market price \\
+ \midrule 
+$DS$ & Aggregate change in inventories, expressed at market price \\
+ \midrule 
+$DS_{c}$ & Change in inventories of commodity $c$, expressed at market price \\
+ \midrule 
+$DSD$ & Aggregate domestically produced change in inventories, expressed at market price \\
+ \midrule 
+$DSM$ & Aggregate imported change in inventories, expressed at market price \\
+ \midrule 
+$G$ & Aggregate Government final consumption, expressed at market price \\
+ \midrule 
+$GD$ & Aggregate domestically produced Government final consumption, expressed at market price \\
+ \midrule 
+$GDP$ & GDP (expenditure definition) \\
+ \midrule 
+$GDP_{c}$ & GDP of commodity $c$ (expenditure definition) \\
+ \midrule 
+$GDP4$ &   GDP (income definition) \\
+ \midrule 
+$GDP^{bis}$ & GDP (expenditure definition, for verification) \\
+ \midrule 
+$GDP^{ter}$ &  GDP (production definition) \\
+ \midrule 
+$GM$ & Aggregate imported Government final consumption, expressed at market price \\
+ \midrule 
+$GOS$ & Aggregate gross operating surplus \\
+ \midrule 
+$GOS_{s}$ & Gross operating surplus of sector $s$ \\
+ \midrule 
+$GOS^{VAL}_{s}$ & Gross operating surplus of sector $s$ expressed in value \\
+ \midrule 
+$I$ & Aggregate investment, expressed at market price \\
+ \midrule 
+$I_{c}$ & Investment in commodity $c$, expressed at market price \\
+ \midrule 
+$I_{s}$ & Investment of sector $s$, expressed at market price \\
+ \midrule 
+$I^{bis}$ & Investment of sector $s$, expressed at market price (for verification) \\
+ \midrule 
+$ID$ & Aggregate domestically produced investment, expressed at market price \\
+ \midrule 
+$ID_{c}$ & Quantity of imported commodity $c$ used as investment, expressed at market price \\
+ \midrule 
+$ID_{s}$ & Domestically produced investment of sector $s$, expressed at market price \\
+ \midrule 
+$IM$ & Aggregate imported investment, expressed at market price \\
+ \midrule 
+$IM_{c}$ & Quantity of imported commodity $c$ used as investment, expressed at market price \\
+ \midrule 
+$IM_{s}$ & Imported investment of sector $s$, expressed at market price \\
+ \midrule 
+$M$ & Imports, expressed at basic price \\
+ \midrule 
+$M_{c}$ & Imports of commodity $c$, expressed at basic price \\
+ \midrule 
+$M^{bis}_{c}$ & Imports of commodity $c$, expressed at basic price (for verification) \\
+ \midrule 
+$MGP_{cc, c}$ & Margins paid to commodity $cc$ on commodity $c$ \\
+ \midrule 
+$MGPD$ & Margins paid on domestically produced commodities \\
+ \midrule 
+$MGPD_{c}$ & Margins paid on the domestically produced commodity $c$ \\
+ \midrule 
+$MGPM$ & Margins paid on imported commodities \\
+ \midrule 
+$MGPM_{c}$ & Margins paid on imported commodity $c$ \\
+ \midrule 
+$MGR$ & Aggregate recieved margins \\
+ \midrule 
+$MGR_{cc}$ & Margins received by commodity $cc$, expressed at market price \\
+ \midrule 
+$MGR^{bis}_{c}$ & Margins received by commodity $cc$, expressed at market price (for verification) \\
+ \midrule 
+$MGRD$ & Aggregate margins received on domestically produced commodities, expressed at market price \\
+ \midrule 
+$MGRM$ & Aggregate margins received on imported commodities, expressed at market price \\
+ \midrule 
+$NOS$ & Aggregate net operating surplus \\
+ \midrule 
+$NOS_{s}$ & Net operating surplus of sector $s$ \\
+ \midrule 
+$NOS^{VAL}_{s}$ & Net operating surplus of sector $s$ expressed in value \\
+ \midrule 
+$PCH$ & Aggregate market price for household final (consumer price index) \\
+ \midrule 
+$PCHD$ & Aggregate market price for domestically produced households final consumption \\
+ \midrule 
+$PCHM$ & Aggregate market price for imported households final consumption \\
+ \midrule 
+$PCI$ & Aggregate market price for intermediate consumption \\
+ \midrule 
+$PCI_{c}$ & Market price of the intermediate consumption of commodity $c$ \\
+ \midrule 
+$PCI_{s}$ & Market price of intermediate consumption of sector $s$ \\
+ \midrule 
+$PCI^{bis}$ & Market price of intermediate consumption of sector $s$ (for verification) \\
+ \midrule 
+$PCID$ & Aggregate market price for domestically produced intermediate consumption \\
+ \midrule 
+$PCID_{c}$ & Market price for the domestically produced commodity $c$ used as intermediary consumption \\
+ \midrule 
+$PCID_{s}$ & Market price of domestically produced intermediate consumption of sector $s$ \\
+ \midrule 
+$PCIM$ & Aggregate market price for imported intermediate consumption \\
+ \midrule 
+$PCIM_{c}$ & Market price for imported commodity $c$ used as intermediary consumption \\
+ \midrule 
+$PCIM_{s}$ & Market price of imported intermediate consumption of sector $s$ \\
+ \midrule 
+$PDS$ & Aggregate market price for change in inventories \\
+ \midrule 
+$PDS_{c}$ & Market price of the change in inventories of commodity $c$ \\
+ \midrule 
+$PDSD$ & Aggregate market price for domestically produced change in inventories \\
+ \midrule 
+$PDSM$ & Aggregate market price for imported change in inventories \\
+ \midrule 
+$PG$ & Aggregate market price for Government final consumption \\
+ \midrule 
+$PGD$ & Aggregate market price for domestically produced Government final consumption \\
+ \midrule 
+$PGDP$ & Price of GDP (expenditure definition) \\
+ \midrule 
+$PGDP_{c}$ & Price of GDP of commodity $c$ (expenditure definition) \\
+ \midrule 
+$PGDP4$ & Price of GDP (income definition) \\
+ \midrule 
+$PGDP^{bis}$ & Price of GDP (expenditure definition, for verification) \\
+ \midrule 
+$PGDP^{ter}$ & Price of GDP (production definition) \\
+ \midrule 
+$PGM$ & Aggregate market price for imported Government final consumption \\
+ \midrule 
+$PGOS$ & Price of the aggregate gross operating surplus \\
+ \midrule 
+$PI$ & Aggregate market price for investment \\
+ \midrule 
+$PI_{c}$ & Market price of the investment in commodity $c$ \\
+ \midrule 
+$PI_{s}$ & Market price of investment of sector $s$ \\
+ \midrule 
+$PI^{bis}$ & Market price of investment of sector $s$ (for verification) \\
+ \midrule 
+$PID$ & Aggregate market price for domestically produced investment \\
+ \midrule 
+$PID_{c}$ & Market price for domestically produced commodity $c$ used as investment \\
+ \midrule 
+$PID_{s}$ & Market price of domestically produced investment of sector $s$ \\
+ \midrule 
+$PIM$ & Aggregate market price for imported investment \\
+ \midrule 
+$PIM_{c}$ & Market price for imported commodity $c$ used as investment \\
+ \midrule 
+$PIM_{s}$ & Market price of imported investment of sector $s$ \\
+ \midrule 
+$PM$ & Aggregate basic price of imports \\
+ \midrule 
+$PM^{bis}_{c}$ & Basic price of imports of commodity $c$ (for verification) \\
+ \midrule 
+$PMGP_{cc, c}$ & Price of the margins paid to commodity $cc$ on commodity $c$ \\
+ \midrule 
+$PMGPD$ & Aggregate price of the margins paid on domestically produced commodity \\
+ \midrule 
+$PMGPD_{c}$ & Price of the margins paid on domestically produced commodity $c$ \\
+ \midrule 
+$PMGPM$ & Aggregate price of the margins paid on imported commodities \\
+ \midrule 
+$PMGPM_{c}$ & Price of the margins paid on imported commodity $c$ \\
+ \midrule 
+$PMGR$ & Aggregate market price for recieved margins \\
+ \midrule 
+$PMGR_{cc}$ & Market price of the margins received by commodity $cc$ \\
+ \midrule 
+$PMGR^{bis}_{c}$ & Market price of the margins received by commodity $cc$ (for verification) \\
+ \midrule 
+$PMGRD$ & Aggregate market price for the margins received on domestically produced commodities \\
+ \midrule 
+$PMGRM$ & Aggregate market price for the margins received on imported commodities \\
+ \midrule 
+$PNOS$ & Price of the aggregate net operating surplus \\
+ \midrule 
+$PQ$ & Aggregate market price for production \\
+ \midrule 
+$PQ_{c}$ & Market price of the production of commodity $c$ \\
+ \midrule 
+$PQD$ & Aggregate market price for domestically produced commodities \\
+ \midrule 
+$PQD_{c}$ & Market price for the domestically produced commodity $c$ \\
+ \midrule 
+$PQM$ & Aggregate market price for imported commodities \\
+ \midrule 
+$PQM_{c}$ & Market price for imported commodity $c$ \\
+ \midrule 
+$PVA$ & Value-added price \\
+ \midrule 
+$PWAGES$ & Gross wage index paid by sectors \\
+ \midrule 
+$PX$ & Aggregate market price for exports \\
+ \midrule 
+$PXD$ & Aggregate market price for domestically produced exports \\
+ \midrule 
+$PXM$ & Aggregate market price for imported exports (re-exports) \\
+ \midrule 
+$PY$ & Basic price of aggregate production \\
+ \midrule 
+$PYQ$ & Aggregate basic price of domestic production \\
+ \midrule 
+$PYQ^{bis}_{c}$ & Basic price of the production of commodity $c$ (for verification) \\
+ \midrule 
+$Q$ & Aggregate production, expressed at market price \\
+ \midrule 
+$Q_{c}$ & Production of commodity $c$, expressed at market price \\
+ \midrule 
+$QD$ & Aggregate domestically produced commodities, expressed at market price \\
+ \midrule 
+$QD_{c}$ & Quantity of domestically produced commodity $c$ expressed at market price \\
+ \midrule 
+$QM$ & Aggregate imported commodities, expressed at market price \\
+ \midrule 
+$QM_{c}$ & Quantity of imported commodity $c$ expressed at market price \\
+ \midrule 
+$VA$ & Aggregate value-added \\
+ \midrule 
+$VA_{s}$ & Value-added of sector $s$ \\
+ \midrule 
+$VA^{VAL}_{s}$ & Value-added of sector $s$ expressed in value \\
+ \midrule 
+$WAGES$ & Aggregate gross wages paid by sectors \\
+ \midrule 
+$X$ & Aggregate exports, expressed at market price \\
+ \midrule 
+$XD$ & Aggregate domestically produced exports, expressed at market price \\
+ \midrule 
+$XM$ & Aggregate imported exports (re-exports), expressed at market price \\
+ \midrule 
+$Y$ & Aggregate production, expressed at basic price \\
+ \midrule 
+$Y_{s}$ & Production of sector $s$, expressed at basic price \\
+ \midrule 
+$YQ$ & Domestic production, expressed at basic price \\
+ \midrule 
+$YQ_{c}$ & Production of commodity $c$, expressed at basic price \\
+ \midrule 
+$YQ^{bis}_{c}$ & Production of commodity $c$, expressed at basic price (for verification) \\
+\end{longtable}
+\end{document}
