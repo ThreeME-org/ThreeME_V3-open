@@ -1,7 +1,7 @@
 ##### Supply-Use equilibrium
 
-## This section provides the equations defining the supply use - equilibrium for the domestic and imported products and at the agregate level. It also derives the GDP according to various definitions. All equations are therefore accounting identity. \\
-## Each identity is expressed in value and in volume. The value equation defines therefore a price index.
+## This section provides the equations defining the supply use - equilibrium for the domestic and imported products and at the agregate level. It also derives the GDP according to various definitions. All equations are therefore accounting identity. \\  \\
+## Each identity is expressed in value and in volume. The value equation defines therefore a price index. By convention, the variable $Z$ is always expressed in volume. $PZ$ is its price. Therefore the quantity expressed in value is $Z^{VAL} = PZ * Z$. In most case, values are expresed as $PZ * Z$. When there is a risk that a variable in volume is equal to zero in simulation, we shall defined value as $Z^{VAL}$ to avoid a division by zero issue. A typical exemple would be the value-added of sector $s$: $VA^{VAL}_{s} = PY_{s} \; Y_{s} - PCI_{s} \; CI_{s}$.
 
 #### Use side
 
@@ -28,15 +28,16 @@ PQM[c]  * QM[c]  = PMGRM[c] * MGRM[c] + PCIM[c] * CIM[c] + PCHM[c] * CHM[c] + PG
 PMGR[cc] * MGR[cc]  = sum(PMGP[cc, c] * MGP[cc, c] 	if MGP[cc, c] <> 0 on c) 	   if MGR[cc]    <> 0
 
 ##! Margins received by commodity $cc$, expressed at market price
-## It corresponds to the sum of the margins paid to commodity $cc$ over all the commodities $c$
            MGR[cc]  = sum(    	 	    MGP[cc, c] 	if MGP[cc, c] <> 0 on c) 	   if MGR[cc]    <> 0
+## The margins received correspond to the sum of the margins paid to commodity $cc$ over all the commodities $c$ \\
 
-##! Margins received by commodity $cc$, expressed at market price (for verification)
-## The two equations bellow check the accounting consistency.
+##! Market price of the margins received by commodity $cc$ (for verification)
 PMGRbis[c] * MGRbis[c] = PMGRD[c] * MGRD[c] + PMGRM[c] * MGRM[c] 				   if MGRbis[c]  <> 0
+## Same variable as $PMGR_{c}$ above to check the accounting consistency. \\
 
 ##! Margins received by commodity $cc$, expressed at market price (for verification)			 
 			 MGRbis[c] = 		    MGRD[c] + 			 MGRM[c] 				   if MGRbis[c]  <> 0
+## Same variable as $MGR_{c}$ above to check the accounting consistency. \\
 
 ### Aggregation of imports and domestic production for commodity $c$ per use, expressed at market price (value & volume)
 ## This subsection agregates imports and domestic production for commodity $c$ for various uses. It does not do it for exports, household and Goverement final consumption ($X$, $CH$ and $G$) because these agregates are already defined in behaviour equations (see trade, consumer and Governement blocks). Expressed on value, this subsection also defines the prices indexes at market price for commodity $c$ per use as a weighted average of imported and domestic production per uses: \textit{i.e.} for $Q$ (production of commodities ), $CI$ (intermediary consumption), $I$ (private investment) and $DS$ (change in inventories). \\
@@ -299,171 +300,177 @@ PDS   * DS   = PDSD  * DSD  + PDSM  * DSM  							 if DS   	<> 0
 ## \newpage
 #### Supply side
 
-# Margins paid on domestic and imported commodity $c$ 		(value & volume)
-##! price for margins paid on domestically produced commodity $c$
-PMGPD[c] * MGPD[c] = sum(PMGPD[cc, c] * MGPD[cc, c] if MGPD[cc, c] <> 0 on cc) 	   if MGPD[c]  	 <> 0
-
-##! Quantity of margins paid on domestically produced commodity $c$
-		   MGPD[c] = sum(			    MGPD[cc, c] if MGPD[cc, c] <> 0 on cc) 	   if MGPD[c]  	 <> 0
-
-##! price for margins paid on imported commodity $c$
-PMGPM[c] * MGPM[c] = sum(PMGPM[cc, c] * MGPM[cc, c] if MGPM[cc, c] <> 0 on cc) 	   if MGPM[c]  	 <> 0
-
-##! Quantity of margins paid on imported commodity $c$
-		   MGPM[c] = sum(				MGPM[cc, c] if MGPM[cc, c] <> 0 on cc) 	   if MGPM[c]  	 <> 0
-
+### Domestic and foreign equilibrium for commodities $c$ (value & volume):
 #  Domestic production of commodity $c$ at basic price:
 
-##! Quantity of production of commodity $c$ expressed at domestic production price
-##  The price can not be defined as an index because it is already defined as a function of the production price in the price block.
+##! Production of commodity $c$, expressed at basic price
+
 YQ[c] * PYQ[c] 		 + NTAXPD_VAL[c]  + PMGPD[c] * MGPD[c] = PQD[c] * QD[c]    	   if YQ[c]      <> 0
 
-##! Same variable calculated from values & volumes. For verification. (NO COMMENT ?)
-#  The price can not be defined as an index because it is already defined as a function of the production price in the price block.
-
+##! Basic price of the production of commodity $c$ (for verification)
 PYQbis[c] * YQ[c] 	 + NTAXPD_VAL[c]  + PMGPD[c] * MGPD[c] = PQD[c] * QD[c]    	   if YQ[c]      <> 0
-			YQbis[c] + NTAXPD[c] 	  + 		   MGPD[c] = 		  QD[c]    	   if YQbis[c]   <> 0
+##  This price is already defined as a weighted average of the production price of the sectors producing commodity $c$ in the price block: $PYQ . YQ = \sum_{c} PYQ_{c} \; YQ_{c}$. To verify accountancy consistancy, we define it here under an alias name. \\
 
-#  Imported production of commodity $c$ at basic price:
-##! Quantity of imports of commodity $c$ expressed at imports price
+##! Production of commodity $c$, expressed at basic price (for verification)
+			YQbis[c] + NTAXPD[c] 	  + 		   MGPD[c] = 		  QD[c]    	   if YQbis[c]   <> 0
+## Same variable as $YQ_{c}$ above to check the accounting consistency. \\
+
+##! Imports of commodity $c$, expressed at basic price
 M[c] * PM[c] + NTAXPM_VAL[c] + PMGPM[c] * MGPM[c] = PQM[c] * QM[c] 			   	   if M[c] 	     <> 0
 
-##! Same variable calculated from volumes. For verification. (NO COMMENT?)
-
+##! Basic price of imports of commodity $c$ (for verification)
 PMbis[c] * M[c]      + NTAXPM_VAL[c]  + PMGPM[c] * MGPM[c] = PQM[c] * QM[c] 	   if M[c]       <> 0
-		   Mbis[c]   + NTAXPM[c] 	  + 		   MGPM[c] = 		  QM[c] 	   if Mbis[c]    <> 0
+##  This price is already defined in the price block as $PM_{c} = EXR . PWD_{c}$. To verify accountancy consistancy, we define it here under an alias name. \\
 
-##! Price of margins paid to commodity $cc$ on commodity $c$
+##! Imports of commodity $c$, expressed at basic price (for verification)
+		   Mbis[c]   + NTAXPM[c] 	  + 		   MGPM[c] = 		  QM[c] 	   if Mbis[c]    <> 0
+## Same variable as $M_{c}$ above to check the accounting consistency. \\
+
+### Margins paid (value & volume)
+##! Price of the margins paid on domestically produced commodity $c$
+PMGPD[c] * MGPD[c] = sum(PMGPD[cc, c] * MGPD[cc, c] if MGPD[cc, c] <> 0 on cc) 	   if MGPD[c]  	 <> 0
+
+##! Margins paid on the domestically produced commodity $c$
+		   MGPD[c] = sum(			    MGPD[cc, c] if MGPD[cc, c] <> 0 on cc) 	   if MGPD[c]  	 <> 0
+
+##! Price of the margins paid on imported commodity $c$
+PMGPM[c] * MGPM[c] = sum(PMGPM[cc, c] * MGPM[cc, c] if MGPM[cc, c] <> 0 on cc) 	   if MGPM[c]  	 <> 0
+
+##! Margins paid on imported commodity $c$
+		   MGPM[c] = sum(				MGPM[cc, c] if MGPM[cc, c] <> 0 on cc) 	   if MGPM[c]  	 <> 0
+
+##! Price of the margins paid to commodity $cc$ on commodity $c$
 PMGP[cc, c] * MGP[cc, c] = PMGPD[cc, c] * MGPD[cc, c] + PMGPM[cc, c] * MGPM[cc, c] if MGP[cc, c] <> 0
 
-# Margins paid to commodity $cc$ on commodity $c$ (value & volume):
-##! Margins paid to commodity $cc$ on commodity $c$ expressed at margin paid price
+##! Margins paid to commodity $cc$ on commodity $c$
 			  MGP[cc, c] = 				  MGPD[cc, c] + 			   MGPM[cc, c] if MGP[cc, c] <> 0
 
 
-# Aggregate margins paid on the domesticaly produced commodity (value & volume):
-##! Aggregate price of margins paid on domestically produced commodity $c$
+### Aggregation on commodities: supply side agregates (value & volume)
+
+##! Aggregate price of the margins paid on domestically produced commodity
 PMGPD   * MGPD 		= sum(PMGPD[c]   * MGPD[c] 	 	if MGPD[c]	  <> 0 on c) 		if MGPD 	 <> 0
 
-##! Quantity of margins paid on domestically produced commodities
+##! Margins paid on domestically produced commodities
           MGPD 		= sum(             MGPD[c] 	 	if MGPD[c]    <> 0 on c) 		if MGPD 	 <> 0
 
-# Aggregate margins paid on the imported commodity (value & volume):
-##! Aggregate price of margins paid on imported commodities
+##! Aggregate price of the margins paid on imported commodities
 PMGPM   * MGPM 		= sum(PMGPM[c]   * MGPM[c] 	 	if MGPM[c]    <> 0 on c) 		if MGPM 	 <> 0
 
-##! Quantity of margins paid on imported commodities
+##! Margins paid on imported commodities
           MGPM 		= sum(             MGPM[c] 	 	if MGPM[c]    <> 0 on c) 		if MGPM 	 <> 0
 
-#  Aggregate domestic production of commodity $c$ at basic price:
-##! Aggregate basic price of domestically produced commodities
+##! Aggregate basic price of domestic production
 PYQ     * YQ 		= sum(PYQ[c]     * YQ[c] 		if YQ[c] 	  <> 0 on c) 		if YQ 		 <> 0
 
-##! Total domestic production expressed at basic price
+##! Domestic production, expressed at basic price
 	      YQ 		= sum(		       YQ[c] 		if YQ[c] 	  <> 0 on c) 		if YQ 		 <> 0
 
-# Aggregate imports of commodity $c$ at basic price:
-##! Aggregate basic price of imported commodities
+##! Aggregate basic price of imports
 PM      * M 		= sum(PM[c]      * M[c]    	 	if M[c] 	  <> 0 on c) 		if M 		 <> 0
 
-##! Total imported commodities expressed at basic price
+##! Imports, expressed at basic price
 	      M 		= sum(	           M[c] 		if M[c] 	  <> 0 on c) 		if M 		 <> 0
 
 
-##! Quantity of commodities produced from the sector $s$ expressed at the production price
+### Supply indicators of sector $s$ (value & volume):
+
+##! Production of sector $s$, expressed at basic price
 		Y[s]        = sum(Y[c, s] 			 	    if Y[c, s]    <> 0 on c) 		if Y[s] 	 <> 0
+## The production price of sector $s$ is defined in the producer block as a behavour equation. It can not therefore be defined here as an index. \\
 
-# Aggregate total production (value & volume):
-##! Aggregate production price for all sectors
-PY * Y              = sum(PY[s] * Y[s] 				if Y[s] 	  <> 0 on s) 		if Y 		 <> 0
-
-##! Total quantity of production expressed at production price
-	 Y              = sum( 		  Y[s] 			    if Y[s] 	  <> 0 on s) 		if Y 		 <> 0
-
-# Value-added of sector s (value & volume):
-# It may not be possible to calculate the price of the value-added (VA) since the VA may be equal to zero at the sector level. For this reason, we define the VA in value (VA_VAL). To avoid any bug, disable the equation of PVA[s]. Moreover there should be an equation for the VA even if it is equal to zero at the base year.
-
-##! Added-value of sector $s$ expressed in value
+##! Value-added of sector $s$ expressed in value
 VA_VAL[s] = PY[s] * Y[s] - PCI[s] * CI[s]
 
-##! Added-value of sector $s$ expressed in volume
+##! Value-added of sector $s$
 VA[s] 	  = 		Y[s] - 			CI[s]
 
-#PVA[s] * VA[s] = VA_VAL[s]
-
-# Aggregate value-added (value & volume):
-##! Aggregate value-added price
-PVA * VA = sum(VA_VAL[s] on s)
-
-##! Total value-added expressed at value-added price
-	  VA = sum(VA[s]     on s)
-
-##! Aggregate gross wages paid by sector $s$ including employees (but not employers)' social contribution
-
-PWAGES * WAGES = sum(PWAGES[s] * WAGES[s] if WAGES[s] <> 0 on s) if WAGES <> 0
-		 WAGES = sum(			 WAGES[s] if WAGES[s] <> 0 on s) if WAGES <> 0
-
-# Gross operating surplus of sector $s$ (value & volume)
-# Same remark than for VA
 ##! Gross operating surplus of sector $s$ expressed in value
 GOS_VAL[s] = VA_VAL[s] - PWAGES[s] * WAGES[s] - PRSSC[s] * RSSC[s] - NTAXI_VAL[s]
+## The standard definition of the Gross Operating Surplus (GOS) generally include tax on profits. For simplicity, we assume that $NTAXI_{s}$ includes all net taxes on capital (i.e. tax on production and profits). In our definition, the tax on profit is therefore excluded from the GOS. This should be taken into account if one wants to use the GOS as a basis for the tax on profits. \\
 
-##! Gross operating surplus of sector $s$ expressed in volume
+##! Gross operating surplus of sector $s$
 GOS[s] 	   = VA[s] 	   - 			 WAGES[s] - 		   RSSC[s] - NTAXI[s]
 
-
-##! Aggregate price of Gross Operating Surplus
-## The exact definition of the GOS generally exclude tax on profit. We do not do it here for simplicity and assume that $NTAXI_{s}$ includes all net taxes on capital (i.e. tax on production and profits). This should be taken into account if one wants to use the $GOS$ as a basis for the profit taxes.
-PGOS * GOS = sum(GOS_VAL[s] on s)
-
-##! Total Gross Operating Surplus
-	   GOS = sum(GOS[s] 	on s)
-
-
-# Same remark than for VA
 ##! Net operating surplus of sector $s$ expressed in value
 NOS_VAL[s] = GOS_VAL[s] - PK[s]{-1} 				  * Rdep[s] * F[K, s]{-1}
 
-##! Net operating surplus of sector $s$ expressed in volume
+##! Net operating surplus of sector $s$
 NOS[s] 	   = GOS[s]     - @elem(PK[s]{-1}, %baseyear) * Rdep[s] * F[K, s]{-1}
 
-##! Aggregate net operating surplus price
+
+### Aggregation on sectors: supply indicators of all sectors  (value & volume)
+
+##! Basic price of aggregate production
+PY * Y              = sum(PY[s] * Y[s] 				if Y[s] 	  <> 0 on s) 		if Y 		 <> 0
+
+##! Aggregate production, expressed at basic price
+	 Y              = sum( 		  Y[s] 			    if Y[s] 	  <> 0 on s) 		if Y 		 <> 0
+
+##! Value-added price
+PVA * VA = sum(VA_VAL[s] on s)
+
+##! Aggregate value-added
+	  VA = sum(VA[s]     on s)
+
+##! Gross wage index paid by sectors 
+PWAGES * WAGES = sum(PWAGES[s] * WAGES[s] if WAGES[s] <> 0 on s) if WAGES <> 0
+## The gross wage includes employees (but not employers)' social contribution \\
+
+
+##! Aggregate gross wages paid by sectors
+		 WAGES = sum(			 WAGES[s] if WAGES[s] <> 0 on s) if WAGES <> 0
+
+
+##! Price of the aggregate gross operating surplus
+PGOS * GOS = sum(GOS_VAL[s] on s)
+
+##! Aggregate gross operating surplus 
+	   GOS = sum(GOS[s] 	on s)
+
+##! Price of the aggregate net operating surplus
 PNOS * NOS = sum(NOS_VAL[s] on s)
 
-##! Total Net Operating Surplus
+##! Aggregate net operating surplus
 	   NOS = sum(NOS[s] 	on s)
 
-#### GDP calculated according to various approaches
-# GDP: Expenditure approach
+#### Gross Domestic Product (GDP)
 
+## In this subsection, GDP is calculated according to different approaches. All approaches lead to same result.
 
-##! Total GDP price from expenditure approach
-## Calculated as the sum of the different components in the final uses of goods & services
+### Expenditure approach
+
+##! Price of GDP (expenditure definition)
 PGDP 	* GDP 	 = PCH 	  * CH	  + PG 	  * G 	 + PI 	 * I 	+ PX 	* X    + PDS    * DS 	- PM    * M
+## According to expenditure approach, GDP is calculated as the sum of the different components in the final uses of goods and services. \\
 
-##! Total GDP from expenditure approach
+
+##! GDP (expenditure definition)
 		  GDP 	 = 	     	CH 	  + 	    G 	 + 	  	   I 	+ 	 	  X    + 	   	  DS 	- 	 	  M
 
-##! GDP price of commodity $c$ from expenditure approach
+##! Price of GDP of commodity $c$ (expenditure definition)
 PGDP[c] * GDP[c] = PCH[c] * CH[c] + PG[c] * G[c] + PI[c] * I[c] + PX[c] * X[c] + PDS[c] * DS[c] - PM[c] * M[c] 		if GDP[c] <> 0
 
-##!  GDP of commodity $c$ from expenditure approach
+##! GDP of commodity $c$ (expenditure definition)
 		  GDP[c] = 			CH[c] + 		G[c] + 		   I[c] + 		  X[c] + 		  DS[c] - 		  M[c]		if GDP[c] <> 0
 
-##! Agregated GDP (value & volume) calculated from the GDP per using commodity (NO COMMMENT ?)
+##! Price of GDP (expenditure definition, for verification)
 PGDPbis * GDPbis = sum(PGDP[c] * GDP[c] on c)
+##! GDP (expenditure definition, for verification)
 		  GDPbis = sum(		  	 GDP[c] on c)
 
-##! Total GDP from production approach
-## Calculated as the sum of the gross value added plus the total net taxes
+### Production approach
+##! Price of GDP (production definition)
 PGDPter * GDPter = PVA * VA + PNTAXP * NTAXP
+## According to production approach, GDP is calculated as the sum of the value added plus the total net taxes on commodities. \\
 
-##! GDP price from production approach
+##!  GDP (production definition)
 		  GDPter = 		 VA + 		   NTAXP
 
-
-##! Total GDP from income approach
-## Calculated as the sum of all the economic incomes (from labor and capital) corrected by the social & taxes transfers
+### Income approach
+##! Price of GDP (income definition)
 PGDP4 	* GDP4   = PGOS * GOS + PWAGES * WAGES + PRSSC * RSSC + NTAXI_VAL + PNTAXP * NTAXP
-##!  GDP price from income approach
+## According to the income approach, GDP is calculated as the sum of all the economic incomes (from labor and capital) corrected by the social and taxes transfers. \\
+
+##!   GDP (income definition)
 		  GDP4   = 		  GOS + 		 WAGES + 		 RSSC + NTAXI 	  + 		 NTAXP
