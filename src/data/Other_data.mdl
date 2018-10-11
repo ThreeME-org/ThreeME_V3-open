@@ -45,7 +45,7 @@ RBal_G_Prim_VAL := Bal_G_Prim_VAL / (PGDP * GDP)
 
 RBal_G_Tot_VAL := Bal_G_Tot_VAL / (PGDP * GDP)
 
-RDEBT_G_VAL := DEBT_G_VAL / (PGDP * GDP)
+# RDEBT_G_VAL := DEBT_G_VAL / (PGDP * GDP)
 
 
 ### From Demographic block
