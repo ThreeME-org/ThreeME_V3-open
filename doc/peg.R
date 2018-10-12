@@ -9,6 +9,7 @@ library(stringr)
 # Then, example use:
 # teXdoc(c("SU.mdl", "producer.mdl", "prices.mdl", "consumer.mdl", "adjustments.mdl"))
 # teXdoc(c("SU.mdl", "producer.mdl", "prices.mdl", "consumer.mdl", "government.mdl",  "Trade_inter.mdl", "demography.mdl", "ghg_emissions.mdl", "adjustments.mdl"),"ThreeMEv3_eqs_01")
+# teXdoc(c("Intro_doc_eqs.mdl","SU.mdl"),"ThreeMEv3_eqs_01")
 rm(list = ls())
 
 peg <- new.parser()
