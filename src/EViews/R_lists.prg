@@ -1,4 +1,4 @@
-subroutine create_lists
+subroutine R_lists
 
 %list_sec = "sagr sveh scon srai sroa spri scoa setd senu seco"
 
@@ -13,4 +13,5 @@ subroutine create_lists
 %list_com_TRSP = "crai croa"
 
 %list_com_E = "ccoa cele"
+
 endsub

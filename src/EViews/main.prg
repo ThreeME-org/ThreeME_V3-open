@@ -11,7 +11,8 @@ include .\configuration.prg
 ' **********
 ' Includes suroutines
 
-include .\create_lists
+include .\R_lists
+include .\EViews_lists
 
 ' Load data
 include .\load_data

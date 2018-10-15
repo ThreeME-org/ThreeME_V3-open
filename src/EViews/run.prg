@@ -24,7 +24,8 @@ subroutine run(string %data_calibration, string %data_shock)
   %wfname = ".\..\..\results\"+%modelname+"_"+%DC
   wfcreate(wf=%wfname, page=%modelname) {%freq} {%firstdate} {%lastdate}
 
-  call create_lists
+  call EViews_lists
+  call R_lists
 
   ' ******************
   ' Load the model
