@@ -1,8 +1,8 @@
 
-#### International Trade
+##### International Trade
 ## This file provides the equations defining the allocation between domestic and imported goods per use.The differentiation per use allows for distinguishing import share per use and therefore a more realistic representation of the economy than model that assume a common import share. Indeed, the import share of export is generally smaller than for consumption.
 
-### Domestic demand
+#### Domestic demand
 
 ##! Received margins on domestically produced commodity $c$
 MGRD[c] = (1 - phi_MGRM[c]) * MGR[c] if MGRD[c] <> 0
@@ -66,7 +66,7 @@ d(SUBST_n_IM[c, s])  = - ES_IM[c, s] * d(log(PID[c, s]) - log(PIM[c, s]))       
 
 
 
-### Exports
+#### Exports
 ##! Exports of domestically produced commodity $c$
 XD[c]   = (1 - phi_XM[c])   * X[c]                                                if XD[c]              <> 0
 

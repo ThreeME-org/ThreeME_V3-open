@@ -1,6 +1,6 @@
 ##### Supply-Use equilibrium
 
-## This section provides the equations defining the supply use - equilibrium for the domestic and imported products and at the agregate level. It also derives the GDP according to various definitions. All equations are therefore accounting identity. \\  \\
+## This section provides the equations defining the supply use - equilibrium for the domestic and imported products and at the aggregate level. It also derives the GDP according to various definitions. All equations are therefore accounting identity. \\  \\
 ## Each identity is expressed in value and in volume. The value equation defines therefore a price index. By convention, the variable $Z$ is always expressed in volume. $PZ$ is its price. Therefore the quantity expressed in value is $Z^{VAL} = PZ * Z$. In most case, values are expresed as $PZ * Z$. When there is a risk that a variable in volume is equal to zero in simulation, we shall defined value as $Z^{VAL}$ to avoid a division by zero issue. A typical exemple would be the value-added of sector $s$: $VA^{VAL}_{s} = PY_{s} \; Y_{s} - PCI_{s} \; CI_{s}$.
 
 #### Use side
@@ -22,8 +22,8 @@ PQM[c]  * QM[c]  = PMGRM[c] * MGRM[c] + PCIM[c] * CIM[c] + PCHM[c] * CHM[c] + PG
 ### Margins received (value & volume):
 # TO BE CHANGED !!: Margins paid --> Margins used / Margins received -->  margins supplied
 ## The margins received by commodity $cc$ corresponds to the margins supplied by this commodity. By definition, the margins received is the sum of the margins paid (or used) on the commodities $c$. \\ \\
-## The margins paid on domestic and imported products ($MGPD_{cc, c}$ and $MGPM_{cc, c}$) are defined with behavorial equations in the producer block. They follow the domestic and imported production of commodity $c$ ($YQ_{c}$ and $M_{c}$) more or less proportionnally depending on the possibility of substitutions between margins. The margins paid are then agregated to define the margins recieved, $MGR_{cc}$. The latter is then disagrated between the domestic and imported margins recieved ($MGRD_{c}$ and $MGRM_{c}$). See specification in the producer block. \\
- 
+## The margins paid on domestic and imported products ($MGPD_{cc, c}$ and $MGPM_{cc, c}$) are defined with behavorial equations in the producer block. They follow the domestic and imported production of commodity $c$ ($YQ_{c}$ and $M_{c}$) more or less proportionnally depending on the possibility of substitutions between margins. The margins paid are then aggregated to define the margins recieved, $MGR_{cc}$. The latter is then disagrated between the domestic and imported margins recieved ($MGRD_{c}$ and $MGRM_{c}$). See specification in the producer block. \\
+
 ##! Market price of the margins received by commodity $cc$
 PMGR[cc] * MGR[cc]  = sum(PMGP[cc, c] * MGP[cc, c] 	if MGP[cc, c] <> 0 on c) 	   if MGR[cc]    <> 0
 
@@ -35,12 +35,12 @@ PMGR[cc] * MGR[cc]  = sum(PMGP[cc, c] * MGP[cc, c] 	if MGP[cc, c] <> 0 on c) 	  
 PMGRbis[c] * MGRbis[c] = PMGRD[c] * MGRD[c] + PMGRM[c] * MGRM[c] 				   if MGRbis[c]  <> 0
 ## Same variable as $PMGR_{c}$ above to check the accounting consistency. \\
 
-##! Margins received by commodity $cc$, expressed at market price (for verification)			 
+##! Margins received by commodity $cc$, expressed at market price (for verification)
 			 MGRbis[c] = 		    MGRD[c] + 			 MGRM[c] 				   if MGRbis[c]  <> 0
 ## Same variable as $MGR_{c}$ above to check the accounting consistency. \\
 
 ### Aggregation of imports and domestic production for commodity $c$ per use, expressed at market price (value & volume)
-## This subsection agregates imports and domestic production for commodity $c$ for various uses. It does not do it for exports, household and Goverement final consumption ($X$, $CH$ and $G$) because these agregates are already defined in behaviour equations (see trade, consumer and Governement blocks). Expressed on value, this subsection also defines the prices indexes at market price for commodity $c$ per use as a weighted average of imported and domestic production per uses: \textit{i.e.} for $Q$ (production of commodities ), $CI$ (intermediary consumption), $I$ (private investment) and $DS$ (change in inventories). \\
+## This subsection aggregates imports and domestic production for commodity $c$ for various uses. It does not do it for Exports, Households and Government final consumption ($X$, $CH$ and $G$) because these aggregates are already defined in behaviour equations (see Trade international, Consumer and Governement blocks). Expressed on value, this subsection also defines the prices indexes at market price for commodity $c$ per use as a weighted average of imported and domestic production per uses: \textit{i.e.} for $Q$ (production of commodities ), $CI$ (intermediary consumption), $I$ (private investment) and $DS$ (change in inventories). \\
 ##  \\
 
 ##! Market price of the production of commodity $c$
@@ -95,7 +95,7 @@ PIM[c]  * IM[c]  = sum(PIM[c, s]  * IM[c, s]  if IM[c, s]  <> 0 on s) if IM[c]  
 		  IM[c]  = sum( 		    IM[c, s]  if IM[c, s]  <> 0 on s) if IM[c]  <> 0
 
 
-### Agregation on commodities: imported, domestic and agregate intermediate consumption and investment of sector $s$, expressed at market price (value & volume)
+### Agregation on commodities: imported, domestic and aggregate intermediate consumption and investment of sector $s$, expressed at market price (value & volume)
 ## This subsection provides the intermediate consumption and investment of sector $s$ (imported, domestically produced and aggregated). They are calculated through the aggregation of the corresponding sectoral data on the commodity index. \\
 
 ##! Market price of domestically produced intermediate consumption of sector $s$
@@ -145,7 +145,7 @@ PIbis   * Ibis      = sum(PI[s]      * I[s] 		if I[s]	  	  <> 0 on s) 		if I 		 
 ##! Investment of sector $s$, expressed at market price (for verification)
 		  Ibis      = sum(		   	   I[s] 		if I[s] 	  <> 0 on s) 		if I 		 <> 0
 
-### Aggregation on commodities: imports and domestic agregate production per use, expressed at market price (value & volume)
+### Aggregation on commodities: imports and domestic aggregate production per use, expressed at market price (value & volume)
 ## This subsection provides the aggregate production for various uses, for domestic and imported products. They are calculated through the aggregation of commodity $c$ production per use on the commodity index. \\
 
 ##! Aggregate market price for domestically produced commodities
@@ -247,7 +247,7 @@ PDSM  * DSM  = sum(PDSM[c]  * DSM[c] if DSM[c]   <> 0 on c) 		  if  DSM 	<> 0
 
 ### Aggregation of domestic and imported production per use, expressed at market price (value & volume)
 
-## This subsection provides the aggregate production for various uses by summing the corresponding domestic and imported agregates. \\
+## This subsection provides the aggregate production for various uses by summing the corresponding domestic and imported aggregates. \\
 
 ##! Aggregate market price for production
 PQ 	  * Q    = PQD   * QD   + PQM   * QM   							  if Q    	<> 0
@@ -346,7 +346,7 @@ PMGP[cc, c] * MGP[cc, c] = PMGPD[cc, c] * MGPD[cc, c] + PMGPM[cc, c] * MGPM[cc, 
 			  MGP[cc, c] = 				  MGPD[cc, c] + 			   MGPM[cc, c] if MGP[cc, c] <> 0
 
 
-### Aggregation on commodities: supply side agregates (value & volume)
+### Aggregation on commodities: supply side aggregates (value & volume)
 
 ##! Aggregate price of the margins paid on domestically produced commodity
 PMGPD   * MGPD 		= sum(PMGPD[c]   * MGPD[c] 	 	if MGPD[c]	  <> 0 on c) 		if MGPD 	 <> 0
@@ -413,7 +413,7 @@ PVA * VA = sum(VA_VAL[s] on s)
 ##! Aggregate value-added
 	  VA = sum(VA[s]     on s)
 
-##! Gross wage index paid by sectors 
+##! Gross wage index paid by sectors
 PWAGES * WAGES = sum(PWAGES[s] * WAGES[s] if WAGES[s] <> 0 on s) if WAGES <> 0
 ## The gross wage includes employees (but not employers)' social contribution \\
 
@@ -425,7 +425,7 @@ PWAGES * WAGES = sum(PWAGES[s] * WAGES[s] if WAGES[s] <> 0 on s) if WAGES <> 0
 ##! Price of the aggregate gross operating surplus
 PGOS * GOS = sum(GOS_VAL[s] on s)
 
-##! Aggregate gross operating surplus 
+##! Aggregate gross operating surplus
 	   GOS = sum(GOS[s] 	on s)
 
 ##! Price of the aggregate net operating surplus

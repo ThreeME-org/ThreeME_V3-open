@@ -1,14 +1,13 @@
-#### Consumer
+##### Consumer
 
+#### Households' Income
 ##! Disposable income before tax in value
-## The disposable income before tax is used as base for the income tax.
 DISPINC_BT_VAL   = PWAGES * WAGES + PROP_INC_H_VAL + SOC_BENF_VAL + TRSF_HH_VAL
+## The disposable income before tax is used as base for the income tax. \\
 
 ##! Disposable income after tax in value
-## The definition of the disposable income after tax corresponds to the definition of "gross disposable income" defined in the annual account by institutional sector of Eurostat (b.6.g).
 DISPINC_AT_VAL   = DISPINC_BT_VAL - INC_SOC_TAX_VAL
-
-
+## The definition of the disposable income after tax corresponds to the definition of "gross disposable income" defined in the annual account by institutional sector of Eurostat (b.6.g). \\
 
 ##! Income & Social Taxes in value
 INC_SOC_TAX_VAL  = RINC_SOC_TAX * DISPINC_BT_VAL
@@ -26,7 +25,7 @@ SOC_BENF_VAL     = RR_POP * @elem(W, %baseyear) * PROG_L * P * POP + RR_Un * W *
 # Transfers to households
 # Should be endogenous? Check V2
 # TRSF_HH_VAL = ?????
-
+#### Households' Expenditure
 # Should be Notional!!!
 ##! Aggregate notional households final consumption in value
 CH_n_VAL = DISPINC_AT_VAL * (1 - MPS_n)
@@ -49,8 +48,8 @@ d(log(phi_MCH[c])) = (1 - ES_LESCES) * d(log(PCH[c] / PCH_CES))     if phi_MCH[c
 ##! Share of commodity $c$ in the household consumption
 Phi_CH[c] = CH[c]/CH                                                if CH[c]      <> 0
 
-##! Consumption price (l'équation n'est pas compilée ???)
-PCH_CES = (sum(@elem(phi_MCH[c], %baseyear) * PCH[c] ^ (1 - ES_LESCES) if phi_MCH[c] <> 0 on c)) ^ (1 / (1 - ES_LESCES)) if ES_LESCES <> 1
+##! Consumption price 
+PCH_CES = (sum(@elem(phi_MCH[c], %baseyear) * PCH[c] ^ (1 - ES_LESCES) on c)) ^ (1 / (1 - ES_LESCES)) if ES_LESCES <> 1
 
 ##! Households savings in value
 SAV_H_VAL  = DISPINC_AT_VAL - PCH * CH

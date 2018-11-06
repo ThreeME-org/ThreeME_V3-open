@@ -1,13 +1,13 @@
-#### Other equations
+##### Other equations
 
-### Adjustment equations and anticipation
+#### Adjustment equations and anticipation
 
 ##! Mark-up in the sector $s$
 MARKUP[s] = ADJUST_MARKUP[s] * MARKUP_n[s] + (1 - ADJUST_MARKUP[s]) * MARKUP[s]{-1} if Y[s] > 0
 
 ##! Expected inflation.
-## This equation defines the expected inflation and not the expected price. $P^{e}$ does not necessary converge to $P$. If the wage equation is a WS curve, even in the very long term it may not converge.
 d(log(P_e))       = ADJUST_Pe_P1    * d(log(P{-1}))         + (1 - ADJUST_Pe_P1)    * d(log(P_e{-1}))
+## This equation defines the expected inflation and not the expected price. $P^{e}$ does not necessary converge to $P$. If the wage equation is a WS curve, even in the very long term it may not converge. \\
 
 ##! Expected production
 d(log(Y_e[s]))    = ADJUST_Ye_Y[s]  * d(log(Y[s]))          + (1 - ADJUST_Ye_Y[s])  * d(log(Y_e[s]{-1}))
@@ -67,7 +67,8 @@ log(PROP_INC_G_VAL)      = ADJUST0_PROP_INC_G_VAL * log(PROP_INC_G_VAL_n)       
 ##! Expected Government property incomes in value
 d(log(PROP_INC_G_VAL_e)) = ADJUST1_PROP_INC_G_VAL * d(log(PROP_INC_G_VAL_e{-1})) +      ADJUST2_PROP_INC_G_VAL  * d(log(PROP_INC_G_VAL{-1})) + ADJUST3_PROP_INC_G_VAL * d(log(PROP_INC_G_VAL_n))  if PROP_INC_G_VAL_e <> 0
 
-###Substitutions
+#### Substitutions
+
 ##! Substitution effect of the production factor $f$ in the sector $s$
 SUBST_F[f, s]     = ADJUST6_F[f, s]     * SUBST_n_F[f, s]     + (1 - ADJUST6_F[f, s])     * SUBST_F[f, s]{-1}     if F[f, s]     <> 0
 

@@ -1,7 +1,7 @@
 
-#### Prices
+##### Prices
 
-### This file provides the equations defining the prices.
+## This file provides the equations defining the prices. \\
 
 ##! Domestic production price of commodity $c$
 PYQ[c] * YQ[c] = sum(PY[s] * Y[c, s] if Y[c, s] <> 0 on s) if YQ[c] <> 0
@@ -30,8 +30,8 @@ CUR[s]          = Y[s] / YCAP[s]
 (1 + MARKUP[c]) = PYQ[c] * YQ[c] / (sum(CU[s] * Y[c, s] if Y[c, s] <> 0 on s)) if YQ[c] <> 0
 
 ##! Notional unit cost of production in sector $s$
-## To define the notional price, it is preferable to use the notional unit cost of production instead of the effective one. This lead to a more stable dynamic and gives a better representation of anticipation.
 CU_n[s] * Y[s]  = sum(C[f, s] * F_n[f, s] on f) + NTAXI_VAL[s]
+## To define the notional price, it is preferable to use the notional unit cost of production instead of the effective one. This lead to a more stable dynamic and gives a better representation of anticipation. \\
 
 ##! Unit cost of production in sector $s$
 CU[s]   * Y[s]  = sum(C[f, s] * F[f, s]   on f) + NTAXI_VAL[s]
@@ -41,22 +41,22 @@ C[L, s]         =  W[s] * (1 + RRSSC[s])
 
 
 ##! Capital cost in sector $s$
-## It is preferable to calculate the user cost of capital based on the price of capital rather than on the price of investment. Indeed the price of the average capital installed is lower than the one of investment because of inflation. Using the price of investment tend to over estimate the cost of capital because it assumes that the debt contracted to finance past investments is indexed on inflation which is not the case in reality.
 C[K, s]         = PK[s] * (Rdep[s] + r[s])
+## It is preferable to calculate the user cost of capital based on the price of capital rather than on the price of investment. Indeed the price of the average capital installed is lower than the one of investment because of inflation. Using the price of investment tend to over estimate the cost of capital because it assumes that the debt contracted to finance past investments is indexed on inflation which is not the case in reality. \\
 
 
 ##! Price of capital in sector $s$
-## The price of capital is calibrated by rewriting this equation in the long run. It is always smaller than 1 because it is calibrated as follows: PK[s] = PI[s]*(Rdep[s]+GR_REAL)*(1+GR_PRICES)/(Rdep[s]-1+(1+GR_REAL)*(1+GR_PRICES))
 PK[s] * F[K, s] = (1 - Rdep[s]) * PK[s]{-1} * F[K, s]{-1} + PI[s] * I[s]
+## The price of capital is calibrated by rewriting this equation in the long run. It is always smaller than 1 because it is calibrated as follows: \begin{center} $PK_{s} = \frac{PI_{s}*(Rdep_{s}+GR^{REAL})*(1+GR^{PRICES})}{(Rdep_{s}-1+(1+GR^{REAL})*(1+GR^{PRICES}))}$ \end{center}
 
 ##! Energy costs in sector $s$
-## In first approximation the cost of energy correspond to the energy price. However if the producer is forward looking, she will integrate the anticipation of price increase in it definition of the user cost of energy. In this case the specification becomes ....
 C[E, s]         = PE[s]
+## In first approximation the cost of energy correspond to the energy price. However if the producer is forward looking, she will integrate the anticipation of price increase in it definition of the user cost of energy. In this case the specification becomes TO BE INTEGRATED \\
 
 ##! Materials costs in sector $s$
 C[MAT, s]       = PMAT[s]
 
-# Aggregate costs for capital, labor, energy and material
+### Aggregate costs for capital, labor, energy and material
 ##! Aggregate cost of capital
 C[K]   * F[K]   = sum(C[K, s] * F[K, s] on s)
 
@@ -69,19 +69,16 @@ C[E]   * F[E]   = sum(C[E, s] * F[E, s] on s)
 ##! Aggregate cost of materials
 C[MAT] * F[MAT] = sum(C[MAT, s] * F[MAT, s] on s)
 
-
-
-
-
 ##! Gross wages paid by sector $s$ including employees (but not employers)' social contribution
-## To derive the volume, we assume that the price is the consumer price
 WAGES[s] * PWAGES[s] = W[s] * F[L, s]
+## To derive the volume, we assume that the price is the consumer price. \\
 
 ##! Price Index for gross wages
 PWAGES[s] = P
 
 
 # For CH (households'consumption); G (public spending); X (exports)
+### Prices of commodity $c$ according to the different demand source
 
 ##! Price of commodity $c$ for household final consumption expenditure
 PCH[c]    * CH[c]     = PCHD[c]    * CHD[c]    + PCHM[c]    * CHM[c]        if CH[c]      <> 0
@@ -104,8 +101,8 @@ PE[s]     * F[E, s]   = sum(PCI[ce, s] * CI[ce, s] if CI[ce, s] <> 0 on ce) if F
 # Average selling price for domestic commodity c (Value & volume)
 
 ##! Selling price of commodity $c$
-## YQS[c] is the volume of the production expressed at market price. It should not be seen as a composite of several "goods": production at base price, margins and taxes. Its does not increase when the volume of the margins and taxes increase. The price does instead. This is equivalent to assuming that YQS[c] is always proportionnal to and YQ[c] since the volume of margins and taxes depends on the latter. Writing it following the specification composite of several goods, YQS[c] = YQ[c] + MGPD[c] + NTAXPD[c], would lead to inacurate results since a decrease in the quantity of margins used per unit of production would not lead to a decrease of the selling price.
 PYQS[c] * YQS[c] = PYQ[c] * YQ[c] + PMGPD[c] * MGPD[c] + NTAXPD_VAL[c]      if YQS[c]      <> 0
+## $YQS_{c}$ is the volume of the production expressed at market price. It should not be seen as a composite of several "goods": production at base price, margins and taxes. Its does not increase when the volume of the margins and taxes increase. The price does instead. This is equivalent to assuming that $YQS_{c}$ is always proportionnal to and $YQ_{c}$ since the volume of margins and taxes depends on the latter. Writing it following the specification composite of several goods, $YQS_{c} = YQ_{c} + MGPD_{c} + NTAXPD_{c}$, would lead to inacurate results since a decrease in the quantity of margins used per unit of production would not lead to a decrease of the selling price. \\
 
 ##! Quantity of domestically produced commodity $c$ expressed at selling price
 d(log(YQS[c]))   =    d(log(YQ[c]))	                                        if YQS[c]      <> 0
@@ -116,14 +113,13 @@ PMS[c]  * MS[c]  = PM[c]  * M[c]  + NTAXPM_VAL[c]    + PMGPM[c] * MGPM[c]   if M
 ##! Quantity of imported commodity $c$ expressed at selling price
 d(log(MS[c]))    =    d(log(M[c]))                                          if MS[c]       <> 0
 
-
 ##! Price of the margins paid to commodity $cc$ on domestically produced commodity $c$
-## We assume that the margins paid on domestic and imported commodities can be produced by domestic and foreign (using the import share of the margin received). The price of the margins paid to commodity cc is assumed commun to all commodity c.
 PMGPD[cc, c] * MGR[cc] = PMGRD[cc] * MGRD[cc] + PMGRM[cc] * MGRM[cc]        if MGPD[cc, c] <> 0
+## We assume that the margins paid on domestic and imported commodities can be produced by domestic and foreign (using the import share of the margin received). The price of the margins paid to commodity $cc$ is assumed commun to all commodity $c$. \\
 
 ##! Price of the margins paid to commodity $cc$ on imported commodity $c$
-## This price is the same as the one paid on domestic commodity because of the assumption given in the previous equation.
 PMGPM[cc, c] = PMGPD[cc, c] if MGPM[cc, c] <> 0
+## This price is the same as the one paid on domestic commodity because of the assumption given in the previous equation. \\
 
 ##! Price of margins received on domestically produced commodity $c$
 PMGRD[c]     = PYQS[c]      if MGRD[c]     <> 0
@@ -131,7 +127,7 @@ PMGRD[c]     = PYQS[c]      if MGRD[c]     <> 0
 ##! Price of margins received on imported commodity $c$
 PMGRM[c]     = PMS[c]       if MGRM[c]     <> 0
 
-# Price of intermediary raw material consumption domestically produced c of sector s
+### Price of intermediary raw material consumption domestically produced $c$ of sector $s$
 
 ##! Price of domestically produced commodity $c$ for sector $s$ for intermediate consumption use
 PCID[c, s]   = PYQS[c]      if CID[c, s]   <> 0
@@ -173,11 +169,8 @@ PDSM[c]      = PMS[c]       if DSM[c]      <> 0
 PM[c]        = EXR * PWD[c]  if M[c]        <> 0
 
 ##! Notional wage in sector $s$
-## This general specification combines various wage equation found in the literature: the Phillips curve and the WS curve. The WS curve à la Layard et al. (2005) requires the following constraints : RHO_W_P[s] = RHO_W_PROG[s] = 1, RHO_W_U[s] = RHO_W_Cons[s] = 0.
 d(log(W_n[s])) = RHO_W_Cons[s] + RHO_W_P[s]*d(log(P)) + RHO_W_Pe[s]*d(log(P_e)) + RHO_W_PROG[s]*d(log(PROG_L[s])) - RHO_W_U[s] * (UnR - DNAIRU) - RHO_W_DU[s]*d(UnR) + RHO_W_L[s]*d(log(F[L, s]) - log(F[L])) if W_n[s] <> 0
-
-# In order to have a NAIRU that is not predetermined, we have to assume that the constant is a function of the unemployment rate:
-#d(RHO_W_Cons[s]) = 0.9 * RHO_W_U[s] * d(UnR)
+## In order to have a $NAIRU$ that is not predetermined, we have to assume that the constant is a function of the unemployment rate: \begin{center} $d(\rho^{W,Cons}_{s}) = 0.9 * \rho^{W,U}_{s} * d(UnR)$ \end{center}
 
 ##! Average wage
 W * F[L] = (sum(W[s] * F[L, s] on s))
@@ -185,14 +178,15 @@ W * F[L] = (sum(W[s] * F[L, s] on s))
 ##! Consumer Price Index
 P = PCH
 
-# "Original" rule
+### "Original" Taylor rule
 ##! Notional interest rate of the Central Bank (Taylor rule)
 d(R_n)      = RHO_Rdir_Cons + RHO_Rdir_P * d(d(P)/P{-1}) - RHO_Rdir_UnR * d(UnR)
+## This general specification combines various wage equation found in the literature: the Phillips curve and the WS curve. The WS curve à la Layard et al. (2005) requires the following constraints : \\{$\rho^{W_{P}}_{s} = \rho^{W,PROG}_{s} = 1, \rho^{W,U}_{s} = \rho^{W,Cons}_{s}= 0$} \\
 
-# We assume a constant premiun on the interest rate of the Central Bank
 ##! Interest rate paid on capital by sector $s$
 d(R[s])     = d(R)
+## We assume a constant premiun on the interest rate of the Central Bank \\
 
 ##! Interest rate paid by the Governement on its debt
-## We assume a constant premiun on the interest rate of the Central Bank
 d(r_DEBT_G) = d(r)
+## We assume a constant premiun on the interest rate of the Central Bank \\
