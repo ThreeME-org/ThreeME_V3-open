@@ -2,8 +2,8 @@ include ..\model\lists
 
 ### From producer block
 
-phi_MGPD[cc, c] := PMGPD[cc, c] * MGPD[cc, c] / (sum(PMGPD[ccc, c] * MGPD[ccc, c] on ccc))
-phi_MGPM[cc, c] := PMGPM[cc, c] * MGPM[cc, c] / (sum(PMGPM[ccc, c] * MGPM[ccc, c] on ccc))
+phi_MGPD[m, c]  := PMGPD[m, c] * MGPD[m, c] / (sum(PMGPD[mm, c] * MGPD[mm, c] on mm))                                                   if MGPD[m, c] <> 0
+phi_MGPM[m, c]  := PMGPM[m, c] * MGPM[m, c] / (sum(PMGPM[mm, c] * MGPM[mm, c] on mm))        
 
 
 phi[f, s] := C[f, s] * F_n[f, s] / (sum(C[ff, s] * F_n[ff, s] on ff))

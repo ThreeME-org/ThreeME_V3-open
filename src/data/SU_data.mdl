@@ -22,7 +22,7 @@ MGRbis[c] := MGRD[c] + MGRM[c]
 ###### SUPPY SIDE ###
 #####################
 
-MGP|O|[c] := sum(MGP|O|[cc, c] on cc)
+MGP|O|[c] := sum(MGP|O|[m, c] on m)
 
 # YQ[c] can not be calibrated from equation because circular reference with NTAXPD_VAL[c] that depends on YQ[c]. Use instead YQ[c] := sum(Y[c, s] on s)
 # YQ[c]*PYQ[c] + NTAXPD_VAL[c] + PMGPD[c]*MGPD[c] := PQD[c]*QD[c]
@@ -38,9 +38,9 @@ MGPD := sum(MGPD[c] on c)
 
 MGPM := sum(MGPM[c] on c) 
 
-MGR[cc] := sum(MGP[cc, c] on c)
+MGR[m] := sum(MGP[m, c] on c)
 
-MGP[cc, c] := MGPD[cc, c] + MGPM[cc, c]
+MGP[m, c] := MGPD[m, c] + MGPM[m, c]
 
 YQ := sum(YQ[c] on c)
 

@@ -10,8 +10,8 @@
 ES_LESCES := 0.5
 
 ## Between margins paid on the domestic and imported commodity c
-ES_MGPD[ccc, cc, c] := 0.3
-ES_MGPM[ccc, cc, c] := 0.3
+ES_MGPD[m, mm, c] := 0.3
+ES_MGPM[m, mm, c] := 0.3
 
 ## Between production factors
 ES[f, ff, s] := 0.5
@@ -43,7 +43,8 @@ ES_TRSP[ct, ctt, s] := 0.3
 
 
 ## Between domestic and imported commodities for margins recieved, private and public consumption, investment and exports
-ES_|V|M[c] := 0.8 where V in MGR CH G I X
+ES_|V|M[c] := 0.8 where V in CH G I X
+ES_|V|M[m] := 0.8 where V in MGR
 
 ES_|V|M[c, s] := 0.8 where V in CI I
 
@@ -135,14 +136,15 @@ ADJUST_IA_Kn[s] := 0.05
 # 6 for substitution (Eviews limit for variables in model: 24 letters)
 ADJUST6_F[f, s] := 0.3
 
-ADJUST6_MGPD[cc, c] := 0.3
+ADJUST6_MGPD[m, c] := 0.3
 
-ADJUST6_MGPM[cc, c] := 0.3
+ADJUST6_MGPM[m, c] := 0.3
 
 ADJUST6_CI[ce, s] := 0.3
 ADJUST6_CI[ct, s] := 0.3
 
-ADJUST6_|V|M[c] := 0.3 where V in MGR CH G X
+ADJUST6_|V|M[c] := 0.3 where V in CH G X
+ADJUST6_|V|M[m] := 0.3 where V in MGR
 
 ADJUST6_|V|M[c, s] := 0.3 where V in CI I
 

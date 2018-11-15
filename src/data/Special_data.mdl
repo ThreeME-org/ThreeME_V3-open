@@ -31,7 +31,8 @@ RRSSC[s] := RSSC[s] * PRSSC[s] / (W[s] * F[L, s] + eps)
 
 
 # Import share of commodity c for margins recieved, private and public consumption, investment and exports
-phi_|V|M[c] := |V|M[c] / (|V|[c] + eps) where V in MGR CH G X
+phi_|V|M[c] := |V|M[c] / (|V|[c] + eps) where V in CH G X
+phi_|V|M[m] := |V|M[m] / (|V|[m] + eps) where V in MGR
 
 # Import share of commodity c bought by sector s for intermediary consumption and investment
 phi_|V|M[c, s] := |V|M[c, s] / (|V|[c, s] + eps) where V in CI I
@@ -69,9 +70,13 @@ MARKUP_n2[s] := MARKUP_n[s]
 PROP_INC_G_VAL := @elem(phi_PROP_INC_G * PNOS * NOS, %baseyear) * (1 + GR_NOMI) ^ (@year - %baseyear)
 
 # For verif
-ES_act_|V|M[c] := ES_|V|M[c] where V in MGR CH G X
+ES_act_|V|M[c] := ES_|V|M[c] where V in CH G X
+ES_act_|V|M[m] := ES_|V|M[m] where V in MGR
 
 ES_act[f, ff, s] := ES[f, ff, s]
+
+# Non margin commodities set at 0
+MGR[c]	:= 0 where c in %list_com \ %list_com_MARG 
 
 # Expected and nominal variables are initialised to their real value
 |V|_n[s] := |V|[s] where V in IA W MARKUP
@@ -98,11 +103,11 @@ PARTR_e := PARTR
 DNAIRU := 0
 
 # All variable started by SUBST are calibrated to zero
-SUBST_MGPD[cc, c] := 0
-SUBST_MGPM[cc, c] := 0
+SUBST_MGPD[m, c] := 0
+SUBST_MGPM[m, c] := 0
 
-SUBST_n_MGPD[cc, c] := 0
-SUBST_n_MGPM[cc, c] := 0
+SUBST_n_MGPD[m, c] := 0
+SUBST_n_MGPM[m, c] := 0
 
 SUBST_|V|[s] := 0 where V in IA L E MAT K
 
@@ -112,8 +117,12 @@ SUBST_F[f, s] := 0
 SUBST_n_CI[c, s] := 0
 SUBST_CI[c, s] := 0
 
-SUBST_n_|V|M[c] := 0 where V in MGR CH G X
-SUBST_|V|M[c] := 0 where V in MGR CH G X
+
+SUBST_n_|V|M[c] := 0 where V in CH G X
+SUBST_n_|V|M[m] := 0 where V in MGR
+
+SUBST_|V|M[c] := 0 where V in CH G X
+SUBST_|V|M[m] := 0 where V in MGR
 
 SUBST_n_|V|M[c, s] := 0 where V in CI I
 SUBST_|V|M[c, s] := 0 where V in CI I
@@ -184,7 +193,9 @@ Verif_ALL := 0
 
 Verif_ALL_ES := 0
 
-Verif_ES_|V|M[c] := 0  where V in MGR CH G X
+Verif_ES_|V|M[c] := 0  where V in CH G X
+Verif_ES_|V|M[m] := 0  where V in MGR
+
 
 Verif_Bal_G_Prim_VAbis := 0
 

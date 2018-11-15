@@ -1,13 +1,13 @@
-#### Other equations
+##### Other equations
 
-### Adjustment equations and anticipation
+#### Adjustment equations and anticipation
 
 ##! Mark-up in the sector $s$
 MARKUP[s] = ADJUST_MARKUP[s] * MARKUP_n[s] + (1 - ADJUST_MARKUP[s]) * MARKUP[s]{-1} if Y[s] > 0
 
 ##! Expected inflation.
-## This equation defines the expected inflation and not the expected price. $P^{e}$ does not necessary converge to $P$. If the wage equation is a WS curve, even in the very long term it may not converge.
 d(log(P_e))       = ADJUST_Pe_P1    * d(log(P{-1}))         + (1 - ADJUST_Pe_P1)    * d(log(P_e{-1}))
+## This equation defines the expected inflation and not the expected price. $P^{e}$ does not necessary converge to $P$. If the wage equation is a WS curve, even in the very long term it may not converge. \\
 
 ##! Expected production
 d(log(Y_e[s]))    = ADJUST_Ye_Y[s]  * d(log(Y[s]))          + (1 - ADJUST_Ye_Y[s])  * d(log(Y_e[s]{-1}))
@@ -67,15 +67,16 @@ log(PROP_INC_G_VAL)      = ADJUST0_PROP_INC_G_VAL * log(PROP_INC_G_VAL_n)       
 ##! Expected Government property incomes in value
 d(log(PROP_INC_G_VAL_e)) = ADJUST1_PROP_INC_G_VAL * d(log(PROP_INC_G_VAL_e{-1})) +      ADJUST2_PROP_INC_G_VAL  * d(log(PROP_INC_G_VAL{-1})) + ADJUST3_PROP_INC_G_VAL * d(log(PROP_INC_G_VAL_n))  if PROP_INC_G_VAL_e <> 0
 
-###Substitutions
+#### Substitutions
+
 ##! Substitution effect of the production factor $f$ in the sector $s$
 SUBST_F[f, s]     = ADJUST6_F[f, s]     * SUBST_n_F[f, s]     + (1 - ADJUST6_F[f, s])     * SUBST_F[f, s]{-1}     if F[f, s]     <> 0
 
-##! Substitution effect of the domestic margin paid $cc$ for the commodity $c$
-SUBST_MGPD[cc, c] = ADJUST6_MGPD[cc, c] * SUBST_n_MGPD[cc, c] + (1 - ADJUST6_MGPD[cc, c]) * SUBST_MGPD[cc, c]{-1} if MGPD[cc, c] <> 0
+##! Substitution effect of the domestic margin paid $m$ for the commodity $c$
+SUBST_MGPD[m, c] = ADJUST6_MGPD[m, c] * SUBST_n_MGPD[m, c] + (1 - ADJUST6_MGPD[m, c]) * SUBST_MGPD[m, c]{-1} if MGPD[m, c] <> 0
 
-##! Substitution effect on the imported margin paid $cc$ for the commodity $c$
-SUBST_MGPM[cc, c] = ADJUST6_MGPM[cc, c] * SUBST_n_MGPM[cc, c] + (1 - ADJUST6_MGPM[cc, c]) * SUBST_MGPM[cc, c]{-1} if MGPM[cc, c] <> 0
+##! Substitution effect on the imported margin paid $m$ for the commodity $c$
+SUBST_MGPM[m, c] = ADJUST6_MGPM[m, c] * SUBST_n_MGPM[m, c] + (1 - ADJUST6_MGPM[m, c]) * SUBST_MGPM[m, c]{-1} if MGPM[m, c] <> 0
 
 ##! Substitution effect on the energy intermediate consumption $ce$ in the sector $s$
 SUBST_CI[ce, s]   = ADJUST6_CI[ce, s]   * SUBST_n_CI[ce, s]   + (1 - ADJUST6_CI[ce, s])   * SUBST_CI[ce, s]{-1}   if CI[ce, s]   <> 0
@@ -83,8 +84,8 @@ SUBST_CI[ce, s]   = ADJUST6_CI[ce, s]   * SUBST_n_CI[ce, s]   + (1 - ADJUST6_CI[
 ##! Substitution effect on the transportation intermediate consumption $ce$ in the sector $s$
 SUBST_CI[ct, s]   = ADJUST6_CI[ct, s]   * SUBST_n_CI[ct, s]   + (1 - ADJUST6_CI[ct, s])   * SUBST_CI[ct, s]{-1}   if CI[ct, s]   <> 0
 
-##! Substitution effect on the imported margin received for the commodity $c$
-SUBST_MGRM[c]     = ADJUST6_MGRM[c]     * SUBST_n_MGRM[c]     + (1 - ADJUST6_MGRM[c])     * SUBST_MGRM[c]{-1}     if MGRM[c]     <> 0
+##! Substitution effect on the imported margin received for the commodity $m$
+SUBST_MGRM[m]     = ADJUST6_MGRM[m]     * SUBST_n_MGRM[m]     + (1 - ADJUST6_MGRM[m])     * SUBST_MGRM[m]{-1}     if MGRM[m]     <> 0
 
 ##! Substitution effect on the imported households final consumption for the commodity $c$
 SUBST_CHM[c]      = ADJUST6_CHM[c]      * SUBST_n_CHM[c]      + (1 - ADJUST6_CHM[c])      * SUBST_CHM[c]{-1}      if CHM[c]      <> 0

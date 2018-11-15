@@ -1,7 +1,7 @@
-#### Government
-### taxes
+##### Government
+#### Taxes
 
-# We assume that the volume of the tax varies only when the volume of the taxe bases (e.g. production, consumption) varies. Hence an increase in the tax rate does not increase the volume of the tax but increases its price. This is coherent with the specification of the price of the tax bases: increasing the tax rate on production increases the production price but not production.
+## We assume that the volume of the tax varies only when the volume of the taxe bases (e.g. production, consumption) varies. Hence an increase in the tax rate does not increase the volume of the tax but increases its price. This is coherent with the specification of the price of the tax bases: increasing the tax rate on production increases the production price but not production. \\
 
 ##! Net taxes on domestically produced commodity $c$ in value
 NTAXPD_VAL[c] = 			RNTAXPD[c]	* PYQ[c]	  * YQ[c]
@@ -45,8 +45,8 @@ NTAXI_VAL = sum(NTAXI_VAL[s] on s)
 NTAXI 		= sum(NTAXI[s] 		 on s)
 
 ##! Employers' social security contribution paid by sector $s$ expressed in consumer price
-## $RSSC$ stands for employeRs' Social Security Contribution
 RSSC[s] * PRSSC[s] = W[s] * F[L, s] * RRSSC[s]
+## $RSSC$ stands for employers' Social Security Contribution \\
 
 ##! Price of RSSC for sector $s$
 		  		PRSSC[s] = P
@@ -55,7 +55,7 @@ RSSC[s] * PRSSC[s] = W[s] * F[L, s] * RRSSC[s]
 PRSSC * RSSC = sum(PRSSC[s] * RSSC[s] on s)
 
 ##! Price of RSSC
-				RSSC = sum(						RSSC[s] on s)
+		    RSSC = sum(			      RSSC[s] on s)
 
 ##! Average employers' social security contribution rate
 RRSSC 			 = 		 PRSSC 		* RSSC / (W * F[L])
@@ -76,21 +76,19 @@ SPEND_G_VAL 		  = PG  * G  + SOC_BENF_VAL + DEBT_G_VAL{-1}*(Phi_RD_G{-1} + r_DEB
 SAV_G_VAL 	  	  = INC_G_VAL - SPEND_G_VAL
 
 ##! Primary balance of the Government in value (deficit).
-## It corresponds to the savings excluding the reimbursement and the interest on the debt
-
 Bal_G_Prim_VAL 		= SAV_G_VAL + DEBT_G_VAL{-1} * (Phi_RD_G{-1} + r_DEBT_G{-1})
+## It corresponds to the savings excluding the reimbursement and the interest on the debt. \\
 
-# NO COMMENT
+##! Primary balance of the Government in value (deficit)from an alternative expression
 Bal_G_Prim_VALbis = INC_G_VAL - (PG  * G  + SOC_BENF_VAL)
+## It corresponds to the saving excluding the reimbursement but not the interest on the debt. \\
 
 ##! Total balance of the Government in value (deficit)
-## It corresponds to the saving excluding the reimbursement but not the interest on the debt
-
 Bal_G_Tot_VAL 	  = Bal_G_Prim_VAL - DEBT_G_VAL{-1} * r_DEBT_G{-1}
 
 ##! Government's debt in value
-## It corresponds to the previous year debt minus the reimbursement of the debt and the government savings
 DEBT_G_VAL 		 	  = DEBT_G_VAL{-1} * (1-Phi_RD_G{-1}) - SAV_G_VAL
+## It corresponds to the previous year debt minus the reimbursement of the debt and the government savings. \\
 
 ##! Government's savings rate in value (in percent of GDP)
 RSAV_G_VAL 			  = SAV_G_VAL 		 / (PGDP * GDP)
