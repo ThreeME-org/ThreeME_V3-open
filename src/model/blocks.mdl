@@ -23,7 +23,7 @@ include ..\model\ghg_emissions
 # include ..\model\carbon_tax
 
 ## Exception files ALWAYS at the end because of the @over's
-#include ..\model\Exception_taxes_prices
-#include ..\model\Exception_NestedCES
+include ..\model\Exception_taxes_prices
+include ..\model\Exception_NestedCES
 
 #include ..\model\Exception_hybrid
