@@ -73,6 +73,10 @@ ES_act_|V|M[c] := ES_|V|M[c] where V in MGR CH G X
 
 ES_act[f, ff, s] := ES[f, ff, s]
 
+# Non margin commodities set at 0
+MGPD[cc, c] := 0 where cc in %list_com \ %list_com_MARG 
+MGPM[cc, c]	:= 0 where cc in %list_com \ %list_com_MARG 
+
 # Expected and nominal variables are initialised to their real value
 |V|_n[s] := |V|[s] where V in IA W MARKUP
 |V|_e[s] := |V|[s] where V in IA W
