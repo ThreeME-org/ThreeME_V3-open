@@ -16,12 +16,9 @@ include .\R_lists
 s in %list_sec
 
 c in %list_com
-cc in %list_com
-ccc in %list_com
 
 m in %list_com_MARG
 mm in %list_com_MARG
-mmm in %list_com_MARG
 
 
 cm in %list_com_MAT

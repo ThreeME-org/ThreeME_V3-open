@@ -5,8 +5,8 @@
 
 #### Margins
 
-##! Margins paid to commodity $cc$ on the domestic commodity $c$
-d(log(MGPD[cc, c])) = d(log(YQ[c])) + d(SUBST_MGPD[cc, c])                                                                                      if MGPD[cc, c] <> 0
+##! Margins paid to commodity $m$ on the domestic commodity $c$
+d(log(MGPD[m, c])) = d(log(YQ[c])) + d(SUBST_MGPD[m, c])                                                                                      if MGPD[m, c] <> 0
 ## The growth in demand for margins follows the growth of aggregate demand for the commodity $c$ and a substitution term \\
 
 ##! Notional substitution between margin-making sectors $m$ for the domestically produced commodity $c$
@@ -80,7 +80,7 @@ d(log(TRSP[s])) = d(log(F[MAT, s]))                                             
 ##! Demand for transport commodity $ct$ by sector $s$
 d(log(CI[ct, s])) = d(log(TRSP[s])) + d(SUBST_CI[ct,s])                                                                   if CI[ct, s]  <> 0
 
-##! Notional substitution effect between the transport $ct$ and the over transports $cct$ for the sector $s$
+##! Notional substitution effect between the transport $ct$ and the over transports $mt$ for the sector $s$
 d(SUBST_n_CI[ct, s]) = sum(- ES_TRSP[ct, ctt, s] * phi_TRSP[ctt, s]{-1} * d(log(PCI[ct, s]) - log(PCI[ctt, s])) on ctt)   if CI[ct, s]  <> 0
 
 ##! Share for transport $ct$ use in total transport by sector $s$

@@ -113,12 +113,12 @@ PMS[c]  * MS[c]  = PM[c]  * M[c]  + NTAXPM_VAL[c]    + PMGPM[c] * MGPM[c]   if M
 ##! Quantity of imported commodity $c$ expressed at selling price
 d(log(MS[c]))    =    d(log(M[c]))                                          if MS[c]       <> 0
 
-##! Price of the margins paid to commodity $cc$ on domestically produced commodity $c$
-PMGPD[cc, c] * MGR[cc] = PMGRD[cc] * MGRD[cc] + PMGRM[cc] * MGRM[cc]        if MGPD[cc, c] <> 0
-## We assume that the margins paid on domestic and imported commodities can be produced by domestic and foreign (using the import share of the margin received). The price of the margins paid to commodity $cc$ is assumed commun to all commodity $c$. \\
+##! Price of the margins paid to commodity $m$ on domestically produced commodity $c$
+PMGPD[m, c] * MGR[m] = PMGRD[m] * MGRD[m] + PMGRM[m] * MGRM[m]        if MGPD[m, c] <> 0
+## We assume that the margins paid on domestic and imported commodities can be produced by domestic and foreign (using the import share of the margin received). The price of the margins paid to commodity $m$ is assumed commun to all commodity $c$. \\
 
-##! Price of the margins paid to commodity $cc$ on imported commodity $c$
-PMGPM[cc, c] = PMGPD[cc, c] if MGPM[cc, c] <> 0
+##! Price of the margins paid to commodity $m$ on imported commodity $c$
+PMGPM[m, c] = PMGPD[m, c] if MGPM[m, c] <> 0
 ## This price is the same as the one paid on domestic commodity because of the assumption given in the previous equation. \\
 
 ##! Price of margins received on domestically produced commodity $c$

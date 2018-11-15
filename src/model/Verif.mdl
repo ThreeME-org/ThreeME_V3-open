@@ -69,9 +69,9 @@ Verif_ALL = ( sum(verif_phi_F[s]^2 on s) + sum(verif_phi_MGPD[c]^2 on c) + sum(v
 ## Moreover the compiler does not recognise the operator "OR" in the condition. Therefore, we have to write it twice.
      
 
-ES_act_MGRM[c] = ES_MGRM[c] _ 
-				- (PMGRD[c]/PMGRM[c] < 0.99999) * (log(MGRD[c]/MGRM[c]/@elem(MGRD[c]/MGRM[c], %baseyear)) / log(PMGRD[c]/PMGRM[c]*1.0000000001) + ES_MGRM[c]) _
-				- (PMGRD[c]/PMGRM[c] > 1.00001) * (log(MGRD[c]/MGRM[c]/@elem(MGRD[c]/MGRM[c], %baseyear)) / log(PMGRD[c]/PMGRM[c]*1.0000000001) + ES_MGRM[c]) if MGRM[c] <> 0 
+ES_act_MGRM[m] = ES_MGRM[m] _ 
+				- (PMGRD[m]/PMGRM[m] < 0.99999) * (log(MGRD[m]/MGRM[m]/@elem(MGRD[m]/MGRM[m], %baseyear)) / log(PMGRD[m]/PMGRM[m]*1.0000000001) + ES_MGRM[m]) _
+				- (PMGRD[m]/PMGRM[m] > 1.00001) * (log(MGRD[m]/MGRM[m]/@elem(MGRD[m]/MGRM[m], %baseyear)) / log(PMGRD[m]/PMGRM[m]*1.0000000001) + ES_MGRM[m]) if MGRM[m] <> 0 
 ES_act_CHM[c] = ES_CHM[c] _ 
 				- (PCHD[c]/PCHM[c] < 0.99999) * (log(CHD[c]/CHM[c]/@elem(CHD[c]/CHM[c], %baseyear)) / log(PCHD[c]/PCHM[c]*1.0000000001) + ES_CHM[c]) _
 				- (PCHD[c]/PCHM[c] > 1.00001) * (log(CHD[c]/CHM[c]/@elem(CHD[c]/CHM[c], %baseyear)) / log(PCHD[c]/PCHM[c]*1.0000000001) + ES_CHM[c]) if CHM[c] <> 0 
@@ -86,7 +86,7 @@ ES_act_XM[c] = ES_XM[c] _
 
 
 
-#Verif_ES_MGRM[c] = ES_act_MGRM[c] - ES_MGRM[c]
+#Verif_ES_MGRM[m] = ES_act_MGRM[m] - ES_MGRM[m]
 #Verif_ES_CHM[c] = ES_act_CHM[c] - ES_CHM[c]
 #Verif_ES_GM[c] = ES_act_GM[c] - ES_GM[c]
 #Verif_ES_XM[c] = ES_act_XM[c] - ES_XM[c]
@@ -96,6 +96,6 @@ ES_act[f, ff, s] = ES[f, ff, s] - (C[f, s]/PROG[f, s]/(C[ff, s]/PROG[ff, s])/ @e
 
 
 
-# Verif_ALL_ES = ( sum(Verif_ES_MGRM[c]^2 on c) + sum(Verif_ES_CHM[c]^2 on c) + sum(Verif_ES_GM[c]^2 on c) + sum(Verif_ES_XM[c]^2 on c))^(1/2) where V in MGR CH G X
+# Verif_ALL_ES = ( sum(Verif_ES_MGRM[m]^2 on c) + sum(Verif_ES_CHM[c]^2 on c) + sum(Verif_ES_GM[c]^2 on c) + sum(Verif_ES_XM[c]^2 on c))^(1/2) where V in MGR CH G X
 
 

@@ -4,8 +4,8 @@
 
 #### Domestic demand
 
-##! Received margins on domestically produced commodity $c$
-MGRD[c] = (1 - phi_MGRM[c]) * MGR[c] if MGRD[c] <> 0
+##! Received margins on domestically produced commodity $m$
+MGRD[m] = (1 - phi_MGRM[m]) * MGR[m] if MGRD[m] <> 0
 
 ##! Private final consumption of domestically produced commodity $c$
 CHD[c]  = (1 - phi_CHM[c])  * CH[c]  if CHD[c]  <> 0
@@ -13,8 +13,8 @@ CHD[c]  = (1 - phi_CHM[c])  * CH[c]  if CHD[c]  <> 0
 ##! Public final consumption of domestically produced commodity $c$
 GD[c]   = (1 - phi_GM[c])   * G[c]   if GD[c]   <> 0
 
-##! Margins received from imported commodity $c$
-MGRM[c] =      phi_MGRM[c]  * MGR[c] if MGRM[c] <> 0
+##! Margins received from imported commodity $m$
+MGRM[m] =      phi_MGRM[m]  * MGR[m] if MGRM[m] <> 0
 
 ##! Private final consumption of imported commodity $c$
 CHM[c]  =      phi_CHM[c]   * CH[c]  if CHM[c]  <> 0
@@ -23,7 +23,7 @@ CHM[c]  =      phi_CHM[c]   * CH[c]  if CHM[c]  <> 0
 GM[c]   =      phi_GM[c]    * G[c]   if GM[c]   <> 0
 
 ##! Import share of commodity $c$ on received margins
-phi_MGRM[c] = 1 /( 1 + @elem( MGRD[c]/MGRM[c], %baseyear) * exp( SUBST_MGRM[c])) if MGRM[c]   <> 0
+phi_MGRM[m] = 1 /( 1 + @elem( MGRD[m]/MGRM[m], %baseyear) * exp( SUBST_MGRM[m])) if MGRM[m]   <> 0
 
 ##! Import share of commodity $c$ for household final consumption
 phi_CHM[c] 	= 1 /( 1 + @elem( CHD[c]/CHM[c]  , %baseyear) * exp( SUBST_CHM[c]))  if CHM[c]    <> 0
