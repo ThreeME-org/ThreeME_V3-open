@@ -12,7 +12,7 @@
 ###		  K  E
 ###
 ### The speficication of the ES used between two inputs is the one presented in Reynès (2018, Appendix B): 
-### Reynès, F. (2018), "The Cobb-Douglas function as a flexible function. A new perspective on homogenous functions through the lens of output elasticities", Mathematical Social Sciences, Forthcoming.
+### Reynès, F. (2019), "The Cobb-Douglas function as a flexible function. A new perspective on homogeneous functions through the lens of output elasticities", Mathematical Social Sciences 97, 11-17.
 
 # Elasticity of Substitution (ES) between material and the agregate capital-energy-labor
 ES_NEST_MAT_KEL[s] := 0.0

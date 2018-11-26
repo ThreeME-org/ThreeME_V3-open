@@ -1,97 +1,86 @@
 ##### Producer
 
 ## This file provides the equations defining the producer behaviour.
-## Equation are behavioral. They are not used to calibrate the initial value of variables. They may be inverted to calibrate a parameter.
+
+# Most equation are behavioral equations. They are not used to calibrate the initial value of variables. They may be inverted to calibrate a parameter.
 
 #### Margins
 
 ##! Margins paid to commodity $m$ on the domestic commodity $c$
 d(log(MGPD[m, c])) = d(log(YQ[c])) + d(SUBST_MGPD[m, c])                                                                                      if MGPD[m, c] <> 0
-## The growth in demand for margins follows the growth of aggregate demand for the commodity $c$ and a substitution term \\
+## The demand for margins $m$ paid on commodity $c$ depends on the demand for the commodity $c$ and on the substitution between margins type. \\
 
-##! Notional substitution between margin-making sectors $m$ for the domestically produced commodity $c$
+##! Notional substitution between margin $m$ and the other margin types $mm$ paid on domestic commodity $c$
 SUBST_n_MGPD[m, c] = sum(- ES_MGPD[m, mm, c] * phi_MGPD[mm, c]{-1} * d(log(PMGPD[m, c]) - log(PMGPD[mm, c])) if MGPD[mm, c] <> 0 on mm) if MGPD[m, c] <> 0
 
-##! Market share of the margin-making sector $m$  for the commodity $c$
-phi_MGPD[m, c]     = PMGPD[m, c] * MGPD[m, c] / (sum(PMGPD[mm, c] * MGPD[mm, c] on mm))                                                   if MGPD[m, c] <> 0
+##! Share of margin type $m$ into the total margins paid on domestic commodity $c$
+phi_MGPD[m, c]     = (PMGPD[m, c] * MGPD[m, c]) / (sum(PMGPD[mm, c] * MGPD[mm, c] on mm))                                                   if MGPD[m, c] <> 0
 
 ##! Margins paid to commodity $m$ on the imported commodity $c$
 d(log(MGPM[m, c])) = d(log( M[c])) + d(SUBST_MGPM[m, c])                                                                                      if MGPM[m, c] <> 0
 
-##! Notional substitution effect between the margin-making sector $m$ and the over margin-makings sectors $mm$ for the imported commodity $c$
+##! Notional substitution between margin $m$ and the other margin types $mm$ paid on imported commodity $c$
 SUBST_n_MGPM[m, c] = sum(- ES_MGPM[m, mm, c] * phi_MGPM[mm, c]{-1} * d(log(PMGPM[m, c]) - log(PMGPM[mm, c])) if MGPM[mm, c] <> 0 on mm) if MGPM[m, c] <> 0
 
-##!  share of the margin type $m$ on total margins paid on the domestic commodity $c$
-phi_MGPM[m, c]     = PMGPM[m, c] * MGPM[m, c] / (sum(PMGPM[mm, c] * MGPM[mm, c] on mm))                                                   if MGPM[m, c] <> 0
+##! Share of margin type $m$ into the total margins paid on imported commodity $c$
+phi_MGPM[m, c]     = (PMGPM[m, c] * MGPM[m, c]) / (sum(PMGPM[mm, c] * MGPM[mm, c] on mm))                                                   if MGPM[m, c] <> 0
 
 #### Production factors
 
 ##! Production of commodity $c$ by sector $s$
 Y[c, s] = PhiY[c, s] * YQ[c] if Y[c, s] <> 0
-## We assume that each activity $s$ may produce more than one commodity $c$. Therefore the production $Y$ of commodity $c$ by the activity $s$ depends on the parameter $\varphi^{Y}_{c, s}$ which represents the share of sector $s$ in the total production of commodity $c$. \\
+## We assume that each sector $s$ may produce more than one commodity $c$. Therefore the production $Y$ of commodity $c$ by sector $s$ depends on the parameter $\varphi^{Y}_{c, s}$ which represents the share of sector $s$ in the total production of commodity $c$. \\
 
-##! Demand for production factor $f$ of sector $s$
+##! Demand for production factor $f$ by sector $s$
 d(log(F_n[f, s]))  = d(log(Y[s])) - d(log(PROG[f, s])) + d(SUBST_F[f, s])                                                 if F_n[f, s] <> 0
 
-##! Notional substitution effect between the input $f$ and the over inputs $ff$
+##! Notional substitution between input $f$ and the other inputs $ff$
 d(SUBST_n_F[f, s]) = sum(- ES[f, ff, s] * phi[ff, s]{-1} * d(log(C[f, s]/PROG[f, s]) - log(C[ff, s]/PROG[ff, s])) on ff)  if F_n[f, s] <> 0
 
-##! Share of production factor $f$ of sector $s$
+##! Cost share of input $f$ for sector $s$
 phi[f, s]          = (C[f, s] * F_n[f, s]) / (sum(C[ff, s] * F_n[ff, s] on ff))
 
 
-# use list f !!!!!!@@@!!!
-# F[f] = sum(F[f, s] on s)
+##! Aggregate production factors $f$ 
+F[f] = sum(F[f, s] on s)
 
-### Aggregate production factors for capital, labor, energy and material
-##! Aggregate capital input
-F[K]   = sum(F[K, s]   on s)
-
-##! Aggregate labor input
-F[L]   = sum(F[L, s]   on s)
-
-##! Aggregate energy input
-F[E]   = sum(F[E, s]   on s)
-
-##! Aggregate materials input
-F[MAT] = sum(F[MAT, s] on s)
-
-##! Investment use of commodity $c$ by sector $s$
+##! Investment in commodity $c$ by sector $s$
 d(log(I[c, s])) = d(log(IA[s]))                                                                                           if I[c, s]    <> 0
 ## For a given sector, we assume that the investment structure is fixed over time. In other words, the investment good is a composite of several commodities in fixed proportion. \\
 
-##! Energy input demand by type of energy $ce$ by sector $s$
+##! Energy consumption $ce$ of sector $s$
 d(log(CI[ce, s]))    = d(log(F[E, s])) + d(SUBST_CI[ce,s])                                                                if CI[ce, s]  <> 0
 
-##! Notional substitution effect between the energy commodity $ce$ and the over energy commodities $cee$ for the sector $s$
+##! Notional substitution between energy commodity $ce$ and the other energy commodities $cee$ in the sector $s$
 d(SUBST_n_CI[ce, s]) = sum(- ES_NRJ[ce, cee, s] * phi[E, cee, s]{-1} * d(log(PCI[ce, s]) - log(PCI[cee, s])) on cee)      if CI[ce, s]  <> 0
 
-##! Share of energy input $ce$  on total energy use by sector $s$
+##! Share of energy $ce$ into the total energy use of sector $s$
 phi[E, ce, s] = (PCI[ce, s]*CI[ce, s]) / (sum(PCI[cee, s]*CI[cee, s] on cee))
 
-##! Demand for material commodity $cmo$ by sector $s$
-d(log(CI[cmo, s])) = d(log(F[MAT, s]))                                                                                    if CI[cmo, s] <> 0
-## Intermediary consumption that are not transport or energy commodities are not substitutables (Leontief technology)  \\
 
-##! Demand for transport commodities by sector $s$
+##! Material consumption $cmo$ of sector $s$
+d(log(CI[cmo, s])) = d(log(F[MAT, s]))                                                                                    if CI[cmo, s] <> 0
+## We assume that intermediary consumption that are not transport or energy commodities are not substitutables (Leontief technology).  \\
+
+##! Transport demand of sector $s$
 d(log(TRSP[s])) = d(log(F[MAT, s]))                                                                                       if TRSP[s]    <> 0
-#  We assume no substitution for Transport with the other inputs. \\
+#  We assume no substitution between transport intermediaries and the other material intermediaries. \\
 
 ##! Demand for transport commodity $ct$ by sector $s$
 d(log(CI[ct, s])) = d(log(TRSP[s])) + d(SUBST_CI[ct,s])                                                                   if CI[ct, s]  <> 0
 
-##! Notional substitution effect between the transport $ct$ and the over transports $mt$ for the sector $s$
+##! Notional substitution between the transport $ct$ and the other transports $mt$ in the sector $s$
 d(SUBST_n_CI[ct, s]) = sum(- ES_TRSP[ct, ctt, s] * phi_TRSP[ctt, s]{-1} * d(log(PCI[ct, s]) - log(PCI[ctt, s])) on ctt)   if CI[ct, s]  <> 0
 
-##! Share for transport $ct$ use in total transport by sector $s$
+##! Share for transport $ct$ into the total transport use of sector $s$
 phi_TRSP[ct, s] = (PCI[ct, s]*CI[ct, s]) / (sum(PCI[ctt, s]*CI[ctt, s] on ctt))
 
-##! Technical progress of the production factor $f$ in the sector $s$
+##! Technical progress of the production factor $f$ in sector $s$
 PROG[f, s] = PROG[f, s]{-1} * (1 + GR_PROG[f, s])
 
-##! Endogenous energy efficiency
+##! Energy efficiency gains in sector $s$
 GR_PROG[E, s] = @elem(GR_PROG[E, s], %baseyear) + RHO_PROG_E_PE * (log(PE[s]) - log(P) > 0) * d(log(PE[s])-log(P))
-## This specification states that the productivity gain of energy input in the sector $s$ for the energy type $ce$ depends on a steady-state trend (exogenous) and a price-induced component. This component is equal to a  $\rho^{PROG,E,PE}$ share of the log-difference between the level of the general energy price index for the sector $s$ to the general level of prices. \\
+## This specification states that the productivity gain of the energy input in sector $s$ depends on an exogenous trend and an endogenous price-induced component. Energy efficiency gains increase when the real energy price increases. This effect is assumed as irreversible: a decrease in the real energy price does not lead to a decrease in energy efficiency gains. \\
 
 # Doute sur le specification ci-dessus qui reprend celle existante:
 # GR_PROG_E[s] =  alpha_PROG_E[s] + alpha_PROG_E_PE*((log(PE[s])- log(PCH)>0)*d(log(PE[s])-log(PCH)))

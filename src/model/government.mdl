@@ -1,103 +1,108 @@
 ##### Government
-#### Taxes
 
-## We assume that the volume of the tax varies only when the volume of the taxe bases (e.g. production, consumption) varies. Hence an increase in the tax rate does not increase the volume of the tax but increases its price. This is coherent with the specification of the price of the tax bases: increasing the tax rate on production increases the production price but not production. \\
+#### Incomes
 
-##! Net taxes on domestically produced commodity $c$ in value
+### Taxes and social contributions
+
+## We assume that the volume of the tax varies only when the volume of the taxe bases (e.g. production, consumption) varies. Hence an increase in the tax rate does not increase the volume of the tax but increases its price. This is coherent with the specification of the production price: increasing the tax rate on production increases the production price but not production. \\
+
+##! Net taxes on domestically produced commodity $c$ expressed in value
 NTAXPD_VAL[c] = 			RNTAXPD[c]	* PYQ[c]	  * YQ[c]
 
-##! Net taxes on domestically produced commodity $c$ in volume
+##! Net taxes on domestically produced commodity $c$
 NTAXPD[c] 		= @elem(RNTAXPD[c], %baseyear)  * YQ[c]
 
-##! Net taxes on imported commodity $c$ in value
+##! Net taxes on imported commodity $c$ expressed in value
 NTAXPM_VAL[c]  = 	 	   RNTAXPM[c]	* PM[c] 	  * M[c]
 
-##! Net taxes on imported commodity $c$ in volume
+##! Net taxes on imported commodity $c$
 NTAXPM[c] 		 = @elem(RNTAXPM[c], %baseyear) * M[c]
 
-
-# Same remark than for VA
-##! Net taxes on commodity $c$ in value
+##! Net taxes on commodity $c$ expressed in value
 NTAXP_VAL[c] 	 = NTAXPD_VAL[c] + NTAXPM_VAL[c]
 
-##! Net taxes on commodity $c$ in volume
+##! Net taxes on commodity $c$
 NTAXP[c] 		 	 = NTAXPD[c] 		 + NTAXPM[c]
 
-##! Aggregate net taxes on commodity $c$ in value
-PNTAXP * NTAXP = sum(NTAXP_VAL[c] on c)
-
-##! Aggregate net taxes on commodity $c$ in volume
-	     	 NTAXP = sum(NTAXP[c] 		on c)
-
-##! Net taxes on production of sector $s$ in value
+##! Net taxes on the production of sector $s$ expressed in value
 NTAXI_VAL[s] 	 = 			 RNTAXI[s]	* PY[s]	    * Y[s]
 
-##! Net taxes on production of sector $s$ in volume
+##! Net taxes on the production of sector $s$
 NTAXI[s] 		   = @elem(RNTAXI[s], %baseyear)  * Y[s]
 
-##! Aggregate net taxes on production (value & volume)
-# Same remark than for VA
-
-##! Net taxes on production in value
-NTAXI_VAL = sum(NTAXI_VAL[s] on s)
-
-##! Net taxes on production in volume
-NTAXI 		= sum(NTAXI[s] 		 on s)
-
-##! Employers' social security contribution paid by sector $s$ expressed in consumer price
+##! Employers' social security contribution paid by sector $s$
 RSSC[s] * PRSSC[s] = W[s] * F[L, s] * RRSSC[s]
-## $RSSC$ stands for employers' Social Security Contribution \\
 
-##! Price of RSSC for sector $s$
+##! Price of the employers' social security contribution paid by sector $s$
 		  		PRSSC[s] = P
 
-##! Total employers' social security contribution expressed in consumer price
+### Aggregate taxes and social contributions
+
+##! Aggregate net taxes on commodity $c$ expressed in value
+PNTAXP * NTAXP = sum(NTAXP_VAL[c] on c)
+
+##! Aggregate net taxes on commodity $c$
+	     	 NTAXP = sum(NTAXP[c] 		on c)
+
+##! Aggregate net taxes on the production of sectors expressed in value
+NTAXI_VAL = sum(NTAXI_VAL[s] on s)
+
+##! Aggregate net taxes on the production of sectors
+NTAXI 		= sum(NTAXI[s] 		 on s)
+
+##! Price of the aggregate employers' social security contribution paid by sector $s$
 PRSSC * RSSC = sum(PRSSC[s] * RSSC[s] on s)
 
-##! Price of RSSC
+##! Aggregate employers' social security contribution paid by sectors
 		    RSSC = sum(			      RSSC[s] on s)
 
 ##! Average employers' social security contribution rate
-RRSSC 			 = 		 PRSSC 		* RSSC / (W * F[L])
+RRSSC 			 = 		 (PRSSC 	* RSSC) / (W * F[L])
 
-##!  Government final consumption expenditure of commodity $c$
-d(log(G[c])) = d(log(EXPG)) if G[c] <> 0
+### Other and aggregate incomes
 
-##! Notional Property incomes of the Government in value
+##! Notional property incomes of the Government expressed in value
 PROP_INC_G_VAL_n  = phi_PROP_INC_G * PNOS * NOS + (PNOS * NOS <= 0.00001 ) * (0.00001 - phi_PROP_INC_G * PNOS * NOS)
 
-##! Incomes of the Government in value
+##! Aggregate incomes of the Government expressed in value
 INC_G_VAL 			  = PNTAXP * NTAXP + NTAXI_VAL + INC_SOC_TAX_VAL + PRSSC * RSSC + PROP_INC_G_VAL
 
-##! Spendings of the Government in value
+#### Spendings
+
+##!  Government final consumption of commodity $c$
+d(log(G[c])) = d(log(EXPG)) if G[c] <> 0
+
+##! Aggregate spendings of the Government expressed in value
 SPEND_G_VAL 		  = PG  * G  + SOC_BENF_VAL + DEBT_G_VAL{-1}*(Phi_RD_G{-1} + r_DEBT_G{-1})
 
-##! Savings of the Government in value (Net lending/borrowing: published deficit/savings of the Government)
-SAV_G_VAL 	  	  = INC_G_VAL - SPEND_G_VAL
+#### Deficit and debt
 
-##! Primary balance of the Government in value (deficit).
+##! Savings of the Government expressed in value 
+SAV_G_VAL 	  	  = INC_G_VAL - SPEND_G_VAL
+## It corresponds to the net lending/borrowing, which is the published deficit/savings of the Government. \\
+
+##! Primary balance of the Government expressed in value (deficit)
 Bal_G_Prim_VAL 		= SAV_G_VAL + DEBT_G_VAL{-1} * (Phi_RD_G{-1} + r_DEBT_G{-1})
 ## It corresponds to the savings excluding the reimbursement and the interest on the debt. \\
 
-##! Primary balance of the Government in value (deficit)from an alternative expression
+##! Primary balance of the Government expressed in value (deficit) (for verification)
 Bal_G_Prim_VALbis = INC_G_VAL - (PG  * G  + SOC_BENF_VAL)
-## It corresponds to the saving excluding the reimbursement but not the interest on the debt. \\
 
-##! Total balance of the Government in value (deficit)
+##! Total balance of the Government expressed in value (deficit)
 Bal_G_Tot_VAL 	  = Bal_G_Prim_VAL - DEBT_G_VAL{-1} * r_DEBT_G{-1}
 
-##! Government's debt in value
+##! Government's debt expressed in value
 DEBT_G_VAL 		 	  = DEBT_G_VAL{-1} * (1-Phi_RD_G{-1}) - SAV_G_VAL
 ## It corresponds to the previous year debt minus the reimbursement of the debt and the government savings. \\
 
-##! Government's savings rate in value (in percent of GDP)
+##! Government's savings rate expressed in value (in percent of GDP)
 RSAV_G_VAL 			  = SAV_G_VAL 		 / (PGDP * GDP)
 
-##! Primary balance of the Government in value (in percent of GDP)
+##! Primary balance of the Government expressed in value (in percent of GDP)
 RBal_G_Prim_VAL   = Bal_G_Prim_VAL / (PGDP * GDP)
 
-##! Total balance of the Government in value (in percent of GDP)
+##! Total balance of the Government expressed in value (in percent of GDP)
 RBal_G_Tot_VAL 	  = Bal_G_Tot_VAL  / (PGDP * GDP)
 
-##! Ratio of the Government's debt in value (in percent of GDP)
+##! Ratio of the Government's debt expressed in value (in percent of GDP)
 RDEBT_G_VAL 		  = DEBT_G_VAL 		 / (PGDP * GDP)
