@@ -32,15 +32,15 @@ PMGR[m] * MGR[m]  = sum(PMGP[m, c] * MGP[m, c] 	if MGP[m, c] <> 0 on c) 	   if M
 ## The margins received correspond to the sum of the margins paid to commodity $m$ over all the commodities $c$ \\
 
 ##! Market price of the margins received by commodity $m$ (for verification)
-PMGRbis[c] * MGRbis[c] = PMGRD[c] * MGRD[c] + PMGRM[c] * MGRM[c] 				   if MGRbis[c]  <> 0
-## Same variable as $PMGR_{c}$ above to check the accounting consistency. \\
+PMGRbis[m] * MGRbis[m] = PMGRD[m] * MGRD[m] + PMGRM[m] * MGRM[m] 				   if MGRbis[m]  <> 0
+## Same variable as $PMGR_{m}$ above to check the accounting consistency. \\
 
 ##! Margins received by commodity $m$, expressed at market price (for verification)
-			 MGRbis[c] = 		    MGRD[c] + 			 MGRM[c] 				   if MGRbis[c]  <> 0
-## Same variable as $MGR_{c}$ above to check the accounting consistency. \\
+			 MGRbis[m] = 		    MGRD[m] + 			 MGRM[m] 				   if MGRbis[m]  <> 0
+## Same variable as $MGR_{m}$ above to check the accounting consistency. \\
 
 ### Aggregation of imports and domestic production for commodity $c$ per use, expressed at market price (value & volume)
-## This subsection aggregates imports and domestic production for commodity $c$ for various uses. It does not do it for Exports, Households and Government final consumption ($X$, $CH$ and $G$) because these aggregates are already defined in behaviour equations (see Trade international, Consumer and Governement blocks). Expressed on value, this subsection also defines the prices indexes at market price for commodity $c$ per use as a weighted average of imported and domestic production per uses: \textit{i.e.} for $Q$ (production of commodities ), $CI$ (intermediary consumption), $I$ (private investment) and $DS$ (change in inventories). \\
+## This subsection aggregates imports and domestic production for commodity $c$ for various uses. It does not do it for Exports, Households and Government final consumption ($X$, $CH$ and $G$) because these aggregates are already defined in behaviour equations (see Trade international, Consumer and Governement blocks). Expressed in value, this subsection also defines the prices indexes at market price for commodity $c$ per use as a weighted average of imported and domestic production per uses: \textit{i.e.} for $Q$ (production of commodities ), $CI$ (intermediary consumption), $I$ (private investment) and $DS$ (change in inventories). \\
 ##  \\
 
 ##! Market price of the production of commodity $c$
@@ -101,7 +101,7 @@ PIM[c]  * IM[c]  = sum(PIM[c, s]  * IM[c, s]  if IM[c, s]  <> 0 on s) if IM[c]  
 ##! Market price of domestically produced intermediate consumption of sector $s$
 PCID[s] * CID[s] 	= sum(PCID[c, s] * CID[c, s] 	if CID[c, s]  <> 0 on c) 		if CID[s]    <> 0
 
-##! Domestically produced intermediate consumption of sector $s$, expressed at basic price, expressed at market price
+##! Domestically produced intermediate consumption of sector $s$, expressed at market price
 		  CID[s] 	= sum(			   CID[c, s] 	if CID[c, s]  <> 0 on c) 		if CID[s] 	 <> 0
 
 ##! Market price of imported intermediate consumption of sector $s$
@@ -309,7 +309,7 @@ YQ[c] * PYQ[c] 		 + NTAXPD_VAL[c]  + PMGPD[c] * MGPD[c] = PQD[c] * QD[c]    	   
 
 ##! Basic price of the production of commodity $c$ (for verification)
 PYQbis[c] * YQ[c] 	 + NTAXPD_VAL[c]  + PMGPD[c] * MGPD[c] = PQD[c] * QD[c]    	   if YQ[c]      <> 0
-##  This price is already defined as a weighted average of the production price of the sectors producing commodity $c$ in the price block: $PYQ . YQ = \sum_{c} PYQ_{c} \; YQ_{c}$. To verify accountancy consistancy, we define it here under an alias name. \\
+##  This price is already defined as a weighted average of the production price of the sectors producing commodity $c$ in the price block: $PYQ . YQ = \sum_{c} PYQ_{c} \; YQ_{c}$. To verify the accounting consistancy, we define it here under an alias name. \\
 
 ##! Production of commodity $c$, expressed at basic price (for verification)
 			YQbis[c] + NTAXPD[c] 	  + 		   MGPD[c] = 		  QD[c]    	   if YQbis[c]   <> 0
@@ -320,7 +320,7 @@ M[c] * PM[c] + NTAXPM_VAL[c] + PMGPM[c] * MGPM[c] = PQM[c] * QM[c] 			   	   if 
 
 ##! Basic price of imports of commodity $c$ (for verification)
 PMbis[c] * M[c]      + NTAXPM_VAL[c]  + PMGPM[c] * MGPM[c] = PQM[c] * QM[c] 	   if M[c]       <> 0
-##  This price is already defined in the price block as $PM_{c} = EXR . PWD_{c}$. To verify accountancy consistancy, we define it here under an alias name. \\
+##  This price is already defined in the price block as $PM_{c} = EXR . PWD_{c}$. To verify the accounting consistancy, we define it here under an alias name. \\
 
 ##! Imports of commodity $c$, expressed at basic price (for verification)
 		   Mbis[c]   + NTAXPM[c] 	  + 		   MGPM[c] = 		  QM[c] 	   if Mbis[c]    <> 0
@@ -442,7 +442,7 @@ PNOS * NOS = sum(NOS_VAL[s] on s)
 
 ##! Price of GDP (expenditure definition)
 PGDP 	* GDP 	 = PCH 	  * CH	  + PG 	  * G 	 + PI 	 * I 	+ PX 	* X    + PDS    * DS 	- PM    * M
-## According to expenditure approach, GDP is calculated as the sum of the different components in the final uses of goods and services. \\
+## According to the expenditure approach, GDP is calculated as the sum of the different components in the final uses of goods and services. \\
 
 
 ##! GDP (expenditure definition)
@@ -462,7 +462,7 @@ PGDPbis * GDPbis = sum(PGDP[c] * GDP[c] on c)
 ### Production approach
 ##! Price of GDP (production definition)
 PGDPter * GDPter = PVA * VA + PNTAXP * NTAXP
-## According to production approach, GDP is calculated as the sum of the value added plus the total net taxes on commodities. \\
+## According to the production approach, GDP is calculated as the sum of the value added plus the total net taxes on commodities. \\
 
 ##!  GDP (production definition)
 		  GDPter = 		 VA + 		   NTAXP

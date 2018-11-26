@@ -1,37 +1,76 @@
 
 ##### Prices
 
-## This file provides the equations defining the prices. \\
+## This file provides the equations defining the prices, wages and the interest rates. \\
 
-##! Domestic production price of commodity $c$
-PYQ[c] * YQ[c] = sum(PY[s] * Y[c, s] if Y[c, s] <> 0 on s) if YQ[c] <> 0
+#### Behavioral equations
+
+### Price setting
 
 ##! Notional production price of sector $s$
 PY_n[s] = CU_n[s] * (1 + MARKUP[s])
 
-##! Notional mark-up of the sector $s$
+##! Notional mark-up of the sector $s$ (specification 1)
 d(log(1+MARKUP_n[s]))  = RHO_MARKUP_Y *  d(log(CUR[s]))                   if Y[s] > 0
-
-##! Notional mark-up of the sector $s$ (definition 2)
-d(log(1+MARKUP_n2[s])) = RHO_MARKUP_Y * (d(log(Y[s])) - d(log(Y[s]{-1}))) if Y[s] > 0
+## The notional mark-up is a positive function of the capacity utilization ratio. One can notice that this specification is strictly equivalent to: $\varDelta \left(\operatorname{log} 1 + \mu^{n}_{s}\right) = \rho^{\mu,Y} . \left( \varDelta \left(\operatorname{log} Y_{s}\right) - \varDelta \left(\operatorname{log} YCAP_{s}\right) \right)$ which is quite close to the specification 2 below where the production capacity $YCAP_{s}$ is replaced by the past production $Y_{s, t-1}$. \\
 
 # Notice that this is strictly equivalent to:
 # d(log(1+MARKUP_n[s])) = RHO_MARKUP_Y * (d(log(Y[s])) - d(log(YCAP[s]{-1}))) if Y[s] > 0
 # Which is quite close to the specification previously used:
 # d(log(1+MARKUP_n[s])) = RHO_MARKUP_Y * (d(log(Y[s])) - d(log(Y[s]{-1}))) if Y[s] > 0
 
+##! Notional mark-up of the sector $s$ (specification 2)
+d(log(1+MARKUP_n2[s])) = RHO_MARKUP_Y * (d(log(Y[s])) - d(log(Y[s]{-1}))) if Y[s] > 0
+## This specification can be used instead of the default specification 1 above. \\
+
 ##! Production capacity of the sector $s$
 d(log(YCAP[s])) = sum(phi[f, s]{-1} * d(log(F[f, s]*PROG[f, s])) if F[f, s] <> 0 on f) + ADJUST_YCAP_Y[s] * (log(Y[s]{-1}) - log(YCAP[s]{-1} * @elem(CUR[s], %baseyear))) if YCAP[s] <> 0
+## The production capacity is defined by the production function and the effective quantities of inputs. \\
 
-##! Capacity Utilisation ratio of the sector $s$
+##! Capacity utilisation ratio of the sector $s$
 CUR[s]          = Y[s] / YCAP[s]
 
 ##! Average mark-up on commodity $c$
-(1 + MARKUP[c]) = PYQ[c] * YQ[c] / (sum(CU[s] * Y[c, s] if Y[c, s] <> 0 on s)) if YQ[c] <> 0
+(1 + MARKUP[c]) = (PYQ[c] * YQ[c]) / (sum(CU[s] * Y[c, s] if Y[c, s] <> 0 on s)) if YQ[c] <> 0
+
+### Wage setting
+##! Notional wage in sector $s$
+d(log(W_n[s])) = RHO_W_Cons[s] + RHO_W_P[s]*d(log(P)) + RHO_W_Pe[s]*d(log(P_e)) + RHO_W_PROG[s]*d(log(PROG_L[s])) - RHO_W_U[s] * (UnR - DNAIRU) - RHO_W_DU[s]*d(UnR) + RHO_W_L[s]*d(log(F[L, s]) - log(F[L])) if W_n[s] <> 0
+## This general specification combines various wage equations found in the literature: the Phillips curve and the WS curve. The WS curve à la Layard et al. (2005) requires the following constraints: \begin{center} $\rho^{W,P}_{s} + \rho^{W,Pe}_{s} = \rho^{W,PROG}_{s} = 1, \rho^{W,U}_{s} = \rho^{W,Cons}_{s}= 0$ \end{center}
+## In the case of a Phillips curve, the $NAIRU$ is predetermined in the long run when wages are fully indexed on price and productivity. To have a long run "Time-Varying" $NAIRU$ under these hypotheses, we have to assume that the constant is a function of the unemployment rate (see Heyer et al. 2007): \begin{center} $d(\rho^{W,Cons}_{s}) =  \rho^{Cons,U}_{s} *\rho^{W,U}_{s} * d(UnR)$ \end{center}
+
+# RHO_W_Cons[s]) = RHO_Cons_U[s] * RHO_W_U[s] * d(UnR)
+
+##! Average wage
+W * F[L] = (sum(W[s] * F[L, s] on s))
+
+##! Consumer Price Index
+P = PCH
+
+##! Gross wages paid by sector $s$ including employees (but not employers)' social contribution
+WAGES[s] * PWAGES[s] = W[s] * F[L, s]
+## To derive the volume, we assume that the price of wages is the consumer price. \\
+
+##! Price index for gross wages in sector $s$
+PWAGES[s] = P
+
+### Interest rate setting
+
+##! Notional key interest rate of the Central Bank (Taylor rule)
+d(R_n)      = RHO_Rn_Cons + RHO_Rn_P * d(d(P)/P{-1}) - RHO_Rn_UnR * d(UnR)
+
+##! Interest rate paid on capital by sector $s$
+d(R[s])     = d(R)
+## We assume a constant premiun on the key interest rate of the Central Bank. \\
+
+##! Interest rate paid by the Governement on its debt
+d(r_DEBT_G) = d(r)
+
+#### Costs
 
 ##! Notional unit cost of production in sector $s$
 CU_n[s] * Y[s]  = sum(C[f, s] * F_n[f, s] on f) + NTAXI_VAL[s]
-## To define the notional price, it is preferable to use the notional unit cost of production instead of the effective one. This lead to a more stable dynamic and gives a better representation of anticipation. \\
+## The notional price is based on the notional unit cost of production instead of the effective one. This leads to a more stable dynamic and gives a better representation of expectations. \\
 
 ##! Unit cost of production in sector $s$
 CU[s]   * Y[s]  = sum(C[f, s] * F[f, s]   on f) + NTAXI_VAL[s]
@@ -42,21 +81,29 @@ C[L, s]         =  W[s] * (1 + RRSSC[s])
 
 ##! Capital cost in sector $s$
 C[K, s]         = PK[s] * (Rdep[s] + r[s])
-## It is preferable to calculate the user cost of capital based on the price of capital rather than on the price of investment. Indeed the price of the average capital installed is lower than the one of investment because of inflation. Using the price of investment tend to over estimate the cost of capital because it assumes that the debt contracted to finance past investments is indexed on inflation which is not the case in reality. \\
+## It is preferable to calculate the user cost of capital based on the price of capital rather than on the price of investment. Indeed the price of the average capital installed is lower than the one of investment because of inflation. Using the price of investment tends to overestimate the cost of capital because it assumes that the debt contracted to finance past investments is indexed on inflation which is not the case in reality. Moreover using the price of investment often lead to unstable dynamics because it overestimate the impact of inflationary shocks on the cost of capital. \\
 
 
 ##! Price of capital in sector $s$
 PK[s] * F[K, s] = (1 - Rdep[s]) * PK[s]{-1} * F[K, s]{-1} + PI[s] * I[s]
-## The price of capital is calibrated by rewriting this equation in the long run. It is always smaller than 1 because it is calibrated as follows: \begin{center} $PK_{s} = \frac{PI_{s}*(Rdep_{s}+GR^{REAL})*(1+GR^{PRICES})}{(Rdep_{s}-1+(1+GR^{REAL})*(1+GR^{PRICES}))}$ \end{center}
+## The price of capital is calibrated by rewriting the above equation in the long run. Its baseyear value is always smaller than 1 because it is calibrated as follows: \begin{center} $PK_{s} = \frac{PI_{s}*(\delta_{s}+GR^{REAL})*(1+GR^{PRICES})}{(Rdep_{s}-1+(1+GR^{REAL})*(1+GR^{PRICES}))}$ \end{center}
 
 ##! Energy costs in sector $s$
 C[E, s]         = PE[s]
-## In first approximation the cost of energy correspond to the energy price. However if the producer is forward looking, she will integrate the anticipation of price increase in it definition of the user cost of energy. In this case the specification becomes TO BE INTEGRATED \\
+## In first approximation the cost of energy correspond to the energy price. However if the producer is forward-looking, she will integrate the anticipation of price increase in it definition of the user cost of energy. In this case the specification becomes: \\
+
+# Energy costs in sector $s$ (forward-looking specification)
+# Cbis[E, s]      = PE[s]
+
+##! Price of energy in sector $s$
+PE[s]     * F[E, s]   = sum(PCI[ce, s] * CI[ce, s] if CI[ce, s] <> 0 on ce) if F[E, s]    <> 0
 
 ##! Materials costs in sector $s$
 C[MAT, s]       = PMAT[s]
 
-### Aggregate costs for capital, labor, energy and material
+##! Price of materials in sector $s$
+PMAT[s]   * F[MAT, s] = sum(PCI[cm, s] * CI[cm, s] if CI[cm, s] <> 0 on cm) if F[MAT, s]  <> 0
+
 ##! Aggregate cost of capital
 C[K]   * F[K]   = sum(C[K, s] * F[K, s] on s)
 
@@ -69,124 +116,90 @@ C[E]   * F[E]   = sum(C[E, s] * F[E, s] on s)
 ##! Aggregate cost of materials
 C[MAT] * F[MAT] = sum(C[MAT, s] * F[MAT, s] on s)
 
-##! Gross wages paid by sector $s$ including employees (but not employers)' social contribution
-WAGES[s] * PWAGES[s] = W[s] * F[L, s]
-## To derive the volume, we assume that the price is the consumer price. \\
 
-##! Price Index for gross wages
-PWAGES[s] = P
+#### From basic to market prices for various uses
 
+## In the basic version of the model presented in this sub-section, we do not differentiate the market prices for various uses. For instance, the market price of household's final consumption is the same as the ones of intermediary consumption and exports. This hypotheses is often made in CGE models because it is easier to calibrate. But it is not very realistic for two reasons. First, the import content of household consumption is generally higher than the one of exports. Second, household consumption, intermediary consumption and exports are not subject to the same taxes. For instance, there is generally no VAT on exports and intermediary consumption. These hypotheses are changed in the tax block. \\
 
-# For CH (households'consumption); G (public spending); X (exports)
-### Prices of commodity $c$ according to the different demand source
+##! Price of domestically produced commodity $c$, expressed at basic price
+PYQ[c] * YQ[c] = sum(PY[s] * Y[c, s] if Y[c, s] <> 0 on s) if YQ[c] <> 0
 
-##! Price of commodity $c$ for household final consumption expenditure
-PCH[c]    * CH[c]     = PCHD[c]    * CHD[c]    + PCHM[c]    * CHM[c]        if CH[c]      <> 0
+##! Price of imported commodity $c$, expressed at basic price
+PM[c]        = EXR * PWD[c]  if M[c]        <> 0
 
-##! Price of commodity $c$ for government final consumption expenditure
-PG[c]     * G[c]      = PGD[c]     * GD[c]     + PGM[c]     * GM[c]         if G[c]       <> 0
-
-##! Price of commodity $c$ for exports use
-PX[c]     * X[c]      = PXD[c]     * XD[c]     + PXM[c]     * XM[c]         if X[c]       <> 0
-
-##! Price of commodity $c$ for sector $s$ for intermediary consumption use
-PCI[c, s] * CI[c, s]  = PCID[c, s] * CID[c, s] + PCIM[c, s] * CIM[c, s]     if CI[c, s]   <> 0
-
-##! Materials price for sector $s$
-PMAT[s]   * F[MAT, s] = sum(PCI[cm, s] * CI[cm, s] if CI[cm, s] <> 0 on cm) if F[MAT, s]  <> 0
-
-##! Energy price for sector $s$
-PE[s]     * F[E, s]   = sum(PCI[ce, s] * CI[ce, s] if CI[ce, s] <> 0 on ce) if F[E, s]    <> 0
-
-# Average selling price for domestic commodity c (Value & volume)
-
-##! Selling price of commodity $c$
+##! Price of domestically produced commodity $c$, expressed at market price
 PYQS[c] * YQS[c] = PYQ[c] * YQ[c] + PMGPD[c] * MGPD[c] + NTAXPD_VAL[c]      if YQS[c]      <> 0
 ## $YQS_{c}$ is the volume of the production expressed at market price. It should not be seen as a composite of several "goods": production at base price, margins and taxes. Its does not increase when the volume of the margins and taxes increase. The price does instead. This is equivalent to assuming that $YQS_{c}$ is always proportionnal to and $YQ_{c}$ since the volume of margins and taxes depends on the latter. Writing it following the specification composite of several goods, $YQS_{c} = YQ_{c} + MGPD_{c} + NTAXPD_{c}$, would lead to inacurate results since a decrease in the quantity of margins used per unit of production would not lead to a decrease of the selling price. \\
 
-##! Quantity of domestically produced commodity $c$ expressed at selling price
+##! Production of commodity $c$, expressed at market price
 d(log(YQS[c]))   =    d(log(YQ[c]))	                                        if YQS[c]      <> 0
 
-##! Selling price for imported commodity $c$
+##! Price of imported commodity $c$, expressed at market price
 PMS[c]  * MS[c]  = PM[c]  * M[c]  + NTAXPM_VAL[c]    + PMGPM[c] * MGPM[c]   if MS[c]       <> 0
 
-##! Quantity of imported commodity $c$ expressed at selling price
+##! Imports of commodity $c$, expressed at market price
 d(log(MS[c]))    =    d(log(M[c]))                                          if MS[c]       <> 0
 
-##! Price of the margins paid to commodity $m$ on domestically produced commodity $c$
+##! Market price of the margins paid to commodity $m$ on domestically produced commodity $c$
 PMGPD[m, c] * MGR[m] = PMGRD[m] * MGRD[m] + PMGRM[m] * MGRM[m]        if MGPD[m, c] <> 0
 ## We assume that the margins paid on domestic and imported commodities can be produced by domestic and foreign (using the import share of the margin received). The price of the margins paid to commodity $m$ is assumed commun to all commodity $c$. \\
 
-##! Price of the margins paid to commodity $m$ on imported commodity $c$
+##! Market price of the margins paid to commodity $m$ on imported commodity $c$
 PMGPM[m, c] = PMGPD[m, c] if MGPM[m, c] <> 0
 ## This price is the same as the one paid on domestic commodity because of the assumption given in the previous equation. \\
 
-##! Price of margins received on domestically produced commodity $c$
+##! Market price of margins received by domestically produced commodity $c$
 PMGRD[c]     = PYQS[c]      if MGRD[c]     <> 0
 
-##! Price of margins received on imported commodity $c$
+##! Market price of margins received by imported commodity $c$
 PMGRM[c]     = PMS[c]       if MGRM[c]     <> 0
 
-### Price of intermediary raw material consumption domestically produced $c$ of sector $s$
-
-##! Price of domestically produced commodity $c$ for sector $s$ for intermediate consumption use
+##! Market price of domestically produced intermediate consumption $c$ purshased by sector $s$
 PCID[c, s]   = PYQS[c]      if CID[c, s]   <> 0
 
-##! Price of imported commodity $c$ for sector $s$ for intermediate consumption use
+##! Market price of imported intermediate consumption $c$ purshased by sector $s$
 PCIM[c, s]   = PMS[c]       if CIM[c, s]   <> 0
 
-##! Price of domestically produced commodity $c$ for households final consumption expenditure
+##! Market price of domestically produced households final consumption $c$
 PCHD[c]      = PYQS[c]      if CHD[c]      <> 0
 
-##! Price of imported commodity $c$ for households final consumption expenditure
+##! Market price of imported households final consumption $c$
 PCHM[c]      = PMS[c]       if CHM[c]      <> 0
 
-##! Price of domestically produced commodity $c$ for government final consumption expenditure
+##! Market price of domestically produced Government final consumption $c$
 PGD[c]       = PYQS[c]      if GD[c]       <> 0
 
-##! Price of imported commodity $c$ for government final consumption expenditure
+##! Market price of imported Government final consumption $c$
 PGM[c]       = PMS[c]       if GM[c]       <> 0
 
-##! Price of domestically produced commodity $c$ for investment use
+##! Market price of domestically produced investment $c$
 PID[c, s]    = PYQS[c]      if ID[c, s]    <> 0
 
-##! Price of imported commodity $c$ for investment use
+##! Market price of imported investment $c$
 PIM[c, s]    = PMS[c]       if IM[c, s]    <> 0
 
-##! Price of domestically produced commodity $c$ for export use
+##! Market price of domestically produced exports $c$
 PXD[c]       = PYQS[c]      if XD[c]       <> 0
 
-##! Price of imported commodity $c$ for export use
+##! Market price of imported exports (re-exports) $c$
 PXM[c]       = PMS[c]       if XM[c]       <> 0
 
-##! Price of domestically produced commodity $c$ for change in inventories use
+##! Market price of domestically produced change in inventories $c$
 PDSD[c]      = PYQS[c]      if DSD[c]      <> 0
 
-##! Price of imported commodity $c$ for change in inventories use
+##! Market price of imported change in inventories $c$
 PDSM[c]      = PMS[c]       if DSM[c]      <> 0
 
-##! Price of imported commodity $c$
-PM[c]        = EXR * PWD[c]  if M[c]        <> 0
+#### Average market prices for various uses (aggregation of domestic and imported uses)
 
-##! Notional wage in sector $s$
-d(log(W_n[s])) = RHO_W_Cons[s] + RHO_W_P[s]*d(log(P)) + RHO_W_Pe[s]*d(log(P_e)) + RHO_W_PROG[s]*d(log(PROG_L[s])) - RHO_W_U[s] * (UnR - DNAIRU) - RHO_W_DU[s]*d(UnR) + RHO_W_L[s]*d(log(F[L, s]) - log(F[L])) if W_n[s] <> 0
-## In order to have a $NAIRU$ that is not predetermined, we have to assume that the constant is a function of the unemployment rate: \begin{center} $d(\rho^{W,Cons}_{s}) = 0.9 * \rho^{W,U}_{s} * d(UnR)$ \end{center}
+##! Market price of intermediate consumption $c$ purshased by sector $s$
+PCI[c, s] * CI[c, s]  = PCID[c, s] * CID[c, s] + PCIM[c, s] * CIM[c, s]     if CI[c, s]   <> 0
 
-##! Average wage
-W * F[L] = (sum(W[s] * F[L, s] on s))
+##! Market price of households final consumption $c$
+PCH[c]    * CH[c]     = PCHD[c]    * CHD[c]    + PCHM[c]    * CHM[c]        if CH[c]      <> 0
 
-##! Consumer Price Index
-P = PCH
+##! Market price of Government final consumption $c$
+PG[c]     * G[c]      = PGD[c]     * GD[c]     + PGM[c]     * GM[c]         if G[c]       <> 0
 
-### "Original" Taylor rule
-##! Notional interest rate of the Central Bank (Taylor rule)
-d(R_n)      = RHO_Rdir_Cons + RHO_Rdir_P * d(d(P)/P{-1}) - RHO_Rdir_UnR * d(UnR)
-## This general specification combines various wage equation found in the literature: the Phillips curve and the WS curve. The WS curve à la Layard et al. (2005) requires the following constraints : \\{$\rho^{W_{P}}_{s} = \rho^{W,PROG}_{s} = 1, \rho^{W,U}_{s} = \rho^{W,Cons}_{s}= 0$} \\
-
-##! Interest rate paid on capital by sector $s$
-d(R[s])     = d(R)
-## We assume a constant premiun on the interest rate of the Central Bank \\
-
-##! Interest rate paid by the Governement on its debt
-d(r_DEBT_G) = d(r)
-## We assume a constant premiun on the interest rate of the Central Bank \\
+##! Market price of exports $c$
+PX[c]     * X[c]      = PXD[c]     * XD[c]     + PXM[c]     * XM[c]         if X[c]       <> 0

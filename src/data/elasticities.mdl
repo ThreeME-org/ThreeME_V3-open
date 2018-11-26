@@ -73,10 +73,10 @@ RHO_W_Cons[s] := log(1+GR_NOMIW) - (RHO_W_P[s] + RHO_W_Pe[s])*log(1+GR_PRICES) -
 # In the interest rate equation
 ### If the country is part of a currency zone, a share is applied in the elasticity between the interest rate and inflation or the unemployment rate. For instance, we assume that France weight in the Euro Zone is 21 %. A approximation of a policy appplied at the EU level would consist in applying a weight of 100%.
 
-RHO_Rdir_P 	  := 0.21 * (1 + 0.5)
-RHO_Rdir_UnR  := 0.21 * 0.5
+RHO_Rn_P 	  := 0.21 * (1 + 0.5)
+RHO_Rn_UnR  := 0.21 * 0.5
 # To simulate a monetary policy shock
-RHO_Rdir_Cons := 0
+RHO_Rn_Cons := 0
 
 
 # In the equation of the marginal propensity to save
