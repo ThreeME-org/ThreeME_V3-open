@@ -1,8 +1,38 @@
 ##### Introduction
 
 ## This appendix provides all the equations of the model. Note that there are two versions of the household block: (1) the standard version where a LES utility function is assumed for all commodities; (2) the hybrid version where transport, car, housing and energy consumption are modeled separately. \\ \\
-## In this appendix, $t$ is the time operator that may be omitted when no confusion arises, $e.g.$ $Z = Z_{t}$. Variables in first difference are referred as : $\varDelta\left(Z_{t}\right) = Z_{t}-Z_{t-1}$. Therefore the logarithm difference of a variable is approximativelly its growth rate: $\varDelta\left(\operatorname{log} Z_{t}\right) \approx Z_{t}/Z_{t-1}-1$. All parameters written in Greek letter are positive. $n$ as an exponent refers to the notional value of a given variable that is the optimal value desired by the maximization agent: $e.g.$ $Z^{n}$ is the notional value of variable $Z$. Because of adjustment constraint, effective values adjust slowly to their notional value. 
+## In this appendix, $t$ is the time operator that may be omitted when no confusion arises, $e.g.$ $Z = Z_{t}$. Variables in first difference are referred as : $\varDelta\left(Z_{t}\right) = Z_{t}-Z_{t-1}$. Therefore the logarithm difference of a variable is approximativelly its growth rate: $\varDelta\left(\operatorname{log} Z_{t}\right) \approx Z_{t}/Z_{t-1}-1$. All parameters written in Greek letter are positive. $n$ as an exponent refers to the notional value of a given variable that is the optimal value desired by the maximization agent: $e.g.$ $Z^{n}$ is the notional value of variable $Z$. Because of adjustment constraint, effective values adjust slowly to their notional value.
 
 #### Sets
+## This section provides the different sets for each index used in the equation description.
+##! Production factors $F$
+## \begin{equation} F \in  \{ K,L,E,M \} \end{equation}
 
-#### Exogenous variables
+##! Greenhouse Gases $GHG$
+## \begin{equation} GHG \in  \{ CO2, CH4, N2O, SF6, HFC, PFC\} \end{equation}
+
+##! Car energy labels $ECL$
+## \begin{equation} ecl \in  \{CA, CB, CC, CD, CE, CF, CG\} \end{equation}
+
+##! Building energy labels $BCL$
+## \begin{equation} bcl \in  \{CA, CB, CC, CD, CE, CF, CG, DES\} \end{equation}
+
+##! the sectors of activity $s$
+## \begin{equation} s \in S \end{equation}
+
+##! the commodities $c$ and $cc$
+## \begin{equation} c, cc \in C \end{equation}
+
+##! margins $m$ and $mm$
+## \begin{equation} m, mm \in  MARG \end{equation}
+
+##! commodities used as material input $cm$
+## \begin{equation} cm \in  comMAT \end{equation}
+
+##! commodities used as transportation input $ct$
+## \begin{equation} ct \in  comTRSP \end{equation}
+
+##! commodities used as energy input $ce$
+## \begin{equation} ce \in  comE \end{equation}
+
+#### Exogenous Variables
