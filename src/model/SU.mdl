@@ -305,25 +305,25 @@ PDS   * DS   = PDSD  * DSD  + PDSM  * DSM  							 if DS   	<> 0
 
 ##! Production of commodity $c$, expressed at basic price
 
-YQ[c] * PYQ[c] 		 + NTAXPD_VAL[c]  + PMGPD[c] * MGPD[c] = PQD[c] * QD[c]    	   if YQ[c]      <> 0
+YQ[c] * PYQ[c] 		 + NTAXCD_VAL[c]  + PMGPD[c] * MGPD[c] = PQD[c] * QD[c]    	   if YQ[c]      <> 0
 
 ##! Basic price of the production of commodity $c$ (for verification)
-PYQbis[c] * YQ[c] 	 + NTAXPD_VAL[c]  + PMGPD[c] * MGPD[c] = PQD[c] * QD[c]    	   if YQ[c]      <> 0
+PYQbis[c] * YQ[c] 	 + NTAXCD_VAL[c]  + PMGPD[c] * MGPD[c] = PQD[c] * QD[c]    	   if YQ[c]      <> 0
 ##  This price is already defined as a weighted average of the production price of the sectors producing commodity $c$ in the price block: $PYQ . YQ = \sum_{c} PYQ_{c} \; YQ_{c}$. To verify the accounting consistancy, we define it here under an alias name. \\
 
 ##! Production of commodity $c$, expressed at basic price (for verification)
-			YQbis[c] + NTAXPD[c] 	  + 		   MGPD[c] = 		  QD[c]    	   if YQbis[c]   <> 0
+			YQbis[c] + NTAXCD[c] 	  + 		   MGPD[c] = 		  QD[c]    	   if YQbis[c]   <> 0
 ## Same variable as $YQ_{c}$ above to check the accounting consistency. \\
 
 ##! Imports of commodity $c$, expressed at basic price
-M[c] * PM[c] + NTAXPM_VAL[c] + PMGPM[c] * MGPM[c] = PQM[c] * QM[c] 			   	   if M[c] 	     <> 0
+M[c] * PM[c] + NTAXCM_VAL[c] + PMGPM[c] * MGPM[c] = PQM[c] * QM[c] 			   	   if M[c] 	     <> 0
 
 ##! Basic price of imports of commodity $c$ (for verification)
-PMbis[c] * M[c]      + NTAXPM_VAL[c]  + PMGPM[c] * MGPM[c] = PQM[c] * QM[c] 	   if M[c]       <> 0
+PMbis[c] * M[c]      + NTAXCM_VAL[c]  + PMGPM[c] * MGPM[c] = PQM[c] * QM[c] 	   if M[c]       <> 0
 ##  This price is already defined in the price block as $PM_{c} = EXR . PWD_{c}$. To verify the accounting consistancy, we define it here under an alias name. \\
 
 ##! Imports of commodity $c$, expressed at basic price (for verification)
-		   Mbis[c]   + NTAXPM[c] 	  + 		   MGPM[c] = 		  QM[c] 	   if Mbis[c]    <> 0
+		   Mbis[c]   + NTAXCM[c] 	  + 		   MGPM[c] = 		  QM[c] 	   if Mbis[c]    <> 0
 ## Same variable as $M_{c}$ above to check the accounting consistency. \\
 
 ### Margins paid (value & volume)
@@ -461,16 +461,16 @@ PGDPbis * GDPbis = sum(PGDP[c] * GDP[c] on c)
 
 ### Production approach
 ##! Price of GDP (production definition)
-PGDPter * GDPter = PVA * VA + PNTAXP * NTAXP
+PGDPter * GDPter = PVA * VA + PNTAXC * NTAXC
 ## According to the production approach, GDP is calculated as the sum of the value added plus the total net taxes on commodities. \\
 
 ##!  GDP (production definition)
-		  GDPter = 		 VA + 		   NTAXP
+		  GDPter = 		 VA + 		   NTAXC
 
 ### Income approach
 ##! Price of GDP (income definition)
-PGDP4 	* GDP4   = PGOS * GOS + PWAGES * WAGES + PRSSC * RSSC + NTAXI_VAL + PNTAXP * NTAXP
+PGDP4 	* GDP4   = PGOS * GOS + PWAGES * WAGES + PRSSC * RSSC + NTAXI_VAL + PNTAXC * NTAXC
 ## According to the income approach, GDP is calculated as the sum of all the economic incomes (from labor and capital) corrected by the social and taxes transfers. \\
 
 ##!   GDP (income definition)
-		  GDP4   = 		  GOS + 		 WAGES + 		 RSSC + NTAXI 	  + 		 NTAXP
+		  GDP4   = 		  GOS + 		 WAGES + 		 RSSC + NTAXI 	  + 		 NTAXC

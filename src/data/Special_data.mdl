@@ -12,8 +12,8 @@ PhiY[c, s] := Y[c, s] / (YQ[c] + eps)
 W[s] := WAGES[s] * PWAGES[s] / F[L, s]
 (1 + MARKUP[s]) := PY_n[s] / CU_n[s]
 
-RNTAXPD[c] := NTAXPD[c] / (YQ[c] + eps)
-RNTAXPM[c] := NTAXPM[c] / ( M[c] + eps)
+RNTAXCD[c] := NTAXCD[c] / (YQ[c] + eps)
+RNTAXCM[c] := NTAXCM[c] / ( M[c] + eps)
 
 RNTAXI[s] := NTAXI[s] / (Y[s] + eps)
 
@@ -209,17 +209,17 @@ verif_EMSbis := 0
 
 ## Other Calibrations
 ### Calibrated from the volume version of an equation in value. Volume not in the model because of cirlar reference.
-### We can not use the Eq of the model:  YQ[c]*PYQ[c] + NTAXPD_VAL[c] + PMGPD[c]*MGPD[c] := PQD[c]*QD[c]
-### because circular reference with NTAXPD_VAL[c] that depends on YQ[c].
+### We can not use the Eq of the model:  YQ[c]*PYQ[c] + NTAXCD_VAL[c] + PMGPD[c]*MGPD[c] := PQD[c]*QD[c]
+### because circular reference with NTAXCD_VAL[c] that depends on YQ[c].
 ###
 YQ[c] := sum(Y[c, s] on s)
 
 
-### Idem for M[c]. M[c]*PM[c] + NTAXPM_VAL[c] + PMGPM[c]*MGPM[c] := PQM[c]*QM[c]
-### because circular reference with NTAXPM_VAL[c] that depends on M[c]. Use round 0 instead:
+### Idem for M[c]. M[c]*PM[c] + NTAXCM_VAL[c] + PMGPM[c]*MGPM[c] := PQM[c]*QM[c]
+### because circular reference with NTAXCM_VAL[c] that depends on M[c]. Use round 0 instead:
 
 # M[c] := SUT($c,7) * (1 + GR_REAL) ^ (@year - %baseyear)
 
 # As explained, these can not be the eq of the model (otherwise incorrect price)
-YQS[c] := YQ[c] + NTAXPD[c] + MGPD[c]
-MS[c] := M[c] + NTAXPM[c] + MGPM[c]
+YQS[c] := YQ[c] + NTAXCD[c] + MGPD[c]
+MS[c] := M[c] + NTAXCM[c] + MGPM[c]

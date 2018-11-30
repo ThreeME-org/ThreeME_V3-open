@@ -7,22 +7,22 @@
 ## We assume that the volume of the tax varies only when the volume of the taxe bases (e.g. production, consumption) varies. Hence an increase in the tax rate does not increase the volume of the tax but increases its price. This is coherent with the specification of the production price: increasing the tax rate on production increases the production price but not production. \\
 
 ##! Net taxes on domestically produced commodity $c$ expressed in value
-NTAXPD_VAL[c] = 			RNTAXPD[c]	* PYQ[c]	  * YQ[c]
+NTAXCD_VAL[c] = 			RNTAXCD[c]	* PYQ[c]	  * YQ[c]
 
 ##! Net taxes on domestically produced commodity $c$
-NTAXPD[c] 		= @elem(RNTAXPD[c], %baseyear)  * YQ[c]
+NTAXCD[c] 		= @elem(RNTAXCD[c], %baseyear)  * YQ[c]
 
 ##! Net taxes on imported commodity $c$ expressed in value
-NTAXPM_VAL[c]  = 	 	   RNTAXPM[c]	* PM[c] 	  * M[c]
+NTAXCM_VAL[c]  = 	 	   RNTAXCM[c]	* PM[c] 	  * M[c]
 
 ##! Net taxes on imported commodity $c$
-NTAXPM[c] 		 = @elem(RNTAXPM[c], %baseyear) * M[c]
+NTAXCM[c] 		 = @elem(RNTAXCM[c], %baseyear) * M[c]
 
 ##! Net taxes on commodity $c$ expressed in value
-NTAXP_VAL[c] 	 = NTAXPD_VAL[c] + NTAXPM_VAL[c]
+NTAXC_VAL[c] 	 = NTAXCD_VAL[c] + NTAXCM_VAL[c]
 
 ##! Net taxes on commodity $c$
-NTAXP[c] 		 	 = NTAXPD[c] 		 + NTAXPM[c]
+NTAXC[c] 		 	 = NTAXCD[c] 		 + NTAXCM[c]
 
 ##! Net taxes on the production of sector $s$ expressed in value
 NTAXI_VAL[s] 	 = 			 RNTAXI[s]	* PY[s]	    * Y[s]
@@ -39,10 +39,10 @@ RSSC[s] * PRSSC[s] = W[s] * F[L, s] * RRSSC[s]
 ### Aggregate taxes and social contributions
 
 ##! Aggregate net taxes on commodity $c$ expressed in value
-PNTAXP * NTAXP = sum(NTAXP_VAL[c] on c)
+PNTAXC * NTAXC = sum(NTAXC_VAL[c] on c)
 
 ##! Aggregate net taxes on commodity $c$
-	     	 NTAXP = sum(NTAXP[c] 		on c)
+	     	 NTAXC = sum(NTAXC[c] 		on c)
 
 ##! Aggregate net taxes on the production of sectors expressed in value
 NTAXI_VAL = sum(NTAXI_VAL[s] on s)
@@ -65,7 +65,7 @@ RRSSC 			 = 		 (PRSSC 	* RSSC) / (W * F[L])
 PROP_INC_G_VAL_n  = phi_PROP_INC_G * PNOS * NOS + (PNOS * NOS <= 0.00001 ) * (0.00001 - phi_PROP_INC_G * PNOS * NOS)
 
 ##! Aggregate incomes of the Government expressed in value
-INC_G_VAL 			  = PNTAXP * NTAXP + NTAXI_VAL + INC_SOC_TAX_VAL + PRSSC * RSSC + PROP_INC_G_VAL
+INC_G_VAL 			  = PNTAXC * NTAXC + NTAXI_VAL + INC_SOC_TAX_VAL + PRSSC * RSSC + PROP_INC_G_VAL
 
 #### Spendings
 

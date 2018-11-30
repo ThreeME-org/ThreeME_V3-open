@@ -18,9 +18,9 @@ F[E] := sum(F[E, s] on s)
 F[MAT] := sum(F[MAT, s] on s)
 
 ### From GOV:
-NTAXPD_VAL[c] := RNTAXPD[c]*PYQ[c]*YQ[c]
+NTAXCD_VAL[c] := RNTAXCD[c]*PYQ[c]*YQ[c]
 
-NTAXPM_VAL[c] := RNTAXPM[c]*PM[c]*M[c]
+NTAXCM_VAL[c] := RNTAXCM[c]*PM[c]*M[c]
 
 NTAXI_VAL[s] := RNTAXI[s]*PY[s]*Y[s]
 
@@ -28,7 +28,7 @@ RSSC := sum(RSSC[s] on s)
 
 RRSSC := PRSSC * RSSC / (W * F[L]) 
 
-INC_G_VAL := PNTAXP * NTAXP + NTAXI_VAL + INC_SOC_TAX_VAL + PRSSC * RSSC + PROP_INC_G_VAL
+INC_G_VAL := PNTAXC * NTAXC + NTAXI_VAL + INC_SOC_TAX_VAL + PRSSC * RSSC + PROP_INC_G_VAL
 
 SPEND_G_VAL := PG  * G  + SOC_BENF_VAL + DEBT_G_VAL{-1}*(Phi_RD_G{-1} + r_DEBT_G{-1}) 
 
