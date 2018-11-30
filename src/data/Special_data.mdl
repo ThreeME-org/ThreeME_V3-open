@@ -117,14 +117,20 @@ SUBST_F[f, s] := 0
 SUBST_CI_n[c, s] := 0
 SUBST_CI[c, s] := 0
 
+SUBST_n_CHM[c] := 0
+SUBST_n_GM[c] := 0
+SUBST_n_XM[c] := 0
 
-SUBST_n_|V|M[c] := 0 where V in CH G X
-SUBST_n_|V|M[m] := 0 where V in MGS
+SUBST_n_MGSM[m] := 0
+
+
 
 SUBST_|V|M[c] := 0 where V in CH G X
 SUBST_|V|M[m] := 0 where V in MGS
 
-SUBST_n_|V|M[c, s] := 0 where V in CI I
+SUBST_n_CIM[c, s] := 0
+SUBST_n_IM[c, s] := 0
+
 SUBST_|V|M[c, s] := 0 where V in CI I
 
 SUBST_n_X[c] := 0
