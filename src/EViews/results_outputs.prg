@@ -83,6 +83,8 @@ next
 
       show  a_graph_macro_2L 
 
+      show  GDP_1 CH_1 I_1 X_1 M_1 P_1 PQD_CCON_1 rsav_g_val_1 subpd_cagr_1
+
   endif
 
 
