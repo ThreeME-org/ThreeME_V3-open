@@ -386,11 +386,11 @@ VA_VAL[s] = PY[s] * Y[s] - PCI[s] * CI[s]
 VA[s] 	  = 		Y[s] - 			CI[s]
 
 ##! Gross operating surplus of sector $s$ expressed in value
-GOS_VAL[s] = VA_VAL[s] - PWAGES[s] * WAGES[s] - PRSSC[s] * RSSC[s] - NTAXS_VAL[s]
+GOS_VAL[s] = VA_VAL[s] - PWAGES[s] * WAGES[s] - PRSC[s] * RSC[s] - NTAXS_VAL[s]
 ## The standard definition of the Gross Operating Surplus (GOS) generally include tax on profits. For simplicity, we assume that $NTAXS_{s}$ includes all net taxes on capital (i.e. tax on production and profits). In our definition, the tax on profit is therefore excluded from the GOS. This should be taken into account if one wants to use the GOS as a basis for the tax on profits. \\
 
 ##! Gross operating surplus of sector $s$
-GOS[s] 	   = VA[s] 	   - 			 WAGES[s] - 		   RSSC[s] - NTAXS[s]
+GOS[s] 	   = VA[s] 	   - 			 WAGES[s] - 		   RSC[s] - NTAXS[s]
 
 ##! Net operating surplus of sector $s$ expressed in value
 NOS_VAL[s] = GOS_VAL[s] - PK[s]{-1} 				  * Rdep[s] * F[K, s]{-1}
@@ -469,8 +469,8 @@ PGDPter * GDPter = PVA * VA + PNTAXC * NTAXC
 
 ### Income approach
 ##! Price of GDP (income definition)
-PGDP4 	* GDP4   = PGOS * GOS + PWAGES * WAGES + PRSSC * RSSC + NTAXS_VAL + PNTAXC * NTAXC
+PGDP4 	* GDP4   = PGOS * GOS + PWAGES * WAGES + PRSC * RSC + NTAXS_VAL + PNTAXC * NTAXC
 ## According to the income approach, GDP is calculated as the sum of all the economic incomes (from labor and capital) corrected by the social and taxes transfers. \\
 
 ##!   GDP (income definition)
-		  GDP4   = 		  GOS + 		 WAGES + 		 RSSC + NTAXS 	  + 		 NTAXC
+		  GDP4   = 		  GOS + 		 WAGES + 		 RSC + NTAXS 	  + 		 NTAXC

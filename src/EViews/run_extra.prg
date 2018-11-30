@@ -43,7 +43,7 @@ subroutine standard_backup()
   series EXPG_bckp = EXPG
 
   for %s {%list_sec}
-    series RRSSC_bckp_{%s} = RRSSC_{%s}
+    series RRSC_bckp_{%s} = RRSC_{%s}
   next  
 
 endsub
@@ -54,7 +54,7 @@ subroutine standard_restore_backup()
   EXPG = EXPG_bckp
 
   for %s {%list_sec}
-    RRSSC_{%s} = RRSSC_bckp_{%s}
+    RRSC_{%s} = RRSC_bckp_{%s}
   next  
 endsub
 
@@ -75,7 +75,7 @@ subroutine standard_shock(string %shock)
   if @lower(%shock) = "rssc1" then
 
     for %s {%list_sec}
-      RRSSC_{%s} = RRSSC_{%s} * (1 - 0.01 * @elem(GDP/RSSC, %baseyear))
+      RRSC_{%s} = RRSC_{%s} * (1 - 0.01 * @elem(GDP/RSC, %baseyear))
     next  
   
   endif

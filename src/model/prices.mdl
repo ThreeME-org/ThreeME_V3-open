@@ -76,7 +76,7 @@ CU_n[s] * Y[s]  = sum(C[f, s] * F_n[f, s] on f) + NTAXS_VAL[s]
 CU[s]   * Y[s]  = sum(C[f, s] * F[f, s]   on f) + NTAXS_VAL[s]
 
 ##! Labor cost in sector $s$
-C[L, s]         =  W[s] * (1 + RRSSC[s])
+C[L, s]         =  W[s] * (1 + RRSC[s])
 
 
 ##! Capital cost in sector $s$

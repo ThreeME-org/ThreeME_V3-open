@@ -31,10 +31,10 @@ NTAXS_VAL[s] 	 = 			 RNTAXS[s]	* PY[s]	    * Y[s]
 NTAXS[s] 		   = @elem(RNTAXS[s], %baseyear)  * Y[s]
 
 ##! Employers' social security contribution paid by sector $s$
-RSSC[s] * PRSSC[s] = W[s] * F[L, s] * RRSSC[s]
+RSC[s] * PRSC[s] = W[s] * F[L, s] * RRSC[s]
 
 ##! Price of the employers' social security contribution paid by sector $s$
-		  		PRSSC[s] = P
+		  		PRSC[s] = P
 
 ### Aggregate taxes and social contributions
 
@@ -51,13 +51,13 @@ NTAXS_VAL = sum(NTAXS_VAL[s] on s)
 NTAXS 		= sum(NTAXS[s] 		 on s)
 
 ##! Price of the aggregate employers' social security contribution paid by sector $s$
-PRSSC * RSSC = sum(PRSSC[s] * RSSC[s] on s)
+PRSC * RSC = sum(PRSC[s] * RSC[s] on s)
 
 ##! Aggregate employers' social security contribution paid by sectors
-		    RSSC = sum(			      RSSC[s] on s)
+		    RSC = sum(			      RSC[s] on s)
 
 ##! Average employers' social security contribution rate
-RRSSC 			 = 		 (PRSSC 	* RSSC) / (W * F[L])
+RRSC 			 = 		 (PRSC 	* RSC) / (W * F[L])
 
 ### Other and aggregate incomes
 
@@ -65,7 +65,7 @@ RRSSC 			 = 		 (PRSSC 	* RSSC) / (W * F[L])
 PROP_INC_G_VAL_n  = phi_PROP_INC_G * PNOS * NOS + (PNOS * NOS <= 0.00001 ) * (0.00001 - phi_PROP_INC_G * PNOS * NOS)
 
 ##! Aggregate incomes of the Government expressed in value
-INC_G_VAL 			  = PNTAXC * NTAXC + NTAXS_VAL + INC_SOC_TAX_VAL + PRSSC * RSSC + PROP_INC_G_VAL
+INC_G_VAL 			  = PNTAXC * NTAXC + NTAXS_VAL + INC_SOC_TAX_VAL + PRSC * RSC + PROP_INC_G_VAL
 
 #### Spendings
 

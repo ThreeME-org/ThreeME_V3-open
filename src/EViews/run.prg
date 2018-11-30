@@ -102,7 +102,7 @@ endif
 
        call run_scenario("baseline")
 
-''       call run_standard("RSSC1")
+''       call run_standard("RSC1")
 ''       call run_standard("EXPG1")
        call run_standard("EXR10")
 

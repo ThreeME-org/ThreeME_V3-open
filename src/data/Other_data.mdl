@@ -24,11 +24,11 @@ NTAXCM_VAL[c] := RNTAXCM[c]*PM[c]*M[c]
 
 NTAXS_VAL[s] := RNTAXS[s]*PY[s]*Y[s]
 
-RSSC := sum(RSSC[s] on s)
+RSC := sum(RSC[s] on s)
 
-RRSSC := PRSSC * RSSC / (W * F[L]) 
+RRSC := PRSC * RSC / (W * F[L]) 
 
-INC_G_VAL := PNTAXC * NTAXC + NTAXS_VAL + INC_SOC_TAX_VAL + PRSSC * RSSC + PROP_INC_G_VAL
+INC_G_VAL := PNTAXC * NTAXC + NTAXS_VAL + INC_SOC_TAX_VAL + PRSC * RSC + PROP_INC_G_VAL
 
 SPEND_G_VAL := PG  * G  + SOC_BENF_VAL + DEBT_G_VAL{-1}*(Phi_RD_G{-1} + r_DEBT_G{-1}) 
 

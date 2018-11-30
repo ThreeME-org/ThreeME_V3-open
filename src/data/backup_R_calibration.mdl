@@ -26,8 +26,8 @@ NTAXS[s] := SUT(8,$s) * (1 + GR_REAL) ^ (@year - %baseyear)
 WAGES[s] := SUT(9,$s) * (1 + GR_REAL) ^ (@year - %baseyear)
 
 ### Employers' social security contribution paid by sector s
-### RSSC = employeRs' Social Security Contribution
-RSSC[s] := SUT(10,$s) * (1 + GR_REAL) ^ (@year - %baseyear)
+### RSC = employeRs' Social Security Contribution
+RSC[s] := SUT(10,$s) * (1 + GR_REAL) ^ (@year - %baseyear)
 
 ### Labor of sector s
 F[L, s] := SUT(11,$s) * (1 + GR_POP) ^ (@year - %baseyear)

@@ -27,7 +27,7 @@ phi_MCH[c] := (CH_n[c] - NCH[c]) * PCH[c] / (CH_n_VAL - PNCH * NCH + eps)
 PARTR := LF/WAPop
 
 # Tax rate for the Employers' social security contribution paid by sector s
-RRSSC[s] := RSSC[s] * PRSSC[s] / (W[s] * F[L, s] + eps)
+RRSC[s] := RSC[s] * PRSC[s] / (W[s] * F[L, s] + eps)
 
 
 # Import share of commodity c for margins supplied, private and public consumption, investment and exports
