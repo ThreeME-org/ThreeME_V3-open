@@ -18,7 +18,7 @@ NTAXCD[c] := SUT($c+17,13) * (1 + GR_REAL) ^ (@year - %baseyear)
 NTAXCM[c] := SUT($c+26,13) * (1 + GR_REAL) ^ (@year - %baseyear)
 
 ### Net taxes on the production of sector s
-NTAXI[s] := SUT(8,$s) * (1 + GR_REAL) ^ (@year - %baseyear)
+NTAXS[s] := SUT(8,$s) * (1 + GR_REAL) ^ (@year - %baseyear)
 
 ### Super bruto wages paid by sector s (including employees and employers' social contribution)
 

@@ -69,11 +69,11 @@ d(r_DEBT_G) = d(r)
 #### Costs
 
 ##! Notional unit cost of production in sector $s$
-CU_n[s] * Y[s]  = sum(C[f, s] * F_n[f, s] on f) + NTAXI_VAL[s]
+CU_n[s] * Y[s]  = sum(C[f, s] * F_n[f, s] on f) + NTAXS_VAL[s]
 ## The notional price is based on the notional unit cost of production instead of the effective one. This leads to a more stable dynamic and gives a better representation of expectations. \\
 
 ##! Unit cost of production in sector $s$
-CU[s]   * Y[s]  = sum(C[f, s] * F[f, s]   on f) + NTAXI_VAL[s]
+CU[s]   * Y[s]  = sum(C[f, s] * F[f, s]   on f) + NTAXS_VAL[s]
 
 ##! Labor cost in sector $s$
 C[L, s]         =  W[s] * (1 + RRSSC[s])

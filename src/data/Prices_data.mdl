@@ -55,9 +55,9 @@ CUR[s] := Y[s] / YCAP[s]
 
 ##################
 ### From Equation
-CU_n[s] * Y[s] := sum(C[f, s] * F_n[f, s] on f) + NTAXI_VAL[s]
+CU_n[s] * Y[s] := sum(C[f, s] * F_n[f, s] on f) + NTAXS_VAL[s]
 
-CU[s] * Y[s] := sum(C[f, s] * F[f, s] on f) + NTAXI_VAL[s]
+CU[s] * Y[s] := sum(C[f, s] * F[f, s] on f) + NTAXS_VAL[s]
 
 C[K, s] := PK[s] * (Rdep[s] + r[s])
 C[L, s] :=  W[s] * (1 + RRSSC[s])

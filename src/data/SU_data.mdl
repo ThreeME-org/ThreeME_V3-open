@@ -76,13 +76,13 @@ VA := sum(VA[s] on s)
 
 WAGES := sum(WAGES[s] on s)
 
-NTAXI_VAL := sum(NTAXI_VAL[s] on s)
+NTAXS_VAL := sum(NTAXS_VAL[s] on s)
 
-NTAXI := sum(NTAXI[s] on s)
+NTAXS := sum(NTAXS[s] on s)
 
-GOS_VAL[s] := VA_VAL[s] - PWAGES[s] * WAGES[s] - PRSSC[s] * RSSC[s] - NTAXI_VAL[s]
+GOS_VAL[s] := VA_VAL[s] - PWAGES[s] * WAGES[s] - PRSSC[s] * RSSC[s] - NTAXS_VAL[s]
 
-GOS[s] := VA[s] - WAGES[s] - RSSC[s] - NTAXI[s]
+GOS[s] := VA[s] - WAGES[s] - RSSC[s] - NTAXS[s]
 
 GOS := sum(GOS[s] on s)
 
@@ -102,4 +102,4 @@ GDPbis := sum(GDP[c] on c)
 
 GDPter := VA + NTAXC
 
-GDP4 := GOS + WAGES + RSSC + NTAXI + NTAXC
+GDP4 := GOS + WAGES + RSSC + NTAXS + NTAXC
