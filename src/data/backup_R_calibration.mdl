@@ -87,10 +87,10 @@ VATD[c] := TAXES($c,1) * (1 + GR_REAL) ^ (@year - %baseyear)
 
 OTHPTD[c] := TAXES($c,2) * (1 + GR_REAL) ^ (@year - %baseyear)
 
-SUBPD[c] := TAXES($c,3) * (1 + GR_REAL) ^ (@year - %baseyear)
+SUBCD[c] := TAXES($c,3) * (1 + GR_REAL) ^ (@year - %baseyear)
 
 VATM[c] := TAXES($c,9) * (1 + GR_REAL) ^ (@year - %baseyear)
 
 OTHPTM[c] := TAXES($c,10) * (1 + GR_REAL) ^ (@year - %baseyear)
 
-SUBPM[c] := TAXES($c,11) * (1 + GR_REAL) ^ (@year - %baseyear)
+SUBCM[c] := TAXES($c,11) * (1 + GR_REAL) ^ (@year - %baseyear)

@@ -8,10 +8,10 @@
  ## In the current version of the compiler, the  @over are compiled in the glossary instead of the variables in front of which the @over is placed. \\
 ##! Net taxes on commodity $c$ domestically produced (in value)
 
-@over NTAXCD_VAL[c] = PVATD[c] * VATD[c] + POTHPTD[c] * OTHPTD[c] + PSUBPD[c] * SUBPD[c]        if NTAXCD_VAL[c] <> 0
+@over NTAXCD_VAL[c] = PVATD[c] * VATD[c] + POTHPTD[c] * OTHPTD[c] + PSUBCD[c] * SUBCD[c]        if NTAXCD_VAL[c] <> 0
 
 ##! Net taxes on commodity $c$ domestically produced (in volume)
-@over NTAXCD[c]     =            VATD[c] +              OTHPTD[c] +             SUBPD[c]        if NTAXCD[c]     <> 0
+@over NTAXCD[c]     =            VATD[c] +              OTHPTD[c] +             SUBCD[c]        if NTAXCD[c]     <> 0
 
 ## This is not defined by simply assuming a constant rate over the production value : $NTAXCD_VAL[c] = RNTAXCD[c]*PYQ[c]*YQ[c]$. Different taxes are now defined depending on their basis. \\
 
@@ -21,10 +21,10 @@ RNTAXCD[c] = NTAXCD_VAL[c] / (PYQ[c] * YQ[c])     if YQ[c] <> 0
 ## This rate become now endogenous by inverting the equation of $NTAXCD_VAL[c]$. This specification ensure the equality accountancy between the various GDP definition. \\
 
 ##! Net taxes on imported commodity $c$ (in value)
-@over NTAXCM_VAL[c] = PVATM[c] * VATM[c] + POTHPTM[c] * OTHPTM[c] + PSUBPM[c] * SUBPM[c]        if NTAXCM_VAL[c] <> 0
+@over NTAXCM_VAL[c] = PVATM[c] * VATM[c] + POTHPTM[c] * OTHPTM[c] + PSUBCM[c] * SUBCM[c]        if NTAXCM_VAL[c] <> 0
 
 ##! Net taxes on imported commodity $c$ (in volume)
-@over NTAXCM[c]     =            VATM[c] +              OTHPTM[c] +             SUBPM[c]        if NTAXCM[c]     <> 0
+@over NTAXCM[c]     =            VATM[c] +              OTHPTM[c] +             SUBCM[c]        if NTAXCM[c]     <> 0
 
 ##! Average tax rate on imported commodity $c$
 RNTAXCM[c] = NTAXCM_VAL[c] / (PM[c]  * M[c] )   if M[c] <> 0
@@ -45,10 +45,10 @@ POTHPTD[c] * OTHPTD[c] =       ROTHPTD[c]   * PYQ[c]  * YQ[c]                   
 
 ### Subsidies on domestically produced commodity $c$ (in value & volume)
 ##!Price index of the subsidies on domestically produced commodity $c$
-PSUBPD[c]  * SUBPD[c]  =       RSUBPD[c]              * YQ[c]                                   if SUBPD[c]      <> 0
+PSUBCD[c]  * SUBCD[c]  =       RSUBCD[c]              * YQ[c]                                   if SUBCD[c]      <> 0
 
 ##! Subsidies on domestically produced commodity $c$
-             SUBPD[c]  = @elem(RSUBPD[c], %baseyear)  * YQ[c]                                   if SUBPD[c]      <> 0
+             SUBCD[c]  = @elem(RSUBCD[c], %baseyear)  * YQ[c]                                   if SUBCD[c]      <> 0
 
 ## We assume that subsidies are on volume. \\
 
@@ -67,10 +67,10 @@ POTHPTM[c] * OTHPTM[c] =       ROTHPTM[c] * PM[c]     * M[c]                    
 
 ##### Subsidies on product on imported commodities $c$ (value & volume)
 ##! Price index of the subsidies on imported commodity $c$
-PSUBPM[c]  *  SUBPM[c] =       RSUBPM[c]              * M[c]                                    if SUBPM[c]      <> 0
+PSUBCM[c]  *  SUBCM[c] =       RSUBCM[c]              * M[c]                                    if SUBCM[c]      <> 0
 
 ##! Subsidies on imported commodity $c$
-              SUBPM[c] = @elem(RSUBPM[c], %baseyear)  * M[c]                                    if SUBPM[c]      <> 0
+              SUBCM[c] = @elem(RSUBCM[c], %baseyear)  * M[c]                                    if SUBCM[c]      <> 0
 
 
 #######################################
@@ -78,12 +78,12 @@ PSUBPM[c]  *  SUBPM[c] =       RSUBPM[c]              * M[c]                    
 ##  Prices should be defined in coherence with the above specification of taxes. \\
 
 ##! Selling price before VAT for domestically produced commodity (Value & volume)
-PYQSBVAT[c] * YQSBVAT[c] = PYQ[c] * YQ[c] + POTHPTD[c] * OTHPTD[c] + PSUBPD[c] * SUBPD[c] + PMGPD[c] * MGPD[c] if YQSBVAT[c] <> 0
+PYQSBVAT[c] * YQSBVAT[c] = PYQ[c] * YQ[c] + POTHPTD[c] * OTHPTD[c] + PSUBCD[c] * SUBCD[c] + PMGPD[c] * MGPD[c] if YQSBVAT[c] <> 0
 
 d(log(YQSBVAT[c])) = d(log(YQ[c]))	                                                                           if YQSBVAT[c] <> 0
 
 ##! Selling price before VAT for imported commodity $c$ (Value & volume)
-PMSBVAT[c]  * MSBVAT[c]  = PM[c]  * M[c]  + POTHPTM[c] * OTHPTM[c] + PSUBPM[c] * SUBPM[c] + PMGPM[c] * MGPM[c] if MSBVAT[c]  <> 0
+PMSBVAT[c]  * MSBVAT[c]  = PM[c]  * M[c]  + POTHPTM[c] * OTHPTM[c] + PSUBCM[c] * SUBCM[c] + PMGPM[c] * MGPM[c] if MSBVAT[c]  <> 0
 
 d(log(MSBVAT[c] )) = d(log(M[c] ))                                                                             if MSBVAT[c]  <> 0
 
@@ -144,10 +144,10 @@ POTHPTD * OTHPTD = sum(POTHPTD[c] * OTHPTD[c] if OTHPTD[c] <> 0 on c)  if OTHPTD
           OTHPTD = sum(             OTHPTD[c] if OTHPTD[c] <> 0 on c)  if OTHPTD <> 0
 
 ##! Aggregate market price for subsidies on domestically produced commodities
-PSUBPD  * SUBPD  = sum(PSUBPD[c]  * SUBPD[c]  if SUBPD[c]  <> 0 on c)  if SUBPD  <> 0
+PSUBCD  * SUBCD  = sum(PSUBCD[c]  * SUBCD[c]  if SUBCD[c]  <> 0 on c)  if SUBCD  <> 0
 
 ##! Aggregate subsidies on domestically produced commodities
-          SUBPD  = sum(             SUBPD[c]  if SUBPD[c]  <> 0 on c)  if SUBPD  <> 0
+          SUBCD  = sum(             SUBCD[c]  if SUBCD[c]  <> 0 on c)  if SUBCD  <> 0
 
 ##! Aggregate market price for Value-added Tax on imported households final consumption
 PVATM   * VATM   = sum(PVATM[c]   * VATM[c]   if VATM[c]   <> 0 on c)  if VATM   <> 0
@@ -162,10 +162,10 @@ POTHPTM * OTHPTM = sum(POTHPTM[c] * OTHPTM[c] if OTHPTM[c] <> 0 on c)  if OTHPTM
           OTHPTM = sum(             OTHPTM[c] if OTHPTM[c] <> 0 on c)  if OTHPTM <> 0
 
 ##! Aggregate market price for subsidies on imported commododities
-PSUBPM  * SUBPM  = sum(PSUBPM[c]  * SUBPM[c]  if SUBPM[c]  <> 0 on c)  if SUBPM  <> 0
+PSUBCM  * SUBCM  = sum(PSUBCM[c]  * SUBCM[c]  if SUBCM[c]  <> 0 on c)  if SUBCM  <> 0
 
 ##! Aggregate subsidies on imported commodities
-          SUBPM  = sum(             SUBPM[c]  if SUBPM[c]  <> 0 on c)  if SUBPM  <> 0
+          SUBCM  = sum(             SUBCM[c]  if SUBCM[c]  <> 0 on c)  if SUBCM  <> 0
 
 ##! Aggregate market price for Value-added Tax on total households final consumption
 PVAT    * VAT    = PVATD   * VATD   + PVATM  * VATM                    if VAT    <> 0
@@ -180,7 +180,7 @@ POTHPT  * OTHPT  = POTHPTD * OTHPTD + POTHPTM * OTHPTM                 if OTHPT 
       	  OTHPT  =           OTHPTD +           OTHPTM                 if OTHPT  <> 0
 
 ##! Aggregate market price for subsidies on commodities
-PSUBP   * SUBP   = PSUBPD  * SUBPD  + PSUBPM  * SUBPM                  if SUBP   <> 0
+PSUBC   * SUBC   = PSUBCD  * SUBCD  + PSUBCM  * SUBCM                  if SUBC   <> 0
 
 ##! Aggregate subsidies on commodities
-          SUBP   =           SUBPD  +           SUBPM                  if SUBP   <> 0
+          SUBC   =           SUBCD  +           SUBCM                  if SUBC   <> 0
