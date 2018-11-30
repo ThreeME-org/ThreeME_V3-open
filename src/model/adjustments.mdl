@@ -85,22 +85,22 @@ SUBST_CI[ce, s]   = ADJUST6_CI[ce, s]   * SUBST_CI_n[ce, s]   + (1 - ADJUST6_CI[
 SUBST_CI[ct, s]   = ADJUST6_CI[ct, s]   * SUBST_CI_n[ct, s]   + (1 - ADJUST6_CI[ct, s])   * SUBST_CI[ct, s]{-1}   if CI[ct, s]   <> 0
 
 ##! Substitution effect on the imported margin supplied for the commodity $m$
-SUBST_MGSM[m]     = ADJUST6_MGSM[m]     * SUBST_n_MGSM[m]     + (1 - ADJUST6_MGSM[m])     * SUBST_MGSM[m]{-1}     if MGSM[m]     <> 0
+SUBST_MGSM[m]     = ADJUST6_MGSM[m]     * SUBST_MGSM_n[m]     + (1 - ADJUST6_MGSM[m])     * SUBST_MGSM[m]{-1}     if MGSM[m]     <> 0
 
 ##! Substitution effect on the imported households final consumption for the commodity $c$
-SUBST_CHM[c]      = ADJUST6_CHM[c]      * SUBST_n_CHM[c]      + (1 - ADJUST6_CHM[c])      * SUBST_CHM[c]{-1}      if CHM[c]      <> 0
+SUBST_CHM[c]      = ADJUST6_CHM[c]      * SUBST_CHM_n[c]      + (1 - ADJUST6_CHM[c])      * SUBST_CHM[c]{-1}      if CHM[c]      <> 0
 
 ##! Substitution effect on the imported government final consumption for the commodity $c$
-SUBST_GM[c]       = ADJUST6_GM[c]       * SUBST_n_GM[c]       + (1 - ADJUST6_GM[c])       * SUBST_GM[c]{-1}       if GM[c]       <> 0
+SUBST_GM[c]       = ADJUST6_GM[c]       * SUBST_GM_n[c]       + (1 - ADJUST6_GM[c])       * SUBST_GM[c]{-1}       if GM[c]       <> 0
 
 ##! Substitution effect on the government final consumption for the imported commodity $c$
-SUBST_XM[c]       = ADJUST6_XM[c]       * SUBST_n_XM[c]       + (1 - ADJUST6_XM[c])       * SUBST_XM[c]{-1}       if XM[c]       <> 0
+SUBST_XM[c]       = ADJUST6_XM[c]       * SUBST_XM_n[c]       + (1 - ADJUST6_XM[c])       * SUBST_XM[c]{-1}       if XM[c]       <> 0
 
 ##! Substitution effect on the intermediate consumption for the imported commodity $c$ in the sector $s$
-SUBST_CIM[c, s]   = ADJUST6_CIM[c, s]   * SUBST_n_CIM[c, s]   + (1 - ADJUST6_CIM[c, s])   * SUBST_CIM[c, s]{-1}   if CIM[c, s]   <> 0
+SUBST_CIM[c, s]   = ADJUST6_CIM[c, s]   * SUBST_CIM_n[c, s]   + (1 - ADJUST6_CIM[c, s])   * SUBST_CIM[c, s]{-1}   if CIM[c, s]   <> 0
 
 ##! Substitution effect on the investment for the imported commodity $c$ in the sector $s$
-SUBST_IM[c, s]    = ADJUST6_IM[c, s]    * SUBST_n_IM[c, s]    + (1 - ADJUST6_IM[c, s])    * SUBST_IM[c, s]{-1}    if IM[c, s]    <> 0
+SUBST_IM[c, s]    = ADJUST6_IM[c, s]    * SUBST_IM_n[c, s]    + (1 - ADJUST6_IM[c, s])    * SUBST_IM[c, s]{-1}    if IM[c, s]    <> 0
 
 ##! Substitution effect on the exports of the commodity $c$
-SUBST_X[c]        = ADJUST6_X[c]        * SUBST_n_X[c]        + (1 - ADJUST6_X[c])        * SUBST_X[c]{-1}        if X[c]        <> 0
+SUBST_X[c]        = ADJUST6_X[c]        * SUBST_X_n[c]        + (1 - ADJUST6_X[c])        * SUBST_X[c]{-1}        if X[c]        <> 0
