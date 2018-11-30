@@ -106,15 +106,15 @@ DNAIRU := 0
 SUBST_MGPD[m, c] := 0
 SUBST_MGPM[m, c] := 0
 
-SUBST_n_MGPD[m, c] := 0
-SUBST_n_MGPM[m, c] := 0
+SUBST_MGPD_n[m, c] := 0
+SUBST_MGPM_n[m, c] := 0
 
 SUBST_|V|[s] := 0 where V in IA L E MAT K
 
-SUBST_n_F[f, s] := 0
+SUBST_F_n[f, s] := 0
 SUBST_F[f, s] := 0
 
-SUBST_n_CI[c, s] := 0
+SUBST_CI_n[c, s] := 0
 SUBST_CI[c, s] := 0
 
 

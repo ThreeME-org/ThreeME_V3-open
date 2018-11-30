@@ -70,19 +70,19 @@ d(log(PROP_INC_G_VAL_e)) = ADJUST1_PROP_INC_G_VAL * d(log(PROP_INC_G_VAL_e{-1}))
 #### Substitutions
 
 ##! Substitution effect of the production factor $f$ in the sector $s$
-SUBST_F[f, s]     = ADJUST6_F[f, s]     * SUBST_n_F[f, s]     + (1 - ADJUST6_F[f, s])     * SUBST_F[f, s]{-1}     if F[f, s]     <> 0
+SUBST_F[f, s]     = ADJUST6_F[f, s]     * SUBST_F_n[f, s]     + (1 - ADJUST6_F[f, s])     * SUBST_F[f, s]{-1}     if F[f, s]     <> 0
 
 ##! Substitution effect of the domestic margin paid $m$ for the commodity $c$
-SUBST_MGPD[m, c] = ADJUST6_MGPD[m, c] * SUBST_n_MGPD[m, c] + (1 - ADJUST6_MGPD[m, c]) * SUBST_MGPD[m, c]{-1} if MGPD[m, c] <> 0
+SUBST_MGPD[m, c] = ADJUST6_MGPD[m, c] * SUBST_MGPD_n[m, c] + (1 - ADJUST6_MGPD[m, c]) * SUBST_MGPD[m, c]{-1} if MGPD[m, c] <> 0
 
 ##! Substitution effect on the imported margin paid $m$ for the commodity $c$
-SUBST_MGPM[m, c] = ADJUST6_MGPM[m, c] * SUBST_n_MGPM[m, c] + (1 - ADJUST6_MGPM[m, c]) * SUBST_MGPM[m, c]{-1} if MGPM[m, c] <> 0
+SUBST_MGPM[m, c] = ADJUST6_MGPM[m, c] * SUBST_MGPM_n[m, c] + (1 - ADJUST6_MGPM[m, c]) * SUBST_MGPM[m, c]{-1} if MGPM[m, c] <> 0
 
 ##! Substitution effect on the energy intermediate consumption $ce$ in the sector $s$
-SUBST_CI[ce, s]   = ADJUST6_CI[ce, s]   * SUBST_n_CI[ce, s]   + (1 - ADJUST6_CI[ce, s])   * SUBST_CI[ce, s]{-1}   if CI[ce, s]   <> 0
+SUBST_CI[ce, s]   = ADJUST6_CI[ce, s]   * SUBST_CI_n[ce, s]   + (1 - ADJUST6_CI[ce, s])   * SUBST_CI[ce, s]{-1}   if CI[ce, s]   <> 0
 
 ##! Substitution effect on the transportation intermediate consumption $ce$ in the sector $s$
-SUBST_CI[ct, s]   = ADJUST6_CI[ct, s]   * SUBST_n_CI[ct, s]   + (1 - ADJUST6_CI[ct, s])   * SUBST_CI[ct, s]{-1}   if CI[ct, s]   <> 0
+SUBST_CI[ct, s]   = ADJUST6_CI[ct, s]   * SUBST_CI_n[ct, s]   + (1 - ADJUST6_CI[ct, s])   * SUBST_CI[ct, s]{-1}   if CI[ct, s]   <> 0
 
 ##! Substitution effect on the imported margin supplied for the commodity $m$
 SUBST_MGSM[m]     = ADJUST6_MGSM[m]     * SUBST_n_MGSM[m]     + (1 - ADJUST6_MGSM[m])     * SUBST_MGSM[m]{-1}     if MGSM[m]     <> 0
