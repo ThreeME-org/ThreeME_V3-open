@@ -87,11 +87,11 @@ PMSBVAT[c]  * MSBVAT[c]  = PM[c]  * M[c]  + POTHPTM[c] * OTHPTM[c] + PSUBPM[c] *
 
 d(log(MSBVAT[c] )) = d(log(M[c] ))                                                                             if MSBVAT[c]  <> 0
 
-##! Price of domestically produced margins received by commodity $c$
-@over PMGRD[c]   = PYQSBVAT[c]                                                     if MGRD[c]   <> 0
+##! Price of domestically produced margins supplied by commodity $c$
+@over PMGSD[c]   = PYQSBVAT[c]                                                     if MGSD[c]   <> 0
 
-##! Price of imported margins received by commodity $c$
-@over PMGRM[c]   = PMSBVAT[c]                                                      if MGRM[c]   <> 0
+##! Price of imported margins supplied by commodity $c$
+@over PMGSM[c]   = PMSBVAT[c]                                                      if MGSM[c]   <> 0
 
 ##! Price of intermediary raw material consumption domestically produced $c$ of sector $s$
 @over PCID[c, s] = PYQSBVAT[c]                                                     if CID[c, s] <> 0

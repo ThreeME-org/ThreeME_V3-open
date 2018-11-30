@@ -40,8 +40,8 @@ Rdep[s] := SUT(13,$s)
 ### Use side (domestic)
 ############################
 
-### Domesticly produced margins recieved by commodity c
-MGRD[c] := SUT($c+17,14) * (1 + GR_REAL) ^ (@year - %baseyear)
+### Domesticly produced margins supplied by commodity c
+MGSD[c] := SUT($c+17,14) * (1 + GR_REAL) ^ (@year - %baseyear)
 
 ### Intermediary raw material consumption domestically produced c of sector s
 CID[c, s] := SUT($c+17,$s+14) * (1 + GR_REAL) ^ (@year - %baseyear)
@@ -58,8 +58,8 @@ DSD[c] := SUT($c+17,30) * (1 + GR_REAL) ^ (@year - %baseyear)
 ### Use side (imported)
 ############################
 
-### Imported margins recieved by commodity c
-MGRM[c] := SUT($c+26,14) * (1 + GR_REAL) ^ (@year - %baseyear)
+### Imported margins supplied by commodity c
+MGSM[c] := SUT($c+26,14) * (1 + GR_REAL) ^ (@year - %baseyear)
 
 ### Impoted intermediary raw material consumption c of sector s
 CIM[c, s] := SUT($c+26,$s+14) * (1 + GR_REAL) ^ (@year - %baseyear)

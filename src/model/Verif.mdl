@@ -18,8 +18,8 @@ verif_Mbis[c] = (Mbis[c]/M[c] - 1)*100 if M[c] <> 0
 verif_PMbis[c] = (PMbis[c]/PM[c] - 1)*100 if M[c] <> 0
 
 
-verif_MGRbis[c] = (MGRbis[c]/MGR[c] - 1)*100 if MGR[c] <> 0
-verif_PMGRbis[c] = (PMGRbis[c]/PMGR[c] - 1)*100 if MGR[c] <> 0
+verif_MGSbis[c] = (MGSbis[c]/MGS[c] - 1)*100 if MGS[c] <> 0
+verif_PMGSbis[c] = (PMGSbis[c]/PMGS[c] - 1)*100 if MGS[c] <> 0
 
 verif_YQbis[c] = (YQbis[c]/YQ[c] - 1)*100  if YQ[c] <> 0
 verif_PYQbis[c] = (PYQbis[c]/PYQ[c] - 1)*100
@@ -59,7 +59,7 @@ verif_EMSbis = (EMSbis/EMS - 1)*100
 
 
 
-Verif_ALL = ( sum(verif_phi_F[s]^2 on s) + sum(verif_phi_MGPD[c]^2 on c) + sum(verif_phi_MGPM[c]^2 on c) + sum(verif_phi[E, s]^2 on s) + sum(verif_phi_TRSP[s]^2 on s) + sum(verif_Mbis[c]^2 on c) + sum(verif_PMbis[c]^2 on c) + sum(verif_MGRbis[c]^2 on c) + sum(verif_PMGRbis[c]^2 on c) + sum(verif_YQbis[c]^2 on c) + sum(verif_PYQbis[c]^2 on c) + Verif_PCH_CES^2 +Verif_phi_MCH^2 + Verif_phi_CH^2 + Verif_GDPbis^2 + Verif_PGDPbis^2 + Verif_GDPter^2 + Verif_PGDPter^2 + Verif_GDP4^2 + Verif_PGDP4^2 + Verif_CIbis^2 + Verif_PCIbis^2 + Verif_Ibis^2 + Verif_PIbis^2 + Verif_YQ^2 + Verif_PYQ^2 + Verif_Bal_G_Prim_VAbis^2 + sum(verif_EMS_CIbis[ghg]^2 on ghg) + verif_EMSbis^2 )^(1/2)
+Verif_ALL = ( sum(verif_phi_F[s]^2 on s) + sum(verif_phi_MGPD[c]^2 on c) + sum(verif_phi_MGPM[c]^2 on c) + sum(verif_phi[E, s]^2 on s) + sum(verif_phi_TRSP[s]^2 on s) + sum(verif_Mbis[c]^2 on c) + sum(verif_PMbis[c]^2 on c) + sum(verif_MGSbis[c]^2 on c) + sum(verif_PMGSbis[c]^2 on c) + sum(verif_YQbis[c]^2 on c) + sum(verif_PYQbis[c]^2 on c) + Verif_PCH_CES^2 +Verif_phi_MCH^2 + Verif_phi_CH^2 + Verif_GDPbis^2 + Verif_PGDPbis^2 + Verif_GDPter^2 + Verif_PGDPter^2 + Verif_GDP4^2 + Verif_PGDP4^2 + Verif_CIbis^2 + Verif_PCIbis^2 + Verif_Ibis^2 + Verif_PIbis^2 + Verif_YQ^2 + Verif_PYQ^2 + Verif_Bal_G_Prim_VAbis^2 + sum(verif_EMS_CIbis[ghg]^2 on ghg) + verif_EMSbis^2 )^(1/2)
 
 ### Verification for the actual elasticities
 ## The series should converge asymptotically to the inputed elasticities.
@@ -69,9 +69,9 @@ Verif_ALL = ( sum(verif_phi_F[s]^2 on s) + sum(verif_phi_MGPD[c]^2 on c) + sum(v
 ## Moreover the compiler does not recognise the operator "OR" in the condition. Therefore, we have to write it twice.
      
 
-ES_act_MGRM[m] = ES_MGRM[m] _ 
-				- (PMGRD[m]/PMGRM[m] < 0.99999) * (log(MGRD[m]/MGRM[m]/@elem(MGRD[m]/MGRM[m], %baseyear)) / log(PMGRD[m]/PMGRM[m]*1.0000000001) + ES_MGRM[m]) _
-				- (PMGRD[m]/PMGRM[m] > 1.00001) * (log(MGRD[m]/MGRM[m]/@elem(MGRD[m]/MGRM[m], %baseyear)) / log(PMGRD[m]/PMGRM[m]*1.0000000001) + ES_MGRM[m]) if MGRM[m] <> 0 
+ES_act_MGSM[m] = ES_MGSM[m] _ 
+				- (PMGSD[m]/PMGSM[m] < 0.99999) * (log(MGSD[m]/MGSM[m]/@elem(MGSD[m]/MGSM[m], %baseyear)) / log(PMGSD[m]/PMGSM[m]*1.0000000001) + ES_MGSM[m]) _
+				- (PMGSD[m]/PMGSM[m] > 1.00001) * (log(MGSD[m]/MGSM[m]/@elem(MGSD[m]/MGSM[m], %baseyear)) / log(PMGSD[m]/PMGSM[m]*1.0000000001) + ES_MGSM[m]) if MGSM[m] <> 0 
 ES_act_CHM[c] = ES_CHM[c] _ 
 				- (PCHD[c]/PCHM[c] < 0.99999) * (log(CHD[c]/CHM[c]/@elem(CHD[c]/CHM[c], %baseyear)) / log(PCHD[c]/PCHM[c]*1.0000000001) + ES_CHM[c]) _
 				- (PCHD[c]/PCHM[c] > 1.00001) * (log(CHD[c]/CHM[c]/@elem(CHD[c]/CHM[c], %baseyear)) / log(PCHD[c]/PCHM[c]*1.0000000001) + ES_CHM[c]) if CHM[c] <> 0 
@@ -86,7 +86,7 @@ ES_act_XM[c] = ES_XM[c] _
 
 
 
-#Verif_ES_MGRM[m] = ES_act_MGRM[m] - ES_MGRM[m]
+#Verif_ES_MGSM[m] = ES_act_MGSM[m] - ES_MGSM[m]
 #Verif_ES_CHM[c] = ES_act_CHM[c] - ES_CHM[c]
 #Verif_ES_GM[c] = ES_act_GM[c] - ES_GM[c]
 #Verif_ES_XM[c] = ES_act_XM[c] - ES_XM[c]
@@ -96,6 +96,6 @@ ES_act[f, ff, s] = ES[f, ff, s] - (C[f, s]/PROG[f, s]/(C[ff, s]/PROG[ff, s])/ @e
 
 
 
-# Verif_ALL_ES = ( sum(Verif_ES_MGRM[m]^2 on c) + sum(Verif_ES_CHM[c]^2 on c) + sum(Verif_ES_GM[c]^2 on c) + sum(Verif_ES_XM[c]^2 on c))^(1/2) where V in MGR CH G X
+# Verif_ALL_ES = ( sum(Verif_ES_MGSM[m]^2 on c) + sum(Verif_ES_CHM[c]^2 on c) + sum(Verif_ES_GM[c]^2 on c) + sum(Verif_ES_XM[c]^2 on c))^(1/2) where V in MGS CH G X
 
 

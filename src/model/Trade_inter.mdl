@@ -5,7 +5,7 @@
 #### Domestic demand
 
 ##! Received margins on domestically produced commodity $m$
-MGRD[m] = (1 - phi_MGRM[m]) * MGR[m] if MGRD[m] <> 0
+MGSD[m] = (1 - phi_MGSM[m]) * MGS[m] if MGSD[m] <> 0
 
 ##! Private final consumption of domestically produced commodity $c$
 CHD[c]  = (1 - phi_CHM[c])  * CH[c]  if CHD[c]  <> 0
@@ -13,8 +13,8 @@ CHD[c]  = (1 - phi_CHM[c])  * CH[c]  if CHD[c]  <> 0
 ##! Public final consumption of domestically produced commodity $c$
 GD[c]   = (1 - phi_GM[c])   * G[c]   if GD[c]   <> 0
 
-##! Margins received from imported commodity $m$
-MGRM[m] =      phi_MGRM[m]  * MGR[m] if MGRM[m] <> 0
+##! Margins supplied from imported commodity $m$
+MGSM[m] =      phi_MGSM[m]  * MGS[m] if MGSM[m] <> 0
 
 ##! Private final consumption of imported commodity $c$
 CHM[c]  =      phi_CHM[c]   * CH[c]  if CHM[c]  <> 0
@@ -22,8 +22,8 @@ CHM[c]  =      phi_CHM[c]   * CH[c]  if CHM[c]  <> 0
 ##! Public final consumption of imported commodity $c$
 GM[c]   =      phi_GM[c]    * G[c]   if GM[c]   <> 0
 
-##! Import share of commodity $c$ on received margins
-phi_MGRM[m] = 1 /( 1 + @elem( MGRD[m]/MGRM[m], %baseyear) * exp( SUBST_MGRM[m])) if MGRM[m]   <> 0
+##! Import share of commodity $c$ on supplied margins
+phi_MGSM[m] = 1 /( 1 + @elem( MGSD[m]/MGSM[m], %baseyear) * exp( SUBST_MGSM[m])) if MGSM[m]   <> 0
 
 ##! Import share of commodity $c$ for household final consumption
 phi_CHM[c] 	= 1 /( 1 + @elem( CHD[c]/CHM[c]  , %baseyear) * exp( SUBST_CHM[c]))  if CHM[c]    <> 0
@@ -31,8 +31,8 @@ phi_CHM[c] 	= 1 /( 1 + @elem( CHD[c]/CHM[c]  , %baseyear) * exp( SUBST_CHM[c])) 
 ##! Import share $\varphi_c$ of commodity $c$ on the governement final consumption
 phi_GM[c] 	= 1 /( 1 + @elem( GD[c]/GM[c]    , %baseyear) * exp( SUBST_GM[c]))   if GM[c]     <> 0
 
-##! Notional substitution effect induced by a change in the relative price between imported and domestically produced commodity $c$ for margins received
-d(SUBST_n_MGRM[c]) 	= - ES_MGRM[c] * d(log(PMGRD[c]) - log(PMGRM[c]))            if MGRM[c]   <> 0
+##! Notional substitution effect induced by a change in the relative price between imported and domestically produced commodity $c$ for margins supplied
+d(SUBST_n_MGSM[c]) 	= - ES_MGSM[c] * d(log(PMGSD[c]) - log(PMGSM[c]))            if MGSM[c]   <> 0
 
 ##! Notional substitution effect induced by a change in the relative price between imported and domestically produced commodity $c$ for households final consumption
 d(SUBST_n_CHM[c]) 	= - ES_CHM[c]  * d(log(PCHD[c])  - log(PCHM[c])) 	           if CHM[c]    <> 0

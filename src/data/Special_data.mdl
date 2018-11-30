@@ -30,9 +30,9 @@ PARTR := LF/WAPop
 RRSSC[s] := RSSC[s] * PRSSC[s] / (W[s] * F[L, s] + eps)
 
 
-# Import share of commodity c for margins recieved, private and public consumption, investment and exports
+# Import share of commodity c for margins supplied, private and public consumption, investment and exports
 phi_|V|M[c] := |V|M[c] / (|V|[c] + eps) where V in CH G X
-phi_|V|M[m] := |V|M[m] / (|V|[m] + eps) where V in MGR
+phi_|V|M[m] := |V|M[m] / (|V|[m] + eps) where V in MGS
 
 # Import share of commodity c bought by sector s for intermediary consumption and investment
 phi_|V|M[c, s] := |V|M[c, s] / (|V|[c, s] + eps) where V in CI I
@@ -71,12 +71,12 @@ PROP_INC_G_VAL := @elem(phi_PROP_INC_G * PNOS * NOS, %baseyear) * (1 + GR_NOMI) 
 
 # For verif
 ES_act_|V|M[c] := ES_|V|M[c] where V in CH G X
-ES_act_|V|M[m] := ES_|V|M[m] where V in MGR
+ES_act_|V|M[m] := ES_|V|M[m] where V in MGS
 
 ES_act[f, ff, s] := ES[f, ff, s]
 
 # Non margin commodities set at 0
-MGR[c]	:= 0 where c in %list_com \ %list_com_MARG 
+MGS[c]	:= 0 where c in %list_com \ %list_com_MARG 
 
 # Expected and nominal variables are initialised to their real value
 |V|_n[s] := |V|[s] where V in IA W MARKUP
@@ -119,10 +119,10 @@ SUBST_CI[c, s] := 0
 
 
 SUBST_n_|V|M[c] := 0 where V in CH G X
-SUBST_n_|V|M[m] := 0 where V in MGR
+SUBST_n_|V|M[m] := 0 where V in MGS
 
 SUBST_|V|M[c] := 0 where V in CH G X
-SUBST_|V|M[m] := 0 where V in MGR
+SUBST_|V|M[m] := 0 where V in MGS
 
 SUBST_n_|V|M[c, s] := 0 where V in CI I
 SUBST_|V|M[c, s] := 0 where V in CI I
@@ -161,8 +161,8 @@ verif_phi_TRSP[s] := 0
 verif_Mbis[c] := 0
 verif_PMbis[c] := 0
 
-verif_MGRbis[c] := 0
-verif_PMGRbis[c] := 0
+verif_MGSbis[c] := 0
+verif_PMGSbis[c] := 0
 
 verif_YQbis[c] := 0
 verif_PYQbis[c] := 0
@@ -194,7 +194,7 @@ Verif_ALL := 0
 Verif_ALL_ES := 0
 
 Verif_ES_|V|M[c] := 0  where V in CH G X
-Verif_ES_|V|M[m] := 0  where V in MGR
+Verif_ES_|V|M[m] := 0  where V in MGS
 
 
 Verif_Bal_G_Prim_VAbis := 0

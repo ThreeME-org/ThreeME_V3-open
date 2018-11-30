@@ -4,7 +4,7 @@ include ..\model\lists
 ###### USE SIDE #####
 #####################
 
-Q|O|[c] := MGR|O|[c] + CI|O|[c] + CH|O|[c] + G|O|[c] + I|O|[c] + X|O|[c] + DS|O|[c]
+Q|O|[c] := MGS|O|[c] + CI|O|[c] + CH|O|[c] + G|O|[c] + I|O|[c] + X|O|[c] + DS|O|[c]
 
 CI|O|[c] := sum(CI|O|[c, s] on s)
 
@@ -12,11 +12,11 @@ I|O|[c] := sum(I|O|[c, s] on s)
 
 |V|[c] := |V|D[c] + |V|M[c] where V in Q CI I DS
 
-MGRbis[c] := MGRD[c] + MGRM[c]
+MGSbis[c] := MGSD[c] + MGSM[c]
 
-|V||O| := sum(|V||O|[c] on c) where V in Q MGR CI CH G I X DS
+|V||O| := sum(|V||O|[c] on c) where V in Q MGS CI CH G I X DS
 
-|V| := |V|D + |V|M where V in Q MGR CI CH G I X DS
+|V| := |V|D + |V|M where V in Q MGS CI CH G I X DS
 
 #####################
 ###### SUPPY SIDE ###
@@ -38,7 +38,7 @@ MGPD := sum(MGPD[c] on c)
 
 MGPM := sum(MGPM[c] on c) 
 
-MGR[m] := sum(MGP[m, c] on c)
+MGS[m] := sum(MGP[m, c] on c)
 
 MGP[m, c] := MGPD[m, c] + MGPM[m, c]
 

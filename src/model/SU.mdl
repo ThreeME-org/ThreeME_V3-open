@@ -8,36 +8,36 @@
 ### Domestic and foreign equilibrium for commodities $c$ (value & volume):
 
 ##! Market price for the domestically produced commodity $c$
-PQD[c]  * QD[c]  = PMGRD[c] * MGRD[c] + PCID[c] * CID[c] + PCHD[c] * CHD[c] + PGD[c] * GD[c] + PID[c] * ID[c] + PXD[c] * XD[c] + PDSD[c] * DSD[c] if QD[c] <> 0
+PQD[c]  * QD[c]  = PMGSD[c] * MGSD[c] + PCID[c] * CID[c] + PCHD[c] * CHD[c] + PGD[c] * GD[c] + PID[c] * ID[c] + PXD[c] * XD[c] + PDSD[c] * DSD[c] if QD[c] <> 0
 
 ##! Quantity of domestically produced commodity $c$ expressed at market price
-		  QD[c]  = 	          MGRD[c] + 		  CID[c] + 		     CHD[c] + 	   	   GD[c] + 		    ID[c] + 		 XD[c] + 		   DSD[c] if QD[c] <> 0
+		  QD[c]  = 	          MGSD[c] + 		  CID[c] + 		     CHD[c] + 	   	   GD[c] + 		    ID[c] + 		 XD[c] + 		   DSD[c] if QD[c] <> 0
 
 ##! Market price for imported commodity $c$
-PQM[c]  * QM[c]  = PMGRM[c] * MGRM[c] + PCIM[c] * CIM[c] + PCHM[c] * CHM[c] + PGM[c] * GM[c] + PIM[c] * IM[c] + PXM[c] * XM[c] + PDSM[c] * DSM[c] if QM[c] <> 0
+PQM[c]  * QM[c]  = PMGSM[c] * MGSM[c] + PCIM[c] * CIM[c] + PCHM[c] * CHM[c] + PGM[c] * GM[c] + PIM[c] * IM[c] + PXM[c] * XM[c] + PDSM[c] * DSM[c] if QM[c] <> 0
 
 ##! Quantity of imported commodity $c$ expressed at market price
-		  QM[c]  = 		      MGRM[c] + 		  CIM[c] + 		     CHM[c] + 	       GM[c] + 		    IM[c] + 		 XM[c] + 		   DSM[c] if QM[c] <> 0
+		  QM[c]  = 		      MGSM[c] + 		  CIM[c] + 		     CHM[c] + 	       GM[c] + 		    IM[c] + 		 XM[c] + 		   DSM[c] if QM[c] <> 0
 
-### Margins received (value & volume):
-# TO BE CHANGED !!: Margins paid --> Margins used / Margins received -->  margins supplied
-## The margins received by commodity $m$ corresponds to the margins supplied by this commodity. By definition, the margins received is the sum of the margins paid (or used) on the commodities $c$. \\ \\
-## The margins paid on domestic and imported products ($MGPD_{m, c}$ and $MGPM_{m, c}$) are defined with behavorial equations in the producer block. They follow the domestic and imported production of commodity $c$ ($YQ_{c}$ and $M_{c}$) more or less proportionnally depending on the possibility of substitutions between margins. The margins paid are then aggregated to define the margins recieved, $MGR_{m}$. The latter is then disagrated between the domestic and imported margins recieved ($MGRD_{c}$ and $MGRM_{c}$). See specification in the producer block. \\
+### Margins supplied (value & volume):
+# TO BE CHANGED !!: Margins paid --> Margins used / Margins supplied -->  margins supplied
+## The margins supplied by commodity $m$ corresponds to the margins supplied by this commodity. By definition, the margins supplied is the sum of the margins paid (or used) on the commodities $c$. \\ \\
+## The margins paid on domestic and imported products ($MGPD_{m, c}$ and $MGPM_{m, c}$) are defined with behavorial equations in the producer block. They follow the domestic and imported production of commodity $c$ ($YQ_{c}$ and $M_{c}$) more or less proportionnally depending on the possibility of substitutions between margins. The margins paid are then aggregated to define the margins supplied, $MGS_{m}$. The latter is then disagrated between the domestic and imported margins supplied ($MGSD_{c}$ and $MGSM_{c}$). See specification in the producer block. \\
 
-##! Market price of the margins received by commodity $m$
-PMGR[m] * MGR[m]  = sum(PMGP[m, c] * MGP[m, c] 	if MGP[m, c] <> 0 on c) 	   if MGR[m]    <> 0
+##! Market price of the margins supplied by commodity $m$
+PMGS[m] * MGS[m]  = sum(PMGP[m, c] * MGP[m, c] 	if MGP[m, c] <> 0 on c) 	   if MGS[m]    <> 0
 
-##! Margins received by commodity $m$, expressed at market price
-           MGR[m]  = sum(    	 	    MGP[m, c] 	if MGP[m, c] <> 0 on c) 	   if MGR[m]    <> 0
-## The margins received correspond to the sum of the margins paid to commodity $m$ over all the commodities $c$ \\
+##! Margins supplied by commodity $m$, expressed at market price
+           MGS[m]  = sum(    	 	    MGP[m, c] 	if MGP[m, c] <> 0 on c) 	   if MGS[m]    <> 0
+## The margins supplied correspond to the sum of the margins paid to commodity $m$ over all the commodities $c$ \\
 
-##! Market price of the margins received by commodity $m$ (for verification)
-PMGRbis[m] * MGRbis[m] = PMGRD[m] * MGRD[m] + PMGRM[m] * MGRM[m] 				   if MGRbis[m]  <> 0
-## Same variable as $PMGR_{m}$ above to check the accounting consistency. \\
+##! Market price of the margins supplied by commodity $m$ (for verification)
+PMGSbis[m] * MGSbis[m] = PMGSD[m] * MGSD[m] + PMGSM[m] * MGSM[m] 				   if MGSbis[m]  <> 0
+## Same variable as $PMGS_{m}$ above to check the accounting consistency. \\
 
-##! Margins received by commodity $m$, expressed at market price (for verification)
-			 MGRbis[m] = 		    MGRD[m] + 			 MGRM[m] 				   if MGRbis[m]  <> 0
-## Same variable as $MGR_{m}$ above to check the accounting consistency. \\
+##! Margins supplied by commodity $m$, expressed at market price (for verification)
+			 MGSbis[m] = 		    MGSD[m] + 			 MGSM[m] 				   if MGSbis[m]  <> 0
+## Same variable as $MGS_{m}$ above to check the accounting consistency. \\
 
 ### Aggregation of imports and domestic production for commodity $c$ per use, expressed at market price (value & volume)
 ## This subsection aggregates imports and domestic production for commodity $c$ for various uses. It does not do it for Exports, Households and Government final consumption ($X$, $CH$ and $G$) because these aggregates are already defined in behaviour equations (see Trade international, Consumer and Governement blocks). Expressed in value, this subsection also defines the prices indexes at market price for commodity $c$ per use as a weighted average of imported and domestic production per uses: \textit{i.e.} for $Q$ (production of commodities ), $CI$ (intermediary consumption), $I$ (private investment) and $DS$ (change in inventories). \\
@@ -160,17 +160,17 @@ PQM   * QM   = sum(PQM[c]   * QM[c]   if QM[c]  <> 0 on c) 			  if QM  	<> 0
 ##! Aggregate imported commodities, expressed at market price
 	    QM   = sum( 		  QM[c]   if QM[c]  <> 0 on c)  		  if QM  	<> 0
 
-##! Aggregate market price for the margins received on domestically produced commodities
-PMGRD * MGRD = sum(PMGRD[c] * MGRD[c] if MGRD[c] <> 0 on c) 		  if MGRD 	<> 0
+##! Aggregate market price for the margins supplied on domestically produced commodities
+PMGSD * MGSD = sum(PMGSD[c] * MGSD[c] if MGSD[c] <> 0 on c) 		  if MGSD 	<> 0
 
-##! Aggregate margins received on domestically produced commodities, expressed at market price
-	    MGRD = sum(    		  MGRD[c] if MGRD[c] <> 0 on c) 		  if MGRD 	<> 0
+##! Aggregate margins supplied on domestically produced commodities, expressed at market price
+	    MGSD = sum(    		  MGSD[c] if MGSD[c] <> 0 on c) 		  if MGSD 	<> 0
 
-##! Aggregate market price for the margins received on imported commodities
-PMGRM * MGRM = sum(PMGRM[c] * MGRM[c] if MGRM[c] <> 0 on c) 		  if MGRM 	<> 0
+##! Aggregate market price for the margins supplied on imported commodities
+PMGSM * MGSM = sum(PMGSM[c] * MGSM[c] if MGSM[c] <> 0 on c) 		  if MGSM 	<> 0
 
-##! Aggregate margins received on imported commodities, expressed at market price
-	    MGRM = sum(		   	  MGRM[c] if MGRM[c] <> 0 on c) 		  if MGRM 	<> 0
+##! Aggregate margins supplied on imported commodities, expressed at market price
+	    MGSM = sum(		   	  MGSM[c] if MGSM[c] <> 0 on c) 		  if MGSM 	<> 0
 
 ##! Aggregate market price for domestically produced intermediate consumption
 PCID  * CID  = sum(PCID[c]  * CID[c]  if CID[c]  <> 0 on c) 		  if  CID 	<> 0
@@ -255,11 +255,11 @@ PQ 	  * Q    = PQD   * QD   + PQM   * QM   							  if Q    	<> 0
 ##! Aggregate production, expressed at market price
 	    Q    = 	       QD   + 	      QM   							  if Q    	<> 0
 
-##! Aggregate market price for recieved margins
-PMGR  * MGR  = PMGRD * MGRD + PMGRM * MGRM 							  if MGR  	<> 0
+##! Aggregate market price for supplied margins
+PMGS  * MGS  = PMGSD * MGSD + PMGSM * MGSM 							  if MGS  	<> 0
 
-##! Aggregate recieved margins
-	    MGR  = 		   MGRD + 		  MGRM 							  if MGR  	<> 0
+##! Aggregate supplied margins
+	    MGS  = 		   MGSD + 		  MGSM 							  if MGS  	<> 0
 
 ##! Aggregate market price for intermediate consumption
 PCI   * CI   = PCID  * CID  + PCIM  * CIM  							  if CI   	<> 0

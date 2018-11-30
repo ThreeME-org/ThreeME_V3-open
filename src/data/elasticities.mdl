@@ -42,9 +42,9 @@ ES_NRJ[ce, cee, s] := 0.6
 ES_TRSP[ct, ctt, s] := 0.3
 
 
-## Between domestic and imported commodities for margins recieved, private and public consumption, investment and exports
+## Between domestic and imported commodities for margins supplied, private and public consumption, investment and exports
 ES_|V|M[c] := 0.8 where V in CH G I X
-ES_|V|M[m] := 0.8 where V in MGR
+ES_|V|M[m] := 0.8 where V in MGS
 
 ES_|V|M[c, s] := 0.8 where V in CI I
 
@@ -144,7 +144,7 @@ ADJUST6_CI[ce, s] := 0.3
 ADJUST6_CI[ct, s] := 0.3
 
 ADJUST6_|V|M[c] := 0.3 where V in CH G X
-ADJUST6_|V|M[m] := 0.3 where V in MGR
+ADJUST6_|V|M[m] := 0.3 where V in MGS
 
 ADJUST6_|V|M[c, s] := 0.3 where V in CI I
 

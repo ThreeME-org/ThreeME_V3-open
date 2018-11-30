@@ -141,18 +141,18 @@ PMS[c]  * MS[c]  = PM[c]  * M[c]  + NTAXPM_VAL[c]    + PMGPM[c] * MGPM[c]   if M
 d(log(MS[c]))    =    d(log(M[c]))                                          if MS[c]       <> 0
 
 ##! Market price of the margins paid to commodity $m$ on domestically produced commodity $c$
-PMGPD[m, c] * MGR[m] = PMGRD[m] * MGRD[m] + PMGRM[m] * MGRM[m]        if MGPD[m, c] <> 0
-## We assume that the margins paid on domestic and imported commodities can be produced by domestic and foreign (using the import share of the margin received). The price of the margins paid to commodity $m$ is assumed commun to all commodity $c$. \\
+PMGPD[m, c] * MGS[m] = PMGSD[m] * MGSD[m] + PMGSM[m] * MGSM[m]        if MGPD[m, c] <> 0
+## We assume that the margins paid on domestic and imported commodities can be produced by domestic and foreign (using the import share of the margin supplied). The price of the margins paid to commodity $m$ is assumed commun to all commodity $c$. \\
 
 ##! Market price of the margins paid to commodity $m$ on imported commodity $c$
 PMGPM[m, c] = PMGPD[m, c] if MGPM[m, c] <> 0
 ## This price is the same as the one paid on domestic commodity because of the assumption given in the previous equation. \\
 
-##! Market price of margins received by domestically produced commodity $c$
-PMGRD[c]     = PYQS[c]      if MGRD[c]     <> 0
+##! Market price of margins supplied by domestically produced commodity $c$
+PMGSD[c]     = PYQS[c]      if MGSD[c]     <> 0
 
-##! Market price of margins received by imported commodity $c$
-PMGRM[c]     = PMS[c]       if MGRM[c]     <> 0
+##! Market price of margins supplied by imported commodity $c$
+PMGSM[c]     = PMS[c]       if MGSM[c]     <> 0
 
 ##! Market price of domestically produced intermediate consumption $c$ purshased by sector $s$
 PCID[c, s]   = PYQS[c]      if CID[c, s]   <> 0
