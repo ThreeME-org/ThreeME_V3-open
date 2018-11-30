@@ -6,29 +6,29 @@ include ..\model\lists
 
 RVATD[c] := VATD[c] / (CHD[c] - VATD[c] + eps)
 
-ROTHPTD[c] := OTHPTD[c] / (YQ[c] + eps)
+ROTHCTD[c] := OTHCTD[c] / (YQ[c] + eps)
 
 RVATM[c] := VATM[c] / (CHM[c] - VATM[c] + eps)
 
-ROTHPTM[c] := OTHPTM[c] / (M[c] + eps)
+ROTHCTM[c] := OTHCTM[c] / (M[c] + eps)
 
 # Subsidy on quantities: the rate increases (in absolute value!) with the price (necessary for a steady state)
 RSUBCD[c] := SUBCD[c] / (YQ[c] + eps) * P 
 
 RSUBCM[c] := SUBCM[c] / (M[c] + eps) * P
 
-YQSBVAT[c] := YQ[c] + OTHPTD[c] + SUBCD[c] + MGPD[c]
-MSBVAT[c] :=  M[c] + OTHPTM[c] + SUBCM[c] + MGPM[c]
+YQSBVAT[c] := YQ[c] + OTHCTD[c] + SUBCD[c] + MGPD[c]
+MSBVAT[c] :=  M[c] + OTHCTM[c] + SUBCM[c] + MGPM[c]
 
 ## Directly from equations
 VATD := sum(VATD[c] on c)
-OTHPTD := sum(OTHPTD[c] on c)
+OTHCTD := sum(OTHCTD[c] on c)
 SUBCD := sum(SUBCD[c] on c)
 
 VATM := sum(VATM[c] on c)
-OTHPTM := sum(OTHPTM[c] on c)
+OTHCTM := sum(OTHCTM[c] on c)
 SUBCM := sum(SUBCM[c] on c)
 
 VAT := VATD + VATM
-OTHPT := OTHPTD + OTHPTM
+OTHCT := OTHCTD + OTHCTM
 SUBC := SUBCD + SUBCM
