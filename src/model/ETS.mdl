@@ -1,17 +1,22 @@
-# 7777 ##### Integration of the Emission Trading Scheme cost for covered sectors
+##### Integration of the Emission Trading Scheme cost for covered sectors
 # 7777 
-# 7777 #### Scenario 1 : "price signal"
-# 7777 ## We overwrite the equation 5.15 of the price block in order to add the ETS cost (energy ce2 used in activity s).
-# 7777 ## We only consider energy goods ce2 (and not ce) since intermediary consumption of electricity does not induce dioxyde emissions.
+#### Scenario 1 : "price signal"
+## We overwrite the equation 5.15 of the price block in order to add the ETS cost (energy ce2 used in activity s). \\
+## We only consider energy goods ce2 (and not ce) since intermediary consumption of electricity does not induce dioxyde emissions. \\
 # 7777 
-# 7777 PE[ce2,s]*E[ce2,s] = PED[ce2]*ED[ce2, s] + PEM[ce2]*EM[ce2, s] + TCO_VAL[ce2, s] + ETS_VAL_SEC[ce2, s] if E[ce2,s] <> 0
+##! Name var 1
+PE[ce2,s]*E[ce2,s] = PED[ce2]*ED[ce2, s] + PEM[ce2]*EM[ce2, s] + TCO_VAL[ce2, s] + ETS_VAL_SEC[ce2, s] if E[ce2,s] <> 0
 # 7777 
 # 7777 ## If effet_ETS_classique = 1 (default setup),  then free allocations do not impact the demand of production factors
 # 7777 ## If effet_ETS_classique = 0, required allocations are reduced by the number of freely granted permits.
 # 7777 
-# 7777 delta_ETS_SEC[ce2, s] = (cover_rateETS[s] * EMS_SEC[ce2, s]) - (1 - effet_ETS_classique) * Q_ETS_free[s] * EMS_SEC[ce2, s] / EMS_SEC[s] if EMS_SEC[ce2, s] > 0
+
+##! Name var 2
+delta_ETS_SEC[ce2, s] = (cover_rateETS[s] * EMS_SEC[ce2, s]) - (1 - effet_ETS_classique) * Q_ETS_free[s] * EMS_SEC[ce2, s] / EMS_SEC[s] if EMS_SEC[ce2, s] > 0
 # 7777 
-# 7777 Q_ETS_free[s] = cover_ratefree[s] * cover_rateETS[s] * EMS_SEC[s]
+
+##! Name var 3
+Q_ETS_free[s] = cover_ratefree[s] * cover_rateETS[s] * EMS_SEC[s]
 # 7777 
 # 7777 P_ETS_nominal = (P_ETS/1000000) * PGDP
 # 7777 

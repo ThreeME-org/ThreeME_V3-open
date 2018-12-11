@@ -1,0 +1,85 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath}
+\usepackage{breqn}
+\numberwithin{equation}{section}
+\usepackage{longtable}
+\usepackage{booktabs}
+\begin{document}
+
+
+
+
+\section{Integration of the Emission Trading Scheme cost for covered sectors}
+
+
+
+
+
+\subsection{Scenario 1 : "price signal"}
+
+
+We overwrite the equation 5.15 of the price block in order to add the ETS cost (energy ce2 used in activity s). \\
+We only consider energy goods ce2 (and not ce) since intermediary consumption of electricity does not induce dioxyde emissions. \\
+
+\noindent\textbf{Name var 1} \\
+\begin{dmath}
+PE_{ce2, s} \; E_{ce2, s} = PED_{ce2} \; ED_{ce2, s} + PEM_{ce2} \; EM_{ce2, s} + TCO^{VAL}_{ce2, s} + ETS^{VAL,SEC}_{ce2, s}
+\end{dmath}
+
+
+
+
+
+\noindent\textbf{Name var 2} \\
+\begin{dmath}
+delta^{ETS,SEC}_{ce2, s} = \left( cover^{rateETS}_{s} \; EMS^{SEC}_{ce2, s} \right) - \left( 1 - effet^{ETS,classique} \right) . Q^{ETS,free}_{s} \; \frac{EMS^{SEC}_{ce2, s}}{EMS^{SEC}_{s}}
+\end{dmath}
+
+
+\noindent\textbf{Name var 3} \\
+\begin{dmath}
+Q^{ETS,free}_{s} = cover^{ratefree}_{s} \; cover^{rateETS}_{s} \; EMS^{SEC}_{s}
+\end{dmath}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\newpage
+        \section{Glossary}
+        \normalsize
+        \begin{longtable}{@{}p{4cm}p{9cm}@{}} 
+$elta^{ETS,SEC}_{ce2, s}$ & Name var 2 \\
+ \midrule 
+$PE_{ce2, s}$ & Name var 1 \\
+ \midrule 
+$Q^{ETS,free}_{s}$ & Name var 3 \\
+\end{longtable}
+\end{document}
