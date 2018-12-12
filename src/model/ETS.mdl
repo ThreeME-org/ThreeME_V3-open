@@ -1,51 +1,66 @@
-##### Integration of the Emission Trading Scheme cost for covered sectors
-# 7777 
+##### Integration of an Emission Trading Scheme
+# 7777
 #### Scenario 1 : "price signal"
 ## We overwrite the equation 5.15 of the price block in order to add the ETS cost (energy ce2 used in activity s). \\
 ## We only consider energy goods ce2 (and not ce) since intermediary consumption of electricity does not induce dioxyde emissions. \\
-# 7777 
+# 7777
 ##! Name var 1
 PE[ce2,s]*E[ce2,s] = PED[ce2]*ED[ce2, s] + PEM[ce2]*EM[ce2, s] + TCO_VAL[ce2, s] + ETS_VAL_SEC[ce2, s] if E[ce2,s] <> 0
-# 7777 
-# 7777 ## If effet_ETS_classique = 1 (default setup),  then free allocations do not impact the demand of production factors
-# 7777 ## If effet_ETS_classique = 0, required allocations are reduced by the number of freely granted permits.
-# 7777 
-
+# 7777
+# If effet_ETS_classique = 1 (default setup),  then free allocations do not impact the demand of production factors
+# If effet_ETS_classique = 0, required allocations are reduced by the number of freely granted permits.
+# 7777
+# 7777
 ##! Name var 2
 delta_ETS_SEC[ce2, s] = (cover_rateETS[s] * EMS_SEC[ce2, s]) - (1 - effet_ETS_classique) * Q_ETS_free[s] * EMS_SEC[ce2, s] / EMS_SEC[s] if EMS_SEC[ce2, s] > 0
-# 7777 
-
+# 7777
+# 7777
 ##! Name var 3
 Q_ETS_free[s] = cover_ratefree[s] * cover_rateETS[s] * EMS_SEC[s]
-# 7777 
-# 7777 P_ETS_nominal = (P_ETS/1000000) * PGDP
-# 7777 
-# 7777 ETS_VAL_SEC[ce2, s] = (P_ETS_nominal * delta_ETS_SEC[ce2, s]) if EMS_SEC[ce2, s] <> 0
-# 7777 
-# 7777 ETS_VAL_SEC[s] = sum(ETS_VAL_SEC[ce2, s] on ce2)
-# 7777 
-# 7777 ETS_VAL_TOT = sum(ETS_VAL_SEC[s] on s)
-# 7777 Rec_ETS_VAL = sum(ETS_VAL_SEC[s] where s in %list_ETS)
-# 7777 Rec_NETS_VAL = sum(ETS_VAL_SEC[s] where s in %list_NETS)
-# 7777 
+# 7777
+# 7777
+##! Name var 4
+P_ETS_nominal = (P_ETS/1000000) * PGDP
+# 7777
+# 7777
+##! Name var 5
+ETS_VAL_SEC[ce2, s] = (P_ETS_nominal * delta_ETS_SEC[ce2, s]) if EMS_SEC[ce2, s] <> 0
+# 7777
+# 7777
+##! Name var 6
+ETS_VAL_SEC[s] = sum(ETS_VAL_SEC[ce2, s] on ce2)
+# 7777
+# 7777
+##! Name var 7
+ETS_VAL_TOT = sum(ETS_VAL_SEC[s] on s)
+# 7777
+# 7777
+##! Name var 8
+Rec_ETS_VAL = sum(ETS_VAL_SEC[s] on s_ets)
+# 7777
+# 7777
+##! Name var 9
+Rec_NETS_VAL = sum(ETS_VAL_SEC[s] on s_nets)
+# 7777
+# 7777
 # 7777 #### Scenario 2 : implicit production subvention
 # 7777 ## We overwrite the equation 5.1 of the price block in order to consider the ETS as an implicit subvention on production:
 # 7777 ## Beware! PY_n depends on K,L,E,MAT (and not on K_n,L_n,E_n,MAT_n) since the model did not run otherwise. Could be modified if one finds a better solution.
+# 7777 PY_n[s]*Y[s] = (CK[s]*K[s] + CL[s]*L[s]*PROG_L[s] + PE[s]*E[s] + PMAT[s]*MAT[s] + PIY[s]*IY[s] + PSY[s]*SY[s] + PIS[s]*IS[s] - effet_ETS_classique*P_ETS_nominal*Q_ETS_free[s]) * (1 + TMD[s]) if Y[s] > 0 where s in %list_sec
 # 7777 ## If effet_ETS_classique = 1 (default setup), freely granted allocations are integrated as a subevntion on production.
 # 7777 ## If effet_ETS_classique = 0, freely granted allocations have no impact on the production price.
-# 7777 
-# 7777 PY_n[s]*Y[s] = (CK[s]*K[s] + CL[s]*L[s]*PROG_L[s] + PE[s]*E[s] + PMAT[s]*MAT[s] + PIY[s]*IY[s] + PSY[s]*SY[s] + PIS[s]*IS[s] - effet_ETS_classique*P_ETS_nominal*Q_ETS_free[s]) * (1 + TMD[s]) if Y[s] > 0 where s in %list_sec
-# 7777 
+# 7777
+# 7777
 # 7777 ## In order to activate the constant TMD option:
 # 7777 ## equation 5.5
 # 7777 d(log(1+TMD_n[s])) = 0 * ( d(log(Y[s])) - d(log(Y[s]{-1})) ) if Y[s] <> 0
-# 7777 
+# 7777
 # 7777 #### Government budget
 # 7777 ## We overwrite the equation 3.68 of the src\model\Mex_exceptions.mdl file in order to add the aggregated value of bought permits to the revenue of the government.
-# 7777 
+# 7777
 # 7777 REC_VAL = DIV_GOV_VAL + IR_VAL + AIC_VAL + INC_GOV_OTH_net - CL_S[sp] * L_S[sp] * PROG_L[sp] - CL_SE[sp] * L_SE[sp] * PROG_L[sp] + _
                 # 7777 value(Y[sp] + TAX + IY + IS + CSE_TOT + CSS_TOT - (E[sp] + MAT[sp] + IY[sp])) + ETS_VAL_TOT
-# 7777 
+# 7777
 # 7777 TCSE[s] = @elem(TCSE[s], %baseyear) - PHI_TCO_ETS*(Rec_TCO_Val_ETS+Rec_ETS_VAL) / WAGES_ETS where s in %list_ETS
 # 7777 TCSE[s] = @elem(TCSE[s], %baseyear) - PHI_TCO_NETS*(Rec_TCO_Val_NETS+Rec_NETS_VAL) / WAGES_NETS where s in %list_NETS
 # 7777 verif_TCO_VAL_SEC = (PHI_TCO_ETS*(Rec_TCO_Val_ETS+Rec_ETS_VAL) + PHI_TCO_NETS*(Rec_TCO_Val_NETS+Rec_NETS_VAL))- (CSE_bis * PCSE_bis - CSE * PCSE)

@@ -9,7 +9,7 @@
 
 
 
-\section{Integration of the Emission Trading Scheme cost for covered sectors}
+\section{Integration of an Emission Trading Scheme}
 
 
 
@@ -42,13 +42,40 @@ Q^{ETS,free}_{s} = cover^{ratefree}_{s} \; cover^{rateETS}_{s} \; EMS^{SEC}_{s}
 \end{dmath}
 
 
+\noindent\textbf{Name var 4} \\
+\begin{dmath}
+P^{ETS,nominal} = \left( \frac{P^{ETS}}{1000000} \right) . PGDP
+\end{dmath}
 
 
+\noindent\textbf{Name var 5} \\
+\begin{dmath}
+ETS^{VAL,SEC}_{ce2, s} = \left( P^{ETS,nominal} . delta^{ETS,SEC}_{ce2, s} \right)
+\end{dmath}
 
 
+\noindent\textbf{Name var 6} \\
+\begin{dmath}
+ETS^{VAL,SEC}_{s} = \sum_{ce2} ETS^{VAL,SEC}_{ce2, s}
+\end{dmath}
 
 
+\noindent\textbf{Name var 7} \\
+\begin{dmath}
+ETS^{VAL,TOT} = \sum_{s} ETS^{VAL,SEC}_{s}
+\end{dmath}
 
+
+\noindent\textbf{Name var 8} \\
+\begin{dmath}
+Rec^{ETS,VAL} = \sum_{s^{ets}} ETS^{VAL,SEC}_{s}
+\end{dmath}
+
+
+\noindent\textbf{Name var 9} \\
+\begin{dmath}
+Rec^{NETS,VAL} = \sum_{s^{nets}} ETS^{VAL,SEC}_{s}
+\end{dmath}
 
 
 
@@ -78,8 +105,20 @@ Q^{ETS,free}_{s} = cover^{ratefree}_{s} \; cover^{rateETS}_{s} \; EMS^{SEC}_{s}
         \begin{longtable}{@{}p{4cm}p{9cm}@{}} 
 $elta^{ETS,SEC}_{ce2, s}$ & Name var 2 \\
  \midrule 
+$ETS^{VAL,SEC}_{ce2, s}$ & Name var 5 \\
+ \midrule 
+$ETS^{VAL,SEC}_{s}$ & Name var 6 \\
+ \midrule 
+$ETS^{VAL,TOT}$ & Name var 7 \\
+ \midrule 
+$P^{ETS,nominal}$ & Name var 4 \\
+ \midrule 
 $PE_{ce2, s}$ & Name var 1 \\
  \midrule 
 $Q^{ETS,free}_{s}$ & Name var 3 \\
+ \midrule 
+$Rec^{ETS,VAL}$ & Name var 8 \\
+ \midrule 
+$Rec^{NETS,VAL}$ & Name var 9 \\
 \end{longtable}
 \end{document}
