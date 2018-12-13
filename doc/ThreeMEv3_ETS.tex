@@ -13,6 +13,40 @@
 
 
 
+\noindent\textbf{Quantity of freely allocation permits} \\
+\begin{dmath}
+Q^{ETS,free}_{s} = cover^{ratefree}_{s} \; cover^{rateETS}_{s} \; EMS^{SEC}_{s}
+\end{dmath}
+
+
+\noindent\textbf{Nominal price of emissions permits} \\
+\begin{dmath}
+P^{ETS,nominal} = \left( \frac{P^{ETS}}{1000000} \right) . PGDP
+\end{dmath}
+
+
+\noindent\textbf{Quantity of emissions permits needed by sector s due to its ce2 energy consumption} \\
+\begin{dmath}
+delta^{ETS,SEC}_{ce2, s} = \left( cover^{rateETS}_{s} \; EMS^{SEC}_{ce2, s} \right) - \left( 1 - effet^{ETS,classique} \right) . Q^{ETS,free}_{s} \; \frac{EMS^{SEC}_{ce2, s}}{EMS^{SEC}_{s}}
+\end{dmath}
+
+\noindent\textbf{Nominal value of emissions permits bought by sector s due to ce2 consumption} \\
+\begin{dmath}
+ETS^{VAL,SEC}_{ce2, s} = \left( P^{ETS,nominal} . delta^{ETS,SEC}_{ce2, s} \right)
+\end{dmath}
+
+
+\noindent\textbf{Nominal value of emissions permits bought by sector s} \\
+\begin{dmath}
+ETS^{VAL,SEC}_{s} = \sum_{ce2} ETS^{VAL,SEC}_{ce2, s}
+\end{dmath}
+
+
+\noindent\textbf{Total nominal value of emissions permits in the economy} \\
+\begin{dmath}
+ETS^{VAL,TOT} = \sum_{s} ETS^{VAL,SEC}_{s}
+\end{dmath}
+
 
 
 \subsection{Scenario 1 : "price signal"}
@@ -21,7 +55,7 @@
 We overwrite the equation 5.15 of the price block in order to add the ETS cost (energy ce2 used in activity s). \\
 We only consider energy goods ce2 (and not ce) since intermediary consumption of electricity does not induce dioxyde emissions. \\
 
-\noindent\textbf{Name var 1} \\
+\noindent\textbf{Price of energy ce2 in sector s} \\
 \begin{dmath}
 PE_{ce2, s} \; E_{ce2, s} = PED_{ce2} \; ED_{ce2, s} + PEM_{ce2} \; EM_{ce2, s} + TCO^{VAL}_{ce2, s} + ETS^{VAL,SEC}_{ce2, s}
 \end{dmath}
@@ -30,40 +64,18 @@ PE_{ce2, s} \; E_{ce2, s} = PED_{ce2} \; ED_{ce2, s} + PEM_{ce2} \; EM_{ce2, s} 
 
 
 
-\noindent\textbf{Name var 2} \\
-\begin{dmath}
-delta^{ETS,SEC}_{ce2, s} = \left( cover^{rateETS}_{s} \; EMS^{SEC}_{ce2, s} \right) - \left( 1 - effet^{ETS,classique} \right) . Q^{ETS,free}_{s} \; \frac{EMS^{SEC}_{ce2, s}}{EMS^{SEC}_{s}}
-\end{dmath}
 
 
-\noindent\textbf{Name var 3} \\
-\begin{dmath}
-Q^{ETS,free}_{s} = cover^{ratefree}_{s} \; cover^{rateETS}_{s} \; EMS^{SEC}_{s}
-\end{dmath}
 
 
-\noindent\textbf{Name var 4} \\
-\begin{dmath}
-P^{ETS,nominal} = \left( \frac{P^{ETS}}{1000000} \right) . PGDP
-\end{dmath}
 
 
-\noindent\textbf{Name var 5} \\
-\begin{dmath}
-ETS^{VAL,SEC}_{ce2, s} = \left( P^{ETS,nominal} . delta^{ETS,SEC}_{ce2, s} \right)
-\end{dmath}
 
 
-\noindent\textbf{Name var 6} \\
-\begin{dmath}
-ETS^{VAL,SEC}_{s} = \sum_{ce2} ETS^{VAL,SEC}_{ce2, s}
-\end{dmath}
 
 
-\noindent\textbf{Name var 7} \\
-\begin{dmath}
-ETS^{VAL,TOT} = \sum_{s} ETS^{VAL,SEC}_{s}
-\end{dmath}
+
+
 
 
 \noindent\textbf{Name var 8} \\
@@ -85,37 +97,23 @@ Rec^{NETS,VAL} = \sum_{s^{nets}} ETS^{VAL,SEC}_{s}
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 \newpage
         \section{Glossary}
         \normalsize
         \begin{longtable}{@{}p{4cm}p{9cm}@{}} 
-$elta^{ETS,SEC}_{ce2, s}$ & Name var 2 \\
+$elta^{ETS,SEC}_{ce2, s}$ & Quantity of emissions permits needed by sector s due to its ce2 energy consumption \\
  \midrule 
-$ETS^{VAL,SEC}_{ce2, s}$ & Name var 5 \\
+$ETS^{VAL,SEC}_{ce2, s}$ & Nominal value of emissions permits bought by sector s due to ce2 consumption \\
  \midrule 
-$ETS^{VAL,SEC}_{s}$ & Name var 6 \\
+$ETS^{VAL,SEC}_{s}$ & Nominal value of emissions permits bought by sector s \\
  \midrule 
-$ETS^{VAL,TOT}$ & Name var 7 \\
+$ETS^{VAL,TOT}$ & Total nominal value of emissions permits in the economy \\
  \midrule 
-$P^{ETS,nominal}$ & Name var 4 \\
+$P^{ETS,nominal}$ & Nominal price of emissions permits \\
  \midrule 
-$PE_{ce2, s}$ & Name var 1 \\
+$PE_{ce2, s}$ & Price of energy ce2 in sector s \\
  \midrule 
-$Q^{ETS,free}_{s}$ & Name var 3 \\
+$Q^{ETS,free}_{s}$ & Quantity of freely allocation permits \\
  \midrule 
 $Rec^{ETS,VAL}$ & Name var 8 \\
  \midrule 
