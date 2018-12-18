@@ -1,13 +1,13 @@
-' ============================================================================ 
+' ============================================================================
 ' Series of subroutines used to run the model
 
 ' 'User defined subroutine (multi-scenarios, solver, targets, etc.)
-' ============================================================================ 
+' ============================================================================
 
-' ============================================================================ 
-' ============================================================================ 
+' ============================================================================
+' ============================================================================
 ' ============== RUN STANDARD SHOCKS =========================================
-' ============================================================================ 
+' ============================================================================
 
 ' The subroutines in this file set up the standard shocks used for comparing
 ' the model behaviour with other models.
@@ -28,12 +28,12 @@ subroutine run_standard(string %scenario_list)
     call standard_shock(%scenario)
     call solvemodel(%solveopt)
     %grp = "Results" + %scenario
-''    call standard_outputs(%grp, %index)
+    call standard_outputs(%grp, %index)
   next
 
   ' Output to Excel
-''  %path = @addquotes(@linepath + "..\..\results\results.vbs")
-  'shell(h) {%path}
+  %path = @addquotes(@linepath + "..\..\results\resultsStandardAll.vbs")
+  shell(h) {%path}
 
 endsub
 
@@ -44,7 +44,7 @@ subroutine standard_backup()
 
   for %s {%list_sec}
     series RRSC_bckp_{%s} = RRSC_{%s}
-  next  
+  next
 
 endsub
 
@@ -55,7 +55,7 @@ subroutine standard_restore_backup()
 
   for %s {%list_sec}
     RRSC_{%s} = RRSC_bckp_{%s}
-  next  
+  next
 endsub
 
 subroutine standard_shock(string %shock)
@@ -76,8 +76,8 @@ subroutine standard_shock(string %shock)
 
     for %s {%list_sec}
       RRSC_{%s} = RRSC_{%s} * (1 - 0.01 * @elem(GDP/RSC, %baseyear))
-    next  
-  
+    next
+
   endif
 
   ' 10% increase of the exchange rate
@@ -102,22 +102,22 @@ endsub
 
 
 
-' ============================================================================ 
-' ============================================================================ 
+' ============================================================================
+' ============================================================================
 
 subroutine usesolver
 
     wfopen {%wfname}
   'run the baseline scenario
   call run_scenario ("baseline")
-  
+
   'to calibrate the baseline scenario on the past period'
   call load_xl("YQ_tgt", "series")
-  
+
  'for %s 03 04 06
   'a_3me.control WD_03 YQ_03 YQ_03_tgt
- 'next 
-  
+ 'next
+
   smpl @all
   series growth03 = 0.3
   series growth04 = 0.4
@@ -126,13 +126,13 @@ subroutine usesolver
   group controls_grp    WD_07 WD_08
   group growths_grp   growth03 growth03
   {%modelname}.fit objectives_grp controls_grp growths_grp 2006 2011 5
-  
+
     'call calibrate_scenario("SCEN_ENR_100_2", "SCEN_ENR_100_Targets")
 
 endsub
 
-' ============================================================================ 
-' ============================================================================ 
+' ============================================================================
+' ============================================================================
 
 subroutine run_enr(string %scenario)
   wfopen {%wfname}
@@ -171,10 +171,10 @@ subroutine run_enr(string %scenario)
    ER_Agriculture_2 ER_Indus_2 ER_Residential_2 ER_Tertiary_2 ER_Trans_Private_2 ER_Trans_Public_2  ER_Auto_2 ER_AUTO_A_2 ER_AUTO_B_2 ER_AUTO_C_2 ER_AUTO_D_2 ER_AUTO_E_2 ER_AUTO_F_2 ER_AUTO_G_2 ER_Auto_Coal_2 ER_Auto_Oil_2 ER_Auto_Elec_2 ER_Auto_Gas_2 _
    Share_NEWAUTO_CA_2 Share_NEWAUTO_CB_2 Share_NEWAUTO_CC_2 Share_NEWAUTO_CD_2 Share_NEWAUTO_CE_2 Share_NEWAUTO_CF_2 Share_NEWAUTO_CG_2  ER_Agriculture_coal_2 ER_Indus_coal_2 ER_Residential_coal_2 ER_Tertiary_coal_2 ER_Trans_Private_coal_2 ER_Trans_Public_coal_2 ER_Agriculture_oil_2 ER_Indus_oil_2 ER_Residential_oil_2 ER_Tertiary_oil_2 ER_Trans_Private_oil_2 ER_Trans_Public_oil_2 _
    ER_Agriculture_elec_2 ER_Indus_elec_2 ER_Residential_elec_2 ER_Tertiary_elec_2 ER_Trans_Private_elec_2 ER_Trans_Public_elec_2  ER_Agriculture_gas_2 ER_Indus_gas_2 ER_Residential_gas_2 ER_Tertiary_gas_2 ER_Trans_Private_gas_2 ER_Trans_Public_gas_2 _
-   ER_buil_2 ER_buil_A_2 ER_buil_B_2 ER_buil_C_2 ER_buil_D_2 ER_buil_E_2 ER_buil_F_2 ER_buil_G_2	
+   ER_buil_2 ER_buil_A_2 ER_buil_B_2 ER_buil_C_2 ER_buil_D_2 ER_buil_E_2 ER_buil_F_2 ER_buil_G_2
   Reporting_2.sheet(t)
   show Reporting_2
-  
+
    group Reporting_0 ER_oil_0 ER_oil_2201_0 ER_Oil_2202_0 ER_elec_2301_0 ER_elec_2302_0 ER_elec_2303_0 ER_elec_2304_0 ER_elec_2305_0 ER_elec_2306_0 ER_elec_2307_0 ER_elec_2308_0 ER_elec_0 ER_gas_0 ER_gas_2401_0 ER_gas_2402_0 ER_gas_2403_0 ER_gas_2404_0 ER_gas_2405_0 ER_gas_2406_0 ER_coal_0 ER_Total_0 _
    ER_ep_oil_0 ER_ep_oil_2201_0 ER_ep_Oil_2202_0 ER_ep_elec_2301_0 ER_ep_elec_2302_0 ER_ep_elec_2303_0 ER_ep_elec_2304_0 ER_ep_elec_2305_0 ER_ep_elec_2306_0 ER_ep_elec_2307_0 ER_ep_elec_2308_0 ER_ep_elec_0 ER_ep_gas_0 ER_ep_gas_2401_0 ER_ep_gas_2402_0 ER_ep_gas_2403_0 ER_ep_gas_2404_0 ER_ep_gas_2405_0 ER_ep_gas_2406_0 ER_ep_coal_0 ER_ep_Total_0 _
    ER_Agriculture_0 ER_Indus_0 ER_Residential_0 ER_Tertiary_0 ER_Trans_Private_0 ER_Trans_Public_0  ER_Auto_0 ER_AUTO_A_0 ER_AUTO_B_0 ER_AUTO_C_0 ER_AUTO_D_0 ER_AUTO_E_0 ER_AUTO_F_0 ER_AUTO_G_0 ER_Auto_Coal_0 ER_Auto_Oil_0 ER_Auto_Elec_0 ER_Auto_Gas_0 _
@@ -183,11 +183,11 @@ subroutine run_enr(string %scenario)
    ER_buil_0 ER_buil_A_0 ER_buil_B_0 ER_buil_C_0 ER_buil_D_0 ER_buil_E_0 ER_buil_F_0 ER_buil_G_0
  ' Reporting_0.sheet(t)
   'show Reporting_0
-   
+
 endsub
 
-' ============================================================================ 
-' ============================================================================ 
+' ============================================================================
+' ============================================================================
 
 subroutine calibrate_scenario(string %scenario, string %targets)
 
@@ -223,5 +223,3 @@ subroutine calibrate_scenario(string %scenario, string %targets)
   '{%modelname}.fit objective_grp controls_grp growth_grp 2010 2050 5
 
 endsub
-
-

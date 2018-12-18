@@ -26,12 +26,12 @@ endsub
 subroutine standard_outputs(string %grp_name, string %index)
 
   smpl 2007 2007 2008 2008 2009 2009 2011 2011 2016 2016 2041 2041
-  group {%grp_name} 100*(GDP_{%index}/GDP_0-1) 100*(VA_19_{%index}/VA_19_0-1) 100*(CH_{%index}/CH_0-1) 100*(IA_{%index}/IA_0-1) 100*((IA_{%index}-IA_20_{%index})/(IA_0-IA_20_0)-1) 100*(X_{%index}/X_0-1) 100*(M_{%index}/M_0-1) 100*(PCH_{%index}/PCH_0-1) 100*(PY_{%index}/PY_0-1) 100*((W_{%index}/PCH_{%index})/(W_0/PCH_0)-1) 100*((CL_{%index}/PVA_{%index})/(CL_0/PVA_0)-1) L_{%index}-L_0 100*(UNR_TOT_{%index}-UNR_TOT_0) 100*((PX_{%index}*X_{%index}-PM_{%index}*M_{%index})/(PGDP_{%index}*GDP_{%index})-(PX_0*X_0-PM_0*M_0)/(PGDP_0*GDP_0)) 100*(EMS_TOT_{%index}/EMS_TOT_0-1)
+  group {%grp_name} 100*(GDP_{%index}/GDP_0-1) 100*(VA_spri_{%index}/VA_spri_0-1) 100*(CH_{%index}/CH_0-1) 100*(IA_{%index}/IA_0-1) 100*((IA_{%index}-IA_20_{%index})/(IA_0-IA_20_0)-1) 100*(X_{%index}/X_0-1) 100*(M_{%index}/M_0-1) 100*(PCH_{%index}/PCH_0-1) 100*(PY_{%index}/PY_0-1) 100*((W_{%index}/PCH_{%index})/(W_0/PCH_0)-1) 100*((CL_{%index}/PVA_{%index})/(CL_0/PVA_0)-1) L_{%index}-L_0 100*(UNR_TOT_{%index}-UNR_TOT_0) 100*((PX_{%index}*X_{%index}-PM_{%index}*M_{%index})/(PGDP_{%index}*GDP_{%index})-(PX_0*X_0-PM_0*M_0)/(PGDP_0*GDP_0)) 100*(EMS_TOT_{%index}/EMS_TOT_0-1)
   freeze(mode = overwrite, tab_results) {%grp_name}
   tab_results.save(t=txt) .\..\..\results\standard\{%grp_name}.txt
 
   smpl @all
-  group {%grp_name}_all 100*(GDP_{%index}/GDP_0-1) 100*(VA_19_{%index}/VA_19_0-1) 100*(CH_{%index}/CH_0-1) 100*(IA_{%index}/IA_0-1) 100*((IA_{%index}-IA_20_{%index})/(IA_0-IA_20_0)-1) 100*(X_{%index}/X_0-1) 100*(M_{%index}/M_0-1) 100*(PCH_{%index}/PCH_0-1) 100*(PY_{%index}/PY_0-1) 100*((W_{%index}/PCH_{%index})/(W_0/PCH_0)-1) 100*((CL_{%index}/PVA_{%index})/(CL_0/PVA_0)-1) L_{%index}-L_0 100*(UNR_TOT_{%index}-UNR_TOT_0) 100*((PX_{%index}*X_{%index}-PM_{%index}*M_{%index})/(PGDP_{%index}*GDP_{%index})-(PX_0*X_0-PM_0*M_0)/(PGDP_0*GDP_0)) 100*(EMS_TOT_{%index}/EMS_TOT_0-1)
+  group {%grp_name}_all 100*(GDP_{%index}/GDP_0-1) 100*(VA_spri_{%index}/VA_spri_0-1) 100*(CH_{%index}/CH_0-1) 100*(IA_{%index}/IA_0-1) 100*((IA_{%index}-IA_20_{%index})/(IA_0-IA_20_0)-1) 100*(X_{%index}/X_0-1) 100*(M_{%index}/M_0-1) 100*(PCH_{%index}/PCH_0-1) 100*(PY_{%index}/PY_0-1) 100*((W_{%index}/PCH_{%index})/(W_0/PCH_0)-1) 100*((CL_{%index}/PVA_{%index})/(CL_0/PVA_0)-1) L_{%index}-L_0 100*(UNR_TOT_{%index}-UNR_TOT_0) 100*((PX_{%index}*X_{%index}-PM_{%index}*M_{%index})/(PGDP_{%index}*GDP_{%index})-(PX_0*X_0-PM_0*M_0)/(PGDP_0*GDP_0)) 100*(EMS_TOT_{%index}/EMS_TOT_0-1)
   freeze(mode = overwrite, tab_results) {%grp_name}_all
   tab_results.save(t=txt) .\..\..\results\standard\{%grp_name}_all.txt
 
@@ -69,7 +69,7 @@ For %_x _0 _1
       show  a_graph_macro{%_x}
 
 
-      graph a_graph_macroprice{%_x}.line(m) 100*@PCHY(PCH{%_x}) 100*@PCHY(PYQ{%_x}) 100*@PCHY(PX{%_x}) 100*@PCHY(PM{%_x}) 100*@PCHY(W{%_x}/PCH{%_x}) 100*@PCHY(C_L{%_x}/PY{%_x}) 100*r{%_x} 
+      graph a_graph_macroprice{%_x}.line(m) 100*@PCHY(PCH{%_x}) 100*@PCHY(PYQ{%_x}) 100*@PCHY(PX{%_x}) 100*@PCHY(PM{%_x}) 100*@PCHY(W{%_x}/PCH{%_x}) 100*@PCHY(C_L{%_x}/PY{%_x}) 100*r{%_x}
 
       show  a_graph_macroprice{%_x}
 
@@ -81,7 +81,7 @@ next
 
       graph a_graph_macro_2L.line(m) 100*(PCH_1/PCH_0-1) 100*((W_1/PCH_1)/(W_0/PCH_0)-1) 100*(r_1-r_0) 100*(r_1-@PCH(PCH_1)-(r_0-@PCH(PCH_0))) 100*(PY_1/PY_0-1) 100*(PX_1/PX_0-1) 100*(PM_1/PM_0-1)  100*((C_L_1/PY_1)/(C_L_0/PY_0)-1)
 
-      show  a_graph_macro_2L 
+      show  a_graph_macro_2L
 
       show  GDP_1 CH_1 I_1 X_1 M_1 P_1 PQD_CCON_1 rsav_g_val_1 subcd_cagr_1
 
@@ -92,12 +92,12 @@ next
 
 For %_x _0
 
-      graph a_graph_hybrid{%_x}.line(m) BUIL_CA{%_x} BUIL_CB{%_x} BUIL_CC{%_x} BUIL_CD{%_x} BUIL_CE{%_x} BUIL_CF{%_x} BUIL_CG{%_x} BUIL_DES{%_x} 
+      graph a_graph_hybrid{%_x}.line(m) BUIL_CA{%_x} BUIL_CB{%_x} BUIL_CC{%_x} BUIL_CD{%_x} BUIL_CE{%_x} BUIL_CF{%_x} BUIL_CG{%_x} BUIL_DES{%_x}
 
       show  a_graph_hybrid{%_x}
 next
 
-      'graph a_graph_macro_1L.line(m) 100*(GDP_1/GDP_0-1) 
+      'graph a_graph_macro_1L.line(m) 100*(GDP_1/GDP_0-1)
 
       'show  a_graph_macro_1L
 

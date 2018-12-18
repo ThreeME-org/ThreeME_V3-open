@@ -53,7 +53,7 @@ if %load="new"  then
 
 
 ''    {%modelname}.series round0 Prices_data SU_data Special_data Other_data Exception_taxes_prices_data Exception_NestedCES_data Exception_Hybrid_data
-    
+
     ' Export all variables to a csv file (used by the external compiler)
     call export_all_to_csv
 
@@ -104,7 +104,8 @@ endif
 
 ''       call run_standard("RSC1")
 ''       call run_standard("EXPG1")
-       call run_standard("EXR10")
+       call run_standard("EXR10 EXPG1 RSSC1")
+      '' call output_template("EXR10")
 
 
 
@@ -112,7 +113,7 @@ endif
 
   ' ***************************************
   ' Call (eventually) here the subroutine you want to use to analyse the results
-    call additional_outputs("Fred")
+  ' call additional_outputs("Fred")
 ''    call additional_outputs("Fred_Hybrid")
   ' call output_template(%scenario_name)
 
