@@ -68,7 +68,7 @@ if %load="new"  then
     {%modelname}.addinit(v=n) @all
     ' Show all add factors
     group a_addfactors *_a
-    show a_addfactors
+  ''  show a_addfactors
 
     smpl @all
 
@@ -104,7 +104,7 @@ endif
 
 ''       call run_standard("RSC1")
 ''       call run_standard("EXPG1")
-       call run_standard("EXR10 EXPG1 RSSC1")
+       call run_standard("EXR10 EXPG1 RSSC1", 1)
       '' call output_template("EXR10")
 
 

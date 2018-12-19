@@ -17,7 +17,7 @@
 ' run after the baseline has been solved.
 
 
-subroutine run_standard(string %scenario_list)
+subroutine run_standard(string %scenario_list, scalar !excel)
 
   call standard_backup
 
@@ -28,12 +28,17 @@ subroutine run_standard(string %scenario_list)
     call standard_shock(%scenario)
     call solvemodel(%solveopt)
     %grp = "Results" + %scenario
-    call standard_outputs(%grp, %index)
+    call standard_outputs(%scenario, %grp, %index)
+    if !excel=0 then
+      show {%grp}
+    endif
   next
 
-  ' Output to Excel
-  %path = @addquotes(@linepath + "..\..\results\resultsStandardAll.vbs")
-  shell(h) {%path}
+  if !excel > 0 then
+    ' Output to Excel
+    %path = @addquotes(@linepath + "..\..\results\resultsStandard.vbs")
+    shell(h) {%path}
+  endif
 
 endsub
 
