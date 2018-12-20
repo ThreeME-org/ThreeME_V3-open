@@ -190,3 +190,33 @@ PSUBC   * SUBC   = PSUBCD  * SUBCD  + PSUBCM  * SUBCM                  if SUBC  
 
 ##! Aggregate subsidies on commodities
           SUBC   =           SUBCD  +           SUBCM                  if SUBC   <> 0
+
+##################################
+### Average tax rates
+
+##! Average VAT rate on domestically produced commodity
+RVATD = (PVATD * VATD) / (PCHD * CHD - PVATD   * VATD)
+
+##! Average rate of other taxes on domestically produced commodity
+ROTHCTD = POTHCTD * OTHCTD / (PYQ * YQ) 
+
+##! Average rate of subsidies on domestically produced commodity
+RSUBCD = PSUBCD  * SUBCD / YQ
+
+##! Average VAT rate on imported commodity
+RVATM = (PVATM * VATM) / (PCHM * CHM - PVATM * VATM)
+
+##! Average rate of other taxes on imported commodity
+ROTHCTM = POTHCTM * OTHCTM / (PM * M) 
+
+##! Average rate of subsidies on imported commodity
+RSUBCM = PSUBCM  * SUBCM / M        
+
+##! Average VAT rate
+RVAT = (PVAT * VAT) / (PCH * CH - PVAT   * VAT)
+
+##! Average rate of other taxes on commodity
+ROTHCT = POTHCT * OTHCT / (PYQ * YQ + PM * M) 
+
+##! Average rate of subsidies on commodity 
+RSUBC = PSUBC  * SUBC / (YQ  + M)        
