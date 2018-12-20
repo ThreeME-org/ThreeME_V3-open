@@ -51,6 +51,13 @@ subroutine standard_backup()
     series RRSC_bckp_{%s} = RRSC_{%s}
   next
 
+  series EXR_bckp = EXR
+  series RINC_SOC_TAX_bckp=RINC_SOC_TAX
+
+  for %c cagr cveh ccon crai croa cpri ccoa cele
+    series RVATD_bckp_{%c} = RVATD_{%c}
+    series RVATM_bckp_{%c} = RVATM_{%c}
+  next
 endsub
 
 subroutine standard_restore_backup()
@@ -61,6 +68,15 @@ subroutine standard_restore_backup()
   for %s {%list_sec}
     RRSC_{%s} = RRSC_bckp_{%s}
   next
+
+  series EXR = EXR_bckp
+  series RINC_SOC_TAX=RINC_SOC_TAX_bckp
+
+  for %c cagr cveh ccon crai croa cpri ccoa cele
+    series RVATD_{%c} = RVATD_bckp_{%c}
+    series RVATM_{%c} = RVATM_bckp_{%c}
+  next
+
 endsub
 
 subroutine standard_shock(string %shock)
@@ -92,20 +108,23 @@ subroutine standard_shock(string %shock)
 
   endif
 
-  ' Increase of income tax by 1% of ex ante GDP
-  if @lower(%shock) = "INCT10" then
+  ' Decrease of income tax by 1% of ex ante GDP
+  if @lower(%shock) = "inct10" then
 
-  RINC_SOC_TAX = RINC_SOC_TAX - 0.01 * @elem(GDP, %baseyear)
+    RINC_SOC_TAX = @elem((INC_SOC_TAX_VAL+ 0.01 * GDP)/DISPINC_BT_VAL, %baseyear)
 
   endif
 
   ' Increase of VAT by 1% of ex ante GDP
-  if @lower(%shock) = "VAT1" then
+  if @lower(%shock) = "vat1" then
 
-  RVAT = (PVAT * VAT + 0.01 * @elem(GDP, %baseyear) * PGDP)/(CH * (1 + RVAT))
+  series RVAT = (PVAT * VAT) / (PCH * CH - PVAT * VAT)
+  series RVAT_new = (PVAT * VAT + 0.01 * @elem(GDP, %baseyear) * PGDP)/(PCH * CH / (1 + RVAT))
+
   for %c cagr cveh ccon crai croa cpri ccoa cele
-  RVATD_{%c} = RVATD_{%c} * RVAT
-  RVATM_{%c} = RVATM_{%c} * RVAT
+    RVATD_{%c} = RVATD_{%c} * RVAT_new / RVAT
+    RVATM_{%c} = RVATM_{%c} * RVAT_new / RVAT
+  next
 
   endif
 
