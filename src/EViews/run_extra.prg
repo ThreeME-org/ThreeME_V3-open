@@ -85,12 +85,31 @@ subroutine standard_shock(string %shock)
 
   endif
 
-  ' 10% increase of the exchange rate
+  ' 10% decrease of the exchange rate
   if @lower(%shock) = "exr10" then
 
-    EXR = EXR * 1.1
+    EXR = EXR * 0.9
 
   endif
+
+  ' Increase of income tax by 1% of ex ante GDP
+  if @lower(%shock) = "INCT10" then
+
+  RINC_SOC_TAX = RINC_SOC_TAX - 0.01 * @elem(GDP, %baseyear)
+
+  endif
+
+  ' Increase of VAT by 1% of ex ante GDP
+  if @lower(%shock) = "VAT1" then
+
+  RVAT = (PVAT * VAT + 0.01 * @elem(GDP, %baseyear) * PGDP)/(CH * (1 + RVAT))
+  for %c cagr cveh ccon crai croa cpri ccoa cele
+  RVATD_{%c} = RVATD_{%c} * RVAT
+  RVATM_{%c} = RVATM_{%c} * RVAT
+
+  endif
+
+
 
 
 
