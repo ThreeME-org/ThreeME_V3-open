@@ -104,14 +104,14 @@ subroutine standard_shock(string %shock)
   ' 10% decrease of the exchange rate
   if @lower(%shock) = "exr10" then
 
-    EXR = EXR * 0.9
+    EXR = EXR * 1.1
 
   endif
 
   ' Decrease of income tax by 1% of ex ante GDP
   if @lower(%shock) = "inct10" then
 
-    RINC_SOC_TAX = @elem((INC_SOC_TAX_VAL+ 0.01 * GDP)/DISPINC_BT_VAL, %baseyear)
+    RINC_SOC_TAX = INC_SOC_TAX_VAL/DISPINC_BT_VAL - @elem(0.01 * GDP/DISPINC_BT_VAL, %baseyear)
 
   endif
 
