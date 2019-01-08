@@ -58,6 +58,10 @@ subroutine standard_backup()
     series RVATD_bckp_{%c} = RVATD_{%c}
     series RVATM_bckp_{%c} = RVATM_{%c}
   next
+
+  for %c {%list_com}
+    series WD_bckp_{%c} = WD_{%c}
+  next
 endsub
 
 subroutine standard_restore_backup()
@@ -77,6 +81,9 @@ subroutine standard_restore_backup()
     series RVATM_{%c} = RVATM_bckp_{%c}
   next
 
+  for %c {%list_com}
+    series WD_{%c} = WD_bckp_{%c}
+  next
 endsub
 
 subroutine standard_shock(string %shock)
@@ -125,6 +132,15 @@ subroutine standard_shock(string %shock)
     RVATD_{%c} = RVATD_{%c} * RVAT_new / RVAT
     RVATM_{%c} = RVATM_{%c} * RVAT_new / RVAT
   next
+
+  endif
+
+  ' 1% permanent increase of the world demand
+  if @lower(%shock) = "wd1" then
+
+    for %c {%list_com}
+      WD_{%c} = WD_{%c} * 1.1
+    next
 
   endif
 
