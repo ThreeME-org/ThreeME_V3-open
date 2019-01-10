@@ -104,7 +104,7 @@ endif
 
 ''       call run_standard("RSC1")
 ''       call run_standard("EXPG1")
-       call run_standard("EXR10 EXPG1 RSSC1 INCT10 VAT1 WD1", 1)
+       call run_standard("EXR10 EXPG1 RSSC1 INCT10 VAT1 WD1 FF10", 1)
       '' call output_template("EXR10")
 
 

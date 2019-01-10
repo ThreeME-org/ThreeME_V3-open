@@ -62,6 +62,8 @@ subroutine standard_backup()
   for %c {%list_com}
     series WD_bckp_{%c} = WD_{%c}
   next
+
+  series PWD_ccoa_bckp = PWD_ccoa
 endsub
 
 subroutine standard_restore_backup()
@@ -84,6 +86,8 @@ subroutine standard_restore_backup()
   for %c {%list_com}
     series WD_{%c} = WD_bckp_{%c}
   next
+
+  series PWD_ccoa = PWD_ccoa_bckp
 endsub
 
 subroutine standard_shock(string %shock)
@@ -125,12 +129,12 @@ subroutine standard_shock(string %shock)
   ' Increase of VAT by 1% of ex ante GDP
   if @lower(%shock) = "vat1" then
 
-  series RVAT = (PVAT * VAT) / (PCH * CH - PVAT * VAT)
-  series RVAT_new = (PVAT * VAT + 0.01 * @elem(GDP, %baseyear) * PGDP)/(PCH * CH / (1 + RVAT))
+  series RVAT_shock = (PVAT * VAT) / (PCH * CH - PVAT * VAT)
+  series RVAT_shock_new = (PVAT * VAT + 0.01 * @elem(GDP, %baseyear) * PGDP)/(PCH * CH / (1 + RVAT_shock))
 
   for %c cagr cveh ccon crai croa cpri ccoa cele
-    RVATD_{%c} = RVATD_{%c} * RVAT_new / RVAT
-    RVATM_{%c} = RVATM_{%c} * RVAT_new / RVAT
+    RVATD_{%c} = RVATD_{%c} * RVAT_shock_new / RVAT_shock
+    RVATM_{%c} = RVATM_{%c} * RVAT_shock_new / RVAT_shock
   next
 
   endif
@@ -144,6 +148,14 @@ subroutine standard_shock(string %shock)
 
   endif
 
+
+  ' 10% increase of fossil fuel prices
+  if @lower(%shock) = "ff10" then
+
+  PWD_ccoa = PWD_ccoa * 1.1
+
+
+  endif
 
 
 
