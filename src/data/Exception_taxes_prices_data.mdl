@@ -13,7 +13,7 @@ RVATM[c] := VATM[c] / (CHM[c] - VATM[c] + eps)
 ROTHCTM[c] := OTHCTM[c] / (M[c] + eps)
 
 # Subsidy on quantities: the rate increases (in absolute value!) with the price (necessary for a steady state)
-RSUBCD[c] := SUBCD[c] / (YQ[c] + eps) * P 
+RSUBCD[c] := SUBCD[c] / (YQ[c] + eps) * P
 
 RSUBCM[c] := SUBCM[c] / (M[c] + eps) * P
 
@@ -32,3 +32,12 @@ SUBCM := sum(SUBCM[c] on c)
 VAT := VATD + VATM
 OTHCT := OTHCTD + OTHCTM
 SUBC := SUBCD + SUBCM
+
+NTAXCD_VAL[c] := PVATD[c] * VATD[c] + POTHCTD[c] * OTHCTD[c] + PSUBCD[c] * SUBCD[c]  + TCO2_VAL_CH[c] * CHD[c]/CH[c] + TCO2_VAL_CI[c] * CID[c]/CI[c]   if NTAXCD_VAL[c] <> 0
+NTAXCD[c] := VATD[c] +              OTHCTD[c] +             SUBCD[c]   +   (TCO2_VAL_CH[c] * CHD[c]/CH[c])/PCH[c] + (TCO2_VAL_CI[c] * CID[c]/CI[c])/PCI[c]  if NTAXCD[c]     <> 0
+NTAXS_VAL[s] := RNTAXS[s]	* PY[s]	    * Y[s] + TCO2_VAL_MAT[s] + TCO2_VAL_Y[s]
+NTAXS[s] := @elem(RNTAXS[s], %baseyear)  * Y[s] + (TCO2_VAL_MAT[s] + TCO2_VAL_Y[s])/PY[s]
+PCID[c, s] := PYQSBVAT[c] + TCO2_VAL_CI[c,s] / CI[c,s]                    if CID[c, s] <> 0
+PCIM[c, s] := PMSBVAT[c]  + TCO2_VAL_CI[c,s] / CI[c,s]                    if CIM[c, s] <> 0
+PCHD[c] := PYQSBVAT[c] * (1 + RVATD[c]) / (1 + @elem(RVATD[c], %baseyear)) + TCO_VAL_CH[c] / CH[c] if CHD[c]    <> 0
+PCHM[c] := PMSBVAT[c]  * (1 + RVATM[c]) / (1 + @elem(RVATM[c], %baseyear)) + TCO_VAL_CH[c] / CH[c] if CHM[c]    <> 0
