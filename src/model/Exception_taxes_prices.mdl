@@ -10,10 +10,12 @@
 ### Average tax rates on commodities
 
 ##! Net taxes on domestically produced commodity $c$ expressed in value
-@over NTAXCD_VAL[c] = PVATD[c] * VATD[c] + POTHCTD[c] * OTHCTD[c] + PSUBCD[c] * SUBCD[c]  + TCO2_VAL_CH[c] * CHD[c]/CH[c] + TCO2_VAL_CI[c] * CID[c]/CI[c]   if NTAXCD_VAL[c] <> 0
+@over NTAXCD_VAL[c] = PVATD[c] * VATD[c] + POTHCTD[c] * OTHCTD[c] + PSUBCD[c] * SUBCD[c]   if NTAXCD_VAL[c] <> 0
+# @over NTAXCD_VAL[c] = PVATD[c] * VATD[c] + POTHCTD[c] * OTHCTD[c] + PSUBCD[c] * SUBCD[c]  + TCO2_VAL_CH[c] * CHD[c]/CH[c] + TCO2_VAL_CI[c] * CID[c]/CI[c]   if NTAXCD_VAL[c] <> 0
 
 ##! Net taxes on domestically produced commodity $c$
-@over NTAXCD[c]     =            VATD[c] +              OTHCTD[c] +             SUBCD[c]   +   (TCO2_VAL_CH[c] * CHD[c]/CH[c])/PCH[c] + (TCO2_VAL_CI[c] * CID[c]/CI[c])/PCI[c]  if NTAXCD[c]     <> 0
+@over NTAXCD[c]     =            VATD[c] +              OTHCTD[c] +             SUBCD[c]    if NTAXCD[c]     <> 0
+# @over NTAXCD[c]     =            VATD[c] +              OTHCTD[c] +             SUBCD[c]   +   (TCO2_VAL_CH[c] * CHD[c]/CH[c])/PCH[c] + (TCO2_VAL_CI[c] * CID[c]/CI[c])/PCI[c]  if NTAXCD[c]     <> 0
 
 ## This is not defined by simply assuming a constant rate over the production value : $NTAXCD_VAL[c] = RNTAXCD[c]*PYQ[c]*YQ[c]$. Different taxes are now defined depending on their basis. \\
 
@@ -100,16 +102,20 @@ d(log(MSBVAT[c] )) = d(log(M[c] ))                                              
 @over PMGSM[c]   = PMSBVAT[c]                                                      if MGSM[c]   <> 0
 
 ##! Price of intermediary raw material consumption domestically produced $c$ of sector $s$
-@over PCID[c, s] = PYQSBVAT[c] + TCO2_VAL_CI[c,s] / CI[c,s]                    if CID[c, s] <> 0
+@over PCID[c, s] = PYQSBVAT[c]                                                 if CID[c, s] <> 0
+# @over PCID[c, s] = PYQSBVAT[c] + TCO2_VAL_CI[c,s] / CI[c,s]                    if CID[c, s] <> 0
 
 ##! Price of the imported intermediary raw material consumption $c$ of sector $s$
-@over PCIM[c, s] = PMSBVAT[c]  + TCO2_VAL_CI[c,s] / CI[c,s]                    if CIM[c, s] <> 0
+@over PCIM[c, s] = PMSBVAT[c]                                                  if CIM[c, s] <> 0
+# @over PCIM[c, s] = PMSBVAT[c]  + TCO2_VAL_CI[c,s] / CI[c,s]                    if CIM[c, s] <> 0
 
 ##! Price for households final consumption of domestically produced commodity $c$
-@over PCHD[c]    = PYQSBVAT[c] * (1 + RVATD[c]) / (1 + @elem(RVATD[c], %baseyear)) + TCO_VAL_CH[c] / CH[c] if CHD[c]    <> 0
+@over PCHD[c]    = PYQSBVAT[c] * (1 + RVATD[c]) / (1 + @elem(RVATD[c], %baseyear))                           if CHD[c]    <> 0
+# @over PCHD[c]    = PYQSBVAT[c] * (1 + RVATD[c]) / (1 + @elem(RVATD[c], %baseyear)) + TCO_VAL_CH[c] / CH[c] if CHD[c]    <> 0
 
 ##! Price for households final consumption of Imported commodity $c$
-@over PCHM[c]    = PMSBVAT[c]  * (1 + RVATM[c]) / (1 + @elem(RVATM[c], %baseyear)) + TCO_VAL_CH[c] / CH[c] if CHM[c]    <> 0
+@over PCHM[c]    = PMSBVAT[c]  * (1 + RVATM[c]) / (1 + @elem(RVATM[c], %baseyear))                           if CHM[c]    <> 0
+# @over PCHM[c]    = PMSBVAT[c]  * (1 + RVATM[c]) / (1 + @elem(RVATM[c], %baseyear)) + TCO_VAL_CH[c] / CH[c] if CHM[c]    <> 0
 
 ##! Market price for government final consumption of domestically produced commodity $c$
 @over PGD[c]     = PYQSBVAT[c]                                                     if GD[c]     <> 0
@@ -194,7 +200,7 @@ PSUBC   * SUBC   = PSUBCD  * SUBCD  + PSUBCM  * SUBCM                  if SUBC  
 ##################################
 
 ##! Net taxes on the production of sector $s$ expressed in value
-@over NTAXS_VAL[s] 	 = 			 RNTAXS[s]	* PY[s]	    * Y[s] + TCO2_VAL_MAT[s] + TCO2_VAL_Y[s]
+# @over NTAXS_VAL[s] 	 = 			 RNTAXS[s]	* PY[s]	    * Y[s] + TCO2_VAL_MAT[s] + TCO2_VAL_Y[s]
 
 ##! Net taxes on the production of sector $s$
-@over NTAXS[s] 		   = @elem(RNTAXS[s], %baseyear)  * Y[s] + (TCO2_VAL_MAT[s] + TCO2_VAL_Y[s])/PY[s]
+# @over NTAXS[s] 		   = @elem(RNTAXS[s], %baseyear)  * Y[s] + (TCO2_VAL_MAT[s] + TCO2_VAL_Y[s])/PY[s]
