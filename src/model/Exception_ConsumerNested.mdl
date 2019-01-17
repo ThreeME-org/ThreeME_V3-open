@@ -1,0 +1,57 @@
+##### Nested utilitity function for the consumer
+
+## This file provides the equations defining a nested 
+
+#          CH_n_VAL
+#		  / \    --> ES_NEST_MAT_KEL
+#		 CH_n[c]M	KEL
+#			/ \  --> ES_NEST_KE_L
+#		   KE  L
+#		   /\    --> ES_NEST_K_E
+#		  K  E
+#
+
+
+
+
+# ########################
+
+##! Households' final consumption $c$
+d(log(CH_HOUS_VAL)) =  d(log(CH_n_VAL))
+
+
+d(log(CH_HOUSINV_VAL/CH_HOUSENER_VAL)) = (1 - ES_HOUS_INV_ENER) * d(log(PCH_HOUSINV/PCH_HOUSENER))
+
+CH_HOUSENER_VAL = CH_HOUS_VAL - CH_HOUSINV_VAL 
+
+NCH[ccon] = CH_HOUSINV_VAL / PNCH[ccon]
+
+
+
+CH_HOUS[ce] * PCH_HOUS[ce] = phi_MCH_HOUS[ce] * CH_HOUSENER_VAL  if CH_HOUS[ce]  <> 0
+
+
+##! Share of commodity $c$ into the total marginal household consumption
+d(log(phi_MCH_HOUS[ce])) = (1 - ES_HOUS_ENER) * d(log(PCH_HOUS[ce] / PCH_HOUS_CES))     if phi_MCH_HOUS[ce] <> 0
+
+PCH_HOUS_CES  = (sum(@elem(phi_MCH_HOUS[ce], %baseyear) * phi_MCH_HOUS[ce] ^ (1 - ES_HOUS_ENER) on ce)) ^ (1 / (1 - ES_HOUS_ENER)) if ES_HOUS_ENER <> 1
+
+
+NCH[ce] = CH_HOUS[ce] + CH_TRSP[ce]
+
+
+
+
+
+
+#PCH_HOUSENER * CH_HOUSENER = sum(PCH_HOUS[ce] * CH_HOUS[ce] on ce)
+
+
+
+# d(log(CH_TRSP_VAL)) =  d(log(CH_n_VAL))
+
+
+##! Households' final consumption $c$
+
+
+

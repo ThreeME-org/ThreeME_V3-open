@@ -1,0 +1,50 @@
+include ..\model\lists
+
+@over NCH[c] := 1.0 * CH[c] where c in cveh ccon crai croa ccoa cele  # To be replaced by a list
+
+ES_HOUS_INV_ENER := 1
+ES_HOUS_ENER := 1
+
+CH_HOUSINV_VAL := P * NCH[ccon]
+CH_TRSPINV_VAL := P * NCH[cveh]
+
+CH_HOUS[ccoa] := 0.2 * NCH[ccoa]
+CH_HOUS[cele] := 0.8 * NCH[cele]
+
+CH_TRSP[ccoa] := NCH[ccoa] - CH_HOUS[ccoa]
+CH_TRSP[cele] := NCH[cele] - CH_HOUS[cele]
+
+
+# Special data (not from equation)
+
+
+CH_HOUS_VAL := CH_HOUSINV_VAL + CH_HOUSENER_VAL
+
+# CH_TRSP_VAL := PCH_TRSPINV * CH_TRSPINV + PCH_TRSPENER * CH_TRSPENER
+
+
+
+#PCH_TRSPENER * CH_TRSPENER := sum(PCH_TRSP[ce] * CH_TRSP[ce] on ce)
+
+
+#CH_HOUS := CH_HOUSINV + CH_HOUSENER
+
+CH_HOUSENER_VAL := sum(PCH_HOUS[ce] * CH_HOUS[ce] on ce)
+
+
+phi_MCH_HOUS[ce] := CH_HOUS[ce] * PCH_HOUS[ce] /  CH_HOUSENER_VAL  
+
+
+#CH_TRSP := CH_TRSPINV + CH_TRSPENER
+
+#CH_TRSPENER := sum(CH_TRSP[ce] on ce)
+
+PCH_HOUS_CES := P
+PCH_HOUS := P
+PCH_HOUSINV := P
+PCH_HOUSENER := P 
+PCH_HOUS[ce] := P
+PCH_TRSP := P
+PCH_TRSPINV := P
+PCH_TRSPENER := P
+PCH_TRSP[ce] := P
