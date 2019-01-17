@@ -19,7 +19,7 @@ include ..\model\Verif
 
 include ..\model\ghg_emissions
 
-# include ..\model\Exception_carbon_tax
+include ..\model\Exception_carbon_tax
 
 
 ## Exception files ALWAYS at the end because of the @over's
