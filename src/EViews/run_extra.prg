@@ -64,6 +64,20 @@ subroutine standard_backup()
   next
 
   series PWD_ccoa_bckp = PWD_ccoa
+
+  for %c {%list_com}
+    for %s {%list_sec}
+      series R2_CI_CO2_bckp_{%c}_{%s} = R2_CI_CO2_{%c}_{%s}
+    next
+  next
+
+  for %s {%list_sec}
+    series R2_MAT_CO2_bckp_{%s} = R2_MAT_CO2_{%s}
+  next
+
+  for %c {%list_com}
+    series R2_CH_CO2_bckp_{%c} = R2_CH_CO2_{%c}
+  next
 endsub
 
 subroutine standard_restore_backup()
@@ -88,6 +102,20 @@ subroutine standard_restore_backup()
   next
 
   series PWD_ccoa = PWD_ccoa_bckp
+
+  for %c {%list_com}
+    for %s {%list_sec}
+      series R2_CI_CO2_{%c}_{%s} = R2_CI_CO2_bckp_{%c}_{%s}
+    next
+  next
+
+  for %s {%list_sec}
+    series R2_MAT_CO2_{%s} = R2_MAT_CO2_bckp_{%s}
+  next
+
+  for %c {%list_com}
+    series R2_CH_CO2_{%c} = R2_CH_CO2_bckp_{%c}
+  next
 endsub
 
 subroutine standard_shock(string %shock)
@@ -154,6 +182,25 @@ subroutine standard_shock(string %shock)
 
   PWD_ccoa = PWD_ccoa * 1.1
 
+
+  endif
+
+  ' 1 GDP point increase of carbon tax
+  if @lower(%shock) = "ct1" then
+
+  for %c {%list_com}
+    for %s {%list_sec}
+      R2_CI_CO2_{%c}_{%s} = R2_CI_CO2_{%c}_{%s} + 0.01 * @elem(GDP, %baseyear) / (EMS_CI_CO2+EMS_MAT_CO2+EMS_CH_CO2)
+    next
+  next
+
+  for %s {%list_sec}
+    R2_MAT_CO2_{%s} = R2_MAT_CO2_{%s} + 0.01 * @elem(GDP, %baseyear) / (EMS_CI_CO2+EMS_MAT_CO2+EMS_CH_CO2)
+  next
+
+  for %c {%list_com}
+    R2_CH_CO2_{%c} = R2_CH_CO2_{%c} + 0.01 * @elem(GDP, %baseyear) / (EMS_CI_CO2+EMS_MAT_CO2+EMS_CH_CO2)
+  next
 
   endif
 
