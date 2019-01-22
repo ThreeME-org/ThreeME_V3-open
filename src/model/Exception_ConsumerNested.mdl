@@ -32,7 +32,7 @@ d(SUBST_HOUSINV) 	= (1 - ES_HOUS_INV_ENER) * d(log(PCH_HOUSENER/PCH_HOUSINV))  i
 
 NCH[ccon] = CH_HOUSINV_VAL / PNCH[ccon]
 
-# Level 2 : Housing expenditure
+# Level 2 : Housing energy expenditures
 
 CH_HOUS[ce] * PCH_HOUS[ce] = phi_MCH_HOUS[ce] * CH_HOUSENER_VAL  if CH_HOUS[ce]  <> 0
 
@@ -74,38 +74,23 @@ d(SUBST_TRSPINV) 	= (1 - ES_TRSP_INV_ENER) * d(log(PCH_TRSPENER/PCH_TRSPINV))  i
 
 
 
-
-
-
-
 NCH[cveh] = CH_TRSPINV_VAL / PNCH[cveh]
 
 
 
 
+# Level 3: Energy transport (auto) expenditures 
 
+CH_TRSP[ce] * PCH_TRSP[ce] = phi_MCH_TRSP[ce] * CH_TRSPENER_VAL  if CH_TRSP[ce]  <> 0
 
+##! Share of commodity $c$ into the total marginal TRSPehold consumption
+d(log(phi_MCH_TRSP[ce])) = (1 - ES_TRSP_ENER) * d(log(PCH_TRSP[ce] / PCH_TRSPENER_CES))     if phi_MCH_TRSP[ce] <> 0
 
+PCH_TRSPENER_CES  = (sum(@elem(phi_MCH_TRSP[ce], %baseyear) * PCH_TRSP[ce] ^ (1 - ES_TRSP_ENER) on ce)) ^ (1 / (1 - ES_TRSP_ENER)) if ES_TRSP_ENER <> 1
 
+PCH_TRSP[ce] = PCH[ce]
 
 
 NCH[ce] = CH_HOUS[ce] + CH_TRSP[ce]
-
-
-
-
-
-
-
-
-#PCH_HOUSENER * CH_HOUSENER = sum(PCH_HOUS[ce] * CH_HOUS[ce] on ce)
-
-
-
-
-
-
-##! Households' final consumption $c$
-
 
 
