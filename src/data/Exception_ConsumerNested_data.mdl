@@ -57,6 +57,10 @@ phi_MCH_TRSP[chtrsp] := CH_TRSP_VAL[chtrsp] / CH_TRSP_VAL
 
 phi_MCH_TRSPINV := CH_TRSPINV_VAL / CH_TRSP_VAL[auto]
 
+phi_MCH_HOUSINV := CH_HOUSINV_VAL /  CH_HOUS_VAL
+
+
+
 PCH_TRSP[chtrsp] := P
 PCH_TRSP_CES := P
 
@@ -73,3 +77,5 @@ PCH_TRSP[ce] := P
 
 
 SUBST_TRSPINV := 0
+
+SUBST_HOUSINV := 0
