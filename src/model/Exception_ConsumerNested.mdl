@@ -55,7 +55,7 @@ CH_TRSP_VAL[chtrsp] = phi_MCH_TRSP[chtrsp] * CH_TRSP_VAL if CH_TRSP_VAL[chtrsp] 
 #! Share of commodity $c$ into the total marginal household consumption
 d(log(phi_MCH_TRSP[chtrsp])) = (1 - ES_CHTRSP) * d(log(PCH_TRSP[chtrsp] / PCH_TRSP_CES))     if phi_MCH_TRSP[chtrsp] <> 0
 
-PCH_TRSP_CES = (sum(@elem(phi_MCH_TRSP[chtrsp], %baseyear) * PCH_TRSP[chtrsp] ^ (1 - ES_CHTRSP) on ce)) ^ (1 / (1 - ES_CHTRSP)) if ES_CHTRSP <> 1
+PCH_TRSP_CES = (sum(@elem(phi_MCH_TRSP[chtrsp], %baseyear) * PCH_TRSP[chtrsp] ^ (1 - ES_CHTRSP) on chtrsp)) ^ (1 / (1 - ES_CHTRSP)) if ES_CHTRSP <> 1
 
 PCH_TRSP[ct] = PCH[ct]
 
@@ -63,9 +63,9 @@ NCH[ct] = CH_TRSP_VAL[ct] / PCH[ct]
 
 # Level 2: Transport expenditures (auto)
 
-CH_TRSPINV_VAL = phi_MCH_TRSPINV * CH_HOUS_VAL
+CH_TRSPINV_VAL = phi_MCH_TRSPINV * CH_TRSP_VAL[auto]
 
-CH_TRSPENER_VAL = CH_HOUS_VAL - CH_TRSPINV_VAL
+CH_TRSPENER_VAL = CH_TRSP_VAL[auto] - CH_TRSPINV_VAL
 
 phi_MCH_TRSPINV	= 1 /( 1 + @elem( CH_TRSPENER_VAL/CH_TRSPINV_VAL  , %baseyear) * exp(SUBST_TRSPINV))  if CH_TRSPINV_VAL    <> 0
 
