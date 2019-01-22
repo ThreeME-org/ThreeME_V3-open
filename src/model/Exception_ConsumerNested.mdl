@@ -30,6 +30,10 @@ phi_MCH_HOUSINV	= 1 /( 1 + @elem( CH_HOUSENER_VAL/CH_HOUSINV_VAL  , %baseyear) *
 d(SUBST_HOUSINV) 	= (1 - ES_HOUS_INV_ENER) * d(log(PCH_HOUSENER/PCH_HOUSINV))  if CH_HOUSINV_VAL    <> 0
 
 
+PCH_HOUSENER = PCH_HOUS_CES
+PCH_HOUSINV = PCH[ccon]
+
+
 NCH[ccon] = CH_HOUSINV_VAL / PNCH[ccon]
 
 # Level 2 : Housing energy expenditures
@@ -58,6 +62,8 @@ d(log(phi_MCH_TRSP[chtrsp])) = (1 - ES_CHTRSP) * d(log(PCH_TRSP[chtrsp] / PCH_TR
 PCH_TRSP_CES = (sum(@elem(phi_MCH_TRSP[chtrsp], %baseyear) * PCH_TRSP[chtrsp] ^ (1 - ES_CHTRSP) on chtrsp)) ^ (1 / (1 - ES_CHTRSP)) if ES_CHTRSP <> 1
 
 PCH_TRSP[ct] = PCH[ct]
+PCH_TRSP[auto] = (@elem(CH_TRSPINV_VAL/CH_TRSP_VAL[auto], %baseyear) * PCH_TRSPINV^(1 - ES_TRSP_INV_ENER) + @elem(CH_TRSPENER_VAL/CH_TRSP_VAL[auto], %baseyear) *  PCH_TRSPENER^(1 - ES_TRSP_INV_ENER))^(1/(1 - ES_TRSP_INV_ENER))
+
 
 NCH[ct] = CH_TRSP_VAL[ct] / PCH[ct]
 
@@ -72,6 +78,10 @@ phi_MCH_TRSPINV	= 1 /( 1 + @elem( CH_TRSPENER_VAL/CH_TRSPINV_VAL  , %baseyear) *
 
 d(SUBST_TRSPINV) 	= (1 - ES_TRSP_INV_ENER) * d(log(PCH_TRSPENER/PCH_TRSPINV))  if CH_TRSPINV_VAL    <> 0
 
+
+
+PCH_TRSPENER = PCH_TRSPENER_CES 
+PCH_TRSPINV = PCH[cveh]
 
 
 NCH[cveh] = CH_TRSPINV_VAL / PNCH[cveh]
