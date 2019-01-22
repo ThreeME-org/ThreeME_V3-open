@@ -1,9 +1,17 @@
 include ..\model\lists
 
+# Specific list
+
+
+
 @over NCH[c] := 1.0 * CH[c] where c in cveh ccon crai croa ccoa cele  # To be replaced by a list
 
-ES_HOUS_INV_ENER := 1
-ES_HOUS_ENER := 1
+ES_HOUS_INV_ENER := 0.9
+ES_HOUS_ENER := 0.9
+ES_CHTRSP := 0.9
+
+ES_TRSP_INV_ENER := 0.9
+
 
 CH_HOUSINV_VAL := P * NCH[ccon]
 CH_TRSPINV_VAL := P * NCH[cveh]
@@ -20,8 +28,6 @@ CH_TRSP[cele] := NCH[cele] - CH_HOUS[cele]
 
 CH_HOUS_VAL := CH_HOUSINV_VAL + CH_HOUSENER_VAL
 
-# CH_TRSP_VAL := PCH_TRSPINV * CH_TRSPINV + PCH_TRSPENER * CH_TRSPENER
-
 
 
 #PCH_TRSPENER * CH_TRSPENER := sum(PCH_TRSP[ce] * CH_TRSP[ce] on ce)
@@ -35,9 +41,25 @@ CH_HOUSENER_VAL := sum(PCH_HOUS[ce] * CH_HOUS[ce] on ce)
 phi_MCH_HOUS[ce] := CH_HOUS[ce] * PCH_HOUS[ce] /  CH_HOUSENER_VAL  
 
 
-#CH_TRSP := CH_TRSPINV + CH_TRSPENER
+CH_TRSP_VAL := sum(CH_TRSP_VAL[chtrsp] on chtrsp) 
 
-#CH_TRSPENER := sum(CH_TRSP[ce] on ce)
+
+
+
+CH_TRSP_VAL[ct] := P*CH[ct]
+
+CH_TRSP_VAL[auto] := CH_TRSPINV_VAL + CH_TRSPENER_VAL
+
+CH_TRSPENER_VAL := sum(P * CH_TRSP[ce] on ce)
+
+
+phi_MCH_TRSP[chtrsp] := CH_TRSP_VAL[chtrsp] / CH_TRSP_VAL
+
+phi_MCH_TRSPINV := CH_TRSPINV_VAL / CH_TRSP_VAL[auto]
+
+PCH_TRSP[chtrsp] := P
+PCH_TRSP_CES := P
+
 
 PCH_HOUS_CES := P
 PCH_HOUS := P
@@ -48,3 +70,6 @@ PCH_TRSP := P
 PCH_TRSPINV := P
 PCH_TRSPENER := P
 PCH_TRSP[ce] := P
+
+
+SUBST_TRSPINV := 0

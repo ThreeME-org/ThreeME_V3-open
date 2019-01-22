@@ -15,7 +15,7 @@
 
 
 # ########################
-
+# Level 1 : Housing expenditures
 ##! Households' final consumption $c$
 d(log(CH_HOUS_VAL)) =  d(log(CH_n_VAL))
 
@@ -26,7 +26,7 @@ CH_HOUSENER_VAL = CH_HOUS_VAL - CH_HOUSINV_VAL
 
 NCH[ccon] = CH_HOUSINV_VAL / PNCH[ccon]
 
-
+# Level 2 : Housing expenditure
 
 CH_HOUS[ce] * PCH_HOUS[ce] = phi_MCH_HOUS[ce] * CH_HOUSENER_VAL  if CH_HOUS[ce]  <> 0
 
@@ -34,10 +34,58 @@ CH_HOUS[ce] * PCH_HOUS[ce] = phi_MCH_HOUS[ce] * CH_HOUSENER_VAL  if CH_HOUS[ce] 
 ##! Share of commodity $c$ into the total marginal household consumption
 d(log(phi_MCH_HOUS[ce])) = (1 - ES_HOUS_ENER) * d(log(PCH_HOUS[ce] / PCH_HOUS_CES))     if phi_MCH_HOUS[ce] <> 0
 
-PCH_HOUS_CES  = (sum(@elem(phi_MCH_HOUS[ce], %baseyear) * phi_MCH_HOUS[ce] ^ (1 - ES_HOUS_ENER) on ce)) ^ (1 / (1 - ES_HOUS_ENER)) if ES_HOUS_ENER <> 1
+PCH_HOUS_CES  = (sum(@elem(phi_MCH_HOUS[ce], %baseyear) * PCH_HOUS[ce] ^ (1 - ES_HOUS_ENER) on ce)) ^ (1 / (1 - ES_HOUS_ENER)) if ES_HOUS_ENER <> 1
+
+PCH_HOUS[ce] = PCH[ce]
+
+# Level 1: Transport expenditures
+
+d(log(CH_TRSP_VAL)) =  d(log(CH_n_VAL))
+
+
+CH_TRSP_VAL[chtrsp] = phi_MCH_TRSP[chtrsp] * CH_TRSP_VAL if CH_TRSP_VAL[chtrsp]  <> 0
+
+
+#! Share of commodity $c$ into the total marginal household consumption
+d(log(phi_MCH_TRSP[chtrsp])) = (1 - ES_CHTRSP) * d(log(PCH_TRSP[chtrsp] / PCH_TRSP_CES))     if phi_MCH_TRSP[chtrsp] <> 0
+
+PCH_TRSP_CES = (sum(@elem(phi_MCH_TRSP[chtrsp], %baseyear) * PCH_TRSP[chtrsp] ^ (1 - ES_CHTRSP) on ce)) ^ (1 / (1 - ES_CHTRSP)) if ES_CHTRSP <> 1
+
+PCH_TRSP[ct] = PCH[ct]
+
+NCH[ct] = CH_TRSP_VAL[ct] / PCH[ct]
+
+# Level 2: Transport expenditures (auto)
+
+CH_TRSPINV_VAL = phi_MCH_TRSPINV * CH_TRSP_VAL[auto]
+
+CH_TRSPENER_VAL = CH_TRSP_VAL[auto] - CH_TRSPINV_VAL
+
+phi_MCH_TRSPINV	= 1 /( 1 + @elem( CH_TRSPENER_VAL/CH_TRSPINV_VAL  , %baseyear) * exp(SUBST_TRSPINV))  if CH_TRSPINV_VAL    <> 0
+
+
+d(SUBST_TRSPINV) 	= (1 - ES_TRSP_INV_ENER) * d(log(PCH_TRSPENER/PCH_TRSPINV))  if CH_TRSPINV_VAL    <> 0
+
+
+
+
+
+
+
+NCH[cveh] = CH_TRSPINV_VAL / PNCH[cveh]
+
+
+
+
+
+
+
+
 
 
 NCH[ce] = CH_HOUS[ce] + CH_TRSP[ce]
+
+
 
 
 
@@ -48,7 +96,7 @@ NCH[ce] = CH_HOUS[ce] + CH_TRSP[ce]
 
 
 
-# d(log(CH_TRSP_VAL)) =  d(log(CH_n_VAL))
+
 
 
 ##! Households' final consumption $c$
