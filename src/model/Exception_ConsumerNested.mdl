@@ -30,7 +30,7 @@ phi_MCH_HOUSINV	= 1 /( 1 + @elem( CH_HOUSENER_VAL/CH_HOUSINV_VAL  , %baseyear) *
 d(SUBST_HOUSINV) 	= (1 - ES_HOUS_INV_ENER) * d(log(PCH_HOUSENER/PCH_HOUSINV))  if CH_HOUSINV_VAL    <> 0
 
 
-PCH_HOUSENER = PCH_HOUS_CES
+PCH_HOUSENER = PCH_HOUSENER_CES
 PCH_HOUSINV = PCH[ccon]
 
 
@@ -42,9 +42,9 @@ CH_HOUS[ce] * PCH_HOUS[ce] = phi_MCH_HOUS[ce] * CH_HOUSENER_VAL  if CH_HOUS[ce] 
 
 
 ##! Share of commodity $c$ into the total marginal household consumption
-d(log(phi_MCH_HOUS[ce])) = (1 - ES_HOUS_ENER) * d(log(PCH_HOUS[ce] / PCH_HOUS_CES))     if phi_MCH_HOUS[ce] <> 0
+d(log(phi_MCH_HOUS[ce])) = (1 - ES_HOUS_ENER) * d(log(PCH_HOUS[ce] / PCH_HOUSENER_CES))     if phi_MCH_HOUS[ce] <> 0
 
-PCH_HOUS_CES  = (sum(@elem(phi_MCH_HOUS[ce], %baseyear) * PCH_HOUS[ce] ^ (1 - ES_HOUS_ENER) on ce)) ^ (1 / (1 - ES_HOUS_ENER)) if ES_HOUS_ENER <> 1
+PCH_HOUSENER_CES  = (sum(@elem(phi_MCH_HOUS[ce], %baseyear) * PCH_HOUS[ce] ^ (1 - ES_HOUS_ENER) on ce)) ^ (1 / (1 - ES_HOUS_ENER)) if ES_HOUS_ENER <> 1
 
 PCH_HOUS[ce] = PCH[ce]
 
