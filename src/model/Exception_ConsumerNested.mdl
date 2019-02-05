@@ -1,0 +1,106 @@
+##### Nested utilitity function for the consumer
+
+## This file provides the equations defining a nested 
+
+#          CH_n_VAL
+#		  / \    --> ES_NEST_MAT_KEL
+#		 CH_n[c]M	KEL
+#			/ \  --> ES_NEST_KE_L
+#		   KE  L
+#		   /\    --> ES_NEST_K_E
+#		  K  E
+#
+
+
+
+
+# ########################
+# Level 1 : Housing expenditures
+##! Households' final consumption $c$
+d(log(CH_HOUS_VAL)) =  d(log(CH_n_VAL))
+
+
+CH_HOUSINV_VAL = phi_MCH_HOUSINV * CH_HOUS_VAL
+
+CH_HOUSENER_VAL = CH_HOUS_VAL - CH_HOUSINV_VAL
+
+phi_MCH_HOUSINV	= 1 /( 1 + @elem( CH_HOUSENER_VAL/CH_HOUSINV_VAL  , %baseyear) * exp(SUBST_HOUSINV))  if CH_HOUSINV_VAL    <> 0
+
+
+d(SUBST_HOUSINV) 	= (1 - ES_HOUS_INV_ENER) * d(log(PCH_HOUSENER/PCH_HOUSINV))  if CH_HOUSINV_VAL    <> 0
+
+
+PCH_HOUSENER = PCH_HOUSENER_CES
+PCH_HOUSINV = PCH[ccon]
+
+
+NCH[ccon] = CH_HOUSINV_VAL / PNCH[ccon]
+
+# Level 2 : Housing energy expenditures
+
+CH_HOUS[ce] * PCH_HOUS[ce] = phi_MCH_HOUS[ce] * CH_HOUSENER_VAL  if CH_HOUS[ce]  <> 0
+
+
+##! Share of commodity $c$ into the total marginal household consumption
+d(log(phi_MCH_HOUS[ce])) = (1 - ES_HOUS_ENER) * d(log(PCH_HOUS[ce] / PCH_HOUSENER_CES))     if phi_MCH_HOUS[ce] <> 0
+
+PCH_HOUSENER_CES  = (sum(@elem(phi_MCH_HOUS[ce], %baseyear) * PCH_HOUS[ce] ^ (1 - ES_HOUS_ENER) on ce)) ^ (1 / (1 - ES_HOUS_ENER)) if ES_HOUS_ENER <> 1
+
+PCH_HOUS[ce] = PCH[ce]
+
+# Level 1: Transport expenditures
+
+d(log(CH_TRSP_VAL)) =  d(log(CH_n_VAL))
+
+
+CH_TRSP_VAL[chtrsp] = phi_MCH_TRSP[chtrsp] * CH_TRSP_VAL if CH_TRSP_VAL[chtrsp]  <> 0
+
+
+#! Share of commodity $c$ into the total marginal household consumption
+d(log(phi_MCH_TRSP[chtrsp])) = (1 - ES_CHTRSP) * d(log(PCH_TRSP[chtrsp] / PCH_TRSP_CES))     if phi_MCH_TRSP[chtrsp] <> 0
+
+PCH_TRSP_CES = (sum(@elem(phi_MCH_TRSP[chtrsp], %baseyear) * PCH_TRSP[chtrsp] ^ (1 - ES_CHTRSP) on chtrsp)) ^ (1 / (1 - ES_CHTRSP)) if ES_CHTRSP <> 1
+
+PCH_TRSP[ct] = PCH[ct]
+PCH_TRSP[auto] = (@elem(CH_TRSPINV_VAL/CH_TRSP_VAL[auto], %baseyear) * PCH_TRSPINV^(1 - ES_TRSP_INV_ENER) + @elem(CH_TRSPENER_VAL/CH_TRSP_VAL[auto], %baseyear) *  PCH_TRSPENER^(1 - ES_TRSP_INV_ENER))^(1/(1 - ES_TRSP_INV_ENER))
+
+
+NCH[ct] = CH_TRSP_VAL[ct] / PCH[ct]
+
+# Level 2: Transport expenditures (auto)
+
+CH_TRSPINV_VAL = phi_MCH_TRSPINV * CH_TRSP_VAL[auto]
+
+CH_TRSPENER_VAL = CH_TRSP_VAL[auto] - CH_TRSPINV_VAL
+
+phi_MCH_TRSPINV	= 1 /( 1 + @elem( CH_TRSPENER_VAL/CH_TRSPINV_VAL  , %baseyear) * exp(SUBST_TRSPINV))  if CH_TRSPINV_VAL    <> 0
+
+
+d(SUBST_TRSPINV) 	= (1 - ES_TRSP_INV_ENER) * d(log(PCH_TRSPENER/PCH_TRSPINV))  if CH_TRSPINV_VAL    <> 0
+
+
+
+PCH_TRSPENER = PCH_TRSPENER_CES 
+PCH_TRSPINV = PCH[cveh]
+
+
+NCH[cveh] = CH_TRSPINV_VAL / PNCH[cveh]
+
+
+
+
+# Level 3: Energy transport (auto) expenditures 
+
+CH_TRSP[ce] * PCH_TRSP[ce] = phi_MCH_TRSP[ce] * CH_TRSPENER_VAL  if CH_TRSP[ce]  <> 0
+
+##! Share of commodity $c$ into the total marginal TRSPehold consumption
+d(log(phi_MCH_TRSP[ce])) = (1 - ES_TRSP_ENER) * d(log(PCH_TRSP[ce] / PCH_TRSPENER_CES))     if phi_MCH_TRSP[ce] <> 0
+
+PCH_TRSPENER_CES  = (sum(@elem(phi_MCH_TRSP[ce], %baseyear) * PCH_TRSP[ce] ^ (1 - ES_TRSP_ENER) on ce)) ^ (1 / (1 - ES_TRSP_ENER)) if ES_TRSP_ENER <> 1
+
+PCH_TRSP[ce] = PCH[ce]
+
+
+NCH[ce] = CH_HOUS[ce] + CH_TRSP[ce]
+
+

@@ -6,9 +6,12 @@ include .\R_lists
 # List of Green House Gases (GHG)
 %list_GHG := CO2 CH4 N2O SF6 HFC PFC #[ghg]
 
+%list_chtrsp := crai croa auto
+chtrsp in %list_chtrsp
 
 %list_ener_class := CA CB CC CD CE CF CG #[ecl]
 %list_buil_class := CA CB CC CD CE CF CG DES #[bcl]
+
 
 
 
