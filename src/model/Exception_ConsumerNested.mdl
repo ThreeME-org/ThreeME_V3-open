@@ -1,10 +1,13 @@
 ##### Nested utilitity function for the consumer
 
+## In the basic version of the consumer block (see Section Consumer), the consumption of every commodity is modeled using generalized LES utility function where the elasticity of substitution between every commodity is constant. An increase in the price of fossil energy will increase the consumption of the other commodities uniformly whereas one expects that substitution will mainly affect the other energy source and household investment. This block amend the basic version by introducing a nested utility function. The first level separate the consumption related to housing and transport from the rest. We assume that the value share of the three types of expenditures (housing, transport and other) is constant which amount to assuming an elasticity of substitution of one (Cobb-Douglas hypothesis). \\
+
+
 ## This file provides the equations defining a nested 
 
-#          CH_n_VAL
-#		  / \    --> ES_NEST_MAT_KEL
-#		 CH_n[c]M	KEL
+#  				     CH_n_VAL
+#					/ 		 \    				--> ES = 1
+#		 CH_HOUS_VAL 		CH_HOUS_VAL	KEL
 #			/ \  --> ES_NEST_KE_L
 #		   KE  L
 #		   /\    --> ES_NEST_K_E
@@ -12,7 +15,21 @@
 #
 
 
+#### Link with the other blocks of ThreeMEConsumer
+## When this block is activated, The demand for margins $m$ paid on commodity $c$ depends on the demand for the commodity $c$ and on the substitution between margins type. \\
 
+
+##! Margins paid to commodity $m$ on the domestic commodity $c$
+NCH[ccon] = CH_HOUSINV_VAL / PNCH[ccon]
+
+
+
+NCH[ct] = CH_TRSP_VAL[ct] / PCH[ct]
+
+NCH[cveh] = CH_TRSPINV_VAL / PNCH[cveh]
+
+
+NCH[ce] = CH_HOUS[ce] + CH_TRSP[ce]
 
 # ########################
 # Level 1 : Housing expenditures
@@ -33,8 +50,6 @@ d(SUBST_HOUSINV) 	= (1 - ES_HOUS_INV_ENER) * d(log(PCH_HOUSENER/PCH_HOUSINV))  i
 PCH_HOUSENER = PCH_HOUSENER_CES
 PCH_HOUSINV = PCH[ccon]
 
-
-NCH[ccon] = CH_HOUSINV_VAL / PNCH[ccon]
 
 # Level 2 : Housing energy expenditures
 
@@ -65,7 +80,7 @@ PCH_TRSP[ct] = PCH[ct]
 PCH_TRSP[auto] = (@elem(CH_TRSPINV_VAL/CH_TRSP_VAL[auto], %baseyear) * PCH_TRSPINV^(1 - ES_TRSP_INV_ENER) + @elem(CH_TRSPENER_VAL/CH_TRSP_VAL[auto], %baseyear) *  PCH_TRSPENER^(1 - ES_TRSP_INV_ENER))^(1/(1 - ES_TRSP_INV_ENER))
 
 
-NCH[ct] = CH_TRSP_VAL[ct] / PCH[ct]
+
 
 # Level 2: Transport expenditures (auto)
 
@@ -84,8 +99,6 @@ PCH_TRSPENER = PCH_TRSPENER_CES
 PCH_TRSPINV = PCH[cveh]
 
 
-NCH[cveh] = CH_TRSPINV_VAL / PNCH[cveh]
-
 
 
 
@@ -101,6 +114,6 @@ PCH_TRSPENER_CES  = (sum(@elem(phi_MCH_TRSP[ce], %baseyear) * PCH_TRSP[ce] ^ (1 
 PCH_TRSP[ce] = PCH[ce]
 
 
-NCH[ce] = CH_HOUS[ce] + CH_TRSP[ce]
+
 
 
