@@ -1,116 +1,149 @@
 ##### Nested utilitity function for the consumer
 
-## In the basic version of the consumer block (see Section Consumer), the consumption of every commodity is modeled using generalized LES utility function where the elasticity of substitution between every commodity is constant. An increase in the price of fossil energy will increase the consumption of the other commodities uniformly whereas one expects that substitution will mainly affect the other energy source and household investment. This block amend the basic version by introducing a nested utility function. The first level separate the consumption related to housing and transport from the rest. We assume that the value share of the three types of expenditures (housing, transport and other) is constant which amount to assuming an elasticity of substitution of one (Cobb-Douglas hypothesis). \\
+## This file provides the equations defining the consummer's nested utility function. In the basic version of the consumer block (see Section Consumer), the consumption of every commodity is modeled using generalized LES utility function where the elasticity of substitution between every commodity is constant. An increase in the price of fossil energy will increase the consumption of the other commodities uniformly whereas one expects that substitution will mainly affect the other energy source and household investment. This block amend the basic version by introducing a nested utility function. The first level separate the consumption related to housing and transport from the rest. We assume that the value share of the three types of expenditures (housing, transport and other) is constant which amount to assuming an elasticity of substitution of one (Cobb-Douglas hypothesis). \\
+
+## This file provides the equations defining the consumer’s nested utility function. In the basic version of the consumer block (see Section Consumer), the consumption of every commodity is modeled using generalized LES utility function where the elasticity of substitution between every commodity is constant. An increase in the price of fossil energy will increase the consumption of the other commodities uniformly whereas one expects that substitutions will mainly affect the other energy sources and household’s investment in more energy-efficient equipment. This block amends the basic version by introducing a nested utility function. \\
+
+## The first level separates the consumption related to housing ($CH^{HOUS}$) and transport ($CH^{TRSP}$) from the rest. We assume that the value shares of the three types of expenditures (housing, transport and other) are constant which amount to assuming an Elasticity of Substitution (ES) of one (Cobb-Douglas hypothesis). \\
+
+## At the second level of the nest, housing expenditures ($CH^{HOUS}$) are disaggregated between energy expenditures ($CH^{HOUSENER}$) and investment expenditures ($CH^{HOUSINV}$). Transport expenditures ($CH^{TRSP}$) are disaggregated between transport types. \\
+
+## At the third level of the nest, energy housing related expenditures ($CH^{HOUSENER}$) are disaggregated between energy types ($CH^{HOUSENER}_{ce}$). Automobile expenditures ($CH^{TRSP}_{auto}$) are disaggregated between energy expenditure ($CH^{TRSPENER}$) and investment expenditure ($CH^{TRSPINV}$). \\
+
+## At the third level of the nest, energy transport related expenditure ($CH^{TRSPENER}$) are disaggregated between energy types ($CH^{HOUSENER}_{ce}$). Except for the first level were the ES is one, in the other levels of the nest, the ES can be chosen freely. \\
 
 
-## This file provides the equations defining a nested 
+# Nest defined in this block:
+# 
+#   	  	 _________________________ CH _________________________
+#   		/				/ 		 				   				\   --> ES = 1
+# (1) CH_OTHER			CH_HOUS  									CH_TRSP	
+# 					/ 	 \  --> ES_HOUS_INV_ENER		 		//     \  --> ES_CHTRSP
+# (2)		CH_HOUSINV   CH_HOUSENER					CH_TRSP[ct]    CH_TRSP[auto]
+#		   		|				/\  --> ES_HOUS_ENER 		|			/   \   --> ES_TRSP_INV_ENER
+# (3)	  		|		    CH_HOUS[ce] 					|  CH_TRSPINV    CH_TRSPENER
+#				|				|							|		|		 /\     --> ES_TRSP_ENER
+# (4)			|				|							|		|	   CH_TRSP[ce]	
+#				|				|							|		|		   |
+#			NCH[ccon]|			|					      NCH[ct]  NCH[cveh]|  |
+#								|___________________ __________________________|
+#													|
+#												  NCH[ce]
 
-#  				     CH_n_VAL
-#					/ 		 \    				--> ES = 1
-#		 CH_HOUS_VAL 		CH_HOUS_VAL	KEL
-#			/ \  --> ES_NEST_KE_L
-#		   KE  L
-#		   /\    --> ES_NEST_K_E
-#		  K  E
-#
 
+#### Link with the consumer block of ThreeME
+## When this block is activated, the expenditures related to construction, transport, vehicles and energy commodities are not defined anymore by the basic version of the consumer block (see Section Consumer). To do so the necessary (minimum) households' final consumption for this commodity is endogenized and calibrated at their total at the base year: $NCH_{c} = CH_{c}$ for $c$ \in  \{ ccon,ct,cveh,ce \}$. In other words, we assume that these expenditures have the priority over the other ones. \\
 
-#### Link with the other blocks of ThreeMEConsumer
-## When this block is activated, The demand for margins $m$ paid on commodity $c$ depends on the demand for the commodity $c$ and on the substitution between margins type. \\
-
-
-##! Margins paid to commodity $m$ on the domestic commodity $c$
+##! Necessary (minimum) households' final consumption for construction commodity $ccon$
 NCH[ccon] = CH_HOUSINV_VAL / PNCH[ccon]
 
-
-
+##! Necessary (minimum) households' final consumption for transport commodities $ct$
 NCH[ct] = CH_TRSP_VAL[ct] / PCH[ct]
 
+##! Necessary (minimum) households' final consumption for vehicles commodity $cveh$
 NCH[cveh] = CH_TRSPINV_VAL / PNCH[cveh]
 
-
+##! Necessary (minimum) households' final consumption for energy commodities $ce$
 NCH[ce] = CH_HOUS[ce] + CH_TRSP[ce]
 
 # ########################
-# Level 1 : Housing expenditures
-##! Households' final consumption $c$
+#### Level 1: Disaggregation of aggregate expenditures
+
+##! Households' final consumption related to housing in value
 d(log(CH_HOUS_VAL)) =  d(log(CH_n_VAL))
 
-
-CH_HOUSINV_VAL = phi_MCH_HOUSINV * CH_HOUS_VAL
-
-CH_HOUSENER_VAL = CH_HOUS_VAL - CH_HOUSINV_VAL
-
-phi_MCH_HOUSINV	= 1 /( 1 + @elem( CH_HOUSENER_VAL/CH_HOUSINV_VAL  , %baseyear) * exp(SUBST_HOUSINV))  if CH_HOUSINV_VAL    <> 0
-
-
-d(SUBST_HOUSINV) 	= (1 - ES_HOUS_INV_ENER) * d(log(PCH_HOUSENER/PCH_HOUSINV))  if CH_HOUSINV_VAL    <> 0
-
-
-PCH_HOUSENER = PCH_HOUSENER_CES
-PCH_HOUSINV = PCH[ccon]
-
-
-# Level 2 : Housing energy expenditures
-
-CH_HOUS[ce] * PCH_HOUS[ce] = phi_MCH_HOUS[ce] * CH_HOUSENER_VAL  if CH_HOUS[ce]  <> 0
-
-
-##! Share of commodity $c$ into the total marginal household consumption
-d(log(phi_MCH_HOUS[ce])) = (1 - ES_HOUS_ENER) * d(log(PCH_HOUS[ce] / PCH_HOUSENER_CES))     if phi_MCH_HOUS[ce] <> 0
-
-PCH_HOUSENER_CES  = (sum(@elem(phi_MCH_HOUS[ce], %baseyear) * PCH_HOUS[ce] ^ (1 - ES_HOUS_ENER) on ce)) ^ (1 / (1 - ES_HOUS_ENER)) if ES_HOUS_ENER <> 1
-
-PCH_HOUS[ce] = PCH[ce]
-
-# Level 1: Transport expenditures
-
+##! Households' final consumption related to transport in value
 d(log(CH_TRSP_VAL)) =  d(log(CH_n_VAL))
 
+#### Disaggregation of housing expenditures
 
+### Level 2: Disaggregation between investment and energy expenditures related to housing 
+
+##! Households' final consumption related to housing investment in value
+CH_HOUSINV_VAL = phi_MCH_HOUSINV * CH_HOUS_VAL
+
+##! Households' final consumption of energy related to housing in value
+CH_HOUSENER_VAL = CH_HOUS_VAL - CH_HOUSINV_VAL
+
+##! Share of housing investment expenditures into the total housing expenditures
+phi_MCH_HOUSINV	= 1 /( 1 + @elem( CH_HOUSENER_VAL/CH_HOUSINV_VAL  , %baseyear) * exp(SUBST_HOUSINV))  if CH_HOUSINV_VAL    <> 0
+
+##! Substitution effect induced by a change in the relative price between investment and energy housing expenditures
+d(SUBST_HOUSINV) 	= (1 - ES_HOUS_INV_ENER) * d(log(PCH_HOUSENER/PCH_HOUSINV))  if CH_HOUSINV_VAL    <> 0
+
+##! Price of the aggregate energy expenditure related to housing
+PCH_HOUSENER = PCH_HOUSENER_CES  # SUPPRIMER 1 DES 2 ?
+
+##! Price of investment expenditure related to housing
+PCH_HOUSINV = PCH[ccon]
+
+### Level 3: Disaggregation of energy expenditures related to housing
+
+##! Households' final consumption of energy commodity $ce$ related to housing
+CH_HOUS[ce] * PCH_HOUS[ce] = phi_MCH_HOUS[ce] * CH_HOUSENER_VAL  if CH_HOUS[ce]  <> 0
+
+##! Share of energy consumption $ce$ into the total energy consumption related to housing
+d(log(phi_MCH_HOUS[ce])) = (1 - ES_HOUS_ENER) * d(log(PCH_HOUS[ce] / PCH_HOUSENER_CES))     if phi_MCH_HOUS[ce] <> 0
+
+##! Price of the aggregate energy expenditures related to housing
+PCH_HOUSENER_CES  = (sum(@elem(phi_MCH_HOUS[ce], %baseyear) * PCH_HOUS[ce] ^ (1 - ES_HOUS_ENER) on ce)) ^ (1 / (1 - ES_HOUS_ENER)) if ES_HOUS_ENER <> 1
+
+##! Price of energy consumption $ce$ related to housing
+PCH_HOUS[ce] = PCH[ce]
+
+#### Disaggregation of transport expenditures
+
+### Level 2: Disaggregation between transport expenditures
+
+##! Households' final consumption of transport $chtrsp$ in value
 CH_TRSP_VAL[chtrsp] = phi_MCH_TRSP[chtrsp] * CH_TRSP_VAL if CH_TRSP_VAL[chtrsp]  <> 0
 
 
-#! Share of commodity $c$ into the total marginal household consumption
+##! Share of transport consumption $chtrsp$ into the total transport expenditures related to housing
 d(log(phi_MCH_TRSP[chtrsp])) = (1 - ES_CHTRSP) * d(log(PCH_TRSP[chtrsp] / PCH_TRSP_CES))     if phi_MCH_TRSP[chtrsp] <> 0
 
+##! Price of the aggregate transport expenditures
 PCH_TRSP_CES = (sum(@elem(phi_MCH_TRSP[chtrsp], %baseyear) * PCH_TRSP[chtrsp] ^ (1 - ES_CHTRSP) on chtrsp)) ^ (1 / (1 - ES_CHTRSP)) if ES_CHTRSP <> 1
 
+##! Price of transport consumption of commodity $ct$
 PCH_TRSP[ct] = PCH[ct]
-PCH_TRSP[auto] = (@elem(CH_TRSPINV_VAL/CH_TRSP_VAL[auto], %baseyear) * PCH_TRSPINV^(1 - ES_TRSP_INV_ENER) + @elem(CH_TRSPENER_VAL/CH_TRSP_VAL[auto], %baseyear) *  PCH_TRSPENER^(1 - ES_TRSP_INV_ENER))^(1/(1 - ES_TRSP_INV_ENER))
 
+##! Price of the aggregate automobile expenditures
+PCH_TRSP[auto] = (@elem(CH_TRSPINV_VAL/CH_TRSP_VAL[auto], %baseyear) * PCH_TRSPINV^(1 - ES_TRSP_INV_ENER) + @elem(CH_TRSPENER_VAL/CH_TRSP_VAL[auto], %baseyear) *  PCH_TRSPENER^(1 - ES_TRSP_INV_ENER))^(1/(1 - ES_TRSP_INV_ENER)) if ES_TRSP_INV_ENER <> 1
 
+### Level 3: Disaggregation between investment and energy related to automobile transport expenditures
 
-
-# Level 2: Transport expenditures (auto)
-
+##! Households' final consumption related to automobile transport in value
 CH_TRSPINV_VAL = phi_MCH_TRSPINV * CH_TRSP_VAL[auto]
 
+##! Households' final consumption of energy related to automobile transport in value
 CH_TRSPENER_VAL = CH_TRSP_VAL[auto] - CH_TRSPINV_VAL
 
+##! Share of automobile transport investment expenditures into the total automobile transport expenditures
 phi_MCH_TRSPINV	= 1 /( 1 + @elem( CH_TRSPENER_VAL/CH_TRSPINV_VAL  , %baseyear) * exp(SUBST_TRSPINV))  if CH_TRSPINV_VAL    <> 0
 
-
+##! Share of automobile transport investment expenditures into the total automobile transport expenditures
 d(SUBST_TRSPINV) 	= (1 - ES_TRSP_INV_ENER) * d(log(PCH_TRSPENER/PCH_TRSPINV))  if CH_TRSPINV_VAL    <> 0
 
 
+##! Price of the aggregate energy expenditure related to automobile transport 
+PCH_TRSPENER = PCH_TRSPENER_CES    # SUPPRIMER 1 DES 2 ?
 
-PCH_TRSPENER = PCH_TRSPENER_CES 
+##! Price of investment expenditure related to automobile transport
 PCH_TRSPINV = PCH[cveh]
 
+### Level 4: Disaggregation between energy expenditures related to automobile transport 
 
-
-
-
-# Level 3: Energy transport (auto) expenditures 
-
+##! Households' final consumption of energy commodity $ce$ related to automobile transport
 CH_TRSP[ce] * PCH_TRSP[ce] = phi_MCH_TRSP[ce] * CH_TRSPENER_VAL  if CH_TRSP[ce]  <> 0
 
-##! Share of commodity $c$ into the total marginal TRSPehold consumption
+##! Share of energy consumption $ce$ into the total energy consumption related to automobile transport
 d(log(phi_MCH_TRSP[ce])) = (1 - ES_TRSP_ENER) * d(log(PCH_TRSP[ce] / PCH_TRSPENER_CES))     if phi_MCH_TRSP[ce] <> 0
 
+##! Price of the aggregate energy expenditures related to automobile transport
 PCH_TRSPENER_CES  = (sum(@elem(phi_MCH_TRSP[ce], %baseyear) * PCH_TRSP[ce] ^ (1 - ES_TRSP_ENER) on ce)) ^ (1 / (1 - ES_TRSP_ENER)) if ES_TRSP_ENER <> 1
 
+##! Price of energy consumption $ce$ related to automobile transport
 PCH_TRSP[ce] = PCH[ce]
 
 
