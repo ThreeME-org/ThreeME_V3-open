@@ -11,7 +11,9 @@ library(stringr)
 # teXdoc(c("SU.mdl", "producer.mdl", "prices.mdl", "consumer.mdl", "government.mdl",  "Trade_inter.mdl", "demography.mdl", "ghg_emissions.mdl", "adjustments.mdl"),"ThreeMEv3_eqs_01")
 # teXdoc(c("Intro_doc_eqs.mdl","SU.mdl"),"ThreeMEv3_eqs_01")
 # teXdoc(c("Intro_doc_eqs.mdl","SU.mdl", "prices.mdl", "producer.mdl", "consumer.mdl", "government.mdl",  "Trade_inter.mdl", "demography.mdl", "ghg_emissions.mdl", "adjustments.mdl"),"ThreeMEv3_eqs_04")
-teXdoc(c("ETS.mdl"),"ThreeMEv3_ETS")
+# teXdoc(c("ETS.mdl"),"ThreeMEv3_ETS")
+# teXdoc(c("Intro_doc_eqs.mdl","SU.mdl", "prices.mdl", "producer.mdl", "consumer.mdl", "government.mdl",  "Trade_inter.mdl", "demography.mdl", "ghg_emissions.mdl", "adjustments.mdl", "Exception_taxes_prices.mdl"),"ThreeMEv3_eqs_05")
+
 
 rm(list = ls())
 
@@ -162,8 +164,9 @@ peg <- peg %>%
   add_rule("ExpressionIfWhere <- Expression If Where", act = "buildCall('dynExpIfWhere', v)") %>%
   add_rule("QualifiedExpression <- ExpressionIfWhere / ExpressionWhere / ExpressionIf / Expression") %>%
   
-  add_rule("OverKeyword <- '@over'") %>%
-  add_rule("Equation <- Expression Equal QualifiedExpression", act = "buildCall('dynEq', v)")
+  add_rule("OverKeyword <- '@over'", act = "list()") %>%
+  add_rule("RawEquation <- Expression Equal QualifiedExpression", act = "buildCall('dynEq', v)") %>%
+  add_rule("Equation <- OverKeyword Space+ RawEquation / RawEquation")
 
 # Build structures with variables and indices
 
@@ -246,12 +249,16 @@ latex <- list(
       str_c(e1, " ", ifelse(op == "*", "\\;", op), " ", e2)
     }
   },
-  dynEq  = function(lhs, rhs) str_c("\\begin{dmath}\n", lhs, " = ", rhs, "\n\\end{dmath}")
+  dynEq  = function(lhs, rhs) str_c("\\begin{dmath}\n", lhs, " = ", rhs, "\n\\label{", currentFile, currentVar, "}\n\\end{dmath}")
 )
 
 custom <- latex
 
-
+## !!! HACK
+# Global variables to hold the name of the variable and file currently being compiled
+# Horrible, this is to be changed in the upcoming verion of the compiler
+currentFile <- ""
+currentVar  <- ""
 
 texHeader <- "\\documentclass[12pt]{article}
 \\usepackage{amsmath}
@@ -259,8 +266,9 @@ texHeader <- "\\documentclass[12pt]{article}
 \\numberwithin{equation}{section}
 \\usepackage{longtable}
 \\usepackage{booktabs}
+\\usepackage{array}
+\\usepackage{ragged2e}
 \\begin{document}
-
 "
 
 texFooter <- "
@@ -273,13 +281,16 @@ writeFile <- function(s, filename) {
 }
 
 dependentVar <- function(eq) {
-  terms <- str_replace_all(eq, "\\(|\\)|d|log", "") %>% str_split("\\+|\\*|-|=") %>% unlist %>% str_trim
+  terms <- str_replace_all(eq, "\\(|\\)|d|log|@over", "") %>% str_split("\\+|\\*|-|=") %>% unlist %>% str_trim
   if (terms[1] == "1") terms[2] else terms[1]
 }
 
 variableTeX <- function(v) {
+  # Detect if there is an extra number in parentheses to indicate that the variable was overloaded
+  over.id <- str_match(v, "\\([0-9]\\)$") %>% as.vector
+  
   code <- peg %>% apply_rule("Variable", v, exe = T) %>% value %>% parse(text = .)
-  str_c("$", eval(code, latex), "$")
+  str_c("$", eval(code, latex), "$", ifelse(is.na(over.id), "", str_c(" ", over.id)))
 }
 
 toTeX <- function(eq) {
@@ -293,11 +304,12 @@ toTeX <- function(eq) {
 
 glossaryTeX <- function(glossary) {
   glossary <- glossary[order(tolower(names(glossary)))]
+  eqref <- sapply(glossary, function(x) attr(x, "eqlabel"))
   str_c("\\newpage
         \\section{Glossary}
-        \\normalsize
-        \\begin{longtable}{@{}p{4cm}p{9cm}@{}} \n",
-        str_c(sapply(names(glossary), variableTeX), " & ", glossary, " \\\\", collapse = "\n \\midrule \n"),
+        \\small
+        \\begin{longtable}{@{}p{2.75cm}p{8.5cm}p{0.7cm}p{0.35cm}@{}} \n",
+        str_c(sapply(names(glossary), variableTeX), " & ", glossary, " & \\RaggedLeft \\ref{", eqref, "}, & \\RaggedLeft \\pageref{", eqref, "} \\\\", collapse = "\n \\midrule \n"),
         "\n\\end{longtable}")
 }
 
@@ -316,6 +328,8 @@ codeToTeX <- function(filename) {
   # Statefulness: need to keep track of text blocks
   # to identify the title description of each variable
   description <- ""
+  
+  currentFile <<- basename(filename)
   
   readFile(filename) %>% Reduce(function(out, l) {
     # Remove leading and trailing spaces
@@ -345,12 +359,15 @@ codeToTeX <- function(filename) {
       txt <- str_replace(cleanTeX(l), "^##! ", "")
       description <<- txt 
       str_c("\\noindent\\textbf{", description, "} \\\\")
-    # Pure text
+      # Pure text
     } else if (str_detect(l, "^## ")) {
       str_replace(cleanTeX(l), "^## ", "")
-    # If the line is not a comment nor empty
+      # If the line is not a comment nor empty
     } else if (!str_detect(l, "^#") & (str_length(l) > 0)) {
-      out$glossary[[dependentVar(l)]] <- description
+      currentVar <<- dependentVar(l)
+      out$glossary[[currentVar]] <- description
+      
+      
       # Description title is consumed by the equation, reset it to blank
       description <<- ""
       toTeX(l)
@@ -365,16 +382,49 @@ exportLateX <- function(filename, teXcode) {
   texi2pdf(filename)
 }
 
+updateList <- function(l, ind, lNew) {
+  c(l[setdiff(names(l), ind)], lNew)
+}
+
+`%nin%` <- Negate(`%in%`)
+
+combineGlossaries <- function(g, gNew, f) {
+  # Add equation label
+  if (length(gNew) > 0) gNew <- lapply(names(gNew), function(n) {
+    x <- gNew[[n]]
+    attr(x, "eqlabel") <- str_c(f, n)
+    x
+  }) %>% `names<-`(names(gNew))
+
+  # Track all the variables (including duplicates due to @over) in the .dict variable    
+  if (length(g) == 0 || length(gNew) == 0) { c(g, gNew) }
+  else {
+    g$.dict <- 
+      if (".dict" %nin% names(g)) c(names(g), names(gNew))  
+      else c(g$.dict, names(gNew))
+    # Identify variables that are redefined in this file
+    over <- intersect(names(g), names(gNew))
+    if (length(over) > 0) {
+      over.count <- table(g$.dict)[over]
+      c(g, updateList(gNew, over, gNew[over] %>% `names<-`(str_c(over, " (", over.count, ")"))))
+    } else {
+      c(g, gNew)
+    }
+  }
+}
+
 teXdoc <- function(sources, out = "doc") {
   base.path <- "../src/model/"
   compiled <- Reduce(function(out, f) {
     processed <- codeToTeX(f)
     out$code <- str_c(out$code, processed$code)
-    out$glossary <- c(out$glossary, processed$glossary)
+    out$glossary <- combineGlossaries(out$glossary, processed$glossary, basename(f))
     out
   }, 
   str_c(base.path, sources), 
   list(code = "", glossary = list()))
+  saved.compiled <<- compiled
+  compiled$glossary$.dict <- NULL
   exportLateX(str_c(out, ".tex"), 
               str_c(compiled$code, "\n",
                     glossaryTeX(compiled$glossary)))

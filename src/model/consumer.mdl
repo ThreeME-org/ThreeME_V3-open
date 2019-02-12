@@ -43,6 +43,9 @@ d(MPS_n)= RHO_MPS_R * d(R - d(P)/P{-1}) + RHO_MPS_UnR * d(UnR)
 ## We assume a Linear Expenditure System (LES) utility function to model consumption decisions between the commodity types. A LES specication assumes that a share of the base year consumption ($NCH_{c}$) is incompressible and therefore the relation between income and consumption is not linear. This specication allows for the distinction between the consumption of necessity and luxurious goods. \\
 
 ##! Price of necessary households consumption $c$
+PNCH[c] = PCH[c]
+
+##! Price of agregate necessary households consumption
 PNCH * NCH = sum(PNCH[c] * NCH[c] on c) if NCH <> 0
 
 ##! Aggregate necessary households final consumption

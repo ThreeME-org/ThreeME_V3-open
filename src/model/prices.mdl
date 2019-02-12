@@ -172,10 +172,10 @@ PGD[c]       = PYQS[c]      if GD[c]       <> 0
 ##! Market price of imported Government final consumption $c$
 PGM[c]       = PMS[c]       if GM[c]       <> 0
 
-##! Market price of domestically produced investment $c$
+##! Market price of domestically produced investment $c$ purshased by sector $s$
 PID[c, s]    = PYQS[c]      if ID[c, s]    <> 0
 
-##! Market price of imported investment $c$
+##! Market price of imported investment $c$ purshased by sector $s$
 PIM[c, s]    = PMS[c]       if IM[c, s]    <> 0
 
 ##! Market price of domestically produced exports $c$

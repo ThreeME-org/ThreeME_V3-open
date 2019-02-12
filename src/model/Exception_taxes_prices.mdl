@@ -1,11 +1,10 @@
+#####  Taxes on commodities & Prices per uses
 
-#####  Taxes & Prices
+## There are two versions regarding the specification of prices and taxes on commodities: (1) the basic version where taxes are not differentiated between uses (e.g. intermediary, final consumption, export, etc.) and type (e.g. VAT, subsidies, etc.); (2) the advanced version where this differentiation is made. \\
 
-### This file provides the equations defining with more detailed taxes and prices.
+## This file provides the equations defining with more detail taxes and prices. In the basic version, taxes on commodities are not differentiated between uses. A constant average tax rate on each commodity is assumed. This has the advantage to require less data for the calibration. But this assumption is often unrealistic since taxes on commodities are generally differentiated per uses. For instance, VAT applies on final consumption but not on intermediary consumption or exports. Subsidies are generally higher for domestic than imported products. When the equations of this section are activated in ThreeME, the heterogeneity regarding the tax rates is taken into account. Additional data are required to disaggregate taxes. The average tax rate is not constant anymore and becomes an endogenous variable that depends on the evolution of structure of taxes and subsidies. To preserve the accountancy consistency of the model, prices have also to be amended compared to the basic version. \\
 
-#### Taxes on commodities
- # In the current version of the compiler, the  @over are not taken account and not read.
- # In the current version of the compiler, the  @over are compiled in the glossary instead of the variables in front of which the @over is placed.
+####  Taxes on commodities
 
 ### Average tax rates on commodities
 
@@ -17,12 +16,12 @@
 # @over NTAXCD[c]     =            VATD[c] +              OTHCTD[c] +             SUBCD[c]    if NTAXCD[c]     <> 0
 @over NTAXCD[c]     =            VATD[c] +              OTHCTD[c] +             SUBCD[c]   +   (T2VAL_CH[c] * CHD[c]/CH[c])/PCH[c] + (T2VAL_CI[c] * CID[c]/CI[c])/PCI[c]  if NTAXCD[c]     <> 0
 
-## This is not defined by simply assuming a constant rate over the production value : $NTAXCD_VAL[c] = RNTAXCD[c]*PYQ[c]*YQ[c]$. Different taxes are now defined depending on their basis. \\
+## This is not defined anymore by simply assuming a constant rate over the production value: $NTAXCD^{VAL}_{c} = RNTAXCD_{c}*PYQ_{c}*YQ_{c}$. Different taxes are now defined depending on their basis (see below). \\
 
 ##! Average tax rate on domestically produced commodity $c$
 RNTAXCD[c] = NTAXCD_VAL[c] / (PYQ[c] * YQ[c])     if YQ[c] <> 0
 
-## This rate become now endogenous by inverting the equation of $NTAXCD_VAL[c]$. This specification ensure the equality accountancy between the various GDP definition. \\
+## This rate become now endogenous by inverting the equation of $NTAXCD^{VAL}_{c}$. This specification ensure the equality accountancy between the various GDP definition. \\
 
 ##! Net taxes on imported commodity $c$ expressed in value
 @over NTAXCM_VAL[c] = PVATM[c] * VATM[c] + POTHCTM[c] * OTHCTM[c] + PSUBCM[c] * SUBCM[c]        if NTAXCM_VAL[c] <> 0
@@ -33,23 +32,23 @@ RNTAXCD[c] = NTAXCD_VAL[c] / (PYQ[c] * YQ[c])     if YQ[c] <> 0
 ##! Average tax rate on imported commodity $c$
 RNTAXCM[c] = NTAXCM_VAL[c] / (PM[c]  * M[c] )   if M[c] <> 0
 
-### Value-added tax
+### Value-added tax (value & volume)
 
-##! Price of the value-added tax on domestically produced commodity $c$
-PVATD[c]   * VATD[c]   =       RVATD[c] * PCHD[c]     * CHD[c] / (1 + RVATD[c])                 if VATD[c]       <> 0
+##! Price of value-added tax on domestically produced commodity $c$
+PVATD[c]   * VATD[c]   =       RVATD[c] * (PCHD[c]     * CHD[c]) / (1 + RVATD[c])                 if VATD[c]       <> 0
 
 ##! Value-added tax on domestically produced commodity $c$
 VATD[c]                = @elem(RVATD[c],%baseyear)    * CHD[c] / (1+@elem(RVATD[c], %baseyear)) if VATD[c]       <> 0
 
-##! Price of the value-added tax on imported commodity $c$
-PVATM[c]   * VATM[c]   =       RVATM[c]  * PCHM[c]    * CHM[c] / (1 + RVATM[c])                 if VATM[c]       <> 0
+##! Price of value-added tax on imported commodity $c$
+PVATM[c]   * VATM[c]   =       RVATM[c]  * (PCHM[c]    * CHM[c]) / (1 + RVATM[c])                 if VATM[c]       <> 0
 
 ##! Value-added tax on imported commodity $c$
              VATM[c]   = @elem(RVATM[c],%baseyear)    * CHM[c] / (1+@elem(RVATM[c], %baseyear)) if VATM[c]       <> 0
 
 ### Other taxes on commodities (value & volume)
 
-##! Price of the other taxes on domestically produced commodity $c$
+##! Price of other taxes on domestically produced commodity $c$
 POTHCTD[c] * OTHCTD[c] =       ROTHCTD[c]   * PYQ[c]  * YQ[c]                                   if OTHCTD[c]     <> 0
 
 ##! Other taxes on domestically produced commodity $c$
@@ -69,19 +68,18 @@ PSUBCD[c]  * SUBCD[c]  =       RSUBCD[c]              * YQ[c]                   
 ##! Subsidies on domestically produced commodity $c$
              SUBCD[c]  = @elem(RSUBCD[c], %baseyear)  * YQ[c]                                   if SUBCD[c]      <> 0
 
-## We assume that subsidies are on the volume of production. \\
+## We assume that subsidies are proportional to on the volume of production which is often the cases (in particular for agriculture). Consequently the price of the subvention grows like the subvention rate. For simplicity, we assume that at the steady state, the subvention rate grows at the rate of inflation. \\
 
-##! Price of the subsidies on imported commodity $c$
+##! Price of subsidies on imported commodity $c$
 PSUBCM[c]  *  SUBCM[c] =       RSUBCM[c]              * M[c]                                    if SUBCM[c]      <> 0
 
 ##! Subsidies on imported commodity $c$
               SUBCM[c] = @elem(RSUBCM[c], %baseyear)  * M[c]                                    if SUBCM[c]      <> 0
 
-
 #######################################
 
 #### Prices of commodities
-##  Prices should be defined in coherence with the above specification of taxes. \\
+##  Prices are amended to be consistent with the above specification of taxes. \\
 
 ##! Selling price before VAT for domestically produced commodity $c$
 PYQSBVAT[c] * YQSBVAT[c] = PYQ[c] * YQ[c] + POTHCTD[c] * OTHCTD[c] + PSUBCD[c] * SUBCD[c] + PMGPD[c] * MGPD[c] if YQSBVAT[c] <> 0
@@ -89,70 +87,68 @@ PYQSBVAT[c] * YQSBVAT[c] = PYQ[c] * YQ[c] + POTHCTD[c] * OTHCTD[c] + PSUBCD[c] *
 ##! Production of commodity $c$ expressed at market price before VAT
 d(log(YQSBVAT[c])) = d(log(YQ[c]))	                                                                           if YQSBVAT[c] <> 0
 
-##! Selling price before VAT for imported commodity $c$ (Value & volume)
+## $YQSBVAT_{c}$ is the volume of the production expressed at market price before VAT. It should \textbf{\underline{not}} be seen as a composite of several "goods": production at basic price, margins and taxes. Indeed, it does not increase when the volume of the commercial and transport margins increase. The price does instead. Consequently, $YQSBVAT_{c}$ is always proportional to $YQ_{c}$. Notice the consistency with the specification of the volume of a tax or a subvention: the tax rate does not increase the volume of the tax but increases its price. The volume of the tax increases only when the volume of the tax base (e.g. consumption, production) increases. \\
+
+##! Selling price before VAT for imported commodity $c$
 PMSBVAT[c]  * MSBVAT[c]  = PM[c]  * M[c]  + POTHCTM[c] * OTHCTM[c] + PSUBCM[c] * SUBCM[c] + PMGPM[c] * MGPM[c] if MSBVAT[c]  <> 0
 
 ##! Imports of commodity $c$ expressed at market price before VAT
 d(log(MSBVAT[c] )) = d(log(M[c] ))                                                                             if MSBVAT[c]  <> 0
 
-##! Price of domestically produced margins supplied by commodity $c$
+##! Market price of margins supplied by domestically produced commodity $c$
 @over PMGSD[c]   = PYQSBVAT[c]                                                     if MGSD[c]   <> 0
 
-##! Price of imported margins supplied by commodity $c$
+##! Market price of margins supplied by imported commodity $c$
 @over PMGSM[c]   = PMSBVAT[c]                                                      if MGSM[c]   <> 0
 
-##! Price of intermediary raw material consumption domestically produced $c$ of sector $s$
-# @over PCID[c, s] = PYQSBVAT[c]                                                 if CID[c, s] <> 0
+##! Market price of domestically produced intermediate consumption $c$ purshased by sector $s$
 @over PCID[c, s] = PYQSBVAT[c] + T2VAL_CI[c,s] / CI[c,s]                    if CID[c, s] <> 0
 
-##! Price of the imported intermediary raw material consumption $c$ of sector $s$
-# @over PCIM[c, s] = PMSBVAT[c]                                                  if CIM[c, s] <> 0
+##! Market price of imported intermediate consumption $c$ purshased by sector $s$
 @over PCIM[c, s] = PMSBVAT[c]  + T2VAL_CI[c,s] / CI[c,s]                    if CIM[c, s] <> 0
 
-##! Price for households final consumption of domestically produced commodity $c$
-# @over PCHD[c]    = PYQSBVAT[c] * (1 + RVATD[c]) / (1 + @elem(RVATD[c], %baseyear))                           if CHD[c]    <> 0
+##! Market price of domestically produced households final consumption $c$
 @over PCHD[c]    = PYQSBVAT[c] * (1 + RVATD[c]) / (1 + @elem(RVATD[c], %baseyear)) + T2VAL_CH[c] / CH[c] if CHD[c]    <> 0
 
-##! Price for households final consumption of Imported commodity $c$
-# @over PCHM[c]    = PMSBVAT[c]  * (1 + RVATM[c]) / (1 + @elem(RVATM[c], %baseyear))                           if CHM[c]    <> 0
+##! Market price of imported households final consumption $c$
 @over PCHM[c]    = PMSBVAT[c]  * (1 + RVATM[c]) / (1 + @elem(RVATM[c], %baseyear)) + T2VAL_CH[c] / CH[c] if CHM[c]    <> 0
 
-##! Market price for government final consumption of domestically produced commodity $c$
+##! Market price of domestically produced Government final consumption $c$
 @over PGD[c]     = PYQSBVAT[c]                                                     if GD[c]     <> 0
 
-##! Market price for government final consumption of imported commodity $c$
+##! Market price of imported Government final consumption $c$
 @over PGM[c]     = PMSBVAT[c]                                                      if GM[c]     <> 0
 
-##! Market price for investment of domestically produced commodity $c$
+##! Market price of domestically produced investment $c$ purshased by sector $s$
 @over PID[c, s]  = PYQSBVAT[c]                                                     if ID[c, s]  <> 0
 
-##! Market price for investment of imported commodity $c$
+##! Market price of imported investment $c$ purshased by sector $s$
 @over PIM[c, s]  = PMSBVAT[c]                                                      if IM[c, s]  <> 0
 
-##! Market price for exports of domestically produced commodity $c$
+##! Market price of domestically produced exports $c$
 @over PXD[c]     = PYQSBVAT[c]                                                     if XD[c]     <> 0
 
-##! Market price for exports of imported commodity $c$
+##! Market price of imported exports (re-exports) $c$
 @over PXM[c]     = PMSBVAT[c]                                                      if XM[c]     <> 0
 
-##! Market price for change in inventories of domestically produced commodity $c$
+##! Market price of domestically produced change in inventories $c$
 @over PDSD[c]    = PYQSBVAT[c]                                                     if DSD[c]    <> 0
 
-##! Market price for change in inventories of imported commodity $c$
+##! Market price of imported change in inventories $c$
 @over PDSM[c]    = PMSBVAT[c]                                                      if DSM[c]    <> 0
 
 ##################################
 ### Aggregation of taxes
 
-##! Aggregate market price for Value-added Tax on domestically produced households final consumption
+##! Aggregate market price for value-added tax paid on domestically produced comodities
 PVATD   * VATD = sum(PVATD[c] *     VATD[c]   if VATD[c]   <> 0 on c)  if VATD   <> 0
-##! Aggregate Value-added Tax on domestically produced households final consumption
+##! Aggregate value-added tax paid on domestically produced comodities
           VATD = sum(               VATD[c]   if VATD[c]   <> 0 on c)  if VATD   <> 0
 
-##! Aggregate market price for Other product Tax on domestically produced households final consumption
+##! Aggregate market price for other product tax paid on domestically produced comodities
 POTHCTD * OTHCTD = sum(POTHCTD[c] * OTHCTD[c] if OTHCTD[c] <> 0 on c)  if OTHCTD <> 0
 
-##! Aggregate Other product Tax on domestically produced households final consumption
+##! Aggregate other product tax paid on domestically produced comodities
           OTHCTD = sum(             OTHCTD[c] if OTHCTD[c] <> 0 on c)  if OTHCTD <> 0
 
 ##! Aggregate market price for subsidies on domestically produced commodities
@@ -161,10 +157,10 @@ PSUBCD  * SUBCD  = sum(PSUBCD[c]  * SUBCD[c]  if SUBCD[c]  <> 0 on c)  if SUBCD 
 ##! Aggregate subsidies on domestically produced commodities
           SUBCD  = sum(             SUBCD[c]  if SUBCD[c]  <> 0 on c)  if SUBCD  <> 0
 
-##! Aggregate market price for Value-added Tax on imported households final consumption
+##! Aggregate market price for value-added tax paid on imported comodities
 PVATM   * VATM   = sum(PVATM[c]   * VATM[c]   if VATM[c]   <> 0 on c)  if VATM   <> 0
 
-##! Aggregate Value-added Tax on imported households final consumption
+##! Aggregate value-added tax paid on imported comodities
           VATM   = sum(             VATM[c]   if VATM[c]   <> 0 on c)  if VATM   <> 0
 
 ##! Aggregate market price for Other product Tax on imported commododities
@@ -197,10 +193,37 @@ PSUBC   * SUBC   = PSUBCD  * SUBCD  + PSUBCM  * SUBCM                  if SUBC  
 ##! Aggregate subsidies on commodities
           SUBC   =           SUBCD  +           SUBCM                  if SUBC   <> 0
 
-##################################
-
 ##! Net taxes on the production of sector $s$ expressed in value
 @over NTAXS_VAL[s] 	 = 			 RNTAXS[s]	* PY[s]	    * Y[s] + T2VAL_MAT[s] + T2VAL_Y[s]
 
 ##! Net taxes on the production of sector $s$
 @over NTAXS[s] 		   = @elem(RNTAXS[s], %baseyear)  * Y[s] + (T2VAL_MAT[s] + T2VAL_Y[s])/PY[s]
+
+### Average tax rates
+
+##! Average VAT rate on domestically produced commodity
+RVATD = (PVATD * VATD) / (PCHD * CHD - PVATD   * VATD)
+
+##! Average rate of other taxes on domestically produced commodity
+ROTHCTD = POTHCTD * OTHCTD / (PYQ * YQ) 
+
+##! Average rate of subsidies on domestically produced commodity
+RSUBCD = PSUBCD  * SUBCD / YQ
+
+##! Average VAT rate on imported commodity
+RVATM = (PVATM * VATM) / (PCHM * CHM - PVATM * VATM)
+
+##! Average rate of other taxes on imported commodity
+ROTHCTM = POTHCTM * OTHCTM / (PM * M) 
+
+##! Average rate of subsidies on imported commodity
+RSUBCM = PSUBCM  * SUBCM / M        
+
+##! Average VAT rate
+RVAT = (PVAT * VAT) / (PCH * CH - PVAT   * VAT)
+
+##! Average rate of other taxes on commodity
+ROTHCT = POTHCT * OTHCT / (PYQ * YQ + PM * M) 
+
+##! Average rate of subsidies on commodity 
+RSUBC = PSUBC  * SUBC / (YQ  + M)        

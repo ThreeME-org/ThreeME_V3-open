@@ -35,3 +35,21 @@ SUBC := SUBCD + SUBCM
 
 @over NTAXCD_VAL[c] := PVATD[c] * VATD[c] + POTHCTD[c] * OTHCTD[c] + PSUBCD[c] * SUBCD[c]  + T2VAL_CH[c] * CHD[c]/CH[c] + T2VAL_CI[c] * CID[c]/CI[c]
 @over NTAXCD[c] := VATD[c] +              OTHCTD[c] +             SUBCD[c]   +   (T2VAL_CH[c] * CHD[c]/CH[c])/PCH[c] + (T2VAL_CI[c] * CID[c]/CI[c])/PCI[c]
+
+RVATD := (PVATD * VATD) / (PCHD * CHD - PVATD   * VATD)
+
+ROTHCTD := POTHCTD * OTHCTD / (PYQ * YQ) 
+
+RSUBCD := PSUBCD  * SUBCD / YQ
+
+RVATM := (PVATM * VATM) / (PCHM * CHM - PVATM * VATM)
+
+ROTHCTM := POTHCTM * OTHCTM / (PM * M) 
+
+RSUBCM := PSUBCM  * SUBCM / M        
+
+RVAT := (PVAT * VAT) / (PCH * CH - PVAT   * VAT)
+
+ROTHCT := POTHCT * OTHCT / (PYQ * YQ + PM * M) 
+
+RSUBC := PSUBC  * SUBC / (YQ  + M)
