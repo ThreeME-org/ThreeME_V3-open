@@ -150,7 +150,7 @@ subroutine standard_shock(string %shock)
   ' Decrease of income tax by 1% of ex ante GDP
   if @lower(%shock) = "inct10" then
 
-    RINC_SOC_TAX = INC_SOC_TAX_VAL/DISPINC_BT_VAL - @elem(0.01 * GDP/DISPINC_BT_VAL, %baseyear)
+    RINC_SOC_TAX = RINC_SOC_TAX - @elem(0.01 * GDP/DISPINC_BT_VAL, %baseyear)
 
   endif
 
@@ -158,7 +158,7 @@ subroutine standard_shock(string %shock)
   if @lower(%shock) = "vat1" then
 
   series RVAT_shock = (PVAT * VAT) / (PCH * CH - PVAT * VAT)
-  series RVAT_shock_new = (PVAT * VAT + 0.01 * @elem(GDP, %baseyear) * PGDP)/(PCH * CH / (1 + RVAT_shock))
+  series RVAT_shock_new = RVAT_shock  + (0.01 * @elem(GDP, %baseyear) * PGDP)/(PCH * CH - PVAT * VAT)
 
   for %c cagr cveh ccon crai croa cpri ccoa cele
     RVATD_{%c} = RVATD_{%c} * RVAT_shock_new / RVAT_shock
