@@ -10,6 +10,12 @@ T2VAL_CI[ghg,c,s] = R2_CI[ghg,c,s] * EMS_CI[ghg,c,s]
 ##! Carbon tax in value on intermediary consumption emissions depending on ghg emission types and commodity c
 T2VAL_CI[ghg,c] = sum(T2VAL_CI[ghg,c,s] on s)
 
+##! Carbon tax in value on intermediary consumption emissions depending on ghg emission types and domestic commodity c
+T2VAL_CID[ghg,c] = sum(T2VAL_CI[ghg,c,s] * CID[c,s] / CI[c,s]  on s)
+
+##! Carbon tax in value on intermediary consumption emissions depending on ghg emission types and imported commodity c
+T2VAL_CIM[ghg,c] = sum(T2VAL_CI[ghg,c,s] * CIM[c,s] / CI[c,s]  on s)
+
 ##! Carbon tax in value on intermediary consumption emissions depending on ghg emission types and sector s
 T2VAL_CI[ghg,s] = sum(T2VAL_CI[ghg,c,s] on c)
 
@@ -21,6 +27,12 @@ T2VAL_CI[ghg] = sum(T2VAL_CI[ghg,c] on c)
 
 ##! Carbon tax in value on intermediary consumption emissions depending on commodity c
 T2VAL_CI[c] = sum(T2VAL_CI[ghg,c] on ghg)
+
+##! Carbon tax in value on intermediary consumption emissions depending on domestic commodity c
+T2VAL_CID[c] = sum(T2VAL_CID[ghg,c] on ghg)
+
+##! Carbon tax in value on intermediary consumption emissions depending on imported commodity c
+T2VAL_CIM[c] = sum(T2VAL_CIM[ghg,c] on ghg)
 
 ##! Carbon tax in value on intermediary consumption emissions depending on sector s
 T2VAL_CI[s] = sum(T2VAL_CI[ghg,s] on ghg)

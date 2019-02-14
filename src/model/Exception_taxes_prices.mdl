@@ -10,11 +10,11 @@
 
 ##! Net taxes on domestically produced commodity $c$ expressed in value
 # @over NTAXCD_VAL[c] = PVATD[c] * VATD[c] + POTHCTD[c] * OTHCTD[c] + PSUBCD[c] * SUBCD[c]   if NTAXCD_VAL[c] <> 0
-@over NTAXCD_VAL[c] = PVATD[c] * VATD[c] + POTHCTD[c] * OTHCTD[c] + PSUBCD[c] * SUBCD[c]  + T2VAL_CH[c] * CHD[c]/CH[c] + T2VAL_CI[c] * CID[c]/CI[c]   if NTAXCD_VAL[c] <> 0
+@over NTAXCD_VAL[c] = PVATD[c] * VATD[c] + POTHCTD[c] * OTHCTD[c] + PSUBCD[c] * SUBCD[c]  + T2VAL_CH[c] * CHD[c]/CH[c] + T2VAL_CID[c]   if NTAXCD_VAL[c] <> 0
 
 ##! Net taxes on domestically produced commodity $c$
-# @over NTAXCD[c]     =            VATD[c] +              OTHCTD[c] +             SUBCD[c]    if NTAXCD[c]     <> 0
-@over NTAXCD[c]     =            VATD[c] +              OTHCTD[c] +             SUBCD[c]   +   (T2VAL_CH[c] * CHD[c]/CH[c])/PCH[c] + (T2VAL_CI[c] * CID[c]/CI[c])/PCI[c]  if NTAXCD[c]     <> 0
+@over NTAXCD[c]     =            VATD[c] +              OTHCTD[c] +             SUBCD[c]    if NTAXCD[c]     <> 0
+# @over NTAXCD[c]     =            VATD[c] +              OTHCTD[c] +             SUBCD[c]   +   (T2VAL_CH[c] * CHD[c]/CH[c])/PCH[c] + (T2VAL_CI[c] * CID[c]/CI[c])/PCI[c]  if NTAXCD[c]     <> 0
 
 ## This is not defined anymore by simply assuming a constant rate over the production value: $NTAXCD^{VAL}_{c} = RNTAXCD_{c}*PYQ_{c}*YQ_{c}$. Different taxes are now defined depending on their basis (see below). \\
 
@@ -24,7 +24,7 @@ RNTAXCD[c] = NTAXCD_VAL[c] / (PYQ[c] * YQ[c])     if YQ[c] <> 0
 ## This rate become now endogenous by inverting the equation of $NTAXCD^{VAL}_{c}$. This specification ensure the equality accountancy between the various GDP definition. \\
 
 ##! Net taxes on imported commodity $c$ expressed in value
-@over NTAXCM_VAL[c] = PVATM[c] * VATM[c] + POTHCTM[c] * OTHCTM[c] + PSUBCM[c] * SUBCM[c]        if NTAXCM_VAL[c] <> 0
+@over NTAXCM_VAL[c] = PVATM[c] * VATM[c] + POTHCTM[c] * OTHCTM[c] + PSUBCM[c] * SUBCM[c] + T2VAL_CH[c] * CHM[c]/CH[c] + T2VAL_CIM[c]       if NTAXCM_VAL[c] <> 0
 
 ##! Net taxes on imported commodity $c$
 @over NTAXCM[c]     =            VATM[c] +              OTHCTM[c] +             SUBCM[c]        if NTAXCM[c]     <> 0
@@ -35,16 +35,18 @@ RNTAXCM[c] = NTAXCM_VAL[c] / (PM[c]  * M[c] )   if M[c] <> 0
 ### Value-added tax (value & volume)
 
 ##! Price of value-added tax on domestically produced commodity $c$
-PVATD[c]   * VATD[c]   =       RVATD[c] * (PCHD[c]     * CHD[c]) / (1 + RVATD[c])                 if VATD[c]       <> 0
+#PVATD[c]   * VATD[c]   =       RVATD[c] * (PCHD[c]     * CHD[c]) / (1 + RVATD[c])                 if VATD[c]       <> 0
+PVATD[c]   * VATD[c]   =       RVATD[c] * PYQSBVAT[c] * CHD[c] / (1 + @elem(RVATD[c], %baseyear))  if VATD[c]       <> 0
 
 ##! Value-added tax on domestically produced commodity $c$
-VATD[c]                = @elem(RVATD[c],%baseyear)    * CHD[c] / (1+@elem(RVATD[c], %baseyear)) if VATD[c]       <> 0
+VATD[c]                = @elem(RVATD[c],%baseyear)    * CHD[c] / (1 + @elem(RVATD[c], %baseyear))  if VATD[c]       <> 0
 
 ##! Price of value-added tax on imported commodity $c$
-PVATM[c]   * VATM[c]   =       RVATM[c]  * (PCHM[c]    * CHM[c]) / (1 + RVATM[c])                 if VATM[c]       <> 0
+# PVATM[c]   * VATM[c]   =       RVATM[c]  * (PCHM[c]    * CHM[c]) / (1 + RVATM[c])                 if VATM[c]       <> 0
+PVATM[c]   * VATM[c]   =       RVATM[c] * PMSBVAT[c] * CHM[c] / (1 + @elem(RVATM[c], %baseyear))  if VATM[c]       <> 0
 
 ##! Value-added tax on imported commodity $c$
-             VATM[c]   = @elem(RVATM[c],%baseyear)    * CHM[c] / (1+@elem(RVATM[c], %baseyear)) if VATM[c]       <> 0
+             VATM[c]   = @elem(RVATM[c],%baseyear)   * CHM[c] / (1 + @elem(RVATM[c], %baseyear))  if VATM[c]       <> 0
 
 ### Other taxes on commodities (value & volume)
 
