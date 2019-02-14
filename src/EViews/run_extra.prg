@@ -75,6 +75,10 @@ subroutine standard_backup()
     series R2_MAT_CO2_bckp_{%s} = R2_MAT_CO2_{%s}
   next
 
+  for %s {%list_sec}
+    series R2_Y_CO2_bckp_{%s} = R2_Y_CO2_{%s}
+  next
+
   for %c {%list_com}
     series R2_CH_CO2_bckp_{%c} = R2_CH_CO2_{%c}
   next
@@ -111,6 +115,10 @@ subroutine standard_restore_backup()
 
   for %s {%list_sec}
     series R2_MAT_CO2_{%s} = R2_MAT_CO2_bckp_{%s}
+  next
+
+  for %s {%list_sec}
+    series R2_Y_CO2_{%s} = R2_Y_CO2_bckp_{%s}
   next
 
   for %c {%list_com}
@@ -190,16 +198,21 @@ subroutine standard_shock(string %shock)
 
   for %c {%list_com}
     for %s {%list_sec}
-      R2_CI_CO2_{%c}_{%s} = R2_CI_CO2_{%c}_{%s} + 0.01 * @elem(GDP, %baseyear) / (EMS_CI_CO2+EMS_MAT_CO2+EMS_CH_CO2)
+      R2_CI_CO2_{%c}_{%s} = R2_CI_CO2_{%c}_{%s} + 0.01 * @elem(GDP, %baseyear) / (EMS_CI_CO2+EMS_MAT_CO2+EMS_Y_CO2+EMS_CH_CO2)
     next
   next
 
   for %s {%list_sec}
-    R2_MAT_CO2_{%s} = R2_MAT_CO2_{%s} + 0.01 * @elem(GDP, %baseyear) / (EMS_CI_CO2+EMS_MAT_CO2+EMS_CH_CO2)
+    R2_MAT_CO2_{%s} = R2_MAT_CO2_{%s} + 0.01 * @elem(GDP, %baseyear) / (EMS_CI_CO2+EMS_MAT_CO2+EMS_Y_CO2+EMS_CH_CO2)
   next
 
+  for %s {%list_sec}
+    R2_Y_CO2_{%s} = R2_Y_CO2_{%s} + 0.01 * @elem(GDP, %baseyear) / (EMS_CI_CO2+EMS_MAT_CO2+EMS_Y_CO2+EMS_CH_CO2)
+  next
+
+
   for %c {%list_com}
-    R2_CH_CO2_{%c} = R2_CH_CO2_{%c} + 0.01 * @elem(GDP, %baseyear) / (EMS_CI_CO2+EMS_MAT_CO2+EMS_CH_CO2)
+    R2_CH_CO2_{%c} = R2_CH_CO2_{%c} + 0.01 * @elem(GDP, %baseyear) / (EMS_CI_CO2+EMS_MAT_CO2+EMS_Y_CO2+EMS_CH_CO2)
   next
 
   endif
