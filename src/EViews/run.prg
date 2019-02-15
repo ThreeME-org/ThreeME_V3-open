@@ -62,12 +62,12 @@ if %load="new"  then
 
     ' Put add factors to all equations
     smpl 1997 2000
-    {%modelname}.addassign @all
+    '' {%modelname}.addassign @all
     ' Set add factor values so that the equation has no residual when evaluated at actuals
-    {%modelname}.addinit(v=n) @all
+    '' {%modelname}.addinit(v=n) @all
     ' Show all add factors
-    group a_addfactors *_a
-  ''  show a_addfactors
+    '' group a_addfactors *_a
+    '' show a_addfactors
 
     smpl @all
 
@@ -101,9 +101,9 @@ endif
 
        call run_scenario("baseline")
 
-''       call run_standard("RSC1")
-''       call run_standard("EXPG1")
-       call run_standard("EXR10 EXPG1 RSSC1 INCT10 VAT1 WD1 FF10 CT1", 1)
+''       call run_standard("EXR10 EXPG1 RSSC1 INCT10 VAT1 WD1 FF10 CT1", 1) ' Option: 1 for result in excel template; 0 only scenario run
+       call run_standard("CT1", 0)
+
       '' call output_template("EXR10")
 
 
@@ -112,7 +112,7 @@ endif
 
   ' ***************************************
   ' Call (eventually) here the subroutine you want to use to analyse the results
-  ' call additional_outputs("Fred")
+  '' call additional_outputs("Fred")
 ''    call additional_outputs("Fred_Hybrid")
   ' call output_template(%scenario_name)
 
