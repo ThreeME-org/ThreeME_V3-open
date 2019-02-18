@@ -1,0 +1,3 @@
+@over PM[c] = 0.25 * EXR * PWD[c] + 0.75 * PYQ[c]
+@over PXD[c]  = 0.25 * EXR * PWD[c] + 0.75 * PYQSBVAT[c]
+@over PXM[c]  = 0.25 * EXR * PWD[c] + 0.75 * PMSBVAT[c]
