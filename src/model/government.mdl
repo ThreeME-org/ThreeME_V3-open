@@ -25,10 +25,10 @@ NTAXC_VAL[c] 	 = NTAXCD_VAL[c] + NTAXCM_VAL[c]
 NTAXC[c] 		 	 = NTAXCD[c] 		 + NTAXCM[c]
 
 ##! Net taxes on the production of sector $s$ expressed in value
-NTAXS_VAL[s] 	 = 			 RNTAXS[s]	* PY[s]	    * Y[s]
+NTAXS_VAL[s] 	 = 			 RNTAXS[s]	* PY[s]	    * Y[s] + T2VAL_MAT[s] + T2VAL_Y[s]
 
 ##! Net taxes on the production of sector $s$
-NTAXS[s] 		   = @elem(RNTAXS[s], %baseyear)  * Y[s]
+NTAXS[s] 		   = @elem(RNTAXS[s], %baseyear)  * Y[s] + (T2VAL_MAT[s] + T2VAL_Y[s])/PY[s]
 
 ##! Employers' social security contribution paid by sector $s$
 RSC[s] * PRSC[s] = W[s] * F[L, s] * RRSC[s]
@@ -77,7 +77,7 @@ SPEND_G_VAL 		  = PG  * G  + SOC_BENF_VAL + DEBT_G_VAL{-1}*(Phi_RD_G{-1} + r_DEB
 
 #### Deficit and debt
 
-##! Savings of the Government expressed in value 
+##! Savings of the Government expressed in value
 SAV_G_VAL 	  	  = INC_G_VAL - SPEND_G_VAL
 ## It corresponds to the net lending/borrowing, which is the published deficit/savings of the Government. \\
 
