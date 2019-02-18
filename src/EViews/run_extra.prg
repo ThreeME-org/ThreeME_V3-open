@@ -156,7 +156,7 @@ subroutine standard_shock(string %shock)
   endif
 
   ' Decrease of income tax by 1% of ex ante GDP
-  if @lower(%shock) = "inct10" then
+  if @lower(%shock) = "inct1" then
 
     RINC_SOC_TAX = RINC_SOC_TAX - @elem(0.01 * GDP/DISPINC_BT_VAL, %baseyear)
 
@@ -224,12 +224,94 @@ subroutine standard_shock(string %shock)
 
 endsub
 
+' ============================================================================
+' +++++++++++++++++++++++++++
+' Subroutine "run_baseshock"
+' +++++++++++++++++++++++++++
+
+' This subroutine performs a simple shock:
+' - run the baseline scenario
+' - run the shock scenario
+
+' Possibility to use list of hypothesis (specified in the file configuration.prg)
+' - Data calibration
+' - Data shock
+
+subroutine run_baseshock
+
+    For %DS {%shocks}
+
+          wfopen {%wfname}
+
+          ' Run the baseline scenario
+          call run_scenario("baseline")
+
+          ' Run scenario
+          call run_scenario(%DS)
+
+    next
+
+endsub
+
+' ============================================================================
+' +++++++++++++++++++++++++++
+' Subroutine "run_scenario"
+' +++++++++++++++++++++++++++
+
+' This subroutine runs an individual scenario, baseline or shock
+' Pass in "baseline" as the %scenario_name for the baseline scenario
+
+subroutine run_scenario(string %scenario_name)
+
+  if %scenario_name = "baseline" then
+
+    ' Load a realistic reference scenario if requested (in configuration.prg)
+    if %ref="realist" then
+      call load_realist
+    endif
+
+    ' Solve the model
+    call solvemodel(%solveopt)
+
+  else
+
+    ' Create a new scenario that can be compared with the baseline
+    {%modelname}.scenario(n, a=2) {%scenario_name}
+
+    ' Load data for the shock to be simulated
+    call load_data_shocks(%scenario_name)
+
+    call solvemodel(%solveopt)
+
+  endif
+
+endsub
 
 
+' ============================================================================
+' ============================================================================
+' ================= STANDARD OUTPUTS =========================================
+' ============================================================================
 
 
+subroutine standard_outputs(string %scenario, string %grp_name, string %index)
 
+  smpl {%baseyear}+1 {%baseyear}+1 {%baseyear}+2 {%baseyear}+2 {%baseyear}+3 {%baseyear}+3 {%baseyear}+5 {%baseyear}+5 {%baseyear}+10 {%baseyear}+10 {%baseyear}+35 {%baseyear}+35
+  group {%grp_name} 100*(GDP_{%index}/GDP_0-1) 100*(CH_{%index}/CH_0-1) 100*(I_{%index}/I_0-1) 100*(X_{%index}/X_0-1) 100*(M_{%index}/M_0-1) 100*(DISPINC_AT_VAL_{%index}/DISPINC_AT_VAL_0-1) 100*(RSAV_H_VAL_{%index}-RSAV_H_VAL_0) 100*(PCH_{%index}/PCH_0-1) 100*(PY_{%index}/PY_0-1)  100*(PVA_{%index}/PVA_0-1) 100*(PCI_{%index}/PCI_0-1) 100*(PX_{%index}/PCI_0-1) 100*(PM_{%index}/PCI_0-1) 100*(W_{%index}/W_0-1) 100*((C_L_{%index}/PVA_{%index})/(C_L_0/PVA_0)-1) (F_L_{%index}-F_L_0) 100*(UnR_{%index}-UnR_0) 100*(RBal_Trade_VAL_{%index}-RBal_Trade_VAL_0) 100*(RBal_G_Prim_VAL_{%index}-RBal_G_Prim_VAL_0)
+  freeze(mode = overwrite, tab_results) {%grp_name}
+  tab_results.save(t=txt) .\..\..\results\standard\{%scenario}.txt
 
+  smpl @all
+  group {%grp_name}_all 100*(GDP_{%index}/GDP_0-1) 100*(CH_{%index}/CH_0-1) 100*(I_{%index}/I_0-1) 100*(X_{%index}/X_0-1) 100*(M_{%index}/M_0-1) 100*(DISPINC_AT_VAL_{%index}/DISPINC_AT_VAL_0-1) 100*(RSAV_H_VAL_{%index}-RSAV_H_VAL_0) 100*(PCH_{%index}/PCH_0-1) 100*(PY_{%index}/PY_0-1)  100*(PVA_{%index}/PVA_0-1) 100*(PCI_{%index}/PCI_0-1) 100*(PX_{%index}/PCI_0-1) 100*(PM_{%index}/PCI_0-1) 100*(W_{%index}/W_0-1) 100*((C_L_{%index}/PVA_{%index})/(C_L_0/PVA_0)-1) (F_L_{%index}-F_L_0) 100*(UnR_{%index}-UnR_0) 100*(RBal_Trade_VAL_{%index}-RBal_Trade_VAL_0) 100*(RBal_G_Prim_VAL_{%index}-RBal_G_Prim_VAL_0)
+  freeze(mode = overwrite, tab_results) {%grp_name}_all
+  tab_results.save(t=txt) .\..\..\results\standard\{%scenario}_all.txt
+
+  ' smpl @all
+  ' group all_results *
+  ' freeze(mode = overwrite, tab_all) all_results
+  ' tab_all.save(t=csv) .\..\..\results\all.csv
+
+endsub
 
 
 

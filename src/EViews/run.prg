@@ -5,8 +5,6 @@
 ' Here only the basic run subroutine!
 ' ============================================================================
 
-
-
 ' ============================================================================
 ' +++++++++++++++++++
 ' Subroutine "Run"
@@ -101,8 +99,8 @@ endif
 
        call run_scenario("baseline")
 
-''       call run_standard("EXR10 EXPG1 RSSC1 INCT10 VAT1 WD1 FF10 CT1", 1) ' Option: 1 for result in excel template; 0 only scenario run
-       call run_standard("CT1", 0)
+     call run_standard("EXR10 EXPG1 RSSC1 INCT1 VAT1 WD1 FF10 CT1", 1) ' Option: 1 for result in excel template; 0 only scenario run
+ ''  call run_standard("CT1", 1)
 
       '' call output_template("EXR10")
 
@@ -134,69 +132,5 @@ endif
 ''    Wfsave(c) output_{%DC}\{%DS}.wf1
 
 ''    close @all
-
-endsub
-
-
-' ============================================================================
-' +++++++++++++++++++++++++++
-' Subroutine "run_baseshock"
-' +++++++++++++++++++++++++++
-
-' This subroutine performs a simple shock:
-' - run the baseline scenario
-' - run the shock scenario
-
-' Possibility to use list of hypothesis (specified in the file configuration.prg)
-' - Data calibration
-' - Data shock
-
-subroutine run_baseshock
-
-    For %DS {%shocks}
-
-          wfopen {%wfname}
-
-          ' Run the baseline scenario
-          call run_scenario("baseline")
-
-          ' Run scenario
-          call run_scenario(%DS)
-
-    next
-
-endsub
-
-' ============================================================================
-' +++++++++++++++++++++++++++
-' Subroutine "run_scenario"
-' +++++++++++++++++++++++++++
-
-' This subroutine runs an individual scenario, baseline or shock
-' Pass in "baseline" as the %scenario_name for the baseline scenario
-
-subroutine run_scenario(string %scenario_name)
-
-  if %scenario_name = "baseline" then
-
-    ' Load a realistic reference scenario if requested (in configuration.prg)
-    if %ref="realist" then
-      call load_realist
-    endif
-
-    ' Solve the model
-    call solvemodel(%solveopt)
-
-  else
-
-    ' Create a new scenario that can be compared with the baseline
-    {%modelname}.scenario(n, a=2) {%scenario_name}
-
-    ' Load data for the shock to be simulated
-    call load_data_shocks(%scenario_name)
-
-    call solvemodel(%solveopt)
-
-  endif
 
 endsub
