@@ -28,7 +28,7 @@ NTAXC[c] 		 	 = NTAXCD[c] 		 + NTAXCM[c]
 NTAXS_VAL[s] 	 = 			 RNTAXS[s]	* PY[s]	    * Y[s] + T2VAL_MAT[s] + T2VAL_Y[s]
 
 ##! Net taxes on the production of sector $s$
-NTAXS[s] 		   = @elem(RNTAXS[s], %baseyear)  * Y[s] + (T2VAL_MAT[s] + T2VAL_Y[s])/PY[s]
+NTAXS[s] 		   = @elem(RNTAXS[s], %baseyear)  * Y[s] + T2_MAT[s] + T2_Y[s]
 
 ##! Employers' social security contribution paid by sector $s$
 RSC[s] * PRSC[s] = W[s] * F[L, s] * RRSC[s]

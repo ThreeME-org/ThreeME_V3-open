@@ -3,7 +3,7 @@ include ..\model\lists
 ### From producer block
 
 phi_MGPD[m, c]  := PMGPD[m, c] * MGPD[m, c] / (sum(PMGPD[mm, c] * MGPD[mm, c] on mm))                                                   if MGPD[m, c] <> 0
-phi_MGPM[m, c]  := PMGPM[m, c] * MGPM[m, c] / (sum(PMGPM[mm, c] * MGPM[mm, c] on mm))        
+phi_MGPM[m, c]  := PMGPM[m, c] * MGPM[m, c] / (sum(PMGPM[mm, c] * MGPM[mm, c] on mm))
 
 
 phi[f, s] := C[f, s] * F_n[f, s] / (sum(C[ff, s] * F_n[ff, s] on ff))
@@ -22,22 +22,22 @@ NTAXCD_VAL[c] := RNTAXCD[c]*PYQ[c]*YQ[c]
 
 NTAXCM_VAL[c] := RNTAXCM[c]*PM[c]*M[c]
 
-NTAXS_VAL[s] := RNTAXS[s]*PY[s]*Y[s]
+NTAXS_VAL[s] := RNTAXS[s]	* PY[s]	    * Y[s] + T2VAL_MAT[s] + T2VAL_Y[s]
 
 RSC := sum(RSC[s] on s)
 
-RRSC := PRSC * RSC / (W * F[L]) 
+RRSC := PRSC * RSC / (W * F[L])
 
 INC_G_VAL := PNTAXC * NTAXC + NTAXS_VAL + INC_SOC_TAX_VAL + PRSC * RSC + PROP_INC_G_VAL
 
-SPEND_G_VAL := PG  * G  + SOC_BENF_VAL + DEBT_G_VAL{-1}*(Phi_RD_G{-1} + r_DEBT_G{-1}) 
+SPEND_G_VAL := PG  * G  + SOC_BENF_VAL + DEBT_G_VAL{-1}*(Phi_RD_G{-1} + r_DEBT_G{-1})
 
 SAV_G_VAL := INC_G_VAL - SPEND_G_VAL
 
 Bal_G_Prim_VAL := SAV_G_VAL + DEBT_G_VAL{-1}*(Phi_RD_G{-1} + r_DEBT_G{-1})
 Bal_G_Prim_VALbis := INC_G_VAL - (PG  * G  + SOC_BENF_VAL)
 
-Bal_G_Tot_VAL := Bal_G_Prim_VAL - DEBT_G_VAL{-1}*r_DEBT_G{-1} 
+Bal_G_Tot_VAL := Bal_G_Prim_VAL - DEBT_G_VAL{-1}*r_DEBT_G{-1}
 
 RSAV_G_VAL := SAV_G_VAL / (PGDP * GDP)
 

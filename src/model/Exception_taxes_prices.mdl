@@ -60,11 +60,20 @@ T2VAL_CI = sum(T2VAL_CI[s] on s)
 ##! Carbon tax in value on material emissions depending on ghg emission types, commodity c in sector s
 T2VAL_MAT[ghg,s] = R2_MAT[ghg,s] * EMS_MAT[ghg,s]
 
+##! Carbon tax in volume on material emissions depending on ghg emission types, commodity c in sector s
+T2_MAT[ghg,s] = @elem(R2_MAT[ghg,s], %baseyear) * EMS_MAT[ghg,s]
+
 ##! Carbon tax in value on material emissions depending on ghg emission types
 T2VAL_MAT[ghg] = sum(T2VAL_MAT[ghg,s] on s)
 
+##! Carbon tax in volume on material emissions depending on ghg emission types
+T2_MAT[ghg] = sum(T2_MAT[ghg,s] on s)
+
 ##! Carbon tax in value on material emissions depending on commodity c
 T2VAL_MAT[s] = sum(T2VAL_MAT[ghg,s] on ghg)
+
+##! Carbon tax in volume on material emissions depending on commodity c
+T2_MAT[s] = sum(T2_MAT[ghg,s] on ghg)
 
 ##! Carbon tax in value on material emissions
 T2VAL_MAT = sum(T2VAL_MAT[s] on s)
@@ -74,11 +83,20 @@ T2VAL_MAT = sum(T2VAL_MAT[s] on s)
 ##! Carbon tax in value on production emissions depending on ghg emission types, commodity c in sector s
 T2VAL_Y[ghg,s] = R2_Y[ghg,s] * EMS_Y[ghg,s]
 
+##! Carbon tax in volume on production emissions depending on ghg emission types, commodity c in sector s
+T2_Y[ghg,s] = @elem(R2_Y[ghg,s], %baseyear) * EMS_Y[ghg,s]
+
 ##! Carbon tax in value on production emissions depending on ghg emission types
 T2VAL_Y[ghg] = sum(T2VAL_Y[ghg,s] on s)
 
+##! Carbon tax in volume on production emissions depending on ghg emission types
+T2_Y[ghg] = sum(T2_Y[ghg,s] on s)
+
 ##! Carbon tax in value on production emissions depending on sector s
 T2VAL_Y[s] = sum(T2VAL_Y[ghg,s] on ghg)
+
+##! Carbon tax in volume on production emissions depending on sector s
+T2_Y[s] = sum(T2_Y[ghg,s] on ghg)
 
 ##! Carbon tax in value on production emissions
 T2VAL_Y = sum(T2VAL_Y[s] on s)
