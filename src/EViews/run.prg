@@ -47,7 +47,7 @@ if %load="new"  then
 
 
     ' Create the series using the dependencies (add-ins "series")
-    {%modelname}.series round0 Prices_data SU_data Special_data Other_data Exception_taxes_prices_data Exception_NestedCES_data Exception_ConsumerNested_data
+    {%modelname}.series round0 Prices_data SU_data Special_data Other_data Exception_taxes_prices_data Exception_NestedCES_data Exception_ConsumerNested_data Exception_Other_data
 
 ''    {%modelname}.series round0 Prices_data SU_data Special_data Other_data Exception_taxes_prices_data Exception_NestedCES_data Exception_Hybrid_data
 
@@ -99,7 +99,8 @@ endif
 
        call run_scenario("baseline")
 
-     call run_standard("EXR10 EXPG1 RSSC1 INCT1 VAT1 WD1 FF10 CT1", 1) ' Option: 1 for result in excel template; 0 only scenario run
+     call run_standard("EXR10", 0)  
+     'call run_standard("EXR10 EXPG1 RSSC1 INCT1 VAT1 WD1 FF10 CT1", 1) ' Option: 1 for result in excel template; 0 only scenario run
  ''  call run_standard("CT1", 1)
 
       '' call output_template("EXR10")

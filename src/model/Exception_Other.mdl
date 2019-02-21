@@ -1,3 +1,26 @@
-@over PM[c] = 0.25 * EXR * PWD[c] + 0.75 * PYQ[c]
-@over PXD[c]  = 0.25 * EXR * PWD[c] + 0.75 * PYQSBVAT[c]
-@over PXM[c]  = 0.25 * EXR * PWD[c] + 0.75 * PMSBVAT[c]
+##### Other modified equations
+## This file provides the equations of the other modified 
+
+
+# @over PM[c] = 0.25 * EXR * PWD[c] + 0.75 * PYQ[c]
+# @over PXD[c]  = 0.25 * EXR * PWD[c] + 0.75 * PYQSBVAT[c] # Equivalent to:
+@over PXD[c]  = PYQSBVAT[c] + 0.25 * (EXR * PWD[c] - PYQSBVAT[c])
+
+# @over PXM[c]  = 0.25 * EXR * PWD[c] + 0.75 * PMSBVAT[c]
+
+##! Production of commodity $c$, expressed at basic price
+@over YQ[c] * PYQ[c] 		 + NTAXCD_VAL[c]  + PMGPD[c] * MGPD[c] + 0.25 * (EXR * PWD[c] - PYQSBVAT[c]) * XD[c] = PQD[c] * QD[c]    	   if YQ[c]      <> 0
+
+##! Basic price of the production of commodity $c$ (for verification)
+@over PYQbis[c] * YQ[c] 	 + NTAXCD_VAL[c]  + PMGPD[c] * MGPD[c] + 0.25 * (EXR * PWD[c] - PYQSBVAT[c]) * XD[c] = PQD[c] * QD[c]    	   if YQ[c]      <> 0
+
+VA_VAL_corr[c] = 0.25 * (EXR * PWD[c] - PYQSBVAT[c]) * XD[c]
+
+VA_VAL_corr    = sum(VA_VAL_corr[c]	on c) 
+
+##! Price of GDP (production definition)
+@over PGDPter * GDPter = PVA * VA + PNTAXC * NTAXC + VA_VAL_corr
+
+##! Price of GDP (income definition)
+@over PGDP4 	* GDP4   = PGOS * GOS + PWAGES * WAGES + PRSC * RSC + NTAXS_VAL + PNTAXC * NTAXC + VA_VAL_corr
+

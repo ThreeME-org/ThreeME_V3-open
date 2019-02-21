@@ -1,0 +1,6 @@
+include ..\model\lists
+
+VA_VAL_corr[c] := 0
+
+VA_VAL_corr    := 0
+
