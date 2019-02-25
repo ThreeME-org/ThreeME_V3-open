@@ -1,12 +1,10 @@
 ##### Other modified equations
-## This file provides the equations of the other modified 
+## This file provides the equations of the other modified
 
 
 # @over PM[c] = 0.25 * EXR * PWD[c] + 0.75 * PYQ[c]
 # @over PXD[c]  = 0.25 * EXR * PWD[c] + 0.75 * PYQSBVAT[c] # Equivalent to:
 @over PXD[c]  = PYQSBVAT[c] + 0.25 * (EXR * PWD[c] - PYQSBVAT[c])
-
-# @over PXM[c]  = 0.25 * EXR * PWD[c] + 0.75 * PMSBVAT[c]
 
 ##! Production of commodity $c$, expressed at basic price
 @over YQ[c] * PYQ[c] 		 + NTAXCD_VAL[c]  + PMGPD[c] * MGPD[c] + 0.25 * (EXR * PWD[c] - PYQSBVAT[c]) * XD[c] = PQD[c] * QD[c]    	   if YQ[c]      <> 0
@@ -16,7 +14,7 @@
 
 VA_VAL_corr[c] = 0.25 * (EXR * PWD[c] - PYQSBVAT[c]) * XD[c]
 
-VA_VAL_corr    = sum(VA_VAL_corr[c]	on c) 
+VA_VAL_corr    = sum(VA_VAL_corr[c]	on c)
 
 ##! Price of GDP (production definition)
 @over PGDPter * GDPter = PVA * VA + PNTAXC * NTAXC + VA_VAL_corr
@@ -24,3 +22,11 @@ VA_VAL_corr    = sum(VA_VAL_corr[c]	on c)
 ##! Price of GDP (income definition)
 @over PGDP4 	* GDP4   = PGOS * GOS + PWAGES * WAGES + PRSC * RSC + NTAXS_VAL + PNTAXC * NTAXC + VA_VAL_corr
 
+
+@over PXM[c]  = PMSBVAT[c] + 0.25 * (EXR * PWD[c] - PMSBVAT[c])
+
+##! Production of commodity $c$, expressed at basic price
+@over YQ[c] * PYQ[c] 		 + NTAXCD_VAL[c]  + PMGPD[c] * MGPD[c] + 0.25 * (EXR * PWD[c] - PYQSBVAT[c]) * XD[c] + 0.25 * (EXR * PWD[c] - PMSBVAT[c]) * XM[c] = PQD[c] * QD[c]    	   if YQ[c]      <> 0
+
+##! Imports of commodity c, expressed at basic price
+# @over PM[c] * M[c] + NTAXCM_VAL[c] + PMGPM[c] * MGPM[c] + 0.25 * (EXR * PWD[c] - PMSBVAT[c]) * XM[c] = PQM[c]  * QM[c]  if QM[c] <> 0
