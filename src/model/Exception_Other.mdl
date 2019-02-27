@@ -1,8 +1,11 @@
 ##### Other modified equations
 ## This file provides the equations of the other modified
 
-# @over PXD[c]  = 0.25 * EXR * PWD[c] + 0.75 * PYQSBVAT[c] # Equivalent to:
+#### Specification from the Mesange model
+##! Market price of domestically produced exports $c$
 @over PXD[c]  = PYQSBVAT[c] + 0.25 * (EXR * PWD[c] - PYQSBVAT[c])
+# Equivalent to: @over PXD[c]  = 0.25 * EXR * PWD[c] + 0.75 * PYQSBVAT[c]
+## The other equations below have to be modified because the change of the export price change the value-added of sectors. Without correction, there is accountancy error and a discrepency between the GDP definitions. \\
 
 ##! Production of commodity $c$, expressed at basic price
 @over YQ[c] * PYQ[c] 		 + NTAXCD_VAL[c]  + PMGPD[c] * MGPD[c] + 0.25 * (EXR * PWD[c] - PYQSBVAT[c]) * XD[c] = PQD[c] * QD[c]    	   if YQ[c]      <> 0
@@ -10,15 +13,18 @@
 ##! Basic price of the production of commodity $c$ (for verification)
 @over PYQbis[c] * YQ[c] 	 + NTAXCD_VAL[c]  + PMGPD[c] * MGPD[c] + 0.25 * (EXR * PWD[c] - PYQSBVAT[c]) * XD[c] = PQD[c] * QD[c]    	   if YQ[c]      <> 0
 
+##! Correction of the value-added for commodity $c$ expressed in value
 VA_VAL_corr[c] = 0.25 * (EXR * PWD[c] - PYQSBVAT[c]) * XD[c]
 
 ##! Value-added of sector $s$ expressed in value
 @over VA_VAL[s] = PY[s] * Y[s] - PCI[s] * CI[s] + sum(VA_VAL_corr[c]*PhiY[c, s] on c)
 
+##! Market price of imported exports (re-exports) $c$
 @over PXM[c]  = PMSBVAT[c] + 0.25 * (EXR * PWD[c] - PMSBVAT[c])
 
 ##! Imports of commodity c, expressed at basic price
 @over M[c] * PM[c] + NTAXCM_VAL[c] + PMGPM[c] * MGPM[c] + 0.25 * (EXR * PWD[c] - PMSBVAT[c]) * XM[c] = PQM[c] * QM[c] 			   	   if M[c] 	     <> 0
 
-# @over PM[c] = 0.25 * EXR * PWD[c] + 0.75 * PYQ[c] equivalent to :
-PM[c] = PYQ[c] + 0.25 * (EXR * PWD[c] - PYQ[c])
+##! Price of imported commodity $c$, expressed at basic price
+@over PM[c] = PYQ[c] + 0.25 * (EXR * PWD[c] - PYQ[c])
+# Equivalent to : @over PM[c] = 0.25 * EXR * PWD[c] + 0.75 * PYQ[c] 
