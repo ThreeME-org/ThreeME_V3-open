@@ -12,13 +12,8 @@
 
 VA_VAL_corr[c] = 0.25 * (EXR * PWD[c] - PYQSBVAT[c]) * XD[c]
 
-VA_VAL_corr    = sum(VA_VAL_corr[c]	on c)
-
-##! Price of GDP (production definition)
-@over PGDPter * GDPter = PVA * VA + PNTAXC * NTAXC + VA_VAL_corr
-
-##! Price of GDP (income definition)
-@over PGDP4 	* GDP4   = PGOS * GOS + PWAGES * WAGES + PRSC * RSC + NTAXS_VAL + PNTAXC * NTAXC + VA_VAL_corr
+##! Value-added of sector $s$ expressed in value
+@over VA_VAL[s] = PY[s] * Y[s] - PCI[s] * CI[s] + sum(VA_VAL_corr[c]*PhiY[c, s] on c)
 
 @over PXM[c]  = PMSBVAT[c] + 0.25 * (EXR * PWD[c] - PMSBVAT[c])
 
