@@ -26,3 +26,4 @@ VA_VAL_corr    = sum(VA_VAL_corr[c]	on c)
 @over M[c] * PM[c] + NTAXCM_VAL[c] + PMGPM[c] * MGPM[c] + 0.25 * (EXR * PWD[c] - PMSBVAT[c]) * XM[c] = PQM[c] * QM[c] 			   	   if M[c] 	     <> 0
 
 # @over PM[c] = 0.25 * EXR * PWD[c] + 0.75 * PYQ[c] equivalent to :
+PM[c] = PYQ[c] + 0.25 * (EXR * PWD[c] - PYQ[c])
