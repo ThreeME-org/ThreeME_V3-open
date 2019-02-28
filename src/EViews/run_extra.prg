@@ -151,7 +151,7 @@ subroutine standard_shock(string %shock)
   ' 10% decrease of the exchange rate
   if @lower(%shock) = "exr10" then
 
-    EXR = EXR * 1.1
+    EXR = EXR * 1.05
 
   endif
 
@@ -179,7 +179,7 @@ subroutine standard_shock(string %shock)
   if @lower(%shock) = "wd1" then
 
     for %c {%list_com}
-      WD_{%c} = WD_{%c} * 1.1
+      WD_{%c} = WD_{%c} * 1.01
     next
 
   endif
