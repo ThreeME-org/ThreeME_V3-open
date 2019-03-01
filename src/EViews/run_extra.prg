@@ -297,12 +297,11 @@ endsub
 subroutine standard_outputs(string %scenario, string %grp_name, string %index)
 
   smpl {%baseyear}+1 {%baseyear}+1 {%baseyear}+2 {%baseyear}+2 {%baseyear}+3 {%baseyear}+3 {%baseyear}+5 {%baseyear}+5 {%baseyear}+10 {%baseyear}+10 {%baseyear}+35 {%baseyear}+35
-  group {%grp_name} 100*(GDP_{%index}/GDP_0-1) 100*(CH_{%index}/CH_0-1) 100*(I_{%index}/I_0-1) 100*(X_{%index}/X_0-1) 100*(M_{%index}/M_0-1) 100*(DISPINC_AT_VAL_{%index}/DISPINC_AT_VAL_0-1) 100*(RSAV_H_VAL_{%index}-RSAV_H_VAL_0) 100*(PCH_{%index}/PCH_0-1) 100*(PY_{%index}/PY_0-1)  100*(PVA_{%index}/PVA_0-1) 100*(PCI_{%index}/PCI_0-1) 100*(PX_{%index}/PCI_0-1) 100*(PM_{%index}/PCI_0-1) 100*(W_{%index}/W_0-1) 100*((C_L_{%index}/PVA_{%index})/(C_L_0/PVA_0)-1) (F_L_{%index}-F_L_0) 100*(UnR_{%index}-UnR_0) 100*(RBal_Trade_VAL_{%index}-RBal_Trade_VAL_0) 100*(RBal_G_Prim_VAL_{%index}-RBal_G_Prim_VAL_0)
   freeze(mode = overwrite, tab_results) {%grp_name}
   tab_results.save(t=txt) .\..\..\results\standard\{%scenario}.txt
 
   smpl @all
-  group {%grp_name}_all 100*(GDP_{%index}/GDP_0-1) 100*(CH_{%index}/CH_0-1) 100*(I_{%index}/I_0-1) 100*(X_{%index}/X_0-1) 100*(M_{%index}/M_0-1) 100*(DISPINC_AT_VAL_{%index}/DISPINC_AT_VAL_0-1) 100*(RSAV_H_VAL_{%index}-RSAV_H_VAL_0) 100*(PCH_{%index}/PCH_0-1) 100*(PY_{%index}/PY_0-1)  100*(PVA_{%index}/PVA_0-1) 100*(PCI_{%index}/PCI_0-1) 100*(PX_{%index}/PCI_0-1) 100*(PM_{%index}/PCI_0-1) 100*(W_{%index}/W_0-1) 100*((C_L_{%index}/PVA_{%index})/(C_L_0/PVA_0)-1) (F_L_{%index}-F_L_0) 100*(UnR_{%index}-UnR_0) 100*(RBal_Trade_VAL_{%index}-RBal_Trade_VAL_0) 100*(RBal_G_Prim_VAL_{%index}-RBal_G_Prim_VAL_0)
+  group {%grp_name}_all 100*(GDP_{%index}/GDP_0-1) 100*(CH_{%index}/CH_0-1) 100*(I_{%index}/I_0-1) 100*(X_{%index}/X_0-1) 100*(M_{%index}/M_0-1) 100*((DISPINC_AT_VAL_{%index}/PCH_{%index})/(DISPINC_AT_VAL_0/PCH_0)-1) 100*(RSAV_H_VAL_{%index}-RSAV_H_VAL_0) 100*(PCH_{%index}/PCH_0-1) 100*(PY_{%index}/PY_0-1)  100*(PVA_{%index}/PVA_0-1) 100*(PCI_{%index}/PCI_0-1) 100*(PX_{%index}/PCI_0-1) 100*(PM_{%index}/PCI_0-1) 100*(W_{%index}/W_0-1) 100*((C_L_{%index}/PVA_{%index})/(C_L_0/PVA_0)-1) (F_L_{%index}-F_L_0) 100*(UnR_{%index}-UnR_0) 100*(RBal_Trade_VAL_{%index}-RBal_Trade_VAL_0) 100*(RBal_G_Prim_VAL_{%index}-RBal_G_Prim_VAL_0)
   freeze(mode = overwrite, tab_results) {%grp_name}_all
   tab_results.save(t=txt) .\..\..\results\standard\{%scenario}_all.txt
 
