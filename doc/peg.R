@@ -134,7 +134,7 @@ peg <- peg %>%
   add_rule("RParen <- Space* ')'", act = "list()") %>%
   add_rule("LCurly <- '{' Space*", act = "list()") %>%
   add_rule("RCurly <- Space* '}'", act = "list()") %>%
-  add_rule("Operator <- Space* ('<=' / '>=' / Different / '<' / '>' / '+' / '-' / '/' / '*') Space*", act = "buildString(v)") %>%
+  add_rule("Operator <- Space* ('<=' / '>=' / Different / '<' / '>' / '+' / '-' / '/' / '*' / '^') Space*", act = "buildString(v)") %>%
   
   add_rule("Name <- ([a-z] / [A-Z] / '_' / '@' / '%') ([0-9] / [a-z] / [A-Z] / '_')*", act = "buildCall('dynName', buildString(v))") %>%
   add_rule("Index <- LBracket (Name Comma)* Name RBracket", act = "buildCall('c', v)") %>%
@@ -245,6 +245,8 @@ latex <- list(
     } else if ((op == "*") & (!str_detect(e1, "_\\{"))) { #} & (!str_detect(e1, "left\\())")) & (!str_detect(e2, "right\\)"))) {
       str_c(e1, " . ", e2)
       # Generic case
+    } else if (op == "^") {
+      str_c(e1, " ^ {", e2, "}")
     } else {
       str_c(e1, " ", ifelse(op == "*", "\\;", op), " ", e2)
     }
@@ -268,6 +270,7 @@ texHeader <- "\\documentclass[12pt]{article}
 \\usepackage{booktabs}
 \\usepackage{array}
 \\usepackage{ragged2e}
+
 \\begin{document}
 "
 
@@ -286,11 +289,19 @@ dependentVar <- function(eq) {
 }
 
 variableTeX <- function(v) {
+  # HACK: could probably be done in a cleaner way
   # Detect if there is an extra number in parentheses to indicate that the variable was overloaded
   over.id <- str_match(v, "\\([0-9]\\)$") %>% as.vector
   
   code <- peg %>% apply_rule("Variable", v, exe = T) %>% value %>% parse(text = .)
   str_c("$", eval(code, latex), "$", ifelse(is.na(over.id), "", str_c(" ", over.id)))
+}
+
+exoVariableTeX <- function(v) {
+  label <- str_c(currentFile, currentVar)
+  str_c("\\kern-0.23em \\noindent \\begingroup \\refstepcounter{equation} \\label{", label,"}\\ref{", label,"}.
+        \\relpenalty=10000 \\binoppenalty=10000
+        \\ensuremath{", str_replace_all(variableTeX(v), fixed("$"), ""), "}~ \\endgroup")
 }
 
 toTeX <- function(eq) {
@@ -324,10 +335,11 @@ cleanTeX <- function(s) {
   s %>% str_replace_all(" & ", " \\\\& ")
 }
 
-codeToTeX <- function(filename) {
+codeToTeX <- function(filename, is.exo = FALSE) {
   # Statefulness: need to keep track of text blocks
   # to identify the title description of each variable
   description <- ""
+  exo.buffer  <- ""
   
   currentFile <<- basename(filename)
   
@@ -358,19 +370,28 @@ codeToTeX <- function(filename) {
     else if (str_detect(l, "^##! ")) {
       txt <- str_replace(cleanTeX(l), "^##! ", "")
       description <<- txt 
-      str_c("\\noindent\\textbf{", description, "} \\\\")
+      tmp <- str_c("\\noindent \\textbf{", description, "} ")
+      
+      if (is.exo) { exo.buffer <<- str_c(tmp, " \\\\ \\\\[-8pt]"); "" } else { tmp }
       # Pure text
     } else if (str_detect(l, "^## ")) {
-      str_replace(cleanTeX(l), "^## ", "")
+      tmp <- str_replace(cleanTeX(l), "^## ", "")
+      if (is.exo) { exo.buffer <<- str_c(exo.buffer, tmp); "" } else { tmp }
       # If the line is not a comment nor empty
     } else if (!str_detect(l, "^#") & (str_length(l) > 0)) {
       currentVar <<- dependentVar(l)
+
       out$glossary[[currentVar]] <- description
-      
-      
       # Description title is consumed by the equation, reset it to blank
       description <<- ""
-      toTeX(l)
+      
+      if (is.exo) {
+        # In exogenous files, non-comment lines only provide the naked variable name
+        str_c("\\noindent ", exoVariableTeX(l), " -- ", exo.buffer)
+      } else {
+        # In regular files, need to compile a whole equation
+        toTeX(l)
+      }
     }
     out$code <- str_c(out$code, "\n", processed)
     out
@@ -413,19 +434,35 @@ combineGlossaries <- function(g, gNew, f) {
   }
 }
 
-teXdoc <- function(sources, out = "doc") {
+teXdoc <- function(sources, out = "doc", exo = c()) {
   base.path <- "../src/model/"
+  
+  first.exo <- FALSE
+  
   compiled <- Reduce(function(out, f) {
-    processed <- codeToTeX(f)
-    out$code <- str_c(out$code, processed$code)
+    processed <- codeToTeX(str_c(base.path, f), is.exo = (f %in% exo))
+    out$code <- str_c(out$code, 
+                      ifelse((!first.exo) & (f %in% exo), "\\newpage\\section{Exogenous variables}\n", ""),
+                      processed$code)
+    # Switch to TRUE on the first exogenous file, remains so afterwards
+    first.exo <- (f %in% exo)
     out$glossary <- combineGlossaries(out$glossary, processed$glossary, basename(f))
     out
   }, 
-  str_c(base.path, sources), 
+  c(sources, exo), 
   list(code = "", glossary = list()))
+  
+  # exo.compiled <- Reduce(function(out, f) {
+  #     processed <- codeToTeX(f, is.exo = TRUE)
+  #     str_c(out, processed)
+  #   }, str_c(base.path, exo), "")
+  # 
+  # if (length(exo.compiled) > 0) { exo.compiled <- str_c("\\newpage\\section{Exogenous variables}\n", exo.compiled) }
+  
   saved.compiled <<- compiled
   compiled$glossary$.dict <- NULL
   exportLateX(str_c(out, ".tex"), 
               str_c(compiled$code, "\n",
+                    #exo.compiled, "\n",
                     glossaryTeX(compiled$glossary)))
 }
