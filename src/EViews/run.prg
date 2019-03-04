@@ -35,20 +35,20 @@ if %load="new"  then
     call load_calibration
 
     ' Create the series using the dependencies (add-ins "series")
-    ''''' {%modelname}.series round0 Prices_data SU_data Special_data Other_data Exception_Hybrid_data_0
+    {%modelname}.series round0 Prices_data SU_data Special_data Other_data Exception_taxes_prices_data Exception_NestedCES_data Exception_Hybrid_data_0
 
     ' Export all variables to a csv file (used by the external compiler)
-    ''''' call export_all_to_csv
+    call export_all_to_csv
 
-    ''''' {%modelname}.series Exception_Hybrid_data_if
-
-    ' Create the series using the dependencies (add-ins "series")
-    ''''' {%modelname}.series Exception_Hybrid_data
-
-
+    {%modelname}.series Exception_Hybrid_data_if
 
     ' Create the series using the dependencies (add-ins "series")
-    {%modelname}.series round0 Prices_data SU_data Special_data Other_data Exception_taxes_prices_data Exception_NestedCES_data Exception_ConsumerNested_data Exception_Other_data
+    {%modelname}.series Exception_Hybrid_data
+
+
+
+    ' Create the series using the dependencies (add-ins "series")
+    ''''' {%modelname}.series round0 Prices_data SU_data Special_data Other_data Exception_taxes_prices_data Exception_NestedCES_data Exception_ConsumerNested_data Exception_Other_data
 
     ' Export all variables to a csv file (used by the external compiler)
     call export_all_to_csv
@@ -100,7 +100,7 @@ endif
        call run_scenario("baseline")
 
      'call run_standard("EXR10", 0)  
-     call run_standard("EXR10 EXPG1 RSSC1 INCT1 VAT1 WD1 FF10 CT1", 1) ' Option: 1 for result in excel template; 0 only scenario run
+     ''''' call run_standard("EXR10 EXPG1 RSSC1 INCT1 VAT1 WD1 FF10 CT1", 1) ' Option: 1 for result in excel template; 0 only scenario run
  ''  call run_standard("CT1", 1)
 
       '' call output_template("EXR10")
@@ -112,7 +112,7 @@ endif
   ' ***************************************
   ' Call (eventually) here the subroutine you want to use to analyse the results
   '' call additional_outputs("Fred")
-  '' call additional_outputs("Fred_Hybrid")
+  call additional_outputs("Fred_Hybrid")
   ' call output_template(%scenario_name)
 
   ' *******************

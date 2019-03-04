@@ -1,32 +1,32 @@
 include ..\model\lists
 
-include ..\model\SU
-include ..\model\Prices
+# include ..\model\SU
+# include ..\model\Prices
 
-include ..\model\Producer
+# include ..\model\Producer
 
-include ..\model\Consumer
+# include ..\model\Consumer
 
-include ..\model\Government
+# include ..\model\Government
 
-include ..\model\Trade_inter
+# include ..\model\Trade_inter
 
-include ..\model\Demography
+# include ..\model\Demography
 
-include ..\model\Adjustments
+# include ..\model\Adjustments
 
-include ..\model\Verif
+# include ..\model\Verif
 
-include ..\model\ghg_emissions
+# include ..\model\ghg_emissions
 
 
 
 
 
 ## Exception files ALWAYS at the end because of the @over's
-include ..\model\Exception_taxes_prices
-include ..\model\Exception_NestedCES
-include ..\model\Exception_ConsumerNested
-include ..\model\Exception_Other 
+# include ..\model\Exception_taxes_prices
+# include ..\model\Exception_NestedCES
+# include ..\model\Exception_ConsumerNested
+# include ..\model\Exception_Other 
 
-#include ..\model\Exception_hybrid
+include ..\model\Exception_hybrid
