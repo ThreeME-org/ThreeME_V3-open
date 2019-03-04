@@ -52,8 +52,6 @@ PEXP_BUIL[ ecl] := P
 PENER[ ecl] := P
 PENER  := P
 
-P_Construction := P
-
 # Verif
 Verif_BUILbis := 0
 Verif_phi_REHAB[ecl] := 0

@@ -1,19 +1,14 @@
 include ..\model\lists
 
-#######################################################
-#########         HYBRID         #####################
-########################################################
-### This file provides the equations defining the producer behaviour.
-
+##### Hybrid modeling of households' consumption
 
 # From ThreeME / Master_France_CGDD (30/05/2018)
 # Last commit was: 5f4949ffc7f75da1128dd53c2e1e4c62e1c4b051
 # Files: hybrid_new.mdl; exceptions_AME-AMS.mdl
 
+#### Link with the consumer block of ThreeME
+## When this block is activated, the expenditures related to construction, transport, vehicles and energy commodities are not defined anymore by the basic version of the consumer block (see Section Consumer). To do so the necessary (minimum) households' final consumption for this commodity is endogenized and calibrated at their total at the base year: $NCH_{c} = CH_{c}$ for $c$ \in  \{ ccon,ct,cveh,ce \}$. In other words, we assume that these expenditures have the priority over the other ones. \\
 
-# ########################################
-# Link with the other blocks of ThreeME
-# ########################################
 
 ##! Necessary (minimum) households' final consumption for construction commodity $ccon$
 NCH[ccon] = ( @year > %baseyear ) * ( @elem(PNewBUIL,%baseyear) * NewBUIL + @elem(PREHAB,%baseyear) * REHAB +  CH_OTH[CCON]) + ( @year <= %baseyear ) * (NCH[ccon]{-1} * ( 1 + GR_REAL ) )
@@ -27,154 +22,141 @@ NCH[cveh] = ( @year > %baseyear ) * ( @elem(PnewAUTO,%baseyear) * NewAUTO +  CH_
 ##! Necessary (minimum) households' final consumption for energy commodities $ce$
 NCH[ce] = @elem(PENER_BUIL[ce], %baseyear) * ENER_BUIL[ce] + EXP_AUTO[ce] +  CH_OTH[ce]
 
-# #############################################
 
-
-# Household consumption of other construction commodities
-# This variable corresponds to the gap between the aggregate consumption of construction commodities and the consumption related to new and rehabilitated buildings. 
+##! Household consumption of other construction commodities
 d(log( CH_OTH[CCON] ) ) = ( @year > %baseyear ) * d( log( CH_n_VAL / PCH[CCON] ) )
+## This variable corresponds to the gap between the aggregate consumption of construction commodities and the consumption related to new and rehabilitated buildings. \\
 
-
-# Household consumption of other construction commodities
-# This variable corresponds to the gap between the aggregate consumption of vehicules and the consumption related to the new vehicules. 
+##! Household consumption of other vehicules commodities
 # d(log( CH_OTH[CVEH] * PCH[CVEH] ) ) = ( @year > %baseyear ) * d( log( CH_n_VAL ) )
+## This variable corresponds to the gap between the aggregate consumption of vehicules and the consumption related to the new vehicules. \\
 
+##! Price of class $ecl$ new building   
+d( log( PNewBUIL[ecl] ) ) = d( log( PCH[CCON] ) )
 
-
-
-
-d( log( P_Construction ) ) = d( log( PCH[CCON] ) )
-
-  # Equation H.4.66
+##! Price of investment for rehabilitating a class $ecl$ buidding to class $ecl2$
+d( log( PREHAB[ecl,ecl2] ) ) = d( log( PCH[CCON] ) ) if REHAB[ecl,ecl2] <> 0
    
-   
-   
-d(R_I_REHAB[ ecl])   = d(R)
-    
+d( log( PREHAB[ecl,ecl] ) ) = d( log( PCH[CCON] ) )  # Must be added because REHAB[ecl,ecl] = 0  (test if merging the 2 eq. does not change the results)
+
+##! Interest rate paid for an investment in a new class $ecl$ buidding    
 d(R_I_NewBUIL[ ecl]) = d(R)
-    
+
+##! Interest rate paid for an investment in the rehabilitation of a class $ecl$ buidding
+d(R_I_REHAB[ ecl])   = d(R)
+
+##! Interest rate paid for a (maintanance) investment of a class $ecl$ buidding      
 d(R_I_BUIL[ ecl])    = d(R)
-    
+## This corresponds to the interest rate paid to maintain the building in its class whereas the previous interest rate is the one paid to rehabilite the building to a higher class. \\
+
+##! Interest rate paid for an investment in a class $ecl$ automobile
 d(R_I_AUTO[ ecl])    = d(R)
 
+#### Housing and building block
 
+### Building stock dynamic (in m2)
 
-
-
-
-
-#########################################
-# Building stock dynamic (in m2)
-#########################################
-
-## Total building stock 
-## It follows proportionaly the size of the population (POP) and the number of square meter per inhabitant (M2perCapita):
+##! Total building stock 
 d(log(BUIL)) = (@year>%baseyear)*(d(log(POP)) + d(log(M2perCapita)))
+## It follows proportionaly the size of the population ($POP$) and the number of square meter per inhabitant ($M2perCapita$).
 
+##! Total building stock (for verification)
 BUILbis = sum(BUIL[ecl] on ecl)
 
-## Stock of building of the energy efficiency class ecl
-## - It increases by the amount of the new buildings constructed according to class ecl : NewBUIL[ecl]
-## - It increases by the amount of rehabilitated buildings from a lower class to class ecl: sum(REHAB[ecl2,ecl]
-## - It increases by the downgraded buildings from a higher class to class ecl: sum(DEP_BUIL[ecl2,ecl])
-## - it decreases by the amount of rehabilitated buildings from class ecl to a higher class: sum(REHAB[ecl,ecl2])
-## - It decreases by the downgraded buildings from class ecl to lower class: sum(DEP_BUIL[ecl,bcl])
-
-
+##! Stock of building of the energy efficiency class $ecl$
 d(BUIL[ecl]) = (@year>%baseyear) * ( NewBUIL[ecl] _
                                    + sum(REHAB[ecl2,ecl] if REHAB[ecl2,ecl] <> 0 on ecl2) _
                                    + sum(DEP_BUIL[ecl2,ecl] if DEP_BUIL[ecl2,ecl] <> 0 on ecl2) _
                                    - (sum(REHAB[ecl,ecl2] if REHAB[ecl,ecl2] <> 0 on ecl2)) _
                                    - (sum(DEP_BUIL[ecl,bcl] if DEP_BUIL[ecl,bcl] <> 0 on bcl)))
 
+## - It increases by the amount of the new buildings constructed in class $ecl$: $NewBUIL_{ecl}$
+## - It increases by the amount of rehabilitated buildings from a lower class to class $ecl$: sum(REHAB[ecl2,ecl]
+## - It increases by the downgraded buildings from a higher class to class $ecl$: sum(DEP_BUIL[ecl2,ecl])
+## - it decreases by the amount of rehabilitated buildings from class ecl to a higher class: sum(REHAB[ecl,ecl2])
+## - It decreases by the downgraded buildings from class $ecl$ to lower class: sum(DEP_BUIL[ecl,bcl])
 
-# New buildings constructed according to class ecl
+##! New buildings constructed according to class $ecl$
 NewBUIL[ecl] =   (@year >  %baseyear) * phi_NewBUIL[ecl] * (d(BUIL) + BUIL[DES]) _
                + (@year <= %baseyear) * NewBUIL[ecl]{-1}
 
-# Buildings depreciating from class ecl to class bcl
+##! Buildings depreciating from class $ecl$ to class $bcl$
 DEP_BUIL[ecl,bcl] =    (@year >  %baseyear) * delta_BUIL[ecl,bcl]*BUIL[ecl]{-1} _
                      + (@year <= %baseyear) * DEP_BUIL[ecl,bcl]{-1}
   
-# Destroyed buildings
+##! Destroyed buildings
 BUIL[DES] = sum(DEP_BUIL[ecl,DES] if DEP_BUIL[ecl,DES] <> 0 on ecl)
 
- 
-
-# Buildings rehabilitated from class ecl to class ecl2
+##! Buildings rehabilitated from class $ecl$ to class $ecl2$
 REHAB[ecl,ecl2] = (@year>%baseyear)*(phi_REHAB[ecl,ecl2]*tau_REHAB[ecl]*BUIL[ecl]{-1}) + _
                       (@year<=%baseyear)*REHAB[ecl,ecl2]{-1}  if REHAB[ecl,ecl2] <> 0
 
 
-# Notional proportion of rehabilitated building from the class ecl's  
-# In order to avoid discountinuity, the proportion of rehabilitated building is defined according to a logistic function. A logistic function is defined by 2 regimes, Yi and Yf, the switching speed between the 2 regimes, signa, and point of inflection between the 2 regimes, tau/sigma. Y = (1 - Phi(X))*Yi + Phi(X))*Yf with Phi(X)=(1-EXP(tau-sigma*X))^(-1) which is equivalent to: Y = Yi + (Yf - *Yi)/(1-EXP(tau-sigma*X)). The point of inflection corresponds to the case where Phi(X) = 1/2 that is where X = tau/sigma.
+### Building rehabilitation decisions
 
+##! Notional rehabilitation rate of a class $ecl$ building
 tau_REHAB_N[ecl] = tau_REHAB_MAX[ecl] + (tau_REHAB_MIN[ecl] - tau_REHAB_MAX[ecl])/(1 + EXP(tau[ecl] - sigma[ecl]*Payback_REHAB[ecl])) if REHAB[ecl] <> 0
+## It corresponds to the proportion of class $ecl$ building rehabilitated to a higher class. In order to avoid discountinuity, the proportion of rehabilitated building is defined according to a logistic function. A logistic function is defined by 2 regimes, Yi and Yf, the switching speed between the 2 regimes, signa, and point of inflection between the 2 regimes, tau/sigma. Y = (1 - Phi(X))*Yi + Phi(X))*Yf with Phi(X)=(1-EXP(tau-sigma*X))^(-1) which is equivalent to: Y = Yi + (Yf - *Yi)/(1-EXP(tau-sigma*X)). The point of inflection corresponds to the case where Phi(X) = 1/2 that is where X = tau/sigma. \\
 
-
-# Replace the previous specification that had several droabacks:
+# Replace the previous specification that had several drawbacks:
 # d(tau_REHAB_N[ecl]) = (@year>%baseyear)*(d(tau_REHAB_trend[ecl]) - nu_REHAB[ecl]*d(log(Payback_REHAB[ecl]))) if tau_REHAB[ecl] <> 0 with a max and min value
-## Discontinuity in the first derivative at the max and minimum value
-## Constant elasticity tau_REHAB_N[ecl] and Payback_REHAB[ecl] whatever the level of tau_REHAB_N[ecl].
-## Infisible solution if Payback_REHAB[ecl] <0
+# Discontinuity in the first derivative at the max and minimum value
+# Constant elasticity tau_REHAB_N[ecl] and Payback_REHAB[ecl] whatever the level of tau_REHAB_N[ecl].
+# Infeasible solution if Payback_REHAB[ecl] <0
 
-# First derivative of the notional rehabilitation rate (tau_REHAB_N[ecl]) with respect to the log of payback time (Payback_REHAB[ecl])
-nu_REHAB[ecl] = (tau_REHAB_MAX[ecl] - tau_REHAB_MIN[ecl]) * sigma[ecl] * Payback_REHAB[ecl] * EXP(tau[ecl] - sigma[ecl] * Payback_REHAB[ecl]) / (1 + EXP(tau[ecl] - sigma[ecl] * Payback_REHAB[ecl]))^2 if REHAB[ecl] <> 0
-
-
-tau_REHAB[ecl] = ADJUST0_tau_REHAB*tau_REHAB_N[ecl] + (1-ADJUST0_tau_REHAB)*tau_REHAB[ecl]{-1} if REHAB[ecl] <> 0
-
-## The transition matrix from one building class to another is endogenous and is defined according to a discrete choice model. When the gains from rehabilitating a buiding toward a specific class increases, the share of buildings rehabilitated to this class increases. 
-
-# Paybacktime of investing in the building rehabilitation of class ecl 
-Payback_REHAB[ecl] = (UC_K_REHAB[ecl]*BUIL_D[ecl] - UC_K[ecl]*BUIL_D[ecl])/(UC_E[ecl] - UC_E_REHAB[ecl]) - 1 if REHAB[ecl] <> 0
-
-## With the logisting function no need to use the folllowing specification:  
+# With the logisting function no need to use the folllowing specification:  
     # Reminder: max(a, b) = 1/2 * (a + b + |a - b|)
     # Here, Payback_REHAB[ecl] = max(1, Payback_REHAB_real[ecl]) to exclude negative values and allow log(Payback_REHAB[ecl]) above
     # NB: The function @max(a, b) doesn't exist in eViews...
     
     # Payback_REHAB[ecl] = 1/2 * (1 + Payback_REHAB_r[ecl] + @abs(1 - Payback_REHAB_r[ecl])) if REHAB[ecl] <> 0
 
+##! First derivative of the notional rehabilitation rate of a class $ecl$ building (tau_REHAB_N[ecl]) with respect to the log of payback time (Payback_REHAB[ecl])
+nu_REHAB[ecl] = (tau_REHAB_MAX[ecl] - tau_REHAB_MIN[ecl]) * sigma[ecl] * Payback_REHAB[ecl] * EXP(tau[ecl] - sigma[ecl] * Payback_REHAB[ecl]) / (1 + EXP(tau[ecl] - sigma[ecl] * Payback_REHAB[ecl]))^2 if REHAB[ecl] <> 0
 
-# Gain from the rehabilitation from a ecl to a ecl2 class building 
+##! Rehabilitation rate of a class $ecl$ building
+tau_REHAB[ecl] = ADJUST0_tau_REHAB*tau_REHAB_N[ecl] + (1-ADJUST0_tau_REHAB)*tau_REHAB[ecl]{-1} if REHAB[ecl] <> 0
 
+##! Paybacktime of rehabilitating a class $ecl$ building 
+Payback_REHAB[ecl] = (UC_K_REHAB[ecl]*BUIL_D[ecl] - UC_K[ecl]*BUIL_D[ecl])/(UC_E[ecl] - UC_E_REHAB[ecl]) - 1 if REHAB[ecl] <> 0
+
+
+### Transition matrix
+## The transition matrix from one building class to another is endogenous and is defined according to a discrete choice model. When the gains from rehabilitating a building toward a specific class increases, the share of buildings rehabilitated to this class increases. \\
+
+##! Gain from the rehabilitation from a $ecl$ to a $ecl2$ class building 
 GAIN_REHAB[ecl,ecl2] = (UC_E[ecl] - UC_E[ecl2]) - ((1 - R_SUB[ecl,ecl2]) * PREHAB[ecl,ecl2])   if REHAB[ecl,ecl2] <> 0
   
-## Utility from rehabilitating a ecl to a ecl2 class building  
-# This utility is a function of the gain  from the rehabilitation. For convinience it is calibrated as equal to phi_REHAB[ecl,ecl2] at the base year.
+##! Utility from rehabilitating a $ecl$ to a $ecl2$ class building  
 d(U_REHAB[ecl,ecl2]) = RHO_U_GAIN[ecl,ecl2] * d(GAIN_REHAB[ecl,ecl2]{-1})   if U_REHAB[ecl,ecl2] <> 0
+## This utility is a function of the gain from the rehabilitation. For convinience it is calibrated as equal to phi_REHAB[ecl,ecl2] at the base year. \\
 
-# Exponential sum of the utility from rehabilitating a ecl to a ecl2 class building 
+##! Exponential sum of the utility from rehabilitating a $ecl$ to a $ecl2$ class building 
 SUM_EXP_U_REHAB[ecl] = sum(EXP(U_REHAB[ecl,ecl2]) if REHAB[ecl,ecl2] <> 0 on ecl2)     if REHAB[ecl] <> 0
   
-# Notional share of class ecl buildings rehabilitated to class ecl2
+# Notional share of class $ecl$ buildings rehabilitated to class $ecl2$
 d(phi_REHAB_n[ecl,ecl2]) = d(EXP(U_REHAB[ecl,ecl2])/SUM_EXP_U_REHAB[ecl])  if phi_REHAB[ecl,ecl2] <> 0
  
-# Share of class ecl buildings rehabilitated to class ecl2
-# Notice that ADJUST_phi_REHAB is commun to every class transition. This guaranty that sum(phi_REHAB[ecl,ecl2] on ecl2) = 1.
+##! Share of class $ecl$ buildings rehabilitated to class $ecl2$
 phi_REHAB[ecl,ecl2] = ADJUST_phi_REHAB * phi_REHAB_n[ecl,ecl2] + (1 - ADJUST_phi_REHAB) * phi_REHAB[ecl,ecl2]{-1} if phi_REHAB[ecl,ecl2] <> 0
+## Notice that ADJUST_phi_REHAB is commun to every class transition. This guaranty that sum(phi_REHAB[ecl,ecl2] on ecl2) = 1. \\
 
-# User cost of a ecl class building after rehabilitation to a more energy efficient class
+
+### User costs
+##! User cost of a $ecl$ class building after rehabilitation to a more energy efficient class
 UC_REHAB[ecl] = UC_K_REHAB[ecl] + UC_E_REHAB[ecl] if REHAB[ecl] <> 0
-   
 
-# User energy cost of a ecl class building after rehabilitation to a more energy efficient class
+##! User energy cost of a $ecl$ class building after rehabilitation to a more energy efficient class
 UC_E_REHAB[ecl] = sum(phi_REHAB[ecl,ecl2]*UC_E[ecl2] if REHAB[ecl,ecl2] <> 0 on ecl2) if REHAB[ecl] <> 0
 
-
-# User cost of a ecl class building
+##! User capital cost of a $ecl$ class building after rehabilitation to a more energy efficient class
+UC_K_REHAB[ecl] = sum(phi_REHAB[ecl,ecl2] * UC_K_REHAB[ecl,ecl2] if REHAB[ecl,ecl2]  <> 0 on ecl2) if REHAB[ecl]  <> 0
    
-UC[ecl] = UC_K[ecl] + UC_E[ecl]
-   
-# User capital cost of a ecl class building after rehabilitation to a ecl2 class
+##! User capital cost of a $ecl$ class building after rehabilitation to a $ecl2$ class
 UC_K_REHAB[ecl,ecl2] = (1 - R_SUB[ecl,ecl2]) * (PREHAB[ecl,ecl2] / REHAB_D[ecl2] * ( R_CASH_REHAB[ecl] + R_LOAN_REHAB[ecl] * R_I_REHAB[ecl]{-1} * LD_REHAB[ecl] / ( 1 - ( 1 + R_I_REHAB[ecl]{-1})^( -LD_REHAB[ecl] ) ) )) if REHAB[ecl,ecl2] <> 0    
 
-# User capital cost of a ecl class building after rehabilitation to a more energy efficient class
 
-UC_K_REHAB[ecl] = sum(phi_REHAB[ecl,ecl2] * UC_K_REHAB[ecl,ecl2] if REHAB[ecl,ecl2]  <> 0 on ecl2) if REHAB[ecl]  <> 0
-
-## Replace the previous specification: TO BE DELETED AFTER VERIF ! 
+# Replace the previous specification: TO BE DELETED AFTER VERIF ! 
 UC_K_REHABbis[ecl] = PREHAB_delta[ecl] * ( R_CASH_REHAB[ecl] + R_LOAN_REHAB[ecl] * R_I_REHAB[ecl]{-1} * LD_REHAB[ecl] / _
                                                ( 1 - ( 1 + R_I_REHAB[ecl]{-1})^( -LD_REHAB[ecl] ) ) ) if REHAB[ecl] <> 0    
    
@@ -184,16 +166,22 @@ PREHAB_delta[ecl] = sum( (1 - R_SUB[ecl,ecl2]) * PREHAB[ecl,ecl2] * phi_REHAB[ec
 verif_UC_K_REHAB[ecl] = (UC_K_REHABbis[ecl]/UC_K_REHAB[ecl] - 1)*100 if REHAB[ecl]  <> 0 
  
 
-# Share of the class ecl building rehabilitation paid through a loan    
+##! Share of the class $ecl$ building rehabilitation investment paid through a loan    
 R_LOAN_REHAB[ecl] = 1 - R_CASH_REHAB[ecl] if REHAB[ecl] <> 0
 
+##! Share of the new class $ecl$ building investment paid through a loan    
 R_LOAN_NewBUIL[ecl] = 1 - R_CASH_NewBUIL[ecl]
 
-# User capital cost of the class ecl building
-# Notice that it depends on PREHAB[ecl,ecl], the price of rehabiliting (maintaining) a building of ecl in the same class   
+
+##! User cost of a $ecl$ class building
+UC[ecl] = UC_K[ecl] + UC_E[ecl]
+
+##! User cost of capital of a class $ecl$ building
 UC_K[ecl] = ( PREHAB[ecl,ecl] / BUIL_D[ecl] ) * (R_CASH[ecl] + R_LOAN[ecl] * R_I_BUIL[ecl]{-1} * LD[ecl] / _
                  ( 1 - ( 1 + R_I_BUIL[ecl]{-1}) ^( -LD[ecl] ) ) )
-   
+## Notice that it depends on PREHAB[ecl,ecl], the price of rehabiliting (maintaining) a building of ecl in the same class. \\   
+
+##! Share of the class $ecl$ building investment paid through a loan     
 R_LOAN[ecl] = 1 - R_CASH[ecl]
    
 # Average depreciation rate of a class ecl rehabilitated building 
@@ -205,30 +193,24 @@ delta_REHAB[ecl] = sum(phi_REHAB[ecl,ecl2] * delta_BUIL[ecl2] if phi_REHAB[ecl,e
 ## IS THIS VARIABLE USED IN THE MODEL beside delta_REHAB[ecl]?
 delta_BUIL[ecl] = sum(delta_BUIL[ecl,bcl]      if delta_BUIL[ecl,bcl] <> 0   on bcl )
 
-# User energy cost of a class ecl building
-# PROVIDE THE DERIVATION OF THIS FORMULA  
+##! User energy cost of a class $ecl$ building
 UC_E[ ecl] = PENER_m2[ ecl] * ( ((1 + GR_PENER_m2_e[ ecl]) ^ BUIL_D[ ecl] - 1) / (GR_PENER_m2_e[ ecl] * BUIL_D[ ecl]) )
+# PROVIDE THE DERIVATION OF THIS FORMULA as comment
 
-# Gael a retirer les conditionnalité: risque de division par 0? 
+
+# Gael a retirer les conditionnalité: risque de division par 0?
+# L'ancienne spécification: 
 # UC_E_H01_CC  = PENER_m2_H01_CC  * ( ( GR_PENER_m2_e_H01_CC  = < 1e-05 )  * 1  +   ( GR_PENER_m2_e_H01_CC > 1e-05 )  * ( ( 1  + GR_PENER_m2_e_H01_CC ) ^ ( BUIL_D_H01_CC )  - 1 )  / ( ( GR_PENER_m2_e_H01_CC  + ( GR_PENER_m2_e_H01_CC >= 0 )  * ( GR_PENER_m2_e_H01_CC <= 0 )  * 1e-07 )  * BUIL_D_H01_CC ) )
 
-#     
+### Energy price per square meter paid in class $ecl$ buildings    
 PENER_m2[ecl]  = PENER_BUIL[ecl] * ENER_BUIL[ecl]/BUIL[ecl] 
      
-## SIMPLIFY DIRECTLY IN d(log(PENER_m2_e[ecl])!!!
+### Growth rate of the energy price per square meter paid in class $ecl$ buildings 
 GR_PENER_m2_e[ecl] = (@year>%baseyear)*(ADJUST_GR_PENER_m2_e_1 * @pchy( PENER_m2[ecl]{-1} ) + (1-ADJUST_GR_PENER_m2_e_1) * GR_PENER_m2_e[ecl]{-1}) + (@year<=%baseyear)*GR_PRICES  if PENER_m2[ecl] <> 0
 
 
 
-# Price of investment for rehabilitating a class ecl buidding to class ecl2
-d( log( PNewBUIL[ecl] ) ) = d( log( P_Construction ) )
-
-# Price of new building   
-d( log( PREHAB[ecl,ecl2] ) ) = d( log( P_Construction ) ) if REHAB[ecl,ecl2] <> 0
-   
-d( log( PREHAB[ecl,ecl] ) ) = d( log( P_Construction ) )  # Must be added because REHAB[ecl,ecl] = 0  (test if merging the 2 eq. does not change the results)
-
-
+### Debts
 
 DEBT_REHAB_Val[ecl] = (@year > %baseyear) * ( ( 1 - R_RMBS_REHAB[ecl] ) * DEBT_REHAB_Val[ecl]{-1} _
                                                    + R_LOAN_REHAB[ecl] * PREHAB[ecl] * REHAB[ecl] ) _
