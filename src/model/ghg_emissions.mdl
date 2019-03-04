@@ -27,7 +27,7 @@ EMS_CI[ghg,s]  = sum( EMS_CI[ghg,c,s] if EMS_CI[ghg,c,s] <> 0 on c )    if EMS_C
 EMS_CI[ghg]    = sum( EMS_CI[ghg,s]   if EMS_CI[ghg,s]   <> 0 on s )    if EMS_CI[ghg]     <> 0
 ## Aggregation by sector $s$. \\
 
-##! Emissions of the greehouse gas $ghg$ related to the intermediary consumption
+##! Emissions of the greehouse gas $ghg$ related to the intermediary consumption (for verification)
 EMS_CIbis[ghg] = sum( EMS_CI[ghg,c]   if EMS_CI[ghg,c]   <> 0 on c )    if EMS_CIbis[ghg]  <> 0
 ## Aggregation by commodity $c$. \\
 
