@@ -8,11 +8,6 @@ include ..\model\lists
 
 SUM_EXP_U_REHAB[ecl] := sum(EXP(U_REHAB[ecl,ecl2]) if REHAB[ecl,ecl2] <> 0 on ecl2)
 
-# Scaling parameter of the logistic function
-
-
-PENER_BUIL[ecl, ce] := if(ENER_BUIL[ecl, ce] <> 0 , PEXP[ce] * EXP_BUIL[ecl, ce] / ENER_BUIL[ecl, ce], P)
-
 PREHAB[ecl] := if(REHAB[ecl] <> 0, (sum((1 - R_SUB[ecl,ecl2])*PREHAB[ecl,ecl2]*REHAB[ecl,ecl2] on ecl2) ) / REHAB[ecl] , P)
 
 # Exemple suppression element of list

@@ -11,77 +11,39 @@ include ..\model\lists
 # Files: hybrid_new.mdl; exceptions_AME-AMS.mdl
 
 
-#########################################
+# ########################################
 # Link with the other blocks of ThreeME
-#########################################
+# ########################################
 
-## Agregate notional household expenditures in value
-EXP_H_n_VAL = DISPINC_AT_VAL * (1 - MPS_n)
+##! Necessary (minimum) households' final consumption for construction commodity $ccon$
+NCH[ccon] = ( @year > %baseyear ) * ( @elem(PNewBUIL,%baseyear) * NewBUIL + @elem(PREHAB,%baseyear) * REHAB +  CH_OTH[CCON]) + ( @year <= %baseyear ) * (NCH[ccon]{-1} * ( 1 + GR_REAL ) )
 
-## CH_n_VAL is not used anymore. Its impact is desactivated to avoid confusion.
-@over d(log(CH_n_VAL)) = log(1 + GR_NOMI) 
+##! Necessary (minimum) households' final consumption for transport commodities $ct$
+d(log(NCH[ct])) = (@year>%baseyear) * (d(log(Km_traveler[ct]))) + (@year<=%baseyear) * (d(log(NCH[ct]{-1})))  if Km_traveler[ct] <> 0 
 
-## Notional other household expenditures (not related to housing, mobility or energy)
-EXP_OTH_n_Val = EXP_H_n_VAL - (EXP_HOUSING_Val + EXP_MOB_Val)
+##! Necessary (minimum) households' final consumption for vehicles commodity $cveh$
+NCH[cveh] = ( @year > %baseyear ) * ( @elem(PnewAUTO,%baseyear) * NewAUTO +  CH_OTH[CVEH]) + ( @year <= %baseyear ) * (NCH[cveh]{-1} * ( 1 + GR_REAL ) )
 
-## Household consumption of commodity $co$ (not related to housing, mobility or energy)
-@over (CH_n[co] - NCH[co]) * PCH[co] = phi_MCH[co] * (EXP_OTH_n_Val - PNCH * NCH)  if CH[co]  <> 0
+##! Necessary (minimum) households' final consumption for energy commodities $ce$
+NCH[ce] = @elem(PENER_BUIL[ce], %baseyear) * ENER_BUIL[ce] + EXP_AUTO[ce] +  CH_OTH[ce]
 
-## Price of necessary household consumption of commodity $co$
-@over PNCH * NCH = sum(PNCH[co] * NCH[co] on co) if NCH <> 0
+# #############################################
 
-## Necessary household consumption of commodity $co$
-@over        NCH = sum(NCH[co]       on co) if NCH <> 0
-
-## Household consumption of commodities related to housing, mobility or energy
-### For construction
-@over CH[CCON] = ( @year > %baseyear ) * ( @elem(PNewBUIL,%baseyear) * NewBUIL + @elem(PREHAB,%baseyear) * REHAB +  CH_OTH[CCON]) + ( @year <= %baseyear ) * (CH[CCON]{-1} * ( 1 + GR_REAL ) )
 
 # Household consumption of other construction commodities
 # This variable corresponds to the gap between the aggregate consumption of construction commodities and the consumption related to new and rehabilitated buildings. 
-d(log( CH_OTH[CCON] * PCH[CCON] ) ) = d( log( EXP_H_n_VAL ) )
-
-### For vehicules
-@over CH[CVEH] = ( @year > %baseyear ) * ( @elem(PnewAUTO,%baseyear) * NewAUTO +  CH_OTH[CVEH]) + ( @year <= %baseyear ) * (CH[CVEH]{-1} * ( 1 + GR_REAL ) )
+d(log( CH_OTH[CCON] ) ) = ( @year > %baseyear ) * d( log( CH_n_VAL / PCH[CCON] ) )
 
 
 # Household consumption of other construction commodities
 # This variable corresponds to the gap between the aggregate consumption of vehicules and the consumption related to the new vehicules. 
-d(log( CH_OTH[CVEH] * PCH[CVEH] ) ) = d( log( EXP_H_n_VAL ) )
-
-
-### For transport
-@over d(log(CH[ct]))   = d(log(Km_traveler[ct]))  if Km_traveler[ct] <> 0 
-
-     
-### For energy
-@over CH[ce] = @elem(PENER_BUIL[ce], %baseyear) * ENER_BUIL[ce] + EXP_AUTO[ce] +  CH_OTH[ce]
+# d(log( CH_OTH[CVEH] * PCH[CVEH] ) ) = ( @year > %baseyear ) * d( log( CH_n_VAL ) )
 
 
 
 
 
-
-
-
-
-
-## Agregate household expenditures in value
-
-EXP_H_VAL = EXP_HOUSING_Val + EXP_MOB_Val + EXP_OTH_Val
-
-## Other household expenditures (not related to housing, mobility an energy)
-
-EXP_OTH_Val = sum( PCH[co] * CH[co] on co )
- 
-## Households savings
-@over SAV_H_VAL  = DISPINC_AT_VAL - EXP_H_VAL
-
-
-
-
-
-d( log( P_Construction ) ) = d( log( P ) )
+d( log( P_Construction ) ) = d( log( PCH[CCON] ) )
 
   # Equation H.4.66
    
