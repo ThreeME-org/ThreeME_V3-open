@@ -1,7 +1,7 @@
 ########################################################
 ##    CALIBRATION OF NESTED CES PRODUCTION FUNCTION   ##
 ########################################################
-### This file defines the calibration a nested CES production function. The nested structure is a follows: K (capital), L (labor), E (energy), M (material). 
+### This file defines the calibration a nested CES production function. The nested structure is a follows: K (capital), L (labor), E (energy), M (material).
 ###
 ###        Y
 ###		  / \    --> ES_NEST_MAT_KEL
@@ -11,17 +11,17 @@
 ###		   /\    --> ES_NEST_K_E
 ###		  K  E
 ###
-### The speficication of the ES used between two inputs is the one presented in Reynès (2018, Appendix B): 
+### The speficication of the ES used between two inputs is the one presented in Reynès (2018, Appendix B):
 ### Reynès, F. (2019), "The Cobb-Douglas function as a flexible function. A new perspective on homogeneous functions through the lens of output elasticities", Mathematical Social Sciences 97, 11-17.
 
 # Elasticity of Substitution (ES) between material and the agregate capital-energy-labor
 ES_NEST_MAT_KEL[s] := 0.0
 
 # ES between the agregate capital-energy and labor
-ES_NEST_KE_L[s] := 0.5
+ES_NEST_KE_L[s] := 0.0
 
 # ES between the agregate capital and energy (within the agregate capital-energy)
-# It is important to notice that this ES is the ES within the agregate capital-energy. The actual ES depends on the ES in other parts of the nest and on input shares.  
+# It is important to notice that this ES is the ES within the agregate capital-energy. The actual ES depends on the ES in other parts of the nest and on input shares.
 ES_NEST_K_E[s] := 1.5
 
 
@@ -49,5 +49,5 @@ ES_NEST_K_E[s] := 1.5
 @over ES[L, K, s] := ES[K, L, s]
 
 # ES between energy and labor
-@over ES[E, L, s] := ES[K, L, s] 
+@over ES[E, L, s] := ES[K, L, s]
 @over ES[L, E, s] := ES[E, L, s]

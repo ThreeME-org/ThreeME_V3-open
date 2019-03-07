@@ -6,8 +6,8 @@ include ..\model\lists
 
 @over NCH[c] := 1.0 * CH[c] where c in cveh ccon crai croa ccoa cele  # To be replaced by a list
 
-ES_HOUS_INV_ENER := 0.9
-ES_HOUS_ENER := 0.9
+ES_HOUS_INV_ENER := 0.0
+ES_HOUS_ENER := 0.0
 ES_CHTRSP := 0.9
 
 ES_TRSP_INV_ENER := 0.9
@@ -38,10 +38,10 @@ CH_HOUS_VAL := CH_HOUSINV_VAL + CH_HOUSENER_VAL
 CH_HOUSENER_VAL := sum(PCH_HOUS[ce] * CH_HOUS[ce] on ce)
 
 
-phi_MCH_HOUS[ce] := CH_HOUS[ce] * PCH_HOUS[ce] /  CH_HOUSENER_VAL  
+phi_MCH_HOUS[ce] := CH_HOUS[ce] * PCH_HOUS[ce] /  CH_HOUSENER_VAL
 
 
-CH_TRSP_VAL := sum(CH_TRSP_VAL[chtrsp] on chtrsp) 
+CH_TRSP_VAL := sum(CH_TRSP_VAL[chtrsp] on chtrsp)
 
 
 
@@ -72,7 +72,7 @@ PCH_TRSPENER_CES := P
 PCH_HOUSENER_CES := P
 PCH_HOUS := P
 PCH_HOUSINV := P
-PCH_HOUSENER := P 
+PCH_HOUSENER := P
 PCH_HOUS[ce] := P
 PCH_TRSP := P
 PCH_TRSPINV := P
