@@ -46,7 +46,7 @@ subroutine standard_backup()
 
   smpl @all
   series EXPG_bckp = EXPG
-  series SOC_BENF_VAL_bckp = SOC_BENF_VAL
+  series DSOC_BENF_VAL_bckp = DSOC_BENF_VAL
 
   for %s {%list_sec}
     series RRSC_bckp_{%s} = RRSC_{%s}
@@ -89,7 +89,7 @@ subroutine standard_restore_backup()
 
   smpl @all
   EXPG = EXPG_bckp
-  SOC_BENF_VAL = SOC_BENF_VAL_bckp
+  DSOC_BENF_VAL = DSOC_BENF_VAL_bckp
 
   for %s {%list_sec}
     RRSC_{%s} = RRSC_bckp_{%s}
@@ -138,7 +138,7 @@ subroutine standard_shock(string %shock)
   if @lower(%shock) = "expg1" then
 
     EXPG = EXPG + 0.54 * 0.01 * @elem(GDP, %baseyear)
-    SOC_BENF_VAL = SOC_BENF_VAL + 0.46 * 0.01 * @elem(GDP,%baseyear)
+    DSOC_BENF_VAL = 0.46 * 0.01 * @elem(GDP,%baseyear)
 
   endif
 

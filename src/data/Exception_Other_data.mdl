@@ -2,5 +2,4 @@ include ..\model\lists
 
 VA_VAL_corr[c] := 0
 
-
-
+DSOC_BENF_VAL :=0
