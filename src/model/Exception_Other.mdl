@@ -34,9 +34,8 @@ VA_VAL_corr[c] = 0.25 * (EXR * PWD[c] - PYQSBVAT[c]) * XD[c]
 ## This general specification combines various wage equations found in the literature: the Phillips curve and the WS curve. The WS curve à la Layard et al. (2005) requires the following constraints: \begin{center} $\rho^{W,P}_{s} + \rho^{W,Pe}_{s} = \rho^{W,PROG}_{s} = 1, \rho^{W,U}_{s} = \rho^{W,Cons}_{s}= 0$ \end{center}
 ## In the case of a Phillips curve, the $NAIRU$ is predetermined in the long run when wages are fully indexed on price and productivity. To have a long run "Time-Varying" $NAIRU$ under these hypotheses, we have to assume that the constant is a function of the unemployment rate (see Heyer et al. 2007): \begin{center} $d(\rho^{W,Cons}_{s}) =  \rho^{Cons,U}_{s} *\rho^{W,U}_{s} * d(UnR)$ \end{center}
 
-
 ##! Social benefits expressed in value (MESANGE)
 @over SOC_BENF_VAL     = RR_POP * @elem(W, %baseyear) * PROG_L * P * POP + RR_Un * W * Un + DSOC_BENF_VAL
 
 ##! Investment in sector $s$ (MESANGE)
-@over d(log(IA[s])) = 1.2 * d(log(Y_e[s])) + 0.0 * d(log(IA[s]{-1}))  + ADJUST_IA_SUBST[s] * d(SUBST_F[K, s]) + ADJUST_IA_Kn[s] * (log(F_n[K, s]{-1}) - log(F[K, s]{-1})) if F[K, s] <> 0
+# @over d(log(IA[s])) = 1.2 * d(log(Y_e[s])) + 0.0 * d(log(IA[s]{-1}))  + ADJUST_IA_SUBST[s] * d(SUBST_F[K, s]) + ADJUST_IA_Kn[s] * (log(F_n[K, s]{-1}) - log(F[K, s]{-1})) if F[K, s] <> 0
