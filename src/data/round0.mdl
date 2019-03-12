@@ -36,7 +36,7 @@ WD[c] := 1 * (1 + GR_REAL) ^ (@year - %baseyear)
 POP := WAPop/0.6
 WAPop := LF/0.7
 LF := F[L]/(1 - 0.1)
-empl := 1.1 * F[L]
+empl := 1.014 * F[L]
 
 ############################
 ### EMISSIONS DATA
