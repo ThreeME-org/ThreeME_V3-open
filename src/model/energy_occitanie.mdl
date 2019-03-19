@@ -1,3 +1,31 @@
+
+#### Final production and demand
+##! Demand for energy $ce$ of sector $s$, expressed in GWh 
+d(log(CI_GWh[ce, s])) = d(log(CI[ce, s])) if CI_GWh[ce, s] <> 0
+
+##! Demand for energy $ce$ of households, expressed in GWh 
+d(log(CH_GWh[ce])) = d(log(CH[ce])) if CH_GWh[ce] <> 0
+
+##! External demand for energy $ce$, expressed in GWh 
+d(log(X_GWh[ce])) = d(log(X[ce])) if X_GWh[ce] <> 0
+
+##! Production of energy of $ce$ by sector $s$, expressed in GWh 
+d(log(Y_GWh[ce, s])) = d(log(Y[ce, s])) if Y_GWh[ce, s] <> 0
+
+##! Demand for energy $ce$ of sectors, expressed in GWh 
+CI_GWh[ce] = sum(CI_GWh[ce, s] if CI_GWh[ce, s] <> 0 on s)
+# Seulement non energy sector?
+
+##! Production of energy of $ce$ by sectors, expressed in GWh 
+Y_GWh[ce] = sum(Y_GWh[ce, s] if Y_GWh[ce, s] <> 0 on s)
+# Seulement non energy sector?
+
+##! Imported energy $ce$, expressed in GWh 
+M_GWh[ce] = CI_GWh[ce] + CH_GWh[ce] + X[ce] - Y_GWh[ce]
+
+
+#### Primary production and demand
+#####################################################3
 d(log(E_GWh[ce, sne])) = d(log(CID[ce, sne] + CIM[ce, sne])) if E_GWh[ce, sne] #(CID[ce, s] + CIM[ce, s]) <> 0
 
 E_GWh_Agri[ce] = E_GWh[ce, s] where s in 01
