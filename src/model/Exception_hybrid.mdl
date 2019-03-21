@@ -27,16 +27,17 @@ NCH[ce] = @elem(PENER_BUIL[ce], %baseyear) * ENER_BUIL[ce] + EXP_AUTO[ce] +  CH_
 d(log( CH_OTH[CCON] ) ) = ( @year > %baseyear ) * d( log( CH_n_VAL / PCH[CCON] ) )
 ## This variable corresponds to the gap between the aggregate consumption of construction commodities and the consumption related to new and rehabilitated buildings. \\
 
-##! Household consumption of other vehicules commodities
-# d(log( CH_OTH[CVEH] * PCH[CVEH] ) ) = ( @year > %baseyear ) * d( log( CH_n_VAL ) )
-## This variable corresponds to the gap between the aggregate consumption of vehicules and the consumption related to the new vehicules. \\
+# ##! Household consumption of other vehicules commodities
+# # d(log( CH_OTH[CVEH] * PCH[CVEH] ) ) = ( @year > %baseyear ) * d( log( CH_n_VAL ) )
+# ## This variable corresponds to the gap between the aggregate consumption of vehicules and the consumption related to the new vehicules. \\
 
 ##! Price of class $ecl$ new building   
 d( log( PNewBUIL[ecl] ) ) = d( log( PCH[CCON] ) )
 
 ##! Price of investment for rehabilitating a class $ecl$ buidding to class $ecl2$
 d( log( PREHAB[ecl,ecl2] ) ) = d( log( PCH[CCON] ) ) if REHAB[ecl,ecl2] <> 0
-   
+
+##! test   
 d( log( PREHAB[ecl,ecl] ) ) = d( log( PCH[CCON] ) )  # Must be added because REHAB[ecl,ecl] = 0  (test if merging the 2 eq. does not change the results)
 
 ##! Interest rate paid for an investment in a new class $ecl$ buidding    
@@ -157,12 +158,13 @@ UC_K_REHAB[ecl,ecl2] = (1 - R_SUB[ecl,ecl2]) * (PREHAB[ecl,ecl2] / REHAB_D[ecl2]
 
 
 # Replace the previous specification: TO BE DELETED AFTER VERIF ! 
+##! Test
 UC_K_REHABbis[ecl] = PREHAB_delta[ecl] * ( R_CASH_REHAB[ecl] + R_LOAN_REHAB[ecl] * R_I_REHAB[ecl]{-1} * LD_REHAB[ecl] / _
                                                ( 1 - ( 1 + R_I_REHAB[ecl]{-1})^( -LD_REHAB[ecl] ) ) ) if REHAB[ecl] <> 0    
-   
+##! Test   
 PREHAB_delta[ecl] = sum( (1 - R_SUB[ecl,ecl2]) * PREHAB[ecl,ecl2] * phi_REHAB[ecl,ecl2] / REHAB_D[ecl2] _
                         if REHAB[ecl,ecl2]  <> 0 on ecl2) if REHAB[ecl]  <> 0             
-
+##! Test
 verif_UC_K_REHAB[ecl] = (UC_K_REHABbis[ecl]/UC_K_REHAB[ecl] - 1)*100 if REHAB[ecl]  <> 0 
  
 
@@ -171,7 +173,6 @@ R_LOAN_REHAB[ecl] = 1 - R_CASH_REHAB[ecl] if REHAB[ecl] <> 0
 
 ##! Share of the new class $ecl$ building investment paid through a loan    
 R_LOAN_NewBUIL[ecl] = 1 - R_CASH_NewBUIL[ecl]
-
 
 ##! User cost of a $ecl$ class building
 UC[ecl] = UC_K[ecl] + UC_E[ecl]
@@ -184,14 +185,14 @@ UC_K[ecl] = ( PREHAB[ecl,ecl] / BUIL_D[ecl] ) * (R_CASH[ecl] + R_LOAN[ecl] * R_I
 ##! Share of the class $ecl$ building investment paid through a loan     
 R_LOAN[ecl] = 1 - R_CASH[ecl]
    
-# Average depreciation rate of a class ecl rehabilitated building 
-# It depends on the depreciation rate in which the building is rehabilitated
-## IS THIS VARIABLE USED IN THE MODEL?
+##! Average depreciation rate of a class $ecl$ rehabilitated building 
 delta_REHAB[ecl] = sum(phi_REHAB[ecl,ecl2] * delta_BUIL[ecl2] if phi_REHAB[ecl,ecl2] <> 0 on ecl2 ) if REHAB[ecl] <> 0
+# It depends on the depreciation rate in which the building is rehabilitated
+# IS THIS VARIABLE USED IN THE MODEL?
    
-# Depreciation rate of a building of class ecl
-## IS THIS VARIABLE USED IN THE MODEL beside delta_REHAB[ecl]?
+##! Depreciation rate of a building of class $ecl$
 delta_BUIL[ecl] = sum(delta_BUIL[ecl,bcl]      if delta_BUIL[ecl,bcl] <> 0   on bcl )
+# IS THIS VARIABLE USED IN THE MODEL beside delta_REHAB[ecl]?
 
 ##! User energy cost of a class $ecl$ building
 UC_E[ ecl] = PENER_m2[ ecl] * ( ((1 + GR_PENER_m2_e[ ecl]) ^ BUIL_D[ ecl] - 1) / (GR_PENER_m2_e[ ecl] * BUIL_D[ ecl]) )
@@ -202,25 +203,26 @@ UC_E[ ecl] = PENER_m2[ ecl] * ( ((1 + GR_PENER_m2_e[ ecl]) ^ BUIL_D[ ecl] - 1) /
 # L'ancienne spécification: 
 # UC_E_H01_CC  = PENER_m2_H01_CC  * ( ( GR_PENER_m2_e_H01_CC  = < 1e-05 )  * 1  +   ( GR_PENER_m2_e_H01_CC > 1e-05 )  * ( ( 1  + GR_PENER_m2_e_H01_CC ) ^ ( BUIL_D_H01_CC )  - 1 )  / ( ( GR_PENER_m2_e_H01_CC  + ( GR_PENER_m2_e_H01_CC >= 0 )  * ( GR_PENER_m2_e_H01_CC <= 0 )  * 1e-07 )  * BUIL_D_H01_CC ) )
 
-### Energy price per square meter paid in class $ecl$ buildings    
+##! Energy price per square meter paid in class $ecl$ buildings    
 PENER_m2[ecl]  = PENER_BUIL[ecl] * ENER_BUIL[ecl]/BUIL[ecl] 
      
-### Growth rate of the energy price per square meter paid in class $ecl$ buildings 
+##! Growth rate of the energy price per square meter paid in class $ecl$ buildings 
 GR_PENER_m2_e[ecl] = (@year>%baseyear)*(ADJUST_GR_PENER_m2_e_1 * @pchy( PENER_m2[ecl]{-1} ) + (1-ADJUST_GR_PENER_m2_e_1) * GR_PENER_m2_e[ecl]{-1}) + (@year<=%baseyear)*GR_PRICES  if PENER_m2[ecl] <> 0
-
 
 
 ### Debts
 
+##! Debt Test
 DEBT_REHAB_Val[ecl] = (@year > %baseyear) * ( ( 1 - R_RMBS_REHAB[ecl] ) * DEBT_REHAB_Val[ecl]{-1} _
                                                    + R_LOAN_REHAB[ecl] * PREHAB[ecl] * REHAB[ecl] ) _
                            + (@year =< %baseyear) * DEBT_REHAB_Val[ecl]{-1} * ( 1 + GR_NOMI ) if REHAB[ecl] <> 0
-   
+
+##! Debt Test
 DEBT_NewB_Val[ecl] = (@year > %baseyear) * ( ( 1 - R_RMBS_NewBUIL[ecl] ) * DEBT_NewB_Val[ecl]{-1} _
                                                   + R_LOAN_NewBUIL[ecl] * PNewBUIL[ecl] * NewBUIL[ecl] ) _
                           + (@year =< %baseyear) * DEBT_NewB_Val[ecl]{-1} * ( 1 + GR_NOMI )
 
-
+##! Housing expenditures
 EXP_HOUSING_Val[ecl] = ( @year > %baseyear ) * ( DEBT_REHAB_Val[ecl]{-1} * (R_I_REHAB[ecl]{-1} + R_RMBS_REHAB[ecl]{-1} ) _
                                                       + R_CASH_REHAB[ecl] * PREHAB[ecl] * REHAB[ecl] _
                                                       + DEBT_NewB_Val[ecl]{-1} * ( R_I_NewBUIL[ecl]{-1} + R_RMBS_NewBUIL[ecl]{-1} ) _
@@ -228,7 +230,7 @@ EXP_HOUSING_Val[ecl] = ( @year > %baseyear ) * ( DEBT_REHAB_Val[ecl]{-1} * (R_I_
                                                       + PENER_BUIL[ecl] * ENER_BUIL[ecl] ) _
                             + ( @year =< %baseyear ) * EXP_HOUSING_Val[ecl]{-1} * ( 1 + GR_NOMI )
    
- 
+##! Housing expenditures 
 EXP_HOUSING_Val = sum(EXP_Housing_Val[ecl] if EXP_Housing_Val[ecl] <> 0 on ecl)
  
    
