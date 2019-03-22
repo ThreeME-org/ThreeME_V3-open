@@ -13,7 +13,7 @@ library(stringr)
 # teXdoc(c("Intro_doc_eqs.mdl","SU.mdl", "prices.mdl", "producer.mdl", "consumer.mdl", "government.mdl",  "Trade_inter.mdl", "demography.mdl", "ghg_emissions.mdl", "adjustments.mdl"),"ThreeMEv3_eqs_04")
 # teXdoc(c("ETS.mdl"),"ThreeMEv3_ETS")
 # teXdoc(c("Intro_doc_eqs.mdl","SU.mdl", "prices.mdl", "producer.mdl", "consumer.mdl", "government.mdl",  "Trade_inter.mdl", "demography.mdl", "ghg_emissions.mdl", "adjustments.mdl", "Exception_taxes_prices.mdl"),"ThreeMEv3_eqs_05")
-
+# teXdoc(c("ETS.mdl", out = "testExo", exo = c("exogenous.mdl")), intro = "intro.tex")
 
 rm(list = ls())
 
