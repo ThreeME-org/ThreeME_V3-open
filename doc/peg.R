@@ -317,7 +317,10 @@ toTeX <- function(eq) {
   eq <- str_replace(eq, " where f in %list_F \\\\ K", "")
   
   code <- peg %>% apply_rule("Equation", eq, exe = T) %>% value %>% parse(text = .)
-  eval(code, latex)
+  eval(code, latex) %>%
+    # Brutal regex to get rid of the initialisation-specific code (t <= t0)
+    str_replace(" *(.*) *= *\\\\left\\( *t > t_0 *\\\\right\\) *\\. *\\\\left\\( *(.*) *\\\\right\\) *\\+.*",
+                "\\1 = \\2")
 }
 
 glossaryTeX <- function(glossary) {

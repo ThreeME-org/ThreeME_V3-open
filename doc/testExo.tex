@@ -104,7 +104,7 @@ RSC_{s} \; PRSC_{s} = W_{s} \; F_{L, s} \; RRSC_{s} - ETS^{VAL}_{s}
 
 \noindent \textbf{Necessary (minimum) households' final consumption for construction commodity $ccon$} 
 \begin{dmath}
-NCH_{ccon} = \left( @year > %baseyear \right) . \left( PNewBUIL . NewBUIL + PREHAB . REHAB + CH^{OTH}_{CCON} \right) + \left( @year <= %baseyear \right) . \left( NCH_{ccon, t-1} \; \left( 1 + GR^{REAL} \right) \right)
+NCH_{ccon}  = PNewBUIL_{t_0} \; NewBUIL + PREHAB_{t_0} \; REHAB + CH^{OTH}_{CCON} 
 \label{ETS.mdlNCH[ccon]}
 \end{dmath}
 \newpage\section{Exogenous variables}
