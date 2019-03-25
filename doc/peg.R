@@ -172,7 +172,7 @@ peg <- peg %>%
 
 
 nameSplit <- function(s) {
-  if (str_detect(s, "_")) {
+  if ((s != "t_0") & str_detect(s, "_")) {
     chunks <- s %>% str_split("_") %>% unlist
     str_c(chunks[1], "^{", str_c(tail(chunks, -1), collapse = ","), "}")
   } else {
@@ -200,6 +200,11 @@ latex <- list(
       # Bis and ter must appear as exponents
       str_replace("bis$", "_bis") %>%
       str_replace("ter$", "_ter") %>%
+      # Time-related identifiers
+      str_replace("@year", "t") %>%
+      str_replace("%baseyear", "t_0") %>%
+      # Escape % if still present
+      str_replace("%", "\\\\%") %>%
       # If underscores in name, split to exponent
       nameSplit()
   },
@@ -224,6 +229,8 @@ latex <- list(
     } else if (name == "@elem") {
       if (str_detect(.args[[1]], ", t-1\\}")) {
         str_replace(.args[[1]], ", t-1\\}", ", t_{0}-1}")
+      } else if (.args[[2]] == "t_0") {
+        str_c(.args[[1]], "_{t_0}")
       } else {
         str_replace(.args[[1]], "\\}$", ", t_{0}}")
       }
