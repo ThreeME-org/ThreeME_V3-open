@@ -1,27 +1,27 @@
 
 #### Final production and demand
-##! Demand for energy $ce$ of sector $s$, expressed in GWh 
-d(log(CI_GWh[ce, s])) = d(log(CI[ce, s])) if CI_GWh[ce, s] <> 0
+##! Demand for energy $ce$ of sector $s$, expressed in toe 
+d(log(CI_toe[ce, s])) = d(log(CI[ce, s])) if CI_toe[ce, s] <> 0
 
-##! Demand for energy $ce$ of households, expressed in GWh 
-d(log(CH_GWh[ce])) = d(log(CH[ce])) if CH_GWh[ce] <> 0
+##! Demand for energy $ce$ of households, expressed in toe 
+d(log(CH_toe[ce])) = d(log(CH[ce])) if CH_toe[ce] <> 0
 
-##! External demand for energy $ce$, expressed in GWh 
-d(log(X_GWh[ce])) = d(log(X[ce])) if X_GWh[ce] <> 0
+##! External demand for energy $ce$, expressed in toe 
+d(log(X_toe[ce])) = d(log(X[ce])) if X_toe[ce] <> 0
 
-##! Production of energy of $ce$ by sector $s$, expressed in GWh 
-d(log(Y_GWh[ce, s])) = d(log(Y[ce, s])) if Y_GWh[ce, s] <> 0
+##! Production of energy of $ce$ by sector $s$, expressed in toe 
+d(log(Y_toe[ce, s])) = d(log(Y[ce, s])) if Y_toe[ce, s] <> 0
 
-##! Demand for energy $ce$ of sectors, expressed in GWh 
-CI_GWh[ce] = sum(CI_GWh[ce, s] if CI_GWh[ce, s] <> 0 on s)
+##! Demand for energy $ce$ of sectors, expressed in toe 
+CI_toe[ce] = sum(CI_toe[ce, s] if CI_toe[ce, s] <> 0 on s)
 # Seulement non energy sector?
 
-##! Production of energy of $ce$ by sectors, expressed in GWh 
-Y_GWh[ce] = sum(Y_GWh[ce, s] if Y_GWh[ce, s] <> 0 on s)
+##! Production of energy of $ce$ by sectors, expressed in toe 
+Y_toe[ce] = sum(Y_toe[ce, s] if Y_toe[ce, s] <> 0 on s)
 # Seulement non energy sector?
 
-##! Imported energy $ce$, expressed in GWh 
-M_GWh[ce] = CI_GWh[ce] + CH_GWh[ce] + X[ce] - Y_GWh[ce]
+##! Imported energy $ce$, expressed in toe 
+M_toe[ce] = CI_toe[ce] + CH_toe[ce] + X[ce] - Y_toe[ce]
 
 
 #### Primary production and demand
