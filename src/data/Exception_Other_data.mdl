@@ -1,9 +1,9 @@
 include ..\model\lists
 
-VA_VAL_corr[c] := 0
+# VA_VAL_corr[c] := 0
 
 DSOC_BENF_VAL :=0
 
-IA0[s] := log(IA[s]{-1}) - (log(Y_e[s]{-1}) - 0.44 * log(C[K,s]{-1}/PY[s]{-1}))
+# IA0[s] := log(IA[s]{-1}) - (log(Y_e[s]{-1}) - 0.44 * log(C[K,s]{-1}/PY[s]{-1}))
 
-W0[s] := log(W[s]{-1}) - (log(Y[s]{-1}/F_L[s]{-1}) + log(PVA{-1}) - 2 * UnR{-1} + log((1+RRSC[s]{-1})/(1-RINC_SOC_TAX{-1})))
+# W0[s] := log(W[s]{-1}) - (log(Y[s]{-1}/F_L[s]{-1}) + log(PVA{-1}) - 2 * UnR{-1} + log((1+RRSC[s]{-1})/(1-RINC_SOC_TAX{-1})))

@@ -43,10 +43,10 @@ ES_TRSP[ct, ctt, s] := 0.3
 
 
 ## Between domestic and imported commodities for margins supplied, private and public consumption, investment and exports
-ES_|V|M[c] := 0.35 where V in CH G I X
-ES_|V|M[m] := 0.35 where V in MGS
+ES_|V|M[c] := 0.8 where V in CH G I X
+ES_|V|M[m] := 0.8 where V in MGS
 
-ES_|V|M[c, s] := 0.35 where V in CI I
+ES_|V|M[c, s] := 0.8 where V in CI I
 
 ## Between exported and the rest of world commodities sold abroad
 ES_X[c] := 0.8
@@ -64,7 +64,7 @@ RHO_W_Pe[s] := 1
 RHO_W_P[s] := 1 - RHO_W_Pe[s]
 RHO_W_PROG[s] := 1
 RHO_W_U[s] := 0.0
-RHO_W_DU[s] := 2
+RHO_W_DU[s] := 1.8
 RHO_W_L[s] := 0
 
 RHO_W_Cons[s] := log(1+GR_NOMIW) - (RHO_W_P[s] + RHO_W_Pe[s])*log(1+GR_PRICES) - RHO_W_PROG[s]*log(1+GR_PROG_L) + RHO_W_U[s] * UnR
