@@ -239,7 +239,7 @@ latex <- list(
       }
     } else {
       str_c("\\operatorname{", name, "} ", 
-            ifelse(str_detect("args", "\\+|-|\\*|/"), 
+            ifelse(str_detect(.args, " \\+ | - | \\* | / | \\. |\\\\;"), 
                    str_c("\\left(", .args, "\\right)"),
                    .args))
     }
