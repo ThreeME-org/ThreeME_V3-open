@@ -256,7 +256,7 @@ latex <- list(
       str_c(e1, " ", ifelse(op == "*", "\\;", op), " ", e2)
     }
   },
-  dynEq  = function(lhs, rhs) str_c("\\begin{dmath}\n", lhs, " = ", rhs, "\n\\label{", currentFile, currentVar, "}\n\\end{dmath}")
+  dynEq  = function(lhs, rhs) str_c("\\repeatable{", currentFile, currentVar,"}{", lhs, " = ", rhs, "}\n")
 )
 
 custom <- latex
@@ -277,6 +277,21 @@ texHeader <- "\\ifx\\fulldoc\\undefined
 \\usepackage{booktabs}
 \\usepackage{array}
 \\usepackage{ragged2e}
+
+\\makeatletter
+\\newcommand{\\repeatable}[2]{
+\\begin{dmath}
+\\label{#1}\\global\\@namedef{repeatable@#1}{#2}#2
+\\end{dmath}
+}
+\\newcommand{\\eqrepeat}[1]{%
+\\@ifundefined{repeatable@#1}{NOT FOUND}{
+\\begin{dmath}[number=\\ref{#1}]
+\\@nameuse{repeatable@#1}
+\\end{dmath}
+}
+}
+\\makeatother
 
 \\begin{document}
 
