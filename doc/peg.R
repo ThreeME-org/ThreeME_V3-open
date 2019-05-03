@@ -228,7 +228,12 @@ latex <- list(
       if (str_detect(.args[[1]], ", t-1\\}")) {
         str_replace(.args[[1]], ", t-1\\}", ", t_{0}-1}")
       } else if (.args[[2]] == "t_0") {
-        str_c(.args[[1]], "_{t_0}")
+        # UGLY: In case the variable already has indices
+        if (str_sub(.args[[1]], -1, -1) == "}") {
+          str_c(str_sub(.args[[1]], 1, -2), ", t_0}")
+        } else {
+          str_c(.args[[1]], "_{t_0}")
+        }
       } else {
         str_replace(.args[[1]], "\\}$", ", t_{0}}")
       }
