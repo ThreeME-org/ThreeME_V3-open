@@ -43,10 +43,23 @@ ES_TRSP[ct, ctt, s] := 0.3
 
 
 ## Between domestic and imported commodities for margins supplied, private and public consumption, investment and exports
-ES_|V|M[c] := 0.8 where V in CH G I X
-ES_|V|M[m] := 0.8 where V in MGS
+ES_CHM[c] := 0.8
+ES_GM[c] := 0.8
+ES_IM[c] := 0.8
+ES_XM[c] := 0.8
 
-ES_|V|M[c, s] := 0.8 where V in CI I
+@over ES_CHM[ce] := 0.0
+@over ES_GM[ce] := 0.0
+@over ES_IM[ce] := 0.0
+@over ES_XM[ce] := 0.0
+
+ES_MGSM[m] := 0.8
+
+ES_CIM[c, s] := 0.8
+ES_IM[c, s] := 0.8
+
+@over ES_CIM[ce, s] := 0.0
+@over ES_IM[ce, s] := 0.0
 
 ## Between exported and the rest of world commodities sold abroad
 ES_X[c] := 0.8
