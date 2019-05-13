@@ -6,74 +6,60 @@ include ..\model\lists
 ## This file provides the equations defining the hybrid block on transport.
 
 
-#### 
-###########Niveau 1 : Détermination du nombre de km pour l'avion, les trajets longue distance et les trajets courte distance       modifié
+#### Arbitrage between transport modes 
 
- ## passager-kilomètre Avion 
- ### Reference for the elasticity?
- @over d(log(Km_traveler[18])) =(@year>%baseyear)*(1.5*d(log(dispinc_val/PCH))-0.7*d(log(PCH_18)-log(PCH))) + _
-                                   (@year<=%baseyear)*log(1+GR_REAL)
-      
- ## passager-kilomètre Longue distance
+### Level 1: Determination of air, long and short distance transport
+
+##! Kilometer-travelers for air transport
+d(log(Km_traveler[cair])) = (@year>%baseyear)*(1.5 * d(log(DISPINC_AT_VAL/PCH)) - 0.7 * d(log(PCH[cair])-log(PCH)))
+
+##! Kilometer-travelers for long distance transport (by automobile and train)      
+d(log(km_traveler_LD)) = (@year>%baseyear)*(0.6 * d(log(DISPINC_AT_VAL/PCH)) - 0.4 * d(log(P_km_traveler_LD/PCH))
+
+##! Price of long distance transport (by automobile and train)   
+# d(log(P_km_traveler_LD)) = (km_traveler[crai]{-1} * d(log(PCH[crai])) + km_trav_auto_LD{-1} * d(log(P_km_trav_auto_LD))) / (km_traveler[crai]{-1} + km_trav_auto_LD{-1})
  
-# d(log(km_traveler_LD)) =(@year>%baseyear)*(0.6*d(log(dispinc_val/PCH)) -0.4*((km_traveler_14{-1}/( km_traveler_14{-1}+ km_trav_auto_LD{-1})) _
-#                             *d(log(pc_trav_14/PCH)))  + sobre_AUTO_LD *(km_trav_auto_LD{-1}/(km_traveler_14{-1}+ km_trav_auto_LD{-1})) _
-#                             * dlog( PC_trav_auto_LD/PCH)) + (2006<@year)*(@year<2016)*trend_km_traveler_LD + _
-#                             (@year<=%baseyear)*log(1+GR_REAL)
+##! Kilometer-travelers for short distance transport (by automobile and bus)     
+# d(log(km_traveler_SD)) = (@year>%baseyear)*(0.4*d(log(DISPINC_AT_VAL/PCH)) - 0.3 * d(log(P_Transp_SD/PCH)))
+#                           + (@year<=%baseyear)*log(1+GR_REAL)
  
- ## passager-kilomètre courte distance
+##! Price of short distance transport (by automobile and bus)    
+# d(log(P_Transp_SD)) = (km_traveler[croa]{-1} * d(log(PCH[croa])) + km_trav_auto_SD{-1} * d(log(PCH_auto_SD))) / (km_traveler[croa]{-1} + km_trav_auto_SD{-1})
+
+
+### Level 2: Arbitrage between long distance transport (automobile and train)
  
- #d(log(km_traveler_CD)) =(@year>%baseyear)*(0.4*d(log(dispinc_val/PCH)) -0.3*(km_traveler_15{-1}/( km_traveler_15{-1}+ km_trav_auto_CD{-1})) _
- #                            *dlog(pc_trav_15/PCH) + sobre_AUTO_CD*dlog(PC_trav_auto_CD/PCH) * km_trav_auto_CD{-1}/(km_traveler_15{-1}+ km_trav_auto_CD{-1})) _
- #                            + (2006<@year)*(@year<2016)*trend_km_traveler_CD + _
- #                            (@year<=%baseyear)*log(1+GR_REAL)
+##! Kilometer-travelers for transport by train 
+# d(log(km_traveler[crai])) = (@year > %baseyear) * (d(log(km_traveler_LD)) _
+#                             +  0.5 * km_trav_auto_LD{-1}/(km_traveler[crai]{-1} + km_trav_auto_LD{-1}) * d(log(P_km_trav_auto_LD)-log(PCH[crai]))) _
+#                             + (@year<=%baseyear)*log(1+GR_REAL)
  
- 
- ############### Niveau 2 : arbitrages CES           modifié
- 
- ## Arbitrage longue distance : fer et VP(courte distance)
- 
- #Fer 
- 
-# dlog(km_traveler_14)=(@year > %baseyear)*(d(log(km_traveler_LD))+ _
-#                                  0.5*(km_trav_auto_LD{-1}/(km_traveler_14{-1}+km_trav_auto_LD{-1}))*d(log(PC_trav_auto_LD)-log(pc_trav_14)))+ _
-#                                   (@year<=%baseyear)*log(1+GR_REAL)
- 
- #VP longue distance
- 
- # dlog(km_trav_auto_LD)=(@year > %baseyear)*(d(log(km_traveler_LD))+ _
- #                          0.5*(km_traveler_14{-1}/(km_traveler_14{-1}+ km_trav_auto_LD{-1}))* d(log(pc_trav_14)-log(PC_trav_auto_LD))) + _
- #                           (@year<=%baseyear)*log(1+GR_REAL)
+##! Kilometer-travelers for long distance by automobile 
+# d(log(km_trav_auto_LD)) = (@year > %baseyear) * (d(log(km_traveler_LD)) _
+#                             +  0.5 * km_traveler[crai]{-1}/(km_traveler[crai]{-1} + km_trav_auto_LD{-1}) * d(log(PCH[crai])-log(P_km_trav_auto_LD))) _
+#                             +  (@year<=%baseyear)*log(1+GR_REAL)
     
- ## Arbitrage courte distance : Bus et VP (courte distance)
- 
- #VP courte distance 
- 
- # dlog(km_trav_auto_CD)=(@year > %baseyear)*(d(log(km_traveler_CD))+ _ 
- #                        0.2*(km_traveler_15{-1}/(km_traveler_15{-1}+ km_trav_auto_CD{-1}))* d(log(pc_trav_15)-log(PC_trav_auto_CD))) + _
- #                        (@year<=%baseyear)*log(1+GR_REAL)
- 
- # Bus
- 
-# dlog(km_traveler_15)=(@year > %baseyear)*(d(log(km_traveler_CD))+ _ 
-#                                  0.2*(km_trav_auto_CD{-1}/( km_traveler_15{-1}+ km_trav_auto_CD{-1}))*d(log(PC_trav_auto_CD)-log(pc_trav_15)))+ _
-#                               (@year<=%baseyear)*log(1+GR_REAL)
- 
- 
- 
-############### Auto     modifié
-## km réalisés en voiture : 
-#Longue distance
+### Level 2: Arbitrage between short distance transport (automobile and bus)
+##! Kilometer-travelers for long distance by automobile 
+# d(log(km_trav_auto_SD)) = (@year > %baseyear) * (d(log(km_traveler_SD)) _ 
+#                             + 0.2 * km_traveler[croa]{-1}/(km_traveler[croa]{-1} + km_trav_auto_SD{-1}) * d(log(PCH[croa])-log(PCH_auto_SD))) _
+#                             + (@year<=%baseyear)*log(1+GR_REAL)
 
-# d(log(km_auto_LD))  =d(log(km_trav_auto_LD))-d(log(travperauto_LD))
+##! Kilometer-travelers for transport by road (bus)
+# d(log(km_traveler[croa])) = (@year > %baseyear) * (d(log(km_traveler_SD)) _ 
+#                             + 0.2 * km_trav_auto_SD{-1}/(km_traveler[croa]{-1} + km_trav_auto_SD{-1}) * d(log(PCH_auto_SD)-log(PCH[croa]))) _
+#                             + (@year<=%baseyear)*log(1+GR_REAL)
 
-#Courte distance
 
-# d(log(km_auto_CD))=d(log(km_trav_auto_CD))-d(log(travperauto_CD))
+### Level 3: Transport by automobile
+##! Kilometers for long distance by automobile 
+# d(log(km_auto_LD)) = d(log(km_trav_auto_LD)) - d(log(travperauto_LD))
 
-#Nombre total de kilomètres en auto
+##! Kilometers for short distance by automobile 
+# d(log(km_auto_SD)) = d(log(km_trav_auto_SD)) - d(log(travperauto_SD))
 
-# KM_AUTO= km_auto_LD+km_auto_CD
+##! Total kilometers by automobile 
+# KM_AUTO = km_auto_LD + km_auto_SD
 
 #Nombre d'autos
 

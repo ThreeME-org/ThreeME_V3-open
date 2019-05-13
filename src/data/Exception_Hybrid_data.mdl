@@ -2,6 +2,10 @@ include ..\model\lists
 
 ## Special data (inversion of eq. / modification of the equation / alias)
 
+#######################################
+###################################### 
+# For housing block
+
 BUIL := sum(BUIL[ecl] on ecl)
 BUILbis := BUIL
 
@@ -142,6 +146,13 @@ ENER[ ecl] := @elem(PENER_BUIL[ ecl], %baseyear) * ENER_BUIL[ ecl] + EXP_AUTO[ e
 ENER         := @elem(PENER_BUIL, %baseyear) * ENER_BUIL + EXP_AUTO
 
 
+#######################################
+###################################### 
+# For housing block
+
+
+
+
 ###################################################
 #####################################################
 # Will be endogenized or loaded
@@ -197,3 +208,5 @@ CH_OTH[ce] := @elem(NCH[ce], %baseyear) - (@elem(PENER_BUIL[ce], %baseyear) * EN
 # @over SAV_H_VAL  := DISPINC_AT_VAL - EXP_H_VAL
 
 # @over RSAV_H_VAL := SAV_H_VAL / DISPINC_AT_VAL
+
+

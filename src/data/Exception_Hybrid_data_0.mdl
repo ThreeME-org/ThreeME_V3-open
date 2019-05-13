@@ -1,10 +1,12 @@
 include ..\model\lists
 
-#######################################
-###################################### 
-# Round 0 for Hybrid: Hypothesis specific to the htbrid block
 
 @over NCH[c] := 1.0 * CH[c] where c in cveh ccon crai croa ccoa cele  # To be replaced by a list
+
+#######################################
+###################################### 
+# Round 0 for Housing block: hypothesis specific to the housing block
+
 
 # Subsidy rate
 R_SUB[ecl,ecl2] := 0
@@ -99,3 +101,20 @@ REHAB[ecl] := sum(REHAB[ecl,ecl2] on ecl2)
 
 U_REHAB[ecl,ecl2] := phi_REHAB[ecl,ecl2]
 
+
+
+#######################################
+###################################### 
+# Round 0 for transport block: hypothesis specific to the transport block
+
+km_trav_auto_LD	  := TRANSPORT(24, 9)
+km_trav_auto_SD	  := TRANSPORT(25, 9)	
+Km_traveler[cair] := TRANSPORT(26, 9)
+Km_traveler[cair] := TRANSPORT(28, 9)
+Km_traveler[cair] := TRANSPORT(30, 9)
+
+km_traveler_LD := km_traveler[crai] + km_trav_auto_LD
+km_traveler_SD := km_traveler[croa] + km_trav_auto_SD
+
+# To be deleted (when commodity does not exist because smaller version of the model)
+PCH[cair] := 1
