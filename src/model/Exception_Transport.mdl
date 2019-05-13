@@ -74,14 +74,116 @@ km_auto = km_auto_LD + km_auto_SD
 
 
 
-# Equation H.4.88
-
+##! Number of automobiles
 d(log(AUTO)) = (@year > %baseyear) * (d(log(Km_auto)) - d(log(kmPerAuto))) 
 
-
-
-# Equation H.4.97
+# Number of automobiles (for verification)
 AUTObis = sum(AUTO[ecl] on ecl)
+
+# Number of new automobiles
+NewAUTO = (@year>%baseyear)*(d(AUTO) + AUTO[DES])
+
+
+
+
+# Equation H.4.78
+### A regrouper avec les équations de auto
+#AUTO_elec[DES,pcl] = (@year>%baseyear)*(delta_AUTO[CA,DES] * AUTO_elec[pcl]{-1}) + (@year<=%baseyear)*AUTO_elec[DES,pcl]{-1}*(1+GR_REAL)        
+
+#AUTO_th[DES,ecl] = (@year>%baseyear)*(delta_AUTO[ecl,DES] * AUTO_th[ecl]{-1})+ (@year<=%baseyear)*AUTO_th[DES,ecl]{-1}*(1+GR_REAL)          
+
+#AUTO[DES,ecl] = (@year>%baseyear)*(AUTO_th[DES,ecl]) + (@year<=%baseyear)*AUTO[DES,ecl]{-1}*(1+GR_REAL) 
+
+#@over AUTO[DES,CA] = (@year>%baseyear)*(sum(AUTO_elec[DES,pcl] on pcl) + AUTO_th[DES,CA]) + (@year<=%baseyear)*AUTO[DES,CA]{-1}*(1+GR_REAL)           
+
+AUTO[DES] = (@year>%baseyear)*(sum(AUTO[DES,ecl] on ecl)) + (@year<=%baseyear)*AUTO[DES]{-1}*(1+GR_REAL)                    #modifié
+
+# Equation H.4.79 and H.4.80
+
+NewAUTO[CA] = NewAUTO_elec + NewAUTO_th[CA]   #modifié
+
+NewAUTO[c] = NewAUTO_th[c]  where c in %list_ener_class \ CA
+
+# Verif
+
+AUTO_verif = sum( AUTO[ecl] on ecl )
+
+
+Verif_AUTO = AUTO_verif - AUTO
+
+Verif_AUTO2 = ( @year > %baseyear ) * (NewAUTO - AUTO_DES - d(AUTO)) + ( @year <= %baseyear ) * Verif_AUTO2{-1}
+
+
+
+# Aspect sobriété dans l'automobile et efficacité énérgetique     modifié
+ # Equation H.4.89 and H.4.90
+
+AUTO[ecl,ce] = AUTO[ecl]*SHARE_AUTO[ecl,ce]      
+
+AUTO[ce] = sum(AUTO[ce] on h)
+
+SHARE_AUTO[CA,23] = AUTO_elec/AUTO[CA]
+
+SHARE_AUTO[ c, 23] = 0      where c in %list_ener_class \ CA
+
+SHARE_AUTO[CA,ce2] = (1-SHARE_AUTO[CA,23])*@elem(AUTO[CA,ce2]/(AUTO[CA,21] +AUTO[CA,22]+AUTO[CA,24]),%baseyear)  
+
+
+
+
+# Dans cette exception, nous allons redéfinir le parc auto en ajoutant une spécification spéciale pour les véhicules électriques.
+# L'idée est d'effectuer un choix de véhicules en deux étapes : 1 : choix entre électrique et thermique, 2 : choix de la classe d'énergie en fct des gCO2/km pour le thermique et des kWh/km pour l'elec.
+
+##AUTOS ELECTRIQUES         modifié
+
+dlog(KM_AUTO_elec[pcl]) = dlog(AUTO_elec[pcl]) - dlog(KmPerAuto)
+
+KM_AUTO_elec = sum(KM_AUTO_elec[pcl] on pcl) 
+
+d(AUTO_elec)=(@year>%baseyear)*(NewAUTO*share_elec-delta_AUTO[CA,DES]*AUTO_elec{-1})+ _
+                (@year <= %baseyear) * (AUTO_elec{-1} * (GR_REAL ) )
+
+d(AUTO_elec[pcl])= (@year>%baseyear)*(NewAUTO*share_elec*phi_elec[pcl]-delta_AUTO[CA,DES]*AUTO_elec[pcl]{-1}) + _
+                      (@year <= %baseyear) * (AUTO_elec[pcl]{-1} * (GR_REAL ) )
+
+NewAUTO_elec = NewAUTO*share_elec
+
+NewAUTO_th = NewAUTO*(1-share_elec)
+
+NewAUTO_th[ ecl] = NewAUTO_th*phi_th[ecl]
+
+NewAUTO_elec[pcl] = NewAUTO_elec*phi_elec[pcl]
+  
+d(AUTO_th[ecl])= (@year>%baseyear)*(NewAUTO*(1-share_elec)*phi_th[ecl]-delta_AUTO[ecl,DES]*AUTO_th[ecl]{-1}) + _
+                  (@year <= %baseyear)*(AUTO_th[ecl]{-1} * (GR_REAL ) ) 
+
+AUTO[CA] =  AUTO_th[CA] + AUTO_elec         #modifié
+
+AUTO[c] =  AUTO_th[c]   where c in %list_ener_class \ CA
+
+
+#### AUTOS THERMIQUES          modifié
+
+dlog(KM_AUTO_th[ecl]) = dlog(AUTO_th[ecl]) - dlog(KmPerAuto) if AUTO_th[ecl]>0
+
+KM_AUTO_th = sum(KM_AUTO_th[ecl] on ecl) 
+
+KM_AUTO[CA,23]= KM_AUTO_elec 
+
+KM_AUTO[c,23]= 0    where c in %list_ener_class \CA 
+
+KM_AUTO[ecl,ce2]= KM_AUTO_th[ecl,ce2]
+
+dlog(KM_AUTO_th[ecl,ce2]) = dlog(AUTO_th[ecl,ce2]) - dlog(KmPerAuto) if AUTO_th[ecl,ce2]>0
+
+dlog(AUTO_th[ecl,ce2]) =  dlog(AUTO_th[ecl])      if AUTO_th[ecl,ce2]>0
+
+AUTO_th[ce2] =  sum(AUTO_th[ecl,ce2] on ecl)
+
+AUTO_th =  sum(AUTO_th[ecl]  on ecl) 
+
+AUTO_th =  sum(AUTO_th  on h)
+
 
 #Nombre d'autos
 
