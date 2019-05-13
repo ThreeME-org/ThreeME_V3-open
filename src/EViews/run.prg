@@ -59,12 +59,12 @@ if %load="new"  then
 
     ' Put add factors to all equations
     smpl 1997 2000
-    '' {%modelname}.addassign @all
+     {%modelname}.addassign @all
     ' Set add factor values so that the equation has no residual when evaluated at actuals
-    '' {%modelname}.addinit(v=n) @all
+     {%modelname}.addinit(v=n) @all
     ' Show all add factors
-    '' group a_addfactors *_a
-    '' show a_addfactors
+     group a_addfactors *_a
+     show a_addfactors
 
     smpl @all
 
@@ -112,7 +112,7 @@ endif
   ' ***************************************
   ' Call (eventually) here the subroutine you want to use to analyse the results
   '' call additional_outputs("Fred")
-  call additional_outputs("Fred_Hybrid")
+  ' call additional_outputs("Fred_Hybrid")
   ' call output_template(%scenario_name)
 
   ' *******************
