@@ -73,10 +73,7 @@ DEBT_auto_Val[ecl] = (@year > %baseyear)*( DEBT_auto_Val[ecl]{-1}*(1 - R_RMBS_AU
 
 EXP_NEWAUTO_VAL[ecl] = PNewAuto[ecl] * NewAUTO[ecl]
 
-# Equation H.4.88
 
-dlog(AUTO)= (@year > %baseyear)*(d(log(Km_auto))-d(log(kmPerAuto))) + _
-              (@year <= %baseyear)*log(1+GR_REAL)                                     #modifié
 
 # Equation H.4.89 and H.4.90
 
@@ -109,8 +106,7 @@ EXP_AUTO[ce] = sum( EXP_AUTO[ecl,ce] if EXP_AUTO[ecl,ce] <> 0 on ecl )
 
 # -----------------------------------------------------------AGGREGATION AUTOMOBILE---------------------------------------------------
 
-# Equation H.4.97
-AUTO = sum(AUTO[ecl] on ecl)
+
 
 # Equation H.4.98
 

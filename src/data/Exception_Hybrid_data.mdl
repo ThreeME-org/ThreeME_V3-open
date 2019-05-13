@@ -219,4 +219,24 @@ phi_km_trav_auto_LD := P_km_trav_auto_LD * km_trav_auto_LD / (P_km_traveler_LD *
 
 phi_km_trav_auto_SD := P_km_trav_auto_SD * km_trav_auto_SD / (P_km_traveler_SD * km_traveler_SD)
 
-KM_AUTO := km_auto_LD + km_auto_SD
+km_auto := km_auto_LD + km_auto_SD
+
+
+
+# Special data: not from equations
+
+travperauto_LD := 1000*km_trav_auto_LD/km_auto_LD
+travperauto_SD := 1000*km_trav_auto_SD/km_auto_SD
+
+km_traveler_LD := km_traveler[crai] + km_trav_auto_LD
+km_traveler_SD := km_traveler[croa] + km_trav_auto_SD
+
+AUTO := sum(AUTO[ecl] on ecl)
+
+AUTObis := AUTO
+
+kmPerAuto := km_auto / AUTO
+
+
+# Verif
+verif_AUTObis  := 0

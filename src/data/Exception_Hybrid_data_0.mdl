@@ -107,6 +107,9 @@ U_REHAB[ecl,ecl2] := phi_REHAB[ecl,ecl2]
 ###################################### 
 # Round 0 for transport block: hypothesis specific to the transport block
 
+
+AUTO[ecl]  := TRANSPORT(9, $ecl)
+
 km_trav_auto_LD	  := TRANSPORT(24, 9)
 km_trav_auto_SD	  := TRANSPORT(25, 9)	
 Km_traveler[crai] := TRANSPORT(26, 9)  # Load without a list to avoid bug when small version of the model
@@ -116,13 +119,7 @@ Km_traveler[cair] := TRANSPORT(30, 9)  # Load without a list to avoid bug when s
 km_auto_LD := TRANSPORT(18, 9)
 km_auto_SD := TRANSPORT(19, 9)
 
-# Special data: not from equations
 
-travperauto_LD := 1000*km_trav_auto_LD/km_auto_LD
-travperauto_SD := 1000*km_trav_auto_SD/km_auto_SD
-
-km_traveler_LD := km_traveler[crai] + km_trav_auto_LD
-km_traveler_SD := km_traveler[croa] + km_trav_auto_SD
 
 # To be deleted (when commodity does not exist because smaller version of the model)
 PCH[cair] := P

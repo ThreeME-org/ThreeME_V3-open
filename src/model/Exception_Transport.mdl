@@ -64,15 +64,30 @@ d(log(km_traveler[croa])) = (@year > %baseyear) * (d(log(km_traveler_SD)) _
 
 ### Level 3: Transport by automobile
 ##! Kilometers for long distance by automobile 
-d(log(km_auto_LD)) = d(log(km_trav_auto_LD)) - d(log(travperauto_LD))
+d(log(km_auto_LD)) = (@year > %baseyear) * (d(log(km_trav_auto_LD)) - d(log(travperauto_LD)))
 
 ##! Kilometers for short distance by automobile 
-d(log(km_auto_SD)) = d(log(km_trav_auto_SD)) - d(log(travperauto_SD))
+d(log(km_auto_SD)) = (@year > %baseyear) * (d(log(km_trav_auto_SD)) - d(log(travperauto_SD)))
 
 ##! Total kilometers by automobile 
-KM_AUTO = km_auto_LD + km_auto_SD
+km_auto = km_auto_LD + km_auto_SD
+
+
+
+# Equation H.4.88
+
+d(log(AUTO)) = (@year > %baseyear) * (d(log(Km_auto)) - d(log(kmPerAuto))) 
+
+
+
+# Equation H.4.97
+AUTObis = sum(AUTO[ecl] on ecl)
 
 #Nombre d'autos
 
-# AUTO[ce]=sum(AUTO[ecl,ce] on ecl)
+#AUTO[ce]=sum(AUTO[ecl,ce] on ecl)
 
+
+
+### VERIF
+verif_AUTObis = (AUTObis/AUTO - 1)*100 if AUTO <> 0
