@@ -107,8 +107,12 @@ U_REHAB[ecl,ecl2] := phi_REHAB[ecl,ecl2]
 ###################################### 
 # Round 0 for transport block: hypothesis specific to the transport block
 
+AUTO_elec[ecl]  := TRANSPORT(10, $ecl)
+AUTO_th[ecl,coil]  := TRANSPORT(11, $ecl)
+AUTO_th[ecl,cgas]  := TRANSPORT(12, $ecl)
 
-AUTO[ecl]  := TRANSPORT(9, $ecl)
+km_auto_LD := TRANSPORT(18, 9)
+km_auto_SD := TRANSPORT(19, 9)
 
 km_trav_auto_LD	  := TRANSPORT(24, 9)
 km_trav_auto_SD	  := TRANSPORT(25, 9)	
@@ -116,10 +120,13 @@ Km_traveler[crai] := TRANSPORT(26, 9)  # Load without a list to avoid bug when s
 Km_traveler[croa] := TRANSPORT(28, 9)  # Load without a list to avoid bug when small version of the model	
 Km_traveler[cair] := TRANSPORT(30, 9)  # Load without a list to avoid bug when small version of the model
 
-km_auto_LD := TRANSPORT(18, 9)
-km_auto_SD := TRANSPORT(19, 9)
 
+NewAUTO[ecl]  := TRANSPORT(34, $ecl)
+NewAUTO_elec[ecl]  := TRANSPORT(36, $ecl)
+NewAUTO_th[ecl]  := TRANSPORT(37, $ecl)
 
+delta_AUTO_elec[ecl,DES] := TRANSPORT(44 + $ecl, 8)
+delta_AUTO_th[ecl,DES]   := TRANSPORT(53 + $ecl, 8)
 
 # To be deleted (when commodity does not exist because smaller version of the model)
 PCH[cair] := P
@@ -128,3 +135,4 @@ P_km_trav_auto_LD := P
 
 P_km_traveler[croa] := P 
 P_km_trav_auto_SD := P 
+

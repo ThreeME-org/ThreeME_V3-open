@@ -148,9 +148,7 @@ ENER         := @elem(PENER_BUIL, %baseyear) * ENER_BUIL + EXP_AUTO
 
 #######################################
 ###################################### 
-# For housing block
-
-
+# For transport block
 
 
 ###################################################
@@ -175,7 +173,7 @@ EXP_MOB_Val := 100000 * (1 + GR_NOMI) ^ (@year - %baseyear)
 #################################################
 
 PnewAUTO :=P
-NewAUTO := 180000 * (1 + GR_REAL) ^ (@year - %baseyear)
+
 ### Special data
 # (1 - MPS_n) := EXP_H_n_VAL / DISPINC_AT_VAL
 
@@ -221,6 +219,18 @@ phi_km_trav_auto_SD := P_km_trav_auto_SD * km_trav_auto_SD / (P_km_traveler_SD *
 
 km_auto := km_auto_LD + km_auto_SD
 
+NewAUTO_th := NewAUTO - NewAUTO_elec
+
+
+AUTO_elec[ecl,DES] := delta_AUTO_elec[ecl,DES]*AUTO_elec[ecl]{-1}
+
+AUTO_th[ecl,DES] := delta_AUTO_th[ecl,DES]*AUTO_th[ecl]{-1}
+
+AUTO[ecl,DES] := AUTO_elec[ecl,DES] + AUTO_th[ecl,DES]
+
+AUTO[DES] := sum(AUTO[ecl, DES] on ecl)
+
+AUTO[ecl] := AUTO_elec[ecl] + AUTO_th[ecl]
 
 
 # Special data: not from equations
@@ -233,9 +243,28 @@ km_traveler_SD := km_traveler[croa] + km_trav_auto_SD
 
 AUTO := sum(AUTO[ecl] on ecl)
 
+AUTO_th[ecl]  := AUTO_th[ecl,coil] + AUTO_th[ecl,cgas]
+
+AUTO_th := sum(AUTO_th[ecl] on ecl)
+
+AUTO_elec := sum(AUTO_elec[ecl] on ecl)
+
 AUTObis := AUTO
 
+NewAUTO := sum(NewAUTO[ecl] on ecl)
+
+NewAUTO_elec := sum(NewAUTO_elec[ecl] on ecl)
+
 kmPerAuto := km_auto / AUTO
+
+share_elec := NewAUTO_elec/NewAUTO
+
+phi_elec[ecl] := NewAUTO_elec[ecl]/NewAUTO_elec
+
+phi_th[ecl] := NewAUTO_th[ecl]/NewAUTO_th
+
+
+
 
 
 # Verif
