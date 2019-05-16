@@ -95,11 +95,14 @@ NewAUTO_th = NewAUTO - NewAUTO_elec
 ### Level 4: Arbitrage between automobile class 
 
 ##! New electric automobiles of class $ecl$
-NewAUTO_elec[ecl] = phi_elec[ecl] * NewAUTO_elec
+NewAUTO_elec[ecl] = phi_NewAUTO_elec[ecl] * NewAUTO_elec
 ## Every class of electric car has no emission. But their energy consumption vary per km. \\  
 
 ##! New thermic automobiles of class $ecl$
-NewAUTO_th[ecl] = phi_th[ecl] * NewAUTO_th
+NewAUTO_th[ecl] = phi_NewAUTO_th[ecl] * NewAUTO_th
+
+##! New thermic automobiles of class $ecl$ (for verification)
+NewAUTO_th_bis[ecl] = NewAUTO_th[ecl,coil] + NewAUTO_th[ecl,cgas]
 
 ##! Stock of class $ecl$ electric automobiles
 d(AUTO_elec[ecl]) = (@year>%baseyear)*(NewAUTO_elec[ecl] - AUTO_elec[ecl,DES])
@@ -123,9 +126,46 @@ AUTO[ecl,DES] = AUTO_elec[ecl,DES] + AUTO_th[ecl,DES]
 AUTO[DES] = sum(AUTO[ecl, DES] on ecl)
 
 
+### Level 5: Arbitrage between types of thermic automobiles
+##! New thermic automobiles fueled with oil of class $ecl$
+NewAUTO_th[ecl,coil] = phi_NewAUTO_th[ecl,coil] * NewAUTO_th[ecl] if NewAUTO_th[ecl,coil]  <> 0
 
 
-### Level 5: ???
+##! New thermic automobiles fueled with gas of class $ecl$
+NewAUTO_th[ecl,cgas] = phi_NewAUTO_th[ecl,cgas] * NewAUTO_th[ecl] if NewAUTO_th[ecl,cgas]  <> 0
+
+
+##! Stock of class $ecl$ thermic automobiles fueled with oil 
+d(AUTO_th[ecl,coil])   = (@year>%baseyear)*(NewAUTO_th[ecl,coil]   - AUTO_th[ecl,coil,DES]  )
+
+##! Class $ecl$ thermic automobiles fueled with oil destroyed
+AUTO_th[ecl,coil,DES] = delta_AUTO[ecl,coil,DES]*AUTO_th[ecl,coil]{-1}
+
+##! Stock of class $ecl$ thermic automobiles fueled with gas
+d(AUTO_th[ecl,cgas])   = (@year>%baseyear)*(NewAUTO_th[ecl,cgas]   - AUTO_th[ecl,cgas,DES]  )
+
+##! Class $ecl$ thermic automobiles fueled with gas destroyed
+AUTO_th[ecl,cgas,DES] = delta_AUTO[ecl,cgas,DES]*AUTO_th[ecl,cgas]{-1}
+
+### Aggregation of automobiles
+
+##! Electric automobiles
+AUTO_elec = sum(AUTO_elec[ecl] on ecl)
+
+##! Thermic automobiles
+AUTO_th = sum(AUTO_th[ecl] on ecl)
+
+
+##! Electric automobiles destroyed
+AUTO_elec[DES] = sum(AUTO_elec[ecl, DES] on ecl)
+
+##! Thermic automobiles destroyed
+AUTO_th[DES] = sum(AUTO_th[ecl, DES] on ecl)
+
+### Households' energy consumption related to transport
+
+
+
 
 
 
@@ -163,7 +203,7 @@ AUTO[DES] = sum(AUTO[ecl, DES] on ecl)
 
 
   
-#d(AUTO_th[ecl])= (@year>%baseyear)*(NewAUTO*(1-share_elec)*phi_th[ecl]-delta_AUTO[ecl,DES]*AUTO_th[ecl]{-1}) + _
+#d(AUTO_th[ecl])= (@year>%baseyear)*(NewAUTO*(1-share_elec)*phi_NewAUTO_th[ecl]-delta_AUTO[ecl,DES]*AUTO_th[ecl]{-1}) + _
 #                  (@year <= %baseyear)*(AUTO_th[ecl]{-1} * (GR_REAL ) ) 
 
 #AUTO[CA] =  AUTO_th[CA] + AUTO_elec         #modifié
@@ -185,7 +225,7 @@ AUTO[DES] = sum(AUTO[ecl, DES] on ecl)
 
 #dlog(KM_AUTO_th[ecl,ce2]) = dlog(AUTO_th[ecl,ce2]) - dlog(KmPerAuto) if AUTO_th[ecl,ce2]>0
 
-#dlog(AUTO_th[ecl,ce2]) =  dlog(AUTO_th[ecl])      if AUTO_th[ecl,ce2]>0
+
 
 #AUTO_th[ce2] =  sum(AUTO_th[ecl,ce2] on ecl)
 
@@ -208,7 +248,7 @@ AUTO[DES] = sum(AUTO[ecl, DES] on ecl)
 # ############ VERIF
 verif_AUTObis = (AUTObis/AUTO - 1)*100 if AUTO <> 0
 
-
+Verif_NewAUTO_th[ecl] = (NewAUTO_th_bis[ecl]/NewAUTO_th[ecl]-1)*100 if NewAUTO_th[ecl] <> 0
 
 
 # DO NOT REUSE

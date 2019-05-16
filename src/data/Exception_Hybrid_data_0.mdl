@@ -123,10 +123,15 @@ Km_traveler[cair] := TRANSPORT(30, 9)  # Load without a list to avoid bug when s
 
 NewAUTO[ecl]  := TRANSPORT(34, $ecl)
 NewAUTO_elec[ecl]  := TRANSPORT(36, $ecl)
-NewAUTO_th[ecl]  := TRANSPORT(37, $ecl)
+
+NewAUTO_th[ecl,coil]  := TRANSPORT(38, $ecl)
+NewAUTO_th[ecl,cgas]  := TRANSPORT(39, $ecl)
 
 delta_AUTO_elec[ecl,DES] := TRANSPORT(44 + $ecl, 8)
 delta_AUTO_th[ecl,DES]   := TRANSPORT(53 + $ecl, 8)
+
+delta_AUTO[ecl,coil,DES] := delta_AUTO_th[ecl,DES]
+delta_AUTO[ecl,cgas,DES] := delta_AUTO_th[ecl,DES]
 
 # To be deleted (when commodity does not exist because smaller version of the model)
 PCH[cair] := P

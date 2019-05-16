@@ -112,7 +112,7 @@ endif
   ' ***************************************
   ' Call (eventually) here the subroutine you want to use to analyse the results
   '' call additional_outputs("Fred")
-  ' call additional_outputs("Fred_Hybrid")
+  call additional_outputs("Fred_Hybrid")
   ' call output_template(%scenario_name)
 
   ' *******************

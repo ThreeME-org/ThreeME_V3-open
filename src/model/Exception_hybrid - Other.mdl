@@ -217,11 +217,11 @@ d(phi_th_n[ecl]) = (@year>%baseyear)*d(exp(U_auto_th[ecl])/(sum(exp(U_auto_th[c]
 
 phi_th_n_tot = sum(phi_th_n[ecl]  if  phi_th_n[ecl]>0 on ecl)   
 
-phi_th[ecl] = (phi_th_n[ecl]>0) * phi_th_n[ecl]/phi_th_n_tot + (phi_th_n[ecl]<=0)*0    
+phi_NewAUTO_th[ecl] = (phi_th_n[ecl]>0) * phi_th_n[ecl]/phi_th_n_tot + (phi_th_n[ecl]<=0)*0    
 
 UC_M_auto_th=(HOUSEHOLD_HYBRID_AUTO(219,1)*PCH_03/100*km_auto_th/(auto-auto_elec))/1000
 
-UC_auto_th = sum(@elem(phi_th[ecl],%baseyear)* (UC_K_auto_th[ecl] + UC_E_auto_th[ecl]) on ecl) + UC_M_auto_th
+UC_auto_th = sum(@elem(phi_NewAUTO_th[ecl],%baseyear)* (UC_K_auto_th[ecl] + UC_E_auto_th[ecl]) on ecl) + UC_M_auto_th
  
 #### cf.hypothèses de l'étude du CGDD #Analyse coûts bénéfices des véhicules électriques" réalisée par Stéphane Taszka et Silvano Domergue. cf; Modèle de Bass (1963)
              

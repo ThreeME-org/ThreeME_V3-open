@@ -232,6 +232,17 @@ AUTO[DES] := sum(AUTO[ecl, DES] on ecl)
 
 AUTO[ecl] := AUTO_elec[ecl] + AUTO_th[ecl]
 
+AUTO_elec := sum(AUTO_elec[ecl] on ecl)
+
+AUTO_th := sum(AUTO_th[ecl] on ecl)
+
+AUTO_elec[DES] := sum(AUTO_elec[ecl, DES] on ecl)
+
+AUTO_th[DES] := sum(AUTO_th[ecl, DES] on ecl)
+
+
+AUTO_th[ecl,coil,DES] := delta_AUTO[ecl,coil,DES]*AUTO_th[ecl,coil]{-1}
+AUTO_th[ecl,cgas,DES] := delta_AUTO[ecl,cgas,DES]*AUTO_th[ecl,cgas]{-1}
 
 # Special data: not from equations
 
@@ -245,11 +256,11 @@ AUTO := sum(AUTO[ecl] on ecl)
 
 AUTO_th[ecl]  := AUTO_th[ecl,coil] + AUTO_th[ecl,cgas]
 
-AUTO_th := sum(AUTO_th[ecl] on ecl)
-
-AUTO_elec := sum(AUTO_elec[ecl] on ecl)
-
 AUTObis := AUTO
+
+NewAUTO_th[ecl] := NewAUTO_th[ecl,coil] + NewAUTO_th[ecl,cgas]
+
+NewAUTO_th_bis[ecl] := NewAUTO_th[ecl]
 
 NewAUTO := sum(NewAUTO[ecl] on ecl)
 
@@ -259,13 +270,16 @@ kmPerAuto := km_auto / AUTO
 
 share_elec := NewAUTO_elec/NewAUTO
 
-phi_elec[ecl] := NewAUTO_elec[ecl]/NewAUTO_elec
+phi_NewAUTO_elec[ecl] := NewAUTO_elec[ecl]/NewAUTO_elec
 
-phi_th[ecl] := NewAUTO_th[ecl]/NewAUTO_th
+phi_NewAUTO_th[ecl] := NewAUTO_th[ecl]/NewAUTO_th
+
+phi_NewAUTO_th[ecl,coil] := NewAUTO_th[ecl,coil]/NewAUTO_th[ecl] 
+
+phi_NewAUTO_th[ecl,cgas] := NewAUTO_th[ecl,cgas]/NewAUTO_th[ecl] 
 
 
 
 
-
-# Verif
 verif_AUTObis  := 0
+Verif_NewAUTO_th[ecl] := 0
