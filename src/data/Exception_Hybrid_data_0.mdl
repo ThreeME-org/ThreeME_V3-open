@@ -127,11 +127,13 @@ NewAUTO_elec[ecl]  := TRANSPORT(36, $ecl)
 NewAUTO_th[ecl,coil]  := TRANSPORT(38, $ecl)
 NewAUTO_th[ecl,cgas]  := TRANSPORT(39, $ecl)
 
-delta_AUTO_elec[ecl,DES] := TRANSPORT(44 + $ecl, 8)
-delta_AUTO_th[ecl,DES]   := TRANSPORT(53 + $ecl, 8)
+delta_AUTO_elec[ecl,DES] := TRANSPORT(44, $ecl) 
+delta_AUTO[ecl,coil,DES] := TRANSPORT(45, $ecl)  
+delta_AUTO[ecl,cgas,DES] := TRANSPORT(46, $ecl) 
 
-delta_AUTO[ecl,coil,DES] := delta_AUTO_th[ecl,DES]
-delta_AUTO[ecl,cgas,DES] := delta_AUTO_th[ecl,DES]
+CH_AUTO_toe[ecl,cele] := TRANSPORT(48, $ecl)
+CH_AUTO_toe[ecl,coil] := TRANSPORT(49, $ecl)
+CH_AUTO_toe[ecl,cgas] := TRANSPORT(50, $ecl)
 
 # To be deleted (when commodity does not exist because smaller version of the model)
 PCH[cair] := P

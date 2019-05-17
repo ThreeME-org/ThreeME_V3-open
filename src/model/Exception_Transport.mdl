@@ -108,7 +108,9 @@ NewAUTO_th_bis[ecl] = NewAUTO_th[ecl,coil] + NewAUTO_th[ecl,cgas]
 d(AUTO_elec[ecl]) = (@year>%baseyear)*(NewAUTO_elec[ecl] - AUTO_elec[ecl,DES])
 
 ##! Stock of class $ecl$ thermic automobiles
-d(AUTO_th[ecl])   = (@year>%baseyear)*(NewAUTO_th[ecl]   - AUTO_th[ecl,DES]  )
+#d(AUTO_th[ecl])   = (@year>%baseyear)*(NewAUTO_th[ecl]   - AUTO_th[ecl,DES]  )
+AUTO_th[ecl]  = AUTO_th[ecl,coil] + AUTO_th[ecl,cgas]
+
 
 ##! Stock of class $ecl$ automobiles
 AUTO[ecl] = AUTO_elec[ecl] + AUTO_th[ecl]
@@ -117,7 +119,8 @@ AUTO[ecl] = AUTO_elec[ecl] + AUTO_th[ecl]
 AUTO_elec[ecl,DES] = delta_AUTO_elec[ecl,DES]*AUTO_elec[ecl]{-1}
 
 ##! Class $ecl$ thermic automobiles destroyed
-AUTO_th[ecl,DES] = delta_AUTO_th[ecl,DES]*AUTO_th[ecl]{-1}
+#AUTO_th[ecl,DES] = delta_AUTO_th[ecl,DES]*AUTO_th[ecl]{-1}
+AUTO_th[ecl,DES] = AUTO_th[ecl,coil,DES] + AUTO_th[ecl,cgas,DES] 
 
 ##! Class $ecl$ automobiles destroyed
 AUTO[ecl,DES] = AUTO_elec[ecl,DES] + AUTO_th[ecl,DES]
@@ -165,9 +168,31 @@ AUTO_th[DES] = sum(AUTO_th[ecl, DES] on ecl)
 ### Households' energy consumption related to transport
 
 
+### d(log(CH_AUTO[cele])) = (@year > %baseyear) * (d(log(KM_AUTO_elec)) - d(log(kmPerAuto))) 
+
+KM_AUTO_elec = km_auto * AUTO_elec / AUTO
+
+KM_AUTO_th = km_auto * AUTO_elec / AUTO
+
+#CH_AUTO_toe[ecl,cele] = KM_AUTO_elec * AUTO_elec[ecl]   /AUTO_elec*toePerKm[ecl,cele]    if CH_AUTO_toe[ecl,cele]  <> 0
+
+#CH_AUTO_toe[ecl,coil] = KM_AUTO_th * AUTO_th[ecl,coil]/AUTO_th  *toePerKm[ecl,coil]   if CH_AUTO_toe[ecl,coil]  <> 0
+
+#CH_AUTO_toe[ecl,cgas] = KM_AUTO_th * AUTO_th[ecl,cgas]/AUTO_th  *toePerKm[ecl,cgas]   if CH_AUTO_toe[ecl,cgas]  <> 0
 
 
+#CH_AUTO_toe[cele] = sum(CH_AUTO_toe[ecl,cele] on ecl)
 
+#CH_AUTO_toe[coil] = sum(CH_AUTO_toe[ecl,coil] on ecl)
+
+#CH_AUTO_toe[cgas] = sum(CH_AUTO_toe[ecl,cgas] on ecl)
+
+
+#d(log(CH_AUTO[cele])) = d(log(CH_AUTO_toe[cele]))
+
+#d(log(CH_AUTO[coil])) = d(log(CH_AUTO_toe[coil]))
+
+#d(log(CH_AUTO[cgas])) = d(log(CH_AUTO_toe[cgas]))
 
 
 
