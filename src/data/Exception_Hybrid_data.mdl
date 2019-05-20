@@ -285,11 +285,10 @@ phi_NewAUTO_th[ecl,coil] := NewAUTO_th[ecl,coil]/NewAUTO_th[ecl]
 
 phi_NewAUTO_th[ecl,cgas] := NewAUTO_th[ecl,cgas]/NewAUTO_th[ecl] 
 
-toePerKm[ecl,cele] := CH_AUTO_toe[ecl,cele] / (KM_AUTO_elec * AUTO_elec[ecl]   /AUTO_elec)
-toePerKm[ecl,coil] := CH_AUTO_toe[ecl,coil] / (KM_AUTO_th * AUTO_th[ecl,coil]/AUTO_th)  
-# toePerKm[ecl,cgas] := CH_AUTO_toe[ecl,cgas] / (KM_AUTO_th * AUTO_th[ecl,cgas]/AUTO_th)  
-
-
+toePerKm[ecl,cele] := CH_AUTO_toe[ecl,cele] / (KM_AUTO_elec * AUTO_elec[ecl]    / AUTO_elec + eps)
+toePerKm[ecl,coil] := CH_AUTO_toe[ecl,coil] / (KM_AUTO_th   * AUTO_th[ecl,coil] / AUTO_th   + eps)  
+toePerKm[ecl,cgas] := CH_AUTO_toe[ecl,cgas] / (KM_AUTO_th   * AUTO_th[ecl,cgas] / AUTO_th   + eps)  
 
 verif_AUTObis  := 0
 Verif_NewAUTO_th[ecl] := 0
+
