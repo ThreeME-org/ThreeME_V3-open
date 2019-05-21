@@ -105,7 +105,18 @@ U_REHAB[ecl,ecl2] := phi_REHAB[ecl,ecl2]
 
 #######################################
 ###################################### 
-# Round 0 for transport block: hypothesis specific to the transport block
+#####  Round 0 for transport block: hypothesis specific to the transport block
+
+## Link with the rest of the model: TO BE UPDATED WITH THE VERSION USED  
+
+CH[cgas] := CH[ccoa]
+CH[coil] := CH[ccoa]
+## END Link with the rest of the model
+
+CH_AUTO[cele] := TRANSPORT(2, 9) * CH[cele] 
+CH_AUTO[coil] := TRANSPORT(3, 9) * CH[coil] 
+CH_AUTO[cgas] := TRANSPORT(4, 9) * CH[cgas] 
+
 
 AUTO_elec[ecl]  := TRANSPORT(10, $ecl)
 AUTO_th[ecl,coil]  := TRANSPORT(11, $ecl)
@@ -113,6 +124,11 @@ AUTO_th[ecl,cgas]  := TRANSPORT(12, $ecl)
 
 km_auto_LD := TRANSPORT(18, 9)
 km_auto_SD := TRANSPORT(19, 9)
+
+KM_AUTO_elec[ecl]    := TRANSPORT(20, $ecl)
+KM_AUTO_th[ecl,coil] := TRANSPORT(21, $ecl)
+KM_AUTO_th[ecl,cgas] := TRANSPORT(22, $ecl)
+
 
 km_trav_auto_LD	  := TRANSPORT(24, 9)
 km_trav_auto_SD	  := TRANSPORT(25, 9)	

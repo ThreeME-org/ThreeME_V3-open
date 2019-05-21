@@ -12,6 +12,7 @@ d(log(P_km_traveler[crai])) = d(log(PCH[crai]))
 d(log(P_km_traveler[croa])) = d(log(PCH[croa]))
 
 #### Arbitrage between transport modes 
+## The arbitrage between transport modes is defined in 5 level. Level 1 determine the evolution of air, long and short distance transport. In level 2, the consummer may substitutie bewteen long distance transport types (automobile and train) and short distance transport types (automobile and bus). Level 3 defines the arbitrage between electric and thermic automobile whereas level 4 defines the arbitrage between automobile class. In level 5, substitution between types of thermic automobiles may be introduced. \\
 
 ### Level 1: Determination of air, long and short distance transport
 
@@ -84,7 +85,6 @@ NewAUTO = (@year >  %baseyear)*(d(AUTO) + AUTO[DES]) _
             + (@year <= %baseyear) * NewAUTO{-1}
 
 ### Level 3: Arbitrage between electric and thermic automobile
- 
 ##! New electric automobiles
 NewAUTO_elec = NewAUTO*share_elec
 
@@ -167,104 +167,41 @@ AUTO_th[DES] = sum(AUTO_th[ecl, DES] on ecl)
 
 ### Households' energy consumption related to transport
 
+##! Kilometers by electric automobile of class $ecl$
+KM_AUTO_elec[ecl]    = kmPerAuto_elec[ecl]    * AUTO_elec[ecl]        if KM_AUTO_elec[ecl]    <> 0
 
-### d(log(CH_AUTO[cele])) = (@year > %baseyear) * (d(log(KM_AUTO_elec)) - d(log(kmPerAuto))) 
+##! Kilometers by class $ecl$ thermic automobiles fueled with oil
+KM_AUTO_th[ecl,coil] = kmPerAuto_th[ecl,coil] * AUTO_th[ecl,coil]     if KM_AUTO_th[ecl,coil] <> 0
+ 
+##! Kilometers by class $ecl$ thermic automobiles fueled with gas
+KM_AUTO_th[ecl,cgas] = kmPerAuto_th[ecl,cgas] * AUTO_th[ecl,cgas]     if KM_AUTO_th[ecl,cgas] <> 0 
 
-KM_AUTO_elec = km_auto * AUTO_elec / AUTO
+##! Energy consumption of class $ecl$ automobiles fueled with electricity expressed in tonne of oil equivalent
+CH_AUTO_toe[ecl,cele] = KM_AUTO_elec[ecl]    * toePerKm[ecl,cele]   if CH_AUTO_toe[ecl,cele]  <> 0
 
-KM_AUTO_th = km_auto * AUTO_elec / AUTO
+##! Energy consumption of class $ecl$ automobiles fueled with oil expressed in tonne of oil equivalent
+CH_AUTO_toe[ecl,coil] = KM_AUTO_th[ecl,coil] * toePerKm[ecl,coil]   if CH_AUTO_toe[ecl,coil]  <> 0
 
-#CH_AUTO_toe[ecl,cele] = KM_AUTO_elec * AUTO_elec[ecl]   /AUTO_elec*toePerKm[ecl,cele]    if CH_AUTO_toe[ecl,cele]  <> 0
+##! Energy consumption of class $ecl$ automobiles fueled with gas expressed in tonne of oil equivalent
+CH_AUTO_toe[ecl,cgas] = KM_AUTO_th[ecl,cgas] * toePerKm[ecl,cgas]   if CH_AUTO_toe[ecl,cgas]  <> 0
 
-#CH_AUTO_toe[ecl,coil] = KM_AUTO_th * AUTO_th[ecl,coil]/AUTO_th  *toePerKm[ecl,coil]   if CH_AUTO_toe[ecl,coil]  <> 0
+##! Energy consumption of automobiles fueled with electricity expressed in tonne of oil equivalent
+CH_AUTO_toe[cele] = sum(CH_AUTO_toe[ecl,cele] on ecl)
 
-#CH_AUTO_toe[ecl,cgas] = KM_AUTO_th * AUTO_th[ecl,cgas]/AUTO_th  *toePerKm[ecl,cgas]   if CH_AUTO_toe[ecl,cgas]  <> 0
+##! Energy consumption of automobiles fueled with oil expressed in tonne of oil equivalent
+CH_AUTO_toe[coil] = sum(CH_AUTO_toe[ecl,coil] on ecl)
 
+##! Energy consumption of automobiles fueled with gas expressed in tonne of oil equivalent
+CH_AUTO_toe[cgas] = sum(CH_AUTO_toe[ecl,cgas] on ecl)
 
-#CH_AUTO_toe[cele] = sum(CH_AUTO_toe[ecl,cele] on ecl)
+##! Households' final consumption of electricity
+d(log(CH_AUTO[cele])) = d(log(CH_AUTO_toe[cele]))
 
-#CH_AUTO_toe[coil] = sum(CH_AUTO_toe[ecl,coil] on ecl)
+##! Households' final consumption of oil
+d(log(CH_AUTO[coil])) = d(log(CH_AUTO_toe[coil]))
 
-#CH_AUTO_toe[cgas] = sum(CH_AUTO_toe[ecl,cgas] on ecl)
-
-
-#d(log(CH_AUTO[cele])) = d(log(CH_AUTO_toe[cele]))
-
-#d(log(CH_AUTO[coil])) = d(log(CH_AUTO_toe[coil]))
-
-#d(log(CH_AUTO[cgas])) = d(log(CH_AUTO_toe[cgas]))
-
-
-
-# Aspect sobriété dans l'automobile et efficacité énérgetique     modifié
- # Equation H.4.89 and H.4.90
-
-#AUTO[ecl,ce] = AUTO[ecl]*SHARE_AUTO[ecl,ce]      
-
-#AUTO[ce] = sum(AUTO[ce] on h)
-
-#SHARE_AUTO[CA,23] = AUTO_elec/AUTO[CA]
-
-#SHARE_AUTO[ c, 23] = 0      where c in %list_ener_class \ CA
-
-#SHARE_AUTO[CA,ce2] = (1-SHARE_AUTO[CA,23])*@elem(AUTO[CA,ce2]/(AUTO[CA,21] +AUTO[CA,22]+AUTO[CA,24]),%baseyear)  
-
-
-
-
-# Dans cette exception, nous allons redéfinir le parc auto en ajoutant une spécification spéciale pour les véhicules électriques.
-# L'idée est d'effectuer un choix de véhicules en deux étapes : 1 : choix entre électrique et thermique, 2 : choix de la classe d'énergie en fct des gCO2/km pour le thermique et des kWh/km pour l'elec.
-
-##AUTOS ELECTRIQUES         modifié
-
-#dlog(KM_AUTO_elec[ecl]) = dlog(AUTO_elec[ecl]) - dlog(KmPerAuto)
-
-#KM_AUTO_elec = sum(KM_AUTO_elec[ecl] on pcl) 
-
-#d(AUTO_elec)=(@year>%baseyear)*(NewAUTO*share_elec-delta_AUTO[CA,DES]*AUTO_elec{-1})+ _
-#                (@year <= %baseyear) * (AUTO_elec{-1} * (GR_REAL ) )
-
-
-
-
-  
-#d(AUTO_th[ecl])= (@year>%baseyear)*(NewAUTO*(1-share_elec)*phi_NewAUTO_th[ecl]-delta_AUTO[ecl,DES]*AUTO_th[ecl]{-1}) + _
-#                  (@year <= %baseyear)*(AUTO_th[ecl]{-1} * (GR_REAL ) ) 
-
-#AUTO[CA] =  AUTO_th[CA] + AUTO_elec         #modifié
-
-#AUTO[c] =  AUTO_th[c]   where c in %list_ener_class \ CA
-
-
-#### AUTOS THERMIQUES          modifié
-
-#dlog(KM_AUTO_th[ecl]) = dlog(AUTO_th[ecl]) - dlog(KmPerAuto) if AUTO_th[ecl]>0
-
-#KM_AUTO_th = sum(KM_AUTO_th[ecl] on ecl) 
-
-#KM_AUTO[CA,23]= KM_AUTO_elec 
-
-#KM_AUTO[c,23]= 0    where c in %list_ener_class \CA 
-
-#KM_AUTO[ecl,ce2]= KM_AUTO_th[ecl,ce2]
-
-#dlog(KM_AUTO_th[ecl,ce2]) = dlog(AUTO_th[ecl,ce2]) - dlog(KmPerAuto) if AUTO_th[ecl,ce2]>0
-
-
-
-#AUTO_th[ce2] =  sum(AUTO_th[ecl,ce2] on ecl)
-
-#AUTO_th =  sum(AUTO_th[ecl]  on ecl) 
-
-#AUTO_th =  sum(AUTO_th  on h)
-
-
-#Nombre d'autos
-
-#AUTO[ce]=sum(AUTO[ecl,ce] on ecl)
-
-
-
+##! Households' final consumption of gas
+d(log(CH_AUTO[cgas])) = d(log(CH_AUTO_toe[cgas]))
 
 
 
