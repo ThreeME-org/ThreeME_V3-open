@@ -1,213 +1,82 @@
 include ..\model\lists
 
-## Special data (inversion of eq. / modification of the equation / alias)
-
-#######################################
-###################################### 
-# For housing block
-
-BUIL := sum(BUIL[ecl] on ecl)
-BUILbis := BUIL
-
-
-phi_REHAB_n[ecl,ecl2] := phi_REHAB[ecl,ecl2]
-
-tau_REHAB_N[ecl] := tau_REHAB[ecl] 
-
-tau_REHAB_trend[ecl] := tau_REHAB[ecl] 
-
-GR_PENER_m2_e[ecl] := GR_PRICES
-
-UC_K_REHABbis[ecl] := UC_K_REHAB[ecl]
-
-
-DEBT_REHAB_Val[ecl] := @elem(R_LOAN_REHAB[ecl] * ( 1 + GR_NOMI ) / ( GR_NOMI + R_RMBS_REHAB[ecl] ) * PREHAB[ecl] * REHAB[ecl], %baseyear) * ( 1 +  GR_NOMI) ^ ( @year - %baseyear )
-
-
-DEBT_NewB_Val[ecl] := @elem(R_LOAN_NewBUIL[ecl] * ( 1 + GR_NOMI ) / ( GR_NOMI + R_RMBS_NewBUIL[ecl] ) * PNewBUIL[ecl] * NewBUIL[ecl], %baseyear) * ( 1 +  GR_NOMI) ^ ( @year - %baseyear )
-
-
-
-
-EXP_HOUSING_Val[ecl] := @elem( DEBT_REHAB_Val[ecl]{-1} * (R_I_REHAB[ecl]{-1} + R_RMBS_REHAB[ecl]{-1} ) _
-                                                      + R_CASH_REHAB[ecl] * PREHAB[ecl] * REHAB[ecl] _
-                                                      + DEBT_NewB_Val[ecl]{-1} * ( R_I_NewBUIL[ecl]{-1} + R_RMBS_NewBUIL[ecl]{-1} ) _
-                                                      + R_CASH_NewBUIL[ecl] * PNewBUIL[ecl] * NewBUIL[ecl] _
-                                                      + PENER_BUIL[ecl] * ENER_BUIL[ecl] , %baseyear) * ( 1 +  GR_NOMI) ^ ( @year - %baseyear )
-
-
-ENERperM2[ ecl, ce] := ENER_BUIL[ ecl, ce] / BUIL[ ecl]  
-
-
-PENER_BUIL[ecl, ce] := PEXP[ce] * (EXP_BUIL[ecl, ce] + eps)/ (ENER_BUIL[ecl, ce] + eps)
-# Use of eps to avoid a conditionnonality in Exception_Hybrid_data_if (For some reason the compilator does not recognize it whereas it was working in a previous version).
-# PENER_BUIL[ecl, ce] := if(ENER_BUIL[ecl, ce] <> 0 , PEXP[ce] * EXP_BUIL[ecl, ce] / ENER_BUIL[ecl, ce], P)
-
-
-# Calibrated such that tau_REHAB_n[ecl] is at its baseyear value for the baseyear Payback_REHAB[ecl]. 
-tau[ecl] := sigma[ecl]*Payback_REHAB[ecl] + log((tau_REHAB_MIN[ecl]-tau_REHAB_MAX[ecl])/(tau_REHAB[ecl]-tau_REHAB_MAX[ecl])-1)
-
-# First derivative of the rehabilitation rate (tau_REHAB_MIN[ecl]) with respect to the log of payback time (Payback_REHAB[ecl])
-nu_REHAB[ecl] := (tau_REHAB_MAX[ecl] - tau_REHAB_MIN[ecl]) * sigma[ecl] * Payback_REHAB[ecl] * EXP(tau[ecl] - sigma[ecl] * Payback_REHAB[ecl]) / (1 + EXP(tau[ecl] - sigma[ecl] * Payback_REHAB[ecl]))^2
-
-# Prices
-
-PEXP_BUIL[ ecl] := P
-PENER[ ecl] := P
-PENER  := P
-
-# Verif
-Verif_BUILbis := 0
-Verif_phi_REHAB[ecl] := 0
-Verif_HYBRID := 0
-
-verif_UC_K_REHAB[ecl] := 0
-
-
-## Directly from equations
-### But without the conditionnality on the year !!!!
-
-NewBUIL[ecl] :=   phi_NewBUIL[ecl] * (d(BUIL) + BUIL[DES])
-
-
-DEP_BUIL[ecl,bcl] := delta_BUIL[ecl,bcl]*BUIL[ecl]{-1}
-
-
-BUIL[DES] := sum(DEP_BUIL[ecl,DES] on ecl)
-
-
-@pv NEWBUIL := sum(NEWBUIL[ecl] on ecl)   
-
-
-GAIN_REHAB[ecl,ecl2] := (UC_E[ecl] - UC_E[ecl2]) - ((1 - R_SUB[ecl,ecl2]) * PREHAB[ecl,ecl2])
-
-
-UC_REHAB[ecl] := UC_K_REHAB[ecl] + UC_E_REHAB[ecl]
-   
-UC_E_REHAB[ecl] := sum(phi_REHAB[ecl,ecl2]*UC_E[ecl2] on ecl2)
-
-
-UC[ecl] := UC_K[ecl] + UC_E[ecl]
-
-UC_K_REHAB[ecl] := PREHAB_delta[ecl] * ( R_CASH_REHAB[ecl] + R_LOAN_REHAB[ecl] * R_I_REHAB[ecl]{-1} * LD_REHAB[ecl] / _
-                                               ( 1 - ( 1 + R_I_REHAB[ecl]{-1})^( -LD_REHAB[ecl] ) ) )
-
-
-
-UC_K[ecl] := ( PREHAB[ecl,ecl] / BUIL_D[ecl] ) * (R_CASH[ecl] + R_LOAN[ecl] * R_I_BUIL[ecl]{-1} * LD[ecl] / _
-                 ( 1 - ( 1 + R_I_BUIL[ecl]{-1}) ^( -LD[ecl] ) ) )
-   
-R_LOAN[ecl] := 1 - R_CASH[ecl]
-   
-delta_REHAB[ecl] := sum(phi_REHAB[ecl,ecl2] * delta_BUIL[ecl2] on ecl2 )
-   
-delta_BUIL[ecl] := sum(delta_BUIL[ecl,bcl] on bcl )
-
-
-UC_E[ ecl] := PENER_m2[ ecl] * ( ((1 + GR_PENER_m2_e[ ecl]) ^ BUIL_D[ ecl] - 1) / (GR_PENER_m2_e[ ecl] * BUIL_D[ ecl]) )
-
-PENER_m2[ecl]  := PENER_BUIL[ecl] * ENER_BUIL[ecl]/BUIL[ecl] 
-
-PREHAB_delta[ecl] := sum( (1 - R_SUB[ecl,ecl2]) * PREHAB[ecl,ecl2] * phi_REHAB[ecl,ecl2] / REHAB_D[ecl2]  on ecl2)
-
-UC_K_REHAB[ecl,ecl2] := (1 - R_SUB[ecl,ecl2]) * (PREHAB[ecl,ecl2] / REHAB_D[ecl2] * ( R_CASH_REHAB[ecl] + R_LOAN_REHAB[ecl] * R_I_REHAB[ecl]{-1} * LD_REHAB[ecl] / ( 1 - ( 1 + R_I_REHAB[ecl]{-1})^( -LD_REHAB[ecl] ) ) ))
-
- 
-EXP_HOUSING_Val := sum(EXP_Housing_Val[ecl] on ecl)
-  
-EXP_REHAB_VAL := PREHAB * REHAB
- 
-EXP_NEWBUIL_VAL := ( PNEWBUIL * NEWBUIL )
-
-
-R_LOAN_REHAB[ecl] := 1 - R_CASH_REHAB[ecl]
-R_LOAN_NewBUIL[ecl] := 1 - R_CASH_NewBUIL[ecl]
-
-Payback_REHAB[ecl] := (UC_K_REHAB[ecl]*BUIL_D[ecl] - UC_K[ecl]*BUIL_D[ecl])/(UC_E[ecl] - UC_E_REHAB[ecl]) - 1
-
-   
-@pv REHAB := sum( REHAB[ecl] on ecl )
-
-EXP_BUIL[ ecl] :=  sum(EXP_BUIL[ecl, ce] on ce)
-    
-EXP_BUIL[ce] :=  sum(EXP_BUIL[ecl, ce] on ecl) 
- 
- 
-@pv ENER_BUIL[ ecl] := sum(ENER_BUIL[ ecl, ce] on ce)
-   
-@pv ENER_BUIL := sum(ENER_BUIL[ ecl] on ecl)
-   
-@pv EXP_BUIL :=  sum(EXP_BUIL[ecl] on ecl)
-   
-PENER_BUIL[ce] * ENER_BUIL[ce] := sum(PENER_BUIL[ecl, ce] * ENER_BUIL[ecl, ce] on ecl)
-          
-ENER[ ecl] := @elem(PENER_BUIL[ ecl], %baseyear) * ENER_BUIL[ ecl] + EXP_AUTO[ ecl]
- 
-ENER         := @elem(PENER_BUIL, %baseyear) * ENER_BUIL + EXP_AUTO
-
-
-#######################################
-###################################### 
-# For transport block
-
-
-###################################################
-#####################################################
-# Will be endogenized or loaded
-
-# Km_traveler[ct] := 100
-
-EXP_AUTO[ce] := 120000 * (1 + GR_REAL) ^ (@year - %baseyear)
-
-
-EXP_AUTO[ ecl] := 6  * (1 + GR_REAL) ^ (@year - %baseyear)
-EXP_AUTO := 6 * (1 + GR_REAL) ^ (@year - %baseyear)
-PEXP_AUTO[ ecl] := P 
-PEXP_AUTO := P
-
-EXP_MOB_Val := 100000 * (1 + GR_NOMI) ^ (@year - %baseyear)
-
+include parameters
 
 #############################################
 #### Link with the rest of the model
 #################################################
 
-PnewAUTO :=P
+### TO BE COMMENTED when linked with the full model
+P 		 :=  1 * (1 + GR_PRICES) ^ (@year - %baseyear)
 
-### Special data
-# (1 - MPS_n) := EXP_H_n_VAL / DISPINC_AT_VAL
+CH[cele] := 1000
+CH[cgas] := 1000
+CH[coil] := 1000
 
-# @over phi_MCH[co] := (CH_n[co] - NCH[co]) * PCH[co] / (EXP_OTH_n_Val - PNCH * NCH)
+PCH[cair] := P
+PCH[crai] := P
+PCH[croa] := P
 
-# @over Stock_SAV_H_VAL := SAV_H_VAL * (1 + GR_NOMI) / GR_NOMI
+DISPINC_AT_VAL := 1000000
 
-CH_OTH[CCON] := @elem(NCH[CCON], %baseyear) - (@elem(PNewBUIL,%baseyear) * NewBUIL + @elem(PREHAB,%baseyear) * REHAB)
+PCH := P
 
+### END TO BE COMMENTED when linked with the full model
 
-CH_OTH[CVEH] := @elem(NCH[CVEH], %baseyear) - @elem(PnewAUTO,%baseyear) * NewAUTO
+### TO BE DELETED when endogenized
+P_km_traveler[crai] := P 
+P_km_trav_auto_LD := P 
 
-CH_OTH[ce] := @elem(NCH[ce], %baseyear) - (@elem(PENER_BUIL[ce], %baseyear) * ENER_BUIL[ce] + EXP_AUTO[ce])
+P_km_traveler[croa] := P 
+P_km_trav_auto_SD := P 
 
+### END TO BE DELETED when endogenized
 
-# Overide the other Phi_MCH to avoid ambiguity
-# @over phi_MCH[c] := 0 where c in %list_com \ %list_com_oth
+#######################################
+#####  Round 0: load primary date for transport block
+###################################### 
 
-# EXP_H_n_VAL := EXP_H_VAL 
-# EXP_OTH_n_Val := EXP_OTH_Val
-
-# @over        NCH := sum(NCH[co]       on co)
-
-
-# From Equation 
-# EXP_H_VAL := EXP_HOUSING_Val + EXP_MOB_Val + EXP_OTH_Val
-
-# EXP_OTH_Val := sum( PCH[co] * CH[co] on co )
-
-# @over SAV_H_VAL  := DISPINC_AT_VAL - EXP_H_VAL
-
-# @over RSAV_H_VAL := SAV_H_VAL / DISPINC_AT_VAL
+CH_AUTO[cele] := TRANSPORT(2, 9) * CH[cele]  # Load without a list to avoid bug when small version of the model
+CH_AUTO[coil] := TRANSPORT(3, 9) * CH[coil]  # Load without a list to avoid bug when small version of the model
+CH_AUTO[cgas] := TRANSPORT(4, 9) * CH[cgas]  # etc.
 
 
+AUTO_elec[ecl]  := TRANSPORT(10, $ecl)
+AUTO_th[ecl,coil]  := TRANSPORT(11, $ecl)
+AUTO_th[ecl,cgas]  := TRANSPORT(12, $ecl)
+
+km_auto_LD := TRANSPORT(18, 9)
+km_auto_SD := TRANSPORT(19, 9)
+
+KM_AUTO_elec[ecl]    := TRANSPORT(20, $ecl)
+KM_AUTO_th[ecl,coil] := TRANSPORT(21, $ecl)
+KM_AUTO_th[ecl,cgas] := TRANSPORT(22, $ecl)
+
+
+km_trav_auto_LD	  := TRANSPORT(24, 9)
+km_trav_auto_SD	  := TRANSPORT(25, 9)	
+Km_traveler[crai] := TRANSPORT(26, 9)  
+Km_traveler[croa] := TRANSPORT(28, 9)  	
+Km_traveler[cair] := TRANSPORT(30, 9)  
+
+
+NewAUTO[ecl]  := TRANSPORT(34, $ecl)
+NewAUTO_elec[ecl]  := TRANSPORT(36, $ecl)
+
+NewAUTO_th[ecl,coil]  := TRANSPORT(38, $ecl)
+NewAUTO_th[ecl,cgas]  := TRANSPORT(39, $ecl)
+
+delta_AUTO_elec[ecl,DES] := TRANSPORT(44, $ecl) 
+delta_AUTO[ecl,coil,DES] := TRANSPORT(45, $ecl)  
+delta_AUTO[ecl,cgas,DES] := TRANSPORT(46, $ecl) 
+
+CH_AUTO_toe[ecl,cele] := TRANSPORT(48, $ecl)
+CH_AUTO_toe[ecl,coil] := TRANSPORT(49, $ecl)
+CH_AUTO_toe[ecl,cgas] := TRANSPORT(50, $ecl)
+
+#######################################
+#####  Construct data directly from model equation
+###################################### 
 
 P_km_traveler_LD * km_traveler_LD := P_km_traveler[crai] * km_traveler[crai] + P_km_trav_auto_LD * km_trav_auto_LD
 
@@ -220,7 +89,6 @@ phi_km_trav_auto_SD := P_km_trav_auto_SD * km_trav_auto_SD / (P_km_traveler_SD *
 km_auto := km_auto_LD + km_auto_SD
 
 NewAUTO_th := NewAUTO - NewAUTO_elec
-
 
 AUTO_elec[ecl,DES] := delta_AUTO_elec[ecl,DES]*AUTO_elec[ecl]{-1}
 
@@ -254,8 +122,9 @@ CH_AUTO_toe[coil] := sum(CH_AUTO_toe[ecl,coil] on ecl)
 CH_AUTO_toe[cgas] := sum(CH_AUTO_toe[ecl,cgas] on ecl)
 
 
-
-# Special data: not from equations
+#######################################
+#####  Special data: not from model equation
+###################################### 
 
 travperauto_LD := 1000*km_trav_auto_LD/km_auto_LD
 travperauto_SD := 1000*km_trav_auto_SD/km_auto_SD
@@ -264,8 +133,6 @@ km_traveler_LD := km_traveler[crai] + km_trav_auto_LD
 km_traveler_SD := km_traveler[croa] + km_trav_auto_SD
 
 AUTO := sum(AUTO[ecl] on ecl)
-
-
 
 AUTObis := AUTO
 
