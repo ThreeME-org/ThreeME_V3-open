@@ -35,18 +35,18 @@ if %load="new"  then
     call load_calibration
 
     ' Create the series using the dependencies (add-ins "series")
-    '{%modelname}.series round0 Prices_data SU_data Special_data Other_data Exception_taxes_prices_data Exception_NestedCES_data Exception_Hybrid_data_0
+    {%modelname}.series Exception_Hybrid_data_0
 
     ' Export all variables to a csv file (used by the external compiler)
-    ' call export_all_to_csv
+    call export_all_to_csv
 
-    ' {%modelname}.series Exception_Hybrid_data_if
+    {%modelname}.series Exception_Hybrid_data_if
+stop
+    ' Create the series using the dependencies (add-ins "series")
+    {%modelname}.series Exception_Hybrid_data
 
     ' Create the series using the dependencies (add-ins "series")
-    ' {%modelname}.series Exception_Hybrid_data
-
-    ' Create the series using the dependencies (add-ins "series")
-    {%modelname}.series Exception_transport_data
+    ' {%modelname}.series Exception_transport_data
 
 
     ' Create the series using the dependencies (add-ins "series")
@@ -114,7 +114,7 @@ endif
   ' ***************************************
   ' Call (eventually) here the subroutine you want to use to analyse the results
   '' call additional_outputs("Fred")
-  call additional_outputs("Fred_Hybrid")
+  call additional_outputs("Fred_housing")
   ' call output_template(%scenario_name)
 
   ' *******************

@@ -1,7 +1,31 @@
 include ..\model\lists
 
+include parameters
 
-@over NCH[c] := 1.0 * CH[c] where c in cveh ccon crai croa ccoa cele  # To be replaced by a list
+#############################################
+#### Link with the rest of the model
+#################################################
+
+### TO BE COMMENTED when linked with the full model
+P 		 :=  1 * (1 + GR_PRICES) ^ (@year - %baseyear)
+
+CH[ccoa] := 100 * (1 + GR_REAL) ^ (@year - %baseyear)
+CH[cfue] := 100 * (1 + GR_REAL) ^ (@year - %baseyear)
+CH[cgas] := 100 * (1 + GR_REAL) ^ (@year - %baseyear)
+CH[cele] := 100 * (1 + GR_REAL) ^ (@year - %baseyear)
+CH[chea] := 100 * (1 + GR_REAL) ^ (@year - %baseyear)
+
+
+
+# DISPINC_AT_VAL := 1000000 * (1 + GR_NOMI) ^ (@year - %baseyear)
+
+# PCH := P
+
+### END TO BE COMMENTED when linked with the full model
+
+
+
+# @over NCH[c] := 1.0 * CH[c] where c in cveh ccon crai croa ccoa cele  # To be replaced by a list
 
 #######################################
 ###################################### 
@@ -90,7 +114,7 @@ phi_REHAB[ecl,ecl2] := BUILDING(10 + $ecl, $ecl2)
 
 ENER_BUIL[ecl, ce] := BUILDING(41 + $ce, $ecl)
 
-EXP_BUIL[ecl, ce] := @elem(CH[ce], %baseyear) * ENER_BUIL[ecl, ce]/ENER_BUIL[ce]
+EXP_BUIL[ecl, ce] := @elem(CH[ce], %baseyear) * ENER_BUIL[ecl, ce]/ENER_BUIL[ce]   # ERROR CH[ce] should exclude energy for cars !!!!
 
 ENER_BUIL[ce] := sum(ENER_BUIL[ecl, ce] on ecl)
 
