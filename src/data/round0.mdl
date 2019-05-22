@@ -1,7 +1,7 @@
 include ..\model\lists
 
-include parameters
-include R_Calibration
+# include parameters
+# include R_Calibration
 include elasticities
 
 eps := 0.000000000001

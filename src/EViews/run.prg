@@ -28,7 +28,7 @@ subroutine run(string %data_calibration, string %data_shock)
   ' ******************
   ' Load the model
 
-if %load="new"  then
+  if %load="new"  then
     'Give a name to the Model
     model {%modelname}
     ' Load calibration data from the Excel file
@@ -38,16 +38,19 @@ if %load="new"  then
     ''''' {%modelname}.series round0 Prices_data SU_data Special_data Other_data Exception_Hybrid_data_0
 
     ' Export all variables to a csv file (used by the external compiler)
-    ''''' call export_all_to_csv
+    call export_all_to_csv
 
     ''''' {%modelname}.series Exception_Hybrid_data_if
 
     ' Create the series using the dependencies (add-ins "series")
     ''''' {%modelname}.series Exception_Hybrid_data
 
-
-
     ' Create the series using the dependencies (add-ins "series")
+    {%modelname}.series ..\model\lists parameters R_Calibration
+
+    ' Export all variables to a csv file (used by the external compiler)
+    call export_all_to_csv
+
     {%modelname}.series round0 Prices_data SU_data Special_data Other_data Exception_taxes_prices_data Exception_NestedCES_data Exception_ConsumerNested_data Exception_Other_data
 
     ' Export all variables to a csv file (used by the external compiler)
@@ -71,15 +74,15 @@ if %load="new"  then
 
 
     ' Save the workfile for memory
-''    wfsave {%wfname}
+    ''    wfsave {%wfname}
 
-else
+  else
 
     ' If the data are already initailized as a Workfile with the option  %load = ""
     ' Load the data
     wfopen {%wfname}    ' Load workfile if already created (the workfile should be in ThreeME_V3\results\)
 
-endif
+  endif
 
   smpl @all
 
@@ -95,19 +98,19 @@ endif
   ' ***************************************
   ' Call here the subroutine you want to use to solve the shock
 
-      'call run_baseshock ' Perform a baseline and a shock
+  'call run_baseshock ' Perform a baseline and a shock
 
-       call run_scenario("baseline")
+  call run_scenario("baseline")
 
-     'call run_standard("EXR10", 0)  
-     call run_standard("EXR10 EXPG1 RSSC1 INCT1 VAT1 WD1 FF10 CT1", 1) ' Option: 1 for result in excel template; 0 only scenario run
- ''  call run_standard("CT1", 1)
+  'call run_standard("EXR10", 0)
+  call run_standard("EXR10 EXPG1 RSSC1 INCT1 VAT1 WD1 FF10 CT1", 1) ' Option: 1 for result in excel template; 0 only scenario run
+  ''  call run_standard("CT1", 1)
 
-      '' call output_template("EXR10")
+  '' call output_template("EXR10")
 
 
 
-          ' call run_enr("PPE_ENRhaut")
+  ' call run_enr("PPE_ENRhaut")
 
   ' ***************************************
   ' Call (eventually) here the subroutine you want to use to analyse the results
@@ -130,8 +133,8 @@ endif
   ' **********************
   ' Saving and cleanup
 
-''    Wfsave(c) output_{%DC}\{%DS}.wf1
+  ''    Wfsave(c) output_{%DC}\{%DS}.wf1
 
-''    close @all
+  ''    close @all
 
 endsub
