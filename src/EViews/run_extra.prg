@@ -17,7 +17,7 @@
 ' run after the baseline has been solved.
 
 
-subroutine run_standard(string %scenario_list, scalar !excel)
+subroutine run_standard(string %scenario_list, string %iso3, scalar !excel)
 
   call standard_backup
 
@@ -27,7 +27,8 @@ subroutine run_standard(string %scenario_list, scalar !excel)
     {%modelname}.scenario(n, a={%index}) %scenario_name
     call standard_shock(%scenario)
     call solvemodel(%solveopt)
-    %grp = "Results" + %scenario
+    %grp = "Results_" + %scenario + "_" + %iso3
+    '%grp_out = "Results" + %scenario
     call standard_outputs(%scenario, %grp, %index)
     if !excel=0 then
       show {%grp}
