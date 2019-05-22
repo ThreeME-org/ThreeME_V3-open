@@ -38,7 +38,7 @@ include .\..\addin\export.prg
 
 If %shocks = "euro" then
 
-  for %iso3 FRA GBR DEU
+  for %iso3 AUT BGR CZE EST FIN FRA HUN ITA LVA LTU LUX NLD POL PRT ROU SVK SVN ESP
 
     call run_euro(%iso3)
 
@@ -50,7 +50,7 @@ else
 
       ' Relative paths
       %data_calibration = ".\..\..\data\calibrations\"+%DC+".xls"
-
+      %iso3 = "FRA"
       call run(%data_calibration,%data_shocks)
 
   Next

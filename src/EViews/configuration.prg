@@ -19,7 +19,7 @@
 
 ' Shocks to run, filenames are space-separated and found inside data\shocks
 ' Example: to run the VATMES, TCO2 and CSEMES shocks, use "VATMES TCO2 CSEMES"
-%shocks = "euro" 
+%shocks = "neuro" 
 
 ' Set "realist" for simulating a realistic reference scenario; something else for a stationary  reference scenario
 %ref = ""

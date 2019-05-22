@@ -46,7 +46,7 @@ subroutine run(string %data_calibration, string %data_shock)
     ''''' {%modelname}.series Exception_Hybrid_data
 
     ' Create the series using the dependencies (add-ins "series")
-    {%modelname}.series ..\model\lists parameters R_Calibration_{%iso3}
+    {%modelname}.series ..\model\lists parameters R_Calibration
 
     ' Export all variables to a csv file (used by the external compiler)
     call export_all_to_csv
