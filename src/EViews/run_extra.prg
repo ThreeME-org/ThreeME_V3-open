@@ -444,11 +444,11 @@ endsub
 '==============================================================================
 '==============================================================================
 
-subroutine run_euro(string %data_calibration, string %data_shock, string %iso3)
+subroutine run_euro(string %iso3)
 
   ' ***********************
   ' Create the Workfile
-  %wfname = ".\..\..\results\"+%modelname+"_"+%DC
+  %wfname = ".\..\..\results\"+%modelname+"_"+%iso3
   wfcreate(wf=%wfname, page=%modelname) {%freq} {%firstdate} {%lastdate}
 
   call EViews_lists

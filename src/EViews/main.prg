@@ -40,13 +40,7 @@ If %shocks = "euro" then
 
   for %iso3 FRA GBR DEU
 
-    For %DC {%calibrations}
-
-      %data_calibration = ".\..\..\data\calibrations\"+%DC+".xls"
-
-        call run_euro(%data_calibration,%data_shocks,%iso3)
-
-    next
+    call run_euro(%iso3)
 
   next
 
