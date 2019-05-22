@@ -510,7 +510,7 @@ subroutine run_euro(string %iso3)
 
   call run_scenario("baseline")
 
-  call run_standard("EXR10", 0)
+  call run_standard("EXR10", %iso3, 0)
   'call run_standard("EXR10 EXPG1 RSSC1 INCT1 VAT1 WD1 FF10 CT1", 1) ' Option: 1 for result in excel template; 0 only scenario run
 
   ' *******************
