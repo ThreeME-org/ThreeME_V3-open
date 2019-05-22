@@ -36,13 +36,23 @@ include .\..\addin\export.prg
 ' ***********
 ' Model run
 
-For %DC {%calibrations}
+If %shocks = "euro" then
 
-    ' Relative paths
-    %data_calibration = ".\..\..\data\calibrations\"+%DC+".xls"
+  for %iso3 FRA GBR DEU
+     call run_euro(%iso3)
+  next
 
-    call run(%data_calibration,%data_shocks)
+else
 
-Next
+  For %DC {%calibrations}
+
+      ' Relative paths
+      %data_calibration = ".\..\..\data\calibrations\"+%DC+".xls"
+
+      call run(%data_calibration,%data_shocks)
+
+  Next
+
+endif
 
 smpl 2000 @last

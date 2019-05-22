@@ -439,3 +439,88 @@ subroutine calibrate_scenario(string %scenario, string %targets)
   '{%modelname}.fit objective_grp controls_grp growth_grp 2010 2050 5
 
 endsub
+
+
+'==============================================================================
+'==============================================================================
+
+subroutine run_euro(string %data_calibration, string %data_shock, string %iso3)
+
+  ' ***********************
+  ' Create the Workfile
+  %wfname = ".\..\..\results\"+%modelname+"_"+%DC
+  wfcreate(wf=%wfname, page=%modelname) {%freq} {%firstdate} {%lastdate}
+
+  call EViews_lists
+  call R_lists
+
+  ' ******************
+  ' Load the model
+
+  if %load="new"  then
+    'Give a name to the Model
+    model {%modelname}
+    ' Load calibration data from the Excel file
+    call load_calibration
+
+    ' Export all variables to a csv file (used by the external compiler)
+    call export_all_to_csv
+
+    ' Create the series using the dependencies (add-ins "series")
+    {%modelname}.series ..\model\lists parameters R_Calibration_{%iso3}
+
+    ' Export all variables to a csv file (used by the external compiler)
+    call export_all_to_csv
+
+    {%modelname}.series round0 Prices_data SU_data Special_data Other_data Exception_taxes_prices_data Exception_NestedCES_data Exception_ConsumerNested_data Exception_Other_data
+
+    ' Export all variables to a csv file (used by the external compiler)
+    call export_all_to_csv
+
+
+    ' Load the model specification from the model/ folder
+    {%modelname}.load blocks
+
+    ' Put add factors to all equations
+    smpl 1997 2000
+
+    smpl @all
+
+  else
+
+    ' If the data are already initailized as a Workfile with the option  %load = ""
+    ' Load the data
+    wfopen {%wfname}    ' Load workfile if already created (the workfile should be in ThreeME_V3\results\)
+
+  endif
+
+  smpl @all
+
+  ' Clean up results folder
+  %cmd = @left(@linepath, 2) + " & cd " + @addquotes(@linepath) + " & del /Q ..\..\results\*.txt"
+
+  '************************************************
+  '*********** SOLVE SCENARIOS ********************
+  '************************************************
+  !scenario = 0
+
+  ' ***************************************
+  ' Call here the subroutine you want to use to solve the shock
+
+  call run_scenario("baseline")
+
+  call run_standard("EXR10", 0)
+  'call run_standard("EXR10 EXPG1 RSSC1 INCT1 VAT1 WD1 FF10 CT1", 1) ' Option: 1 for result in excel template; 0 only scenario run
+
+  ' *******************
+  ' Error reporting
+
+  string a_errors="Number of errors: "+@str(@errorcount)
+
+  !error_count = @errorcount
+  if !error_count > 0 then
+    logmode all
+    logsave errors
+  endif
+
+endsub

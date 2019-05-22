@@ -15,7 +15,7 @@
 ' - loads the specification of the model
 ' - run scenario(s)
 
-subroutine run(string %data_calibration, string %data_shock)
+subroutine run(string %data_calibration, string %data_shock, string %iso3)
 
   ' ***********************
   ' Create the Workfile
@@ -46,7 +46,7 @@ subroutine run(string %data_calibration, string %data_shock)
     ''''' {%modelname}.series Exception_Hybrid_data
 
     ' Create the series using the dependencies (add-ins "series")
-    {%modelname}.series ..\model\lists parameters R_Calibration
+    {%modelname}.series ..\model\lists parameters R_Calibration_{%iso3}
 
     ' Export all variables to a csv file (used by the external compiler)
     call export_all_to_csv

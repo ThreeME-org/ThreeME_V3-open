@@ -1,7 +1,7 @@
-' ============================================================================ 
+' ============================================================================
 ' This file defines the configuration options
 '
-' ============================================================================ 
+' ============================================================================
 
 ' Set the begining of the sample
 %firstdate = "1997"
@@ -19,7 +19,7 @@
 
 ' Shocks to run, filenames are space-separated and found inside data\shocks
 ' Example: to run the VATMES, TCO2 and CSEMES shocks, use "VATMES TCO2 CSEMES"
-%shocks = "SCEN_ENR_100_2" 
+%shocks = "euro" 
 
 ' Set "realist" for simulating a realistic reference scenario; something else for a stationary  reference scenario
 %ref = ""
@@ -39,5 +39,3 @@
 
 ' Set frequency ("a" : annual; "q" quarterly)
 %freq = "a"
-
-
