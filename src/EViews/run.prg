@@ -15,7 +15,7 @@
 ' - loads the specification of the model
 ' - run scenario(s)
 
-subroutine run(string %data_calibration, string %data_shock, string %iso3)
+subroutine run(string %data_calibration, string %data_shock)
 
   ' ***********************
   ' Create the Workfile

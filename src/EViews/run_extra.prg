@@ -467,7 +467,7 @@ subroutine run_euro(string %data_calibration, string %data_shock, string %iso3)
     call export_all_to_csv
 
     ' Create the series using the dependencies (add-ins "series")
-    {%modelname}.series ..\model\lists parameters R_Calibration_{%iso3}
+    {%modelname}.series ..\model\lists parameters R_calibration_{%iso3}
 
     ' Export all variables to a csv file (used by the external compiler)
     call export_all_to_csv

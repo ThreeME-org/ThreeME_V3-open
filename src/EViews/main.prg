@@ -39,7 +39,15 @@ include .\..\addin\export.prg
 If %shocks = "euro" then
 
   for %iso3 FRA GBR DEU
-     call run_euro(%iso3)
+
+    For %DC {%calibrations}
+
+      %data_calibration = ".\..\..\data\calibrations\"+%DC+".xls"
+
+        call run_euro(%data_calibration,%data_shocks,%iso3)
+
+    next
+
   next
 
 else
