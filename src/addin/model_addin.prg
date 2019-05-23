@@ -19,10 +19,14 @@ if @vernum = 8 then
   if !is_win7 > 0 then
     %ini_path = ini_path_table(1, 1) + "\Quantitative Micro Software\EViews\ProgReg.ini"
   else
-    %ini_path = ini_path_table(1, 1) + "/ihs eviews/Eviews/ProgReg.ini"
+    %ini_path = ini_path_table(1, 1) + "\IHS EViews\EViews\ProgReg.ini"
   endif
 else
+  if !is_win7 > 0 then
     %ini_path = ini_path_table(1, 1) + "\Quantitative Micro Software\EViews\ProgReg.ini"
+  else
+    %ini_path = ini_path_table(1, 1) + "\IHS EViews\EViews\ProgReg.ini"
+  endif
 endif
 
 subroutine check_if_installed(text _addin_ini, string _proc_name, scalar _is_installed)
