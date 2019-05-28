@@ -12,7 +12,7 @@ chtrsp in %list_chtrsp
 %list_ener_class := CA CB CC CD CE CF CG #[ecl]
 %list_buil_class := CA CB CC CD CE CF CG DES #[bcl]
 
-
+%list_com_E_BUIL := ccoa cfue cgas cele chea
 
 
 # Default iterators
@@ -35,6 +35,8 @@ cmo in %list_com_MATO
 
 ce in %list_com_E
 cee in %list_com_E
+
+ceb in %list_com_E_BUIL
 
 
 f in %list_F

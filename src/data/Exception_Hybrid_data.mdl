@@ -36,12 +36,12 @@ EXP_HOUSING_Val[ecl] := @elem( DEBT_REHAB_Val[ecl]{-1} * (R_I_REHAB[ecl]{-1} + R
                                                       + PENER_BUIL[ecl] * ENER_BUIL[ecl] , %baseyear) * ( 1 +  GR_NOMI) ^ ( @year - %baseyear )
 
 
-ENERperM2[ ecl, ce] := ENER_BUIL[ ecl, ce] / BUIL[ ecl]  
+ENERperM2[ ecl, ceb] := ENER_BUIL[ ecl, ceb] / BUIL[ ecl]  
 
 
-PENER_BUIL[ecl, ce] := PEXP[ce] * (EXP_BUIL[ecl, ce] + eps)/ (ENER_BUIL[ecl, ce] + eps)
+PENER_BUIL[ecl, ceb] := PCH[ceb] * (EXP_BUIL[ecl, ceb] + eps)/ (ENER_BUIL[ecl, ceb] + eps)
 # Use of eps to avoid a conditionnonality in Exception_Hybrid_data_if (For some reason the compilator does not recognize it whereas it was working in a previous version).
-# PENER_BUIL[ecl, ce] := if(ENER_BUIL[ecl, ce] <> 0 , PEXP[ce] * EXP_BUIL[ecl, ce] / ENER_BUIL[ecl, ce], P)
+# PENER_BUIL[ecl, ceb] := if(ENER_BUIL[ecl, ceb] <> 0 , PEXP[ceb] * EXP_BUIL[ecl, ceb] / ENER_BUIL[ecl, ceb], P)
 
 
 # Calibrated such that tau_REHAB_n[ecl] is at its baseyear value for the baseyear Payback_REHAB[ecl]. 
@@ -128,23 +128,26 @@ Payback_REHAB[ecl] := (UC_K_REHAB[ecl]*BUIL_D[ecl] - UC_K[ecl]*BUIL_D[ecl])/(UC_
    
 @pv REHAB := sum( REHAB[ecl] on ecl )
 
-EXP_BUIL[ ecl] :=  sum(EXP_BUIL[ecl, ce] on ce)
+EXP_BUIL[ ecl] :=  sum(EXP_BUIL[ecl, ceb] on ceb)
     
-EXP_BUIL[ce] :=  sum(EXP_BUIL[ecl, ce] on ecl) 
+EXP_BUIL[ceb] :=  sum(EXP_BUIL[ecl, ceb] on ecl) 
  
  
-@pv ENER_BUIL[ ecl] := sum(ENER_BUIL[ ecl, ce] on ce)
+@pv ENER_BUIL[ ecl] := sum(ENER_BUIL[ ecl, ceb] on ceb)
    
 @pv ENER_BUIL := sum(ENER_BUIL[ ecl] on ecl)
    
 @pv EXP_BUIL :=  sum(EXP_BUIL[ecl] on ecl)
    
-PENER_BUIL[ce] * ENER_BUIL[ce] := sum(PENER_BUIL[ecl, ce] * ENER_BUIL[ecl, ce] on ecl)
+PENER_BUIL[ceb] * ENER_BUIL[ceb] := sum(PENER_BUIL[ecl, ceb] * ENER_BUIL[ecl, ceb] on ecl)
           
 ENER[ ecl] := @elem(PENER_BUIL[ ecl], %baseyear) * ENER_BUIL[ ecl] + EXP_AUTO[ ecl]
  
 ENER         := @elem(PENER_BUIL, %baseyear) * ENER_BUIL + EXP_AUTO
 
+NCH[ceb] := @elem(PENER_BUIL[ceb], %baseyear) * ENER_BUIL[ceb] + EXP_AUTO[ceb]
+
+NCH[ccon] := @elem(PNewBUIL,%baseyear) * NewBUIL + @elem(PREHAB,%baseyear) * REHAB
 
 #######################################
 ###################################### 
@@ -157,7 +160,7 @@ ENER         := @elem(PENER_BUIL, %baseyear) * ENER_BUIL + EXP_AUTO
 
 # Km_traveler[ct] := 100
 
-EXP_AUTO[ce] := 120000 * (1 + GR_REAL) ^ (@year - %baseyear)
+EXP_AUTO[ceb] := 120000 * (1 + GR_REAL) ^ (@year - %baseyear)
 
 
 EXP_AUTO[ ecl] := 6  * (1 + GR_REAL) ^ (@year - %baseyear)

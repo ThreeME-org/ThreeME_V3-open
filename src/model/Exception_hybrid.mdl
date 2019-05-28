@@ -7,29 +7,15 @@ include ..\model\lists
 # Files: hybrid_new.mdl; exceptions_AME-AMS.mdl
 
 #### Link with the consumer block of ThreeME
-## When this block is activated, the expenditures related to construction, transport, vehicles and energy commodities are not defined anymore by the basic version of the consumer block (see Section Consumer). To do so the necessary (minimum) households' final consumption for this commodity is endogenized and calibrated at their total at the base year: $NCH_{c} = CH_{c}$ for $c$ \in  \{ ccon,ct,cveh,ce \}$. In other words, we assume that these expenditures have the priority over the other ones. \\
+## When this block is activated, the expenditures related to construction, transport, vehicles and energy commodities are not defined anymore by the basic version of the consumer block (see Section Consumer). To do so the necessary (minimum) households' final consumption for this commodity is endogenized and calibrated at their total at the base year: $NCH_{c} = CH_{c}$ for $c$ \in  \{ ccon,ct,cveh,ceb \}$. In other words, we assume that these expenditures have the priority over the other ones. \\
 
 
 ##! Necessary (minimum) households' final consumption for construction commodity $ccon$
-NCH[ccon] = ( @year > %baseyear ) * ( @elem(PNewBUIL,%baseyear) * NewBUIL + @elem(PREHAB,%baseyear) * REHAB +  CH_OTH[CCON]) + ( @year <= %baseyear ) * (NCH[ccon]{-1} * ( 1 + GR_REAL ) )
-
-##! Necessary (minimum) households' final consumption for transport commodities $ct$
-d(log(NCH[ct])) = (@year>%baseyear) * (d(log(Km_traveler[ct]))) + (@year<=%baseyear) * (d(log(NCH[ct]{-1})))  if Km_traveler[ct] <> 0 
-
-##! Necessary (minimum) households' final consumption for vehicles commodity $cveh$
-NCH[cveh] = ( @year > %baseyear ) * ( @elem(PnewAUTO,%baseyear) * NewAUTO +  CH_OTH[CVEH]) + ( @year <= %baseyear ) * (NCH[cveh]{-1} * ( 1 + GR_REAL ) )
-
-##! Necessary (minimum) households' final consumption for energy commodities $ce$
-NCH[ce] = @elem(PENER_BUIL[ce], %baseyear) * ENER_BUIL[ce] + EXP_AUTO[ce] +  CH_OTH[ce]
+NCH[ccon] = ( @year > %baseyear ) * ( @elem(PNewBUIL,%baseyear) * NewBUIL + @elem(PREHAB,%baseyear) * REHAB) + ( @year <= %baseyear ) * (NCH[ccon]{-1} * ( 1 + GR_REAL ) )
 
 
-##! Household consumption of other construction commodities
-d(log( CH_OTH[CCON] ) ) = ( @year > %baseyear ) * d( log( CH_n_VAL / PCH[CCON] ) )
-## This variable corresponds to the gap between the aggregate consumption of construction commodities and the consumption related to new and rehabilitated buildings. \\
-
-# ##! Household consumption of other vehicules commodities
-# # d(log( CH_OTH[CVEH] * PCH[CVEH] ) ) = ( @year > %baseyear ) * d( log( CH_n_VAL ) )
-# ## This variable corresponds to the gap between the aggregate consumption of vehicules and the consumption related to the new vehicules. \\
+##! Necessary (minimum) households' final consumption for energy commodities $ceb$
+NCH[ceb] = @elem(PENER_BUIL[ceb], %baseyear) * ENER_BUIL[ceb] + EXP_AUTO[ceb]
 
 ##! Price of class $ecl$ new building   
 d( log( PNewBUIL[ecl] ) ) = d( log( PCH[CCON] ) )
@@ -268,31 +254,31 @@ EXP_NEWBUIL_VAL = ( PNEWBUIL * NEWBUIL )
    
     # Equation H.4.118, H.4.119, and H.4.120
     
-    ENER_BUIL[ecl, ce] = ENERperM2[ ecl, ce] * BUIL[ ecl] if ENER_BUIL[ ecl, ce] <> 0
+    ENER_BUIL[ecl, ceb] = ENERperM2[ ecl, ceb] * BUIL[ ecl] if ENER_BUIL[ ecl, ceb] <> 0
     
     # sobriété, reglementation thermique, substitution interénergie  integré dans exceptions_ADEMEhaut
     
-    d(log(ENERperM2[ecl, ce])) = 0 if ENER_BUIL[ ecl, ce] <> 0
+    d(log(ENERperM2[ecl, ceb])) = 0 if ENER_BUIL[ ecl, ceb] <> 0
     
-    d(log(EXP_BUIL[ecl, ce])) = d(log(ENER_BUIL[ecl, ce])) if ENER_BUIL[ ecl, ce] <> 0
+    d(log(EXP_BUIL[ecl, ceb])) = d(log(ENER_BUIL[ecl, ceb])) if ENER_BUIL[ ecl, ceb] <> 0
     
-    PEXP_BUIL[ecl]*EXP_BUIL[ ecl] = sum(PEXP[ce]*EXP_BUIL[ecl, ce] if EXP_BUIL[ecl,ce] <> 0 on ce)
+    PEXP_BUIL[ecl]*EXP_BUIL[ ecl] = sum(PCH[ceb]*EXP_BUIL[ecl, ceb] if EXP_BUIL[ecl,ceb] <> 0 on ceb)
     
-    EXP_BUIL[ecl] =  sum(EXP_BUIL[ecl, ce] if EXP_BUIL[ecl,ce] <> 0 on ce)
+    EXP_BUIL[ecl] =  sum(EXP_BUIL[ecl, ceb] if EXP_BUIL[ecl,ceb] <> 0 on ceb)
     
-    EXP_BUIL[ce] =  sum(EXP_BUIL[ecl, ce] if EXP_BUIL[ecl,ce] <> 0 on ecl) 
+    EXP_BUIL[ceb] =  sum(EXP_BUIL[ecl, ceb] if EXP_BUIL[ecl,ceb] <> 0 on ecl) 
     
     # Equation H.4.121
     # donne le prix en million d'euros du kwH de l'energie concerné
    
-   PENER_BUIL[ecl, ce] * ENER_BUIL[ecl, ce] = PEXP[ce] * EXP_BUIL[ecl, ce] if ENER_BUIL[ecl, ce] <> 0
+   PENER_BUIL[ecl, ceb] * ENER_BUIL[ecl, ceb] = PCH[ceb] * EXP_BUIL[ecl, ceb] if ENER_BUIL[ecl, ceb] <> 0
    
    
    # ------------AGGREGATION CONSOMMATION D'ENERGIE EN KwH ET EN MILLION D'EURO
    
    # Equation H.4.123
    
-   @pv ENER_BUIL[ecl] = sum(ENER_BUIL[ecl, ce] if ENER_BUIL[ecl, ce] <> 0 on ce)
+   @pv ENER_BUIL[ecl] = sum(ENER_BUIL[ecl, ceb] if ENER_BUIL[ecl, ceb] <> 0 on ceb)
    
    # *****************************
    
@@ -310,7 +296,7 @@ EXP_NEWBUIL_VAL = ( PNEWBUIL * NEWBUIL )
    
    # Equation H.4.129
    
-   @pv ENER_BUIL[ ce] = sum(ENER_BUIL[ ecl, ce] if ENER_BUIL[ ecl, ce] <> 0 on ecl)
+   @pv ENER_BUIL[ ceb] = sum(ENER_BUIL[ ecl, ceb] if ENER_BUIL[ ecl, ceb] <> 0 on ecl)
    
      # ----AGGREGATION Of total energie expenditure (automobile +building)
    # Equation H.4.132 H.4.133

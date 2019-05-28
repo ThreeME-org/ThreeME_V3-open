@@ -41,7 +41,7 @@ if %load="new"  then
     call export_all_to_csv
 
     {%modelname}.series Exception_Hybrid_data_if
-stop
+
     ' Create the series using the dependencies (add-ins "series")
     {%modelname}.series Exception_Hybrid_data
 

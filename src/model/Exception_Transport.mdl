@@ -11,6 +11,19 @@ include ..\model\lists
 d(log(P_km_traveler[crai])) = d(log(PCH[crai])) 
 d(log(P_km_traveler[croa])) = d(log(PCH[croa]))
 
+
+# ##! Necessary (minimum) households' final consumption for transport commodities $ct$
+# d(log(NCH[ct])) = (@year>%baseyear) * (d(log(Km_traveler[ct]))) + (@year<=%baseyear) * (d(log(NCH[ct]{-1})))  if Km_traveler[ct] <> 0 
+
+# ##! Necessary (minimum) households' final consumption for vehicles commodity $cveh$
+# NCH[cveh] = ( @year > %baseyear ) * ( @elem(PnewAUTO,%baseyear) * NewAUTO +  CH_OTH[CVEH]) + ( @year <= %baseyear ) * (NCH[cveh]{-1} * ( 1 + GR_REAL ) )
+
+# ##! Household consumption of other vehicules commodities
+# # d(log( CH_OTH[CVEH] * PCH[CVEH] ) ) = ( @year > %baseyear ) * d( log( CH_n_VAL ) )
+# ## This variable corresponds to the gap between the aggregate consumption of vehicules and the consumption related to the new vehicules. \\
+
+
+
 #### Arbitrage between transport modes 
 ## The arbitrage between transport modes is defined in 5 level. Level 1 determine the evolution of air, long and short distance transport. In level 2, the consummer may substitutie bewteen long distance transport types (automobile and train) and short distance transport types (automobile and bus). Level 3 defines the arbitrage between electric and thermic automobile whereas level 4 defines the arbitrage between automobile class. In level 5, substitution between types of thermic automobiles may be introduced. \\
 
