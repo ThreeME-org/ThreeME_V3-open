@@ -16,19 +16,12 @@ PCH[ceb] := P
 PCH[CCON]:= P
 
 
-CH[ceb] := 100 * (1 + GR_REAL) ^ (@year - %baseyear)
+CH_BUIL[ceb] := 3000 * (1 + GR_REAL) ^ (@year - %baseyear)
 
-POP := 1000 * (1 + GR_PROG[L]) ^ (@year - %baseyear)
-
-# DISPINC_AT_VAL := 1000000 * (1 + GR_NOMI) ^ (@year - %baseyear)
-
-# PCH := P
+POP := 1000 * (1 + GR_POP) ^ (@year - %baseyear)
 
 ### END TO BE COMMENTED when linked with the full model
 
-
-
-# @over NCH[c] := 1.0 * CH[c] where c in cveh ccon crai croa ccoa cele  # To be replaced by a list
 
 #######################################
 ###################################### 
@@ -117,7 +110,7 @@ phi_REHAB[ecl,ecl2] := BUILDING(10 + $ecl, $ecl2)
 
 ENER_BUIL[ecl, ceb] := BUILDING(41 + $ceb, $ecl)
 
-EXP_BUIL[ecl, ceb] := @elem(CH[ceb], %baseyear) * ENER_BUIL[ecl, ceb]/ENER_BUIL[ceb]   # ERROR CH[ceb] should exclude energy for cars !!!!
+CH_ENER_BUIL[ecl, ceb] := @elem(CH_BUIL[ceb], %baseyear) * ENER_BUIL[ecl, ceb]/ENER_BUIL[ceb]
 
 ENER_BUIL[ceb] := sum(ENER_BUIL[ecl, ceb] on ecl)
 

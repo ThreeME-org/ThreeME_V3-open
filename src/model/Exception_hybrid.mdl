@@ -11,20 +11,22 @@ include ..\model\lists
 
 
 ##! Necessary (minimum) households' final consumption for construction commodity $ccon$
-NCH[ccon] = ( @year > %baseyear ) * ( @elem(PNewBUIL,%baseyear) * NewBUIL + @elem(PREHAB,%baseyear) * REHAB) + ( @year <= %baseyear ) * (NCH[ccon]{-1} * ( 1 + GR_REAL ) )
+NCH[ccon] = (@year > %baseyear) * (@elem(PNewBUIL,%baseyear) * NewBUIL + @elem(PREHAB,%baseyear) * REHAB) _
+              + (@year <= %baseyear) * (NCH[ccon]{-1} * ( 1 + GR_REAL ) )
 
 
-##! Necessary (minimum) households' final consumption for energy commodities $ceb$
-NCH[ceb] = @elem(PENER_BUIL[ceb], %baseyear) * ENER_BUIL[ceb] + EXP_AUTO[ceb]
+##! Necessary (minimum) households' final consumption for energy commodities $ceb$ related to buildings
+NCH_BUIL[ceb] = (@year > %baseyear) * @elem(PENER_BUIL[ceb], %baseyear) * ENER_BUIL[ceb] _
+                + (@year <= %baseyear) * (NCH_BUIL[ceb]{-1} * ( 1 + GR_REAL ))
 
 ##! Price of class $ecl$ new building   
-d( log( PNewBUIL[ecl] ) ) = d( log( PCH[CCON] ) )
+d(log(PNewBUIL[ecl])) = d(log(PCH[CCON]))
 
 ##! Price of investment for rehabilitating a class $ecl$ buidding to class $ecl2$
-d( log( PREHAB[ecl,ecl2] ) ) = d( log( PCH[CCON] ) ) if REHAB[ecl,ecl2] <> 0
+d(log(PREHAB[ecl,ecl2])) = d(log(PCH[CCON])) if REHAB[ecl,ecl2] <> 0
 
 ##! test   
-d( log( PREHAB[ecl,ecl] ) ) = d( log( PCH[CCON] ) )  # Must be added because REHAB[ecl,ecl] = 0  (test if merging the 2 eq. does not change the results)
+d(log(PREHAB[ecl,ecl])) = d(log(PCH[CCON]))  # Must be added because REHAB[ecl,ecl] = 0  (test if merging the 2 eq. does not change the results)
 
 ##! Interest rate paid for an investment in a new class $ecl$ buidding    
 d(R_I_NewBUIL[ ecl]) = d(R)
@@ -260,18 +262,18 @@ EXP_NEWBUIL_VAL = ( PNEWBUIL * NEWBUIL )
     
     d(log(ENERperM2[ecl, ceb])) = 0 if ENER_BUIL[ ecl, ceb] <> 0
     
-    d(log(EXP_BUIL[ecl, ceb])) = d(log(ENER_BUIL[ecl, ceb])) if ENER_BUIL[ ecl, ceb] <> 0
+    d(log(CH_ENER_BUIL[ecl, ceb])) = d(log(ENER_BUIL[ecl, ceb])) if ENER_BUIL[ ecl, ceb] <> 0
     
-    PEXP_BUIL[ecl]*EXP_BUIL[ ecl] = sum(PCH[ceb]*EXP_BUIL[ecl, ceb] if EXP_BUIL[ecl,ceb] <> 0 on ceb)
+    PCH_ENER_BUIL[ecl]*CH_ENER_BUIL[ ecl] = sum(PCH[ceb]*CH_ENER_BUIL[ecl, ceb] if CH_ENER_BUIL[ecl,ceb] <> 0 on ceb)
     
-    EXP_BUIL[ecl] =  sum(EXP_BUIL[ecl, ceb] if EXP_BUIL[ecl,ceb] <> 0 on ceb)
+    CH_ENER_BUIL[ecl] =  sum(CH_ENER_BUIL[ecl, ceb] if CH_ENER_BUIL[ecl,ceb] <> 0 on ceb)
     
-    EXP_BUIL[ceb] =  sum(EXP_BUIL[ecl, ceb] if EXP_BUIL[ecl,ceb] <> 0 on ecl) 
+    CH_ENER_BUIL[ceb] =  sum(CH_ENER_BUIL[ecl, ceb] if CH_ENER_BUIL[ecl,ceb] <> 0 on ecl) 
     
     # Equation H.4.121
     # donne le prix en million d'euros du kwH de l'energie concerné
    
-   PENER_BUIL[ecl, ceb] * ENER_BUIL[ecl, ceb] = PCH[ceb] * EXP_BUIL[ecl, ceb] if ENER_BUIL[ecl, ceb] <> 0
+   PENER_BUIL[ecl, ceb] * ENER_BUIL[ecl, ceb] = PCH[ceb] * CH_ENER_BUIL[ecl, ceb] if ENER_BUIL[ecl, ceb] <> 0
    
    
    # ------------AGGREGATION CONSOMMATION D'ENERGIE EN KwH ET EN MILLION D'EURO
@@ -286,7 +288,7 @@ EXP_NEWBUIL_VAL = ( PNEWBUIL * NEWBUIL )
    
    @pv ENER_BUIL = sum(ENER_BUIL[ecl] if ENER_BUIL[ecl] <> 0 on ecl)
    
-   @pv EXP_BUIL =  sum(EXP_BUIL[ecl] if EXP_BUIL[ecl] <> 0 on ecl)
+   @pv CH_ENER_BUIL =  sum(CH_ENER_BUIL[ecl] if CH_ENER_BUIL[ecl] <> 0 on ecl)
    
    # *****************************
    
@@ -298,21 +300,6 @@ EXP_NEWBUIL_VAL = ( PNEWBUIL * NEWBUIL )
    
    @pv ENER_BUIL[ ceb] = sum(ENER_BUIL[ ecl, ceb] if ENER_BUIL[ ecl, ceb] <> 0 on ecl)
    
-     # ----AGGREGATION Of total energie expenditure (automobile +building)
-   # Equation H.4.132 H.4.133
-   # eq en volume
-   
-   ENER[ ecl] = @elem(PENER_BUIL[ ecl], %baseyear) * ENER_BUIL[ ecl] + EXP_AUTO[ ecl]
-   
-   # eq en valeur
-   
-   PENER[ ecl] * ENER[ ecl] = PENER_BUIL[ ecl] * ENER_BUIL[ ecl] + PEXP_AUTO[ ecl] * EXP_AUTO[ ecl]
-   
-   # Equation H.4.134, H.4.135, and H.4.136
-   
-   ENER         = @elem(PENER_BUIL, %baseyear) * ENER_BUIL + EXP_AUTO
-   
-   PENER * ENER = PENER_BUIL * ENER_BUIL + PEXP_AUTO * EXP_AUTO
    
 #################################
 ######################################
