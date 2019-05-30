@@ -35,15 +35,15 @@ if %load="new"  then
     call load_calibration
 
     ' Create the series using the dependencies (add-ins "series")
-    {%modelname}.series Exception_Hybrid_data_0
+    {%modelname}.series Exception_housing_data_0
 
     ' Export all variables to a csv file (used by the external compiler)
     call export_all_to_csv
 
-    {%modelname}.series Exception_Hybrid_data_if
+    {%modelname}.series Exception_housing_data_if
 
     ' Create the series using the dependencies (add-ins "series")
-    {%modelname}.series Exception_Hybrid_data
+    {%modelname}.series Exception_housing_data
 
     ' Create the series using the dependencies (add-ins "series")
     ' {%modelname}.series Exception_transport_data

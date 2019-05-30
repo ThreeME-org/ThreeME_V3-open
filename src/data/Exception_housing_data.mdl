@@ -38,7 +38,7 @@ ENERperM2[ ecl, ceb] := ENER_BUIL[ ecl, ceb] / BUIL[ ecl]
 
 
 PENER_BUIL[ecl, ceb] := PCH[ceb] * (CH_ENER_BUIL[ecl, ceb] + eps)/ (ENER_BUIL[ecl, ceb] + eps)
-# Use of eps to avoid a conditionnonality in Exception_Hybrid_data_if (For some reason the compilator does not recognize it whereas it was working in a previous version).
+# Use of eps to avoid a conditionnonality in Exception_housing_data_if (For some reason the compilator does not recognize it whereas it was working in a previous version).
 # PENER_BUIL[ecl, ceb] := if(ENER_BUIL[ecl, ceb] <> 0 , PEXP[ceb] * CH_ENER_BUIL[ecl, ceb] / ENER_BUIL[ecl, ceb], P)
 
 
