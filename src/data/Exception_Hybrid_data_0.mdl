@@ -15,18 +15,22 @@ PCH[ceb] := P
 
 PCH[CCON]:= P
 
-
-CH_BUIL[ceb] := 3000 * (1 + GR_REAL) ^ (@year - %baseyear)
+CH[ceb] := 3000 * (1 + GR_REAL) ^ (@year - %baseyear)
 
 POP := 1000 * (1 + GR_POP) ^ (@year - %baseyear)
 
 ### END TO BE COMMENTED when linked with the full model
 
+# Share of household's energy consumption used by buildings
+NCH_BUIL[ccoa] := CH[ccoa] * 0.3
+NCH_BUIL[cfue] := CH[cfue] * 0.2
+NCH_BUIL[cgas] := CH[cgas] * 0.8
+NCH_BUIL[cele] := CH[cele] * 0.8
+NCH_BUIL[chea] := CH[chea] * 1.0
 
 #######################################
 ###################################### 
 # Round 0 for Housing block: hypothesis specific to the housing block
-
 
 # Subsidy rate
 R_SUB[ecl,ecl2] := 0
@@ -110,7 +114,7 @@ phi_REHAB[ecl,ecl2] := BUILDING(10 + $ecl, $ecl2)
 
 ENER_BUIL[ecl, ceb] := BUILDING(41 + $ceb, $ecl)
 
-CH_ENER_BUIL[ecl, ceb] := @elem(CH_BUIL[ceb], %baseyear) * ENER_BUIL[ecl, ceb]/ENER_BUIL[ceb]
+CH_ENER_BUIL[ecl, ceb] := @elem(NCH_BUIL[ceb], %baseyear) * ENER_BUIL[ecl, ceb]/ENER_BUIL[ceb]
 
 ENER_BUIL[ceb] := sum(ENER_BUIL[ecl, ceb] on ecl)
 
