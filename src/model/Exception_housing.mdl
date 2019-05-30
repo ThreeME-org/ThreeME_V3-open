@@ -1,14 +1,13 @@
 include ..\model\lists
 
-##### Hybrid modeling of households' consumption
+##### Housing
 
 # From ThreeME / Master_France_CGDD (30/05/2018)
 # Last commit was: 5f4949ffc7f75da1128dd53c2e1e4c62e1c4b051
 # Files: hybrid_new.mdl; exceptions_AME-AMS.mdl
 
-#### Link with the consumer block of ThreeME
-## When this block is activated, the expenditures related to construction, transport, vehicles and energy commodities are not defined anymore by the basic version of the consumer block (see Section Consumer). To do so the necessary (minimum) households' final consumption for this commodity is endogenized and calibrated at their total at the base year: $NCH_{c} = CH_{c}$ for $c$ \in  \{ ccon,ct,cveh,ceb \}$. In other words, we assume that these expenditures have the priority over the other ones. \\
-
+#### Link with the rest of the model
+# FOR THE MAIN TEXT IN THE DOCUMENTATION !!! When this block is activated, the expenditures related to construction, transport, vehicles and energy commodities are not defined anymore by the basic version of the consumer block (see Section Consumer). To do so the necessary (minimum) households' final consumption for this commodity is endogenized and calibrated at their total at the base year: $NCH_{c} = CH_{c}$ for $c$ \in  \{ ccon,ct,cveh,ceb \}$. In other words, we assume that these expenditures have the priority over the other ones. \\
 
 ##! Necessary (minimum) households' final consumption for construction commodity $ccon$
 NCH[ccon] = (@year > %baseyear) * (@elem(PNewBUIL,%baseyear) * NewBUIL + @elem(PREHAB,%baseyear) * REHAB) _
@@ -25,7 +24,7 @@ d(log(PNewBUIL[ecl])) = d(log(PCH[CCON]))
 ##! Price of investment for rehabilitating a class $ecl$ buidding to class $ecl2$
 d(log(PREHAB[ecl,ecl2])) = d(log(PCH[CCON])) if REHAB[ecl,ecl2] <> 0
 
-##! test   
+##! Price of investment for rehabilitating a class $ecl$ buidding in the same class $ecl$   
 d(log(PREHAB[ecl,ecl])) = d(log(PCH[CCON]))  # Must be added because REHAB[ecl,ecl] = 0  (test if merging the 2 eq. does not change the results)
 
 ##! Interest rate paid for an investment in a new class $ecl$ buidding    
@@ -41,13 +40,12 @@ d(R_I_BUIL[ ecl])    = d(R)
 ##! Interest rate paid for an investment in a class $ecl$ automobile
 d(R_I_AUTO[ ecl])    = d(R)
 
-#### Housing and building block
 
-### Building stock dynamic (in m2)
+#### Building stock dynamic (in m2)
 
 ##! Total building stock 
 d(log(BUIL)) = (@year>%baseyear)*(d(log(POP)) + d(log(M2perCapita)))
-## It follows proportionaly the size of the population ($POP$) and the number of square meter per inhabitant ($M2perCapita$).
+## It follows proportionaly the size of the population ($POP$) and the number of square meter per inhabitant ($M2perCapita$). \\
 
 ##! Total building stock (for verification)
 BUILbis = sum(BUIL[ecl] on ecl)
@@ -81,7 +79,61 @@ REHAB[ecl,ecl2] = (@year>%baseyear)*(phi_REHAB[ecl,ecl2]*tau_REHAB[ecl]*BUIL[ecl
                       (@year<=%baseyear)*REHAB[ecl,ecl2]{-1}  if REHAB[ecl,ecl2] <> 0
 
 
-### Building rehabilitation decisions
+##! Total new buildings
+# @Paul: A COMMENTER + enlever @pv  
+@pv NEWBUIL = sum( NEWBUIL[ecl] if NEWBUIL[ecl] <> 0 on ecl )             
+
+
+   REHAB[ecl] = sum(REHAB[ecl,ecl2] if REHAB[ecl,ecl2] <> 0 on ecl2) if REHAB[ecl] <> 0
+   
+   PREHAB[ecl]*REHAB[ecl] = sum((1 - R_SUB[ecl,ecl2])*PREHAB[ecl,ecl2]*REHAB[ecl,ecl2] if REHAB[ecl,ecl2] <> 0 on ecl2) if REHAB[ecl] <> 0
+   
+   @pv REHAB = sum( REHAB[ecl] if REHAB[ecl] <> 0 on ecl )
+
+#### Energy consumption of buildings
+
+##! Consumption of energy $ceb$ by class $ecl$ buildings (in mln kWh)
+ENER_BUIL[ecl, ceb] = ENERperM2[ ecl, ceb] * BUIL[ecl] if ENER_BUIL[ ecl, ceb] <> 0
+    
+##! Consumption of energy $ceb$ per square meter in class $ecl$ buildings
+d(log(ENERperM2[ecl, ceb])) = 0 if ENER_BUIL[ ecl, ceb] <> 0
+# sobriété, reglementation thermique, substitution interénergie  integré dans exceptions_ADEMEhaut: REPRENDRE
+
+
+##! Consumption of energy $ceb$ by class $ecl$ buildings (in mln euros)    
+d(log(CH_ENER_BUIL[ecl, ceb])) = d(log(ENER_BUIL[ecl, ceb])) if ENER_BUIL[ ecl, ceb] <> 0
+
+##! Price of energy $ceb$ in class $ecl$ buildings (euros per kWh)    
+PENER_BUIL[ecl, ceb] * ENER_BUIL[ecl, ceb] = PCH[ceb] * CH_ENER_BUIL[ecl, ceb] if ENER_BUIL[ecl, ceb] <> 0
+    
+##! Consumer price of energy in class $ecl$ buildings  (index)
+PCH_ENER_BUIL[ecl]*CH_ENER_BUIL[ecl] = sum(PCH[ceb]*CH_ENER_BUIL[ecl, ceb] if CH_ENER_BUIL[ecl,ceb] <> 0 on ceb)
+
+##! Consumption of energy in class $ecl$ buildings (in mln euros)      
+CH_ENER_BUIL[ecl] =  sum(CH_ENER_BUIL[ecl, ceb] if CH_ENER_BUIL[ecl,ceb] <> 0 on ceb)
+
+##! Consumption of energy $ceb$ (in mln euros)     
+CH_ENER_BUIL[ceb] =  sum(CH_ENER_BUIL[ecl, ceb] if CH_ENER_BUIL[ecl,ceb] <> 0 on ecl) 
+  
+   
+   # ------------AGGREGATION CONSOMMATION D'ENERGIE EN KwH ET EN MILLION D'EURO
+# @Paul: A COMMENTER + enlever @pv  
+
+##! Price of energy in class $ecl$ buildings (euros per kWh)     
+   @pv ENER_BUIL[ecl] = sum(ENER_BUIL[ecl, ceb] if ENER_BUIL[ecl, ceb] <> 0 on ceb)
+  
+  
+   @pv ENER_BUIL = sum(ENER_BUIL[ecl] if ENER_BUIL[ecl] <> 0 on ecl)
+   
+   @pv CH_ENER_BUIL =  sum(CH_ENER_BUIL[ecl] if CH_ENER_BUIL[ecl] <> 0 on ecl)
+   
+   
+   @pv ENER_BUIL[ ceb] = sum(ENER_BUIL[ ecl, ceb] if ENER_BUIL[ ecl, ceb] <> 0 on ecl)
+   
+
+#### Arbitrage in buildings investment decisions
+
+### Level 1: Building rehabilitation decisions
 
 ##! Notional rehabilitation rate of a class $ecl$ building
 tau_REHAB_N[ecl] = tau_REHAB_MAX[ecl] + (tau_REHAB_MIN[ecl] - tau_REHAB_MAX[ecl])/(1 + EXP(tau[ecl] - sigma[ecl]*Payback_REHAB[ecl])) if REHAB[ecl] <> 0
@@ -110,7 +162,7 @@ tau_REHAB[ecl] = ADJUST0_tau_REHAB*tau_REHAB_N[ecl] + (1-ADJUST0_tau_REHAB)*tau_
 Payback_REHAB[ecl] = (UC_K_REHAB[ecl]*BUIL_D[ecl] - UC_K[ecl]*BUIL_D[ecl])/(UC_E[ecl] - UC_E_REHAB[ecl]) - 1 if REHAB[ecl] <> 0
 
 
-### Transition matrix
+### Level 2: Transition between building classes
 ## The transition matrix from one building class to another is endogenous and is defined according to a discrete choice model. When the gains from rehabilitating a building toward a specific class increases, the share of buildings rehabilitated to this class increases. \\
 
 ##! Gain from the rehabilitation from a $ecl$ to a $ecl2$ class building 
@@ -152,9 +204,7 @@ UC_K_REHABbis[ecl] = PREHAB_delta[ecl] * ( R_CASH_REHAB[ecl] + R_LOAN_REHAB[ecl]
 ##! Test   
 PREHAB_delta[ecl] = sum( (1 - R_SUB[ecl,ecl2]) * PREHAB[ecl,ecl2] * phi_REHAB[ecl,ecl2] / REHAB_D[ecl2] _
                         if REHAB[ecl,ecl2]  <> 0 on ecl2) if REHAB[ecl]  <> 0             
-##! Test
-verif_UC_K_REHAB[ecl] = (UC_K_REHABbis[ecl]/UC_K_REHAB[ecl] - 1)*100 if REHAB[ecl]  <> 0 
- 
+
 
 ##! Share of the class $ecl$ building rehabilitation investment paid through a loan    
 R_LOAN_REHAB[ecl] = 1 - R_CASH_REHAB[ecl] if REHAB[ecl] <> 0
@@ -229,83 +279,6 @@ EXP_NEWBUIL_VAL = ( PNEWBUIL * NEWBUIL )
 
 
 
-
-   
-#########################################
-# AGGREGATION 
-#########################################                       
-
-# Total new buildings
-@pv NEWBUIL = sum( NEWBUIL[ecl] if NEWBUIL[ecl] <> 0 on ecl )             
-
-
-   #------------AGGREGATION IN M2 AND IN MILLION EURO
-   
-   REHAB[ecl] = sum(REHAB[ecl,ecl2] if REHAB[ecl,ecl2] <> 0 on ecl2) if REHAB[ecl] <> 0
-   
-   PREHAB[ecl]*REHAB[ecl] = sum((1 - R_SUB[ecl,ecl2])*PREHAB[ecl,ecl2]*REHAB[ecl,ecl2] if REHAB[ecl,ecl2] <> 0 on ecl2) if REHAB[ecl] <> 0
-   
-   @pv REHAB = sum( REHAB[ecl] if REHAB[ecl] <> 0 on ecl )
- 
-
-
-##########################################
-#####################################
-
-   # ---------------------------------------ENERGY CONSUMPTION IN BUILDING---------------------------------------------
-   
-    # Equation H.4.118, H.4.119, and H.4.120
-    
-    ENER_BUIL[ecl, ceb] = ENERperM2[ ecl, ceb] * BUIL[ ecl] if ENER_BUIL[ ecl, ceb] <> 0
-    
-    # sobriété, reglementation thermique, substitution interénergie  integré dans exceptions_ADEMEhaut
-    
-    d(log(ENERperM2[ecl, ceb])) = 0 if ENER_BUIL[ ecl, ceb] <> 0
-    
-    d(log(CH_ENER_BUIL[ecl, ceb])) = d(log(ENER_BUIL[ecl, ceb])) if ENER_BUIL[ ecl, ceb] <> 0
-    
-    PCH_ENER_BUIL[ecl]*CH_ENER_BUIL[ ecl] = sum(PCH[ceb]*CH_ENER_BUIL[ecl, ceb] if CH_ENER_BUIL[ecl,ceb] <> 0 on ceb)
-    
-    CH_ENER_BUIL[ecl] =  sum(CH_ENER_BUIL[ecl, ceb] if CH_ENER_BUIL[ecl,ceb] <> 0 on ceb)
-    
-    CH_ENER_BUIL[ceb] =  sum(CH_ENER_BUIL[ecl, ceb] if CH_ENER_BUIL[ecl,ceb] <> 0 on ecl) 
-    
-    # Equation H.4.121
-    # donne le prix en million d'euros du kwH de l'energie concerné
-   
-   PENER_BUIL[ecl, ceb] * ENER_BUIL[ecl, ceb] = PCH[ceb] * CH_ENER_BUIL[ecl, ceb] if ENER_BUIL[ecl, ceb] <> 0
-   
-   
-   # ------------AGGREGATION CONSOMMATION D'ENERGIE EN KwH ET EN MILLION D'EURO
-   
-   # Equation H.4.123
-   
-   @pv ENER_BUIL[ecl] = sum(ENER_BUIL[ecl, ceb] if ENER_BUIL[ecl, ceb] <> 0 on ceb)
-   
-   # *****************************
-   
-   # Equation H.4.125
-   
-   @pv ENER_BUIL = sum(ENER_BUIL[ecl] if ENER_BUIL[ecl] <> 0 on ecl)
-   
-   @pv CH_ENER_BUIL =  sum(CH_ENER_BUIL[ecl] if CH_ENER_BUIL[ecl] <> 0 on ecl)
-   
-   # *****************************
-   
-  
-   
-   # *****************************
-   
-   # Equation H.4.129
-   
-   @pv ENER_BUIL[ ceb] = sum(ENER_BUIL[ ecl, ceb] if ENER_BUIL[ ecl, ceb] <> 0 on ecl)
-   
-   
-#################################
-######################################
-
-
-
 ### Verif hybrid
 
 Verif_BUILbis = (BUILbis/BUIL - 1)*100
@@ -315,4 +288,6 @@ Verif_phi_REHAB[ecl] = (1 - (sum(phi_REHAB[ecl,ecl2] if phi_REHAB[ecl,ecl2] <> 0
 Verif_HYBRID = ( (sum(verif_phi_REHAB[ecl] on ecl))^2 + Verif_BUILbis^2 )^(1/2)
 
 
-
+##! Test
+verif_UC_K_REHAB[ecl] = (UC_K_REHABbis[ecl]/UC_K_REHAB[ecl] - 1)*100 if REHAB[ecl]  <> 0 
+ 
