@@ -101,11 +101,6 @@ UC_K[ecl] := ( PREHAB[ecl,ecl] / BUIL_D[ecl] ) * (R_CASH[ecl] + R_LOAN[ecl] * R_
    
 R_LOAN[ecl] := 1 - R_CASH[ecl]
    
-delta_REHAB[ecl] := sum(phi_REHAB[ecl,ecl2] * delta_BUIL[ecl2] on ecl2 )
-   
-delta_BUIL[ecl] := sum(delta_BUIL[ecl,bcl] on bcl )
-
-
 UC_E[ ecl] := PENER_m2[ ecl] * ( ((1 + GR_PENER_m2_e[ ecl]) ^ BUIL_D[ ecl] - 1) / (GR_PENER_m2_e[ ecl] * BUIL_D[ ecl]) )
 
 PENER_m2[ecl]  := PENER_BUIL[ecl] * ENER_BUIL[ecl]/BUIL[ecl] 

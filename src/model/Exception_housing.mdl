@@ -47,6 +47,9 @@ d(R_I_AUTO[ ecl])    = d(R)
 d(log(BUIL)) = (@year>%baseyear)*(d(log(POP)) + d(log(M2perCapita)))
 ## It follows proportionaly the size of the population ($POP$) and the number of square meter per inhabitant ($M2perCapita$). \\
 
+##! Number of square meter per person
+d(log(M2perCapita)) = rho_M2_DISPINC * d(log(DISPINC_AT_VAL/PCH/POP))
+
 ##! Total building stock (for verification)
 BUILbis = sum(BUIL[ecl] on ecl)
 
@@ -98,6 +101,17 @@ ENER_BUIL[ecl, ceb] = ENERperM2[ ecl, ceb] * BUIL[ecl] if ENER_BUIL[ ecl, ceb] <
 ##! Consumption of energy $ceb$ per square meter in class $ecl$ buildings
 d(log(ENERperM2[ecl, ceb])) = 0 if ENER_BUIL[ ecl, ceb] <> 0
 # sobriété, reglementation thermique, substitution interénergie  integré dans exceptions_ADEMEhaut: REPRENDRE
+
+#d(log(ENERperM2[ecl, ceb])) = - eta_ENERperM2[ecl, ceb] * d(log(PCH[ceb])-log(PCH))*(d(log(PCH[ceb])-log(PCH))>0) + d(SUBST_ENERperM2[ecl, ceb]) if ENERperM2[ecl, ceb] <> 0
+
+
+#d(SUBST_ENERperM2[ecl, ceb]) = sum(-ES_BUILNRJ[ecl, ceb, cebb] * phi[ecl, cebb]{-1} * d(log(PCH[ceb]) - log(PCH[cebb]))) if  ENERperM2[ecl, ceb] <> 0
+
+# phi[ecl, ceb] = (PCH[ceb]*CH_ENER_BUIL[ecl, ceb]) / (sum(PCH[cebb]*CH_ENER_BUIL[ecl, cebb] on cebb))
+
+#eta_ENERperM2[ecl, ceb] := 0.2
+
+#ES_BUILNRJ[ecl, ceb, cebb] := 0.8
 
 
 ##! Consumption of energy $ceb$ by class $ecl$ buildings (in mln euros)    
@@ -169,7 +183,7 @@ Payback_REHAB[ecl] = (UC_K_REHAB[ecl]*BUIL_D[ecl] - UC_K[ecl]*BUIL_D[ecl])/(UC_E
 GAIN_REHAB[ecl,ecl2] = (UC_E[ecl] - UC_E[ecl2]) - ((1 - R_SUB[ecl,ecl2]) * PREHAB[ecl,ecl2])   if REHAB[ecl,ecl2] <> 0
   
 ##! Utility from rehabilitating a $ecl$ to a $ecl2$ class building  
-d(U_REHAB[ecl,ecl2]) = RHO_U_GAIN[ecl,ecl2] * d(GAIN_REHAB[ecl,ecl2]{-1})   if U_REHAB[ecl,ecl2] <> 0
+d(U_REHAB[ecl,ecl2]) = (@year>%baseyear) * (RHO_U_GAIN[ecl,ecl2] * d(GAIN_REHAB[ecl,ecl2]{-1}))   if U_REHAB[ecl,ecl2] <> 0
 ## This utility is a function of the gain from the rehabilitation. For convinience it is calibrated as equal to phi_REHAB[ecl,ecl2] at the base year. \\
 
 ##! Exponential sum of the utility from rehabilitating a $ecl$ to a $ecl2$ class building 
@@ -197,7 +211,7 @@ UC_K_REHAB[ecl] = sum(phi_REHAB[ecl,ecl2] * UC_K_REHAB[ecl,ecl2] if REHAB[ecl,ec
 UC_K_REHAB[ecl,ecl2] = (1 - R_SUB[ecl,ecl2]) * (PREHAB[ecl,ecl2] / REHAB_D[ecl2] * ( R_CASH_REHAB[ecl] + R_LOAN_REHAB[ecl] * R_I_REHAB[ecl]{-1} * LD_REHAB[ecl] / ( 1 - ( 1 + R_I_REHAB[ecl]{-1})^( -LD_REHAB[ecl] ) ) )) if REHAB[ecl,ecl2] <> 0    
 
 
-# Replace the previous specification: TO BE DELETED AFTER VERIF ! 
+# Replace the previous specification: TO BE DELETED AFTER VERIF ! (NEXT 2 EQUATIONS)
 ##! Test
 UC_K_REHABbis[ecl] = PREHAB_delta[ecl] * ( R_CASH_REHAB[ecl] + R_LOAN_REHAB[ecl] * R_I_REHAB[ecl]{-1} * LD_REHAB[ecl] / _
                                                ( 1 - ( 1 + R_I_REHAB[ecl]{-1})^( -LD_REHAB[ecl] ) ) ) if REHAB[ecl] <> 0    
@@ -223,15 +237,6 @@ UC_K[ecl] = ( PREHAB[ecl,ecl] / BUIL_D[ecl] ) * (R_CASH[ecl] + R_LOAN[ecl] * R_I
 ##! Share of the class $ecl$ building investment paid through a loan     
 R_LOAN[ecl] = 1 - R_CASH[ecl]
    
-##! Average depreciation rate of a class $ecl$ rehabilitated building 
-delta_REHAB[ecl] = sum(phi_REHAB[ecl,ecl2] * delta_BUIL[ecl2] if phi_REHAB[ecl,ecl2] <> 0 on ecl2 ) if REHAB[ecl] <> 0
-# It depends on the depreciation rate in which the building is rehabilitated
-# IS THIS VARIABLE USED IN THE MODEL?
-   
-##! Depreciation rate of a building of class $ecl$
-delta_BUIL[ecl] = sum(delta_BUIL[ecl,bcl]      if delta_BUIL[ecl,bcl] <> 0   on bcl )
-# IS THIS VARIABLE USED IN THE MODEL beside delta_REHAB[ecl]?
-
 ##! User energy cost of a class $ecl$ building
 UC_E[ ecl] = PENER_m2[ ecl] * ( ((1 + GR_PENER_m2_e[ ecl]) ^ BUIL_D[ ecl] - 1) / (GR_PENER_m2_e[ ecl] * BUIL_D[ ecl]) )
 # PROVIDE THE DERIVATION OF THIS FORMULA as comment

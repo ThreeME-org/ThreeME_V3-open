@@ -19,18 +19,24 @@ CH[ceb] := 3000 * (1 + GR_REAL) ^ (@year - %baseyear)
 
 POP := 1000 * (1 + GR_POP) ^ (@year - %baseyear)
 
+DISPINC_AT_VAL := 1000000 * (1 + GR_NOMI) ^ (@year - %baseyear)
+
+PCH := P
+
 ### END TO BE COMMENTED when linked with the full model
 
 # Share of household's energy consumption used by buildings
 NCH_BUIL[ccoa] := CH[ccoa] * 0.3
-NCH_BUIL[cfue] := CH[cfue] * 0.2
-NCH_BUIL[cgas] := CH[cgas] * 0.8
+NCH_BUIL[cfue] := CH[cfue] * 0.8
+NCH_BUIL[cgas] := CH[cgas] * 0.95
 NCH_BUIL[cele] := CH[cele] * 0.8
 NCH_BUIL[chea] := CH[chea] * 1.0
 
 #######################################
 ###################################### 
 # Round 0 for Housing block: hypothesis specific to the housing block
+
+rho_M2_DISPINC := 0
 
 # Subsidy rate
 R_SUB[ecl,ecl2] := 0
@@ -39,7 +45,7 @@ ADJUST0_tau_REHAB := 0.5
 
 ADJUST_phi_REHAB := 0.5 
 
-RHO_U_GAIN[ecl,ecl2] := 0
+RHO_U_GAIN[ecl,ecl2] := 1
 
 # Share of housing investment paid cash
 # For (maintaining) a building of ecl in the same class
