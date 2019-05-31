@@ -9,15 +9,15 @@ include parameters
 ### TO BE COMMENTED when linked with the full model
 P 		 :=  1 * (1 + GR_PRICES) ^ (@year - %baseyear)
 
-CH[cele] := 1000
-CH[cgas] := 1000
-CH[coil] := 1000
+CH[cele] := 1000 * (1 + GR_REAL) ^ (@year - %baseyear)
+CH[cgas] := 1000 * (1 + GR_REAL) ^ (@year - %baseyear)
+CH[coil] := 1000 * (1 + GR_REAL) ^ (@year - %baseyear)
 
 PCH[cair] := P
 PCH[crai] := P
 PCH[croa] := P
 
-DISPINC_AT_VAL := 1000000
+DISPINC_AT_VAL := 1000000 * (1 + GR_NOMI) ^ (@year - %baseyear)
 
 PCH := P
 
@@ -32,13 +32,20 @@ P_km_trav_auto_SD := P
 
 ### END TO BE DELETED when endogenized
 
+# Share of household's energy consumption used by buildings
+NCH_AUTO[cele] := CH[cele] * 0.01
+NCH_AUTO[coil] := CH[coil] * 0.8
+NCH_AUTO[cgas] := CH[cgas] * 0.05
+
+
+
 #######################################
 #####  Round 0: load primary date for transport block
 ###################################### 
 
-CH_AUTO[cele] := TRANSPORT(2, 9) * CH[cele]  # Load without a list to avoid bug when small version of the model
-CH_AUTO[coil] := TRANSPORT(3, 9) * CH[coil]  # Load without a list to avoid bug when small version of the model
-CH_AUTO[cgas] := TRANSPORT(4, 9) * CH[cgas]  # etc.
+CH_AUTO[cele] := NCH_AUTO[cele]
+CH_AUTO[coil] := NCH_AUTO[coil] 
+CH_AUTO[cgas] := NCH_AUTO[cgas]
 
 
 AUTO_elec[ecl]  := TRANSPORT(10, $ecl)
