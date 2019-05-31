@@ -99,19 +99,15 @@ REHAB[ecl,ecl2] = (@year>%baseyear)*(phi_REHAB[ecl,ecl2]*tau_REHAB[ecl]*BUIL[ecl
 ENER_BUIL[ecl, ceb] = ENERperM2[ ecl, ceb] * BUIL[ecl] if ENER_BUIL[ ecl, ceb] <> 0
     
 ##! Consumption of energy $ceb$ per square meter in class $ecl$ buildings
-d(log(ENERperM2[ecl, ceb])) = 0 if ENER_BUIL[ ecl, ceb] <> 0
+# d(log(ENERperM2[ecl, ceb])) = 0 if ENER_BUIL[ ecl, ceb] <> 0
 # sobriété, reglementation thermique, substitution interénergie  integré dans exceptions_ADEMEhaut: REPRENDRE
 
-#d(log(ENERperM2[ecl, ceb])) = - eta_ENERperM2[ecl, ceb] * d(log(PCH[ceb])-log(PCH))*(d(log(PCH[ceb])-log(PCH))>0) + d(SUBST_ENERperM2[ecl, ceb]) if ENERperM2[ecl, ceb] <> 0
+d(log(ENERperM2[ecl, ceb])) = - eta_ENERperM2[ecl, ceb] * d(log(PCH[ceb])-log(PCH))*(d(log(PCH[ceb])-log(PCH))>0) + d(SUBST_NRJperM2[ecl, ceb]) if ENERperM2[ecl, ceb] <> 0
 
 
-#d(SUBST_ENERperM2[ecl, ceb]) = sum(-ES_BUILNRJ[ecl, ceb, cebb] * phi[ecl, cebb]{-1} * d(log(PCH[ceb]) - log(PCH[cebb]))) if  ENERperM2[ecl, ceb] <> 0
+d(SUBST_NRJperM2[ecl, ceb]) = sum(-ES_BUILNRJ[ecl, ceb, cebb] * phi[ecl, cebb]{-1} * d(log(PCH[ceb]) - log(PCH[cebb]))) if  ENERperM2[ecl, ceb] <> 0
 
-# phi[ecl, ceb] = (PCH[ceb]*CH_ENER_BUIL[ecl, ceb]) / (sum(PCH[cebb]*CH_ENER_BUIL[ecl, cebb] on cebb))
-
-#eta_ENERperM2[ecl, ceb] := 0.2
-
-#ES_BUILNRJ[ecl, ceb, cebb] := 0.8
+phi[ecl, ceb] = (PCH[ceb]*CH_ENER_BUIL[ecl, ceb]) / (sum(PCH[cebb]*CH_ENER_BUIL[ecl, cebb] on cebb))
 
 
 ##! Consumption of energy $ceb$ by class $ecl$ buildings (in mln euros)    

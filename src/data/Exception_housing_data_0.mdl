@@ -94,6 +94,10 @@ M2perHOUSING := 91.35039201
 # Number of square meter per inhabitant
 M2perCapita := 37.8748670376437
 
+eta_ENERperM2[ecl, ceb] := 0.2
+
+ES_BUILNRJ[ecl, ceb, cebb] := 0.8
+
 # Proportion of rehabilitated building from the class ecl's  
 tau_REHAB[ecl] := BUILDING(1, $ecl)
 

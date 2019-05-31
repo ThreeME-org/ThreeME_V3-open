@@ -51,6 +51,8 @@ nu_REHAB[ecl] := (tau_REHAB_MAX[ecl] - tau_REHAB_MIN[ecl]) * sigma[ecl] * Paybac
 
 NCH[ccon] := @elem(PNewBUIL * NewBUIL + PREHAB * REHAB, %baseyear) * ( 1 +  GR_REAL) ^ (@year - %baseyear)
 
+SUBST_NRJperM2[ecl, ceb] := 0
+
 # Prices
 
 PCH_ENER_BUIL[ ecl] := P
@@ -138,3 +140,4 @@ CH_ENER_BUIL[ceb] :=  sum(CH_ENER_BUIL[ecl, ceb] on ecl)
    
 PENER_BUIL[ceb] * ENER_BUIL[ceb] := sum(PENER_BUIL[ecl, ceb] * ENER_BUIL[ecl, ceb] on ecl)
           
+phi[ecl, ceb] := (PCH[ceb]*CH_ENER_BUIL[ecl, ceb]) / (sum(PCH[cebb]*CH_ENER_BUIL[ecl, cebb] on cebb))
