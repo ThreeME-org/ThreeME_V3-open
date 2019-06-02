@@ -83,7 +83,7 @@ BUIL[DES] := sum(DEP_BUIL[ecl,DES] on ecl)
 @pv NEWBUIL := sum(NEWBUIL[ecl] on ecl)   
 
 
-GAIN_REHAB[ecl,ecl2] := (UC_E[ecl] - UC_E[ecl2]) - ((1 - R_SUB[ecl,ecl2]) * PREHAB[ecl,ecl2])
+GAIN_REHAB[ecl,ecl2] := (UC_E[ecl] - UC_E[ecl2]) - UC_K_REHAB[ecl,ecl2]
 
 
 UC_REHAB[ecl] := UC_K_REHAB[ecl] + UC_E_REHAB[ecl]

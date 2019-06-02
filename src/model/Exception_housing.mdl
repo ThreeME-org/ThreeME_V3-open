@@ -175,11 +175,17 @@ Payback_REHAB[ecl] = (UC_K_REHAB[ecl]*BUIL_D[ecl] - UC_K[ecl]*BUIL_D[ecl])/(UC_E
 ### Level 2: Transition between building classes
 ## The transition matrix from one building class to another is endogenous and is defined according to a discrete choice model. When the gains from rehabilitating a building toward a specific class increases, the share of buildings rehabilitated to this class increases. \\
 
-##! Gain from the rehabilitation from a $ecl$ to a $ecl2$ class building 
-GAIN_REHAB[ecl,ecl2] = (UC_E[ecl] - UC_E[ecl2]) - ((1 - R_SUB[ecl,ecl2]) * PREHAB[ecl,ecl2])   if REHAB[ecl,ecl2] <> 0
+##! Gain from the rehabilitation from a $ecl$ to a $ecl2$ class building  
+GAIN_REHAB[ecl,ecl2] = (UC_E[ecl] - UC_E[ecl2]) - UC_K_REHAB[ecl,ecl2] if REHAB[ecl,ecl2] <> 0
   
-##! Utility from rehabilitating a $ecl$ to a $ecl2$ class building  
-d(U_REHAB[ecl,ecl2]) = (@year>%baseyear) * (RHO_U_GAIN[ecl,ecl2] * d(GAIN_REHAB[ecl,ecl2]{-1}))   if U_REHAB[ecl,ecl2] <> 0
+##! Utility from rehabilitating a $ecl$ to a $ecl2$ class building
+d(U_REHAB[ecl,ecl2]) = (@year>%baseyear) * (RHO_U_GAIN[ecl,ecl2] * d(GAIN_REHAB[ecl,ecl2])/GAIN_REHAB[ecl,ecl2]{-1})   if U_REHAB[ecl,ecl2] <> 0
+
+# Remplace specification précédente. Specification non homogène: changer l'unité monétaire change les résultats!! D'où *6000 dans la V2? De plus pourquoi un retard? A discuter avec Gaël et Aurélien!  
+# d(U_REHAB[ecl,ecl2]) = (@year>%baseyear) * (RHO_U_GAIN[ecl,ecl2] * d(GAIN_REHAB[ecl,ecl2]{-1}))   if U_REHAB[ecl,ecl2] <> 0
+
+
+
 ## This utility is a function of the gain from the rehabilitation. For convinience it is calibrated as equal to phi_REHAB[ecl,ecl2] at the base year. \\
 
 ##! Exponential sum of the utility from rehabilitating a $ecl$ to a $ecl2$ class building 
