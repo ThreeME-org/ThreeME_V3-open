@@ -15,19 +15,26 @@ PCH[ceb] := P
 
 PCH[CCON]:= P
 
-CH[ceb] := 3000 * (1 + GR_REAL) ^ (@year - %baseyear)
+CH[ccoa] := 65 * (1 + GR_REAL) ^ (@year - %baseyear)
+CH[cfue] := 43742 * (1 + GR_REAL) ^ (@year - %baseyear)
+CH[cgas] := 10467 * (1 + GR_REAL) ^ (@year - %baseyear)
+CH[cele] := 17844 * (1 + GR_REAL) ^ (@year - %baseyear)
+CH[chea] := 100 * (1 + GR_REAL) ^ (@year - %baseyear)
 
-POP := 1000 * (1 + GR_POP) ^ (@year - %baseyear)
 
-DISPINC_AT_VAL := 1000000 * (1 + GR_NOMI) ^ (@year - %baseyear)
+    
+
+POP := 63186 * (1 + GR_POP) ^ (@year - %baseyear)
+
+DISPINC_AT_VAL := 1159382 * (1 + GR_NOMI) ^ (@year - %baseyear)
 
 PCH := P
 
 ### END TO BE COMMENTED when linked with the full model
 
 # Share of household's energy consumption used by buildings
-NCH_BUIL[ccoa] := CH[ccoa] * 0.3
-NCH_BUIL[cfue] := CH[cfue] * 0.8
+NCH_BUIL[ccoa] := CH[ccoa] * 0.5
+NCH_BUIL[cfue] := CH[cfue] * 0.2
 NCH_BUIL[cgas] := CH[cgas] * 0.95
 NCH_BUIL[cele] := CH[cele] * 0.8
 NCH_BUIL[chea] := CH[chea] * 1.0
