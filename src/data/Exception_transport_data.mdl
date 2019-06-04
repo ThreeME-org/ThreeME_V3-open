@@ -9,9 +9,16 @@ include parameters
 ### TO BE COMMENTED when linked with the full model
 P 		 :=  1 * (1 + GR_PRICES) ^ (@year - %baseyear)
 
-CH[cele] := 1000 * (1 + GR_REAL) ^ (@year - %baseyear)
-CH[cgas] := 1000 * (1 + GR_REAL) ^ (@year - %baseyear)
-CH[coil] := 1000 * (1 + GR_REAL) ^ (@year - %baseyear)
+CH[crai] := 4179 * (1 + GR_REAL) ^ (@year - %baseyear)
+CH[croa] := 9238 * (1 + GR_REAL) ^ (@year - %baseyear)
+CH[cair] := 7336 * (1 + GR_REAL) ^ (@year - %baseyear)
+  
+
+
+
+CH[cele] := 17844 * (1 + GR_REAL) ^ (@year - %baseyear)
+CH[cgas] := 10467 * (1 + GR_REAL) ^ (@year - %baseyear)
+CH[coil] := 43742 * (1 + GR_REAL) ^ (@year - %baseyear)
 
 PCH[cair] := P
 PCH[crai] := P
@@ -30,22 +37,27 @@ P_km_trav_auto_LD := P
 P_km_traveler[croa] := P 
 P_km_trav_auto_SD := P 
 
+PnewAUTO := P 
+
 ### END TO BE DELETED when endogenized
 
-# Share of household's energy consumption used by buildings
+
 NCH_AUTO[cele] := CH[cele] * 0.01
 NCH_AUTO[coil] := CH[coil] * 0.8
 NCH_AUTO[cgas] := CH[cgas] * 0.05
 
+NCH[cth] := CH[cth] * 1.0
+
+NCH[cveh] := @elem(PnewAUTO*NewAUTO,%baseyear) * (1 + GR_REAL) ^ (@year - %baseyear) 
 
 
 #######################################
 #####  Round 0: load primary date for transport block
 ###################################### 
 
-CH_AUTO[cele] := NCH_AUTO[cele]
-CH_AUTO[coil] := NCH_AUTO[coil] 
-CH_AUTO[cgas] := NCH_AUTO[cgas]
+CH_AUTO[cele] := @elem(NCH_AUTO[cele],%baseyear)
+CH_AUTO[coil] := @elem(NCH_AUTO[coil],%baseyear) 
+CH_AUTO[cgas] := @elem(NCH_AUTO[cgas],%baseyear)
 
 
 AUTO_elec[ecl]  := TRANSPORT(10, $ecl)

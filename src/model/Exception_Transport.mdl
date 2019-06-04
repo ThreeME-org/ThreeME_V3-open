@@ -7,20 +7,21 @@ include ..\model\lists
 
 #### Link with the rest of the model
 
+# ##! Necessary (minimum) households' final consumption for energy commodity $cea$ consumed by automobiles
+d(log(NCH_AUTO[cea])) = (@year>%baseyear) * (d(log(CH_AUTO[cea]))) + (@year<=%baseyear) * (d(log(NCH_AUTO[cea]{-1}))) 
+
+
+##! Necessary (minimum) households' final consumption for public transport commodities $cth$
+d(log(NCH[cth])) = (@year>%baseyear) * (d(log(Km_traveler[cth]))) + (@year<=%baseyear) * (d(log(NCH[cth]{-1})))  if Km_traveler[cth] <> 0 
+
+# ##! Necessary (minimum) households' final consumption for vehicles commodity $cveh$
+NCH[cveh] = ( @year > %baseyear ) * @elem(PnewAUTO,%baseyear) * NewAUTO + ( @year <= %baseyear ) * (NCH[cveh]{-1} * ( 1 + GR_REAL ) )
+
+
+
 ##! Price of long distance transport (by automobile and train)  
 d(log(P_km_traveler[crai])) = d(log(PCH[crai])) 
 d(log(P_km_traveler[croa])) = d(log(PCH[croa]))
-
-
-# ##! Necessary (minimum) households' final consumption for transport commodities $ct$
-# d(log(NCH[ct])) = (@year>%baseyear) * (d(log(Km_traveler[ct]))) + (@year<=%baseyear) * (d(log(NCH[ct]{-1})))  if Km_traveler[ct] <> 0 
-
-# ##! Necessary (minimum) households' final consumption for vehicles commodity $cveh$
-# NCH[cveh] = ( @year > %baseyear ) * ( @elem(PnewAUTO,%baseyear) * NewAUTO +  CH_OTH[CVEH]) + ( @year <= %baseyear ) * (NCH[cveh]{-1} * ( 1 + GR_REAL ) )
-
-# ##! Household consumption of other vehicules commodities
-# # d(log( CH_OTH[CVEH] * PCH[CVEH] ) ) = ( @year > %baseyear ) * d( log( CH_n_VAL ) )
-# ## This variable corresponds to the gap between the aggregate consumption of vehicules and the consumption related to the new vehicules. \\
 
 
 
