@@ -7,13 +7,11 @@ library(stringr)
 # 
 # First evaluate the whole file (Run)
 # Then, example use:
-# teXdoc(c("SU.mdl", "producer.mdl", "prices.mdl", "consumer.mdl", "adjustments.mdl"))
-# teXdoc(c("SU.mdl", "producer.mdl", "prices.mdl", "consumer.mdl", "government.mdl",  "Trade_inter.mdl", "demography.mdl", "ghg_emissions.mdl", "adjustments.mdl"),"ThreeMEv3_eqs_01")
-# teXdoc(c("Intro_doc_eqs.mdl","SU.mdl"),"ThreeMEv3_eqs_01")
-# teXdoc(c("Intro_doc_eqs.mdl","SU.mdl", "prices.mdl", "producer.mdl", "consumer.mdl", "government.mdl",  "Trade_inter.mdl", "demography.mdl", "ghg_emissions.mdl", "adjustments.mdl"),"ThreeMEv3_eqs_04")
-# teXdoc(c("ETS.mdl"),"ThreeMEv3_ETS")
-# teXdoc(c("Intro_doc_eqs.mdl","SU.mdl", "prices.mdl", "producer.mdl", "consumer.mdl", "government.mdl",  "Trade_inter.mdl", "demography.mdl", "ghg_emissions.mdl", "adjustments.mdl", "Exception_taxes_prices.mdl"),"ThreeMEv3_eqs_05")
+# teXdoc(c("SU.mdl", "adjustments.mdl"), exo = c("exogenous.mdl"), out = "ThreeMEv3_eqs_01")
+# teXdoc(c("Intro_doc_eqs.mdl","SU.mdl", "prices.mdl", "producer.mdl", "consumer.mdl", "government.mdl",  "Trade_inter.mdl", "demography.mdl", "ghg_emissions.mdl", "adjustments.mdl", "Exception_taxes_prices.mdl", "ETS.mdl"), exo = c("exogenous.mdl"), out = "ThreeMEv3_eqs_02")
 
+# "out =" can ommited.
+# If ' out = "outputfilename" ' is ommited, the output files will be "doc.tex", doc.pdf, etc.  
 
 rm(list = ls())
 
@@ -172,7 +170,7 @@ peg <- peg %>%
 
 
 nameSplit <- function(s) {
-  if (str_detect(s, "_")) {
+  if ((s != "t_0") & str_detect(s, "_")) {
     chunks <- s %>% str_split("_") %>% unlist
     str_c(chunks[1], "^{", str_c(tail(chunks, -1), collapse = ","), "}")
   } else {
@@ -200,6 +198,11 @@ latex <- list(
       # Bis and ter must appear as exponents
       str_replace("bis$", "_bis") %>%
       str_replace("ter$", "_ter") %>%
+      # Time-related identifiers
+      str_replace("@year", "t") %>%
+      str_replace("%baseyear", "t_0") %>%
+      # Escape % if still present
+      str_replace("%", "\\\\%") %>%
       # If underscores in name, split to exponent
       nameSplit()
   },
@@ -224,12 +227,19 @@ latex <- list(
     } else if (name == "@elem") {
       if (str_detect(.args[[1]], ", t-1\\}")) {
         str_replace(.args[[1]], ", t-1\\}", ", t_{0}-1}")
+      } else if (.args[[2]] == "t_0") {
+        # UGLY: In case the variable already has indices
+        if (str_sub(.args[[1]], -1, -1) == "}") {
+          str_c(str_sub(.args[[1]], 1, -2), ", t_0}")
+        } else {
+          str_c(.args[[1]], "_{t_0}")
+        }
       } else {
         str_replace(.args[[1]], "\\}$", ", t_{0}}")
       }
     } else {
       str_c("\\operatorname{", name, "} ", 
-            ifelse(str_detect("args", "\\+|-|\\*|/"), 
+            ifelse(str_detect(.args, " \\+ | - | \\* | / | \\. |\\\\;"), 
                    str_c("\\left(", .args, "\\right)"),
                    .args))
     }
@@ -251,7 +261,7 @@ latex <- list(
       str_c(e1, " ", ifelse(op == "*", "\\;", op), " ", e2)
     }
   },
-  dynEq  = function(lhs, rhs) str_c("\\begin{dmath}\n", lhs, " = ", rhs, "\n\\label{", currentFile, currentVar, "}\n\\end{dmath}")
+  dynEq  = function(lhs, rhs) str_c("\\repeatable{", currentFile, currentVar,"}{", lhs, " = ", rhs, "}\n")
 )
 
 custom <- latex
@@ -262,7 +272,9 @@ custom <- latex
 currentFile <- ""
 currentVar  <- ""
 
-texHeader <- "\\documentclass[12pt]{article}
+texHeader <- "\\ifx\\fulldoc\\undefined
+
+\\documentclass[12pt]{article}
 \\usepackage{amsmath}
 \\usepackage{breqn}
 \\numberwithin{equation}{section}
@@ -271,11 +283,30 @@ texHeader <- "\\documentclass[12pt]{article}
 \\usepackage{array}
 \\usepackage{ragged2e}
 
+\\makeatletter
+\\newcommand{\\repeatable}[2]{
+\\begin{dmath}
+\\label{#1}\\global\\@namedef{repeatable@#1}{#2}#2
+\\end{dmath}
+}
+\\newcommand{\\eqrepeat}[1]{%
+\\@ifundefined{repeatable@#1}{NOT FOUND}{
+\\begin{dmath}[number=\\ref{#1}]
+\\@nameuse{repeatable@#1}
+\\end{dmath}
+}
+}
+\\makeatother
+
 \\begin{document}
+
+\\fi
 "
 
 texFooter <- "
-\\end{document}"
+\\ifx\\fulldoc\\undefined
+\\end{document}
+\\fi"
 
 writeFile <- function(s, filename) {
   fileConn <- file(filename)
@@ -310,7 +341,10 @@ toTeX <- function(eq) {
   eq <- str_replace(eq, " where f in %list_F \\\\ K", "")
   
   code <- peg %>% apply_rule("Equation", eq, exe = T) %>% value %>% parse(text = .)
-  eval(code, latex)
+  eval(code, latex) %>%
+    # Brutal regex to get rid of the initialisation-specific code (t <= t0)
+    str_replace(" *(.*) *= *\\\\left\\( *t > t_0 *\\\\right\\) *\\. *\\\\left\\( *(.*) *\\\\right\\) *\\+.*",
+                "\\1 = \\2")
 }
 
 glossaryTeX <- function(glossary) {

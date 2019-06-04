@@ -43,3 +43,8 @@ INC_G_VAL = PNTAXC * NTAXC + NTAXS_VAL + INC_SOC_TAX_VAL + PRSC * RSC + PROP_INC
 
 ##! Employers' social security contribution paid by sector $s$
 RSC[s] * PRSC[s] = W[s] * F[L, s] * RRSC[s] - ETS_VAL[s]
+
+
+##! Necessary (minimum) households' final consumption for construction commodity $ccon$
+NCH[ccon] = ( @year > %baseyear ) * ( @elem(PNewBUIL,%baseyear) * NewBUIL + @elem(PREHAB,%baseyear) * REHAB +  CH_OTH[CCON]) + ( @year <= %baseyear ) * (NCH[ccon]{-1} * ( 1 + GR_REAL ) )
+
