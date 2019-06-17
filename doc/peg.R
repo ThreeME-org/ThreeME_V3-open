@@ -358,9 +358,24 @@ glossaryTeX <- function(glossary) {
         "\n\\end{longtable}")
 }
 
+stitchLines <- function(lines) {
+  stitched <- c()
+  to.stitch <- FALSE
+  for (l in lines) {
+    l <- str_trim(l)
+    if (to.stitch) {
+      stitched[length(stitched)] <- str_c(stitched[length(stitched)] %>% str_sub(1, -2), l)
+    } else {
+      stitched <- c(stitched, l)
+    }
+    to.stitch <- str_detect(l, " _$")
+  }
+  stitched
+}
+
 readFile <- function(filename) {
   fileConn <- file(filename)
-  lines <- readLines(fileConn)
+  lines <- readLines(fileConn) %>% stitchLines
   close(fileConn)
   lines
 }
