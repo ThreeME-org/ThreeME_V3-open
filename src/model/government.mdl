@@ -65,7 +65,7 @@ RRSC 			 = 		 (PRSC 	* RSC) / (W * F[L])
 PROP_INC_G_VAL_n  = phi_PROP_INC_G * PNOS * NOS + (PNOS * NOS <= 0.00001 ) * (0.00001 - phi_PROP_INC_G * PNOS * NOS)
 
 ##! Aggregate incomes of the Government expressed in value
-INC_G_VAL 			  = PNTAXC * NTAXC + NTAXS_VAL + INC_SOC_TAX_VAL + PRSC * RSC + PROP_INC_G_VAL
+INC_G_VAL 			  = PNTAXC * NTAXC + NTAXS_VAL + INC_SOC_TAX_VAL + PRSC * RSC + PROP_INC_G_VAL - T2VAL_CH - T2VAL_SEC
 
 #### Spendings
 
