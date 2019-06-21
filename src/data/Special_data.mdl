@@ -29,6 +29,8 @@ PARTR := LF/WAPop
 # Tax rate for the Employers' social security contribution paid by sector s
 RRSC[s] := RSC[s] * PRSC[s] / (W[s] * F[L, s] + eps)
 
+RRSC_ef[s] :=  RSC[s] * PRSC[s] / (W[s] * F[L,s] + eps)
+
 
 # Import share of commodity c for margins supplied, private and public consumption, investment and exports
 phi_|V|M[c] := |V|M[c] / (|V|[c] + eps) where V in CH G X
@@ -76,7 +78,7 @@ ES_act_|V|M[m] := ES_|V|M[m] where V in MGS
 ES_act[f, ff, s] := ES[f, ff, s]
 
 # Non margin commodities set at 0
-MGS[c]	:= 0 where c in %list_com \ %list_com_MARG 
+MGS[c]	:= 0 where c in %list_com \ %list_com_MARG
 
 # Expected and nominal variables are initialised to their real value
 |V|_n[s] := |V|[s] where V in IA W MARKUP
@@ -230,3 +232,8 @@ YQ[c] := sum(Y[c, s] on s)
 # As explained, these can not be the eq of the model (otherwise incorrect price)
 YQS[c] := YQ[c] + NTAXCD[c] + MGPD[c]
 MS[c] := M[c] + NTAXCM[c] + MGPM[c]
+
+# Dummy variables in order to decide which way the carbon tax is redistributed to sector (lump-sum or employers' social cotisation rate)
+
+REDIS_CT_LS := 0
+REDIS_CT_RRSC := 1

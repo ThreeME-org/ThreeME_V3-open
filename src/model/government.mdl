@@ -31,7 +31,7 @@ NTAXS_VAL[s] 	 = 			 RNTAXS[s]	* PY[s]	    * Y[s] + T2VAL_MAT[s] + T2VAL_Y[s]
 NTAXS[s] 		   = @elem(RNTAXS[s], %baseyear)  * Y[s] + T2_MAT[s] + T2_Y[s]
 
 ##! Employers' social security contribution paid by sector $s$
-RSC[s] * PRSC[s] = W[s] * F[L, s] * RRSC[s]
+RSC[s] * PRSC[s] = W[s] * F[L, s] * RRSC[s] - T2VAL_SEC * F[L,s]/F[L] * REDIS_CT_RRSC
 
 ##! Price of the employers' social security contribution paid by sector $s$
 		  		PRSC[s] = P
@@ -58,6 +58,8 @@ PRSC * RSC = sum(PRSC[s] * RSC[s] on s)
 
 ##! Average employers' social security contribution rate
 RRSC 			 = 		 (PRSC 	* RSC) / (W * F[L])
+
+RRSC_ef[s] =     RSC[s] * PRSC[s] / (W[s] * F[L,s])
 
 ### Other and aggregate incomes
 
