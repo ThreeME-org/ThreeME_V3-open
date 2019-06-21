@@ -132,13 +132,13 @@ PYQS[c] * YQS[c] = PYQ[c] * YQ[c] + PMGPD[c] * MGPD[c] + NTAXCD_VAL[c]      if Y
 ## $YQS_{c}$ is the volume of the production expressed at market price. It should not be seen as a composite of several "goods": production at base price, margins and taxes. Its does not increase when the volume of the margins and taxes increase. The price does instead. This is equivalent to assuming that $YQS_{c}$ is always proportionnal to and $YQ_{c}$ since the volume of margins and taxes depends on the latter. Writing it following the specification composite of several goods, $YQS_{c} = YQ_{c} + MGPD_{c} + NTAXCD_{c}$, would lead to inacurate results since a decrease in the quantity of margins used per unit of production would not lead to a decrease of the selling price. \\
 
 ##! Production of commodity $c$, expressed at market price
-d(log(YQS[c]))   =    d(log(YQ[c]))	                                        if YQS[c]      <> 0
+YQS[c] = YQ[c] + MGPD[c] + NTAXCD[c]								        if YQS[c]      <> 0
 
 ##! Price of imported commodity $c$, expressed at market price
 PMS[c]  * MS[c]  = PM[c]  * M[c]  + NTAXCM_VAL[c]    + PMGPM[c] * MGPM[c]   if MS[c]       <> 0
 
 ##! Imports of commodity $c$, expressed at market price
-d(log(MS[c]))    =    d(log(M[c]))                                          if MS[c]       <> 0
+MS[c]  = M[c]  + NTAXCM[c]    + MGPM[c]										if MS[c]       <> 0
 
 ##! Market price of the margins paid to commodity $m$ on domestically produced commodity $c$
 PMGPD[m, c] * MGS[m] = PMGSD[m] * MGSD[m] + PMGSM[m] * MGSM[m]        if MGPD[m, c] <> 0

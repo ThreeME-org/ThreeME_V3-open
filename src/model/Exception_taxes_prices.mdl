@@ -219,7 +219,7 @@ PSUBCM[c]  *  SUBCM[c] =       RSUBCM[c]              * M[c]                    
 PYQSBVAT[c] * YQSBVAT[c] = PYQ[c] * YQ[c] + POTHCTD[c] * OTHCTD[c] + PSUBCD[c] * SUBCD[c] + PMGPD[c] * MGPD[c] if YQSBVAT[c] <> 0
 
 ##! Production of commodity $c$ expressed at market price before VAT
-d(log(YQSBVAT[c])) = d(log(YQ[c]))	                                                                           if YQSBVAT[c] <> 0
+YQSBVAT[c] = YQ[c] + OTHCTD[c] + SUBCD[c] + MGPD[c] 														   if YQSBVAT[c] <> 0
 
 ## $YQSBVAT_{c}$ is the volume of the production expressed at market price before VAT. It should \textbf{\underline{not}} be seen as a composite of several "goods": production at basic price, margins and taxes. Indeed, it does not increase when the volume of the commercial and transport margins increase. The price does instead. Consequently, $YQSBVAT_{c}$ is always proportional to $YQ_{c}$. Notice the consistency with the specification of the volume of a tax or a subvention: the tax rate does not increase the volume of the tax but increases its price. The volume of the tax increases only when the volume of the tax base (e.g. consumption, production) increases. \\
 
@@ -227,7 +227,7 @@ d(log(YQSBVAT[c])) = d(log(YQ[c]))	                                             
 PMSBVAT[c]  * MSBVAT[c]  = PM[c]  * M[c]  + POTHCTM[c] * OTHCTM[c] + PSUBCM[c] * SUBCM[c] + PMGPM[c] * MGPM[c] if MSBVAT[c]  <> 0
 
 ##! Imports of commodity $c$ expressed at market price before VAT
-d(log(MSBVAT[c] )) = d(log(M[c] ))                                                                             if MSBVAT[c]  <> 0
+MSBVAT[c]  = M[c]  + OTHCTM[c] + SUBCM[c] + MGPM[c] 														   if MSBVAT[c]  <> 0
 
 ##! Market price of margins supplied by domestically produced commodity $c$
 @over PMGSD[c]   = PYQSBVAT[c]                                                     if MGSD[c]   <> 0
