@@ -29,8 +29,6 @@ PARTR := LF/WAPop
 # Tax rate for the Employers' social security contribution paid by sector s
 RRSC[s] := RSC[s] * PRSC[s] / (W[s] * F[L, s] + eps)
 
-RRSC_ef[s] :=  RSC[s] * PRSC[s] / (W[s] * F[L,s] + eps)
-
 
 # Import share of commodity c for margins supplied, private and public consumption, investment and exports
 phi_|V|M[c] := |V|M[c] / (|V|[c] + eps) where V in CH G X
@@ -235,5 +233,5 @@ MS[c] := M[c] + NTAXCM[c] + MGPM[c]
 
 # Dummy variables in order to decide which way the carbon tax is redistributed to sector (lump-sum or employers' social cotisation rate)
 
-REDIS_CT_LS := 0
-REDIS_CT_RRSC := 1
+REDIS_CT_LS := 1
+REDIS_CT_RRSC := 1 - REDIS_CT_LS
