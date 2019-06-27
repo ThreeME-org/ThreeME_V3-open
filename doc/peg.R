@@ -261,7 +261,13 @@ latex <- list(
       str_c(e1, " ", ifelse(op == "*", "\\;", op), " ", e2)
     }
   },
-  dynEq  = function(lhs, rhs) str_c("\\repeatable{", currentFile, currentVar,"}{", lhs, " = ", rhs, "}\n")
+  dynEq  = function(lhs, rhs) {
+    eq <- str_c(lhs, " = ", rhs) %>%
+      # Brutal regex to get rid of the initialisation-specific code (t <= t0)
+      str_replace(" *(.*) *= *\\\\left\\( *t > t_0 *\\\\right\\) *\\. *\\\\left\\( *(.*) *\\\\right\\) *\\+.*",
+                  "\\1 = \\2")
+    str_c("\\repeatablebody{", currentFile, currentVar,"}{", eq, "}\n")
+  } 
 )
 
 custom <- latex
@@ -272,36 +278,44 @@ custom <- latex
 currentFile <- ""
 currentVar  <- ""
 
-texHeader <- "\\ifx\\fulldoc\\undefined
+texHeader <- function(out){
+  str_c("\\ifx\\fulldoc\\undefined
 
-\\documentclass[12pt]{article}
-\\usepackage{amsmath}
-\\usepackage{breqn}
-\\numberwithin{equation}{section}
-\\usepackage{longtable}
-\\usepackage{booktabs}
-\\usepackage{array}
-\\usepackage{ragged2e}
-
-\\makeatletter
-\\newcommand{\\repeatable}[2]{
-\\begin{dmath}
-\\label{#1}\\global\\@namedef{repeatable@#1}{#2}#2
-\\end{dmath}
+  \\documentclass[12pt]{article}
+  \\usepackage{amsmath}
+  \\usepackage{breqn}
+  \\numberwithin{equation}{section}
+  \\usepackage{longtable}
+  \\usepackage{booktabs}
+  \\usepackage{array}
+  \\usepackage{ragged2e}
+  \\usepackage{import}
+  
+  \\makeatletter
+  \\newcommand{\\repeatablebody}[2]{
+  \\global\\@namedef{repeatable@#1}{#2}
+  }
+  \\newcommand{\\repeatable}[1]{
+  \\begin{dmath}
+  \\label{#1} \\@nameuse{repeatable@#1}
+  \\end{dmath}
+  }
+  \\newcommand{\\eqrepeat}[1]{%
+  \\@ifundefined{repeatable@#1}{NOT FOUND}{
+  \\begin{dmath}[number=\\ref{#1}]
+  \\@nameuse{repeatable@#1}
+  \\end{dmath}
+  }
+  }
+  \\makeatother
+  
+  \\begin{document}
+  ",
+  "\\import{./}{", out, "_preface.tex}",
+  "
+  \\fi
+  ")
 }
-\\newcommand{\\eqrepeat}[1]{%
-\\@ifundefined{repeatable@#1}{NOT FOUND}{
-\\begin{dmath}[number=\\ref{#1}]
-\\@nameuse{repeatable@#1}
-\\end{dmath}
-}
-}
-\\makeatother
-
-\\begin{document}
-
-\\fi
-"
 
 texFooter <- "
 \\ifx\\fulldoc\\undefined
@@ -341,10 +355,7 @@ toTeX <- function(eq) {
   eq <- str_replace(eq, " where f in %list_F \\\\ K", "")
   
   code <- peg %>% apply_rule("Equation", eq, exe = T) %>% value %>% parse(text = .)
-  eval(code, latex) %>%
-    # Brutal regex to get rid of the initialisation-specific code (t <= t0)
-    str_replace(" *(.*) *= *\\\\left\\( *t > t_0 *\\\\right\\) *\\. *\\\\left\\( *(.*) *\\\\right\\) *\\+.*",
-                "\\1 = \\2")
+  eval(code, latex)
 }
 
 glossaryTeX <- function(glossary) {
@@ -358,9 +369,24 @@ glossaryTeX <- function(glossary) {
         "\n\\end{longtable}")
 }
 
+stitchLines <- function(lines) {
+  stitched <- c()
+  to.stitch <- FALSE
+  for (l in lines) {
+    l <- str_trim(l)
+    if (to.stitch) {
+      stitched[length(stitched)] <- str_c(stitched[length(stitched)] %>% str_sub(1, -2), l)
+    } else {
+      stitched <- c(stitched, l)
+    }
+    to.stitch <- str_detect(l, " _$")
+  }
+  stitched
+}
+
 readFile <- function(filename) {
   fileConn <- file(filename)
-  lines <- readLines(fileConn)
+  lines <- readLines(fileConn) %>% stitchLines
   close(fileConn)
   lines
 }
@@ -423,8 +449,14 @@ codeToTeX <- function(filename, is.exo = FALSE) {
         # In exogenous files, non-comment lines only provide the naked variable name
         str_c("\\noindent ", exoVariableTeX(l), " -- ", exo.buffer)
       } else {
-        # In regular files, need to compile a whole equation
-        toTeX(l)
+        # In regular files, need to compile a whole equation,
+        # which we store in the preface as a macro
+        out$preface <- str_c(out$preface, toTeX(l), "\n")
+        
+        # In the body of the document, the equation is inserted using \repeatable{EquationId}.
+        # The use of \repeatable defines the canonical location of the equation, and thus its label.
+        # Previous or future uses of eqrepeat in the document will refer to that location.
+        str_c("\\repeatable{", currentFile, currentVar,"}\n")
       }
     }
     out$code <- str_c(out$code, "\n", processed)
@@ -432,8 +464,9 @@ codeToTeX <- function(filename, is.exo = FALSE) {
   }, ., list(code = "", glossary = list()))
 }
 
-exportLateX <- function(filename, teXcode) {
-  writeFile(str_c(texHeader, teXcode, texFooter), filename)
+exportLateX <- function(out, teXcode) {
+  filename <- str_c(out, ".tex")
+  writeFile(str_c(texHeader(out), teXcode, texFooter), filename)
   texi2pdf(filename)
 }
 
@@ -475,6 +508,7 @@ teXdoc <- function(sources, out = "doc", exo = c()) {
   
   compiled <- Reduce(function(out, f) {
     processed <- codeToTeX(str_c(base.path, f), is.exo = (f %in% exo))
+    out$preface <- str_c(out$preface, processed$preface)
     out$code <- str_c(out$code, 
                       ifelse((!first.exo) & (f %in% exo), "\\newpage\\section{Exogenous variables}\n", ""),
                       processed$code)
@@ -484,7 +518,7 @@ teXdoc <- function(sources, out = "doc", exo = c()) {
     out
   }, 
   c(sources, exo), 
-  list(code = "", glossary = list()))
+  list(preface = "", code = "", glossary = list()))
   
   # exo.compiled <- Reduce(function(out, f) {
   #     processed <- codeToTeX(f, is.exo = TRUE)
@@ -495,7 +529,12 @@ teXdoc <- function(sources, out = "doc", exo = c()) {
   
   saved.compiled <<- compiled
   compiled$glossary$.dict <- NULL
-  exportLateX(str_c(out, ".tex"), 
+  
+  # Export the preface
+  writeFile(compiled$preface, str_c(out, "_preface.tex"))
+  
+  # Export the main document
+  exportLateX(out, 
               str_c(compiled$code, "\n",
                     #exo.compiled, "\n",
                     glossaryTeX(compiled$glossary)))
