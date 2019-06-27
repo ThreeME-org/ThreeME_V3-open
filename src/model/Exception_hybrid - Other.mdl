@@ -1,17 +1,6 @@
 include ..\model\lists
 
   
-
-
-    
-    # Exception for the households block
-    
-  
-  # -----------------------------------------------Households expenditures --------------------------------
-  # equation H.4.139
-  
-  @over d(log(NEXP[co])) = (@year >  %baseyear) * d(log(Pop_TOT)) + (@year <=  %baseyear) * log( 1 + GR_REAL)  where co in 01
-  
   
 ##################################################################################################################################
 ##################################################################################################################################
@@ -105,16 +94,6 @@ EXP_MOB_OTH_Val = sum(PEXP[trsp] * EXP[trsp] on trsp in %list_trsp_travel)
 
 EXP_MOB_Val = EXP_MOBAuto_Val + EXP_MOB_OTH_Val + EXP_03_OTH_VAL
 
-
- # Modal shift in transportation
- ## modal_shift_freight * (1 + 1/4)????
- ### NE PAS INCLURE DANS V3
-@over d(log(MAT[16, s])) = d(log(MAT[s])) + d(SUBST_MAT[16, s]) + log(1 -  modal_shift_freight * (1 + 1/4) * MAT[16, s]{-1} / MAT[16, s]{-1}) if MAT[16, s] <> 0
-
-@over d(log(MAT[14, s])) = d(log(MAT[s])) + d(SUBST_MAT[14, s]) + log(1 +  modal_shift_freight             * MAT[16, s]{-1} / MAT[14, s]{-1}) if MAT[14, s] <> 0
-
-@over d(log(MAT[17, s])) = d(log(MAT[s])) + d(SUBST_MAT[17, s]) + log(1 + (modal_shift_freight / 4)        * MAT[16, s]{-1} / MAT[17, s]{-1}) if MAT[17, s] <> 0
- 
 
 
 # Subventions automobile ( Bonus-malus auto + bonus elec)
@@ -246,6 +225,30 @@ U_auto_th * @elem(NewAUTO_th,%baseyear) = sum(U_auto_th[ecl] * @elem(NewAUTO_th[
 ##################################################################################################################################
 ##################################################################################################################################
 ##################################################################################################################################
+
+
+ # Modal shift in transportation
+ ## modal_shift_freight * (1 + 1/4)????
+ ### NE PAS INCLURE DANS V3
+@over d(log(MAT[16, s])) = d(log(MAT[s])) + d(SUBST_MAT[16, s]) + log(1 -  modal_shift_freight * (1 + 1/4) * MAT[16, s]{-1} / MAT[16, s]{-1}) if MAT[16, s] <> 0
+
+@over d(log(MAT[14, s])) = d(log(MAT[s])) + d(SUBST_MAT[14, s]) + log(1 +  modal_shift_freight             * MAT[16, s]{-1} / MAT[14, s]{-1}) if MAT[14, s] <> 0
+
+@over d(log(MAT[17, s])) = d(log(MAT[s])) + d(SUBST_MAT[17, s]) + log(1 + (modal_shift_freight / 4)        * MAT[16, s]{-1} / MAT[17, s]{-1}) if MAT[17, s] <> 0
+ 
+
+
+    
+    # Exception for the households block
+    
+  
+  # -----------------------------------------------Households expenditures --------------------------------
+  # equation H.4.139
+  
+  @over d(log(NEXP[co])) = (@year >  %baseyear) * d(log(Pop_TOT)) + (@year <=  %baseyear) * log( 1 + GR_REAL)  where co in 01
+  
+
+
 
 ## ------------------------ implicit price signal insertion  
 ### Should noe use the new more general specification!!!

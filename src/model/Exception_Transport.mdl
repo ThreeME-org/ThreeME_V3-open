@@ -10,20 +10,17 @@ include ..\model\lists
 # ##! Necessary (minimum) households' final consumption for energy commodity $cea$ consumed by automobiles
 d(log(NCH_AUTO[cea])) = (@year>%baseyear) * (d(log(CH_AUTO[cea]))) + (@year<=%baseyear) * (d(log(NCH_AUTO[cea]{-1}))) 
 
-
 ##! Necessary (minimum) households' final consumption for public transport commodities $cth$
 d(log(NCH[cth])) = (@year>%baseyear) * (d(log(Km_traveler[cth]))) + (@year<=%baseyear) * (d(log(NCH[cth]{-1})))  if Km_traveler[cth] <> 0 
 
 # ##! Necessary (minimum) households' final consumption for vehicles commodity $cveh$
 NCH[cveh] = ( @year > %baseyear ) * @elem(PnewAUTO,%baseyear) * NewAUTO + ( @year <= %baseyear ) * (NCH[cveh]{-1} * ( 1 + GR_REAL ) )
 
+##! Price of (long) distance transport by train  
+d(log(P_km_traveler[crai])) = d(log(PCH[crai]))
 
-
-##! Price of long distance transport (by automobile and train)  
-d(log(P_km_traveler[crai])) = d(log(PCH[crai])) 
+##! Price of (short) distance transport by road
 d(log(P_km_traveler[croa])) = d(log(PCH[croa]))
-
-
 
 #### Arbitrage between transport modes 
 ## The arbitrage between transport modes is defined in 5 level. Level 1 determine the evolution of air, long and short distance transport. In level 2, the consummer may substitutie bewteen long distance transport types (automobile and train) and short distance transport types (automobile and bus). Level 3 defines the arbitrage between electric and thermic automobile whereas level 4 defines the arbitrage between automobile class. In level 5, substitution between types of thermic automobiles may be introduced. \\
@@ -50,7 +47,6 @@ P_km_traveler_SD * km_traveler_SD = P_km_traveler[croa] * km_traveler[croa] + P_
 
 # Replace the previous approximation below:
 # d(log(P_km_traveler_SD)) = (km_traveler[croa]{-1} * d(log(PCH[croa])) + km_trav_auto_SD{-1} * d(log(PCH_auto_SD))) / (km_traveler[croa]{-1} + km_trav_auto_SD{-1})
-
 
 ### Level 2: Arbitrage between long distance transport (automobile and train)
  
@@ -87,7 +83,6 @@ d(log(km_auto_SD)) = (@year > %baseyear) * (d(log(km_trav_auto_SD)) - d(log(trav
 ##! Total kilometers by automobile 
 km_auto = km_auto_LD + km_auto_SD
 
-
 ##! Automobiles stock
 d(log(AUTO)) = (@year > %baseyear) * (d(log(Km_auto)) - d(log(kmPerAuto))) 
 
@@ -105,26 +100,71 @@ NewAUTO_elec = NewAUTO*share_elec
 ##! New thermic automobiles
 NewAUTO_th = NewAUTO - NewAUTO_elec
 
+##! Share of new electric automobiles
+d(share_elec) = 0
+## A EXPLICITER
 
-### Level 4: Arbitrage between automobile class 
+
+
+
+
+### Level 4: Arbitrage between electric automobile classes 
 
 ##! New electric automobiles of class $ecl$
 NewAUTO_elec[ecl] = phi_NewAUTO_elec[ecl] * NewAUTO_elec
 ## Every class of electric car has no emission. But their energy consumption vary per km. \\  
 
+##! Share of new electric automobiles of class $ecl$
+d(phi_NewAUTO_elec[ecl]) = 0
+## A EXPLICITER
+
+
+
+
+
+### Level 4: Arbitrage between thermic automobile classes 
+
 ##! New thermic automobiles of class $ecl$
 NewAUTO_th[ecl] = phi_NewAUTO_th[ecl] * NewAUTO_th
 
+##! Share of new thermic automobiles of class $ecl$
+d(phi_NewAUTO_th[ecl]) = 0
+## A EXPLICITER
+
+
+
+
+
+
+
 ##! New thermic automobiles of class $ecl$ (for verification)
 NewAUTO_th_bis[ecl] = NewAUTO_th[ecl,coil] + NewAUTO_th[ecl,cgas]
+
+
+### Level 5: Arbitrage between types of thermic automobiles
+
+##! New thermic automobiles fueled with oil of class $ecl$
+NewAUTO_th[ecl,coil] = phi_NewAUTO_th[ecl,coil] * NewAUTO_th[ecl] if NewAUTO_th[ecl,coil]  <> 0
+
+##! New thermic automobiles fueled with gas of class $ecl$
+NewAUTO_th[ecl,cgas] = phi_NewAUTO_th[ecl,cgas] * NewAUTO_th[ecl] if NewAUTO_th[ecl,cgas]  <> 0
+
+##! Share of New thermic automobiles fueled with oil of class $ecl$
+d(phi_NewAUTO_th[ecl,coil]) = 0
+## For simplicity, the share of the different types of thermic automobiles is assumed constant. Arbitrage between types of thermic automobiles can be added by modifying the above equation. \\
+
+##! Share of New thermic automobiles fueled with gas of class $ecl$
+phi_NewAUTO_th[ecl,cgas] = 1 - phi_NewAUTO_th[ecl,coil]
+
+
+### Level 5: Stock of automobiles
 
 ##! Stock of class $ecl$ electric automobiles
 d(AUTO_elec[ecl]) = (@year>%baseyear)*(NewAUTO_elec[ecl] - AUTO_elec[ecl,DES])
 
 ##! Stock of class $ecl$ thermic automobiles
-#d(AUTO_th[ecl])   = (@year>%baseyear)*(NewAUTO_th[ecl]   - AUTO_th[ecl,DES]  )
 AUTO_th[ecl]  = AUTO_th[ecl,coil] + AUTO_th[ecl,cgas]
-
+# replace d(AUTO_th[ecl])   = (@year>%baseyear)*(NewAUTO_th[ecl]   - AUTO_th[ecl,DES]  )
 
 ##! Stock of class $ecl$ automobiles
 AUTO[ecl] = AUTO_elec[ecl] + AUTO_th[ecl]
@@ -133,23 +173,14 @@ AUTO[ecl] = AUTO_elec[ecl] + AUTO_th[ecl]
 AUTO_elec[ecl,DES] = delta_AUTO_elec[ecl,DES]*AUTO_elec[ecl]{-1}
 
 ##! Class $ecl$ thermic automobiles destroyed
-#AUTO_th[ecl,DES] = delta_AUTO_th[ecl,DES]*AUTO_th[ecl]{-1}
 AUTO_th[ecl,DES] = AUTO_th[ecl,coil,DES] + AUTO_th[ecl,cgas,DES] 
+# replace AUTO_th[ecl,DES] = delta_AUTO_th[ecl,DES]*AUTO_th[ecl]{-1}
 
 ##! Class $ecl$ automobiles destroyed
 AUTO[ecl,DES] = AUTO_elec[ecl,DES] + AUTO_th[ecl,DES]
 
 ##! Automobiles destroyed
 AUTO[DES] = sum(AUTO[ecl, DES] on ecl)
-
-
-### Level 5: Arbitrage between types of thermic automobiles
-##! New thermic automobiles fueled with oil of class $ecl$
-NewAUTO_th[ecl,coil] = phi_NewAUTO_th[ecl,coil] * NewAUTO_th[ecl] if NewAUTO_th[ecl,coil]  <> 0
-
-
-##! New thermic automobiles fueled with gas of class $ecl$
-NewAUTO_th[ecl,cgas] = phi_NewAUTO_th[ecl,cgas] * NewAUTO_th[ecl] if NewAUTO_th[ecl,cgas]  <> 0
 
 
 ##! Stock of class $ecl$ thermic automobiles fueled with oil 
@@ -164,14 +195,11 @@ d(AUTO_th[ecl,cgas])   = (@year>%baseyear)*(NewAUTO_th[ecl,cgas]   - AUTO_th[ecl
 ##! Class $ecl$ thermic automobiles fueled with gas destroyed
 AUTO_th[ecl,cgas,DES] = delta_AUTO[ecl,cgas,DES]*AUTO_th[ecl,cgas]{-1}
 
-### Aggregation of automobiles
-
 ##! Electric automobiles
 AUTO_elec = sum(AUTO_elec[ecl] on ecl)
 
 ##! Thermic automobiles
 AUTO_th = sum(AUTO_th[ecl] on ecl)
-
 
 ##! Electric automobiles destroyed
 AUTO_elec[DES] = sum(AUTO_elec[ecl, DES] on ecl)
@@ -208,14 +236,15 @@ CH_AUTO_toe[coil] = sum(CH_AUTO_toe[ecl,coil] on ecl)
 ##! Energy consumption of automobiles fueled with gas expressed in tonne of oil equivalent
 CH_AUTO_toe[cgas] = sum(CH_AUTO_toe[ecl,cgas] on ecl)
 
-##! Households' final consumption of electricity
+##! Households' final consumption of electricity (expressed in monetary unit)
 d(log(CH_AUTO[cele])) = d(log(CH_AUTO_toe[cele]))
 
-##! Households' final consumption of oil
+##! Households' final consumption of oil (expressed in monetary unit)
 d(log(CH_AUTO[coil])) = d(log(CH_AUTO_toe[coil]))
 
-##! Households' final consumption of gas
+##! Households' final consumption of gas (expressed in monetary unit)
 d(log(CH_AUTO[cgas])) = d(log(CH_AUTO_toe[cgas]))
+
 
 
 
