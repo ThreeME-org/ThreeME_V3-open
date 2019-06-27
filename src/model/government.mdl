@@ -67,7 +67,7 @@ RRSC_ef[s] =     RSC[s] * PRSC[s] / (W[s] * F[L,s])
 PROP_INC_G_VAL_n  = phi_PROP_INC_G * PNOS * NOS + (PNOS * NOS <= 0.00001 ) * (0.00001 - phi_PROP_INC_G * PNOS * NOS)
 
 ##! Aggregate incomes of the Government expressed in value
-INC_G_VAL 			  = PNTAXC * NTAXC + NTAXS_VAL + INC_SOC_TAX_VAL + PRSC * RSC + PROP_INC_G_VAL - T2VAL_CH - T2VAL_SEC
+INC_G_VAL 			  = PNTAXC * NTAXC + NTAXS_VAL + INC_SOC_TAX_VAL + PRSC * RSC + PROP_INC_G_VAL
 
 #### Spendings
 
@@ -75,7 +75,7 @@ INC_G_VAL 			  = PNTAXC * NTAXC + NTAXS_VAL + INC_SOC_TAX_VAL + PRSC * RSC + PRO
 d(log(G[c])) = d(log(EXPG)) if G[c] <> 0
 
 ##! Aggregate spendings of the Government expressed in value
-SPEND_G_VAL 		  = PG  * G  + SOC_BENF_VAL + DEBT_G_VAL{-1}*(Phi_RD_G{-1} + r_DEBT_G{-1})
+SPEND_G_VAL 		  = PG  * G  + SOC_BENF_VAL + DEBT_G_VAL{-1}*(Phi_RD_G{-1} + r_DEBT_G{-1}) + T2VAL_CH + T2VAL_SEC * REDIS_CT_LS
 
 #### Deficit and debt
 
