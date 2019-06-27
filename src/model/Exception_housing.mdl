@@ -79,26 +79,22 @@ BUIL[DES] = sum(DEP_BUIL[ecl,DES] if DEP_BUIL[ecl,DES] <> 0 on ecl)
 REHAB[ecl,ecl2] = (@year>%baseyear)*(phi_REHAB[ecl,ecl2]*tau_REHAB[ecl]*BUIL[ecl]{-1}) + _
                       (@year<=%baseyear)*REHAB[ecl,ecl2]{-1}  if REHAB[ecl,ecl2] <> 0
 
-
-
-# @Paul: A COMMENTER + enlever @pv
-
-##! Total of new buildings constructed (in volume)
+##! Total new buildings
             NEWBUIL = sum(                 NEWBUIL[ecl] if NEWBUIL[ecl] <> 0 on ecl )
 
-##! Total of new buildings constructed (in value)
+##! Average price of new buildings
 PNEWBUIL *  NEWBUIL = sum( PNEWBUIL[ecl] * NEWBUIL[ecl] if NEWBUIL[ecl] <> 0 on ecl )
 
-##! Total of buildings rehabilitated of class $ecl$ (in volume)
+##! Class $ecl$ rehabilitated buildings 
               REHAB[ecl] = sum(                                           REHAB[ecl,ecl2] if REHAB[ecl,ecl2] <> 0 on ecl2) if REHAB[ecl] <> 0
 
-##! Total of buildings rehabilitated of class $ecl$ (in value)
+##! Price of class $ecl$ rehabilitated buildings
 PREHAB[ecl] * REHAB[ecl] = sum((1 - R_SUB[ecl,ecl2]) * PREHAB[ecl,ecl2] * REHAB[ecl,ecl2] if REHAB[ecl,ecl2] <> 0 on ecl2) if REHAB[ecl] <> 0
 
-##! Total of buildings rehabilitated  (in volume)
+##! Total of buildings rehabilitated
           REHAB = sum(                REHAB[ecl] if REHAB[ecl] <> 0 on ecl )
 
-##! Total of buildings rehabilitated  (in value)
+##! Price buildings rehabilitated
 PREHAB *  REHAB = sum( PREHAB[ecl]  * REHAB[ecl] if REHAB[ecl] <> 0 on ecl )
 
 #### Energy consumption of buildings
