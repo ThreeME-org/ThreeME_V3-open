@@ -25,7 +25,7 @@ NTAXC_VAL[c] 	 = NTAXCD_VAL[c] + NTAXCM_VAL[c]
 NTAXC[c] 		 	 = NTAXCD[c] 		 + NTAXCM[c]
 
 ##! Net taxes on the production of sector $s$ expressed in value
-NTAXS_VAL[s] 	 = 			 RNTAXS[s]	* PY[s]	    * Y[s] + T2VAL_MAT[s] + T2VAL_Y[s]
+NTAXS_VAL[s] 	 = 			 RNTAXS[s]	* PY[s]	    * Y[s] + T2VAL_MAT[s] + T2VAL_Y[s] - T2VAL_SEC * F[L,s]/F[L] * REDIS_CT_LS
 
 ##! Net taxes on the production of sector $s$
 NTAXS[s] 		   = @elem(RNTAXS[s], %baseyear)  * Y[s] + T2_MAT[s] + T2_Y[s]
@@ -75,7 +75,7 @@ INC_G_VAL 			  = PNTAXC * NTAXC + NTAXS_VAL + INC_SOC_TAX_VAL + PRSC * RSC + PRO
 d(log(G[c])) = d(log(EXPG)) if G[c] <> 0
 
 ##! Aggregate spendings of the Government expressed in value
-SPEND_G_VAL 		  = PG  * G  + SOC_BENF_VAL + DEBT_G_VAL{-1}*(Phi_RD_G{-1} + r_DEBT_G{-1}) + T2VAL_CH + T2VAL_SEC * REDIS_CT_LS
+SPEND_G_VAL 		  = PG  * G  + SOC_BENF_VAL + DEBT_G_VAL{-1}*(Phi_RD_G{-1} + r_DEBT_G{-1}) 
 
 #### Deficit and debt
 
