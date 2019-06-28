@@ -235,3 +235,4 @@ MS[c] := M[c] + NTAXCM[c] + MGPM[c]
 
 REDIS_CT_LS := 1
 REDIS_CT_RRSC := 1 - REDIS_CT_LS
+REDIS_CT_H := 1
