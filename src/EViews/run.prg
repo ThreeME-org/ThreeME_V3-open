@@ -91,12 +91,13 @@ endif
 
 if %sensitivity = "yes" then
 
-  wfclose
-  wfclose
+  wfclose(noerr)
+  wfclose(noerr)
 
-  for %redis_ls  0 '1
+  !iteration = 0
+  for %redis_ls 0 1
     for %wage_eq 0 '1 2
-      for %flex 0 ' 1
+      for %flex 0 1
         for %expo 0 ' 1
           wfopen {%wfname}
           series redis_ls = {%redis_ls}
@@ -106,6 +107,8 @@ if %sensitivity = "yes" then
           call sensitivity({%redis_ls}, {%wage_eq}, {%flex}, {%expo})
           call run_scenario("baseline")
           call run_standard("CT1", %iso3, 1)
+          call sensitivity_results(!iteration)
+          !iteration = !iteration + 1
         next
       next
     next
