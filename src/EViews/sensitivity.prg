@@ -92,9 +92,9 @@ endsub
 
 
 
-subroutine sensitivity_results(scalar !iteration)
+subroutine sensitivity_results(scalar !iteration, scalar !max_iteration)
   group Results redis_ls wage_eq flex expo 100*(GDP_1/GDP_0-1) (F_L_1-F_L_0) 100*(EMS_1/EMS_0-1) 100*(CH_1/CH_0-1) 100*(I_1/I_0-1) 100*(X_1/X_0-1) 100*(M_1/M_0-1) 100*((DISPINC_AT_VAL_1/PCH_1)/(DISPINC_AT_VAL_0/PCH_0)-1) 100*(RSAV_H_VAL_1-RSAV_H_VAL_0) 100*(PCH_1/PCH_0-1) 100*(PY_1/PY_0-1)  100*(PVA_1/PVA_0-1) 100*(PCI_1/PCI_0-1) 100*(PX_1/PCI_0-1) 100*(PM_1/PCI_0-1) 100*(W_1/W_0-1) 100*((C_L_1/PVA_1)/(C_L_0/PVA_0)-1) 100*(UnR_1-UnR_0) 100*(RBal_Trade_VAL_1-RBal_Trade_VAL_0) 100*(RBal_G_Prim_VAL_1-RBal_G_Prim_VAL_0)
 
-  %address = """Raw!a" + @str(2 + !iteration * 51) + """"
-  wfsave(type=excelxml, mode=update, nonames) ".\..\..\results\Sensitivity.xlsx" range={%address} @keep Results
+  %address = """Raw!a" + @str(1 + (!max_iteration - !iteration - 1) * 51) + """"
+  wfsave(type=excelxml, mode=update) ".\..\..\results\Sensitivity.xlsx" range={%address} @keep Results @smpl {%baseyear} {%lastdate}
 endsub
