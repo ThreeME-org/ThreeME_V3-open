@@ -19,6 +19,7 @@ include .\load_data
 include .\load_calibration
 
 ' Running the model
+include .\setThreeMe.prg
 include .\tracker.prg
 include .\solve
 include .\run
