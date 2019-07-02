@@ -22,6 +22,7 @@ include .\load_calibration
 include .\setThreeMe.prg
 include .\tracker.prg
 include .\solve
+include .\sensitivity
 include .\run
 include .\run_extra
 
