@@ -29,17 +29,17 @@ subroutine run_standard(string %scenario_list, string %iso3, scalar !excel)
     call solvemodel(%solveopt)
     %grp = "Results_" + %scenario + "_" + %iso3
     '%grp_out = "Results" + %scenario
-    call standard_outputs(%scenario, %grp, %index)
+     call standard_outputs(%scenario, %grp, %index)
     if !excel=0 then
       show {%grp}
     endif
   next
 
-  if !excel > 0 then
-    ' Output to Excel
-    %path = @addquotes(@linepath + "..\..\results\resultsStandard.vbs")
-    shell(h) {%path}
-  endif
+   if !excel > 0 then
+     ' Output to Excel
+     %path = @addquotes(@linepath + "..\..\results\resultsStandard.vbs")
+     shell(h) {%path}
+   endif
 
 endsub
 

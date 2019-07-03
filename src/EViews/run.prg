@@ -107,7 +107,7 @@ if %sensitivity = "yes" then
           series expo = {%expo}
           call sensitivity({%redis_ls}, {%wage_eq}, {%flex}, {%expo})
           call run_scenario("baseline")
-          call run_standard("CT1", %iso3, 1)
+          call run_standard("CT1", %iso3, 0)
           call sensitivity_results(!iteration, !max_iteration)
           !iteration = !iteration + 1
           wfclose(noerr)
