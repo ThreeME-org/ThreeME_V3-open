@@ -94,10 +94,10 @@ if %sensitivity = "yes" then
   wfclose(noerr)
   wfclose(noerr)
 
-  !max_iteration = 2 * 2 * 2 * 2
+  !max_iteration = 2 * 3 * 2 * 2
   !iteration = 0
   for %redis_ls 0 1
-    for %wage_eq 0 1 '2
+    for %wage_eq 0 1 2
       for %flex 0 1
         for %expo 0 1
           wfopen {%wfname}
