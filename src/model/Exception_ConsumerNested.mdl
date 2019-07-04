@@ -18,8 +18,8 @@
 #   	  	 _________________________ CH _________________________
 #   		/				/ 		 				   				\   --> ES = 1
 # (1) CH_OTHER			CH_HOUS  									CH_TRSP	
-# 					/ 	 \  --> ES_HOUS_INV_ENER		 		//     \  --> ES_CHTRSP
-# (2)		CH_HOUSINV   CH_HOUSENER					CH_TRSP[ct]    CH_TRSP[auto]
+# 					   / 	 \  --> ES_HOUS_INV_ENER		 		//     \  --> ES_CHTRSP
+# (2)		   CH_HOUSINV   CH_HOUSENER					CH_TRSP[ct]    CH_TRSP[auto]
 #		   		|				/\  --> ES_HOUS_ENER 		|			/   \   --> ES_TRSP_INV_ENER
 # (3)	  		|		    CH_HOUS[ce] 					|  CH_TRSPINV    CH_TRSPENER
 #				|				|							|		|		 /\     --> ES_TRSP_ENER
