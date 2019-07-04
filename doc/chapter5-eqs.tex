@@ -1,0 +1,3530 @@
+\ifx\fulldoc\undefined
+
+  \documentclass[12pt]{article}
+  \usepackage{amsmath}
+  \usepackage{breqn}
+  \numberwithin{equation}{section}
+  \usepackage{longtable}
+  \usepackage{booktabs}
+  \usepackage{array}
+  \usepackage{ragged2e}
+  \usepackage{import}
+  
+  \makeatletter
+  \newcommand{\repeatablebody}[2]{
+  \global\@namedef{repeatable@#1}{#2}
+  }
+  \newcommand{\repeatable}[1]{
+  \begin{dmath}
+  \label{#1} \@nameuse{repeatable@#1}
+  \end{dmath}
+  }
+  \newcommand{\eqrepeat}[1]{%
+  \@ifundefined{repeatable@#1}{NOT FOUND}{
+  \begin{dmath}[number=\ref{#1}]
+  \@nameuse{repeatable@#1}
+  \end{dmath}
+  }
+  }
+  \makeatother
+  
+  \begin{document}
+  \import{./}{chapter5-eqs_preface.tex}
+  \fi
+  
+
+
+\section{Introduction}
+
+
+
+This appendix provides all the equations of the model. The names of variables are defined in the Glossary in the last section of the document and ranked in alphabetical order. The glossary provides also the number of the equation defining a given variable and the page where this equation is located. Because there are several versions of ThreeME, an endogenous variable may be defined more than once in the document. In such a case, it appears several time in the Glossary. \\
+
+For instance, there are three versions of the household block: (1) the basic version where a LES utility function is assumed for all commodities; (2) the nested version where transport, car, housing and energy consumption are modeled using a nested utility function; (3) the hybrid version where transport, car, housing and energy consumption are modeled using a bottom-up model. \\
+
+There are also several versions regarding the specification of prices and taxes on commodities: (1) the basic version where taxes are not differentiated between uses (e.g. intermediary, final consumption, export, etc.) and type (e.g. VAT, subsidies, etc.); (2) the advanced version where this differentiation is made. \\
+
+In this appendix, $t$ is the time operator that may be omitted when no confusion arises, $e.g.$ $Z = Z_{t}$. Variables in first difference are referred as: $\varDelta\left(Z_{t}\right) = Z_{t}-Z_{t-1}$. Therefore the logarithm difference of a variable is approximativelly its growth rate: $\varDelta\left(\operatorname{log} Z_{t}\right) \approx Z_{t}/Z_{t-1}-1$. All parameters written in Greek letter are positive. $n$ as an exponent refers to the notional value of a given variable that is the optimal value desired by the maximization agent: $e.g.$ $Z^{n}$ is the notional value of variable $Z$. Because of adjustment constraint, effective values adjust slowly to their notional value.
+
+
+
+\subsection{Sets and indexes}
+
+
+This section provides the different sets for each index used in the equation description. \\ \\
+\noindent \textbf{Production factors $f$} 
+\begin{equation} f \in  \{ K,L,E,M \} \end{equation}
+
+\noindent \textbf{Greenhouse Gases $ghg$} 
+\begin{equation} ghg \in  \{ CO2, CH4, N2O, SF6, HFC, PFC\} \end{equation}
+
+\noindent \textbf{Car energy labels $ecl$} 
+\begin{equation} ecl \in  \{CA, CB, CC, CD, CE, CF, CG\} \end{equation}
+
+\noindent \textbf{Building energy labels $bcl$} 
+\begin{equation} bcl \in  \{CA, CB, CC, CD, CE, CF, CG, DES\} \end{equation}
+
+\noindent \textbf{Sectors (or activities) $s$} 
+\begin{equation} s \in S \end{equation}
+
+\noindent \textbf{Commodities $c$, $cc$} 
+\begin{equation} c, cc \in C \end{equation}
+
+\noindent \textbf{Margins $m$, $mm$} 
+\begin{equation} m, mm \in  CMARG \subset C \end{equation}
+
+\noindent \textbf{Commodities used as material input $cm$} 
+\begin{equation} cm \in  CMAT \subset C \end{equation}
+
+\noindent \textbf{commodities used as transportation input $ct$} 
+\begin{equation} ct \in  CTRSP \subset C \end{equation}
+
+\noindent \textbf{commodities used as energy input $ce$} 
+\begin{equation} ce \in  CE \subset C \end{equation}
+
+
+\section{Supply-Use equilibrium}
+
+
+
+This section provides the equations defining the supply use - equilibrium for the domestic and imported products and at the aggregate level. It also derives the GDP according to various definitions. All equations are therefore accounting identity. \\  \\
+Each identity is expressed in value and in volume. The value equation defines therefore a price index. By convention, the variable $Z$ is always expressed in volume. $PZ$ is its price. Therefore the quantity expressed in value is $Z^{VAL} = PZ * Z$. In most case, values are expresed as $PZ * Z$. When there is a risk that a variable in volume is equal to zero in simulation, we shall defined value as $Z^{VAL}$ to avoid a division by zero issue. A typical exemple would be the value-added of sector $s$: $VA^{VAL}_{s} = PY_{s} \; Y_{s} - PCI_{s} \; CI_{s}$.
+
+
+
+\subsection{Use side}
+
+
+
+
+
+\subsubsection{Domestic and foreign equilibrium for commodities $c$ (value \& volume):}
+
+
+
+\noindent \textbf{Market price for the domestically produced commodity $c$} 
+\repeatable{SU.mdlPQD[c]}
+
+
+\noindent \textbf{Quantity of domestically produced commodity $c$ expressed at market price} 
+\repeatable{SU.mdlQD[c]}
+
+
+\noindent \textbf{Market price for imported commodity $c$} 
+\repeatable{SU.mdlPQM[c]}
+
+
+\noindent \textbf{Quantity of imported commodity $c$ expressed at market price} 
+\repeatable{SU.mdlQM[c]}
+
+
+
+
+\subsubsection{Margins supplied (value \& volume):}
+
+
+
+The margins supplied by commodity $m$ corresponds to the margins supplied by this commodity. By definition, the margins supplied is the sum of the margins paid (or used) on the commodities $c$. \\ \\
+The margins paid on domestic and imported products ($MGPD_{m, c}$ and $MGPM_{m, c}$) are defined with behavorial equations in the producer block. They follow the domestic and imported production of commodity $c$ ($YQ_{c}$ and $M_{c}$) more or less proportionnally depending on the possibility of substitutions between margins. The margins paid are then aggregated to define the margins supplied, $MGS_{m}$. The latter is then disagrated between the domestic and imported margins supplied ($MGSD_{c}$ and $MGSM_{c}$). See specification in the producer block. \\
+
+\noindent \textbf{Market price of the margins supplied by commodity $m$} 
+\repeatable{SU.mdlPMGS[m]}
+
+
+\noindent \textbf{Margins supplied by commodity $m$, expressed at market price} 
+\repeatable{SU.mdlMGS[m]}
+
+The margins supplied correspond to the sum of the margins paid to commodity $m$ over all the commodities $c$ \\
+
+\noindent \textbf{Market price of the margins supplied by commodity $m$ (for verification)} 
+\repeatable{SU.mdlPMGSbis[m]}
+
+Same variable as $PMGS_{m}$ above to check the accounting consistency. \\
+
+\noindent \textbf{Margins supplied by commodity $m$, expressed at market price (for verification)} 
+\repeatable{SU.mdlMGSbis[m]}
+
+Same variable as $MGS_{m}$ above to check the accounting consistency. \\
+
+
+
+\subsubsection{Aggregation of imports and domestic production for commodity $c$ per use, expressed at market price (value \& volume)}
+
+
+This subsection aggregates imports and domestic production for commodity $c$ for various uses. It does not do it for Exports, Households and Government final consumption ($X$, $CH$ and $G$) because these aggregates are already defined in behaviour equations (see Trade international, Consumer and Governement blocks). Expressed in value, this subsection also defines the prices indexes at market price for commodity $c$ per use as a weighted average of imported and domestic production per uses: \textit{i.e.} for $Q$ (production of commodities ), $CI$ (intermediary consumption), $I$ (private investment) and $DS$ (change in inventories). \\
+ \\
+
+\noindent \textbf{Market price of the production of commodity $c$} 
+\repeatable{SU.mdlPQ[c]}
+
+
+\noindent \textbf{Production of commodity $c$, expressed at market price} 
+\repeatable{SU.mdlQ[c]}
+
+
+\noindent \textbf{Market price of the intermediate consumption of commodity $c$} 
+\repeatable{SU.mdlPCI[c]}
+
+
+\noindent \textbf{Intermediate consumption of commodity $c$, expressed at market price} 
+\repeatable{SU.mdlCI[c]}
+
+
+\noindent \textbf{Market price of the investment in commodity $c$} 
+\repeatable{SU.mdlPI[c]}
+
+
+\noindent \textbf{Investment in commodity $c$, expressed at market price} 
+\repeatable{SU.mdlI[c]}
+
+
+\noindent \textbf{Market price of the change in inventories of commodity $c$} 
+\repeatable{SU.mdlPDS[c]}
+
+
+\noindent \textbf{Change in inventories of commodity $c$, expressed at market price} 
+\repeatable{SU.mdlDS[c]}
+
+
+
+
+\subsubsection{Agregation on sectors: production of commodity $c$ per use for domestic and imported products, expressed at market price (value \& volume)}
+
+
+This subsection provides the aggregates for commodity $c$ for various uses, for domestic and imported products. They are calculated through the aggregation of the corresponding sectoral data on the sector index. \\
+
+\noindent \textbf{Market price for the domestically produced commodity $c$ used as intermediary consumption} 
+\repeatable{SU.mdlPCID[c]}
+
+
+\noindent \textbf{Quantity of domestically produced commodity $c$ used as intermediary consumption, expressed at market price} 
+\repeatable{SU.mdlCID[c]}
+
+
+\noindent \textbf{Market price for imported commodity $c$ used as intermediary consumption} 
+\repeatable{SU.mdlPCIM[c]}
+
+
+\noindent \textbf{Quantity of imported commodity $c$ used as intermediary consumption, expressed at market price} 
+\repeatable{SU.mdlCIM[c]}
+
+
+\noindent \textbf{Market price for domestically produced commodity $c$ used as investment} 
+\repeatable{SU.mdlPID[c]}
+
+
+\noindent \textbf{Quantity of imported commodity $c$ used as investment, expressed at market price} 
+\repeatable{SU.mdlID[c]}
+
+
+\noindent \textbf{Market price for imported commodity $c$ used as investment} 
+\repeatable{SU.mdlPIM[c]}
+
+
+\noindent \textbf{Quantity of imported commodity $c$ used as investment, expressed at market price} 
+\repeatable{SU.mdlIM[c]}
+
+
+
+
+
+\subsubsection{Agregation on commodities: imported, domestic and aggregate intermediate consumption and investment of sector $s$, expressed at market price (value \& volume)}
+
+
+This subsection provides the intermediate consumption and investment of sector $s$ (imported, domestically produced and aggregated). They are calculated through the aggregation of the corresponding sectoral data on the commodity index. \\
+
+\noindent \textbf{Market price of domestically produced intermediate consumption of sector $s$} 
+\repeatable{SU.mdlPCID[s]}
+
+
+\noindent \textbf{Domestically produced intermediate consumption of sector $s$, expressed at market price} 
+\repeatable{SU.mdlCID[s]}
+
+
+\noindent \textbf{Market price of imported intermediate consumption of sector $s$} 
+\repeatable{SU.mdlPCIM[s]}
+
+
+\noindent \textbf{Imported intermediate consumption of sector $s$, expressed at market price} 
+\repeatable{SU.mdlCIM[s]}
+
+
+\noindent \textbf{Market price of intermediate consumption of sector $s$} 
+\repeatable{SU.mdlPCI[s]}
+
+
+\noindent \textbf{Intermediate consumption of sector $s$, expressed at market price} 
+\repeatable{SU.mdlCI[s]}
+
+
+\noindent \textbf{Market price of intermediate consumption of sector $s$ (for verification)} 
+\repeatable{SU.mdlPCIbis}
+
+\noindent \textbf{Intermediate consumption of sector $s$, expressed at market price (for verification)} 
+\repeatable{SU.mdlCIbis}
+
+
+\noindent \textbf{Market price of domestically produced investment of sector $s$} 
+\repeatable{SU.mdlPID[s]}
+
+
+\noindent \textbf{Domestically produced investment of sector $s$, expressed at market price} 
+\repeatable{SU.mdlID[s]}
+
+
+\noindent \textbf{Market price of imported investment of sector $s$} 
+\repeatable{SU.mdlPIM[s]}
+
+
+\noindent \textbf{Imported investment of sector $s$, expressed at market price} 
+\repeatable{SU.mdlIM[s]}
+
+
+\noindent \textbf{Market price of investment of sector $s$} 
+\repeatable{SU.mdlPI[s]}
+
+
+\noindent \textbf{Investment of sector $s$, expressed at market price} 
+\repeatable{SU.mdlI[s]}
+
+
+\noindent \textbf{Market price of investment of sector $s$ (for verification)} 
+\repeatable{SU.mdlPIbis}
+
+
+\noindent \textbf{Investment of sector $s$, expressed at market price (for verification)} 
+\repeatable{SU.mdlIbis}
+
+
+
+
+\subsubsection{Aggregation on commodities: imports and domestic aggregate production per use, expressed at market price (value \& volume)}
+
+
+This subsection provides the aggregate production for various uses, for domestic and imported products. They are calculated through the aggregation of commodity $c$ production per use on the commodity index. \\
+
+\noindent \textbf{Aggregate market price for domestically produced commodities} 
+\repeatable{SU.mdlPQD}
+
+
+\noindent \textbf{Aggregate domestically produced commodities, expressed at market price} 
+\repeatable{SU.mdlQD}
+
+
+\noindent \textbf{Aggregate market price for imported commodities} 
+\repeatable{SU.mdlPQM}
+
+
+\noindent \textbf{Aggregate imported commodities, expressed at market price} 
+\repeatable{SU.mdlQM}
+
+
+\noindent \textbf{Aggregate market price for the margins supplied on domestically produced commodities} 
+\repeatable{SU.mdlPMGSD}
+
+
+\noindent \textbf{Aggregate margins supplied on domestically produced commodities, expressed at market price} 
+\repeatable{SU.mdlMGSD}
+
+
+\noindent \textbf{Aggregate market price for the margins supplied on imported commodities} 
+\repeatable{SU.mdlPMGSM}
+
+
+\noindent \textbf{Aggregate margins supplied on imported commodities, expressed at market price} 
+\repeatable{SU.mdlMGSM}
+
+
+\noindent \textbf{Aggregate market price for domestically produced intermediate consumption} 
+\repeatable{SU.mdlPCID}
+
+
+\noindent \textbf{Aggregate domestically produced intermediate consumption, expressed at market price} 
+\repeatable{SU.mdlCID}
+
+
+\noindent \textbf{Aggregate market price for imported intermediate consumption} 
+\repeatable{SU.mdlPCIM}
+
+
+\noindent \textbf{ Aggregate imported intermediate consumption, expressed at market price} 
+\repeatable{SU.mdlCIM}
+
+
+\noindent \textbf{Aggregate market price for domestically produced households final consumption} 
+\repeatable{SU.mdlPCHD}
+
+
+\noindent \textbf{Aggregate domestically produced final consumption, expressed at market price} 
+\repeatable{SU.mdlCHD}
+
+
+\noindent \textbf{Aggregate market price for imported households final consumption} 
+\repeatable{SU.mdlPCHM}
+
+
+\noindent \textbf{Aggregate imported households final consumption, expressed at market price} 
+\repeatable{SU.mdlCHM}
+
+
+\noindent \textbf{Aggregate market price for domestically produced Government final consumption} 
+\repeatable{SU.mdlPGD}
+
+
+\noindent \textbf{Aggregate domestically produced Government final consumption, expressed at market price} 
+\repeatable{SU.mdlGD}
+
+
+\noindent \textbf{Aggregate market price for imported Government final consumption} 
+\repeatable{SU.mdlPGM}
+
+
+\noindent \textbf{Aggregate imported Government final consumption, expressed at market price} 
+\repeatable{SU.mdlGM}
+
+
+\noindent \textbf{Aggregate market price for domestically produced investment} 
+\repeatable{SU.mdlPID}
+
+
+\noindent \textbf{Aggregate domestically produced investment, expressed at market price} 
+\repeatable{SU.mdlID}
+
+
+\noindent \textbf{Aggregate market price for imported investment} 
+\repeatable{SU.mdlPIM}
+
+
+\noindent \textbf{Aggregate imported investment, expressed at market price} 
+\repeatable{SU.mdlIM}
+
+
+\noindent \textbf{Aggregate market price for domestically produced exports} 
+\repeatable{SU.mdlPXD}
+
+
+\noindent \textbf{Aggregate domestically produced exports, expressed at market price} 
+\repeatable{SU.mdlXD}
+
+
+\noindent \textbf{Aggregate market price for imported exports (re-exports)} 
+\repeatable{SU.mdlPXM}
+
+
+\noindent \textbf{Aggregate imported exports (re-exports), expressed at market price} 
+\repeatable{SU.mdlXM}
+
+
+\noindent \textbf{Aggregate market price for domestically produced change in inventories} 
+\repeatable{SU.mdlPDSD}
+
+
+\noindent \textbf{Aggregate domestically produced change in inventories, expressed at market price} 
+\repeatable{SU.mdlDSD}
+
+
+\noindent \textbf{Aggregate market price for imported change in inventories} 
+\repeatable{SU.mdlPDSM}
+
+
+\noindent \textbf{Aggregate imported change in inventories, expressed at market price} 
+\repeatable{SU.mdlDSM}
+
+
+
+
+
+\subsubsection{Aggregation of domestic and imported production per use, expressed at market price (value \& volume)}
+
+
+
+This subsection provides the aggregate production for various uses by summing the corresponding domestic and imported aggregates. \\
+
+\noindent \textbf{Aggregate market price for production} 
+\repeatable{SU.mdlPQ}
+
+
+\noindent \textbf{Aggregate production, expressed at market price} 
+\repeatable{SU.mdlQ}
+
+
+\noindent \textbf{Aggregate market price for supplied margins} 
+\repeatable{SU.mdlPMGS}
+
+
+\noindent \textbf{Aggregate supplied margins} 
+\repeatable{SU.mdlMGS}
+
+
+\noindent \textbf{Aggregate market price for intermediate consumption} 
+\repeatable{SU.mdlPCI}
+
+
+\noindent \textbf{Aggregate intermediate consumption, expressed at market price} 
+\repeatable{SU.mdlCI}
+
+
+\noindent \textbf{Aggregate market price for household final (consumer price index)} 
+\repeatable{SU.mdlPCH}
+
+
+\noindent \textbf{Aggregate household final consumption, expressed at market price} 
+\repeatable{SU.mdlCH}
+
+
+\noindent \textbf{Aggregate market price for Government final consumption} 
+\repeatable{SU.mdlPG}
+
+
+\noindent \textbf{Aggregate Government final consumption, expressed at market price} 
+\repeatable{SU.mdlG}
+
+
+\noindent \textbf{Aggregate market price for investment} 
+\repeatable{SU.mdlPI}
+
+
+\noindent \textbf{Aggregate investment, expressed at market price} 
+\repeatable{SU.mdlI}
+
+
+\noindent \textbf{Aggregate market price for exports} 
+\repeatable{SU.mdlPX}
+
+
+\noindent \textbf{Aggregate exports, expressed at market price} 
+\repeatable{SU.mdlX}
+
+
+\noindent \textbf{Aggregate market price for change in inventories} 
+\repeatable{SU.mdlPDS}
+
+
+\noindent \textbf{Aggregate change in inventories, expressed at market price} 
+\repeatable{SU.mdlDS}
+
+
+\newpage
+
+
+\subsection{Supply side}
+
+
+
+
+
+\subsubsection{Domestic and foreign equilibrium for commodities $c$ (value \& volume):}
+
+
+
+
+\noindent \textbf{Production of commodity $c$, expressed at basic price} 
+
+\repeatable{SU.mdlYQ[c]}
+
+
+\noindent \textbf{Basic price of the production of commodity $c$ (for verification)} 
+\repeatable{SU.mdlPYQbis[c]}
+
+ This price is already defined as a weighted average of the production price of the sectors producing commodity $c$ in the price block: $PYQ . YQ = \sum_{c} PYQ_{c} \; YQ_{c}$. To verify the accounting consistancy, we define it here under an alias name. \\
+
+\noindent \textbf{Production of commodity $c$, expressed at basic price (for verification)} 
+\repeatable{SU.mdlYQbis[c]}
+
+Same variable as $YQ_{c}$ above to check the accounting consistency. \\
+
+\noindent \textbf{Imports of commodity $c$, expressed at basic price} 
+\repeatable{SU.mdlM[c]}
+
+
+\noindent \textbf{Basic price of imports of commodity $c$ (for verification)} 
+\repeatable{SU.mdlPMbis[c]}
+
+ This price is already defined in the price block as $PM_{c} = EXR . PWD_{c}$. To verify the accounting consistancy, we define it here under an alias name. \\
+
+\noindent \textbf{Imports of commodity $c$, expressed at basic price (for verification)} 
+\repeatable{SU.mdlMbis[c]}
+
+Same variable as $M_{c}$ above to check the accounting consistency. \\
+
+
+
+\subsubsection{Margins paid (value \& volume)}
+
+
+\noindent \textbf{Price of the margins paid on domestically produced commodity $c$} 
+\repeatable{SU.mdlPMGPD[c]}
+
+
+\noindent \textbf{Margins paid on the domestically produced commodity $c$} 
+\repeatable{SU.mdlMGPD[c]}
+
+
+\noindent \textbf{Price of the margins paid on imported commodity $c$} 
+\repeatable{SU.mdlPMGPM[c]}
+
+
+\noindent \textbf{Margins paid on imported commodity $c$} 
+\repeatable{SU.mdlMGPM[c]}
+
+
+\noindent \textbf{Price of the margins paid to commodity $m$ on commodity $c$} 
+\repeatable{SU.mdlPMGP[m, c]}
+
+
+\noindent \textbf{Margins paid to commodity $m$ on commodity $c$} 
+\repeatable{SU.mdlMGP[m, c]}
+
+
+
+
+
+\subsubsection{Aggregation on commodities: supply side aggregates (value \& volume)}
+
+
+
+\noindent \textbf{Aggregate price of the margins paid on domestically produced commodity} 
+\repeatable{SU.mdlPMGPD}
+
+
+\noindent \textbf{Margins paid on domestically produced commodities} 
+\repeatable{SU.mdlMGPD}
+
+
+\noindent \textbf{Aggregate price of the margins paid on imported commodities} 
+\repeatable{SU.mdlPMGPM}
+
+
+\noindent \textbf{Margins paid on imported commodities} 
+\repeatable{SU.mdlMGPM}
+
+
+\noindent \textbf{Aggregate basic price of domestic production} 
+\repeatable{SU.mdlPYQ}
+
+
+\noindent \textbf{Domestic production, expressed at basic price} 
+\repeatable{SU.mdlYQ}
+
+
+\noindent \textbf{Aggregate basic price of imports} 
+\repeatable{SU.mdlPM}
+
+
+\noindent \textbf{Imports, expressed at basic price} 
+\repeatable{SU.mdlM}
+
+
+
+
+
+\subsubsection{Supply indicators of sector $s$ (value \& volume):}
+
+
+
+\noindent \textbf{Production of sector $s$, expressed at basic price} 
+\repeatable{SU.mdlY[s]}
+
+The production price of sector $s$ is defined in the producer block as a behavour equation. It can not therefore be defined here as an index. \\
+
+\noindent \textbf{Value-added of sector $s$ expressed in value} 
+\repeatable{SU.mdlVA_VAL[s]}
+
+
+\noindent \textbf{Value-added of sector $s$} 
+\repeatable{SU.mdlVA[s]}
+
+
+\noindent \textbf{Gross operating surplus of sector $s$ expressed in value} 
+\repeatable{SU.mdlGOS_VAL[s]}
+
+The standard definition of the Gross Operating Surplus (GOS) generally include tax on profits. For simplicity, we assume that $NTAXS_{s}$ includes all net taxes on capital (i.e. tax on production and profits). In our definition, the tax on profit is therefore excluded from the GOS. This should be taken into account if one wants to use the GOS as a basis for the tax on profits. \\
+
+\noindent \textbf{Gross operating surplus of sector $s$} 
+\repeatable{SU.mdlGOS[s]}
+
+
+\noindent \textbf{Net operating surplus of sector $s$ expressed in value} 
+\repeatable{SU.mdlNOS_VAL[s]}
+
+
+\noindent \textbf{Net operating surplus of sector $s$} 
+\repeatable{SU.mdlNOS[s]}
+
+
+
+
+
+\subsubsection{Aggregation on sectors: supply indicators of all sectors  (value \& volume)}
+
+
+
+\noindent \textbf{Basic price of aggregate production} 
+\repeatable{SU.mdlPY}
+
+
+\noindent \textbf{Aggregate production, expressed at basic price} 
+\repeatable{SU.mdlY}
+
+
+\noindent \textbf{Value-added price} 
+\repeatable{SU.mdlPVA}
+
+
+\noindent \textbf{Aggregate value-added} 
+\repeatable{SU.mdlVA}
+
+
+\noindent \textbf{Gross wage index paid by sectors} 
+\repeatable{SU.mdlPWAGES}
+
+The gross wage includes employees (but not employers)' social contribution \\
+
+
+\noindent \textbf{Aggregate gross wages paid by sectors} 
+\repeatable{SU.mdlWAGES}
+
+
+
+\noindent \textbf{Price of the aggregate gross operating surplus} 
+\repeatable{SU.mdlPGOS}
+
+
+\noindent \textbf{Aggregate gross operating surplus} 
+\repeatable{SU.mdlGOS}
+
+
+\noindent \textbf{Price of the aggregate net operating surplus} 
+\repeatable{SU.mdlPNOS}
+
+
+\noindent \textbf{Aggregate net operating surplus} 
+\repeatable{SU.mdlNOS}
+
+
+
+
+\subsection{Gross Domestic Product (GDP)}
+
+
+
+In this subsection, GDP is calculated according to different approaches. All approaches lead to same result.
+
+
+
+\subsubsection{Expenditure approach}
+
+
+
+\noindent \textbf{Price of GDP (expenditure definition)} 
+\repeatable{SU.mdlPGDP}
+
+According to the expenditure approach, GDP is calculated as the sum of the different components in the final uses of goods and services. \\
+
+
+\noindent \textbf{GDP (expenditure definition)} 
+\repeatable{SU.mdlGDP}
+
+
+\noindent \textbf{Price of GDP of commodity $c$ (expenditure definition)} 
+\repeatable{SU.mdlPGDP[c]}
+
+
+\noindent \textbf{GDP of commodity $c$ (expenditure definition)} 
+\repeatable{SU.mdlGDP[c]}
+
+
+\noindent \textbf{Price of GDP (expenditure definition, for verification)} 
+\repeatable{SU.mdlPGDPbis}
+
+\noindent \textbf{GDP (expenditure definition, for verification)} 
+\repeatable{SU.mdlGDPbis}
+
+
+
+
+\subsubsection{Production approach}
+
+
+\noindent \textbf{Price of GDP (production definition)} 
+\repeatable{SU.mdlPGDPter}
+
+According to the production approach, GDP is calculated as the sum of the value added plus the total net taxes on commodities. \\
+
+\noindent \textbf{ GDP (production definition)} 
+\repeatable{SU.mdlGDPter}
+
+
+
+
+\subsubsection{Income approach}
+
+
+\noindent \textbf{Price of GDP (income definition)} 
+\repeatable{SU.mdlPGDP4}
+
+According to the income approach, GDP is calculated as the sum of all the economic incomes (from labor and capital) corrected by the social and taxes transfers. \\
+
+\noindent \textbf{  GDP (income definition)} 
+\repeatable{SU.mdlGDP4}
+
+
+
+
+\section{Prices}
+
+
+
+This file provides the equations defining the prices, wages and the interest rates. \\
+
+
+
+\subsection{Behavioral equations}
+
+
+
+
+
+\subsubsection{Price setting}
+
+
+
+\noindent \textbf{Notional production price of sector $s$} 
+\repeatable{prices.mdlPY_n[s]}
+
+
+\noindent \textbf{Notional mark-up of the sector $s$ (specification 1)} 
+\repeatable{prices.mdlMARKUP_n[s]}
+
+The notional mark-up is a positive function of the capacity utilization ratio. One can notice that this specification is strictly equivalent to: $\varDelta \left(\operatorname{log} 1 + \mu^{n}_{s}\right) = \rho^{\mu,Y} . \left( \varDelta \left(\operatorname{log} Y_{s}\right) - \varDelta \left(\operatorname{log} YCAP_{s}\right) \right)$ which is quite close to the specification 2 below where the production capacity $YCAP_{s}$ is replaced by the past production $Y_{s, t-1}$. \\
+
+
+
+
+
+
+\noindent \textbf{Notional mark-up of the sector $s$ (specification 2)} 
+\repeatable{prices.mdlMARKUP_n2[s]}
+
+This specification can be used instead of the default specification 1 above. \\
+
+\noindent \textbf{Production capacity of the sector $s$} 
+\repeatable{prices.mdlYCAP[s]}
+
+The production capacity is defined by the production function and the effective quantities of inputs. \\
+
+\noindent \textbf{Capacity utilisation ratio of the sector $s$} 
+\repeatable{prices.mdlCUR[s]}
+
+
+\noindent \textbf{Average mark-up on commodity $c$} 
+\repeatable{prices.mdlMARKUP[c]}
+
+
+
+
+\subsubsection{Wage setting}
+
+
+\noindent \textbf{Notional wage in sector $s$} 
+\repeatable{prices.mdlW_n[s]}
+
+This general specification combines various wage equations found in the literature: the Phillips curve and the WS curve. The WS curve Ã  la Layard et al. (2005) requires the following constraints: \begin{center} $\rho^{W,P}_{s} + \rho^{W,Pe}_{s} = \rho^{W,PROG}_{s} = 1, \rho^{W,U}_{s} = \rho^{W,Cons}_{s}= 0$ \end{center}
+In the case of a Phillips curve, the $NAIRU$ is predetermined in the long run when wages are fully indexed on price and productivity. To have a long run "Time-Varying" $NAIRU$ under these hypotheses, we have to assume that the constant is a function of the unemployment rate (see Heyer et al. 2007): \begin{center} $d(\rho^{W,Cons}_{s}) =  \rho^{Cons,U}_{s} *\rho^{W,U}_{s} * d(UnR)$ \end{center}
+
+
+
+\noindent \textbf{Average wage} 
+\repeatable{prices.mdlW}
+
+
+\noindent \textbf{Consumer Price Index} 
+\repeatable{prices.mdlP}
+
+
+\noindent \textbf{Gross wages paid by sector $s$ including employees (but not employers)' social contribution} 
+\repeatable{prices.mdlWAGES[s]}
+
+To derive the volume, we assume that the price of wages is the consumer price. \\
+
+\noindent \textbf{Price index for gross wages in sector $s$} 
+\repeatable{prices.mdlPWAGES[s]}
+
+
+
+
+\subsubsection{Interest rate setting}
+
+
+
+\noindent \textbf{Notional key interest rate of the Central Bank (Taylor rule)} 
+\repeatable{prices.mdlR_n}
+
+
+\noindent \textbf{Interest rate paid on capital by sector $s$} 
+\repeatable{prices.mdlR[s]}
+
+We assume a constant premiun on the key interest rate of the Central Bank. \\
+
+\noindent \textbf{Interest rate paid by the Governement on its debt} 
+\repeatable{prices.mdlr_DEBT_G}
+
+
+
+
+\subsection{Costs}
+
+
+
+\noindent \textbf{Notional unit cost of production in sector $s$} 
+\repeatable{prices.mdlCU_n[s]}
+
+The notional price is based on the notional unit cost of production instead of the effective one. This leads to a more stable dynamic and gives a better representation of expectations. \\
+
+\noindent \textbf{Unit cost of production in sector $s$} 
+\repeatable{prices.mdlCU[s]}
+
+
+\noindent \textbf{Labor cost in sector $s$} 
+\repeatable{prices.mdlC[L, s]}
+
+
+
+\noindent \textbf{Capital cost in sector $s$} 
+\repeatable{prices.mdlC[K, s]}
+
+It is preferable to calculate the user cost of capital based on the price of capital rather than on the price of investment. Indeed the price of the average capital installed is lower than the one of investment because of inflation. Using the price of investment tends to overestimate the cost of capital because it assumes that the debt contracted to finance past investments is indexed on inflation which is not the case in reality. Moreover using the price of investment often lead to unstable dynamics because it overestimate the impact of inflationary shocks on the cost of capital. \\
+
+
+\noindent \textbf{Price of capital in sector $s$} 
+\repeatable{prices.mdlPK[s]}
+
+The price of capital is calibrated by rewriting the above equation in the long run. Its baseyear value is always smaller than 1 because it is calibrated as follows: \begin{center} $PK_{s} = \frac{PI_{s}*(\delta_{s}+GR^{REAL})*(1+GR^{PRICES})}{(Rdep_{s}-1+(1+GR^{REAL})*(1+GR^{PRICES}))}$ \end{center}
+
+\noindent \textbf{Energy costs in sector $s$} 
+\repeatable{prices.mdlC[E, s]}
+
+In first approximation the cost of energy correspond to the energy price. However if the producer is forward-looking, she will integrate the anticipation of price increase in it definition of the user cost of energy. In this case the specification becomes: \\
+
+
+
+
+\noindent \textbf{Price of energy in sector $s$} 
+\repeatable{prices.mdlPE[s]}
+
+
+\noindent \textbf{Materials costs in sector $s$} 
+\repeatable{prices.mdlC[MAT, s]}
+
+
+\noindent \textbf{Price of materials in sector $s$} 
+\repeatable{prices.mdlPMAT[s]}
+
+
+\noindent \textbf{Aggregate cost of capital} 
+\repeatable{prices.mdlC[K]}
+
+
+\noindent \textbf{Aggregate cost of labor} 
+\repeatable{prices.mdlC[L]}
+
+
+\noindent \textbf{Aggregate cost of energy} 
+\repeatable{prices.mdlC[E]}
+
+
+\noindent \textbf{Aggregate cost of materials} 
+\repeatable{prices.mdlC[MAT]}
+
+
+
+
+
+\subsection{From basic to market prices for various uses}
+
+
+
+In the basic version of the model presented in this sub-section, we do not differentiate the market prices for various uses. For instance, the market price of household's final consumption is the same as the ones of intermediary consumption and exports. This hypotheses is often made in CGE models because it is easier to calibrate. But it is not very realistic for two reasons. First, the import content of household consumption is generally higher than the one of exports. Second, household consumption, intermediary consumption and exports are not subject to the same taxes. For instance, there is generally no VAT on exports and intermediary consumption. These hypotheses are changed in the tax block. \\
+
+\noindent \textbf{Price of domestically produced commodity $c$, expressed at basic price} 
+\repeatable{prices.mdlPYQ[c]}
+
+
+\noindent \textbf{Price of imported commodity $c$, expressed at basic price} 
+\repeatable{prices.mdlPM[c]}
+
+
+\noindent \textbf{Price of domestically produced commodity $c$, expressed at market price} 
+\repeatable{prices.mdlPYQS[c]}
+
+$YQS_{c}$ is the volume of the production expressed at market price. It should not be seen as a composite of several "goods": production at base price, margins and taxes. Its does not increase when the volume of the margins and taxes increase. The price does instead. This is equivalent to assuming that $YQS_{c}$ is always proportionnal to and $YQ_{c}$ since the volume of margins and taxes depends on the latter. Writing it following the specification composite of several goods, $YQS_{c} = YQ_{c} + MGPD_{c} + NTAXCD_{c}$, would lead to inacurate results since a decrease in the quantity of margins used per unit of production would not lead to a decrease of the selling price. \\
+
+\noindent \textbf{Production of commodity $c$, expressed at market price} 
+\repeatable{prices.mdlYQS[c]}
+
+
+\noindent \textbf{Price of imported commodity $c$, expressed at market price} 
+\repeatable{prices.mdlPMS[c]}
+
+
+\noindent \textbf{Imports of commodity $c$, expressed at market price} 
+\repeatable{prices.mdlMS[c]}
+
+
+\noindent \textbf{Market price of the margins paid to commodity $m$ on domestically produced commodity $c$} 
+\repeatable{prices.mdlPMGPD[m, c]}
+
+We assume that the margins paid on domestic and imported commodities can be produced by domestic and foreign (using the import share of the margin supplied). The price of the margins paid to commodity $m$ is assumed commun to all commodity $c$. \\
+
+\noindent \textbf{Market price of the margins paid to commodity $m$ on imported commodity $c$} 
+\repeatable{prices.mdlPMGPM[m, c]}
+
+This price is the same as the one paid on domestic commodity because of the assumption given in the previous equation. \\
+
+\noindent \textbf{Market price of margins supplied by domestically produced commodity $c$} 
+\repeatable{prices.mdlPMGSD[c]}
+
+
+\noindent \textbf{Market price of margins supplied by imported commodity $c$} 
+\repeatable{prices.mdlPMGSM[c]}
+
+
+\noindent \textbf{Market price of domestically produced intermediate consumption $c$ purshased by sector $s$} 
+\repeatable{prices.mdlPCID[c, s]}
+
+
+\noindent \textbf{Market price of imported intermediate consumption $c$ purshased by sector $s$} 
+\repeatable{prices.mdlPCIM[c, s]}
+
+
+\noindent \textbf{Market price of domestically produced households final consumption $c$} 
+\repeatable{prices.mdlPCHD[c]}
+
+
+\noindent \textbf{Market price of imported households final consumption $c$} 
+\repeatable{prices.mdlPCHM[c]}
+
+
+\noindent \textbf{Market price of domestically produced Government final consumption $c$} 
+\repeatable{prices.mdlPGD[c]}
+
+
+\noindent \textbf{Market price of imported Government final consumption $c$} 
+\repeatable{prices.mdlPGM[c]}
+
+
+\noindent \textbf{Market price of domestically produced investment $c$ purshased by sector $s$} 
+\repeatable{prices.mdlPID[c, s]}
+
+
+\noindent \textbf{Market price of imported investment $c$ purshased by sector $s$} 
+\repeatable{prices.mdlPIM[c, s]}
+
+
+\noindent \textbf{Market price of domestically produced exports $c$} 
+\repeatable{prices.mdlPXD[c]}
+
+
+\noindent \textbf{Market price of imported exports (re-exports) $c$} 
+\repeatable{prices.mdlPXM[c]}
+
+
+\noindent \textbf{Market price of domestically produced change in inventories $c$} 
+\repeatable{prices.mdlPDSD[c]}
+
+
+\noindent \textbf{Market price of imported change in inventories $c$} 
+\repeatable{prices.mdlPDSM[c]}
+
+
+
+
+\subsection{Average market prices for various uses (aggregation of domestic and imported uses)}
+
+
+
+\noindent \textbf{Market price of intermediate consumption $c$ purshased by sector $s$} 
+\repeatable{prices.mdlPCI[c, s]}
+
+
+\noindent \textbf{Market price of households final consumption $c$} 
+\repeatable{prices.mdlPCH[c]}
+
+
+\noindent \textbf{Market price of Government final consumption $c$} 
+\repeatable{prices.mdlPG[c]}
+
+
+\noindent \textbf{Market price of exports $c$} 
+\repeatable{prices.mdlPX[c]}
+
+
+
+\section{Producer}
+
+
+
+This file provides the equations defining the producer behaviour.
+
+
+
+
+
+\subsection{Margins}
+
+
+
+\noindent \textbf{Margins paid to commodity $m$ on the domestic commodity $c$} 
+\repeatable{producer.mdlMGPD[m, c]}
+
+The demand for margins $m$ paid on commodity $c$ depends on the demand for the commodity $c$ and on the substitution between margins type. \\
+
+\noindent \textbf{Notional substitution between margin $m$ and the other margin types $mm$ paid on domestic commodity $c$} 
+\repeatable{producer.mdlSUBST_MGPD_n[m, c]}
+
+
+\noindent \textbf{Share of margin type $m$ into the total margins paid on domestic commodity $c$} 
+\repeatable{producer.mdlphi_MGPD[m, c]}
+
+
+\noindent \textbf{Margins paid to commodity $m$ on the imported commodity $c$} 
+\repeatable{producer.mdlMGPM[m, c]}
+
+
+\noindent \textbf{Notional substitution between margin $m$ and the other margin types $mm$ paid on imported commodity $c$} 
+\repeatable{producer.mdlSUBST_MGPM_n[m, c]}
+
+
+\noindent \textbf{Share of margin type $m$ into the total margins paid on imported commodity $c$} 
+\repeatable{producer.mdlphi_MGPM[m, c]}
+
+
+
+
+\subsection{Production factors}
+
+
+
+\noindent \textbf{Production of commodity $c$ by sector $s$} 
+\repeatable{producer.mdlY[c, s]}
+
+We assume that each sector $s$ may produce more than one commodity $c$. Therefore the production $Y$ of commodity $c$ by sector $s$ depends on the parameter $\varphi^{Y}_{c, s}$ which represents the share of sector $s$ in the total production of commodity $c$. \\
+
+\noindent \textbf{Demand for production factor $f$ by sector $s$} 
+\repeatable{producer.mdlF_n[f, s]}
+
+
+\noindent \textbf{Notional substitution between input $f$ and the other inputs $ff$} 
+\repeatable{producer.mdlSUBST_F_n[f, s]}
+
+
+\noindent \textbf{Cost share of input $f$ for sector $s$} 
+\repeatable{producer.mdlphi[f, s]}
+
+
+
+\noindent \textbf{Aggregate production factors $f$} 
+\repeatable{producer.mdlF[f]}
+
+
+\noindent \textbf{Investment in commodity $c$ by sector $s$} 
+\repeatable{producer.mdlI[c, s]}
+
+For a given sector, we assume that the investment structure is fixed over time. In other words, the investment good is a composite of several commodities in fixed proportion. \\
+
+\noindent \textbf{Energy consumption $ce$ of sector $s$} 
+\repeatable{producer.mdlCI[ce, s]}
+
+
+\noindent \textbf{Notional substitution between energy commodity $ce$ and the other energy commodities $cee$ in the sector $s$} 
+\repeatable{producer.mdlSUBST_CI_n[ce, s]}
+
+
+\noindent \textbf{Share of energy $ce$ into the total energy use of sector $s$} 
+\repeatable{producer.mdlphi[E, ce, s]}
+
+
+
+\noindent \textbf{Material consumption $cmo$ of sector $s$} 
+\repeatable{producer.mdlCI[cmo, s]}
+
+We assume that intermediary consumption that are not transport or energy commodities are not substitutables (Leontief technology).  \\
+
+\noindent \textbf{Transport demand of sector $s$} 
+\repeatable{producer.mdlTRSP[s]}
+
+
+
+\noindent \textbf{Demand for transport commodity $ct$ by sector $s$} 
+\repeatable{producer.mdlCI[ct, s]}
+
+
+\noindent \textbf{Notional substitution between the transport $ct$ and the other transports $mt$ in the sector $s$} 
+\repeatable{producer.mdlSUBST_CI_n[ct, s]}
+
+
+\noindent \textbf{Share for transport $ct$ into the total transport use of sector $s$} 
+\repeatable{producer.mdlphi_TRSP[ct, s]}
+
+
+\noindent \textbf{Technical progress of the production factor $f$ in sector $s$} 
+\repeatable{producer.mdlPROG[f, s]}
+
+
+\noindent \textbf{Energy efficiency gains in sector $s$} 
+\repeatable{producer.mdlGR_PROG[E, s]}
+
+This specification states that the productivity gain of the energy input in sector $s$ depends on an exogenous trend and an endogenous price-induced component. Energy efficiency gains increase when the real energy price increases. This effect is assumed as irreversible: a decrease in the real energy price does not lead to a decrease in energy efficiency gains. \\
+
+
+
+
+
+
+
+
+\section{Consumer}
+
+
+
+
+
+\subsection{Households' income}
+
+
+\noindent \textbf{Disposable income before tax expressed in value} 
+\repeatable{consumer.mdlDISPINC_BT_VAL}
+
+The disposable income before tax is used as base for the income tax. \\
+
+\noindent \textbf{Disposable income after tax expressed in value} 
+\repeatable{consumer.mdlDISPINC_AT_VAL}
+
+The definition of the disposable income after tax corresponds to the definition of "gross disposable income" defined in the annual account by institutional sector of Eurostat (b.6.g). \\
+
+\noindent \textbf{Income and social taxes expressed in value} 
+\repeatable{consumer.mdlINC_SOC_TAX_VAL}
+
+
+\noindent \textbf{Property incomes expressed in value} 
+\repeatable{consumer.mdlPROP_INC_H_VAL_n}
+
+
+\noindent \textbf{Social benefits expressed in value} 
+\repeatable{consumer.mdlSOC_BENF_VAL}
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection{Households' expenditures}
+
+
+
+\noindent \textbf{Aggregate notional households final consumption expressed in value} 
+\repeatable{consumer.mdlCH_n_VAL}
+
+
+\noindent \textbf{Notional marginal propensity to save} 
+\repeatable{consumer.mdlMPS_n}
+
+
+
+
+
+
+\noindent \textbf{Households' final consumption $c$} 
+\repeatable{consumer.mdlCH_n[c]}
+
+We assume a Linear Expenditure System (LES) utility function to model consumption decisions between the commodity types. A LES specication assumes that a share of the base year consumption ($NCH_{c}$) is incompressible and therefore the relation between income and consumption is not linear. This specication allows for the distinction between the consumption of necessity and luxurious goods. \\
+
+\noindent \textbf{Price of necessary households consumption $c$} 
+\repeatable{consumer.mdlPNCH[c]}
+
+
+\noindent \textbf{Price of agregate necessary households consumption} 
+\repeatable{consumer.mdlPNCH}
+
+
+\noindent \textbf{Aggregate necessary households final consumption} 
+\repeatable{consumer.mdlNCH}
+
+
+\noindent \textbf{Share of commodity $c$ into the total marginal household consumption} 
+\repeatable{consumer.mdlphi_MCH[c]}
+
+The household marginal propension to spend in commodity $c$, $\varphi^{MCH}_{c}$, is generaly constant in a LES setting assuming implicitly an elastiscity of substitution of one between comodities. We assume here a more general case where the elastiscity of substitution can vary from zero to infinity. \\
+
+\noindent \textbf{Share of commodity $c$ into the total household consumption} 
+\repeatable{consumer.mdlPhi_CH[c]}
+
+Notice that if $NCH_{c} = 0$, $\varphi^{CH}_{c} = \varphi^{MCH}_{c}$.\\
+
+\noindent \textbf{CES consumption price index} 
+\repeatable{consumer.mdlPCH_CES}
+
+
+\noindent \textbf{Households savings expressed in value} 
+\repeatable{consumer.mdlSAV_H_VAL}
+
+
+\noindent \textbf{Households savings rate} 
+\repeatable{consumer.mdlRSAV_H_VAL}
+
+
+\noindent \textbf{Households savings stock} 
+\repeatable{consumer.mdlStock_SAV_H_VAL}
+
+
+
+\section{Government}
+
+
+
+
+
+\subsection{Incomes}
+
+
+
+
+
+\subsubsection{Taxes and social contributions}
+
+
+
+We assume that the volume of the tax varies only when the volume of the taxe bases (e.g. production, consumption) varies. Hence an increase in the tax rate does not increase the volume of the tax but increases its price. This is coherent with the specification of the production price: increasing the tax rate on production increases the production price but not production. \\
+
+\noindent \textbf{Net taxes on domestically produced commodity $c$ expressed in value} 
+\repeatable{government.mdlNTAXCD_VAL[c]}
+
+
+\noindent \textbf{Net taxes on domestically produced commodity $c$} 
+\repeatable{government.mdlNTAXCD[c]}
+
+
+\noindent \textbf{Net taxes on imported commodity $c$ expressed in value} 
+\repeatable{government.mdlNTAXCM_VAL[c]}
+
+
+\noindent \textbf{Net taxes on imported commodity $c$} 
+\repeatable{government.mdlNTAXCM[c]}
+
+
+\noindent \textbf{Net taxes on commodity $c$ expressed in value} 
+\repeatable{government.mdlNTAXC_VAL[c]}
+
+
+\noindent \textbf{Net taxes on commodity $c$} 
+\repeatable{government.mdlNTAXC[c]}
+
+
+\noindent \textbf{Net taxes on the production of sector $s$ expressed in value} 
+\repeatable{government.mdlNTAXS_VAL[s]}
+
+
+\noindent \textbf{Net taxes on the production of sector $s$} 
+\repeatable{government.mdlNTAXS[s]}
+
+
+\noindent \textbf{Employers' social security contribution paid by sector $s$} 
+\repeatable{government.mdlRSC[s]}
+
+
+\noindent \textbf{Price of the employers' social security contribution paid by sector $s$} 
+\repeatable{government.mdlPRSC[s]}
+
+
+
+
+\subsubsection{Aggregate taxes and social contributions}
+
+
+
+\noindent \textbf{Aggregate net taxes on commodity $c$ expressed in value} 
+\repeatable{government.mdlPNTAXC}
+
+
+\noindent \textbf{Aggregate net taxes on commodity $c$} 
+\repeatable{government.mdlNTAXC}
+
+
+\noindent \textbf{Aggregate net taxes on the production of sectors expressed in value} 
+\repeatable{government.mdlNTAXS_VAL}
+
+
+\noindent \textbf{Aggregate net taxes on the production of sectors} 
+\repeatable{government.mdlNTAXS}
+
+
+\noindent \textbf{Price of the aggregate employers' social security contribution paid by sector $s$} 
+\repeatable{government.mdlPRSC}
+
+
+\noindent \textbf{Aggregate employers' social security contribution paid by sectors} 
+\repeatable{government.mdlRSC}
+
+
+\noindent \textbf{Average employers' social security contribution rate} 
+\repeatable{government.mdlRRSC}
+
+
+
+
+\subsubsection{Other and aggregate incomes}
+
+
+
+\noindent \textbf{Notional property incomes of the Government expressed in value} 
+\repeatable{government.mdlPROP_INC_G_VAL_n}
+
+
+\noindent \textbf{Aggregate incomes of the Government expressed in value} 
+\repeatable{government.mdlINC_G_VAL}
+
+
+
+
+\subsection{Spendings}
+
+
+
+\noindent \textbf{ Government final consumption of commodity $c$} 
+\repeatable{government.mdlG[c]}
+
+
+\noindent \textbf{Aggregate spendings of the Government expressed in value} 
+\repeatable{government.mdlSPEND_G_VAL}
+
+
+
+
+\subsection{Deficit and debt}
+
+
+
+\noindent \textbf{Savings of the Government expressed in value} 
+\repeatable{government.mdlSAV_G_VAL}
+
+It corresponds to the net lending/borrowing, which is the published deficit/savings of the Government. \\
+
+\noindent \textbf{Primary balance of the Government expressed in value (deficit)} 
+\repeatable{government.mdlBal_G_Prim_VAL}
+
+It corresponds to the savings excluding the reimbursement and the interest on the debt. \\
+
+\noindent \textbf{Primary balance of the Government expressed in value (deficit) (for verification)} 
+\repeatable{government.mdlBal_G_Prim_VALbis}
+
+
+\noindent \textbf{Total balance of the Government expressed in value (deficit)} 
+\repeatable{government.mdlBal_G_Tot_VAL}
+
+
+\noindent \textbf{Government's debt expressed in value} 
+\repeatable{government.mdlDEBT_G_VAL}
+
+It corresponds to the previous year debt minus the reimbursement of the debt and the government savings. \\
+
+\noindent \textbf{Government's savings rate expressed in value (in percent of GDP)} 
+\repeatable{government.mdlRSAV_G_VAL}
+
+
+\noindent \textbf{Primary balance of the Government expressed in value (in percent of GDP)} 
+\repeatable{government.mdlRBal_G_Prim_VAL}
+
+
+\noindent \textbf{Total balance of the Government expressed in value (in percent of GDP)} 
+\repeatable{government.mdlRBal_G_Tot_VAL}
+
+
+\noindent \textbf{Ratio of the Government's debt expressed in value (in percent of GDP)} 
+\repeatable{government.mdlRDEBT_G_VAL}
+
+
+
+
+\section{International Trade}
+
+
+This file provides the equations defining the allocation between domestic and imported goods per use.The differentiation per use allows for distinguishing import share per use and therefore a more realistic representation of the economy than model that assume a common import share. Indeed, the import share of export is generally smaller than for consumption.
+
+
+
+\subsection{Domestic demand}
+
+
+
+\noindent \textbf{Received margins on domestically produced commodity $m$} 
+\repeatable{Trade_inter.mdlMGSD[m]}
+
+
+\noindent \textbf{Private final consumption of domestically produced commodity $c$} 
+\repeatable{Trade_inter.mdlCHD[c]}
+
+
+\noindent \textbf{Public final consumption of domestically produced commodity $c$} 
+\repeatable{Trade_inter.mdlGD[c]}
+
+
+\noindent \textbf{Margins supplied from imported commodity $m$} 
+\repeatable{Trade_inter.mdlMGSM[m]}
+
+
+\noindent \textbf{Private final consumption of imported commodity $c$} 
+\repeatable{Trade_inter.mdlCHM[c]}
+
+
+\noindent \textbf{Public final consumption of imported commodity $c$} 
+\repeatable{Trade_inter.mdlGM[c]}
+
+
+\noindent \textbf{Import share of commodity $c$ on supplied margins} 
+\repeatable{Trade_inter.mdlphi_MGSM[m]}
+
+
+\noindent \textbf{Import share of commodity $c$ for household final consumption} 
+\repeatable{Trade_inter.mdlphi_CHM[c]}
+
+
+\noindent \textbf{Import share $\varphi_c$ of commodity $c$ on the governement final consumption} 
+\repeatable{Trade_inter.mdlphi_GM[c]}
+
+
+\noindent \textbf{Notional substitution effect induced by a change in the relative price between imported and domestically produced commodity $c$ for margins supplied} 
+\repeatable{Trade_inter.mdlSUBST_MGSM_n[c]}
+
+
+\noindent \textbf{Notional substitution effect induced by a change in the relative price between imported and domestically produced commodity $c$ for households final consumption} 
+\repeatable{Trade_inter.mdlSUBST_CHM_n[c]}
+
+
+\noindent \textbf{Notional substitution effect induced by a change in the relative price between imported and domestically produced commodity $c$ for government final consumption} 
+\repeatable{Trade_inter.mdlSUBST_GM_n[c]}
+
+
+\noindent \textbf{Intermediary consumption from sector $s$ in domestically produced commodity $c$} 
+\repeatable{Trade_inter.mdlCID[c, s]}
+
+
+\noindent \textbf{Investment from sector $s$ in domestically produced commodity $c$} 
+\repeatable{Trade_inter.mdlID[c, s]}
+
+
+\noindent \textbf{Intermediary consumption from sector $s$ in imported commodity $c$} 
+\repeatable{Trade_inter.mdlCIM[c, s]}
+
+
+\noindent \textbf{Investment from sector $s$ in imported commodity $c$} 
+\repeatable{Trade_inter.mdlIM[c, s]}
+
+
+\noindent \textbf{Import share of intermediary consumption from sector $s$ in domestically produced commodity $c$} 
+\repeatable{Trade_inter.mdlphi_CIM[c, s]}
+
+
+\noindent \textbf{Import share of intermediary consumption from sector $s$ in imported commodity $c$} 
+\repeatable{Trade_inter.mdlphi_IM[c, s]}
+
+
+\noindent \textbf{Notional substitution effect induced by a change in the relative price between imported and domestic intermediary consumption in commodity $c$ from the sector $s$} 
+\repeatable{Trade_inter.mdlSUBST_CIM_n[c, s]}
+
+
+\noindent \textbf{Notional substitution effect induced by a change in the relative price between imported and domestic investment in commodity $c$ from the sector $s$} 
+\repeatable{Trade_inter.mdlSUBST_IM_n[c, s]}
+
+
+
+
+
+
+\subsection{Exports}
+
+
+\noindent \textbf{Exports of domestically produced commodity $c$} 
+\repeatable{Trade_inter.mdlXD[c]}
+
+
+\noindent \textbf{Exports of imported commodity $c$} 
+\repeatable{Trade_inter.mdlXM[c]}
+
+
+\noindent \textbf{Import share of commodity $c$ exports} 
+\repeatable{Trade_inter.mdlphi_XM[c]}
+
+
+\noindent \textbf{Notional substitution effect induced by a change in the relative price between imported and domestic products $c$ for exports} 
+\repeatable{Trade_inter.mdlSUBST_XM_n[c]}
+
+
+\noindent \textbf{Foreign demand for exports of commmodity $c$} 
+\repeatable{Trade_inter.mdlX[c]}
+
+
+\noindent \textbf{Notional substitution effect induced by a change in the relative price between export prices and (converted in domestic currency) international prices for the commodity $c$} 
+\repeatable{Trade_inter.mdlSUBST_X_n[c]}
+
+
+\noindent \textbf{Balance of trade of commodity $c$} 
+\repeatable{Trade_inter.mdlBal_Trae_VAL[c]}
+
+
+\noindent \textbf{Aggregate balance of trade} 
+\repeatable{Trade_inter.mdlBal_Trae_VAL}
+
+
+\noindent \textbf{Balance of trade (in percent of GDP)} 
+\repeatable{Trade_inter.mdlRBal_Trae_VAL}
+
+
+
+\section{Demography}
+
+
+
+\noindent \textbf{Working-age population} 
+\repeatable{demography.mdlWAPop}
+
+The working age population linearly grows with the total population. \\
+
+\noindent \textbf{Labor force} 
+\repeatable{demography.mdlLF}
+
+The Labor force depends on a participation rate of the working-age population. \\
+
+\noindent \textbf{Labor force participation ratio} 
+\repeatable{demography.mdlPARTR_n}
+
+Because of discouraged worker effect, the participation ratio depends generally negatively on the unemployment rate. \\
+
+\noindent \textbf{Employment (ILO definition)} 
+\repeatable{demography.mdlempl}
+
+In general, labor according to the national account differs from the employment according to the ILO definition. One reason is that labor is expressed in FTE (full time equivalent). To calculate the unemployment rate, one needs to use the employment according to the ILO definition. We assume that the average work duration is constant over time, implying stability of the employment to labor ratio. \\
+
+\noindent \textbf{Unemployment} 
+\repeatable{demography.mdlUn}
+
+Unemployment is determined as the difference between the total active population with the one which is employed. \\
+
+\noindent \textbf{Unemployment rate} 
+\repeatable{demography.mdlUnR}
+
+The Unemployment rate is defined as the ratio between the total unemployment and the active population.
+
+
+\section{Greenhouse gases emissions}
+
+
+This file provides the equations defining the path of GreenHouse Gases (GHG) emissions. All emission types are expressed in CO2-equivalent to facilitate aggregation. For the same emission type (e.g. CO2), several equation are defined depending on the emission basis: intermediary consumption, household consumption or production. \\
+
+
+\noindent \textbf{Emissions ghg related to the intermediary consumption of of commodity $c$ by sector $s$} 
+\repeatable{ghg_emissions.mdlEMS_CI[ghg,c,s]}
+
+In practice only a few intermediaries generate emissions (e.g. coal, gas, petrol). IEMS_CI[ghg,c,s] is the corresponding emission intensity calibrated to 1 in the baseyear. It may change over time because of the increase of the share of biofuels. \\
+
+\noindent \textbf{Emissions ghg related to the  materials consumption of sector $s$} 
+\repeatable{ghg_emissions.mdlEMS_MAT[ghg,s]}
+
+This mainly corresponds to the CO2 emissions from decarbonation. \\
+
+\noindent \textbf{Emissions ghg related to the final production of sector $s$} 
+\repeatable{ghg_emissions.mdlEMS_Y[ghg,s]}
+
+This mainly correspond to the emissions from agriculture. \\
+
+\noindent \textbf{Emissions ghg related to the household consumption $c$} 
+\repeatable{ghg_emissions.mdlEMS_CH[ghg,c]}
+
+
+\noindent \textbf{Emissions ghg related to the intermediary consumption of commodity $c$} 
+\repeatable{ghg_emissions.mdlEMS_CI[ghg,c]}
+
+
+\noindent \textbf{Emissions ghg related to the intermediary consumption by sector $s$} 
+\repeatable{ghg_emissions.mdlEMS_CI[ghg,s]}
+
+
+\noindent \textbf{Emissions of the greehouse gas $ghg$ related to the intermediary consumption} 
+\repeatable{ghg_emissions.mdlEMS_CI[ghg]}
+
+Aggregation by sector $s$. \\
+
+\noindent \textbf{Emissions of the greehouse gas $ghg$ related to the intermediary consumption (for verification)} 
+\repeatable{ghg_emissions.mdlEMS_CIbis[ghg]}
+
+Aggregation by commodity $c$. \\
+
+\noindent \textbf{Emissions of the greehouse gas $ghg$ related to the total material consumption} 
+\repeatable{ghg_emissions.mdlEMS_MAT[ghg]}
+
+
+\noindent \textbf{Emissions of the greehouse gas $ghg$ related to the final production} 
+\repeatable{ghg_emissions.mdlEMS_Y[ghg]}
+
+
+\noindent \textbf{Emissions of the greehouse gas $ghg$ related to the household final consumption} 
+\repeatable{ghg_emissions.mdlEMS_CH[ghg]}
+
+
+\noindent \textbf{Aggregate emissions of the greehouse gas $ghg$} 
+\repeatable{ghg_emissions.mdlEMS[ghg]}
+
+
+\noindent \textbf{Aggregate emissions related to the intermediary consumption} 
+\repeatable{ghg_emissions.mdlEMS_CI}
+
+
+\noindent \textbf{Aggregate emissions related to the material consumption} 
+\repeatable{ghg_emissions.mdlEMS_MAT}
+
+
+\noindent \textbf{Aggregate emissions related to the final production} 
+\repeatable{ghg_emissions.mdlEMS_Y}
+
+
+\noindent \textbf{Aggregate emissions related to the households final consumption} 
+\repeatable{ghg_emissions.mdlEMS_CH}
+
+
+\noindent \textbf{Aggregate emissions} 
+\repeatable{ghg_emissions.mdlEMS}
+
+
+\noindent \textbf{Aggregate emissions by type of substance} 
+\repeatable{ghg_emissions.mdlEMSbis}
+
+
+
+\subsection{Final production and demand}
+
+
+\noindent \textbf{Demand for energy $ce$ of sector $s$, expressed in toe} 
+\repeatable{energybalance.mdlCI_toe[ce, s]}
+
+
+\noindent \textbf{Demand for energy $ce$ of households, expressed in toe} 
+\repeatable{energybalance.mdlCH_toe[ce]}
+
+
+\noindent \textbf{External demand for energy $ce$, expressed in toe} 
+\repeatable{energybalance.mdlX_toe[ce]}
+
+
+\noindent \textbf{Final production of energy of $ce$ by sector $s$, expressed in toe} 
+\repeatable{energybalance.mdlY_toe[ce, s]}
+
+
+\noindent \textbf{Imported energy $ce$, expressed in toe} 
+\repeatable{energybalance.mdlM_toe[ce]}
+
+
+\noindent \textbf{Demand for energy $ce$ of sectors, expressed in toe} 
+\repeatable{energybalance.mdlCI_toe[ce]}
+
+
+
+\noindent \textbf{Final production of energy of $ce$ by sectors, expressed in toe} 
+\repeatable{energybalance.mdlY_toe[ce]}
+
+
+
+
+\subsection{Primary production and demand}
+
+
+
+
+\section{Other equations}
+
+
+
+
+
+\subsection{Adjustment equations and anticipation}
+
+
+
+\noindent \textbf{Mark-up in the sector $s$} 
+\repeatable{adjustments.mdlMARKUP[s]}
+
+
+\noindent \textbf{Expected inflation.} 
+\repeatable{adjustments.mdlP_e}
+
+This equation defines the expected inflation and not the expected price. $P^{e}$ does not necessary converge to $P$. If the wage equation is a WS curve, even in the very long term it may not converge. \\
+
+\noindent \textbf{Expected production} 
+\repeatable{adjustments.mdlY_e[s]}
+
+
+\noindent \textbf{Quantity of Labor, Energy and Material inputs in sector $s$} 
+\repeatable{adjustments.mdlF[f, s]}
+
+
+\noindent \textbf{Expected quantity of Labor, Energy and Material inputs in sector $s$} 
+\repeatable{adjustments.mdlF_e[f, s]}
+
+
+\noindent \textbf{Capital stock of sector $s$} 
+\repeatable{adjustments.mdlF[K, s]}
+
+
+\noindent \textbf{Investment in sector $s$} 
+
+
+\repeatable{adjustments.mdlIA[s]}
+
+
+
+
+
+
+
+
+
+\noindent \textbf{Households final consumption of commodity $c$} 
+\repeatable{adjustments.mdlCH[c]}
+
+
+\noindent \textbf{Expected households final consumption of commodity $c$} 
+\repeatable{adjustments.mdlCH_e[c]}
+
+
+\noindent \textbf{Production price of sector $s$} 
+\repeatable{adjustments.mdlPY[s]}
+
+
+\noindent \textbf{Expected production priceof sector $s$} 
+\repeatable{adjustments.mdlPY_e[s]}
+
+
+\noindent \textbf{Wages of the sector $s$} 
+\repeatable{adjustments.mdlW[s]}
+
+
+\noindent \textbf{Labor participation ratio} 
+\repeatable{adjustments.mdlPARTR}
+
+
+\noindent \textbf{Interest rate} 
+\repeatable{adjustments.mdlR}
+
+
+\noindent \textbf{ Households property income in value} 
+\repeatable{adjustments.mdlPROP_INC_H_VAL}
+
+
+\noindent \textbf{Expected Households property income in value} 
+\repeatable{adjustments.mdlPROP_INC_H_VAL_e}
+
+
+\noindent \textbf{Government property incomes in value} 
+\repeatable{adjustments.mdlPROP_INC_G_VAL}
+
+
+\noindent \textbf{Expected Government property incomes in value} 
+\repeatable{adjustments.mdlPROP_INC_G_VAL_e}
+
+
+
+
+\subsection{Substitutions}
+
+
+
+\noindent \textbf{Substitution effect of the production factor $f$ in the sector $s$} 
+\repeatable{adjustments.mdlSUBST_F[f, s]}
+
+
+\noindent \textbf{Substitution effect of the domestic margin paid $m$ for the commodity $c$} 
+\repeatable{adjustments.mdlSUBST_MGPD[m, c]}
+
+
+\noindent \textbf{Substitution effect on the imported margin paid $m$ for the commodity $c$} 
+\repeatable{adjustments.mdlSUBST_MGPM[m, c]}
+
+
+\noindent \textbf{Substitution effect on the energy intermediate consumption $ce$ in the sector $s$} 
+\repeatable{adjustments.mdlSUBST_CI[ce, s]}
+
+
+\noindent \textbf{Substitution effect on the transportation intermediate consumption $ce$ in the sector $s$} 
+\repeatable{adjustments.mdlSUBST_CI[ct, s]}
+
+
+\noindent \textbf{Substitution effect on the imported margin supplied for the commodity $m$} 
+\repeatable{adjustments.mdlSUBST_MGSM[m]}
+
+
+\noindent \textbf{Substitution effect on the imported households final consumption for the commodity $c$} 
+\repeatable{adjustments.mdlSUBST_CHM[c]}
+
+
+\noindent \textbf{Substitution effect on the imported government final consumption for the commodity $c$} 
+\repeatable{adjustments.mdlSUBST_GM[c]}
+
+
+\noindent \textbf{Substitution effect on the government final consumption for the imported commodity $c$} 
+\repeatable{adjustments.mdlSUBST_XM[c]}
+
+
+\noindent \textbf{Substitution effect on the intermediate consumption for the imported commodity $c$ in the sector $s$} 
+\repeatable{adjustments.mdlSUBST_CIM[c, s]}
+
+
+\noindent \textbf{Substitution effect on the investment for the imported commodity $c$ in the sector $s$} 
+\repeatable{adjustments.mdlSUBST_IM[c, s]}
+
+
+\noindent \textbf{Substitution effect on the exports of the commodity $c$} 
+\repeatable{adjustments.mdlSUBST_X[c]}
+
+
+
+\section{Carbon tax}
+
+
+
+
+
+\subsection{Incomes generated by the carbon tax by type of emissions, sector and commodity}
+
+
+
+
+
+\subsubsection{Incomes generated by intermediary consumption emissions}
+
+
+
+\noindent \textbf{Carbon tax in value on intermediary consumption emissions depending on ghg emission types, commodity c in sector s} 
+\repeatable{Exception_taxes_prices.mdlT2VAL_CI[ghg,c,s]}
+
+
+\noindent \textbf{Carbon tax in volume on intermediary consumption emissions depending on ghg emission types, commodity c in sector s} 
+\repeatable{Exception_taxes_prices.mdlT2_CI[ghg,c,s]}
+
+
+\noindent \textbf{Carbon tax in value on intermediary consumption emissions depending on ghg emission types and commodity c} 
+\repeatable{Exception_taxes_prices.mdlT2VAL_CI[ghg,c]}
+
+
+\noindent \textbf{Carbon tax in value on intermediary consumption emissions depending on ghg emission types and domestic commodity c} 
+\repeatable{Exception_taxes_prices.mdlT2VAL_CID[ghg,c]}
+
+
+\noindent \textbf{Carbon tax in volume on intermediary consumption emissions depending on ghg emission types and domestic commodity c} 
+\repeatable{Exception_taxes_prices.mdlT2_CID[ghg,c]}
+
+
+\noindent \textbf{Carbon tax in value on intermediary consumption emissions depending on ghg emission types and imported commodity c} 
+\repeatable{Exception_taxes_prices.mdlT2VAL_CIM[ghg,c]}
+
+
+\noindent \textbf{Carbon tax in volume on intermediary consumption emissions depending on ghg emission types and imported commodity c} 
+\repeatable{Exception_taxes_prices.mdlT2_CIM[ghg,c]}
+
+
+\noindent \textbf{Carbon tax in value on intermediary consumption emissions depending on ghg emission types and sector s} 
+\repeatable{Exception_taxes_prices.mdlT2VAL_CI[ghg,s]}
+
+
+\noindent \textbf{Carbon tax in value on intermediary consumption emissions depending on commodity c and sector s} 
+\repeatable{Exception_taxes_prices.mdlT2VAL_CI[c,s]}
+
+
+\noindent \textbf{Carbon tax in value on intermediary consumption emissions depending on ghg emission types} 
+\repeatable{Exception_taxes_prices.mdlT2VAL_CI[ghg]}
+
+
+\noindent \textbf{Carbon tax in value on intermediary consumption emissions depending on commodity c} 
+\repeatable{Exception_taxes_prices.mdlT2VAL_CI[c]}
+
+
+\noindent \textbf{Carbon tax in value on intermediary consumption emissions depending on domestic commodity c} 
+\repeatable{Exception_taxes_prices.mdlT2VAL_CID[c]}
+
+
+\noindent \textbf{Carbon tax in volume on intermediary consumption emissions depending on domestic commodity c} 
+\repeatable{Exception_taxes_prices.mdlT2_CID[c]}
+
+
+\noindent \textbf{Carbon tax in value on intermediary consumption emissions depending on imported commodity c} 
+\repeatable{Exception_taxes_prices.mdlT2VAL_CIM[c]}
+
+
+\noindent \textbf{Carbon tax in volume on intermediary consumption emissions depending on imported commodity c} 
+\repeatable{Exception_taxes_prices.mdlT2_CIM[c]}
+
+
+\noindent \textbf{Carbon tax in value on intermediary consumption emissions depending on sector s} 
+\repeatable{Exception_taxes_prices.mdlT2VAL_CI[s]}
+
+
+\noindent \textbf{Carbon tax in value on intermediary consumption emissions} 
+\repeatable{Exception_taxes_prices.mdlT2VAL_CI}
+
+
+
+
+\subsubsection{Incomes generated by material emissions}
+
+
+
+\noindent \textbf{Carbon tax in value on material emissions depending on ghg emission types, commodity c in sector s} 
+\repeatable{Exception_taxes_prices.mdlT2VAL_MAT[ghg,s]}
+
+
+\noindent \textbf{Carbon tax in volume on material emissions depending on ghg emission types, commodity c in sector s} 
+\repeatable{Exception_taxes_prices.mdlT2_MAT[ghg,s]}
+
+
+\noindent \textbf{Carbon tax in value on material emissions depending on ghg emission types} 
+\repeatable{Exception_taxes_prices.mdlT2VAL_MAT[ghg]}
+
+
+\noindent \textbf{Carbon tax in volume on material emissions depending on ghg emission types} 
+\repeatable{Exception_taxes_prices.mdlT2_MAT[ghg]}
+
+
+\noindent \textbf{Carbon tax in value on material emissions depending on commodity c} 
+\repeatable{Exception_taxes_prices.mdlT2VAL_MAT[s]}
+
+
+\noindent \textbf{Carbon tax in volume on material emissions depending on commodity c} 
+\repeatable{Exception_taxes_prices.mdlT2_MAT[s]}
+
+
+\noindent \textbf{Carbon tax in value on material emissions} 
+\repeatable{Exception_taxes_prices.mdlT2VAL_MAT}
+
+
+
+
+\subsubsection{Incomes generated by production emissions}
+
+
+
+\noindent \textbf{Carbon tax in value on production emissions depending on ghg emission types, commodity c in sector s} 
+\repeatable{Exception_taxes_prices.mdlT2VAL_Y[ghg,s]}
+
+
+\noindent \textbf{Carbon tax in volume on production emissions depending on ghg emission types, commodity c in sector s} 
+\repeatable{Exception_taxes_prices.mdlT2_Y[ghg,s]}
+
+
+\noindent \textbf{Carbon tax in value on production emissions depending on ghg emission types} 
+\repeatable{Exception_taxes_prices.mdlT2VAL_Y[ghg]}
+
+
+\noindent \textbf{Carbon tax in volume on production emissions depending on ghg emission types} 
+\repeatable{Exception_taxes_prices.mdlT2_Y[ghg]}
+
+
+\noindent \textbf{Carbon tax in value on production emissions depending on sector s} 
+\repeatable{Exception_taxes_prices.mdlT2VAL_Y[s]}
+
+
+\noindent \textbf{Carbon tax in volume on production emissions depending on sector s} 
+\repeatable{Exception_taxes_prices.mdlT2_Y[s]}
+
+
+\noindent \textbf{Carbon tax in value on production emissions} 
+\repeatable{Exception_taxes_prices.mdlT2VAL_Y}
+
+
+
+
+\subsubsection{Incomes generated by households' emissions}
+
+
+
+\noindent \textbf{Carbon tax in value on households' consumption depending on ghg emission types and commodity c} 
+\repeatable{Exception_taxes_prices.mdlT2VAL_CH[ghg,c]}
+
+
+\noindent \textbf{Carbon tax in volume on households' consumption depending on ghg emission types and commodity c} 
+\repeatable{Exception_taxes_prices.mdlT2_CH[ghg,c]}
+
+
+\noindent \textbf{Carbon tax in value on households' consumption depending on ghg emission types} 
+\repeatable{Exception_taxes_prices.mdlT2VAL_CH[ghg]}
+
+
+\noindent \textbf{Carbon tax in value on households' consumption depending on commodity c} 
+\repeatable{Exception_taxes_prices.mdlT2VAL_CH[c]}
+
+
+\noindent \textbf{Carbon tax in volume on households' consumption depending on commodity c} 
+\repeatable{Exception_taxes_prices.mdlT2_CH[c]}
+
+
+\noindent \textbf{Carbon tax in value on households' consumption depending on ghg emission types and commodity c} 
+\repeatable{Exception_taxes_prices.mdlT2VAL_CH}
+
+
+
+
+
+\section{ Taxes on commodities \& Prices per uses}
+
+
+
+There are two versions regarding the specification of prices and taxes on commodities: (1) the basic version where taxes are not differentiated between uses (e.g. intermediary, final consumption, export, etc.) and type (e.g. VAT, subsidies, etc.); (2) the advanced version where this differentiation is made. \\
+
+This file provides the equations defining with more detail taxes and prices. In the basic version, taxes on commodities are not differentiated between uses. A constant average tax rate on each commodity is assumed. This has the advantage to require less data for the calibration. But this assumption is often unrealistic since taxes on commodities are generally differentiated per uses. For instance, VAT applies on final consumption but not on intermediary consumption or exports. Subsidies are generally higher for domestic than imported products. When the equations of this section are activated in ThreeME, the heterogeneity regarding the tax rates is taken into account. Additional data are required to disaggregate taxes. The average tax rate is not constant anymore and becomes an endogenous variable that depends on the evolution of structure of taxes and subsidies. To preserve the accountancy consistency of the model, prices have also to be amended compared to the basic version. \\
+
+
+
+\subsection{ Taxes on commodities}
+
+
+
+
+
+\subsubsection{Average tax rates on commodities}
+
+
+
+\noindent \textbf{Net taxes on domestically produced commodity $c$ expressed in value} 
+
+\repeatable{Exception_taxes_prices.mdlNTAXCD_VAL[c]}
+
+
+\noindent \textbf{Net taxes on domestically produced commodity $c$} 
+\repeatable{Exception_taxes_prices.mdlNTAXCD[c]}
+
+
+
+This is not defined anymore by simply assuming a constant rate over the production value: $NTAXCD^{VAL}_{c} = RNTAXCD_{c}*PYQ_{c}*YQ_{c}$. Different taxes are now defined depending on their basis (see below). \\
+
+\noindent \textbf{Average tax rate on domestically produced commodity $c$} 
+\repeatable{Exception_taxes_prices.mdlRNTAXCD[c]}
+
+
+This rate become now endogenous by inverting the equation of $NTAXCD^{VAL}_{c}$. This specification ensure the equality accountancy between the various GDP definition. \\
+
+\noindent \textbf{Net taxes on imported commodity $c$ expressed in value} 
+\repeatable{Exception_taxes_prices.mdlNTAXCM_VAL[c]}
+
+
+\noindent \textbf{Net taxes on imported commodity $c$} 
+\repeatable{Exception_taxes_prices.mdlNTAXCM[c]}
+
+
+\noindent \textbf{Average tax rate on imported commodity $c$} 
+\repeatable{Exception_taxes_prices.mdlRNTAXCM[c]}
+
+
+
+
+\subsubsection{Value-added tax (value \& volume)}
+
+
+
+\noindent \textbf{Price of value-added tax on domestically produced commodity $c$} 
+
+\repeatable{Exception_taxes_prices.mdlPVATD[c]}
+
+
+\noindent \textbf{Value-added tax on domestically produced commodity $c$} 
+\repeatable{Exception_taxes_prices.mdlVATD[c]}
+
+
+\noindent \textbf{Price of value-added tax on imported commodity $c$} 
+
+\repeatable{Exception_taxes_prices.mdlPVATM[c]}
+
+
+\noindent \textbf{Value-added tax on imported commodity $c$} 
+\repeatable{Exception_taxes_prices.mdlVATM[c]}
+
+
+
+
+\subsubsection{Other taxes on commodities (value \& volume)}
+
+
+
+\noindent \textbf{Price of other taxes on domestically produced commodity $c$} 
+\repeatable{Exception_taxes_prices.mdlPOTHCTD[c]}
+
+
+\noindent \textbf{Other taxes on domestically produced commodity $c$} 
+\repeatable{Exception_taxes_prices.mdlOTHCTD[c]}
+
+
+\noindent \textbf{Price other taxes on imported commodity $c$} 
+\repeatable{Exception_taxes_prices.mdlPOTHCTM[c]}
+
+
+\noindent \textbf{Other taxes on imported commodity $c$} 
+\repeatable{Exception_taxes_prices.mdlOTHCTM[c]}
+
+
+
+
+\subsubsection{Subsidies on commodities (value \& volume)}
+
+
+
+
+\repeatable{Exception_taxes_prices.mdlPSUBCD[c]}
+
+
+\noindent \textbf{Subsidies on domestically produced commodity $c$} 
+\repeatable{Exception_taxes_prices.mdlSUBCD[c]}
+
+
+We assume that subsidies are proportional to on the volume of production which is often the cases (in particular for agriculture). Consequently the price of the subvention grows like the subvention rate. For simplicity, we assume that at the steady state, the subvention rate grows at the rate of inflation. \\
+
+\noindent \textbf{Price of subsidies on imported commodity $c$} 
+\repeatable{Exception_taxes_prices.mdlPSUBCM[c]}
+
+
+\noindent \textbf{Subsidies on imported commodity $c$} 
+\repeatable{Exception_taxes_prices.mdlSUBCM[c]}
+
+
+
+
+
+
+\subsection{Prices of commodities}
+
+
+ Prices are amended to be consistent with the above specification of taxes. \\
+
+\noindent \textbf{Selling price before VAT for domestically produced commodity $c$} 
+\repeatable{Exception_taxes_prices.mdlPYQSBVAT[c]}
+
+
+\noindent \textbf{Production of commodity $c$ expressed at market price before VAT} 
+\repeatable{Exception_taxes_prices.mdlYQSBVAT[c]}
+
+
+$YQSBVAT_{c}$ is the volume of the production expressed at market price before VAT. It should \textbf{\underline{not}} be seen as a composite of several "goods": production at basic price, margins and taxes. Indeed, it does not increase when the volume of the commercial and transport margins increase. The price does instead. Consequently, $YQSBVAT_{c}$ is always proportional to $YQ_{c}$. Notice the consistency with the specification of the volume of a tax or a subvention: the tax rate does not increase the volume of the tax but increases its price. The volume of the tax increases only when the volume of the tax base (e.g. consumption, production) increases. \\
+
+\noindent \textbf{Selling price before VAT for imported commodity $c$} 
+\repeatable{Exception_taxes_prices.mdlPMSBVAT[c]}
+
+
+\noindent \textbf{Imports of commodity $c$ expressed at market price before VAT} 
+\repeatable{Exception_taxes_prices.mdlMSBVAT[c]}
+
+
+\noindent \textbf{Market price of margins supplied by domestically produced commodity $c$} 
+\repeatable{Exception_taxes_prices.mdlPMGSD[c]}
+
+
+\noindent \textbf{Market price of margins supplied by imported commodity $c$} 
+\repeatable{Exception_taxes_prices.mdlPMGSM[c]}
+
+
+\noindent \textbf{Market price of domestically produced intermediate consumption $c$ purshased by sector $s$} 
+\repeatable{Exception_taxes_prices.mdlPCID[c, s]}
+
+
+\noindent \textbf{Market price of imported intermediate consumption $c$ purshased by sector $s$} 
+\repeatable{Exception_taxes_prices.mdlPCIM[c, s]}
+
+
+\noindent \textbf{Market price of domestically produced households final consumption $c$} 
+\repeatable{Exception_taxes_prices.mdlPCHD[c]}
+
+
+\noindent \textbf{Market price of imported households final consumption $c$} 
+\repeatable{Exception_taxes_prices.mdlPCHM[c]}
+
+
+\noindent \textbf{Market price of domestically produced Government final consumption $c$} 
+\repeatable{Exception_taxes_prices.mdlPGD[c]}
+
+
+\noindent \textbf{Market price of imported Government final consumption $c$} 
+\repeatable{Exception_taxes_prices.mdlPGM[c]}
+
+
+\noindent \textbf{Market price of domestically produced investment $c$ purshased by sector $s$} 
+\repeatable{Exception_taxes_prices.mdlPID[c, s]}
+
+
+\noindent \textbf{Market price of imported investment $c$ purshased by sector $s$} 
+\repeatable{Exception_taxes_prices.mdlPIM[c, s]}
+
+
+\noindent \textbf{Market price of domestically produced exports $c$} 
+\repeatable{Exception_taxes_prices.mdlPXD[c]}
+
+
+\noindent \textbf{Market price of imported exports (re-exports) $c$} 
+\repeatable{Exception_taxes_prices.mdlPXM[c]}
+
+
+\noindent \textbf{Market price of domestically produced change in inventories $c$} 
+\repeatable{Exception_taxes_prices.mdlPDSD[c]}
+
+
+\noindent \textbf{Market price of imported change in inventories $c$} 
+\repeatable{Exception_taxes_prices.mdlPDSM[c]}
+
+
+
+
+
+\subsubsection{Aggregation of taxes}
+
+
+
+\noindent \textbf{Aggregate market price for value-added tax paid on domestically produced comodities} 
+\repeatable{Exception_taxes_prices.mdlPVATD}
+
+\noindent \textbf{Aggregate value-added tax paid on domestically produced comodities} 
+\repeatable{Exception_taxes_prices.mdlVATD}
+
+
+\noindent \textbf{Aggregate market price for other product tax paid on domestically produced comodities} 
+\repeatable{Exception_taxes_prices.mdlPOTHCTD}
+
+
+\noindent \textbf{Aggregate other product tax paid on domestically produced comodities} 
+\repeatable{Exception_taxes_prices.mdlOTHCTD}
+
+
+\noindent \textbf{Aggregate market price for subsidies on domestically produced commodities} 
+\repeatable{Exception_taxes_prices.mdlPSUBCD}
+
+
+\noindent \textbf{Aggregate subsidies on domestically produced commodities} 
+\repeatable{Exception_taxes_prices.mdlSUBCD}
+
+
+\noindent \textbf{Aggregate market price for value-added tax paid on imported comodities} 
+\repeatable{Exception_taxes_prices.mdlPVATM}
+
+
+\noindent \textbf{Aggregate value-added tax paid on imported comodities} 
+\repeatable{Exception_taxes_prices.mdlVATM}
+
+
+\noindent \textbf{Aggregate market price for Other product Tax on imported commododities} 
+\repeatable{Exception_taxes_prices.mdlPOTHCTM}
+
+
+\noindent \textbf{Aggregate Other product Tax on imported commododities} 
+\repeatable{Exception_taxes_prices.mdlOTHCTM}
+
+
+\noindent \textbf{Aggregate market price for subsidies on imported commododities} 
+\repeatable{Exception_taxes_prices.mdlPSUBCM}
+
+
+\noindent \textbf{Aggregate subsidies on imported commodities} 
+\repeatable{Exception_taxes_prices.mdlSUBCM}
+
+
+\noindent \textbf{Aggregate market price for Value-added Tax on total households final consumption} 
+\repeatable{Exception_taxes_prices.mdlPVAT}
+
+
+\noindent \textbf{Aggregate Value-added Tax on total households final consumption} 
+\repeatable{Exception_taxes_prices.mdlVAT}
+
+
+\noindent \textbf{Aggregate market price for other product Tax} 
+\repeatable{Exception_taxes_prices.mdlPOTHCT}
+
+
+\noindent \textbf{Aggregate Other product Tax} 
+\repeatable{Exception_taxes_prices.mdlOTHCT}
+
+
+\noindent \textbf{Aggregate market price for subsidies on commodities} 
+\repeatable{Exception_taxes_prices.mdlPSUBC}
+
+
+\noindent \textbf{Aggregate subsidies on commodities} 
+\repeatable{Exception_taxes_prices.mdlSUBC}
+
+
+
+
+\subsubsection{Average tax rates}
+
+
+
+\noindent \textbf{Average VAT rate on domestically produced commodity} 
+\repeatable{Exception_taxes_prices.mdlRVATD}
+
+
+\noindent \textbf{Average rate of other taxes on domestically produced commodity} 
+\repeatable{Exception_taxes_prices.mdlROTHCTD}
+
+
+\noindent \textbf{Average rate of subsidies on domestically produced commodity} 
+\repeatable{Exception_taxes_prices.mdlRSUBCD}
+
+
+\noindent \textbf{Average VAT rate on imported commodity} 
+\repeatable{Exception_taxes_prices.mdlRVATM}
+
+
+\noindent \textbf{Average rate of other taxes on imported commodity} 
+\repeatable{Exception_taxes_prices.mdlROTHCTM}
+
+
+\noindent \textbf{Average rate of subsidies on imported commodity} 
+\repeatable{Exception_taxes_prices.mdlRSUBCM}
+
+
+\noindent \textbf{Average VAT rate} 
+\repeatable{Exception_taxes_prices.mdlRVAT}
+
+
+\noindent \textbf{Average rate of other taxes on commodity} 
+\repeatable{Exception_taxes_prices.mdlROTHCT}
+
+
+\noindent \textbf{Average rate of subsidies on commodity} 
+\repeatable{Exception_taxes_prices.mdlRSUBC}
+
+
+
+\section{Integration of an Emission Trading Scheme}
+
+
+
+\noindent \textbf{Nominal price of emissions permits} 
+\repeatable{ETS.mdlP_ETS_nominal}
+
+
+\noindent \textbf{Quantity of freely allocated permits to sector $s$} 
+For each sector, the quantity of free permits is defined as a share of emissions that are eligible to the emission trading scheme. \\
+\repeatable{ETS.mdlQ_ETS_free[s]}
+
+
+\noindent \textbf{Quantity of emissions permits required for sector $s$ relative to its ce2 energy consumption} 
+\repeatable{ETS.mdlQ_ETS[ce2, s]}
+
+
+\noindent \textbf{Nominal value of emissions permits bought by sector $s$ due to ce2 consumption} 
+\repeatable{ETS.mdlETS_VAL[ce2, s]}
+
+
+\noindent \textbf{Nominal value of emissions permits required for sector $s$} 
+\repeatable{ETS.mdlETS_VAL[s]}
+
+
+\noindent \textbf{Total nominal value of emissions permits on the trading market} 
+\repeatable{ETS.mdlETS_VAL_TOT}
+
+
+
+
+\subsection{Scenario 1 : price signal}
+
+
+We overwrite the equation of the price block in order to add the ETS cost (energy ce2 used in activity s).
+We only consider energy goods ce2 - and not ce - since intermediary consumption of electricity does not induce dioxyde emissions. \\
+
+\noindent \textbf{Price of ce2 energy consumption in sector $s$} 
+\repeatable{ETS.mdlPE[ce2,s]}
+
+
+
+
+\subsection{Scenario 2 : implicit production subvention}
+
+
+We overwrite the production cost equation of the price block in order to consider the freely allocated permits as an implicit subvention on production. \\
+
+
+\noindent \textbf{Nominal production prices of covered sectors} 
+\repeatable{ETS.mdlPY_n[s]}
+
+
+
+
+
+
+\subsection{Government budget}
+
+
+We overwrite the equation in order to add the aggregated value of bought permits to the revenue of the government.
+
+\noindent \textbf{Government revenues} 
+\repeatable{ETS.mdlINC_G_VAL}
+
+
+\noindent \textbf{Employers' social security contribution paid by sector $s$} 
+\repeatable{ETS.mdlRSC[s]}
+
+
+
+\noindent \textbf{Necessary (minimum) households' final consumption for construction commodity $ccon$} 
+\repeatable{ETS.mdlNCH[ccon]}
+
+\newpage\section{Exogenous variables}
+
+
+
+\subsection{From prices block}
+
+
+
+
+\noindent \kern-0.23em \noindent \begingroup \refstepcounter{equation} \label{exogenous.mdlRHO_W_X[s]}\ref{exogenous.mdlRHO_W_X[s]}.
+        \relpenalty=10000 \binoppenalty=10000
+        \ensuremath{\rho^{W,X}_{s}}~ \endgroup -- \noindent \textbf{Constant in the wage equation for sector $s$}  \\ \\[-8pt]
+
+
+\noindent \kern-0.23em \noindent \begingroup \refstepcounter{equation} \label{exogenous.mdlRHO_W_P[s]}\ref{exogenous.mdlRHO_W_P[s]}.
+        \relpenalty=10000 \binoppenalty=10000
+        \ensuremath{\rho^{W,P}_{s}}~ \endgroup -- \noindent \textbf{Elasticity of the notional wage inflation to prices inflation for sector $s$}  \\ \\[-8pt]
+
+
+\noindent \kern-0.23em \noindent \begingroup \refstepcounter{equation} \label{exogenous.mdlRHO_W_Pe[s]}\ref{exogenous.mdlRHO_W_Pe[s]}.
+        \relpenalty=10000 \binoppenalty=10000
+        \ensuremath{\rho^{W,Pe}_{s}}~ \endgroup -- \noindent \textbf{Elasticity of the notional wage inflation to expected price inflation for sector $s$}  \\ \\[-8pt]
+
+
+\noindent \kern-0.23em \noindent \begingroup \refstepcounter{equation} \label{exogenous.mdlRHO_W_PROG[s]}\ref{exogenous.mdlRHO_W_PROG[s]}.
+        \relpenalty=10000 \binoppenalty=10000
+        \ensuremath{\rho^{W,PROG}_{s}}~ \endgroup -- \noindent \textbf{Elasticity of the notional wage inflation to labor productivity growth for sector $s$}  \\ \\[-8pt]
+
+
+\noindent \kern-0.23em \noindent \begingroup \refstepcounter{equation} \label{exogenous.mdlRHO_W_U[s]}\ref{exogenous.mdlRHO_W_U[s]}.
+        \relpenalty=10000 \binoppenalty=10000
+        \ensuremath{\rho^{W,U}_{s}}~ \endgroup -- \noindent \textbf{Elasticity of the notional wage inflation to the unemployment rate for sector $s$}  \\ \\[-8pt]
+
+
+\noindent \kern-0.23em \noindent \begingroup \refstepcounter{equation} \label{exogenous.mdlDNAIRU}\ref{exogenous.mdlDNAIRU}.
+        \relpenalty=10000 \binoppenalty=10000
+        \ensuremath{DNAIRU}~ \endgroup -- \noindent \textbf{Change in the long term NAIRU}  \\ \\[-8pt]
+
+
+\noindent \kern-0.23em \noindent \begingroup \refstepcounter{equation} \label{exogenous.mdlRHO_W_DU[s]}\ref{exogenous.mdlRHO_W_DU[s]}.
+        \relpenalty=10000 \binoppenalty=10000
+        \ensuremath{\rho^{W,DU}_{s}}~ \endgroup -- \noindent \textbf{Elasticity of the notional wage inflation to the variation of the unemployment rate for sector $s$}  \\ \\[-8pt]
+
+
+\noindent \kern-0.23em \noindent \begingroup \refstepcounter{equation} \label{exogenous.mdlRHO_W_L[s]}\ref{exogenous.mdlRHO_W_L[s]}.
+        \relpenalty=10000 \binoppenalty=10000
+        \ensuremath{\rho^{W,L}_{s}}~ \endgroup -- \noindent \textbf{Elasticity of the notional wage inflation to the growth rate of share of labor in sector $s$}  \\ \\[-8pt]
+
+
+
+\noindent \kern-0.23em \noindent \begingroup \refstepcounter{equation} \label{exogenous.mdlRHO_Rn_Cons}\ref{exogenous.mdlRHO_Rn_Cons}.
+        \relpenalty=10000 \binoppenalty=10000
+        \ensuremath{\rho^{Rn,Cons}}~ \endgroup -- \noindent \textbf{Constant of the notianal interest rate equation (Taylor rule).}  \\ \\[-8pt]The constant is equal to zero in the baseline scenario. It can be used to simulate monetary shocks. \\
+
+
+
+
+\noindent \kern-0.23em \noindent \begingroup \refstepcounter{equation} \label{exogenous.mdlRHO_Rn_P}\ref{exogenous.mdlRHO_Rn_P}.
+        \relpenalty=10000 \binoppenalty=10000
+        \ensuremath{\rho^{Rn,P}}~ \endgroup -- \noindent \textbf{Elasticity of the notional interest rate to inflation}  \\ \\[-8pt]
+
+
+\noindent \kern-0.23em \noindent \begingroup \refstepcounter{equation} \label{exogenous.mdlRHO_Rn_UnR}\ref{exogenous.mdlRHO_Rn_UnR}.
+        \relpenalty=10000 \binoppenalty=10000
+        \ensuremath{\rho^{Rn,UnR}}~ \endgroup -- \noindent \textbf{Elasticity of the notional interest rate to the unemployment rate}  \\ \\[-8pt]
+
+
+
+
+\subsection{From producer block}
+
+
+
+\noindent \kern-0.23em \noindent \begingroup \refstepcounter{equation} \label{exogenous.mdlphi[f, s]}\ref{exogenous.mdlphi[f, s]}.
+        \relpenalty=10000 \binoppenalty=10000
+        \ensuremath{\varphi_{f, s}}~ \endgroup -- \noindent \textbf{Production share of commodity $c$ by sector $s$}  \\ \\[-8pt]
+
+
+
+\subsection{From block ETC.... @ Paul: Et ce pour tous les blocs générés}
+
+
+
+
+
+
+
+\subsection{From ETS block}
+
+
+
+
+
+\noindent \kern-0.23em \noindent \begingroup \refstepcounter{equation} \label{exogenous.mdlshare_free[s]}\ref{exogenous.mdlshare_free[s]}.
+        \relpenalty=10000 \binoppenalty=10000
+        \ensuremath{share^{free}_{s}}~ \endgroup -- \noindent \textbf{Percentage of freely allocated permits to sector $s$}  \\ \\[-8pt]For each sector, the quantity of free permits is defined as a share of emissions that are eligible to the emission trading scheme. \\
+
+
+
+
+\noindent \kern-0.23em \noindent \begingroup \refstepcounter{equation} \label{exogenous.mdlalpha_exo}\ref{exogenous.mdlalpha_exo}.
+        \relpenalty=10000 \binoppenalty=10000
+        \ensuremath{alpha^{exo}}~ \endgroup -- \noindent \textbf{Alpha variable (used as a test for exogenous variable documentation)}  \\ \\[-8pt]Test exogenous variable
+\newpage
+        \section{Glossary}
+        \small
+        \begin{longtable}{@{}p{2.75cm}p{8.5cm}p{0.7cm}p{0.35cm}@{}} 
+$alpha^{exo}$ & Alpha variable (used as a test for exogenous variable documentation) & \RaggedLeft \ref{exogenous.mdlalpha_exo}, & \RaggedLeft \pageref{exogenous.mdlalpha_exo} \\
+ \midrule 
+$Bal^{G,Prim,VAL}$ & Primary balance of the Government expressed in value (deficit) & \RaggedLeft \ref{government.mdlBal_G_Prim_VAL}, & \RaggedLeft \pageref{government.mdlBal_G_Prim_VAL} \\
+ \midrule 
+$Bal^{G,Prim,VAL,bis}$ & Primary balance of the Government expressed in value (deficit) (for verification) & \RaggedLeft \ref{government.mdlBal_G_Prim_VALbis}, & \RaggedLeft \pageref{government.mdlBal_G_Prim_VALbis} \\
+ \midrule 
+$Bal^{G,Tot,VAL}$ & Total balance of the Government expressed in value (deficit) & \RaggedLeft \ref{government.mdlBal_G_Tot_VAL}, & \RaggedLeft \pageref{government.mdlBal_G_Tot_VAL} \\
+ \midrule 
+$Bal^{Trae,VAL}$ & Aggregate balance of trade & \RaggedLeft \ref{Trade_inter.mdlBal_Trae_VAL}, & \RaggedLeft \pageref{Trade_inter.mdlBal_Trae_VAL} \\
+ \midrule 
+$Bal^{Trae,VAL}_{c}$ & Balance of trade of commodity $c$ & \RaggedLeft \ref{Trade_inter.mdlBal_Trae_VAL[c]}, & \RaggedLeft \pageref{Trade_inter.mdlBal_Trae_VAL[c]} \\
+ \midrule 
+$C_{E, s}$ & Energy costs in sector $s$ & \RaggedLeft \ref{prices.mdlC[E, s]}, & \RaggedLeft \pageref{prices.mdlC[E, s]} \\
+ \midrule 
+$C_{E}$ & Aggregate cost of energy & \RaggedLeft \ref{prices.mdlC[E]}, & \RaggedLeft \pageref{prices.mdlC[E]} \\
+ \midrule 
+$C_{K, s}$ & Capital cost in sector $s$ & \RaggedLeft \ref{prices.mdlC[K, s]}, & \RaggedLeft \pageref{prices.mdlC[K, s]} \\
+ \midrule 
+$C_{K}$ & Aggregate cost of capital & \RaggedLeft \ref{prices.mdlC[K]}, & \RaggedLeft \pageref{prices.mdlC[K]} \\
+ \midrule 
+$C_{L, s}$ & Labor cost in sector $s$ & \RaggedLeft \ref{prices.mdlC[L, s]}, & \RaggedLeft \pageref{prices.mdlC[L, s]} \\
+ \midrule 
+$C_{L}$ & Aggregate cost of labor & \RaggedLeft \ref{prices.mdlC[L]}, & \RaggedLeft \pageref{prices.mdlC[L]} \\
+ \midrule 
+$C_{MAT, s}$ & Materials costs in sector $s$ & \RaggedLeft \ref{prices.mdlC[MAT, s]}, & \RaggedLeft \pageref{prices.mdlC[MAT, s]} \\
+ \midrule 
+$C_{MAT}$ & Aggregate cost of materials & \RaggedLeft \ref{prices.mdlC[MAT]}, & \RaggedLeft \pageref{prices.mdlC[MAT]} \\
+ \midrule 
+$CH$ & Aggregate household final consumption, expressed at market price & \RaggedLeft \ref{SU.mdlCH}, & \RaggedLeft \pageref{SU.mdlCH} \\
+ \midrule 
+$CH_{c}$ & Households final consumption of commodity $c$ & \RaggedLeft \ref{adjustments.mdlCH[c]}, & \RaggedLeft \pageref{adjustments.mdlCH[c]} \\
+ \midrule 
+$CH^{e}_{c}$ & Expected households final consumption of commodity $c$ & \RaggedLeft \ref{adjustments.mdlCH_e[c]}, & \RaggedLeft \pageref{adjustments.mdlCH_e[c]} \\
+ \midrule 
+$CH^{n}_{c}$ & Households' final consumption $c$ & \RaggedLeft \ref{consumer.mdlCH_n[c]}, & \RaggedLeft \pageref{consumer.mdlCH_n[c]} \\
+ \midrule 
+$CH^{n,VAL}$ & Aggregate notional households final consumption expressed in value & \RaggedLeft \ref{consumer.mdlCH_n_VAL}, & \RaggedLeft \pageref{consumer.mdlCH_n_VAL} \\
+ \midrule 
+$CH^{toe}_{ce}$ & Demand for energy $ce$ of households, expressed in toe & \RaggedLeft \ref{energybalance.mdlCH_toe[ce]}, & \RaggedLeft \pageref{energybalance.mdlCH_toe[ce]} \\
+ \midrule 
+$CHD$ & Aggregate domestically produced final consumption, expressed at market price & \RaggedLeft \ref{SU.mdlCHD}, & \RaggedLeft \pageref{SU.mdlCHD} \\
+ \midrule 
+$CHD_{c}$ & Private final consumption of domestically produced commodity $c$ & \RaggedLeft \ref{Trade_inter.mdlCHD[c]}, & \RaggedLeft \pageref{Trade_inter.mdlCHD[c]} \\
+ \midrule 
+$CHM$ & Aggregate imported households final consumption, expressed at market price & \RaggedLeft \ref{SU.mdlCHM}, & \RaggedLeft \pageref{SU.mdlCHM} \\
+ \midrule 
+$CHM_{c}$ & Private final consumption of imported commodity $c$ & \RaggedLeft \ref{Trade_inter.mdlCHM[c]}, & \RaggedLeft \pageref{Trade_inter.mdlCHM[c]} \\
+ \midrule 
+$CI$ & Aggregate intermediate consumption, expressed at market price & \RaggedLeft \ref{SU.mdlCI}, & \RaggedLeft \pageref{SU.mdlCI} \\
+ \midrule 
+$CI_{c}$ & Intermediate consumption of commodity $c$, expressed at market price & \RaggedLeft \ref{SU.mdlCI[c]}, & \RaggedLeft \pageref{SU.mdlCI[c]} \\
+ \midrule 
+$CI_{ce, s}$ & Energy consumption $ce$ of sector $s$ & \RaggedLeft \ref{producer.mdlCI[ce, s]}, & \RaggedLeft \pageref{producer.mdlCI[ce, s]} \\
+ \midrule 
+$CI_{cmo, s}$ & Material consumption $cmo$ of sector $s$ & \RaggedLeft \ref{producer.mdlCI[cmo, s]}, & \RaggedLeft \pageref{producer.mdlCI[cmo, s]} \\
+ \midrule 
+$CI_{ct, s}$ & Demand for transport commodity $ct$ by sector $s$ & \RaggedLeft \ref{producer.mdlCI[ct, s]}, & \RaggedLeft \pageref{producer.mdlCI[ct, s]} \\
+ \midrule 
+$CI_{s}$ & Intermediate consumption of sector $s$, expressed at market price & \RaggedLeft \ref{SU.mdlCI[s]}, & \RaggedLeft \pageref{SU.mdlCI[s]} \\
+ \midrule 
+$CI^{toe}_{ce, s}$ & Demand for energy $ce$ of sector $s$, expressed in toe & \RaggedLeft \ref{energybalance.mdlCI_toe[ce, s]}, & \RaggedLeft \pageref{energybalance.mdlCI_toe[ce, s]} \\
+ \midrule 
+$CI^{toe}_{ce}$ & Demand for energy $ce$ of sectors, expressed in toe & \RaggedLeft \ref{energybalance.mdlCI_toe[ce]}, & \RaggedLeft \pageref{energybalance.mdlCI_toe[ce]} \\
+ \midrule 
+$CI^{bis}$ & Intermediate consumption of sector $s$, expressed at market price (for verification) & \RaggedLeft \ref{SU.mdlCIbis}, & \RaggedLeft \pageref{SU.mdlCIbis} \\
+ \midrule 
+$CID$ & Aggregate domestically produced intermediate consumption, expressed at market price & \RaggedLeft \ref{SU.mdlCID}, & \RaggedLeft \pageref{SU.mdlCID} \\
+ \midrule 
+$CID_{c, s}$ & Intermediary consumption from sector $s$ in domestically produced commodity $c$ & \RaggedLeft \ref{Trade_inter.mdlCID[c, s]}, & \RaggedLeft \pageref{Trade_inter.mdlCID[c, s]} \\
+ \midrule 
+$CID_{c}$ & Quantity of domestically produced commodity $c$ used as intermediary consumption, expressed at market price & \RaggedLeft \ref{SU.mdlCID[c]}, & \RaggedLeft \pageref{SU.mdlCID[c]} \\
+ \midrule 
+$CID_{s}$ & Domestically produced intermediate consumption of sector $s$, expressed at market price & \RaggedLeft \ref{SU.mdlCID[s]}, & \RaggedLeft \pageref{SU.mdlCID[s]} \\
+ \midrule 
+$CIM$ &  Aggregate imported intermediate consumption, expressed at market price & \RaggedLeft \ref{SU.mdlCIM}, & \RaggedLeft \pageref{SU.mdlCIM} \\
+ \midrule 
+$CIM_{c, s}$ & Intermediary consumption from sector $s$ in imported commodity $c$ & \RaggedLeft \ref{Trade_inter.mdlCIM[c, s]}, & \RaggedLeft \pageref{Trade_inter.mdlCIM[c, s]} \\
+ \midrule 
+$CIM_{c}$ & Quantity of imported commodity $c$ used as intermediary consumption, expressed at market price & \RaggedLeft \ref{SU.mdlCIM[c]}, & \RaggedLeft \pageref{SU.mdlCIM[c]} \\
+ \midrule 
+$CIM_{s}$ & Imported intermediate consumption of sector $s$, expressed at market price & \RaggedLeft \ref{SU.mdlCIM[s]}, & \RaggedLeft \pageref{SU.mdlCIM[s]} \\
+ \midrule 
+$CU_{s}$ & Unit cost of production in sector $s$ & \RaggedLeft \ref{prices.mdlCU[s]}, & \RaggedLeft \pageref{prices.mdlCU[s]} \\
+ \midrule 
+$CU^{n}_{s}$ & Notional unit cost of production in sector $s$ & \RaggedLeft \ref{prices.mdlCU_n[s]}, & \RaggedLeft \pageref{prices.mdlCU_n[s]} \\
+ \midrule 
+$CUR_{s}$ & Capacity utilisation ratio of the sector $s$ & \RaggedLeft \ref{prices.mdlCUR[s]}, & \RaggedLeft \pageref{prices.mdlCUR[s]} \\
+ \midrule 
+$DEBT^{G,VAL}$ & Government's debt expressed in value & \RaggedLeft \ref{government.mdlDEBT_G_VAL}, & \RaggedLeft \pageref{government.mdlDEBT_G_VAL} \\
+ \midrule 
+$DISPINC^{AT,VAL}$ & Disposable income after tax expressed in value & \RaggedLeft \ref{consumer.mdlDISPINC_AT_VAL}, & \RaggedLeft \pageref{consumer.mdlDISPINC_AT_VAL} \\
+ \midrule 
+$DISPINC^{BT,VAL}$ & Disposable income before tax expressed in value & \RaggedLeft \ref{consumer.mdlDISPINC_BT_VAL}, & \RaggedLeft \pageref{consumer.mdlDISPINC_BT_VAL} \\
+ \midrule 
+$DNAIRU$ & Change in the long term NAIRU & \RaggedLeft \ref{exogenous.mdlDNAIRU}, & \RaggedLeft \pageref{exogenous.mdlDNAIRU} \\
+ \midrule 
+$DS$ & Aggregate change in inventories, expressed at market price & \RaggedLeft \ref{SU.mdlDS}, & \RaggedLeft \pageref{SU.mdlDS} \\
+ \midrule 
+$DS_{c}$ & Change in inventories of commodity $c$, expressed at market price & \RaggedLeft \ref{SU.mdlDS[c]}, & \RaggedLeft \pageref{SU.mdlDS[c]} \\
+ \midrule 
+$DSD$ & Aggregate domestically produced change in inventories, expressed at market price & \RaggedLeft \ref{SU.mdlDSD}, & \RaggedLeft \pageref{SU.mdlDSD} \\
+ \midrule 
+$DSM$ & Aggregate imported change in inventories, expressed at market price & \RaggedLeft \ref{SU.mdlDSM}, & \RaggedLeft \pageref{SU.mdlDSM} \\
+ \midrule 
+$empl$ & Employment (ILO definition) & \RaggedLeft \ref{demography.mdlempl}, & \RaggedLeft \pageref{demography.mdlempl} \\
+ \midrule 
+$EMS$ & Aggregate emissions & \RaggedLeft \ref{ghg_emissions.mdlEMS}, & \RaggedLeft \pageref{ghg_emissions.mdlEMS} \\
+ \midrule 
+$EMS_{ghg}$ & Aggregate emissions of the greehouse gas $ghg$ & \RaggedLeft \ref{ghg_emissions.mdlEMS[ghg]}, & \RaggedLeft \pageref{ghg_emissions.mdlEMS[ghg]} \\
+ \midrule 
+$EMS^{CH}$ & Aggregate emissions related to the households final consumption & \RaggedLeft \ref{ghg_emissions.mdlEMS_CH}, & \RaggedLeft \pageref{ghg_emissions.mdlEMS_CH} \\
+ \midrule 
+$EMS^{CH}_{ghg, c}$ & Emissions ghg related to the household consumption $c$ & \RaggedLeft \ref{ghg_emissions.mdlEMS_CH[ghg,c]}, & \RaggedLeft \pageref{ghg_emissions.mdlEMS_CH[ghg,c]} \\
+ \midrule 
+$EMS^{CH}_{ghg}$ & Emissions of the greehouse gas $ghg$ related to the household final consumption & \RaggedLeft \ref{ghg_emissions.mdlEMS_CH[ghg]}, & \RaggedLeft \pageref{ghg_emissions.mdlEMS_CH[ghg]} \\
+ \midrule 
+$EMS^{CI}$ & Aggregate emissions related to the intermediary consumption & \RaggedLeft \ref{ghg_emissions.mdlEMS_CI}, & \RaggedLeft \pageref{ghg_emissions.mdlEMS_CI} \\
+ \midrule 
+$EMS^{CI}_{ghg, c, s}$ & Emissions ghg related to the intermediary consumption of of commodity $c$ by sector $s$ & \RaggedLeft \ref{ghg_emissions.mdlEMS_CI[ghg,c,s]}, & \RaggedLeft \pageref{ghg_emissions.mdlEMS_CI[ghg,c,s]} \\
+ \midrule 
+$EMS^{CI}_{ghg, c}$ & Emissions ghg related to the intermediary consumption of commodity $c$ & \RaggedLeft \ref{ghg_emissions.mdlEMS_CI[ghg,c]}, & \RaggedLeft \pageref{ghg_emissions.mdlEMS_CI[ghg,c]} \\
+ \midrule 
+$EMS^{CI}_{ghg, s}$ & Emissions ghg related to the intermediary consumption by sector $s$ & \RaggedLeft \ref{ghg_emissions.mdlEMS_CI[ghg,s]}, & \RaggedLeft \pageref{ghg_emissions.mdlEMS_CI[ghg,s]} \\
+ \midrule 
+$EMS^{CI}_{ghg}$ & Emissions of the greehouse gas $ghg$ related to the intermediary consumption & \RaggedLeft \ref{ghg_emissions.mdlEMS_CI[ghg]}, & \RaggedLeft \pageref{ghg_emissions.mdlEMS_CI[ghg]} \\
+ \midrule 
+$EMS^{CI,bis}_{ghg}$ & Emissions of the greehouse gas $ghg$ related to the intermediary consumption (for verification) & \RaggedLeft \ref{ghg_emissions.mdlEMS_CIbis[ghg]}, & \RaggedLeft \pageref{ghg_emissions.mdlEMS_CIbis[ghg]} \\
+ \midrule 
+$EMS^{MAT}$ & Aggregate emissions related to the material consumption & \RaggedLeft \ref{ghg_emissions.mdlEMS_MAT}, & \RaggedLeft \pageref{ghg_emissions.mdlEMS_MAT} \\
+ \midrule 
+$EMS^{MAT}_{ghg, s}$ & Emissions ghg related to the  materials consumption of sector $s$ & \RaggedLeft \ref{ghg_emissions.mdlEMS_MAT[ghg,s]}, & \RaggedLeft \pageref{ghg_emissions.mdlEMS_MAT[ghg,s]} \\
+ \midrule 
+$EMS^{MAT}_{ghg}$ & Emissions of the greehouse gas $ghg$ related to the total material consumption & \RaggedLeft \ref{ghg_emissions.mdlEMS_MAT[ghg]}, & \RaggedLeft \pageref{ghg_emissions.mdlEMS_MAT[ghg]} \\
+ \midrule 
+$EMS^{Y}$ & Aggregate emissions related to the final production & \RaggedLeft \ref{ghg_emissions.mdlEMS_Y}, & \RaggedLeft \pageref{ghg_emissions.mdlEMS_Y} \\
+ \midrule 
+$EMS^{Y}_{ghg, s}$ & Emissions ghg related to the final production of sector $s$ & \RaggedLeft \ref{ghg_emissions.mdlEMS_Y[ghg,s]}, & \RaggedLeft \pageref{ghg_emissions.mdlEMS_Y[ghg,s]} \\
+ \midrule 
+$EMS^{Y}_{ghg}$ & Emissions of the greehouse gas $ghg$ related to the final production & \RaggedLeft \ref{ghg_emissions.mdlEMS_Y[ghg]}, & \RaggedLeft \pageref{ghg_emissions.mdlEMS_Y[ghg]} \\
+ \midrule 
+$EMS^{bis}$ & Aggregate emissions by type of substance & \RaggedLeft \ref{ghg_emissions.mdlEMSbis}, & \RaggedLeft \pageref{ghg_emissions.mdlEMSbis} \\
+ \midrule 
+$ETS^{VAL}_{ce2, s}$ & Nominal value of emissions permits bought by sector $s$ due to ce2 consumption & \RaggedLeft \ref{ETS.mdlETS_VAL[ce2, s]}, & \RaggedLeft \pageref{ETS.mdlETS_VAL[ce2, s]} \\
+ \midrule 
+$ETS^{VAL}_{s}$ & Nominal value of emissions permits required for sector $s$ & \RaggedLeft \ref{ETS.mdlETS_VAL[s]}, & \RaggedLeft \pageref{ETS.mdlETS_VAL[s]} \\
+ \midrule 
+$ETS^{VAL,TOT}$ & Total nominal value of emissions permits on the trading market & \RaggedLeft \ref{ETS.mdlETS_VAL_TOT}, & \RaggedLeft \pageref{ETS.mdlETS_VAL_TOT} \\
+ \midrule 
+$F_{f, s}$ & Quantity of Labor, Energy and Material inputs in sector $s$ & \RaggedLeft \ref{adjustments.mdlF[f, s]}, & \RaggedLeft \pageref{adjustments.mdlF[f, s]} \\
+ \midrule 
+$F_{f}$ & Aggregate production factors $f$ & \RaggedLeft \ref{producer.mdlF[f]}, & \RaggedLeft \pageref{producer.mdlF[f]} \\
+ \midrule 
+$F_{K, s}$ & Capital stock of sector $s$ & \RaggedLeft \ref{adjustments.mdlF[K, s]}, & \RaggedLeft \pageref{adjustments.mdlF[K, s]} \\
+ \midrule 
+$F^{e}_{f, s}$ & Expected quantity of Labor, Energy and Material inputs in sector $s$ & \RaggedLeft \ref{adjustments.mdlF_e[f, s]}, & \RaggedLeft \pageref{adjustments.mdlF_e[f, s]} \\
+ \midrule 
+$F^{n}_{f, s}$ & Demand for production factor $f$ by sector $s$ & \RaggedLeft \ref{producer.mdlF_n[f, s]}, & \RaggedLeft \pageref{producer.mdlF_n[f, s]} \\
+ \midrule 
+$G$ & Aggregate Government final consumption, expressed at market price & \RaggedLeft \ref{SU.mdlG}, & \RaggedLeft \pageref{SU.mdlG} \\
+ \midrule 
+$G_{c}$ &  Government final consumption of commodity $c$ & \RaggedLeft \ref{government.mdlG[c]}, & \RaggedLeft \pageref{government.mdlG[c]} \\
+ \midrule 
+$GD$ & Aggregate domestically produced Government final consumption, expressed at market price & \RaggedLeft \ref{SU.mdlGD}, & \RaggedLeft \pageref{SU.mdlGD} \\
+ \midrule 
+$GD_{c}$ & Public final consumption of domestically produced commodity $c$ & \RaggedLeft \ref{Trade_inter.mdlGD[c]}, & \RaggedLeft \pageref{Trade_inter.mdlGD[c]} \\
+ \midrule 
+$GDP$ & GDP (expenditure definition) & \RaggedLeft \ref{SU.mdlGDP}, & \RaggedLeft \pageref{SU.mdlGDP} \\
+ \midrule 
+$GDP_{c}$ & GDP of commodity $c$ (expenditure definition) & \RaggedLeft \ref{SU.mdlGDP[c]}, & \RaggedLeft \pageref{SU.mdlGDP[c]} \\
+ \midrule 
+$GDP4$ &   GDP (income definition) & \RaggedLeft \ref{SU.mdlGDP4}, & \RaggedLeft \pageref{SU.mdlGDP4} \\
+ \midrule 
+$GDP^{bis}$ & GDP (expenditure definition, for verification) & \RaggedLeft \ref{SU.mdlGDPbis}, & \RaggedLeft \pageref{SU.mdlGDPbis} \\
+ \midrule 
+$GDP^{ter}$ &  GDP (production definition) & \RaggedLeft \ref{SU.mdlGDPter}, & \RaggedLeft \pageref{SU.mdlGDPter} \\
+ \midrule 
+$GM$ & Aggregate imported Government final consumption, expressed at market price & \RaggedLeft \ref{SU.mdlGM}, & \RaggedLeft \pageref{SU.mdlGM} \\
+ \midrule 
+$GM_{c}$ & Public final consumption of imported commodity $c$ & \RaggedLeft \ref{Trade_inter.mdlGM[c]}, & \RaggedLeft \pageref{Trade_inter.mdlGM[c]} \\
+ \midrule 
+$GOS$ & Aggregate gross operating surplus & \RaggedLeft \ref{SU.mdlGOS}, & \RaggedLeft \pageref{SU.mdlGOS} \\
+ \midrule 
+$GOS_{s}$ & Gross operating surplus of sector $s$ & \RaggedLeft \ref{SU.mdlGOS[s]}, & \RaggedLeft \pageref{SU.mdlGOS[s]} \\
+ \midrule 
+$GOS^{VAL}_{s}$ & Gross operating surplus of sector $s$ expressed in value & \RaggedLeft \ref{SU.mdlGOS_VAL[s]}, & \RaggedLeft \pageref{SU.mdlGOS_VAL[s]} \\
+ \midrule 
+$GR^{PROG}_{E, s}$ & Energy efficiency gains in sector $s$ & \RaggedLeft \ref{producer.mdlGR_PROG[E, s]}, & \RaggedLeft \pageref{producer.mdlGR_PROG[E, s]} \\
+ \midrule 
+$I$ & Aggregate investment, expressed at market price & \RaggedLeft \ref{SU.mdlI}, & \RaggedLeft \pageref{SU.mdlI} \\
+ \midrule 
+$I_{c, s}$ & Investment in commodity $c$ by sector $s$ & \RaggedLeft \ref{producer.mdlI[c, s]}, & \RaggedLeft \pageref{producer.mdlI[c, s]} \\
+ \midrule 
+$I_{c}$ & Investment in commodity $c$, expressed at market price & \RaggedLeft \ref{SU.mdlI[c]}, & \RaggedLeft \pageref{SU.mdlI[c]} \\
+ \midrule 
+$I_{s}$ & Investment of sector $s$, expressed at market price & \RaggedLeft \ref{SU.mdlI[s]}, & \RaggedLeft \pageref{SU.mdlI[s]} \\
+ \midrule 
+$IA_{s}$ & Investment in sector $s$ & \RaggedLeft \ref{adjustments.mdlIA[s]}, & \RaggedLeft \pageref{adjustments.mdlIA[s]} \\
+ \midrule 
+$I^{bis}$ & Investment of sector $s$, expressed at market price (for verification) & \RaggedLeft \ref{SU.mdlIbis}, & \RaggedLeft \pageref{SU.mdlIbis} \\
+ \midrule 
+$ID$ & Aggregate domestically produced investment, expressed at market price & \RaggedLeft \ref{SU.mdlID}, & \RaggedLeft \pageref{SU.mdlID} \\
+ \midrule 
+$ID_{c, s}$ & Investment from sector $s$ in domestically produced commodity $c$ & \RaggedLeft \ref{Trade_inter.mdlID[c, s]}, & \RaggedLeft \pageref{Trade_inter.mdlID[c, s]} \\
+ \midrule 
+$ID_{c}$ & Quantity of imported commodity $c$ used as investment, expressed at market price & \RaggedLeft \ref{SU.mdlID[c]}, & \RaggedLeft \pageref{SU.mdlID[c]} \\
+ \midrule 
+$ID_{s}$ & Domestically produced investment of sector $s$, expressed at market price & \RaggedLeft \ref{SU.mdlID[s]}, & \RaggedLeft \pageref{SU.mdlID[s]} \\
+ \midrule 
+$IM$ & Aggregate imported investment, expressed at market price & \RaggedLeft \ref{SU.mdlIM}, & \RaggedLeft \pageref{SU.mdlIM} \\
+ \midrule 
+$IM_{c, s}$ & Investment from sector $s$ in imported commodity $c$ & \RaggedLeft \ref{Trade_inter.mdlIM[c, s]}, & \RaggedLeft \pageref{Trade_inter.mdlIM[c, s]} \\
+ \midrule 
+$IM_{c}$ & Quantity of imported commodity $c$ used as investment, expressed at market price & \RaggedLeft \ref{SU.mdlIM[c]}, & \RaggedLeft \pageref{SU.mdlIM[c]} \\
+ \midrule 
+$IM_{s}$ & Imported investment of sector $s$, expressed at market price & \RaggedLeft \ref{SU.mdlIM[s]}, & \RaggedLeft \pageref{SU.mdlIM[s]} \\
+ \midrule 
+$INC^{G,VAL}$ & Aggregate incomes of the Government expressed in value & \RaggedLeft \ref{government.mdlINC_G_VAL}, & \RaggedLeft \pageref{government.mdlINC_G_VAL} \\
+ \midrule 
+$INC^{G,VAL}$ (2) & Government revenues & \RaggedLeft \ref{ETS.mdlINC_G_VAL}, & \RaggedLeft \pageref{ETS.mdlINC_G_VAL} \\
+ \midrule 
+$INC^{SOC,TAX,VAL}$ & Income and social taxes expressed in value & \RaggedLeft \ref{consumer.mdlINC_SOC_TAX_VAL}, & \RaggedLeft \pageref{consumer.mdlINC_SOC_TAX_VAL} \\
+ \midrule 
+$LF$ & Labor force & \RaggedLeft \ref{demography.mdlLF}, & \RaggedLeft \pageref{demography.mdlLF} \\
+ \midrule 
+$M$ & Imports, expressed at basic price & \RaggedLeft \ref{SU.mdlM}, & \RaggedLeft \pageref{SU.mdlM} \\
+ \midrule 
+$M_{c}$ & Imports of commodity $c$, expressed at basic price & \RaggedLeft \ref{SU.mdlM[c]}, & \RaggedLeft \pageref{SU.mdlM[c]} \\
+ \midrule 
+$M^{toe}_{ce}$ & Imported energy $ce$, expressed in toe & \RaggedLeft \ref{energybalance.mdlM_toe[ce]}, & \RaggedLeft \pageref{energybalance.mdlM_toe[ce]} \\
+ \midrule 
+$\mu_{c}$ & Average mark-up on commodity $c$ & \RaggedLeft \ref{prices.mdlMARKUP[c]}, & \RaggedLeft \pageref{prices.mdlMARKUP[c]} \\
+ \midrule 
+$\mu_{s}$ & Mark-up in the sector $s$ & \RaggedLeft \ref{adjustments.mdlMARKUP[s]}, & \RaggedLeft \pageref{adjustments.mdlMARKUP[s]} \\
+ \midrule 
+$\mu^{n}_{s}$ & Notional mark-up of the sector $s$ (specification 1) & \RaggedLeft \ref{prices.mdlMARKUP_n[s]}, & \RaggedLeft \pageref{prices.mdlMARKUP_n[s]} \\
+ \midrule 
+$\mu^{n2}_{s}$ & Notional mark-up of the sector $s$ (specification 2) & \RaggedLeft \ref{prices.mdlMARKUP_n2[s]}, & \RaggedLeft \pageref{prices.mdlMARKUP_n2[s]} \\
+ \midrule 
+$M^{bis}_{c}$ & Imports of commodity $c$, expressed at basic price (for verification) & \RaggedLeft \ref{SU.mdlMbis[c]}, & \RaggedLeft \pageref{SU.mdlMbis[c]} \\
+ \midrule 
+$MGP_{m, c}$ & Margins paid to commodity $m$ on commodity $c$ & \RaggedLeft \ref{SU.mdlMGP[m, c]}, & \RaggedLeft \pageref{SU.mdlMGP[m, c]} \\
+ \midrule 
+$MGPD$ & Margins paid on domestically produced commodities & \RaggedLeft \ref{SU.mdlMGPD}, & \RaggedLeft \pageref{SU.mdlMGPD} \\
+ \midrule 
+$MGPD_{c}$ & Margins paid on the domestically produced commodity $c$ & \RaggedLeft \ref{SU.mdlMGPD[c]}, & \RaggedLeft \pageref{SU.mdlMGPD[c]} \\
+ \midrule 
+$MGPD_{m, c}$ & Margins paid to commodity $m$ on the domestic commodity $c$ & \RaggedLeft \ref{producer.mdlMGPD[m, c]}, & \RaggedLeft \pageref{producer.mdlMGPD[m, c]} \\
+ \midrule 
+$MGPM$ & Margins paid on imported commodities & \RaggedLeft \ref{SU.mdlMGPM}, & \RaggedLeft \pageref{SU.mdlMGPM} \\
+ \midrule 
+$MGPM_{c}$ & Margins paid on imported commodity $c$ & \RaggedLeft \ref{SU.mdlMGPM[c]}, & \RaggedLeft \pageref{SU.mdlMGPM[c]} \\
+ \midrule 
+$MGPM_{m, c}$ & Margins paid to commodity $m$ on the imported commodity $c$ & \RaggedLeft \ref{producer.mdlMGPM[m, c]}, & \RaggedLeft \pageref{producer.mdlMGPM[m, c]} \\
+ \midrule 
+$MGS$ & Aggregate supplied margins & \RaggedLeft \ref{SU.mdlMGS}, & \RaggedLeft \pageref{SU.mdlMGS} \\
+ \midrule 
+$MGS_{m}$ & Margins supplied by commodity $m$, expressed at market price & \RaggedLeft \ref{SU.mdlMGS[m]}, & \RaggedLeft \pageref{SU.mdlMGS[m]} \\
+ \midrule 
+$MGS^{bis}_{m}$ & Margins supplied by commodity $m$, expressed at market price (for verification) & \RaggedLeft \ref{SU.mdlMGSbis[m]}, & \RaggedLeft \pageref{SU.mdlMGSbis[m]} \\
+ \midrule 
+$MGSD$ & Aggregate margins supplied on domestically produced commodities, expressed at market price & \RaggedLeft \ref{SU.mdlMGSD}, & \RaggedLeft \pageref{SU.mdlMGSD} \\
+ \midrule 
+$MGSD_{m}$ & Received margins on domestically produced commodity $m$ & \RaggedLeft \ref{Trade_inter.mdlMGSD[m]}, & \RaggedLeft \pageref{Trade_inter.mdlMGSD[m]} \\
+ \midrule 
+$MGSM$ & Aggregate margins supplied on imported commodities, expressed at market price & \RaggedLeft \ref{SU.mdlMGSM}, & \RaggedLeft \pageref{SU.mdlMGSM} \\
+ \midrule 
+$MGSM_{m}$ & Margins supplied from imported commodity $m$ & \RaggedLeft \ref{Trade_inter.mdlMGSM[m]}, & \RaggedLeft \pageref{Trade_inter.mdlMGSM[m]} \\
+ \midrule 
+$MPS^{n}$ & Notional marginal propensity to save & \RaggedLeft \ref{consumer.mdlMPS_n}, & \RaggedLeft \pageref{consumer.mdlMPS_n} \\
+ \midrule 
+$MS_{c}$ & Imports of commodity $c$, expressed at market price & \RaggedLeft \ref{prices.mdlMS[c]}, & \RaggedLeft \pageref{prices.mdlMS[c]} \\
+ \midrule 
+$MSBVAT_{c}$ & Imports of commodity $c$ expressed at market price before VAT & \RaggedLeft \ref{Exception_taxes_prices.mdlMSBVAT[c]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlMSBVAT[c]} \\
+ \midrule 
+$NCH$ & Aggregate necessary households final consumption & \RaggedLeft \ref{consumer.mdlNCH}, & \RaggedLeft \pageref{consumer.mdlNCH} \\
+ \midrule 
+$NCH_{ccon}$ & Necessary (minimum) households' final consumption for construction commodity $ccon$ & \RaggedLeft \ref{ETS.mdlNCH[ccon]}, & \RaggedLeft \pageref{ETS.mdlNCH[ccon]} \\
+ \midrule 
+$NOS$ & Aggregate net operating surplus & \RaggedLeft \ref{SU.mdlNOS}, & \RaggedLeft \pageref{SU.mdlNOS} \\
+ \midrule 
+$NOS_{s}$ & Net operating surplus of sector $s$ & \RaggedLeft \ref{SU.mdlNOS[s]}, & \RaggedLeft \pageref{SU.mdlNOS[s]} \\
+ \midrule 
+$NOS^{VAL}_{s}$ & Net operating surplus of sector $s$ expressed in value & \RaggedLeft \ref{SU.mdlNOS_VAL[s]}, & \RaggedLeft \pageref{SU.mdlNOS_VAL[s]} \\
+ \midrule 
+$NTAXC$ & Aggregate net taxes on commodity $c$ & \RaggedLeft \ref{government.mdlNTAXC}, & \RaggedLeft \pageref{government.mdlNTAXC} \\
+ \midrule 
+$NTAXC_{c}$ & Net taxes on commodity $c$ & \RaggedLeft \ref{government.mdlNTAXC[c]}, & \RaggedLeft \pageref{government.mdlNTAXC[c]} \\
+ \midrule 
+$NTAXC^{VAL}_{c}$ & Net taxes on commodity $c$ expressed in value & \RaggedLeft \ref{government.mdlNTAXC_VAL[c]}, & \RaggedLeft \pageref{government.mdlNTAXC_VAL[c]} \\
+ \midrule 
+$NTAXCD_{c}$ & Net taxes on domestically produced commodity $c$ & \RaggedLeft \ref{government.mdlNTAXCD[c]}, & \RaggedLeft \pageref{government.mdlNTAXCD[c]} \\
+ \midrule 
+$NTAXCD_{c}$ (2) & Net taxes on domestically produced commodity $c$ & \RaggedLeft \ref{Exception_taxes_prices.mdlNTAXCD[c]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlNTAXCD[c]} \\
+ \midrule 
+$NTAXCD^{VAL}_{c}$ & Net taxes on domestically produced commodity $c$ expressed in value & \RaggedLeft \ref{government.mdlNTAXCD_VAL[c]}, & \RaggedLeft \pageref{government.mdlNTAXCD_VAL[c]} \\
+ \midrule 
+$NTAXCD^{VAL}_{c}$ (2) & Net taxes on domestically produced commodity $c$ expressed in value & \RaggedLeft \ref{Exception_taxes_prices.mdlNTAXCD_VAL[c]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlNTAXCD_VAL[c]} \\
+ \midrule 
+$NTAXCM_{c}$ & Net taxes on imported commodity $c$ & \RaggedLeft \ref{government.mdlNTAXCM[c]}, & \RaggedLeft \pageref{government.mdlNTAXCM[c]} \\
+ \midrule 
+$NTAXCM_{c}$ (2) & Net taxes on imported commodity $c$ & \RaggedLeft \ref{Exception_taxes_prices.mdlNTAXCM[c]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlNTAXCM[c]} \\
+ \midrule 
+$NTAXCM^{VAL}_{c}$ & Net taxes on imported commodity $c$ expressed in value & \RaggedLeft \ref{government.mdlNTAXCM_VAL[c]}, & \RaggedLeft \pageref{government.mdlNTAXCM_VAL[c]} \\
+ \midrule 
+$NTAXCM^{VAL}_{c}$ (2) & Net taxes on imported commodity $c$ expressed in value & \RaggedLeft \ref{Exception_taxes_prices.mdlNTAXCM_VAL[c]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlNTAXCM_VAL[c]} \\
+ \midrule 
+$NTAXS$ & Aggregate net taxes on the production of sectors & \RaggedLeft \ref{government.mdlNTAXS}, & \RaggedLeft \pageref{government.mdlNTAXS} \\
+ \midrule 
+$NTAXS_{s}$ & Net taxes on the production of sector $s$ & \RaggedLeft \ref{government.mdlNTAXS[s]}, & \RaggedLeft \pageref{government.mdlNTAXS[s]} \\
+ \midrule 
+$NTAXS^{VAL}$ & Aggregate net taxes on the production of sectors expressed in value & \RaggedLeft \ref{government.mdlNTAXS_VAL}, & \RaggedLeft \pageref{government.mdlNTAXS_VAL} \\
+ \midrule 
+$NTAXS^{VAL}_{s}$ & Net taxes on the production of sector $s$ expressed in value & \RaggedLeft \ref{government.mdlNTAXS_VAL[s]}, & \RaggedLeft \pageref{government.mdlNTAXS_VAL[s]} \\
+ \midrule 
+$OTHCT$ & Aggregate Other product Tax & \RaggedLeft \ref{Exception_taxes_prices.mdlOTHCT}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlOTHCT} \\
+ \midrule 
+$OTHCTD$ & Aggregate other product tax paid on domestically produced comodities & \RaggedLeft \ref{Exception_taxes_prices.mdlOTHCTD}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlOTHCTD} \\
+ \midrule 
+$OTHCTD_{c}$ & Other taxes on domestically produced commodity $c$ & \RaggedLeft \ref{Exception_taxes_prices.mdlOTHCTD[c]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlOTHCTD[c]} \\
+ \midrule 
+$OTHCTM$ & Aggregate Other product Tax on imported commododities & \RaggedLeft \ref{Exception_taxes_prices.mdlOTHCTM}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlOTHCTM} \\
+ \midrule 
+$OTHCTM_{c}$ & Other taxes on imported commodity $c$ & \RaggedLeft \ref{Exception_taxes_prices.mdlOTHCTM[c]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlOTHCTM[c]} \\
+ \midrule 
+$P$ & Consumer Price Index & \RaggedLeft \ref{prices.mdlP}, & \RaggedLeft \pageref{prices.mdlP} \\
+ \midrule 
+$P^{e}$ & Expected inflation. & \RaggedLeft \ref{adjustments.mdlP_e}, & \RaggedLeft \pageref{adjustments.mdlP_e} \\
+ \midrule 
+$P^{ETS,nominal}$ & Nominal price of emissions permits & \RaggedLeft \ref{ETS.mdlP_ETS_nominal}, & \RaggedLeft \pageref{ETS.mdlP_ETS_nominal} \\
+ \midrule 
+$PARTR$ & Labor participation ratio & \RaggedLeft \ref{adjustments.mdlPARTR}, & \RaggedLeft \pageref{adjustments.mdlPARTR} \\
+ \midrule 
+$PARTR^{n}$ & Labor force participation ratio & \RaggedLeft \ref{demography.mdlPARTR_n}, & \RaggedLeft \pageref{demography.mdlPARTR_n} \\
+ \midrule 
+$PCH$ & Aggregate market price for household final (consumer price index) & \RaggedLeft \ref{SU.mdlPCH}, & \RaggedLeft \pageref{SU.mdlPCH} \\
+ \midrule 
+$PCH_{c}$ & Market price of households final consumption $c$ & \RaggedLeft \ref{prices.mdlPCH[c]}, & \RaggedLeft \pageref{prices.mdlPCH[c]} \\
+ \midrule 
+$PCH^{CES}$ & CES consumption price index & \RaggedLeft \ref{consumer.mdlPCH_CES}, & \RaggedLeft \pageref{consumer.mdlPCH_CES} \\
+ \midrule 
+$PCHD$ & Aggregate market price for domestically produced households final consumption & \RaggedLeft \ref{SU.mdlPCHD}, & \RaggedLeft \pageref{SU.mdlPCHD} \\
+ \midrule 
+$PCHD_{c}$ & Market price of domestically produced households final consumption $c$ & \RaggedLeft \ref{prices.mdlPCHD[c]}, & \RaggedLeft \pageref{prices.mdlPCHD[c]} \\
+ \midrule 
+$PCHD_{c}$ (2) & Market price of domestically produced households final consumption $c$ & \RaggedLeft \ref{Exception_taxes_prices.mdlPCHD[c]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlPCHD[c]} \\
+ \midrule 
+$PCHM$ & Aggregate market price for imported households final consumption & \RaggedLeft \ref{SU.mdlPCHM}, & \RaggedLeft \pageref{SU.mdlPCHM} \\
+ \midrule 
+$PCHM_{c}$ & Market price of imported households final consumption $c$ & \RaggedLeft \ref{prices.mdlPCHM[c]}, & \RaggedLeft \pageref{prices.mdlPCHM[c]} \\
+ \midrule 
+$PCHM_{c}$ (2) & Market price of imported households final consumption $c$ & \RaggedLeft \ref{Exception_taxes_prices.mdlPCHM[c]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlPCHM[c]} \\
+ \midrule 
+$PCI$ & Aggregate market price for intermediate consumption & \RaggedLeft \ref{SU.mdlPCI}, & \RaggedLeft \pageref{SU.mdlPCI} \\
+ \midrule 
+$PCI_{c, s}$ & Market price of intermediate consumption $c$ purshased by sector $s$ & \RaggedLeft \ref{prices.mdlPCI[c, s]}, & \RaggedLeft \pageref{prices.mdlPCI[c, s]} \\
+ \midrule 
+$PCI_{c}$ & Market price of the intermediate consumption of commodity $c$ & \RaggedLeft \ref{SU.mdlPCI[c]}, & \RaggedLeft \pageref{SU.mdlPCI[c]} \\
+ \midrule 
+$PCI_{s}$ & Market price of intermediate consumption of sector $s$ & \RaggedLeft \ref{SU.mdlPCI[s]}, & \RaggedLeft \pageref{SU.mdlPCI[s]} \\
+ \midrule 
+$PCI^{bis}$ & Market price of intermediate consumption of sector $s$ (for verification) & \RaggedLeft \ref{SU.mdlPCIbis}, & \RaggedLeft \pageref{SU.mdlPCIbis} \\
+ \midrule 
+$PCID$ & Aggregate market price for domestically produced intermediate consumption & \RaggedLeft \ref{SU.mdlPCID}, & \RaggedLeft \pageref{SU.mdlPCID} \\
+ \midrule 
+$PCID_{c, s}$ & Market price of domestically produced intermediate consumption $c$ purshased by sector $s$ & \RaggedLeft \ref{prices.mdlPCID[c, s]}, & \RaggedLeft \pageref{prices.mdlPCID[c, s]} \\
+ \midrule 
+$PCID_{c, s}$ (2) & Market price of domestically produced intermediate consumption $c$ purshased by sector $s$ & \RaggedLeft \ref{Exception_taxes_prices.mdlPCID[c, s]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlPCID[c, s]} \\
+ \midrule 
+$PCID_{c}$ & Market price for the domestically produced commodity $c$ used as intermediary consumption & \RaggedLeft \ref{SU.mdlPCID[c]}, & \RaggedLeft \pageref{SU.mdlPCID[c]} \\
+ \midrule 
+$PCID_{s}$ & Market price of domestically produced intermediate consumption of sector $s$ & \RaggedLeft \ref{SU.mdlPCID[s]}, & \RaggedLeft \pageref{SU.mdlPCID[s]} \\
+ \midrule 
+$PCIM$ & Aggregate market price for imported intermediate consumption & \RaggedLeft \ref{SU.mdlPCIM}, & \RaggedLeft \pageref{SU.mdlPCIM} \\
+ \midrule 
+$PCIM_{c, s}$ & Market price of imported intermediate consumption $c$ purshased by sector $s$ & \RaggedLeft \ref{prices.mdlPCIM[c, s]}, & \RaggedLeft \pageref{prices.mdlPCIM[c, s]} \\
+ \midrule 
+$PCIM_{c, s}$ (2) & Market price of imported intermediate consumption $c$ purshased by sector $s$ & \RaggedLeft \ref{Exception_taxes_prices.mdlPCIM[c, s]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlPCIM[c, s]} \\
+ \midrule 
+$PCIM_{c}$ & Market price for imported commodity $c$ used as intermediary consumption & \RaggedLeft \ref{SU.mdlPCIM[c]}, & \RaggedLeft \pageref{SU.mdlPCIM[c]} \\
+ \midrule 
+$PCIM_{s}$ & Market price of imported intermediate consumption of sector $s$ & \RaggedLeft \ref{SU.mdlPCIM[s]}, & \RaggedLeft \pageref{SU.mdlPCIM[s]} \\
+ \midrule 
+$PDS$ & Aggregate market price for change in inventories & \RaggedLeft \ref{SU.mdlPDS}, & \RaggedLeft \pageref{SU.mdlPDS} \\
+ \midrule 
+$PDS_{c}$ & Market price of the change in inventories of commodity $c$ & \RaggedLeft \ref{SU.mdlPDS[c]}, & \RaggedLeft \pageref{SU.mdlPDS[c]} \\
+ \midrule 
+$PDSD$ & Aggregate market price for domestically produced change in inventories & \RaggedLeft \ref{SU.mdlPDSD}, & \RaggedLeft \pageref{SU.mdlPDSD} \\
+ \midrule 
+$PDSD_{c}$ & Market price of domestically produced change in inventories $c$ & \RaggedLeft \ref{prices.mdlPDSD[c]}, & \RaggedLeft \pageref{prices.mdlPDSD[c]} \\
+ \midrule 
+$PDSD_{c}$ (2) & Market price of domestically produced change in inventories $c$ & \RaggedLeft \ref{Exception_taxes_prices.mdlPDSD[c]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlPDSD[c]} \\
+ \midrule 
+$PDSM$ & Aggregate market price for imported change in inventories & \RaggedLeft \ref{SU.mdlPDSM}, & \RaggedLeft \pageref{SU.mdlPDSM} \\
+ \midrule 
+$PDSM_{c}$ & Market price of imported change in inventories $c$ & \RaggedLeft \ref{prices.mdlPDSM[c]}, & \RaggedLeft \pageref{prices.mdlPDSM[c]} \\
+ \midrule 
+$PDSM_{c}$ (2) & Market price of imported change in inventories $c$ & \RaggedLeft \ref{Exception_taxes_prices.mdlPDSM[c]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlPDSM[c]} \\
+ \midrule 
+$PE_{ce2, s}$ & Price of ce2 energy consumption in sector $s$ & \RaggedLeft \ref{ETS.mdlPE[ce2,s]}, & \RaggedLeft \pageref{ETS.mdlPE[ce2,s]} \\
+ \midrule 
+$PE_{s}$ & Price of energy in sector $s$ & \RaggedLeft \ref{prices.mdlPE[s]}, & \RaggedLeft \pageref{prices.mdlPE[s]} \\
+ \midrule 
+$PG$ & Aggregate market price for Government final consumption & \RaggedLeft \ref{SU.mdlPG}, & \RaggedLeft \pageref{SU.mdlPG} \\
+ \midrule 
+$PG_{c}$ & Market price of Government final consumption $c$ & \RaggedLeft \ref{prices.mdlPG[c]}, & \RaggedLeft \pageref{prices.mdlPG[c]} \\
+ \midrule 
+$PGD$ & Aggregate market price for domestically produced Government final consumption & \RaggedLeft \ref{SU.mdlPGD}, & \RaggedLeft \pageref{SU.mdlPGD} \\
+ \midrule 
+$PGD_{c}$ & Market price of domestically produced Government final consumption $c$ & \RaggedLeft \ref{prices.mdlPGD[c]}, & \RaggedLeft \pageref{prices.mdlPGD[c]} \\
+ \midrule 
+$PGD_{c}$ (2) & Market price of domestically produced Government final consumption $c$ & \RaggedLeft \ref{Exception_taxes_prices.mdlPGD[c]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlPGD[c]} \\
+ \midrule 
+$PGDP$ & Price of GDP (expenditure definition) & \RaggedLeft \ref{SU.mdlPGDP}, & \RaggedLeft \pageref{SU.mdlPGDP} \\
+ \midrule 
+$PGDP_{c}$ & Price of GDP of commodity $c$ (expenditure definition) & \RaggedLeft \ref{SU.mdlPGDP[c]}, & \RaggedLeft \pageref{SU.mdlPGDP[c]} \\
+ \midrule 
+$PGDP4$ & Price of GDP (income definition) & \RaggedLeft \ref{SU.mdlPGDP4}, & \RaggedLeft \pageref{SU.mdlPGDP4} \\
+ \midrule 
+$PGDP^{bis}$ & Price of GDP (expenditure definition, for verification) & \RaggedLeft \ref{SU.mdlPGDPbis}, & \RaggedLeft \pageref{SU.mdlPGDPbis} \\
+ \midrule 
+$PGDP^{ter}$ & Price of GDP (production definition) & \RaggedLeft \ref{SU.mdlPGDPter}, & \RaggedLeft \pageref{SU.mdlPGDPter} \\
+ \midrule 
+$PGM$ & Aggregate market price for imported Government final consumption & \RaggedLeft \ref{SU.mdlPGM}, & \RaggedLeft \pageref{SU.mdlPGM} \\
+ \midrule 
+$PGM_{c}$ & Market price of imported Government final consumption $c$ & \RaggedLeft \ref{prices.mdlPGM[c]}, & \RaggedLeft \pageref{prices.mdlPGM[c]} \\
+ \midrule 
+$PGM_{c}$ (2) & Market price of imported Government final consumption $c$ & \RaggedLeft \ref{Exception_taxes_prices.mdlPGM[c]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlPGM[c]} \\
+ \midrule 
+$PGOS$ & Price of the aggregate gross operating surplus & \RaggedLeft \ref{SU.mdlPGOS}, & \RaggedLeft \pageref{SU.mdlPGOS} \\
+ \midrule 
+$\varphi_{E, ce, s}$ & Share of energy $ce$ into the total energy use of sector $s$ & \RaggedLeft \ref{producer.mdlphi[E, ce, s]}, & \RaggedLeft \pageref{producer.mdlphi[E, ce, s]} \\
+ \midrule 
+$\varphi_{f, s}$ & Cost share of input $f$ for sector $s$ & \RaggedLeft \ref{producer.mdlphi[f, s]}, & \RaggedLeft \pageref{producer.mdlphi[f, s]} \\
+ \midrule 
+$\varphi_{f, s}$ (2) & Production share of commodity $c$ by sector $s$ & \RaggedLeft \ref{exogenous.mdlphi[f, s]}, & \RaggedLeft \pageref{exogenous.mdlphi[f, s]} \\
+ \midrule 
+$\varphi^{CH}_{c}$ & Share of commodity $c$ into the total household consumption & \RaggedLeft \ref{consumer.mdlPhi_CH[c]}, & \RaggedLeft \pageref{consumer.mdlPhi_CH[c]} \\
+ \midrule 
+$\varphi^{CHM}_{c}$ & Import share of commodity $c$ for household final consumption & \RaggedLeft \ref{Trade_inter.mdlphi_CHM[c]}, & \RaggedLeft \pageref{Trade_inter.mdlphi_CHM[c]} \\
+ \midrule 
+$\varphi^{CIM}_{c, s}$ & Import share of intermediary consumption from sector $s$ in domestically produced commodity $c$ & \RaggedLeft \ref{Trade_inter.mdlphi_CIM[c, s]}, & \RaggedLeft \pageref{Trade_inter.mdlphi_CIM[c, s]} \\
+ \midrule 
+$\varphi^{GM}_{c}$ & Import share $\varphi_c$ of commodity $c$ on the governement final consumption & \RaggedLeft \ref{Trade_inter.mdlphi_GM[c]}, & \RaggedLeft \pageref{Trade_inter.mdlphi_GM[c]} \\
+ \midrule 
+$\varphi^{IM}_{c, s}$ & Import share of intermediary consumption from sector $s$ in imported commodity $c$ & \RaggedLeft \ref{Trade_inter.mdlphi_IM[c, s]}, & \RaggedLeft \pageref{Trade_inter.mdlphi_IM[c, s]} \\
+ \midrule 
+$\varphi^{MCH}_{c}$ & Share of commodity $c$ into the total marginal household consumption & \RaggedLeft \ref{consumer.mdlphi_MCH[c]}, & \RaggedLeft \pageref{consumer.mdlphi_MCH[c]} \\
+ \midrule 
+$\varphi^{MGPD}_{m, c}$ & Share of margin type $m$ into the total margins paid on domestic commodity $c$ & \RaggedLeft \ref{producer.mdlphi_MGPD[m, c]}, & \RaggedLeft \pageref{producer.mdlphi_MGPD[m, c]} \\
+ \midrule 
+$\varphi^{MGPM}_{m, c}$ & Share of margin type $m$ into the total margins paid on imported commodity $c$ & \RaggedLeft \ref{producer.mdlphi_MGPM[m, c]}, & \RaggedLeft \pageref{producer.mdlphi_MGPM[m, c]} \\
+ \midrule 
+$\varphi^{MGSM}_{m}$ & Import share of commodity $c$ on supplied margins & \RaggedLeft \ref{Trade_inter.mdlphi_MGSM[m]}, & \RaggedLeft \pageref{Trade_inter.mdlphi_MGSM[m]} \\
+ \midrule 
+$\varphi^{TRSP}_{ct, s}$ & Share for transport $ct$ into the total transport use of sector $s$ & \RaggedLeft \ref{producer.mdlphi_TRSP[ct, s]}, & \RaggedLeft \pageref{producer.mdlphi_TRSP[ct, s]} \\
+ \midrule 
+$\varphi^{XM}_{c}$ & Import share of commodity $c$ exports & \RaggedLeft \ref{Trade_inter.mdlphi_XM[c]}, & \RaggedLeft \pageref{Trade_inter.mdlphi_XM[c]} \\
+ \midrule 
+$PI$ & Aggregate market price for investment & \RaggedLeft \ref{SU.mdlPI}, & \RaggedLeft \pageref{SU.mdlPI} \\
+ \midrule 
+$PI_{c}$ & Market price of the investment in commodity $c$ & \RaggedLeft \ref{SU.mdlPI[c]}, & \RaggedLeft \pageref{SU.mdlPI[c]} \\
+ \midrule 
+$PI_{s}$ & Market price of investment of sector $s$ & \RaggedLeft \ref{SU.mdlPI[s]}, & \RaggedLeft \pageref{SU.mdlPI[s]} \\
+ \midrule 
+$PI^{bis}$ & Market price of investment of sector $s$ (for verification) & \RaggedLeft \ref{SU.mdlPIbis}, & \RaggedLeft \pageref{SU.mdlPIbis} \\
+ \midrule 
+$PID$ & Aggregate market price for domestically produced investment & \RaggedLeft \ref{SU.mdlPID}, & \RaggedLeft \pageref{SU.mdlPID} \\
+ \midrule 
+$PID_{c, s}$ & Market price of domestically produced investment $c$ purshased by sector $s$ & \RaggedLeft \ref{prices.mdlPID[c, s]}, & \RaggedLeft \pageref{prices.mdlPID[c, s]} \\
+ \midrule 
+$PID_{c, s}$ (2) & Market price of domestically produced investment $c$ purshased by sector $s$ & \RaggedLeft \ref{Exception_taxes_prices.mdlPID[c, s]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlPID[c, s]} \\
+ \midrule 
+$PID_{c}$ & Market price for domestically produced commodity $c$ used as investment & \RaggedLeft \ref{SU.mdlPID[c]}, & \RaggedLeft \pageref{SU.mdlPID[c]} \\
+ \midrule 
+$PID_{s}$ & Market price of domestically produced investment of sector $s$ & \RaggedLeft \ref{SU.mdlPID[s]}, & \RaggedLeft \pageref{SU.mdlPID[s]} \\
+ \midrule 
+$PIM$ & Aggregate market price for imported investment & \RaggedLeft \ref{SU.mdlPIM}, & \RaggedLeft \pageref{SU.mdlPIM} \\
+ \midrule 
+$PIM_{c, s}$ & Market price of imported investment $c$ purshased by sector $s$ & \RaggedLeft \ref{prices.mdlPIM[c, s]}, & \RaggedLeft \pageref{prices.mdlPIM[c, s]} \\
+ \midrule 
+$PIM_{c, s}$ (2) & Market price of imported investment $c$ purshased by sector $s$ & \RaggedLeft \ref{Exception_taxes_prices.mdlPIM[c, s]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlPIM[c, s]} \\
+ \midrule 
+$PIM_{c}$ & Market price for imported commodity $c$ used as investment & \RaggedLeft \ref{SU.mdlPIM[c]}, & \RaggedLeft \pageref{SU.mdlPIM[c]} \\
+ \midrule 
+$PIM_{s}$ & Market price of imported investment of sector $s$ & \RaggedLeft \ref{SU.mdlPIM[s]}, & \RaggedLeft \pageref{SU.mdlPIM[s]} \\
+ \midrule 
+$PK_{s}$ & Price of capital in sector $s$ & \RaggedLeft \ref{prices.mdlPK[s]}, & \RaggedLeft \pageref{prices.mdlPK[s]} \\
+ \midrule 
+$PM$ & Aggregate basic price of imports & \RaggedLeft \ref{SU.mdlPM}, & \RaggedLeft \pageref{SU.mdlPM} \\
+ \midrule 
+$PM_{c}$ & Price of imported commodity $c$, expressed at basic price & \RaggedLeft \ref{prices.mdlPM[c]}, & \RaggedLeft \pageref{prices.mdlPM[c]} \\
+ \midrule 
+$PMAT_{s}$ & Price of materials in sector $s$ & \RaggedLeft \ref{prices.mdlPMAT[s]}, & \RaggedLeft \pageref{prices.mdlPMAT[s]} \\
+ \midrule 
+$PM^{bis}_{c}$ & Basic price of imports of commodity $c$ (for verification) & \RaggedLeft \ref{SU.mdlPMbis[c]}, & \RaggedLeft \pageref{SU.mdlPMbis[c]} \\
+ \midrule 
+$PMGP_{m, c}$ & Price of the margins paid to commodity $m$ on commodity $c$ & \RaggedLeft \ref{SU.mdlPMGP[m, c]}, & \RaggedLeft \pageref{SU.mdlPMGP[m, c]} \\
+ \midrule 
+$PMGPD$ & Aggregate price of the margins paid on domestically produced commodity & \RaggedLeft \ref{SU.mdlPMGPD}, & \RaggedLeft \pageref{SU.mdlPMGPD} \\
+ \midrule 
+$PMGPD_{c}$ & Price of the margins paid on domestically produced commodity $c$ & \RaggedLeft \ref{SU.mdlPMGPD[c]}, & \RaggedLeft \pageref{SU.mdlPMGPD[c]} \\
+ \midrule 
+$PMGPD_{m, c}$ & Market price of the margins paid to commodity $m$ on domestically produced commodity $c$ & \RaggedLeft \ref{prices.mdlPMGPD[m, c]}, & \RaggedLeft \pageref{prices.mdlPMGPD[m, c]} \\
+ \midrule 
+$PMGPM$ & Aggregate price of the margins paid on imported commodities & \RaggedLeft \ref{SU.mdlPMGPM}, & \RaggedLeft \pageref{SU.mdlPMGPM} \\
+ \midrule 
+$PMGPM_{c}$ & Price of the margins paid on imported commodity $c$ & \RaggedLeft \ref{SU.mdlPMGPM[c]}, & \RaggedLeft \pageref{SU.mdlPMGPM[c]} \\
+ \midrule 
+$PMGPM_{m, c}$ & Market price of the margins paid to commodity $m$ on imported commodity $c$ & \RaggedLeft \ref{prices.mdlPMGPM[m, c]}, & \RaggedLeft \pageref{prices.mdlPMGPM[m, c]} \\
+ \midrule 
+$PMGS$ & Aggregate market price for supplied margins & \RaggedLeft \ref{SU.mdlPMGS}, & \RaggedLeft \pageref{SU.mdlPMGS} \\
+ \midrule 
+$PMGS_{m}$ & Market price of the margins supplied by commodity $m$ & \RaggedLeft \ref{SU.mdlPMGS[m]}, & \RaggedLeft \pageref{SU.mdlPMGS[m]} \\
+ \midrule 
+$PMGS^{bis}_{m}$ & Market price of the margins supplied by commodity $m$ (for verification) & \RaggedLeft \ref{SU.mdlPMGSbis[m]}, & \RaggedLeft \pageref{SU.mdlPMGSbis[m]} \\
+ \midrule 
+$PMGSD$ & Aggregate market price for the margins supplied on domestically produced commodities & \RaggedLeft \ref{SU.mdlPMGSD}, & \RaggedLeft \pageref{SU.mdlPMGSD} \\
+ \midrule 
+$PMGSD_{c}$ & Market price of margins supplied by domestically produced commodity $c$ & \RaggedLeft \ref{prices.mdlPMGSD[c]}, & \RaggedLeft \pageref{prices.mdlPMGSD[c]} \\
+ \midrule 
+$PMGSD_{c}$ (2) & Market price of margins supplied by domestically produced commodity $c$ & \RaggedLeft \ref{Exception_taxes_prices.mdlPMGSD[c]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlPMGSD[c]} \\
+ \midrule 
+$PMGSM$ & Aggregate market price for the margins supplied on imported commodities & \RaggedLeft \ref{SU.mdlPMGSM}, & \RaggedLeft \pageref{SU.mdlPMGSM} \\
+ \midrule 
+$PMGSM_{c}$ & Market price of margins supplied by imported commodity $c$ & \RaggedLeft \ref{prices.mdlPMGSM[c]}, & \RaggedLeft \pageref{prices.mdlPMGSM[c]} \\
+ \midrule 
+$PMGSM_{c}$ (2) & Market price of margins supplied by imported commodity $c$ & \RaggedLeft \ref{Exception_taxes_prices.mdlPMGSM[c]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlPMGSM[c]} \\
+ \midrule 
+$PMS_{c}$ & Price of imported commodity $c$, expressed at market price & \RaggedLeft \ref{prices.mdlPMS[c]}, & \RaggedLeft \pageref{prices.mdlPMS[c]} \\
+ \midrule 
+$PMSBVAT_{c}$ & Selling price before VAT for imported commodity $c$ & \RaggedLeft \ref{Exception_taxes_prices.mdlPMSBVAT[c]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlPMSBVAT[c]} \\
+ \midrule 
+$PNCH$ & Price of agregate necessary households consumption & \RaggedLeft \ref{consumer.mdlPNCH}, & \RaggedLeft \pageref{consumer.mdlPNCH} \\
+ \midrule 
+$PNCH_{c}$ & Price of necessary households consumption $c$ & \RaggedLeft \ref{consumer.mdlPNCH[c]}, & \RaggedLeft \pageref{consumer.mdlPNCH[c]} \\
+ \midrule 
+$PNOS$ & Price of the aggregate net operating surplus & \RaggedLeft \ref{SU.mdlPNOS}, & \RaggedLeft \pageref{SU.mdlPNOS} \\
+ \midrule 
+$PNTAXC$ & Aggregate net taxes on commodity $c$ expressed in value & \RaggedLeft \ref{government.mdlPNTAXC}, & \RaggedLeft \pageref{government.mdlPNTAXC} \\
+ \midrule 
+$POTHCT$ & Aggregate market price for other product Tax & \RaggedLeft \ref{Exception_taxes_prices.mdlPOTHCT}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlPOTHCT} \\
+ \midrule 
+$POTHCTD$ & Aggregate market price for other product tax paid on domestically produced comodities & \RaggedLeft \ref{Exception_taxes_prices.mdlPOTHCTD}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlPOTHCTD} \\
+ \midrule 
+$POTHCTD_{c}$ & Price of other taxes on domestically produced commodity $c$ & \RaggedLeft \ref{Exception_taxes_prices.mdlPOTHCTD[c]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlPOTHCTD[c]} \\
+ \midrule 
+$POTHCTM$ & Aggregate market price for Other product Tax on imported commododities & \RaggedLeft \ref{Exception_taxes_prices.mdlPOTHCTM}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlPOTHCTM} \\
+ \midrule 
+$POTHCTM_{c}$ & Price other taxes on imported commodity $c$ & \RaggedLeft \ref{Exception_taxes_prices.mdlPOTHCTM[c]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlPOTHCTM[c]} \\
+ \midrule 
+$PQ$ & Aggregate market price for production & \RaggedLeft \ref{SU.mdlPQ}, & \RaggedLeft \pageref{SU.mdlPQ} \\
+ \midrule 
+$PQ_{c}$ & Market price of the production of commodity $c$ & \RaggedLeft \ref{SU.mdlPQ[c]}, & \RaggedLeft \pageref{SU.mdlPQ[c]} \\
+ \midrule 
+$PQD$ & Aggregate market price for domestically produced commodities & \RaggedLeft \ref{SU.mdlPQD}, & \RaggedLeft \pageref{SU.mdlPQD} \\
+ \midrule 
+$PQD_{c}$ & Market price for the domestically produced commodity $c$ & \RaggedLeft \ref{SU.mdlPQD[c]}, & \RaggedLeft \pageref{SU.mdlPQD[c]} \\
+ \midrule 
+$PQM$ & Aggregate market price for imported commodities & \RaggedLeft \ref{SU.mdlPQM}, & \RaggedLeft \pageref{SU.mdlPQM} \\
+ \midrule 
+$PQM_{c}$ & Market price for imported commodity $c$ & \RaggedLeft \ref{SU.mdlPQM[c]}, & \RaggedLeft \pageref{SU.mdlPQM[c]} \\
+ \midrule 
+$PROG_{f, s}$ & Technical progress of the production factor $f$ in sector $s$ & \RaggedLeft \ref{producer.mdlPROG[f, s]}, & \RaggedLeft \pageref{producer.mdlPROG[f, s]} \\
+ \midrule 
+$PROP^{INC,G,VAL}$ & Government property incomes in value & \RaggedLeft \ref{adjustments.mdlPROP_INC_G_VAL}, & \RaggedLeft \pageref{adjustments.mdlPROP_INC_G_VAL} \\
+ \midrule 
+$PROP^{INC,G,VAL,e}$ & Expected Government property incomes in value & \RaggedLeft \ref{adjustments.mdlPROP_INC_G_VAL_e}, & \RaggedLeft \pageref{adjustments.mdlPROP_INC_G_VAL_e} \\
+ \midrule 
+$PROP^{INC,G,VAL,n}$ & Notional property incomes of the Government expressed in value & \RaggedLeft \ref{government.mdlPROP_INC_G_VAL_n}, & \RaggedLeft \pageref{government.mdlPROP_INC_G_VAL_n} \\
+ \midrule 
+$PROP^{INC,H,VAL}$ &  Households property income in value & \RaggedLeft \ref{adjustments.mdlPROP_INC_H_VAL}, & \RaggedLeft \pageref{adjustments.mdlPROP_INC_H_VAL} \\
+ \midrule 
+$PROP^{INC,H,VAL,e}$ & Expected Households property income in value & \RaggedLeft \ref{adjustments.mdlPROP_INC_H_VAL_e}, & \RaggedLeft \pageref{adjustments.mdlPROP_INC_H_VAL_e} \\
+ \midrule 
+$PROP^{INC,H,VAL,n}$ & Property incomes expressed in value & \RaggedLeft \ref{consumer.mdlPROP_INC_H_VAL_n}, & \RaggedLeft \pageref{consumer.mdlPROP_INC_H_VAL_n} \\
+ \midrule 
+$PRSC$ & Price of the aggregate employers' social security contribution paid by sector $s$ & \RaggedLeft \ref{government.mdlPRSC}, & \RaggedLeft \pageref{government.mdlPRSC} \\
+ \midrule 
+$PRSC_{s}$ & Price of the employers' social security contribution paid by sector $s$ & \RaggedLeft \ref{government.mdlPRSC[s]}, & \RaggedLeft \pageref{government.mdlPRSC[s]} \\
+ \midrule 
+$PSUBC$ & Aggregate market price for subsidies on commodities & \RaggedLeft \ref{Exception_taxes_prices.mdlPSUBC}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlPSUBC} \\
+ \midrule 
+$PSUBCD$ & Aggregate market price for subsidies on domestically produced commodities & \RaggedLeft \ref{Exception_taxes_prices.mdlPSUBCD}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlPSUBCD} \\
+ \midrule 
+$PSUBCD_{c}$ &  & \RaggedLeft \ref{Exception_taxes_prices.mdlPSUBCD[c]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlPSUBCD[c]} \\
+ \midrule 
+$PSUBCM$ & Aggregate market price for subsidies on imported commododities & \RaggedLeft \ref{Exception_taxes_prices.mdlPSUBCM}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlPSUBCM} \\
+ \midrule 
+$PSUBCM_{c}$ & Price of subsidies on imported commodity $c$ & \RaggedLeft \ref{Exception_taxes_prices.mdlPSUBCM[c]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlPSUBCM[c]} \\
+ \midrule 
+$PVA$ & Value-added price & \RaggedLeft \ref{SU.mdlPVA}, & \RaggedLeft \pageref{SU.mdlPVA} \\
+ \midrule 
+$PVAT$ & Aggregate market price for Value-added Tax on total households final consumption & \RaggedLeft \ref{Exception_taxes_prices.mdlPVAT}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlPVAT} \\
+ \midrule 
+$PVATD$ & Aggregate market price for value-added tax paid on domestically produced comodities & \RaggedLeft \ref{Exception_taxes_prices.mdlPVATD}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlPVATD} \\
+ \midrule 
+$PVATD_{c}$ & Price of value-added tax on domestically produced commodity $c$ & \RaggedLeft \ref{Exception_taxes_prices.mdlPVATD[c]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlPVATD[c]} \\
+ \midrule 
+$PVATM$ & Aggregate market price for value-added tax paid on imported comodities & \RaggedLeft \ref{Exception_taxes_prices.mdlPVATM}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlPVATM} \\
+ \midrule 
+$PVATM_{c}$ & Price of value-added tax on imported commodity $c$ & \RaggedLeft \ref{Exception_taxes_prices.mdlPVATM[c]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlPVATM[c]} \\
+ \midrule 
+$PWAGES$ & Gross wage index paid by sectors & \RaggedLeft \ref{SU.mdlPWAGES}, & \RaggedLeft \pageref{SU.mdlPWAGES} \\
+ \midrule 
+$PWAGES_{s}$ & Price index for gross wages in sector $s$ & \RaggedLeft \ref{prices.mdlPWAGES[s]}, & \RaggedLeft \pageref{prices.mdlPWAGES[s]} \\
+ \midrule 
+$PX$ & Aggregate market price for exports & \RaggedLeft \ref{SU.mdlPX}, & \RaggedLeft \pageref{SU.mdlPX} \\
+ \midrule 
+$PX_{c}$ & Market price of exports $c$ & \RaggedLeft \ref{prices.mdlPX[c]}, & \RaggedLeft \pageref{prices.mdlPX[c]} \\
+ \midrule 
+$PXD$ & Aggregate market price for domestically produced exports & \RaggedLeft \ref{SU.mdlPXD}, & \RaggedLeft \pageref{SU.mdlPXD} \\
+ \midrule 
+$PXD_{c}$ & Market price of domestically produced exports $c$ & \RaggedLeft \ref{prices.mdlPXD[c]}, & \RaggedLeft \pageref{prices.mdlPXD[c]} \\
+ \midrule 
+$PXD_{c}$ (2) & Market price of domestically produced exports $c$ & \RaggedLeft \ref{Exception_taxes_prices.mdlPXD[c]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlPXD[c]} \\
+ \midrule 
+$PXM$ & Aggregate market price for imported exports (re-exports) & \RaggedLeft \ref{SU.mdlPXM}, & \RaggedLeft \pageref{SU.mdlPXM} \\
+ \midrule 
+$PXM_{c}$ & Market price of imported exports (re-exports) $c$ & \RaggedLeft \ref{prices.mdlPXM[c]}, & \RaggedLeft \pageref{prices.mdlPXM[c]} \\
+ \midrule 
+$PXM_{c}$ (2) & Market price of imported exports (re-exports) $c$ & \RaggedLeft \ref{Exception_taxes_prices.mdlPXM[c]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlPXM[c]} \\
+ \midrule 
+$PY$ & Basic price of aggregate production & \RaggedLeft \ref{SU.mdlPY}, & \RaggedLeft \pageref{SU.mdlPY} \\
+ \midrule 
+$PY_{s}$ & Production price of sector $s$ & \RaggedLeft \ref{adjustments.mdlPY[s]}, & \RaggedLeft \pageref{adjustments.mdlPY[s]} \\
+ \midrule 
+$PY^{e}_{s}$ & Expected production priceof sector $s$ & \RaggedLeft \ref{adjustments.mdlPY_e[s]}, & \RaggedLeft \pageref{adjustments.mdlPY_e[s]} \\
+ \midrule 
+$PY^{n}_{s}$ & Notional production price of sector $s$ & \RaggedLeft \ref{prices.mdlPY_n[s]}, & \RaggedLeft \pageref{prices.mdlPY_n[s]} \\
+ \midrule 
+$PY^{n}_{s}$ (2) & Nominal production prices of covered sectors & \RaggedLeft \ref{ETS.mdlPY_n[s]}, & \RaggedLeft \pageref{ETS.mdlPY_n[s]} \\
+ \midrule 
+$PYQ$ & Aggregate basic price of domestic production & \RaggedLeft \ref{SU.mdlPYQ}, & \RaggedLeft \pageref{SU.mdlPYQ} \\
+ \midrule 
+$PYQ_{c}$ & Price of domestically produced commodity $c$, expressed at basic price & \RaggedLeft \ref{prices.mdlPYQ[c]}, & \RaggedLeft \pageref{prices.mdlPYQ[c]} \\
+ \midrule 
+$PYQ^{bis}_{c}$ & Basic price of the production of commodity $c$ (for verification) & \RaggedLeft \ref{SU.mdlPYQbis[c]}, & \RaggedLeft \pageref{SU.mdlPYQbis[c]} \\
+ \midrule 
+$PYQS_{c}$ & Price of domestically produced commodity $c$, expressed at market price & \RaggedLeft \ref{prices.mdlPYQS[c]}, & \RaggedLeft \pageref{prices.mdlPYQS[c]} \\
+ \midrule 
+$PYQSBVAT_{c}$ & Selling price before VAT for domestically produced commodity $c$ & \RaggedLeft \ref{Exception_taxes_prices.mdlPYQSBVAT[c]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlPYQSBVAT[c]} \\
+ \midrule 
+$Q$ & Aggregate production, expressed at market price & \RaggedLeft \ref{SU.mdlQ}, & \RaggedLeft \pageref{SU.mdlQ} \\
+ \midrule 
+$Q_{c}$ & Production of commodity $c$, expressed at market price & \RaggedLeft \ref{SU.mdlQ[c]}, & \RaggedLeft \pageref{SU.mdlQ[c]} \\
+ \midrule 
+$Q^{ETS}_{ce2, s}$ & Quantity of emissions permits required for sector $s$ relative to its ce2 energy consumption & \RaggedLeft \ref{ETS.mdlQ_ETS[ce2, s]}, & \RaggedLeft \pageref{ETS.mdlQ_ETS[ce2, s]} \\
+ \midrule 
+$Q^{ETS,free}_{s}$ & Quantity of freely allocated permits to sector $s$ & \RaggedLeft \ref{ETS.mdlQ_ETS_free[s]}, & \RaggedLeft \pageref{ETS.mdlQ_ETS_free[s]} \\
+ \midrule 
+$QD$ & Aggregate domestically produced commodities, expressed at market price & \RaggedLeft \ref{SU.mdlQD}, & \RaggedLeft \pageref{SU.mdlQD} \\
+ \midrule 
+$QD_{c}$ & Quantity of domestically produced commodity $c$ expressed at market price & \RaggedLeft \ref{SU.mdlQD[c]}, & \RaggedLeft \pageref{SU.mdlQD[c]} \\
+ \midrule 
+$QM$ & Aggregate imported commodities, expressed at market price & \RaggedLeft \ref{SU.mdlQM}, & \RaggedLeft \pageref{SU.mdlQM} \\
+ \midrule 
+$QM_{c}$ & Quantity of imported commodity $c$ expressed at market price & \RaggedLeft \ref{SU.mdlQM[c]}, & \RaggedLeft \pageref{SU.mdlQM[c]} \\
+ \midrule 
+$R$ & Interest rate & \RaggedLeft \ref{adjustments.mdlR}, & \RaggedLeft \pageref{adjustments.mdlR} \\
+ \midrule 
+$R_{s}$ & Interest rate paid on capital by sector $s$ & \RaggedLeft \ref{prices.mdlR[s]}, & \RaggedLeft \pageref{prices.mdlR[s]} \\
+ \midrule 
+$r^{DEBT,G}$ & Interest rate paid by the Governement on its debt & \RaggedLeft \ref{prices.mdlr_DEBT_G}, & \RaggedLeft \pageref{prices.mdlr_DEBT_G} \\
+ \midrule 
+$R^{n}$ & Notional key interest rate of the Central Bank (Taylor rule) & \RaggedLeft \ref{prices.mdlR_n}, & \RaggedLeft \pageref{prices.mdlR_n} \\
+ \midrule 
+$RBal^{G,Prim,VAL}$ & Primary balance of the Government expressed in value (in percent of GDP) & \RaggedLeft \ref{government.mdlRBal_G_Prim_VAL}, & \RaggedLeft \pageref{government.mdlRBal_G_Prim_VAL} \\
+ \midrule 
+$RBal^{G,Tot,VAL}$ & Total balance of the Government expressed in value (in percent of GDP) & \RaggedLeft \ref{government.mdlRBal_G_Tot_VAL}, & \RaggedLeft \pageref{government.mdlRBal_G_Tot_VAL} \\
+ \midrule 
+$RBal^{Trae,VAL}$ & Balance of trade (in percent of GDP) & \RaggedLeft \ref{Trade_inter.mdlRBal_Trae_VAL}, & \RaggedLeft \pageref{Trade_inter.mdlRBal_Trae_VAL} \\
+ \midrule 
+$RDEBT^{G,VAL}$ & Ratio of the Government's debt expressed in value (in percent of GDP) & \RaggedLeft \ref{government.mdlRDEBT_G_VAL}, & \RaggedLeft \pageref{government.mdlRDEBT_G_VAL} \\
+ \midrule 
+$\rho^{Rn,Cons}$ & Constant of the notianal interest rate equation (Taylor rule). & \RaggedLeft \ref{exogenous.mdlRHO_Rn_Cons}, & \RaggedLeft \pageref{exogenous.mdlRHO_Rn_Cons} \\
+ \midrule 
+$\rho^{Rn,P}$ & Elasticity of the notional interest rate to inflation & \RaggedLeft \ref{exogenous.mdlRHO_Rn_P}, & \RaggedLeft \pageref{exogenous.mdlRHO_Rn_P} \\
+ \midrule 
+$\rho^{Rn,UnR}$ & Elasticity of the notional interest rate to the unemployment rate & \RaggedLeft \ref{exogenous.mdlRHO_Rn_UnR}, & \RaggedLeft \pageref{exogenous.mdlRHO_Rn_UnR} \\
+ \midrule 
+$\rho^{W,DU}_{s}$ & Elasticity of the notional wage inflation to the variation of the unemployment rate for sector $s$ & \RaggedLeft \ref{exogenous.mdlRHO_W_DU[s]}, & \RaggedLeft \pageref{exogenous.mdlRHO_W_DU[s]} \\
+ \midrule 
+$\rho^{W,L}_{s}$ & Elasticity of the notional wage inflation to the growth rate of share of labor in sector $s$ & \RaggedLeft \ref{exogenous.mdlRHO_W_L[s]}, & \RaggedLeft \pageref{exogenous.mdlRHO_W_L[s]} \\
+ \midrule 
+$\rho^{W,P}_{s}$ & Elasticity of the notional wage inflation to prices inflation for sector $s$ & \RaggedLeft \ref{exogenous.mdlRHO_W_P[s]}, & \RaggedLeft \pageref{exogenous.mdlRHO_W_P[s]} \\
+ \midrule 
+$\rho^{W,Pe}_{s}$ & Elasticity of the notional wage inflation to expected price inflation for sector $s$ & \RaggedLeft \ref{exogenous.mdlRHO_W_Pe[s]}, & \RaggedLeft \pageref{exogenous.mdlRHO_W_Pe[s]} \\
+ \midrule 
+$\rho^{W,PROG}_{s}$ & Elasticity of the notional wage inflation to labor productivity growth for sector $s$ & \RaggedLeft \ref{exogenous.mdlRHO_W_PROG[s]}, & \RaggedLeft \pageref{exogenous.mdlRHO_W_PROG[s]} \\
+ \midrule 
+$\rho^{W,U}_{s}$ & Elasticity of the notional wage inflation to the unemployment rate for sector $s$ & \RaggedLeft \ref{exogenous.mdlRHO_W_U[s]}, & \RaggedLeft \pageref{exogenous.mdlRHO_W_U[s]} \\
+ \midrule 
+$\rho^{W,X}_{s}$ & Constant in the wage equation for sector $s$ & \RaggedLeft \ref{exogenous.mdlRHO_W_X[s]}, & \RaggedLeft \pageref{exogenous.mdlRHO_W_X[s]} \\
+ \midrule 
+$RNTAXCD_{c}$ & Average tax rate on domestically produced commodity $c$ & \RaggedLeft \ref{Exception_taxes_prices.mdlRNTAXCD[c]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlRNTAXCD[c]} \\
+ \midrule 
+$RNTAXCM_{c}$ & Average tax rate on imported commodity $c$ & \RaggedLeft \ref{Exception_taxes_prices.mdlRNTAXCM[c]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlRNTAXCM[c]} \\
+ \midrule 
+$ROTHCT$ & Average rate of other taxes on commodity & \RaggedLeft \ref{Exception_taxes_prices.mdlROTHCT}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlROTHCT} \\
+ \midrule 
+$ROTHCTD$ & Average rate of other taxes on domestically produced commodity & \RaggedLeft \ref{Exception_taxes_prices.mdlROTHCTD}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlROTHCTD} \\
+ \midrule 
+$ROTHCTM$ & Average rate of other taxes on imported commodity & \RaggedLeft \ref{Exception_taxes_prices.mdlROTHCTM}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlROTHCTM} \\
+ \midrule 
+$RRSC$ & Average employers' social security contribution rate & \RaggedLeft \ref{government.mdlRRSC}, & \RaggedLeft \pageref{government.mdlRRSC} \\
+ \midrule 
+$RSAV^{G,VAL}$ & Government's savings rate expressed in value (in percent of GDP) & \RaggedLeft \ref{government.mdlRSAV_G_VAL}, & \RaggedLeft \pageref{government.mdlRSAV_G_VAL} \\
+ \midrule 
+$RSAV^{H,VAL}$ & Households savings rate & \RaggedLeft \ref{consumer.mdlRSAV_H_VAL}, & \RaggedLeft \pageref{consumer.mdlRSAV_H_VAL} \\
+ \midrule 
+$RSC$ & Aggregate employers' social security contribution paid by sectors & \RaggedLeft \ref{government.mdlRSC}, & \RaggedLeft \pageref{government.mdlRSC} \\
+ \midrule 
+$RSC_{s}$ & Employers' social security contribution paid by sector $s$ & \RaggedLeft \ref{government.mdlRSC[s]}, & \RaggedLeft \pageref{government.mdlRSC[s]} \\
+ \midrule 
+$RSC_{s}$ (2) & Employers' social security contribution paid by sector $s$ & \RaggedLeft \ref{ETS.mdlRSC[s]}, & \RaggedLeft \pageref{ETS.mdlRSC[s]} \\
+ \midrule 
+$RSUBC$ & Average rate of subsidies on commodity & \RaggedLeft \ref{Exception_taxes_prices.mdlRSUBC}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlRSUBC} \\
+ \midrule 
+$RSUBCD$ & Average rate of subsidies on domestically produced commodity & \RaggedLeft \ref{Exception_taxes_prices.mdlRSUBCD}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlRSUBCD} \\
+ \midrule 
+$RSUBCM$ & Average rate of subsidies on imported commodity & \RaggedLeft \ref{Exception_taxes_prices.mdlRSUBCM}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlRSUBCM} \\
+ \midrule 
+$RVAT$ & Average VAT rate & \RaggedLeft \ref{Exception_taxes_prices.mdlRVAT}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlRVAT} \\
+ \midrule 
+$RVATD$ & Average VAT rate on domestically produced commodity & \RaggedLeft \ref{Exception_taxes_prices.mdlRVATD}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlRVATD} \\
+ \midrule 
+$RVATM$ & Average VAT rate on imported commodity & \RaggedLeft \ref{Exception_taxes_prices.mdlRVATM}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlRVATM} \\
+ \midrule 
+$SAV^{G,VAL}$ & Savings of the Government expressed in value & \RaggedLeft \ref{government.mdlSAV_G_VAL}, & \RaggedLeft \pageref{government.mdlSAV_G_VAL} \\
+ \midrule 
+$SAV^{H,VAL}$ & Households savings expressed in value & \RaggedLeft \ref{consumer.mdlSAV_H_VAL}, & \RaggedLeft \pageref{consumer.mdlSAV_H_VAL} \\
+ \midrule 
+$share^{free}_{s}$ & Percentage of freely allocated permits to sector $s$ & \RaggedLeft \ref{exogenous.mdlshare_free[s]}, & \RaggedLeft \pageref{exogenous.mdlshare_free[s]} \\
+ \midrule 
+$SOC^{BENF,VAL}$ & Social benefits expressed in value & \RaggedLeft \ref{consumer.mdlSOC_BENF_VAL}, & \RaggedLeft \pageref{consumer.mdlSOC_BENF_VAL} \\
+ \midrule 
+$SPEND^{G,VAL}$ & Aggregate spendings of the Government expressed in value & \RaggedLeft \ref{government.mdlSPEND_G_VAL}, & \RaggedLeft \pageref{government.mdlSPEND_G_VAL} \\
+ \midrule 
+$Stock^{SAV,H,VAL}$ & Households savings stock & \RaggedLeft \ref{consumer.mdlStock_SAV_H_VAL}, & \RaggedLeft \pageref{consumer.mdlStock_SAV_H_VAL} \\
+ \midrule 
+$SUBC$ & Aggregate subsidies on commodities & \RaggedLeft \ref{Exception_taxes_prices.mdlSUBC}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlSUBC} \\
+ \midrule 
+$SUBCD$ & Aggregate subsidies on domestically produced commodities & \RaggedLeft \ref{Exception_taxes_prices.mdlSUBCD}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlSUBCD} \\
+ \midrule 
+$SUBCD_{c}$ & Subsidies on domestically produced commodity $c$ & \RaggedLeft \ref{Exception_taxes_prices.mdlSUBCD[c]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlSUBCD[c]} \\
+ \midrule 
+$SUBCM$ & Aggregate subsidies on imported commodities & \RaggedLeft \ref{Exception_taxes_prices.mdlSUBCM}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlSUBCM} \\
+ \midrule 
+$SUBCM_{c}$ & Subsidies on imported commodity $c$ & \RaggedLeft \ref{Exception_taxes_prices.mdlSUBCM[c]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlSUBCM[c]} \\
+ \midrule 
+$SUBST^{CHM}_{c}$ & Substitution effect on the imported households final consumption for the commodity $c$ & \RaggedLeft \ref{adjustments.mdlSUBST_CHM[c]}, & \RaggedLeft \pageref{adjustments.mdlSUBST_CHM[c]} \\
+ \midrule 
+$SUBST^{CHM,n}_{c}$ & Notional substitution effect induced by a change in the relative price between imported and domestically produced commodity $c$ for households final consumption & \RaggedLeft \ref{Trade_inter.mdlSUBST_CHM_n[c]}, & \RaggedLeft \pageref{Trade_inter.mdlSUBST_CHM_n[c]} \\
+ \midrule 
+$SUBST^{CI}_{ce, s}$ & Substitution effect on the energy intermediate consumption $ce$ in the sector $s$ & \RaggedLeft \ref{adjustments.mdlSUBST_CI[ce, s]}, & \RaggedLeft \pageref{adjustments.mdlSUBST_CI[ce, s]} \\
+ \midrule 
+$SUBST^{CI}_{ct, s}$ & Substitution effect on the transportation intermediate consumption $ce$ in the sector $s$ & \RaggedLeft \ref{adjustments.mdlSUBST_CI[ct, s]}, & \RaggedLeft \pageref{adjustments.mdlSUBST_CI[ct, s]} \\
+ \midrule 
+$SUBST^{CI,n}_{ce, s}$ & Notional substitution between energy commodity $ce$ and the other energy commodities $cee$ in the sector $s$ & \RaggedLeft \ref{producer.mdlSUBST_CI_n[ce, s]}, & \RaggedLeft \pageref{producer.mdlSUBST_CI_n[ce, s]} \\
+ \midrule 
+$SUBST^{CI,n}_{ct, s}$ & Notional substitution between the transport $ct$ and the other transports $mt$ in the sector $s$ & \RaggedLeft \ref{producer.mdlSUBST_CI_n[ct, s]}, & \RaggedLeft \pageref{producer.mdlSUBST_CI_n[ct, s]} \\
+ \midrule 
+$SUBST^{CIM}_{c, s}$ & Substitution effect on the intermediate consumption for the imported commodity $c$ in the sector $s$ & \RaggedLeft \ref{adjustments.mdlSUBST_CIM[c, s]}, & \RaggedLeft \pageref{adjustments.mdlSUBST_CIM[c, s]} \\
+ \midrule 
+$SUBST^{CIM,n}_{c, s}$ & Notional substitution effect induced by a change in the relative price between imported and domestic intermediary consumption in commodity $c$ from the sector $s$ & \RaggedLeft \ref{Trade_inter.mdlSUBST_CIM_n[c, s]}, & \RaggedLeft \pageref{Trade_inter.mdlSUBST_CIM_n[c, s]} \\
+ \midrule 
+$SUBST^{F}_{f, s}$ & Substitution effect of the production factor $f$ in the sector $s$ & \RaggedLeft \ref{adjustments.mdlSUBST_F[f, s]}, & \RaggedLeft \pageref{adjustments.mdlSUBST_F[f, s]} \\
+ \midrule 
+$SUBST^{F,n}_{f, s}$ & Notional substitution between input $f$ and the other inputs $ff$ & \RaggedLeft \ref{producer.mdlSUBST_F_n[f, s]}, & \RaggedLeft \pageref{producer.mdlSUBST_F_n[f, s]} \\
+ \midrule 
+$SUBST^{GM}_{c}$ & Substitution effect on the imported government final consumption for the commodity $c$ & \RaggedLeft \ref{adjustments.mdlSUBST_GM[c]}, & \RaggedLeft \pageref{adjustments.mdlSUBST_GM[c]} \\
+ \midrule 
+$SUBST^{GM,n}_{c}$ & Notional substitution effect induced by a change in the relative price between imported and domestically produced commodity $c$ for government final consumption & \RaggedLeft \ref{Trade_inter.mdlSUBST_GM_n[c]}, & \RaggedLeft \pageref{Trade_inter.mdlSUBST_GM_n[c]} \\
+ \midrule 
+$SUBST^{IM}_{c, s}$ & Substitution effect on the investment for the imported commodity $c$ in the sector $s$ & \RaggedLeft \ref{adjustments.mdlSUBST_IM[c, s]}, & \RaggedLeft \pageref{adjustments.mdlSUBST_IM[c, s]} \\
+ \midrule 
+$SUBST^{IM,n}_{c, s}$ & Notional substitution effect induced by a change in the relative price between imported and domestic investment in commodity $c$ from the sector $s$ & \RaggedLeft \ref{Trade_inter.mdlSUBST_IM_n[c, s]}, & \RaggedLeft \pageref{Trade_inter.mdlSUBST_IM_n[c, s]} \\
+ \midrule 
+$SUBST^{MGPD}_{m, c}$ & Substitution effect of the domestic margin paid $m$ for the commodity $c$ & \RaggedLeft \ref{adjustments.mdlSUBST_MGPD[m, c]}, & \RaggedLeft \pageref{adjustments.mdlSUBST_MGPD[m, c]} \\
+ \midrule 
+$SUBST^{MGPD,n}_{m, c}$ & Notional substitution between margin $m$ and the other margin types $mm$ paid on domestic commodity $c$ & \RaggedLeft \ref{producer.mdlSUBST_MGPD_n[m, c]}, & \RaggedLeft \pageref{producer.mdlSUBST_MGPD_n[m, c]} \\
+ \midrule 
+$SUBST^{MGPM}_{m, c}$ & Substitution effect on the imported margin paid $m$ for the commodity $c$ & \RaggedLeft \ref{adjustments.mdlSUBST_MGPM[m, c]}, & \RaggedLeft \pageref{adjustments.mdlSUBST_MGPM[m, c]} \\
+ \midrule 
+$SUBST^{MGPM,n}_{m, c}$ & Notional substitution between margin $m$ and the other margin types $mm$ paid on imported commodity $c$ & \RaggedLeft \ref{producer.mdlSUBST_MGPM_n[m, c]}, & \RaggedLeft \pageref{producer.mdlSUBST_MGPM_n[m, c]} \\
+ \midrule 
+$SUBST^{MGSM}_{m}$ & Substitution effect on the imported margin supplied for the commodity $m$ & \RaggedLeft \ref{adjustments.mdlSUBST_MGSM[m]}, & \RaggedLeft \pageref{adjustments.mdlSUBST_MGSM[m]} \\
+ \midrule 
+$SUBST^{MGSM,n}_{c}$ & Notional substitution effect induced by a change in the relative price between imported and domestically produced commodity $c$ for margins supplied & \RaggedLeft \ref{Trade_inter.mdlSUBST_MGSM_n[c]}, & \RaggedLeft \pageref{Trade_inter.mdlSUBST_MGSM_n[c]} \\
+ \midrule 
+$SUBST^{X}_{c}$ & Substitution effect on the exports of the commodity $c$ & \RaggedLeft \ref{adjustments.mdlSUBST_X[c]}, & \RaggedLeft \pageref{adjustments.mdlSUBST_X[c]} \\
+ \midrule 
+$SUBST^{X,n}_{c}$ & Notional substitution effect induced by a change in the relative price between export prices and (converted in domestic currency) international prices for the commodity $c$ & \RaggedLeft \ref{Trade_inter.mdlSUBST_X_n[c]}, & \RaggedLeft \pageref{Trade_inter.mdlSUBST_X_n[c]} \\
+ \midrule 
+$SUBST^{XM}_{c}$ & Substitution effect on the government final consumption for the imported commodity $c$ & \RaggedLeft \ref{adjustments.mdlSUBST_XM[c]}, & \RaggedLeft \pageref{adjustments.mdlSUBST_XM[c]} \\
+ \midrule 
+$SUBST^{XM,n}_{c}$ & Notional substitution effect induced by a change in the relative price between imported and domestic products $c$ for exports & \RaggedLeft \ref{Trade_inter.mdlSUBST_XM_n[c]}, & \RaggedLeft \pageref{Trade_inter.mdlSUBST_XM_n[c]} \\
+ \midrule 
+$T2^{CH}_{c}$ & Carbon tax in volume on households' consumption depending on commodity c & \RaggedLeft \ref{Exception_taxes_prices.mdlT2_CH[c]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlT2_CH[c]} \\
+ \midrule 
+$T2^{CH}_{ghg, c}$ & Carbon tax in volume on households' consumption depending on ghg emission types and commodity c & \RaggedLeft \ref{Exception_taxes_prices.mdlT2_CH[ghg,c]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlT2_CH[ghg,c]} \\
+ \midrule 
+$T2^{CI}_{ghg, c, s}$ & Carbon tax in volume on intermediary consumption emissions depending on ghg emission types, commodity c in sector s & \RaggedLeft \ref{Exception_taxes_prices.mdlT2_CI[ghg,c,s]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlT2_CI[ghg,c,s]} \\
+ \midrule 
+$T2^{CID}_{c}$ & Carbon tax in volume on intermediary consumption emissions depending on domestic commodity c & \RaggedLeft \ref{Exception_taxes_prices.mdlT2_CID[c]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlT2_CID[c]} \\
+ \midrule 
+$T2^{CID}_{ghg, c}$ & Carbon tax in volume on intermediary consumption emissions depending on ghg emission types and domestic commodity c & \RaggedLeft \ref{Exception_taxes_prices.mdlT2_CID[ghg,c]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlT2_CID[ghg,c]} \\
+ \midrule 
+$T2^{CIM}_{c}$ & Carbon tax in volume on intermediary consumption emissions depending on imported commodity c & \RaggedLeft \ref{Exception_taxes_prices.mdlT2_CIM[c]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlT2_CIM[c]} \\
+ \midrule 
+$T2^{CIM}_{ghg, c}$ & Carbon tax in volume on intermediary consumption emissions depending on ghg emission types and imported commodity c & \RaggedLeft \ref{Exception_taxes_prices.mdlT2_CIM[ghg,c]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlT2_CIM[ghg,c]} \\
+ \midrule 
+$T2^{MAT}_{ghg, s}$ & Carbon tax in volume on material emissions depending on ghg emission types, commodity c in sector s & \RaggedLeft \ref{Exception_taxes_prices.mdlT2_MAT[ghg,s]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlT2_MAT[ghg,s]} \\
+ \midrule 
+$T2^{MAT}_{ghg}$ & Carbon tax in volume on material emissions depending on ghg emission types & \RaggedLeft \ref{Exception_taxes_prices.mdlT2_MAT[ghg]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlT2_MAT[ghg]} \\
+ \midrule 
+$T2^{MAT}_{s}$ & Carbon tax in volume on material emissions depending on commodity c & \RaggedLeft \ref{Exception_taxes_prices.mdlT2_MAT[s]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlT2_MAT[s]} \\
+ \midrule 
+$T2^{Y}_{ghg, s}$ & Carbon tax in volume on production emissions depending on ghg emission types, commodity c in sector s & \RaggedLeft \ref{Exception_taxes_prices.mdlT2_Y[ghg,s]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlT2_Y[ghg,s]} \\
+ \midrule 
+$T2^{Y}_{ghg}$ & Carbon tax in volume on production emissions depending on ghg emission types & \RaggedLeft \ref{Exception_taxes_prices.mdlT2_Y[ghg]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlT2_Y[ghg]} \\
+ \midrule 
+$T2^{Y}_{s}$ & Carbon tax in volume on production emissions depending on sector s & \RaggedLeft \ref{Exception_taxes_prices.mdlT2_Y[s]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlT2_Y[s]} \\
+ \midrule 
+$T2VAL^{CH}$ & Carbon tax in value on households' consumption depending on ghg emission types and commodity c & \RaggedLeft \ref{Exception_taxes_prices.mdlT2VAL_CH}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlT2VAL_CH} \\
+ \midrule 
+$T2VAL^{CH}_{c}$ & Carbon tax in value on households' consumption depending on commodity c & \RaggedLeft \ref{Exception_taxes_prices.mdlT2VAL_CH[c]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlT2VAL_CH[c]} \\
+ \midrule 
+$T2VAL^{CH}_{ghg, c}$ & Carbon tax in value on households' consumption depending on ghg emission types and commodity c & \RaggedLeft \ref{Exception_taxes_prices.mdlT2VAL_CH[ghg,c]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlT2VAL_CH[ghg,c]} \\
+ \midrule 
+$T2VAL^{CH}_{ghg}$ & Carbon tax in value on households' consumption depending on ghg emission types & \RaggedLeft \ref{Exception_taxes_prices.mdlT2VAL_CH[ghg]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlT2VAL_CH[ghg]} \\
+ \midrule 
+$T2VAL^{CI}$ & Carbon tax in value on intermediary consumption emissions & \RaggedLeft \ref{Exception_taxes_prices.mdlT2VAL_CI}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlT2VAL_CI} \\
+ \midrule 
+$T2VAL^{CI}_{c, s}$ & Carbon tax in value on intermediary consumption emissions depending on commodity c and sector s & \RaggedLeft \ref{Exception_taxes_prices.mdlT2VAL_CI[c,s]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlT2VAL_CI[c,s]} \\
+ \midrule 
+$T2VAL^{CI}_{c}$ & Carbon tax in value on intermediary consumption emissions depending on commodity c & \RaggedLeft \ref{Exception_taxes_prices.mdlT2VAL_CI[c]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlT2VAL_CI[c]} \\
+ \midrule 
+$T2VAL^{CI}_{ghg, c, s}$ & Carbon tax in value on intermediary consumption emissions depending on ghg emission types, commodity c in sector s & \RaggedLeft \ref{Exception_taxes_prices.mdlT2VAL_CI[ghg,c,s]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlT2VAL_CI[ghg,c,s]} \\
+ \midrule 
+$T2VAL^{CI}_{ghg, c}$ & Carbon tax in value on intermediary consumption emissions depending on ghg emission types and commodity c & \RaggedLeft \ref{Exception_taxes_prices.mdlT2VAL_CI[ghg,c]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlT2VAL_CI[ghg,c]} \\
+ \midrule 
+$T2VAL^{CI}_{ghg, s}$ & Carbon tax in value on intermediary consumption emissions depending on ghg emission types and sector s & \RaggedLeft \ref{Exception_taxes_prices.mdlT2VAL_CI[ghg,s]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlT2VAL_CI[ghg,s]} \\
+ \midrule 
+$T2VAL^{CI}_{ghg}$ & Carbon tax in value on intermediary consumption emissions depending on ghg emission types & \RaggedLeft \ref{Exception_taxes_prices.mdlT2VAL_CI[ghg]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlT2VAL_CI[ghg]} \\
+ \midrule 
+$T2VAL^{CI}_{s}$ & Carbon tax in value on intermediary consumption emissions depending on sector s & \RaggedLeft \ref{Exception_taxes_prices.mdlT2VAL_CI[s]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlT2VAL_CI[s]} \\
+ \midrule 
+$T2VAL^{CID}_{c}$ & Carbon tax in value on intermediary consumption emissions depending on domestic commodity c & \RaggedLeft \ref{Exception_taxes_prices.mdlT2VAL_CID[c]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlT2VAL_CID[c]} \\
+ \midrule 
+$T2VAL^{CID}_{ghg, c}$ & Carbon tax in value on intermediary consumption emissions depending on ghg emission types and domestic commodity c & \RaggedLeft \ref{Exception_taxes_prices.mdlT2VAL_CID[ghg,c]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlT2VAL_CID[ghg,c]} \\
+ \midrule 
+$T2VAL^{CIM}_{c}$ & Carbon tax in value on intermediary consumption emissions depending on imported commodity c & \RaggedLeft \ref{Exception_taxes_prices.mdlT2VAL_CIM[c]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlT2VAL_CIM[c]} \\
+ \midrule 
+$T2VAL^{CIM}_{ghg, c}$ & Carbon tax in value on intermediary consumption emissions depending on ghg emission types and imported commodity c & \RaggedLeft \ref{Exception_taxes_prices.mdlT2VAL_CIM[ghg,c]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlT2VAL_CIM[ghg,c]} \\
+ \midrule 
+$T2VAL^{MAT}$ & Carbon tax in value on material emissions & \RaggedLeft \ref{Exception_taxes_prices.mdlT2VAL_MAT}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlT2VAL_MAT} \\
+ \midrule 
+$T2VAL^{MAT}_{ghg, s}$ & Carbon tax in value on material emissions depending on ghg emission types, commodity c in sector s & \RaggedLeft \ref{Exception_taxes_prices.mdlT2VAL_MAT[ghg,s]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlT2VAL_MAT[ghg,s]} \\
+ \midrule 
+$T2VAL^{MAT}_{ghg}$ & Carbon tax in value on material emissions depending on ghg emission types & \RaggedLeft \ref{Exception_taxes_prices.mdlT2VAL_MAT[ghg]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlT2VAL_MAT[ghg]} \\
+ \midrule 
+$T2VAL^{MAT}_{s}$ & Carbon tax in value on material emissions depending on commodity c & \RaggedLeft \ref{Exception_taxes_prices.mdlT2VAL_MAT[s]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlT2VAL_MAT[s]} \\
+ \midrule 
+$T2VAL^{Y}$ & Carbon tax in value on production emissions & \RaggedLeft \ref{Exception_taxes_prices.mdlT2VAL_Y}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlT2VAL_Y} \\
+ \midrule 
+$T2VAL^{Y}_{ghg, s}$ & Carbon tax in value on production emissions depending on ghg emission types, commodity c in sector s & \RaggedLeft \ref{Exception_taxes_prices.mdlT2VAL_Y[ghg,s]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlT2VAL_Y[ghg,s]} \\
+ \midrule 
+$T2VAL^{Y}_{ghg}$ & Carbon tax in value on production emissions depending on ghg emission types & \RaggedLeft \ref{Exception_taxes_prices.mdlT2VAL_Y[ghg]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlT2VAL_Y[ghg]} \\
+ \midrule 
+$T2VAL^{Y}_{s}$ & Carbon tax in value on production emissions depending on sector s & \RaggedLeft \ref{Exception_taxes_prices.mdlT2VAL_Y[s]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlT2VAL_Y[s]} \\
+ \midrule 
+$TRSP_{s}$ & Transport demand of sector $s$ & \RaggedLeft \ref{producer.mdlTRSP[s]}, & \RaggedLeft \pageref{producer.mdlTRSP[s]} \\
+ \midrule 
+$Un$ & Unemployment & \RaggedLeft \ref{demography.mdlUn}, & \RaggedLeft \pageref{demography.mdlUn} \\
+ \midrule 
+$UnR$ & Unemployment rate & \RaggedLeft \ref{demography.mdlUnR}, & \RaggedLeft \pageref{demography.mdlUnR} \\
+ \midrule 
+$VA$ & Aggregate value-added & \RaggedLeft \ref{SU.mdlVA}, & \RaggedLeft \pageref{SU.mdlVA} \\
+ \midrule 
+$VA_{s}$ & Value-added of sector $s$ & \RaggedLeft \ref{SU.mdlVA[s]}, & \RaggedLeft \pageref{SU.mdlVA[s]} \\
+ \midrule 
+$VA^{VAL}_{s}$ & Value-added of sector $s$ expressed in value & \RaggedLeft \ref{SU.mdlVA_VAL[s]}, & \RaggedLeft \pageref{SU.mdlVA_VAL[s]} \\
+ \midrule 
+$VAT$ & Aggregate Value-added Tax on total households final consumption & \RaggedLeft \ref{Exception_taxes_prices.mdlVAT}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlVAT} \\
+ \midrule 
+$VATD$ & Aggregate value-added tax paid on domestically produced comodities & \RaggedLeft \ref{Exception_taxes_prices.mdlVATD}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlVATD} \\
+ \midrule 
+$VATD_{c}$ & Value-added tax on domestically produced commodity $c$ & \RaggedLeft \ref{Exception_taxes_prices.mdlVATD[c]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlVATD[c]} \\
+ \midrule 
+$VATM$ & Aggregate value-added tax paid on imported comodities & \RaggedLeft \ref{Exception_taxes_prices.mdlVATM}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlVATM} \\
+ \midrule 
+$VATM_{c}$ & Value-added tax on imported commodity $c$ & \RaggedLeft \ref{Exception_taxes_prices.mdlVATM[c]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlVATM[c]} \\
+ \midrule 
+$W$ & Average wage & \RaggedLeft \ref{prices.mdlW}, & \RaggedLeft \pageref{prices.mdlW} \\
+ \midrule 
+$W_{s}$ & Wages of the sector $s$ & \RaggedLeft \ref{adjustments.mdlW[s]}, & \RaggedLeft \pageref{adjustments.mdlW[s]} \\
+ \midrule 
+$W^{n}_{s}$ & Notional wage in sector $s$ & \RaggedLeft \ref{prices.mdlW_n[s]}, & \RaggedLeft \pageref{prices.mdlW_n[s]} \\
+ \midrule 
+$WAGES$ & Aggregate gross wages paid by sectors & \RaggedLeft \ref{SU.mdlWAGES}, & \RaggedLeft \pageref{SU.mdlWAGES} \\
+ \midrule 
+$WAGES_{s}$ & Gross wages paid by sector $s$ including employees (but not employers)' social contribution & \RaggedLeft \ref{prices.mdlWAGES[s]}, & \RaggedLeft \pageref{prices.mdlWAGES[s]} \\
+ \midrule 
+$WAPop$ & Working-age population & \RaggedLeft \ref{demography.mdlWAPop}, & \RaggedLeft \pageref{demography.mdlWAPop} \\
+ \midrule 
+$X$ & Aggregate exports, expressed at market price & \RaggedLeft \ref{SU.mdlX}, & \RaggedLeft \pageref{SU.mdlX} \\
+ \midrule 
+$X_{c}$ & Foreign demand for exports of commmodity $c$ & \RaggedLeft \ref{Trade_inter.mdlX[c]}, & \RaggedLeft \pageref{Trade_inter.mdlX[c]} \\
+ \midrule 
+$X^{toe}_{ce}$ & External demand for energy $ce$, expressed in toe & \RaggedLeft \ref{energybalance.mdlX_toe[ce]}, & \RaggedLeft \pageref{energybalance.mdlX_toe[ce]} \\
+ \midrule 
+$XD$ & Aggregate domestically produced exports, expressed at market price & \RaggedLeft \ref{SU.mdlXD}, & \RaggedLeft \pageref{SU.mdlXD} \\
+ \midrule 
+$XD_{c}$ & Exports of domestically produced commodity $c$ & \RaggedLeft \ref{Trade_inter.mdlXD[c]}, & \RaggedLeft \pageref{Trade_inter.mdlXD[c]} \\
+ \midrule 
+$XM$ & Aggregate imported exports (re-exports), expressed at market price & \RaggedLeft \ref{SU.mdlXM}, & \RaggedLeft \pageref{SU.mdlXM} \\
+ \midrule 
+$XM_{c}$ & Exports of imported commodity $c$ & \RaggedLeft \ref{Trade_inter.mdlXM[c]}, & \RaggedLeft \pageref{Trade_inter.mdlXM[c]} \\
+ \midrule 
+$Y$ & Aggregate production, expressed at basic price & \RaggedLeft \ref{SU.mdlY}, & \RaggedLeft \pageref{SU.mdlY} \\
+ \midrule 
+$Y_{c, s}$ & Production of commodity $c$ by sector $s$ & \RaggedLeft \ref{producer.mdlY[c, s]}, & \RaggedLeft \pageref{producer.mdlY[c, s]} \\
+ \midrule 
+$Y_{s}$ & Production of sector $s$, expressed at basic price & \RaggedLeft \ref{SU.mdlY[s]}, & \RaggedLeft \pageref{SU.mdlY[s]} \\
+ \midrule 
+$Y^{e}_{s}$ & Expected production & \RaggedLeft \ref{adjustments.mdlY_e[s]}, & \RaggedLeft \pageref{adjustments.mdlY_e[s]} \\
+ \midrule 
+$Y^{toe}_{ce, s}$ & Final production of energy of $ce$ by sector $s$, expressed in toe & \RaggedLeft \ref{energybalance.mdlY_toe[ce, s]}, & \RaggedLeft \pageref{energybalance.mdlY_toe[ce, s]} \\
+ \midrule 
+$Y^{toe}_{ce}$ & Final production of energy of $ce$ by sectors, expressed in toe & \RaggedLeft \ref{energybalance.mdlY_toe[ce]}, & \RaggedLeft \pageref{energybalance.mdlY_toe[ce]} \\
+ \midrule 
+$YCAP_{s}$ & Production capacity of the sector $s$ & \RaggedLeft \ref{prices.mdlYCAP[s]}, & \RaggedLeft \pageref{prices.mdlYCAP[s]} \\
+ \midrule 
+$YQ$ & Domestic production, expressed at basic price & \RaggedLeft \ref{SU.mdlYQ}, & \RaggedLeft \pageref{SU.mdlYQ} \\
+ \midrule 
+$YQ_{c}$ & Production of commodity $c$, expressed at basic price & \RaggedLeft \ref{SU.mdlYQ[c]}, & \RaggedLeft \pageref{SU.mdlYQ[c]} \\
+ \midrule 
+$YQ^{bis}_{c}$ & Production of commodity $c$, expressed at basic price (for verification) & \RaggedLeft \ref{SU.mdlYQbis[c]}, & \RaggedLeft \pageref{SU.mdlYQbis[c]} \\
+ \midrule 
+$YQS_{c}$ & Production of commodity $c$, expressed at market price & \RaggedLeft \ref{prices.mdlYQS[c]}, & \RaggedLeft \pageref{prices.mdlYQS[c]} \\
+ \midrule 
+$YQSBVAT_{c}$ & Production of commodity $c$ expressed at market price before VAT & \RaggedLeft \ref{Exception_taxes_prices.mdlYQSBVAT[c]}, & \RaggedLeft \pageref{Exception_taxes_prices.mdlYQSBVAT[c]} \\
+\end{longtable}
+\ifx\fulldoc\undefined
+\end{document}
+\fi

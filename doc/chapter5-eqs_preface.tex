@@ -1,0 +1,917 @@
+\repeatablebody{SU.mdlPQD[c]}{PQD_{c} \; QD_{c} = PMGSD_{c} \; MGSD_{c} + PCID_{c} \; CID_{c} + PCHD_{c} \; CHD_{c} + PGD_{c} \; GD_{c} + PID_{c} \; ID_{c} + PXD_{c} \; XD_{c} + PDSD_{c} \; DSD_{c}}
+
+\repeatablebody{SU.mdlQD[c]}{QD_{c} = MGSD_{c} + CID_{c} + CHD_{c} + GD_{c} + ID_{c} + XD_{c} + DSD_{c}}
+
+\repeatablebody{SU.mdlPQM[c]}{PQM_{c} \; QM_{c} = PMGSM_{c} \; MGSM_{c} + PCIM_{c} \; CIM_{c} + PCHM_{c} \; CHM_{c} + PGM_{c} \; GM_{c} + PIM_{c} \; IM_{c} + PXM_{c} \; XM_{c} + PDSM_{c} \; DSM_{c}}
+
+\repeatablebody{SU.mdlQM[c]}{QM_{c} = MGSM_{c} + CIM_{c} + CHM_{c} + GM_{c} + IM_{c} + XM_{c} + DSM_{c}}
+
+\repeatablebody{SU.mdlPMGS[m]}{PMGS_{m} \; MGS_{m} = \sum_{c} PMGP_{m, c} \; MGP_{m, c}}
+
+\repeatablebody{SU.mdlMGS[m]}{MGS_{m} = \sum_{c} MGP_{m, c}}
+
+\repeatablebody{SU.mdlPMGSbis[m]}{PMGS^{bis}_{m} \; MGS^{bis}_{m} = PMGSD_{m} \; MGSD_{m} + PMGSM_{m} \; MGSM_{m}}
+
+\repeatablebody{SU.mdlMGSbis[m]}{MGS^{bis}_{m} = MGSD_{m} + MGSM_{m}}
+
+\repeatablebody{SU.mdlPQ[c]}{PQ_{c} \; Q_{c} = PQD_{c} \; QD_{c} + PQM_{c} \; QM_{c}}
+
+\repeatablebody{SU.mdlQ[c]}{Q_{c} = QD_{c} + QM_{c}}
+
+\repeatablebody{SU.mdlPCI[c]}{PCI_{c} \; CI_{c} = PCID_{c} \; CID_{c} + PCIM_{c} \; CIM_{c}}
+
+\repeatablebody{SU.mdlCI[c]}{CI_{c} = CID_{c} + CIM_{c}}
+
+\repeatablebody{SU.mdlPI[c]}{PI_{c} \; I_{c} = PID_{c} \; ID_{c} + PIM_{c} \; IM_{c}}
+
+\repeatablebody{SU.mdlI[c]}{I_{c} = ID_{c} + IM_{c}}
+
+\repeatablebody{SU.mdlPDS[c]}{PDS_{c} \; DS_{c} = PDSD_{c} \; DSD_{c} + PDSM_{c} \; DSM_{c}}
+
+\repeatablebody{SU.mdlDS[c]}{DS_{c} = DSD_{c} + DSM_{c}}
+
+\repeatablebody{SU.mdlPCID[c]}{PCID_{c} \; CID_{c} = \sum_{s} PCID_{c, s} \; CID_{c, s}}
+
+\repeatablebody{SU.mdlCID[c]}{CID_{c} = \sum_{s} CID_{c, s}}
+
+\repeatablebody{SU.mdlPCIM[c]}{PCIM_{c} \; CIM_{c} = \sum_{s} PCIM_{c, s} \; CIM_{c, s}}
+
+\repeatablebody{SU.mdlCIM[c]}{CIM_{c} = \sum_{s} CIM_{c, s}}
+
+\repeatablebody{SU.mdlPID[c]}{PID_{c} \; ID_{c} = \sum_{s} PID_{c, s} \; ID_{c, s}}
+
+\repeatablebody{SU.mdlID[c]}{ID_{c} = \sum_{s} ID_{c, s}}
+
+\repeatablebody{SU.mdlPIM[c]}{PIM_{c} \; IM_{c} = \sum_{s} PIM_{c, s} \; IM_{c, s}}
+
+\repeatablebody{SU.mdlIM[c]}{IM_{c} = \sum_{s} IM_{c, s}}
+
+\repeatablebody{SU.mdlPCID[s]}{PCID_{s} \; CID_{s} = \sum_{c} PCID_{c, s} \; CID_{c, s}}
+
+\repeatablebody{SU.mdlCID[s]}{CID_{s} = \sum_{c} CID_{c, s}}
+
+\repeatablebody{SU.mdlPCIM[s]}{PCIM_{s} \; CIM_{s} = \sum_{c} PCIM_{c, s} \; CIM_{c, s}}
+
+\repeatablebody{SU.mdlCIM[s]}{CIM_{s} = \sum_{c} CIM_{c, s}}
+
+\repeatablebody{SU.mdlPCI[s]}{PCI_{s} \; CI_{s} = PCID_{s} \; CID_{s} + PCIM_{s} \; CIM_{s}}
+
+\repeatablebody{SU.mdlCI[s]}{CI_{s} = CID_{s} + CIM_{s}}
+
+\repeatablebody{SU.mdlPCIbis}{PCI^{bis} . CI^{bis} = \sum_{s} PCI_{s} \; CI_{s}}
+
+\repeatablebody{SU.mdlCIbis}{CI^{bis} = \sum_{s} CI_{s}}
+
+\repeatablebody{SU.mdlPID[s]}{PID_{s} \; ID_{s} = \sum_{c} PID_{c, s} \; ID_{c, s}}
+
+\repeatablebody{SU.mdlID[s]}{ID_{s} = \sum_{c} ID_{c, s}}
+
+\repeatablebody{SU.mdlPIM[s]}{PIM_{s} \; IM_{s} = \sum_{c} PIM_{c, s} \; IM_{c, s}}
+
+\repeatablebody{SU.mdlIM[s]}{IM_{s} = \sum_{c} IM_{c, s}}
+
+\repeatablebody{SU.mdlPI[s]}{PI_{s} \; I_{s} = PID_{s} \; ID_{s} + PIM_{s} \; IM_{s}}
+
+\repeatablebody{SU.mdlI[s]}{I_{s} = ID_{s} + IM_{s}}
+
+\repeatablebody{SU.mdlPIbis}{PI^{bis} . I^{bis} = \sum_{s} PI_{s} \; I_{s}}
+
+\repeatablebody{SU.mdlIbis}{I^{bis} = \sum_{s} I_{s}}
+
+\repeatablebody{SU.mdlPQD}{PQD . QD = \sum_{c} PQD_{c} \; QD_{c}}
+
+\repeatablebody{SU.mdlQD}{QD = \sum_{c} QD_{c}}
+
+\repeatablebody{SU.mdlPQM}{PQM . QM = \sum_{c} PQM_{c} \; QM_{c}}
+
+\repeatablebody{SU.mdlQM}{QM = \sum_{c} QM_{c}}
+
+\repeatablebody{SU.mdlPMGSD}{PMGSD . MGSD = \sum_{c} PMGSD_{c} \; MGSD_{c}}
+
+\repeatablebody{SU.mdlMGSD}{MGSD = \sum_{c} MGSD_{c}}
+
+\repeatablebody{SU.mdlPMGSM}{PMGSM . MGSM = \sum_{c} PMGSM_{c} \; MGSM_{c}}
+
+\repeatablebody{SU.mdlMGSM}{MGSM = \sum_{c} MGSM_{c}}
+
+\repeatablebody{SU.mdlPCID}{PCID . CID = \sum_{c} PCID_{c} \; CID_{c}}
+
+\repeatablebody{SU.mdlCID}{CID = \sum_{c} CID_{c}}
+
+\repeatablebody{SU.mdlPCIM}{PCIM . CIM = \sum_{c} PCIM_{c} \; CIM_{c}}
+
+\repeatablebody{SU.mdlCIM}{CIM = \sum_{c} CIM_{c}}
+
+\repeatablebody{SU.mdlPCHD}{PCHD . CHD = \sum_{c} PCHD_{c} \; CHD_{c}}
+
+\repeatablebody{SU.mdlCHD}{CHD = \sum_{c} CHD_{c}}
+
+\repeatablebody{SU.mdlPCHM}{PCHM . CHM = \sum_{c} PCHM_{c} \; CHM_{c}}
+
+\repeatablebody{SU.mdlCHM}{CHM = \sum_{c} CHM_{c}}
+
+\repeatablebody{SU.mdlPGD}{PGD . GD = \sum_{c} PGD_{c} \; GD_{c}}
+
+\repeatablebody{SU.mdlGD}{GD = \sum_{c} GD_{c}}
+
+\repeatablebody{SU.mdlPGM}{PGM . GM = \sum_{c} PGM_{c} \; GM_{c}}
+
+\repeatablebody{SU.mdlGM}{GM = \sum_{c} GM_{c}}
+
+\repeatablebody{SU.mdlPID}{PID . ID = \sum_{c} PID_{c} \; ID_{c}}
+
+\repeatablebody{SU.mdlID}{ID = \sum_{c} ID_{c}}
+
+\repeatablebody{SU.mdlPIM}{PIM . IM = \sum_{c} PIM_{c} \; IM_{c}}
+
+\repeatablebody{SU.mdlIM}{IM = \sum_{c} IM_{c}}
+
+\repeatablebody{SU.mdlPXD}{PXD . XD = \sum_{c} PXD_{c} \; XD_{c}}
+
+\repeatablebody{SU.mdlXD}{XD = \sum_{c} XD_{c}}
+
+\repeatablebody{SU.mdlPXM}{PXM . XM = \sum_{c} PXM_{c} \; XM_{c}}
+
+\repeatablebody{SU.mdlXM}{XM = \sum_{c} XM_{c}}
+
+\repeatablebody{SU.mdlPDSD}{PDSD . DSD = \sum_{c} PDSD_{c} \; DSD_{c}}
+
+\repeatablebody{SU.mdlDSD}{DSD = \sum_{c} DSD_{c}}
+
+\repeatablebody{SU.mdlPDSM}{PDSM . DSM = \sum_{c} PDSM_{c} \; DSM_{c}}
+
+\repeatablebody{SU.mdlDSM}{DSM = \sum_{c} DSM_{c}}
+
+\repeatablebody{SU.mdlPQ}{PQ . Q = PQD . QD + PQM . QM}
+
+\repeatablebody{SU.mdlQ}{Q = QD + QM}
+
+\repeatablebody{SU.mdlPMGS}{PMGS . MGS = PMGSD . MGSD + PMGSM . MGSM}
+
+\repeatablebody{SU.mdlMGS}{MGS = MGSD + MGSM}
+
+\repeatablebody{SU.mdlPCI}{PCI . CI = PCID . CID + PCIM . CIM}
+
+\repeatablebody{SU.mdlCI}{CI = CID + CIM}
+
+\repeatablebody{SU.mdlPCH}{PCH . CH = PCHD . CHD + PCHM . CHM}
+
+\repeatablebody{SU.mdlCH}{CH = CHD + CHM}
+
+\repeatablebody{SU.mdlPG}{PG . G = PGD . GD + PGM . GM}
+
+\repeatablebody{SU.mdlG}{G = GD + GM}
+
+\repeatablebody{SU.mdlPI}{PI . I = PID . ID + PIM . IM}
+
+\repeatablebody{SU.mdlI}{I = ID + IM}
+
+\repeatablebody{SU.mdlPX}{PX . X = PXD . XD + PXM . XM}
+
+\repeatablebody{SU.mdlX}{X = XD + XM}
+
+\repeatablebody{SU.mdlPDS}{PDS . DS = PDSD . DSD + PDSM . DSM}
+
+\repeatablebody{SU.mdlDS}{DS = DSD + DSM}
+
+\repeatablebody{SU.mdlYQ[c]}{YQ_{c} \; PYQ_{c} + NTAXCD^{VAL}_{c} + PMGPD_{c} \; MGPD_{c} = PQD_{c} \; QD_{c}}
+
+\repeatablebody{SU.mdlPYQbis[c]}{PYQ^{bis}_{c} \; YQ_{c} + NTAXCD^{VAL}_{c} + PMGPD_{c} \; MGPD_{c} = PQD_{c} \; QD_{c}}
+
+\repeatablebody{SU.mdlYQbis[c]}{YQ^{bis}_{c} + NTAXCD_{c} + MGPD_{c} = QD_{c}}
+
+\repeatablebody{SU.mdlM[c]}{M_{c} \; PM_{c} + NTAXCM^{VAL}_{c} + PMGPM_{c} \; MGPM_{c} = PQM_{c} \; QM_{c}}
+
+\repeatablebody{SU.mdlPMbis[c]}{PM^{bis}_{c} \; M_{c} + NTAXCM^{VAL}_{c} + PMGPM_{c} \; MGPM_{c} = PQM_{c} \; QM_{c}}
+
+\repeatablebody{SU.mdlMbis[c]}{M^{bis}_{c} + NTAXCM_{c} + MGPM_{c} = QM_{c}}
+
+\repeatablebody{SU.mdlPMGPD[c]}{PMGPD_{c} \; MGPD_{c} = \sum_{m} PMGPD_{m, c} \; MGPD_{m, c}}
+
+\repeatablebody{SU.mdlMGPD[c]}{MGPD_{c} = \sum_{m} MGPD_{m, c}}
+
+\repeatablebody{SU.mdlPMGPM[c]}{PMGPM_{c} \; MGPM_{c} = \sum_{m} PMGPM_{m, c} \; MGPM_{m, c}}
+
+\repeatablebody{SU.mdlMGPM[c]}{MGPM_{c} = \sum_{m} MGPM_{m, c}}
+
+\repeatablebody{SU.mdlPMGP[m, c]}{PMGP_{m, c} \; MGP_{m, c} = PMGPD_{m, c} \; MGPD_{m, c} + PMGPM_{m, c} \; MGPM_{m, c}}
+
+\repeatablebody{SU.mdlMGP[m, c]}{MGP_{m, c} = MGPD_{m, c} + MGPM_{m, c}}
+
+\repeatablebody{SU.mdlPMGPD}{PMGPD . MGPD = \sum_{c} PMGPD_{c} \; MGPD_{c}}
+
+\repeatablebody{SU.mdlMGPD}{MGPD = \sum_{c} MGPD_{c}}
+
+\repeatablebody{SU.mdlPMGPM}{PMGPM . MGPM = \sum_{c} PMGPM_{c} \; MGPM_{c}}
+
+\repeatablebody{SU.mdlMGPM}{MGPM = \sum_{c} MGPM_{c}}
+
+\repeatablebody{SU.mdlPYQ}{PYQ . YQ = \sum_{c} PYQ_{c} \; YQ_{c}}
+
+\repeatablebody{SU.mdlYQ}{YQ = \sum_{c} YQ_{c}}
+
+\repeatablebody{SU.mdlPM}{PM . M = \sum_{c} PM_{c} \; M_{c}}
+
+\repeatablebody{SU.mdlM}{M = \sum_{c} M_{c}}
+
+\repeatablebody{SU.mdlY[s]}{Y_{s} = \sum_{c} Y_{c, s}}
+
+\repeatablebody{SU.mdlVA_VAL[s]}{VA^{VAL}_{s} = PY_{s} \; Y_{s} - PCI_{s} \; CI_{s}}
+
+\repeatablebody{SU.mdlVA[s]}{VA_{s} = Y_{s} - CI_{s}}
+
+\repeatablebody{SU.mdlGOS_VAL[s]}{GOS^{VAL}_{s} = VA^{VAL}_{s} - PWAGES_{s} \; WAGES_{s} - PRSC_{s} \; RSC_{s} - NTAXS^{VAL}_{s}}
+
+\repeatablebody{SU.mdlGOS[s]}{GOS_{s} = VA_{s} - WAGES_{s} - RSC_{s} - NTAXS_{s}}
+
+\repeatablebody{SU.mdlNOS_VAL[s]}{NOS^{VAL}_{s} = GOS^{VAL}_{s} - PK_{s, t-1} \; \delta_{s} \; F_{K, s, t-1}}
+
+\repeatablebody{SU.mdlNOS[s]}{NOS_{s} = GOS_{s} - PK_{s, t_{0}-1} \; \delta_{s} \; F_{K, s, t-1}}
+
+\repeatablebody{SU.mdlPY}{PY . Y = \sum_{s} PY_{s} \; Y_{s}}
+
+\repeatablebody{SU.mdlY}{Y = \sum_{s} Y_{s}}
+
+\repeatablebody{SU.mdlPVA}{PVA . VA = \sum_{s} VA^{VAL}_{s}}
+
+\repeatablebody{SU.mdlVA}{VA = \sum_{s} VA_{s}}
+
+\repeatablebody{SU.mdlPWAGES}{PWAGES . WAGES = \sum_{s} PWAGES_{s} \; WAGES_{s}}
+
+\repeatablebody{SU.mdlWAGES}{WAGES = \sum_{s} WAGES_{s}}
+
+\repeatablebody{SU.mdlPGOS}{PGOS . GOS = \sum_{s} GOS^{VAL}_{s}}
+
+\repeatablebody{SU.mdlGOS}{GOS = \sum_{s} GOS_{s}}
+
+\repeatablebody{SU.mdlPNOS}{PNOS . NOS = \sum_{s} NOS^{VAL}_{s}}
+
+\repeatablebody{SU.mdlNOS}{NOS = \sum_{s} NOS_{s}}
+
+\repeatablebody{SU.mdlPGDP}{PGDP . GDP = PCH . CH + PG . G + PI . I + PX . X + PDS . DS - PM . M}
+
+\repeatablebody{SU.mdlGDP}{GDP = CH + G + I + X + DS - M}
+
+\repeatablebody{SU.mdlPGDP[c]}{PGDP_{c} \; GDP_{c} = PCH_{c} \; CH_{c} + PG_{c} \; G_{c} + PI_{c} \; I_{c} + PX_{c} \; X_{c} + PDS_{c} \; DS_{c} - PM_{c} \; M_{c}}
+
+\repeatablebody{SU.mdlGDP[c]}{GDP_{c} = CH_{c} + G_{c} + I_{c} + X_{c} + DS_{c} - M_{c}}
+
+\repeatablebody{SU.mdlPGDPbis}{PGDP^{bis} . GDP^{bis} = \sum_{c} PGDP_{c} \; GDP_{c}}
+
+\repeatablebody{SU.mdlGDPbis}{GDP^{bis} = \sum_{c} GDP_{c}}
+
+\repeatablebody{SU.mdlPGDPter}{PGDP^{ter} . GDP^{ter} = PVA . VA + PNTAXC . NTAXC}
+
+\repeatablebody{SU.mdlGDPter}{GDP^{ter} = VA + NTAXC}
+
+\repeatablebody{SU.mdlPGDP4}{PGDP4 . GDP4 = PGOS . GOS + PWAGES . WAGES + PRSC . RSC + NTAXS^{VAL} + PNTAXC . NTAXC}
+
+\repeatablebody{SU.mdlGDP4}{GDP4 = GOS + WAGES + RSC + NTAXS + NTAXC}
+
+\repeatablebody{prices.mdlPY_n[s]}{PY^{n}_{s} = CU^{n}_{s} \; \left( 1 + \mu_{s} \right)}
+
+\repeatablebody{prices.mdlMARKUP_n[s]}{\varDelta \left(\operatorname{log} \left(1 + \mu^{n}_{s}\right)\right) = \rho^{\mu,Y} . \varDelta \left(\operatorname{log} CUR_{s}\right)}
+
+\repeatablebody{prices.mdlMARKUP_n2[s]}{\varDelta \left(\operatorname{log} \left(1 + \mu^{n2}_{s}\right)\right) = \rho^{\mu,Y} . \left( \varDelta \left(\operatorname{log} Y_{s}\right) - \varDelta \left(\operatorname{log} Y_{s, t-1}\right) \right)}
+
+\repeatablebody{prices.mdlYCAP[s]}{\varDelta \left(\operatorname{log} YCAP_{s}\right) = \sum_{f} \varphi_{f, s, t-1} \; \varDelta \left(\operatorname{log} \left(F_{f, s} \; PROG_{f, s}\right)\right) + \alpha^{YCAP,Y}_{s} \; \left( \operatorname{log} Y_{s, t-1} - \operatorname{log} \left(YCAP_{s, t-1} \; CUR_{s, t_0}\right) \right)}
+
+\repeatablebody{prices.mdlCUR[s]}{CUR_{s} = \frac{Y_{s}}{YCAP_{s}}}
+
+\repeatablebody{prices.mdlMARKUP[c]}{\left( 1 + \mu_{c} \right) = \frac{PYQ_{c} \; YQ_{c}}{\sum_{s} CU_{s} \; Y_{c, s}}}
+
+\repeatablebody{prices.mdlW_n[s]}{\varDelta \left(\operatorname{log} W^{n}_{s}\right) = \rho^{W,Cons}_{s} + \rho^{W,P}_{s} \; \varDelta \left(\operatorname{log} P\right) + \rho^{W,Pe}_{s} \; \varDelta \left(\operatorname{log} P^{e}\right) + \rho^{W,PROG}_{s} \; \varDelta \left(\operatorname{log} PROG^{L}_{s}\right) - \rho^{W,U}_{s} \; \left( UnR - DNAIRU \right) - \rho^{W,DU}_{s} \; \varDelta \left(UnR\right) + \rho^{W,L}_{s} \; \varDelta \left(\operatorname{log} F_{L, s} - \operatorname{log} F_{L}\right)}
+
+\repeatablebody{prices.mdlW}{W . F_{L} = \left( \sum_{s} W_{s} \; F_{L, s} \right)}
+
+\repeatablebody{prices.mdlP}{P = PCH}
+
+\repeatablebody{prices.mdlWAGES[s]}{WAGES_{s} \; PWAGES_{s} = W_{s} \; F_{L, s}}
+
+\repeatablebody{prices.mdlPWAGES[s]}{PWAGES_{s} = P}
+
+\repeatablebody{prices.mdlR_n}{\varDelta \left(R^{n}\right) = \rho^{Rn,Cons} + \rho^{Rn,P} . \varDelta \left(\frac{\varDelta \left(P\right)}{P_{t-1}}\right) - \rho^{Rn,UnR} . \varDelta \left(UnR\right)}
+
+\repeatablebody{prices.mdlR[s]}{\varDelta \left(R_{s}\right) = \varDelta \left(R\right)}
+
+\repeatablebody{prices.mdlr_DEBT_G}{\varDelta \left(r^{DEBT,G}\right) = \varDelta \left(r\right)}
+
+\repeatablebody{prices.mdlCU_n[s]}{CU^{n}_{s} \; Y_{s} = \sum_{f} C_{f, s} \; F^{n}_{f, s} + NTAXS^{VAL}_{s}}
+
+\repeatablebody{prices.mdlCU[s]}{CU_{s} \; Y_{s} = \sum_{f} C_{f, s} \; F_{f, s} + NTAXS^{VAL}_{s}}
+
+\repeatablebody{prices.mdlC[L, s]}{C_{L, s} = W_{s} \; \left( 1 + RRSC_{s} \right)}
+
+\repeatablebody{prices.mdlC[K, s]}{C_{K, s} = PK_{s} \; \left( \delta_{s} + r_{s} \right)}
+
+\repeatablebody{prices.mdlPK[s]}{PK_{s} \; F_{K, s} = \left( 1 - \delta_{s} \right) \; PK_{s, t-1} \; F_{K, s, t-1} + PI_{s} \; I_{s}}
+
+\repeatablebody{prices.mdlC[E, s]}{C_{E, s} = PE_{s}}
+
+\repeatablebody{prices.mdlPE[s]}{PE_{s} \; F_{E, s} = \sum_{ce} PCI_{ce, s} \; CI_{ce, s}}
+
+\repeatablebody{prices.mdlC[MAT, s]}{C_{MAT, s} = PMAT_{s}}
+
+\repeatablebody{prices.mdlPMAT[s]}{PMAT_{s} \; F_{MAT, s} = \sum_{cm} PCI_{cm, s} \; CI_{cm, s}}
+
+\repeatablebody{prices.mdlC[K]}{C_{K} \; F_{K} = \sum_{s} C_{K, s} \; F_{K, s}}
+
+\repeatablebody{prices.mdlC[L]}{C_{L} \; F_{L} = \sum_{s} C_{L, s} \; F_{L, s}}
+
+\repeatablebody{prices.mdlC[E]}{C_{E} \; F_{E} = \sum_{s} C_{E, s} \; F_{E, s}}
+
+\repeatablebody{prices.mdlC[MAT]}{C_{MAT} \; F_{MAT} = \sum_{s} C_{MAT, s} \; F_{MAT, s}}
+
+\repeatablebody{prices.mdlPYQ[c]}{PYQ_{c} \; YQ_{c} = \sum_{s} PY_{s} \; Y_{c, s}}
+
+\repeatablebody{prices.mdlPM[c]}{PM_{c} = EXR . PWD_{c}}
+
+\repeatablebody{prices.mdlPYQS[c]}{PYQS_{c} \; YQS_{c} = PYQ_{c} \; YQ_{c} + PMGPD_{c} \; MGPD_{c} + NTAXCD^{VAL}_{c}}
+
+\repeatablebody{prices.mdlYQS[c]}{\varDelta \left(\operatorname{log} YQS_{c}\right) = \varDelta \left(\operatorname{log} YQ_{c}\right)}
+
+\repeatablebody{prices.mdlPMS[c]}{PMS_{c} \; MS_{c} = PM_{c} \; M_{c} + NTAXCM^{VAL}_{c} + PMGPM_{c} \; MGPM_{c}}
+
+\repeatablebody{prices.mdlMS[c]}{\varDelta \left(\operatorname{log} MS_{c}\right) = \varDelta \left(\operatorname{log} M_{c}\right)}
+
+\repeatablebody{prices.mdlPMGPD[m, c]}{PMGPD_{m, c} \; MGS_{m} = PMGSD_{m} \; MGSD_{m} + PMGSM_{m} \; MGSM_{m}}
+
+\repeatablebody{prices.mdlPMGPM[m, c]}{PMGPM_{m, c} = PMGPD_{m, c}}
+
+\repeatablebody{prices.mdlPMGSD[c]}{PMGSD_{c} = PYQS_{c}}
+
+\repeatablebody{prices.mdlPMGSM[c]}{PMGSM_{c} = PMS_{c}}
+
+\repeatablebody{prices.mdlPCID[c, s]}{PCID_{c, s} = PYQS_{c}}
+
+\repeatablebody{prices.mdlPCIM[c, s]}{PCIM_{c, s} = PMS_{c}}
+
+\repeatablebody{prices.mdlPCHD[c]}{PCHD_{c} = PYQS_{c}}
+
+\repeatablebody{prices.mdlPCHM[c]}{PCHM_{c} = PMS_{c}}
+
+\repeatablebody{prices.mdlPGD[c]}{PGD_{c} = PYQS_{c}}
+
+\repeatablebody{prices.mdlPGM[c]}{PGM_{c} = PMS_{c}}
+
+\repeatablebody{prices.mdlPID[c, s]}{PID_{c, s} = PYQS_{c}}
+
+\repeatablebody{prices.mdlPIM[c, s]}{PIM_{c, s} = PMS_{c}}
+
+\repeatablebody{prices.mdlPXD[c]}{PXD_{c} = PYQS_{c}}
+
+\repeatablebody{prices.mdlPXM[c]}{PXM_{c} = PMS_{c}}
+
+\repeatablebody{prices.mdlPDSD[c]}{PDSD_{c} = PYQS_{c}}
+
+\repeatablebody{prices.mdlPDSM[c]}{PDSM_{c} = PMS_{c}}
+
+\repeatablebody{prices.mdlPCI[c, s]}{PCI_{c, s} \; CI_{c, s} = PCID_{c, s} \; CID_{c, s} + PCIM_{c, s} \; CIM_{c, s}}
+
+\repeatablebody{prices.mdlPCH[c]}{PCH_{c} \; CH_{c} = PCHD_{c} \; CHD_{c} + PCHM_{c} \; CHM_{c}}
+
+\repeatablebody{prices.mdlPG[c]}{PG_{c} \; G_{c} = PGD_{c} \; GD_{c} + PGM_{c} \; GM_{c}}
+
+\repeatablebody{prices.mdlPX[c]}{PX_{c} \; X_{c} = PXD_{c} \; XD_{c} + PXM_{c} \; XM_{c}}
+
+\repeatablebody{producer.mdlMGPD[m, c]}{\varDelta \left(\operatorname{log} MGPD_{m, c}\right) = \varDelta \left(\operatorname{log} YQ_{c}\right) + \varDelta \left(SUBST^{MGPD}_{m, c}\right)}
+
+\repeatablebody{producer.mdlSUBST_MGPD_n[m, c]}{SUBST^{MGPD,n}_{m, c} = \sum_{mm} -\sigma^{MGPD}_{m, mm, c} \; \varphi^{MGPD}_{mm, c, t-1} \; \varDelta \left(\operatorname{log} PMGPD_{m, c} - \operatorname{log} PMGPD_{mm, c}\right)}
+
+\repeatablebody{producer.mdlphi_MGPD[m, c]}{\varphi^{MGPD}_{m, c} = \frac{PMGPD_{m, c} \; MGPD_{m, c}}{\sum_{mm} PMGPD_{mm, c} \; MGPD_{mm, c}}}
+
+\repeatablebody{producer.mdlMGPM[m, c]}{\varDelta \left(\operatorname{log} MGPM_{m, c}\right) = \varDelta \left(\operatorname{log} M_{c}\right) + \varDelta \left(SUBST^{MGPM}_{m, c}\right)}
+
+\repeatablebody{producer.mdlSUBST_MGPM_n[m, c]}{SUBST^{MGPM,n}_{m, c} = \sum_{mm} -\sigma^{MGPM}_{m, mm, c} \; \varphi^{MGPM}_{mm, c, t-1} \; \varDelta \left(\operatorname{log} PMGPM_{m, c} - \operatorname{log} PMGPM_{mm, c}\right)}
+
+\repeatablebody{producer.mdlphi_MGPM[m, c]}{\varphi^{MGPM}_{m, c} = \frac{PMGPM_{m, c} \; MGPM_{m, c}}{\sum_{mm} PMGPM_{mm, c} \; MGPM_{mm, c}}}
+
+\repeatablebody{producer.mdlY[c, s]}{Y_{c, s} = PhiY_{c, s} \; YQ_{c}}
+
+\repeatablebody{producer.mdlF_n[f, s]}{\varDelta \left(\operatorname{log} F^{n}_{f, s}\right) = \varDelta \left(\operatorname{log} Y_{s}\right) - \varDelta \left(\operatorname{log} PROG_{f, s}\right) + \varDelta \left(SUBST^{F}_{f, s}\right)}
+
+\repeatablebody{producer.mdlSUBST_F_n[f, s]}{\varDelta \left(SUBST^{F,n}_{f, s}\right) = \sum_{ff} -ES_{f, ff, s} \; \varphi_{ff, s, t-1} \; \varDelta \left(\operatorname{log} \frac{C_{f, s}}{PROG_{f, s}} - \operatorname{log} \frac{C_{ff, s}}{PROG_{ff, s}}\right)}
+
+\repeatablebody{producer.mdlphi[f, s]}{\varphi_{f, s} = \frac{C_{f, s} \; F^{n}_{f, s}}{\sum_{ff} C_{ff, s} \; F^{n}_{ff, s}}}
+
+\repeatablebody{producer.mdlF[f]}{F_{f} = \sum_{s} F_{f, s}}
+
+\repeatablebody{producer.mdlI[c, s]}{\varDelta \left(\operatorname{log} I_{c, s}\right) = \varDelta \left(\operatorname{log} IA_{s}\right)}
+
+\repeatablebody{producer.mdlCI[ce, s]}{\varDelta \left(\operatorname{log} CI_{ce, s}\right) = \varDelta \left(\operatorname{log} F_{E, s}\right) + \varDelta \left(SUBST^{CI}_{ce, s}\right)}
+
+\repeatablebody{producer.mdlSUBST_CI_n[ce, s]}{\varDelta \left(SUBST^{CI,n}_{ce, s}\right) = \sum_{cee} -\sigma^{NRJ}_{ce, cee, s} \; \varphi_{E, cee, s, t-1} \; \varDelta \left(\operatorname{log} PCI_{ce, s} - \operatorname{log} PCI_{cee, s}\right)}
+
+\repeatablebody{producer.mdlphi[E, ce, s]}{\varphi_{E, ce, s} = \frac{PCI_{ce, s} \; CI_{ce, s}}{\sum_{cee} PCI_{cee, s} \; CI_{cee, s}}}
+
+\repeatablebody{producer.mdlCI[cmo, s]}{\varDelta \left(\operatorname{log} CI_{cmo, s}\right) = \varDelta \left(\operatorname{log} F_{MAT, s}\right)}
+
+\repeatablebody{producer.mdlTRSP[s]}{\varDelta \left(\operatorname{log} TRSP_{s}\right) = \varDelta \left(\operatorname{log} F_{MAT, s}\right)}
+
+\repeatablebody{producer.mdlCI[ct, s]}{\varDelta \left(\operatorname{log} CI_{ct, s}\right) = \varDelta \left(\operatorname{log} TRSP_{s}\right) + \varDelta \left(SUBST^{CI}_{ct, s}\right)}
+
+\repeatablebody{producer.mdlSUBST_CI_n[ct, s]}{\varDelta \left(SUBST^{CI,n}_{ct, s}\right) = \sum_{ctt} -\sigma^{TRSP}_{ct, ctt, s} \; \varphi^{TRSP}_{ctt, s, t-1} \; \varDelta \left(\operatorname{log} PCI_{ct, s} - \operatorname{log} PCI_{ctt, s}\right)}
+
+\repeatablebody{producer.mdlphi_TRSP[ct, s]}{\varphi^{TRSP}_{ct, s} = \frac{PCI_{ct, s} \; CI_{ct, s}}{\sum_{ctt} PCI_{ctt, s} \; CI_{ctt, s}}}
+
+\repeatablebody{producer.mdlPROG[f, s]}{PROG_{f, s} = PROG_{f, s, t-1} \; \left( 1 + GR^{PROG}_{f, s} \right)}
+
+\repeatablebody{producer.mdlGR_PROG[E, s]}{GR^{PROG}_{E, s} = GR^{PROG}_{E, s, t_0} + \rho^{PROG,E,PE} . \left( \operatorname{log} PE_{s} - \operatorname{log} P > 0 \right) \; \varDelta \left(\operatorname{log} PE_{s} - \operatorname{log} P\right)}
+
+\repeatablebody{consumer.mdlDISPINC_BT_VAL}{DISPINC^{BT,VAL} = PWAGES . WAGES + PROP^{INC,H,VAL} + SOC^{BENF,VAL} + TRSF^{HH,VAL}}
+
+\repeatablebody{consumer.mdlDISPINC_AT_VAL}{DISPINC^{AT,VAL} = DISPINC^{BT,VAL} - INC^{SOC,TAX,VAL}}
+
+\repeatablebody{consumer.mdlINC_SOC_TAX_VAL}{INC^{SOC,TAX,VAL} = RINC^{SOC,TAX} . DISPINC^{BT,VAL}}
+
+\repeatablebody{consumer.mdlPROP_INC_H_VAL_n}{PROP^{INC,H,VAL,n} = \varphi^{PROP^{INC,H}} . PNOS . NOS}
+
+\repeatablebody{consumer.mdlSOC_BENF_VAL}{SOC^{BENF,VAL} = RR^{POP} . W_{t_0} \; PROG^{L} . P . POP + RR^{Un} . W . Un}
+
+\repeatablebody{consumer.mdlCH_n_VAL}{CH^{n,VAL} = DISPINC^{AT,VAL} . \left( 1 - MPS^{n} \right)}
+
+\repeatablebody{consumer.mdlMPS_n}{\varDelta \left(MPS^{n}\right) = \rho^{MPS,R} . \varDelta \left(R - \frac{\varDelta \left(P\right)}{P_{t-1}}\right) + \rho^{MPS,UnR} . \varDelta \left(UnR\right)}
+
+\repeatablebody{consumer.mdlCH_n[c]}{\left( CH^{n}_{c} - NCH_{c} \right) \; PCH_{c} = \varphi^{MCH}_{c} \; \left( CH^{n,VAL} - PNCH . NCH \right)}
+
+\repeatablebody{consumer.mdlPNCH[c]}{PNCH_{c} = PCH_{c}}
+
+\repeatablebody{consumer.mdlPNCH}{PNCH . NCH = \sum_{c} PNCH_{c} \; NCH_{c}}
+
+\repeatablebody{consumer.mdlNCH}{NCH = \sum_{c} NCH_{c}}
+
+\repeatablebody{consumer.mdlphi_MCH[c]}{\varDelta \left(\operatorname{log} \varphi^{MCH}_{c}\right) = \left( 1 - \sigma^{LESCES} \right) . \varDelta \left(\operatorname{log} \frac{PCH_{c}}{PCH^{CES}}\right)}
+
+\repeatablebody{consumer.mdlPhi_CH[c]}{\varphi^{CH}_{c} = \frac{CH_{c}}{CH}}
+
+\repeatablebody{consumer.mdlPCH_CES}{PCH^{CES} = \left( \sum_{c} \varphi^{MCH}_{c, t_0} \; PCH_{c} ^ {\left( 1 - \sigma^{LESCES} \right)} \right) ^ {\left( \frac{1}{\left( 1 - \sigma^{LESCES} \right)} \right)}}
+
+\repeatablebody{consumer.mdlSAV_H_VAL}{SAV^{H,VAL} = DISPINC^{AT,VAL} - PCH . CH}
+
+\repeatablebody{consumer.mdlRSAV_H_VAL}{RSAV^{H,VAL} = \frac{SAV^{H,VAL}}{DISPINC^{AT,VAL}}}
+
+\repeatablebody{consumer.mdlStock_SAV_H_VAL}{Stock^{SAV,H,VAL} = Stock^{SAV,H,VAL}_{t-1} + SAV^{H,VAL}}
+
+\repeatablebody{government.mdlNTAXCD_VAL[c]}{NTAXCD^{VAL}_{c} = RNTAXCD_{c} \; PYQ_{c} \; YQ_{c}}
+
+\repeatablebody{government.mdlNTAXCD[c]}{NTAXCD_{c} = RNTAXCD_{c, t_0} \; YQ_{c}}
+
+\repeatablebody{government.mdlNTAXCM_VAL[c]}{NTAXCM^{VAL}_{c} = RNTAXCM_{c} \; PM_{c} \; M_{c}}
+
+\repeatablebody{government.mdlNTAXCM[c]}{NTAXCM_{c} = RNTAXCM_{c, t_0} \; M_{c}}
+
+\repeatablebody{government.mdlNTAXC_VAL[c]}{NTAXC^{VAL}_{c} = NTAXCD^{VAL}_{c} + NTAXCM^{VAL}_{c}}
+
+\repeatablebody{government.mdlNTAXC[c]}{NTAXC_{c} = NTAXCD_{c} + NTAXCM_{c}}
+
+\repeatablebody{government.mdlNTAXS_VAL[s]}{NTAXS^{VAL}_{s} = RNTAXS_{s} \; PY_{s} \; Y_{s} + T2VAL^{MAT}_{s} + T2VAL^{Y}_{s}}
+
+\repeatablebody{government.mdlNTAXS[s]}{NTAXS_{s} = RNTAXS_{s, t_0} \; Y_{s} + T2^{MAT}_{s} + T2^{Y}_{s}}
+
+\repeatablebody{government.mdlRSC[s]}{RSC_{s} \; PRSC_{s} = W_{s} \; F_{L, s} \; RRSC_{s}}
+
+\repeatablebody{government.mdlPRSC[s]}{PRSC_{s} = P}
+
+\repeatablebody{government.mdlPNTAXC}{PNTAXC . NTAXC = \sum_{c} NTAXC^{VAL}_{c}}
+
+\repeatablebody{government.mdlNTAXC}{NTAXC = \sum_{c} NTAXC_{c}}
+
+\repeatablebody{government.mdlNTAXS_VAL}{NTAXS^{VAL} = \sum_{s} NTAXS^{VAL}_{s}}
+
+\repeatablebody{government.mdlNTAXS}{NTAXS = \sum_{s} NTAXS_{s}}
+
+\repeatablebody{government.mdlPRSC}{PRSC . RSC = \sum_{s} PRSC_{s} \; RSC_{s}}
+
+\repeatablebody{government.mdlRSC}{RSC = \sum_{s} RSC_{s}}
+
+\repeatablebody{government.mdlRRSC}{RRSC = \frac{PRSC . RSC}{W . F_{L}}}
+
+\repeatablebody{government.mdlPROP_INC_G_VAL_n}{PROP^{INC,G,VAL,n} = \varphi^{PROP^{INC,G}} . PNOS . NOS}
+
+\repeatablebody{government.mdlINC_G_VAL}{INC^{G,VAL} = PNTAXC . NTAXC + NTAXS^{VAL} + INC^{SOC,TAX,VAL} + PRSC . RSC + PROP^{INC,G,VAL}}
+
+\repeatablebody{government.mdlG[c]}{\varDelta \left(\operatorname{log} G_{c}\right) = \varDelta \left(\operatorname{log} EXPG\right)}
+
+\repeatablebody{government.mdlSPEND_G_VAL}{SPEND^{G,VAL} = PG . G + SOC^{BENF,VAL} + DEBT^{G,VAL}_{t-1} \; \left( \varphi^{RD^{G}}_{t-1} + r^{DEBT,G}_{t-1} \right)}
+
+\repeatablebody{government.mdlSAV_G_VAL}{SAV^{G,VAL} = INC^{G,VAL} - SPEND^{G,VAL}}
+
+\repeatablebody{government.mdlBal_G_Prim_VAL}{Bal^{G,Prim,VAL} = SAV^{G,VAL} + DEBT^{G,VAL}_{t-1} \; \left( \varphi^{RD^{G}}_{t-1} + r^{DEBT,G}_{t-1} \right)}
+
+\repeatablebody{government.mdlBal_G_Prim_VALbis}{Bal^{G,Prim,VAL,bis} = INC^{G,VAL} - \left( PG . G + SOC^{BENF,VAL} \right)}
+
+\repeatablebody{government.mdlBal_G_Tot_VAL}{Bal^{G,Tot,VAL} = Bal^{G,Prim,VAL} - DEBT^{G,VAL}_{t-1} \; r^{DEBT,G}_{t-1}}
+
+\repeatablebody{government.mdlDEBT_G_VAL}{DEBT^{G,VAL} = DEBT^{G,VAL}_{t-1} \; \left( 1 - \varphi^{RD^{G}}_{t-1} \right) - SAV^{G,VAL}}
+
+\repeatablebody{government.mdlRSAV_G_VAL}{RSAV^{G,VAL} = \frac{SAV^{G,VAL}}{\left( PGDP . GDP \right)}}
+
+\repeatablebody{government.mdlRBal_G_Prim_VAL}{RBal^{G,Prim,VAL} = \frac{Bal^{G,Prim,VAL}}{\left( PGDP . GDP \right)}}
+
+\repeatablebody{government.mdlRBal_G_Tot_VAL}{RBal^{G,Tot,VAL} = \frac{Bal^{G,Tot,VAL}}{\left( PGDP . GDP \right)}}
+
+\repeatablebody{government.mdlRDEBT_G_VAL}{RDEBT^{G,VAL} = \frac{DEBT^{G,VAL}}{\left( PGDP . GDP \right)}}
+
+\repeatablebody{Trade_inter.mdlMGSD[m]}{MGSD_{m} = \left( 1 - \varphi^{MGSM}_{m} \right) \; MGS_{m}}
+
+\repeatablebody{Trade_inter.mdlCHD[c]}{CHD_{c} = \left( 1 - \varphi^{CHM}_{c} \right) \; CH_{c}}
+
+\repeatablebody{Trade_inter.mdlGD[c]}{GD_{c} = \left( 1 - \varphi^{GM}_{c} \right) \; G_{c}}
+
+\repeatablebody{Trade_inter.mdlMGSM[m]}{MGSM_{m} = \varphi^{MGSM}_{m} \; MGS_{m}}
+
+\repeatablebody{Trade_inter.mdlCHM[c]}{CHM_{c} = \varphi^{CHM}_{c} \; CH_{c}}
+
+\repeatablebody{Trade_inter.mdlGM[c]}{GM_{c} = \varphi^{GM}_{c} \; G_{c}}
+
+\repeatablebody{Trade_inter.mdlphi_MGSM[m]}{\varphi^{MGSM}_{m} = \frac{1}{\left( 1 + \frac{MGSD_{m}}{MGSM_{m}, t_0} \; \operatorname{exp} SUBST^{MGSM}_{m} \right)}}
+
+\repeatablebody{Trade_inter.mdlphi_CHM[c]}{\varphi^{CHM}_{c} = \frac{1}{\left( 1 + \frac{CHD_{c}}{CHM_{c}, t_0} \; \operatorname{exp} SUBST^{CHM}_{c} \right)}}
+
+\repeatablebody{Trade_inter.mdlphi_GM[c]}{\varphi^{GM}_{c} = \frac{1}{\left( 1 + \frac{GD_{c}}{GM_{c}, t_0} \; \operatorname{exp} SUBST^{GM}_{c} \right)}}
+
+\repeatablebody{Trade_inter.mdlSUBST_MGSM_n[c]}{\varDelta \left(SUBST^{MGSM,n}_{c}\right) = -\sigma^{MGSM}_{c} \; \varDelta \left(\operatorname{log} PMGSD_{c} - \operatorname{log} PMGSM_{c}\right)}
+
+\repeatablebody{Trade_inter.mdlSUBST_CHM_n[c]}{\varDelta \left(SUBST^{CHM,n}_{c}\right) = -\sigma^{CHM}_{c} \; \varDelta \left(\operatorname{log} PCHD_{c} - \operatorname{log} PCHM_{c}\right)}
+
+\repeatablebody{Trade_inter.mdlSUBST_GM_n[c]}{\varDelta \left(SUBST^{GM,n}_{c}\right) = -\sigma^{GM}_{c} \; \varDelta \left(\operatorname{log} PGD_{c} - \operatorname{log} PGM_{c}\right)}
+
+\repeatablebody{Trade_inter.mdlCID[c, s]}{CID_{c, s} = \left( 1 - \varphi^{CIM}_{c, s} \right) \; CI_{c, s}}
+
+\repeatablebody{Trade_inter.mdlID[c, s]}{ID_{c, s} = \left( 1 - \varphi^{IM}_{c, s} \right) \; I_{c, s}}
+
+\repeatablebody{Trade_inter.mdlCIM[c, s]}{CIM_{c, s} = \varphi^{CIM}_{c, s} \; CI_{c, s}}
+
+\repeatablebody{Trade_inter.mdlIM[c, s]}{IM_{c, s} = \varphi^{IM}_{c, s} \; I_{c, s}}
+
+\repeatablebody{Trade_inter.mdlphi_CIM[c, s]}{\varphi^{CIM}_{c, s} = \frac{1}{\left( 1 + \frac{CID_{c, s}}{CIM_{c, s}, t_0} \; \operatorname{exp} SUBST^{CIM}_{c, s} \right)}}
+
+\repeatablebody{Trade_inter.mdlphi_IM[c, s]}{\varphi^{IM}_{c, s} = \frac{1}{\left( 1 + \frac{ID_{c, s}}{IM_{c, s}, t_0} \; \operatorname{exp} SUBST^{IM}_{c, s} \right)}}
+
+\repeatablebody{Trade_inter.mdlSUBST_CIM_n[c, s]}{\varDelta \left(SUBST^{CIM,n}_{c, s}\right) = -\sigma^{CIM}_{c, s} \; \varDelta \left(\operatorname{log} PCID_{c, s} - \operatorname{log} PCIM_{c, s}\right)}
+
+\repeatablebody{Trade_inter.mdlSUBST_IM_n[c, s]}{\varDelta \left(SUBST^{IM,n}_{c, s}\right) = -\sigma^{IM}_{c, s} \; \varDelta \left(\operatorname{log} PID_{c, s} - \operatorname{log} PIM_{c, s}\right)}
+
+\repeatablebody{Trade_inter.mdlXD[c]}{XD_{c} = \left( 1 - \varphi^{XM}_{c} \right) \; X_{c}}
+
+\repeatablebody{Trade_inter.mdlXM[c]}{XM_{c} = \varphi^{XM}_{c} \; X_{c}}
+
+\repeatablebody{Trade_inter.mdlphi_XM[c]}{\varphi^{XM}_{c} = \frac{1}{\left( 1 + \frac{XD_{c}}{XM_{c}, t_0} \; \operatorname{exp} SUBST^{XM}_{c} \right)}}
+
+\repeatablebody{Trade_inter.mdlSUBST_XM_n[c]}{\varDelta \left(SUBST^{XM,n}_{c}\right) = -\sigma^{XM}_{c} \; \varDelta \left(\operatorname{log} PXD_{c} - \operatorname{log} PXM_{c}\right)}
+
+\repeatablebody{Trade_inter.mdlX[c]}{\varDelta \left(\operatorname{log} X_{c}\right) = \varDelta \left(\operatorname{log} WD_{c}\right) + \varDelta \left(SUBST^{X}_{c}\right)}
+
+\repeatablebody{Trade_inter.mdlSUBST_X_n[c]}{\varDelta \left(SUBST^{X,n}_{c}\right) = -\sigma^{X}_{c} \; \varDelta \left(\operatorname{log} PX_{c} - \operatorname{log} \left(EXR . PWD_{c}\right)\right)}
+
+\repeatablebody{Trade_inter.mdlBal_Trae_VAL[c]}{Bal^{Trade,VAL}_{c} = PX_{c} \; X_{c} - PM_{c} \; M_{c}}
+
+\repeatablebody{Trade_inter.mdlBal_Trae_VAL}{Bal^{Trade,VAL} = \sum_{c} Bal^{Trade,VAL}_{c}}
+
+\repeatablebody{Trade_inter.mdlRBal_Trae_VAL}{RBal^{Trade,VAL} = \frac{Bal^{Trade,VAL}}{\left( PGDP . GDP \right)}}
+
+\repeatablebody{demography.mdlWAPop}{\varDelta \left(\operatorname{log} WAPop\right) = \varDelta \left(\operatorname{log} POP\right)}
+
+\repeatablebody{demography.mdlLF}{LF = PARTR . WAPop}
+
+\repeatablebody{demography.mdlPARTR_n}{\varDelta \left(PARTR^{n}\right) = \varDelta \left(PARTR^{trend}\right) - \rho^{PART,UnR} . \varDelta \left(UnR\right)}
+
+\repeatablebody{demography.mdlempl}{\varDelta \left(\operatorname{log} empl\right) = \varDelta \left(\operatorname{log} F_{L}\right)}
+
+\repeatablebody{demography.mdlUn}{Un = LF - Empl}
+
+\repeatablebody{demography.mdlUnR}{UnR = \frac{Un}{LF}}
+
+\repeatablebody{ghg_emissions.mdlEMS_CI[ghg,c,s]}{\varDelta \left(\operatorname{log} EMS^{CI}_{ghg, c, s}\right) = \varDelta \left(\operatorname{log} \left(CI_{c, s} \; IEMS^{CI}_{ghg, c, s}\right)\right)}
+
+\repeatablebody{ghg_emissions.mdlEMS_MAT[ghg,s]}{\varDelta \left(\operatorname{log} EMS^{MAT}_{ghg, s}\right) = \varDelta \left(\operatorname{log} \left(F_{MAT, s} \; IEMS^{MAT}_{ghg, s}\right)\right)}
+
+\repeatablebody{ghg_emissions.mdlEMS_Y[ghg,s]}{\varDelta \left(\operatorname{log} EMS^{Y}_{ghg, s}\right) = \varDelta \left(\operatorname{log} \left(Y_{s} \; IEMS^{Y}_{ghg, s}\right)\right)}
+
+\repeatablebody{ghg_emissions.mdlEMS_CH[ghg,c]}{\varDelta \left(\operatorname{log} EMS^{CH}_{ghg, c}\right) = \varDelta \left(\operatorname{log} \left(CH_{c} \; IEMS^{CH}_{ghg, c}\right)\right)}
+
+\repeatablebody{ghg_emissions.mdlEMS_CI[ghg,c]}{EMS^{CI}_{ghg, c} = \sum_{s} EMS^{CI}_{ghg, c, s}}
+
+\repeatablebody{ghg_emissions.mdlEMS_CI[ghg,s]}{EMS^{CI}_{ghg, s} = \sum_{c} EMS^{CI}_{ghg, c, s}}
+
+\repeatablebody{ghg_emissions.mdlEMS_CI[ghg]}{EMS^{CI}_{ghg} = \sum_{s} EMS^{CI}_{ghg, s}}
+
+\repeatablebody{ghg_emissions.mdlEMS_CIbis[ghg]}{EMS^{CI,bis}_{ghg} = \sum_{c} EMS^{CI}_{ghg, c}}
+
+\repeatablebody{ghg_emissions.mdlEMS_MAT[ghg]}{EMS^{MAT}_{ghg} = \sum_{s} EMS^{MAT}_{ghg, s}}
+
+\repeatablebody{ghg_emissions.mdlEMS_Y[ghg]}{EMS^{Y}_{ghg} = \sum_{s} EMS^{Y}_{ghg, s}}
+
+\repeatablebody{ghg_emissions.mdlEMS_CH[ghg]}{EMS^{CH}_{ghg} = \sum_{c} EMS^{CH}_{ghg, c}}
+
+\repeatablebody{ghg_emissions.mdlEMS[ghg]}{EMS_{ghg} = EMS^{CI}_{ghg} + EMS^{MAT}_{ghg} + EMS^{Y}_{ghg} + EMS^{CH}_{ghg}}
+
+\repeatablebody{ghg_emissions.mdlEMS_CI}{EMS^{CI} = \sum_{ghg} EMS^{CI}_{ghg}}
+
+\repeatablebody{ghg_emissions.mdlEMS_MAT}{EMS^{MAT} = \sum_{ghg} EMS^{MAT}_{ghg}}
+
+\repeatablebody{ghg_emissions.mdlEMS_Y}{EMS^{Y} = \sum_{ghg} EMS^{Y}_{ghg}}
+
+\repeatablebody{ghg_emissions.mdlEMS_CH}{EMS^{CH} = \sum_{ghg} EMS^{CH}_{ghg}}
+
+\repeatablebody{ghg_emissions.mdlEMS}{EMS = EMS^{CI} + EMS^{MAT} + EMS^{Y} + EMS^{CH}}
+
+\repeatablebody{ghg_emissions.mdlEMSbis}{EMS^{bis} = \sum_{ghg} EMS_{ghg}}
+
+\repeatablebody{energybalance.mdlCI_toe[ce, s]}{\varDelta \left(\operatorname{log} CI^{toe}_{ce, s}\right) = \varDelta \left(\operatorname{log} CI_{ce, s}\right)}
+
+\repeatablebody{energybalance.mdlCH_toe[ce]}{\varDelta \left(\operatorname{log} CH^{toe}_{ce}\right) = \varDelta \left(\operatorname{log} CH_{ce}\right)}
+
+\repeatablebody{energybalance.mdlX_toe[ce]}{\varDelta \left(\operatorname{log} X^{toe}_{ce}\right) = \varDelta \left(\operatorname{log} X_{ce}\right)}
+
+\repeatablebody{energybalance.mdlY_toe[ce, s]}{\varDelta \left(\operatorname{log} Y^{toe}_{ce, s}\right) = \varDelta \left(\operatorname{log} Y_{ce, s}\right)}
+
+\repeatablebody{energybalance.mdlM_toe[ce]}{M^{toe}_{ce} = CI^{toe}_{ce} + CH^{toe}_{ce} + X_{ce} - Y^{toe}_{ce}}
+
+\repeatablebody{energybalance.mdlCI_toe[ce]}{CI^{toe}_{ce} = \sum_{s} CI^{toe}_{ce, s}}
+
+\repeatablebody{energybalance.mdlY_toe[ce]}{Y^{toe}_{ce} = \sum_{s} Y^{toe}_{ce, s}}
+
+\repeatablebody{adjustments.mdlMARKUP[s]}{\mu_{s} = \alpha^{\mu}_{s} \; \mu^{n}_{s} + \left( 1 - \alpha^{\mu}_{s} \right) \; \mu_{s, t-1}}
+
+\repeatablebody{adjustments.mdlP_e}{\varDelta \left(\operatorname{log} P^{e}\right) = \alpha^{Pe,P1} . \varDelta \left(\operatorname{log} P_{t-1}\right) + \left( 1 - \alpha^{Pe,P1} \right) . \varDelta \left(\operatorname{log} P^{e}_{t-1}\right)}
+
+\repeatablebody{adjustments.mdlY_e[s]}{\varDelta \left(\operatorname{log} Y^{e}_{s}\right) = \alpha^{Ye,Y}_{s} \; \varDelta \left(\operatorname{log} Y_{s}\right) + \left( 1 - \alpha^{Ye,Y}_{s} \right) \; \varDelta \left(\operatorname{log} Y^{e}_{s, t-1}\right)}
+
+\repeatablebody{adjustments.mdlF[f, s]}{\operatorname{log} F_{f, s} = \alpha^{{0},F}_{f, s} \; \operatorname{log} F^{n}_{f, s} + \left( 1 - \alpha^{{0},F}_{f, s} \right) \; \left( \operatorname{log} F_{f, s, t-1} + \varDelta \left(\operatorname{log} F^{e}_{f, s}\right) \right)}
+
+\repeatablebody{adjustments.mdlF_e[f, s]}{\varDelta \left(\operatorname{log} F^{e}_{f, s}\right) = \alpha^{{1},F}_{f, s} \; \varDelta \left(\operatorname{log} F^{e}_{f, s, t-1}\right) + \alpha^{{2},F}_{f, s} \; \varDelta \left(\operatorname{log} F_{f, s, t-1}\right) + \alpha^{{3},F}_{f, s} \; \varDelta \left(\operatorname{log} F^{n}_{f, s}\right)}
+
+\repeatablebody{adjustments.mdlF[K, s]}{F_{K, s} = \left( 1 - \delta_{s} \right) \; F_{K, s, t-1} + IA_{s}}
+
+\repeatablebody{adjustments.mdlIA[s]}{\varDelta \left(\operatorname{log} IA_{s}\right) = \alpha^{IA,Ye}_{s} \; \varDelta \left(\operatorname{log} Y^{e}_{s}\right) + \alpha^{IA,IA1}_{s} \; \varDelta \left(\operatorname{log} IA_{s, t-1}\right) + \alpha^{IA,SUBST}_{s} \; \varDelta \left(SUBST^{F}_{K, s}\right) + \alpha^{IA,Kn}_{s} \; \left( \operatorname{log} F^{n}_{K, s, t-1} - \operatorname{log} F_{K, s, t-1} \right)}
+
+\repeatablebody{adjustments.mdlCH[c]}{\operatorname{log} CH_{c} = \alpha^{{0},CH}_{c} \; \operatorname{log} CH^{n}_{c} + \left( 1 - \alpha^{{0},CH}_{c} \right) \; \left( \operatorname{log} CH_{c, t-1} + \varDelta \left(\operatorname{log} CH^{e}_{c}\right) \right)}
+
+\repeatablebody{adjustments.mdlCH_e[c]}{\varDelta \left(\operatorname{log} CH^{e}_{c}\right) = \alpha^{{1},CH}_{c} \; \varDelta \left(\operatorname{log} CH^{e}_{c, t-1}\right) + \alpha^{{2},CH}_{c} \; \varDelta \left(\operatorname{log} CH_{c, t-1}\right) + \alpha^{{3},CH}_{c} \; \varDelta \left(\operatorname{log} CH^{n}_{c}\right)}
+
+\repeatablebody{adjustments.mdlPY[s]}{\operatorname{log} PY_{s} = \alpha^{{0},PY}_{s} \; \operatorname{log} PY^{n}_{s} + \left( 1 - \alpha^{{0},PY}_{s} \right) \; \left( \operatorname{log} PY_{s, t-1} + \varDelta \left(\operatorname{log} PY^{e}_{s}\right) \right)}
+
+\repeatablebody{adjustments.mdlPY_e[s]}{\varDelta \left(\operatorname{log} PY^{e}_{s}\right) = \alpha^{{1},PY}_{s} \; \varDelta \left(\operatorname{log} PY^{e}_{s, t-1}\right) + \alpha^{{2},PY}_{s} \; \varDelta \left(\operatorname{log} PY_{s, t-1}\right) + \alpha^{{3},PY}_{s} \; \varDelta \left(\operatorname{log} PY^{n}_{s}\right)}
+
+\repeatablebody{adjustments.mdlW[s]}{\varDelta \left(\operatorname{log} W_{s}\right) = \alpha^{W,Wn}_{s} \; \varDelta \left(\operatorname{log} W^{n}_{s}\right) + \alpha^{W,W1}_{s} \; \varDelta \left(\operatorname{log} W_{s, t-1}\right) - \alpha^{W,W1Wn1}_{s} \; \operatorname{log} \frac{W_{s, t-1}}{W^{n}_{s, t-1}}}
+
+\repeatablebody{adjustments.mdlPARTR}{PARTR = \alpha^{{0},PARTR} . PARTR^{n} + \left( 1 - \alpha^{{0},PARTR} \right) . PARTR_{t-1}}
+
+\repeatablebody{adjustments.mdlR}{R = \alpha^{{0},R} . R^{n} + \left( 1 - \alpha^{{0},R} \right) . R_{t-1}}
+
+\repeatablebody{adjustments.mdlPROP_INC_H_VAL}{\operatorname{log} PROP^{INC,H,VAL} = \alpha^{{0},PROP,INC,H,VAL} . \operatorname{log} PROP^{INC,H,VAL,n} + \left( 1 - \alpha^{{0},PROP,INC,H,VAL} \right) . \left( \operatorname{log} PROP^{INC,H,VAL}_{t-1} + \varDelta \left(\operatorname{log} PROP^{INC,H,VAL,e}\right) \right)}
+
+\repeatablebody{adjustments.mdlPROP_INC_H_VAL_e}{\varDelta \left(\operatorname{log} PROP^{INC,H,VAL,e}\right) = \alpha^{{1},PROP,INC,H,VAL} . \varDelta \left(\operatorname{log} PROP^{INC,H,VAL,e}_{t-1}\right) + \alpha^{{2},PROP,INC,H,VAL} . \varDelta \left(\operatorname{log} PROP^{INC,H,VAL}_{t-1}\right) + \alpha^{{3},PROP,INC,H,VAL} . \varDelta \left(\operatorname{log} PROP^{INC,H,VAL,n}\right)}
+
+\repeatablebody{adjustments.mdlPROP_INC_G_VAL}{\operatorname{log} PROP^{INC,G,VAL} = \alpha^{{0},PROP,INC,G,VAL} . \operatorname{log} PROP^{INC,G,VAL,n} + \left( 1 - \alpha^{{0},PROP,INC,G,VAL} \right) . \left( \operatorname{log} PROP^{INC,G,VAL}_{t-1} + \varDelta \left(\operatorname{log} PROP^{INC,G,VAL,e}\right) \right)}
+
+\repeatablebody{adjustments.mdlPROP_INC_G_VAL_e}{\varDelta \left(\operatorname{log} PROP^{INC,G,VAL,e}\right) = \alpha^{{1},PROP,INC,G,VAL} . \varDelta \left(\operatorname{log} PROP^{INC,G,VAL,e}_{t-1}\right) + \alpha^{{2},PROP,INC,G,VAL} . \varDelta \left(\operatorname{log} PROP^{INC,G,VAL}_{t-1}\right) + \alpha^{{3},PROP,INC,G,VAL} . \varDelta \left(\operatorname{log} PROP^{INC,G,VAL,n}\right)}
+
+\repeatablebody{adjustments.mdlSUBST_F[f, s]}{SUBST^{F}_{f, s} = \alpha^{{6},F}_{f, s} \; SUBST^{F,n}_{f, s} + \left( 1 - \alpha^{{6},F}_{f, s} \right) \; SUBST^{F}_{f, s, t-1}}
+
+\repeatablebody{adjustments.mdlSUBST_MGPD[m, c]}{SUBST^{MGPD}_{m, c} = \alpha^{{6},MGPD}_{m, c} \; SUBST^{MGPD,n}_{m, c} + \left( 1 - \alpha^{{6},MGPD}_{m, c} \right) \; SUBST^{MGPD}_{m, c, t-1}}
+
+\repeatablebody{adjustments.mdlSUBST_MGPM[m, c]}{SUBST^{MGPM}_{m, c} = \alpha^{{6},MGPM}_{m, c} \; SUBST^{MGPM,n}_{m, c} + \left( 1 - \alpha^{{6},MGPM}_{m, c} \right) \; SUBST^{MGPM}_{m, c, t-1}}
+
+\repeatablebody{adjustments.mdlSUBST_CI[ce, s]}{SUBST^{CI}_{ce, s} = \alpha^{{6},CI}_{ce, s} \; SUBST^{CI,n}_{ce, s} + \left( 1 - \alpha^{{6},CI}_{ce, s} \right) \; SUBST^{CI}_{ce, s, t-1}}
+
+\repeatablebody{adjustments.mdlSUBST_CI[ct, s]}{SUBST^{CI}_{ct, s} = \alpha^{{6},CI}_{ct, s} \; SUBST^{CI,n}_{ct, s} + \left( 1 - \alpha^{{6},CI}_{ct, s} \right) \; SUBST^{CI}_{ct, s, t-1}}
+
+\repeatablebody{adjustments.mdlSUBST_MGSM[m]}{SUBST^{MGSM}_{m} = \alpha^{{6},MGSM}_{m} \; SUBST^{MGSM,n}_{m} + \left( 1 - \alpha^{{6},MGSM}_{m} \right) \; SUBST^{MGSM}_{m, t-1}}
+
+\repeatablebody{adjustments.mdlSUBST_CHM[c]}{SUBST^{CHM}_{c} = \alpha^{{6},CHM}_{c} \; SUBST^{CHM,n}_{c} + \left( 1 - \alpha^{{6},CHM}_{c} \right) \; SUBST^{CHM}_{c, t-1}}
+
+\repeatablebody{adjustments.mdlSUBST_GM[c]}{SUBST^{GM}_{c} = \alpha^{{6},GM}_{c} \; SUBST^{GM,n}_{c} + \left( 1 - \alpha^{{6},GM}_{c} \right) \; SUBST^{GM}_{c, t-1}}
+
+\repeatablebody{adjustments.mdlSUBST_XM[c]}{SUBST^{XM}_{c} = \alpha^{{6},XM}_{c} \; SUBST^{XM,n}_{c} + \left( 1 - \alpha^{{6},XM}_{c} \right) \; SUBST^{XM}_{c, t-1}}
+
+\repeatablebody{adjustments.mdlSUBST_CIM[c, s]}{SUBST^{CIM}_{c, s} = \alpha^{{6},CIM}_{c, s} \; SUBST^{CIM,n}_{c, s} + \left( 1 - \alpha^{{6},CIM}_{c, s} \right) \; SUBST^{CIM}_{c, s, t-1}}
+
+\repeatablebody{adjustments.mdlSUBST_IM[c, s]}{SUBST^{IM}_{c, s} = \alpha^{{6},IM}_{c, s} \; SUBST^{IM,n}_{c, s} + \left( 1 - \alpha^{{6},IM}_{c, s} \right) \; SUBST^{IM}_{c, s, t-1}}
+
+\repeatablebody{adjustments.mdlSUBST_X[c]}{SUBST^{X}_{c} = \alpha^{{6},X}_{c} \; SUBST^{X,n}_{c} + \left( 1 - \alpha^{{6},X}_{c} \right) \; SUBST^{X}_{c, t-1}}
+
+\repeatablebody{Exception_taxes_prices.mdlT2VAL_CI[ghg,c,s]}{T2VAL^{CI}_{ghg, c, s} = R2^{CI}_{ghg, c, s} \; EMS^{CI}_{ghg, c, s}}
+
+\repeatablebody{Exception_taxes_prices.mdlT2_CI[ghg,c,s]}{T2^{CI}_{ghg, c, s} = R2^{CI}_{ghg, c, s, t_0} \; EMS^{CI}_{ghg, c, s}}
+
+\repeatablebody{Exception_taxes_prices.mdlT2VAL_CI[ghg,c]}{T2VAL^{CI}_{ghg, c} = \sum_{s} T2VAL^{CI}_{ghg, c, s}}
+
+\repeatablebody{Exception_taxes_prices.mdlT2VAL_CID[ghg,c]}{T2VAL^{CID}_{ghg, c} = \sum_{s} T2VAL^{CI}_{ghg, c, s} \; \frac{CID_{c, s}}{CI_{c, s}}}
+
+\repeatablebody{Exception_taxes_prices.mdlT2_CID[ghg,c]}{T2^{CID}_{ghg, c} = \sum_{s} T2^{CI}_{ghg, c, s} \; \frac{CID_{c, s}}{CI_{c, s}}}
+
+\repeatablebody{Exception_taxes_prices.mdlT2VAL_CIM[ghg,c]}{T2VAL^{CIM}_{ghg, c} = \sum_{s} T2VAL^{CI}_{ghg, c, s} \; \frac{CIM_{c, s}}{CI_{c, s}}}
+
+\repeatablebody{Exception_taxes_prices.mdlT2_CIM[ghg,c]}{T2^{CIM}_{ghg, c} = \sum_{s} T2^{CI}_{ghg, c, s} \; \frac{CIM_{c, s}}{CI_{c, s}}}
+
+\repeatablebody{Exception_taxes_prices.mdlT2VAL_CI[ghg,s]}{T2VAL^{CI}_{ghg, s} = \sum_{c} T2VAL^{CI}_{ghg, c, s}}
+
+\repeatablebody{Exception_taxes_prices.mdlT2VAL_CI[c,s]}{T2VAL^{CI}_{c, s} = \sum_{ghg} T2VAL^{CI}_{ghg, c, s}}
+
+\repeatablebody{Exception_taxes_prices.mdlT2VAL_CI[ghg]}{T2VAL^{CI}_{ghg} = \sum_{c} T2VAL^{CI}_{ghg, c}}
+
+\repeatablebody{Exception_taxes_prices.mdlT2VAL_CI[c]}{T2VAL^{CI}_{c} = \sum_{ghg} T2VAL^{CI}_{ghg, c}}
+
+\repeatablebody{Exception_taxes_prices.mdlT2VAL_CID[c]}{T2VAL^{CID}_{c} = \sum_{ghg} T2VAL^{CID}_{ghg, c}}
+
+\repeatablebody{Exception_taxes_prices.mdlT2_CID[c]}{T2^{CID}_{c} = \sum_{ghg} T2^{CID}_{ghg, c}}
+
+\repeatablebody{Exception_taxes_prices.mdlT2VAL_CIM[c]}{T2VAL^{CIM}_{c} = \sum_{ghg} T2VAL^{CIM}_{ghg, c}}
+
+\repeatablebody{Exception_taxes_prices.mdlT2_CIM[c]}{T2^{CIM}_{c} = \sum_{ghg} T2^{CIM}_{ghg, c}}
+
+\repeatablebody{Exception_taxes_prices.mdlT2VAL_CI[s]}{T2VAL^{CI}_{s} = \sum_{ghg} T2VAL^{CI}_{ghg, s}}
+
+\repeatablebody{Exception_taxes_prices.mdlT2VAL_CI}{T2VAL^{CI} = \sum_{s} T2VAL^{CI}_{s}}
+
+\repeatablebody{Exception_taxes_prices.mdlT2VAL_MAT[ghg,s]}{T2VAL^{MAT}_{ghg, s} = R2^{MAT}_{ghg, s} \; EMS^{MAT}_{ghg, s}}
+
+\repeatablebody{Exception_taxes_prices.mdlT2_MAT[ghg,s]}{T2^{MAT}_{ghg, s} = R2^{MAT}_{ghg, s, t_0} \; EMS^{MAT}_{ghg, s}}
+
+\repeatablebody{Exception_taxes_prices.mdlT2VAL_MAT[ghg]}{T2VAL^{MAT}_{ghg} = \sum_{s} T2VAL^{MAT}_{ghg, s}}
+
+\repeatablebody{Exception_taxes_prices.mdlT2_MAT[ghg]}{T2^{MAT}_{ghg} = \sum_{s} T2^{MAT}_{ghg, s}}
+
+\repeatablebody{Exception_taxes_prices.mdlT2VAL_MAT[s]}{T2VAL^{MAT}_{s} = \sum_{ghg} T2VAL^{MAT}_{ghg, s}}
+
+\repeatablebody{Exception_taxes_prices.mdlT2_MAT[s]}{T2^{MAT}_{s} = \sum_{ghg} T2^{MAT}_{ghg, s}}
+
+\repeatablebody{Exception_taxes_prices.mdlT2VAL_MAT}{T2VAL^{MAT} = \sum_{s} T2VAL^{MAT}_{s}}
+
+\repeatablebody{Exception_taxes_prices.mdlT2VAL_Y[ghg,s]}{T2VAL^{Y}_{ghg, s} = R2^{Y}_{ghg, s} \; EMS^{Y}_{ghg, s}}
+
+\repeatablebody{Exception_taxes_prices.mdlT2_Y[ghg,s]}{T2^{Y}_{ghg, s} = R2^{Y}_{ghg, s, t_0} \; EMS^{Y}_{ghg, s}}
+
+\repeatablebody{Exception_taxes_prices.mdlT2VAL_Y[ghg]}{T2VAL^{Y}_{ghg} = \sum_{s} T2VAL^{Y}_{ghg, s}}
+
+\repeatablebody{Exception_taxes_prices.mdlT2_Y[ghg]}{T2^{Y}_{ghg} = \sum_{s} T2^{Y}_{ghg, s}}
+
+\repeatablebody{Exception_taxes_prices.mdlT2VAL_Y[s]}{T2VAL^{Y}_{s} = \sum_{ghg} T2VAL^{Y}_{ghg, s}}
+
+\repeatablebody{Exception_taxes_prices.mdlT2_Y[s]}{T2^{Y}_{s} = \sum_{ghg} T2^{Y}_{ghg, s}}
+
+\repeatablebody{Exception_taxes_prices.mdlT2VAL_Y}{T2VAL^{Y} = \sum_{s} T2VAL^{Y}_{s}}
+
+\repeatablebody{Exception_taxes_prices.mdlT2VAL_CH[ghg,c]}{T2VAL^{CH}_{ghg, c} = R2^{CH}_{ghg, c} \; EMS^{CH}_{ghg, c}}
+
+\repeatablebody{Exception_taxes_prices.mdlT2_CH[ghg,c]}{T2^{CH}_{ghg, c} = R2^{CH}_{ghg, c, t_0} \; EMS^{CH}_{ghg, c}}
+
+\repeatablebody{Exception_taxes_prices.mdlT2VAL_CH[ghg]}{T2VAL^{CH}_{ghg} = \sum_{c} T2VAL^{CH}_{ghg, c}}
+
+\repeatablebody{Exception_taxes_prices.mdlT2VAL_CH[c]}{T2VAL^{CH}_{c} = \sum_{ghg} T2VAL^{CH}_{ghg, c}}
+
+\repeatablebody{Exception_taxes_prices.mdlT2_CH[c]}{T2^{CH}_{c} = \sum_{ghg} T2^{CH}_{ghg, c}}
+
+\repeatablebody{Exception_taxes_prices.mdlT2VAL_CH}{T2VAL^{CH} = \sum_{c} T2VAL^{CH}_{c}}
+
+\repeatablebody{Exception_taxes_prices.mdlNTAXCD_VAL[c]}{NTAXCD^{VAL}_{c} = PVATD_{c} \; VATD_{c} + POTHCTD_{c} \; OTHCTD_{c} + PSUBCD_{c} \; SUBCD_{c} + T2VAL^{CH}_{c} \; \frac{CHD_{c}}{CH_{c} + T2VAL^{CID}_{c}}}
+
+\repeatablebody{Exception_taxes_prices.mdlNTAXCD[c]}{NTAXCD_{c} = VATD_{c} + OTHCTD_{c} + SUBCD_{c} + T2^{CH}_{c} \; \frac{CHD_{c}}{CH_{c} + T2^{CID}_{c}}}
+
+\repeatablebody{Exception_taxes_prices.mdlRNTAXCD[c]}{RNTAXCD_{c} = \frac{NTAXCD^{VAL}_{c}}{\left( PYQ_{c} \; YQ_{c} \right)}}
+
+\repeatablebody{Exception_taxes_prices.mdlNTAXCM_VAL[c]}{NTAXCM^{VAL}_{c} = PVATM_{c} \; VATM_{c} + POTHCTM_{c} \; OTHCTM_{c} + PSUBCM_{c} \; SUBCM_{c} + T2VAL^{CH}_{c} \; \frac{CHM_{c}}{CH_{c} + T2VAL^{CIM}_{c}}}
+
+\repeatablebody{Exception_taxes_prices.mdlNTAXCM[c]}{NTAXCM_{c} = VATM_{c} + OTHCTM_{c} + SUBCM_{c} + T2^{CH}_{c} \; \frac{CHM_{c}}{CH_{c} + T2^{CIM}_{c}}}
+
+\repeatablebody{Exception_taxes_prices.mdlRNTAXCM[c]}{RNTAXCM_{c} = \frac{NTAXCM^{VAL}_{c}}{\left( PM_{c} \; M_{c} \right)}}
+
+\repeatablebody{Exception_taxes_prices.mdlPVATD[c]}{PVATD_{c} \; VATD_{c} = RVATD_{c} \; PYQSBVAT_{c} \; \frac{CHD_{c}}{\left( 1 + RVATD_{c, t_0} \right)}}
+
+\repeatablebody{Exception_taxes_prices.mdlVATD[c]}{VATD_{c} = RVATD_{c, t_0} \; \frac{CHD_{c}}{\left( 1 + RVATD_{c, t_0} \right)}}
+
+\repeatablebody{Exception_taxes_prices.mdlPVATM[c]}{PVATM_{c} \; VATM_{c} = RVATM_{c} \; PMSBVAT_{c} \; \frac{CHM_{c}}{\left( 1 + RVATM_{c, t_0} \right)}}
+
+\repeatablebody{Exception_taxes_prices.mdlVATM[c]}{VATM_{c} = RVATM_{c, t_0} \; \frac{CHM_{c}}{\left( 1 + RVATM_{c, t_0} \right)}}
+
+\repeatablebody{Exception_taxes_prices.mdlPOTHCTD[c]}{POTHCTD_{c} \; OTHCTD_{c} = ROTHCTD_{c} \; PYQ_{c} \; YQ_{c}}
+
+\repeatablebody{Exception_taxes_prices.mdlOTHCTD[c]}{OTHCTD_{c} = ROTHCTD_{c, t_0} \; YQ_{c}}
+
+\repeatablebody{Exception_taxes_prices.mdlPOTHCTM[c]}{POTHCTM_{c} \; OTHCTM_{c} = ROTHCTM_{c} \; PM_{c} \; M_{c}}
+
+\repeatablebody{Exception_taxes_prices.mdlOTHCTM[c]}{OTHCTM_{c} = ROTHCTM_{c, t_0} \; M_{c}}
+
+\repeatablebody{Exception_taxes_prices.mdlPSUBCD[c]}{PSUBCD_{c} \; SUBCD_{c} = RSUBCD_{c} \; YQ_{c}}
+
+\repeatablebody{Exception_taxes_prices.mdlSUBCD[c]}{SUBCD_{c} = RSUBCD_{c, t_0} \; YQ_{c}}
+
+\repeatablebody{Exception_taxes_prices.mdlPSUBCM[c]}{PSUBCM_{c} \; SUBCM_{c} = RSUBCM_{c} \; M_{c}}
+
+\repeatablebody{Exception_taxes_prices.mdlSUBCM[c]}{SUBCM_{c} = RSUBCM_{c, t_0} \; M_{c}}
+
+\repeatablebody{Exception_taxes_prices.mdlPYQSBVAT[c]}{PYQSBVAT_{c} \; YQSBVAT_{c} = PYQ_{c} \; YQ_{c} + POTHCTD_{c} \; OTHCTD_{c} + PSUBCD_{c} \; SUBCD_{c} + PMGPD_{c} \; MGPD_{c}}
+
+\repeatablebody{Exception_taxes_prices.mdlYQSBVAT[c]}{\varDelta \left(\operatorname{log} YQSBVAT_{c}\right) = \varDelta \left(\operatorname{log} YQ_{c}\right)}
+
+\repeatablebody{Exception_taxes_prices.mdlPMSBVAT[c]}{PMSBVAT_{c} \; MSBVAT_{c} = PM_{c} \; M_{c} + POTHCTM_{c} \; OTHCTM_{c} + PSUBCM_{c} \; SUBCM_{c} + PMGPM_{c} \; MGPM_{c}}
+
+\repeatablebody{Exception_taxes_prices.mdlMSBVAT[c]}{\varDelta \left(\operatorname{log} MSBVAT_{c}\right) = \varDelta \left(\operatorname{log} M_{c}\right)}
+
+\repeatablebody{Exception_taxes_prices.mdlPMGSD[c]}{PMGSD_{c} = PYQSBVAT_{c}}
+
+\repeatablebody{Exception_taxes_prices.mdlPMGSM[c]}{PMGSM_{c} = PMSBVAT_{c}}
+
+\repeatablebody{Exception_taxes_prices.mdlPCID[c, s]}{PCID_{c, s} = PYQSBVAT_{c} + \frac{T2VAL^{CI}_{c, s}}{CI_{c, s}}}
+
+\repeatablebody{Exception_taxes_prices.mdlPCIM[c, s]}{PCIM_{c, s} = PMSBVAT_{c} + \frac{T2VAL^{CI}_{c, s}}{CI_{c, s}}}
+
+\repeatablebody{Exception_taxes_prices.mdlPCHD[c]}{PCHD_{c} = PYQSBVAT_{c} \; \frac{1 + RVATD_{c}}{1 + RVATD_{c, t_0}}}
+
+\repeatablebody{Exception_taxes_prices.mdlPCHM[c]}{PCHM_{c} = PMSBVAT_{c} \; \frac{1 + RVATM_{c}}{1 + RVATM_{c, t_0}}}
+
+\repeatablebody{Exception_taxes_prices.mdlPGD[c]}{PGD_{c} = PYQSBVAT_{c}}
+
+\repeatablebody{Exception_taxes_prices.mdlPGM[c]}{PGM_{c} = PMSBVAT_{c}}
+
+\repeatablebody{Exception_taxes_prices.mdlPID[c, s]}{PID_{c, s} = PYQSBVAT_{c}}
+
+\repeatablebody{Exception_taxes_prices.mdlPIM[c, s]}{PIM_{c, s} = PMSBVAT_{c}}
+
+\repeatablebody{Exception_taxes_prices.mdlPXD[c]}{PXD_{c} = PYQSBVAT_{c}}
+
+\repeatablebody{Exception_taxes_prices.mdlPXM[c]}{PXM_{c} = PMSBVAT_{c}}
+
+\repeatablebody{Exception_taxes_prices.mdlPDSD[c]}{PDSD_{c} = PYQSBVAT_{c}}
+
+\repeatablebody{Exception_taxes_prices.mdlPDSM[c]}{PDSM_{c} = PMSBVAT_{c}}
+
+\repeatablebody{Exception_taxes_prices.mdlPVATD}{PVATD . VATD = \sum_{c} PVATD_{c} \; VATD_{c}}
+
+\repeatablebody{Exception_taxes_prices.mdlVATD}{VATD = \sum_{c} VATD_{c}}
+
+\repeatablebody{Exception_taxes_prices.mdlPOTHCTD}{POTHCTD . OTHCTD = \sum_{c} POTHCTD_{c} \; OTHCTD_{c}}
+
+\repeatablebody{Exception_taxes_prices.mdlOTHCTD}{OTHCTD = \sum_{c} OTHCTD_{c}}
+
+\repeatablebody{Exception_taxes_prices.mdlPSUBCD}{PSUBCD . SUBCD = \sum_{c} PSUBCD_{c} \; SUBCD_{c}}
+
+\repeatablebody{Exception_taxes_prices.mdlSUBCD}{SUBCD = \sum_{c} SUBCD_{c}}
+
+\repeatablebody{Exception_taxes_prices.mdlPVATM}{PVATM . VATM = \sum_{c} PVATM_{c} \; VATM_{c}}
+
+\repeatablebody{Exception_taxes_prices.mdlVATM}{VATM = \sum_{c} VATM_{c}}
+
+\repeatablebody{Exception_taxes_prices.mdlPOTHCTM}{POTHCTM . OTHCTM = \sum_{c} POTHCTM_{c} \; OTHCTM_{c}}
+
+\repeatablebody{Exception_taxes_prices.mdlOTHCTM}{OTHCTM = \sum_{c} OTHCTM_{c}}
+
+\repeatablebody{Exception_taxes_prices.mdlPSUBCM}{PSUBCM . SUBCM = \sum_{c} PSUBCM_{c} \; SUBCM_{c}}
+
+\repeatablebody{Exception_taxes_prices.mdlSUBCM}{SUBCM = \sum_{c} SUBCM_{c}}
+
+\repeatablebody{Exception_taxes_prices.mdlPVAT}{PVAT . VAT = PVATD . VATD + PVATM . VATM}
+
+\repeatablebody{Exception_taxes_prices.mdlVAT}{VAT = VATD + VATM}
+
+\repeatablebody{Exception_taxes_prices.mdlPOTHCT}{POTHCT . OTHCT = POTHCTD . OTHCTD + POTHCTM . OTHCTM}
+
+\repeatablebody{Exception_taxes_prices.mdlOTHCT}{OTHCT = OTHCTD + OTHCTM}
+
+\repeatablebody{Exception_taxes_prices.mdlPSUBC}{PSUBC . SUBC = PSUBCD . SUBCD + PSUBCM . SUBCM}
+
+\repeatablebody{Exception_taxes_prices.mdlSUBC}{SUBC = SUBCD + SUBCM}
+
+\repeatablebody{Exception_taxes_prices.mdlRVATD}{RVATD = \frac{PVATD . VATD}{PCHD . CHD - PVATD . VATD}}
+
+\repeatablebody{Exception_taxes_prices.mdlROTHCTD}{ROTHCTD = POTHCTD . \frac{OTHCTD}{\left( PYQ . YQ \right)}}
+
+\repeatablebody{Exception_taxes_prices.mdlRSUBCD}{RSUBCD = PSUBCD . \frac{SUBCD}{YQ}}
+
+\repeatablebody{Exception_taxes_prices.mdlRVATM}{RVATM = \frac{PVATM . VATM}{PCHM . CHM - PVATM . VATM}}
+
+\repeatablebody{Exception_taxes_prices.mdlROTHCTM}{ROTHCTM = POTHCTM . \frac{OTHCTM}{\left( PM . M \right)}}
+
+\repeatablebody{Exception_taxes_prices.mdlRSUBCM}{RSUBCM = PSUBCM . \frac{SUBCM}{M}}
+
+\repeatablebody{Exception_taxes_prices.mdlRVAT}{RVAT = \frac{PVAT . VAT}{PCH . CH - PVAT . VAT}}
+
+\repeatablebody{Exception_taxes_prices.mdlROTHCT}{ROTHCT = POTHCT . \frac{OTHCT}{\left( PYQ . YQ + PM . M \right)}}
+
+\repeatablebody{Exception_taxes_prices.mdlRSUBC}{RSUBC = PSUBC . \frac{SUBC}{\left( YQ + M \right)}}
+
+\repeatablebody{ETS.mdlP_ETS_nominal}{P^{ETS,nominal} = \left( \frac{P^{ETS}}{1000000} \right) . PGDP}
+
+\repeatablebody{ETS.mdlQ_ETS_free[s]}{Q^{ETS,free}_{s} = share^{free}_{s} \; share^{ETS}_{s} \; EMS_{s}}
+
+\repeatablebody{ETS.mdlQ_ETS[ce2, s]}{Q^{ETS}_{ce2, s} = \left( share^{ETS}_{s} \; EMS_{ce2, s} \right) - Q^{ETS,free}_{s} \; \frac{EMS_{ce2, s}}{EMS_{s}}}
+
+\repeatablebody{ETS.mdlETS_VAL[ce2, s]}{ETS^{VAL}_{ce2, s} = \left( P^{ETS,nominal} . Q^{ETS}_{ce2, s} \right)}
+
+\repeatablebody{ETS.mdlETS_VAL[s]}{ETS^{VAL}_{s} = \sum_{ce2} ETS^{VAL}_{ce2, s}}
+
+\repeatablebody{ETS.mdlETS_VAL_TOT}{ETS^{VAL,TOT} = \sum_{s} ETS^{VAL}_{s}}
+
+\repeatablebody{ETS.mdlPE[ce2,s]}{PE_{ce2, s} \; E_{ce2, s} = PED_{ce2} \; ED_{ce2, s} + PEM_{ce2} \; EM_{ce2, s} + ETS^{VAL,SEC}_{ce2, s}}
+
+\repeatablebody{ETS.mdlPY_n[s]}{PY^{n}_{s} \; Y_{s} = \left( CK_{s} \; K_{s} + CL_{s} \; L_{s} \; PROG^{L}_{s} + PE_{s} \; E_{s} + PMAT_{s} \; MAT_{s} + PIY_{s} \; IY_{s} + PSY_{s} \; SY_{s} + PIS_{s} \; IS_{s} - P^{ETS,nominal} . Q^{ETS,free}_{s} \right) \; \left( 1 + TMD_{s} \right)}
+
+\repeatablebody{ETS.mdlINC_G_VAL}{INC^{G,VAL} = PNTAXC . NTAXC + NTAXS^{VAL} + INC^{SOC,TAX,VAL} + PRSC . RSC + PROP^{INC,G,VAL} + ETS^{VAL,TOT}}
+
+\repeatablebody{ETS.mdlRSC[s]}{RSC_{s} \; PRSC_{s} = W_{s} \; F_{L, s} \; RRSC_{s} - ETS^{VAL}_{s}}
+
+\repeatablebody{ETS.mdlNCH[ccon]}{NCH_{ccon}  = PNewBUIL_{t_0} \; NewBUIL + PREHAB_{t_0} \; REHAB + CH^{OTH}_{CCON} }
+
+

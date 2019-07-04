@@ -39,7 +39,3 @@
 
 ##! commodities used as energy input $ce$
 ## \begin{equation} ce \in  CE \subset C \end{equation}
-
-#### Exogenous Variables
-##! Necessary (minimum) households' final consumption $c$
-NCH[c] = ExogenousVariable

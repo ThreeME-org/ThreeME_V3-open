@@ -1,3 +1,52 @@
+#### From prices block
+
+##! Constant in the wage equation for sector $s$
+RHO_W_X[s]
+
+##! Elasticity of the notional wage inflation to prices inflation for sector $s$
+RHO_W_P[s]
+
+##! Elasticity of the notional wage inflation to expected price inflation for sector $s$
+RHO_W_Pe[s]
+
+##! Elasticity of the notional wage inflation to labor productivity growth for sector $s$
+RHO_W_PROG[s]
+
+##! Elasticity of the notional wage inflation to the unemployment rate for sector $s$
+RHO_W_U[s]
+
+##! Change in the long term NAIRU
+DNAIRU
+
+##! Elasticity of the notional wage inflation to the variation of the unemployment rate for sector $s$
+RHO_W_DU[s]
+
+##! Elasticity of the notional wage inflation to the growth rate of share of labor in sector $s$
+RHO_W_L[s]
+
+##! Constant of the notianal interest rate equation (Taylor rule).
+## The constant is equal to zero in the baseline scenario. It can be used to simulate monetary shocks. \\
+RHO_Rn_Cons
+
+
+
+##! Elasticity of the notional interest rate to inflation
+RHO_Rn_P
+
+##! Elasticity of the notional interest rate to the unemployment rate
+RHO_Rn_UnR
+
+
+#### From producer block
+##! Production share of commodity $c$ by sector $s$
+phi[f, s]
+
+#### From block ETC.... @ Paul: Et ce pour tous les blocs générés
+
+
+
+#### From ETS block
+
 ##! Percentage of freely allocated permits to sector $s$
 ## For each sector, the quantity of free permits is defined as a share of emissions that are eligible to the emission trading scheme. \\
 share_free[s]
