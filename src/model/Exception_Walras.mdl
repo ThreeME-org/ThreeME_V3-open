@@ -1,0 +1,11 @@
+##### Walrasian closure in ThreeME
+## This file provides the equations of the other modified
+
+#### Specification from the Mesange model
+##! Market price of domestically produced exports $c$
+
+
+@over d(log(W[s])) = d(log(W_Walras))
+
+
+W_Walras + d(UnR) = 0 + W_Walras
