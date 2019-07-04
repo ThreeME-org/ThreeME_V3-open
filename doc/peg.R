@@ -8,7 +8,7 @@ library(stringr)
 # First evaluate the whole file (Run)
 # Then, example use:
 # teXdoc(c("SU.mdl", "adjustments.mdl"), exo = c("exogenous.mdl"), out = "ThreeMEv3_eqs_01")
-# teXdoc(c("Intro_doc_eqs.mdl","SU.mdl", "prices.mdl", "producer.mdl", "consumer.mdl", "government.mdl",  "Trade_inter.mdl", "demography.mdl", "ghg_emissions.mdl", "adjustments.mdl", "Exception_taxes_prices.mdl", "ETS.mdl"), exo = c("exogenous.mdl"), out = "ThreeMEv3_eqs_02")
+# teXdoc(c("Intro_doc_eqs.mdl","SU.mdl", "prices.mdl", "producer.mdl", "consumer.mdl", "government.mdl",  "Trade_inter.mdl", "demography.mdl", "ghg_emissions.mdl", "energybalance.mdl", "adjustments.mdl", "Exception_taxes_prices.mdl", "ETS.mdl"), exo = c("exogenous.mdl"), out = "chapter5-eqs")
 
 # "out =" can be ommited.
 # If ' out = "outputfilename" ' is ommited, the output files will be "doc.tex", doc.pdf, etc.  
