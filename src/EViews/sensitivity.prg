@@ -10,7 +10,7 @@ endif
 if !wage_eq = 0 then
   call setThreeMe("RHO_W_U[s]", 0)
   call setThreeMe("RHO_W_DU[s]", 0.6)
-  'call setThreeMe("RHO_Cons_U[s]", 0)
+  call setThreeMe("RHO_Cons_U[s]", 0)
 endif
 if !wage_eq = 1 then
   call setThreeMe("RHO_W_U[s]", 0.2)
@@ -20,7 +20,7 @@ endif
 if !wage_eq = 2 then
   call setThreeMe("RHO_W_U[s]", 0.2)
   call setThreeMe("RHO_W_DU[s]", 0.6)
-  'call setThreeMe("RHO_Cons_U[s]", 0.5)
+  call setThreeMe("RHO_Cons_U[s]", 0.5)
 endif
 
 if !flex = 0 then
