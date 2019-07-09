@@ -39,7 +39,7 @@ d(log(W_n[s])) = RHO_W_Cons[s] + RHO_W_P[s]*d(log(P)) + RHO_W_Pe[s]*d(log(P_e)) 
 ## This general specification combines various wage equations found in the literature: the Phillips curve and the WS curve. The WS curve à la Layard et al. (2005) requires the following constraints: \begin{center} $\rho^{W,P}_{s} + \rho^{W,Pe}_{s} = \rho^{W,PROG}_{s} = 1, \rho^{W,U}_{s} = \rho^{W,Cons}_{s}= 0$ \end{center}
 ## In the case of a Phillips curve, the $NAIRU$ is predetermined in the long run when wages are fully indexed on price and productivity. To have a long run "Time-Varying" $NAIRU$ under these hypotheses, we have to assume that the constant is a function of the unemployment rate (see Heyer et al. 2007): \begin{center} $d(\rho^{W,Cons}_{s}) =  \rho^{Cons,U}_{s} *\rho^{W,U}_{s} * d(UnR)$ \end{center}
 
-d(RHO_W_Cons[s]) = RHO_Cons_U[s] * d(UnR)
+d(RHO_W_Cons[s]) = RHO_Cons_U[s] * RHO_W_U[s] * d(UnR)
 
 ##! Average wage
 W * F[L] = (sum(W[s] * F[L, s] on s))
