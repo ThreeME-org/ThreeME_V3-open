@@ -22,7 +22,7 @@ ES_NEST_KE_L[s] := 0.5
 
 # ES between the agregate capital and energy (within the agregate capital-energy)
 # It is important to notice that this ES is the ES within the agregate capital-energy. The actual ES depends on the ES in other parts of the nest and on input shares.
-ES_NEST_K_E[s] := 0.5
+ES_NEST_K_E[s] := 0.2
 
 
 # From the ES in the different levels of the nest, it is possible the actual elasticity between two inputs. Since the ES between two inputs is symetric, we have:

@@ -13,6 +13,12 @@ ES_LESCES := 0.5
 ES_MGPD[m, mm, c] := 0.3
 ES_MGPM[m, mm, c] := 0.3
 
+@over ES_MGPD[crai, croa, c] := 0.2
+@over ES_MGPD[croa, crai, c] := 0.2
+@over ES_MGPM[crai, croa, c] := 0.2
+@over ES_MGPM[croa, crai, c] := 0.2
+
+
 ## Between production factors
 ES[f, ff, s] := 0.5
 
@@ -35,34 +41,34 @@ ES[f, ff, s] := 0.5
 #ES[MAT, E, s] := ES[E, MAT, s]
 
 ## Between energy intermediary consumption
-ES_NRJ[ce, cee, s] := 0.6
+ES_NRJ[ce, cee, s] := 0.2
 
 
 ## Between transport intermediary consumption
-ES_TRSP[ct, ctt, s] := 0.3
+ES_TRSP[ct, ctt, s] := 0.2
 
 
 ## Between domestic and imported commodities for margins supplied, private and public consumption, investment and exports
-ES_CHM[c] := 0.8
-ES_GM[c] := 0.8
-ES_IM[c] := 0.8
-ES_XM[c] := 0.8
+ES_CHM[c] := 0.6
+ES_GM[c] := 0.6
+ES_IM[c] := 0.6
+ES_XM[c] := 0.6
 
 @over ES_CHM[ce] := 0.0
 @over ES_GM[ce] := 0.0
 @over ES_IM[ce] := 0.0
 @over ES_XM[ce] := 0.0
 
-ES_MGSM[m] := 0.8
+ES_MGSM[m] := 0.6
 
-ES_CIM[c, s] := 0.8
-ES_IM[c, s] := 0.8
+ES_CIM[c, s] := 0.6
+ES_IM[c, s] := 0.6
 
 @over ES_CIM[ce, s] := 0.0
 @over ES_IM[ce, s] := 0.0
 
 ## Between exported and the rest of world commodities sold abroad
-ES_X[c] := 0.8
+ES_X[c] := 0.6
 
 ################################
 ### Other elastiscities

@@ -6,12 +6,12 @@ include ..\model\lists
 
 @over NCH[c] := 1.0 * CH[c] where c in cveh ccon crai croa ccoa cele  # To be replaced by a list
 
-ES_HOUS_INV_ENER := 0.9
-ES_HOUS_ENER := 0.9
-ES_CHTRSP := 0.9
+ES_HOUS_INV_ENER := 0.2
+ES_HOUS_ENER := 0.2
+ES_CHTRSP := 0.2
 
-ES_TRSP_INV_ENER := 0.9
-ES_TRSP_ENER := 0.9
+ES_TRSP_INV_ENER := 0.2
+ES_TRSP_ENER := 0.2
 
 CH_HOUSINV_VAL := P * NCH[ccon]
 CH_TRSPINV_VAL := P * NCH[cveh]
