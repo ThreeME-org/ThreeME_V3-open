@@ -2,9 +2,11 @@ subroutine sensitivity(scalar !redis_ls, scalar !wage_eq, scalar !flex, scalar !
 
 if !redis_ls = 0 then
   call setThreeMe("REDIS_CT_LS", 0)
+  call setThreeMe("REDIS_CT_RRSC", 1)
 endif
 if !redis_ls = 1 then
-    call setThreeMe("REDIS_CT_LS", 1)
+  call setThreeMe("REDIS_CT_LS", 1)
+  call setThreeMe("REDIS_CT_RRSC", 0)
 endif
 
 if !wage_eq = 0 then
@@ -15,7 +17,7 @@ endif
 if !wage_eq = 1 then
   call setThreeMe("RHO_W_U[s]", 0.2)
   call setThreeMe("RHO_W_DU[s]", 0.6)
-  'call setThreeMe("RHO_Cons_U[s]", 0)
+  call setThreeMe("RHO_Cons_U[s]", 0)
 endif
 if !wage_eq = 2 then
   call setThreeMe("RHO_W_U[s]", 0.2)

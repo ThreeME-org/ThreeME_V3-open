@@ -200,8 +200,8 @@ subroutine standard_shock(string %shock)
   ' 1 GDP point increase of carbon tax
   if @lower(%shock) = "ct1" then
 
-  REDIS_CT_LS = 0
-  REDIS_CT_RRSC = 1 - REDIS_CT_LS
+ ' REDIS_CT_LS = 1
+ ' REDIS_CT_RRSC = 1 - REDIS_CT_LS
 
   for %c {%list_com}
     for %s {%list_sec}
