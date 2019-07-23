@@ -164,15 +164,10 @@ NewAUTO[elec] := sum(NewAUTO[ecl,elec] on ecl)
 
 kmPerAuto := km_auto / AUTO
 
-# share_elec := NewAUTO[elec]/NewAUTO
 
 phi_NewAUTO[ecl] := NewAUTO[ecl] / NewAUTO
 
 phi_NewAUTO[ecl,elec] := NewAUTO[ecl,elec] / NewAUTO[ecl] 
-
-#phi_NewAUTO[ecl,elec] := NewAUTO[ecl,elec]/NewAUTO[elec]
-
-# phi_NewAUTO[ecl,th] := NewAUTO[ecl,th]/NewAUTO[th]
 
 phi_NewAUTO[ecl,coil] := NewAUTO[ecl,coil]/NewAUTO[ecl,th] 
 
@@ -187,4 +182,3 @@ toePerKm[ecl,cgas]  := CH_AUTO_toe[ecl,cgas] / KM_AUTO[ecl,cgas]
 
 verif_AUTObis  := 0
 Verif_NewAUTO[ecl,th] := 0
-

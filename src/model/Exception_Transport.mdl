@@ -86,6 +86,14 @@ km_auto = km_auto_LD + km_auto_SD
 ##! Automobiles stock
 d(log(AUTO)) = (@year > %baseyear) * (d(log(Km_auto)) - d(log(kmPerAuto))) 
 
+
+# ##! Km per automobile of class $ecl$
+# kmPerAUTO[ecl] * AUTO[ecl] = kmPerAUTO[ecl,elec] * AUTO[ecl,elec] + kmPerAUTO[ecl,coil] * AUTO[ecl,coil] + kmPerAUTO[ecl,cgas] * AUTO[ecl,cgas]
+
+# ##! Km per automobile of class
+# kmPerAUTO * AUTO = sum(kmPerAUTO[ecl] * AUTO[ecl] on ecl)
+
+
 # Automobiles stock (for verification)
 AUTObis = sum(AUTO[ecl] on ecl)
 
@@ -233,12 +241,3 @@ verif_AUTObis = (AUTObis/AUTO - 1)*100 if AUTO <> 0
 
 Verif_NewAUTO[ecl,th] = (NewAUTO_bis[ecl,th]/NewAUTO[ecl,th]-1)*100 if NewAUTO[ecl,th] <> 0
 
-
-# DO NOT REUSE
-
-
-# Equation H.4.79 and H.4.80
-
-# NewAUTO[CA] = NewAUTO[elec] + NewAUTO[th][CA]   #modifié
-
-# NewAUTO[c] = NewAUTO[th][c]  where c in %list_ener_class \ CA
