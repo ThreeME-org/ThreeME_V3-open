@@ -78,8 +78,6 @@ Km_traveler[crai] := TRANSPORT(26, 9)
 Km_traveler[croa] := TRANSPORT(28, 9)  	
 Km_traveler[cair] := TRANSPORT(30, 9)  
 
-
-NewAUTO[ecl]  := TRANSPORT(34, $ecl)
 NewAUTO_elec[ecl]  := TRANSPORT(36, $ecl)
 
 NewAUTO_th[ecl,coil]  := TRANSPORT(38, $ecl)
@@ -140,7 +138,6 @@ CH_AUTO_toe[cele] := sum(CH_AUTO_toe[ecl,cele] on ecl)
 CH_AUTO_toe[coil] := sum(CH_AUTO_toe[ecl,coil] on ecl)
 CH_AUTO_toe[cgas] := sum(CH_AUTO_toe[ecl,cgas] on ecl)
 
-
 #######################################
 #####  Special data: not from model equation
 ###################################### 
@@ -155,6 +152,8 @@ AUTO := sum(AUTO[ecl] on ecl)
 
 AUTObis := AUTO
 
+NewAUTO[ecl] := NewAUTO_elec[ecl] + NewAUTO_th[ecl]
+
 NewAUTO_th[ecl] := NewAUTO_th[ecl,coil] + NewAUTO_th[ecl,cgas]
 
 NewAUTO_th_bis[ecl] := NewAUTO_th[ecl]
@@ -165,11 +164,15 @@ NewAUTO_elec := sum(NewAUTO_elec[ecl] on ecl)
 
 kmPerAuto := km_auto / AUTO
 
-share_elec := NewAUTO_elec/NewAUTO
+# share_elec := NewAUTO_elec/NewAUTO
 
-phi_NewAUTO_elec[ecl] := NewAUTO_elec[ecl]/NewAUTO_elec
+phi_NewAUTO[ecl] := NewAUTO[ecl] / NewAUTO
 
-phi_NewAUTO_th[ecl] := NewAUTO_th[ecl]/NewAUTO_th
+phi_NewAUTO_elec[ecl] := NewAUTO_elec[ecl] / NewAUTO[ecl] 
+
+#phi_NewAUTO_elec[ecl] := NewAUTO_elec[ecl]/NewAUTO_elec
+
+# phi_NewAUTO_th[ecl] := NewAUTO_th[ecl]/NewAUTO_th
 
 phi_NewAUTO_th[ecl,coil] := NewAUTO_th[ecl,coil]/NewAUTO_th[ecl] 
 

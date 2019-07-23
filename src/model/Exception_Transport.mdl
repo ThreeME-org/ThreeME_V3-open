@@ -93,47 +93,28 @@ AUTObis = sum(AUTO[ecl] on ecl)
 NewAUTO = (@year >  %baseyear)*(d(AUTO) + AUTO[DES]) _
             + (@year <= %baseyear) * NewAUTO{-1}
 
-### Level 3: Arbitrage between electric and thermic automobile
-##! New electric automobiles
-NewAUTO_elec = NewAUTO*share_elec
+### Level 3: Arbitrage between automobile price classes 
 
-##! New thermic automobiles
-NewAUTO_th = NewAUTO - NewAUTO_elec
+##! New automobiles of class $ecl$
+NewAUTO[ecl] = phi_NewAUTO[ecl] * NewAUTO
 
-##! Share of new electric automobiles
-d(share_elec) = 0
+##! Share of new electric automobiles of class $ecl$
+d(phi_NewAUTO[ecl]) = 0
 ## A EXPLICITER
 
 
-
-
-
-### Level 4: Arbitrage between electric automobile classes 
+### Level 4: Arbitrage between electric and thermic automobile per classes 
 
 ##! New electric automobiles of class $ecl$
-NewAUTO_elec[ecl] = phi_NewAUTO_elec[ecl] * NewAUTO_elec
+NewAUTO_elec[ecl] = phi_NewAUTO_elec[ecl] * NewAUTO[ecl]
 ## Every class of electric car has no emission. But their energy consumption vary per km. \\  
 
 ##! Share of new electric automobiles of class $ecl$
 d(phi_NewAUTO_elec[ecl]) = 0
 ## A EXPLICITER
 
-
-
-
-
-### Level 4: Arbitrage between thermic automobile classes 
-
 ##! New thermic automobiles of class $ecl$
-NewAUTO_th[ecl] = phi_NewAUTO_th[ecl] * NewAUTO_th
-
-##! Share of new thermic automobiles of class $ecl$
-d(phi_NewAUTO_th[ecl]) = 0
-## A EXPLICITER
-
-
-
-
+NewAUTO_th[ecl] = NewAUTO[ecl] - NewAUTO_elec[ecl] 
 
 
 
