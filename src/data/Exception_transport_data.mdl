@@ -64,12 +64,12 @@ AUTO[ecl,elec]  := TRANSPORT(10, $ecl)
 AUTO[ecl,coil]  := TRANSPORT(11, $ecl)
 AUTO[ecl,cgas]  := TRANSPORT(12, $ecl)
 
-km_auto_LD := TRANSPORT(18, 9)
-km_auto_SD := TRANSPORT(19, 9)
+km_AUTO_LD := TRANSPORT(18, 9)
+km_AUTO_SD := TRANSPORT(19, 9)
 
-KM_AUTO[ecl,elec]    := TRANSPORT(20, $ecl)
-KM_AUTO[ecl,coil] := TRANSPORT(21, $ecl)
-KM_AUTO[ecl,cgas] := TRANSPORT(22, $ecl)
+km_AUTO[ecl,elec]    := TRANSPORT(20, $ecl)
+km_AUTO[ecl,coil] := TRANSPORT(21, $ecl)
+km_AUTO[ecl,cgas] := TRANSPORT(22, $ecl)
 
 
 km_trav_auto_LD	  := TRANSPORT(24, 9)
@@ -103,7 +103,7 @@ phi_km_trav_auto_LD := P_km_trav_auto_LD * km_trav_auto_LD / (P_km_traveler_LD *
 
 phi_km_trav_auto_SD := P_km_trav_auto_SD * km_trav_auto_SD / (P_km_traveler_SD * km_traveler_SD)
 
-km_auto := km_auto_LD + km_auto_SD
+km_AUTO := km_AUTO_LD + km_AUTO_SD
 
 NewAUTO[th] := NewAUTO - NewAUTO[elec]
 
@@ -131,19 +131,21 @@ AUTO[ecl,cgas,DES] := delta_AUTO[ecl,cgas,DES]*AUTO[ecl,cgas]{-1}
 
 AUTO[ecl,th]  := AUTO[ecl,coil] + AUTO[ecl,cgas]
 
-KM_AUTO[elec] := km_auto * AUTO[elec] / AUTO
-KM_AUTO[th] := km_auto - KM_AUTO[elec]
+km_AUTO[elec] := km_AUTO * AUTO[elec] / AUTO
+km_AUTO[th] := km_AUTO - km_AUTO[elec]
 
 CH_AUTO_toe[cele] := sum(CH_AUTO_toe[ecl,cele] on ecl)
 CH_AUTO_toe[coil] := sum(CH_AUTO_toe[ecl,coil] on ecl)
 CH_AUTO_toe[cgas] := sum(CH_AUTO_toe[ecl,cgas] on ecl)
 
+km_AUTO[ecl] := km_AUTO[ecl,elec] +km_AUTO[ecl,coil] + km_AUTO[ecl,cgas] 
+
 #######################################
 #####  Special data: not from model equation
 ###################################### 
 
-travperauto_LD := 1000*km_trav_auto_LD/km_auto_LD
-travperauto_SD := 1000*km_trav_auto_SD/km_auto_SD
+travperauto_LD := 1000*km_trav_auto_LD/km_AUTO_LD
+travperauto_SD := 1000*km_trav_auto_SD/km_AUTO_SD
 
 km_traveler_LD := km_traveler[crai] + km_trav_auto_LD
 km_traveler_SD := km_traveler[croa] + km_trav_auto_SD
@@ -151,6 +153,8 @@ km_traveler_SD := km_traveler[croa] + km_trav_auto_SD
 AUTO := sum(AUTO[ecl] on ecl)
 
 AUTObis := AUTO
+
+km_AUTObis := km_AUTO
 
 NewAUTO[ecl] := NewAUTO[ecl,elec] + NewAUTO[ecl,th]
 
@@ -162,7 +166,7 @@ NewAUTO := sum(NewAUTO[ecl] on ecl)
 
 NewAUTO[elec] := sum(NewAUTO[ecl,elec] on ecl)
 
-kmPerAuto := km_auto / AUTO
+kmPerAuto := km_AUTO / AUTO
 
 
 phi_NewAUTO[ecl] := NewAUTO[ecl] / NewAUTO
@@ -171,9 +175,10 @@ phi_NewAUTO[ecl,elec] := NewAUTO[ecl,elec] / NewAUTO[ecl]
 
 phi_NewAUTO[ecl,coil] := NewAUTO[ecl,coil]/NewAUTO[ecl,th] 
 
-toePerKm[ecl,cele] := CH_AUTO_toe[ecl,cele] / KM_AUTO[ecl,elec]
-toePerKm[ecl,coil]  := CH_AUTO_toe[ecl,coil] / KM_AUTO[ecl,coil]
-toePerKm[ecl,cgas]  := CH_AUTO_toe[ecl,cgas] / KM_AUTO[ecl,cgas]
+toePerKm[ecl,cele] := CH_AUTO_toe[ecl,cele] / km_AUTO[ecl,elec]
+toePerKm[ecl,coil]  := CH_AUTO_toe[ecl,coil] / km_AUTO[ecl,coil]
+toePerKm[ecl,cgas]  := CH_AUTO_toe[ecl,cgas] / km_AUTO[ecl,cgas]
 
 verif_AUTObis  := 0
 Verif_NewAUTO[ecl,th] := 0
+verif_km_AUTObis := 0
