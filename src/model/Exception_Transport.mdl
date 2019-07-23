@@ -86,14 +86,6 @@ km_auto = km_auto_LD + km_auto_SD
 ##! Automobiles stock
 d(log(AUTO)) = (@year > %baseyear) * (d(log(Km_auto)) - d(log(kmPerAuto))) 
 
-
-# ##! Km per automobile of class $ecl$
-# kmPerAUTO[ecl] * AUTO[ecl] = kmPerAUTO[ecl,elec] * AUTO[ecl,elec] + kmPerAUTO[ecl,coil] * AUTO[ecl,coil] + kmPerAUTO[ecl,cgas] * AUTO[ecl,cgas]
-
-# ##! Km per automobile of class
-# kmPerAUTO * AUTO = sum(kmPerAUTO[ecl] * AUTO[ecl] on ecl)
-
-
 # Automobiles stock (for verification)
 AUTObis = sum(AUTO[ecl] on ecl)
 
@@ -196,13 +188,15 @@ AUTO[th,DES] = sum(AUTO[ecl,th,DES] on ecl)
 ### Households' energy consumption related to transport
 
 ##! Kilometers by electric automobile of class $ecl$
-KM_AUTO[ecl,elec]    = kmPerAUTO[ecl,elec]    * AUTO[ecl,elec]        if KM_AUTO[ecl,elec]    <> 0
+KM_AUTO[ecl,elec] = km_auto * AUTO[ecl,elec] / AUTO     if KM_AUTO[ecl,elec]    <> 0
 
 ##! Kilometers by class $ecl$ thermic automobiles fueled with oil
-KM_AUTO[ecl,coil] = kmPerAUTO[ecl,coil] * AUTO[ecl,coil]     if KM_AUTO[ecl,coil] <> 0
+KM_AUTO[ecl,coil] = km_auto * AUTO[ecl,coil] / AUTO     if KM_AUTO[ecl,coil] <> 0
  
 ##! Kilometers by class $ecl$ thermic automobiles fueled with gas
-KM_AUTO[ecl,cgas] = kmPerAUTO[ecl,cgas] * AUTO[ecl,cgas]     if KM_AUTO[ecl,cgas] <> 0 
+KM_AUTO[ecl,cgas] = km_auto * AUTO[ecl,cgas] / AUTO     if KM_AUTO[ecl,cgas] <> 0 
+
+# KM_AUTO[ecl] = KM_AUTO[ecl,elec] +KM_AUTO[ecl,coil] + KM_AUTO[ecl,cgas] 
 
 ##! Energy consumption of class $ecl$ automobiles fueled with electricity expressed in tonne of oil equivalent
 CH_AUTO_toe[ecl,cele] = KM_AUTO[ecl,elec]    * toePerKm[ecl,cele]   if CH_AUTO_toe[ecl,cele]  <> 0

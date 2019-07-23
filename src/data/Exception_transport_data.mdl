@@ -171,11 +171,6 @@ phi_NewAUTO[ecl,elec] := NewAUTO[ecl,elec] / NewAUTO[ecl]
 
 phi_NewAUTO[ecl,coil] := NewAUTO[ecl,coil]/NewAUTO[ecl,th] 
 
-kmPerAUTO[ecl,elec] := KM_AUTO[ecl,elec]  / AUTO[ecl,elec] 
-kmPerAUTO[ecl,coil] := KM_AUTO[ecl,coil] / AUTO[ecl,coil] 
-kmPerAUTO[ecl,cgas] := KM_AUTO[ecl,cgas] / AUTO[ecl,cgas]
-
-
 toePerKm[ecl,cele] := CH_AUTO_toe[ecl,cele] / KM_AUTO[ecl,elec]
 toePerKm[ecl,coil]  := CH_AUTO_toe[ecl,coil] / KM_AUTO[ecl,coil]
 toePerKm[ecl,cgas]  := CH_AUTO_toe[ecl,cgas] / KM_AUTO[ecl,cgas]
