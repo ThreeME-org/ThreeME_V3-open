@@ -73,7 +73,7 @@ next
 For %_x _0
 
       
-      graph a_graph_auto{%_x}.line(m) AUTO{%_x} AUTO_CA{%_x} AUTO_CB{%_x} AUTO_CC{%_x} AUTO_CD{%_x} AUTO_CE{%_x} AUTO_CF{%_x} AUTO_CG{%_x} AUTO_DES{%_x}  AUTO_elec{%_x} AUTO_elec_CA{%_x} AUTO_elec_CB{%_x} AUTO_elec_CC{%_x} AUTO_elec_CD{%_x} AUTO_elec_CE{%_x} AUTO_elec_CF{%_x} AUTO_elec_CG{%_x}
+      graph a_graph_auto{%_x}.line(m) AUTO{%_x} AUTO_CA{%_x} AUTO_CB{%_x} AUTO_CC{%_x} AUTO_CD{%_x} AUTO_CE{%_x} AUTO_CF{%_x} AUTO_CG{%_x} AUTO_DES{%_x}  AUTO_elec{%_x} AUTO_CA_elec{%_x} AUTO_CB_elec{%_x} AUTO_CC_elec{%_x} AUTO_CD_elec{%_x} AUTO_CE_elec{%_x} AUTO_CF_elec{%_x} AUTO_CG_elec{%_x}
 
       show  a_graph_auto{%_x}
 

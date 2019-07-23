@@ -106,107 +106,104 @@ d(phi_NewAUTO[ecl]) = 0
 ### Level 4: Arbitrage between electric and thermic automobile per classes 
 
 ##! New electric automobiles of class $ecl$
-NewAUTO_elec[ecl] = phi_NewAUTO_elec[ecl] * NewAUTO[ecl]
+NewAUTO[ecl,elec] = phi_NewAUTO[ecl,elec] * NewAUTO[ecl]
 ## Every class of electric car has no emission. But their energy consumption vary per km. \\  
 
 ##! Share of new electric automobiles of class $ecl$
-d(phi_NewAUTO_elec[ecl]) = 0
+d(phi_NewAUTO[ecl,elec]) = 0
 ## A EXPLICITER
 
 ##! New thermic automobiles of class $ecl$
-NewAUTO_th[ecl] = NewAUTO[ecl] - NewAUTO_elec[ecl] 
+NewAUTO[ecl,th] = NewAUTO[ecl] - NewAUTO[ecl,elec] 
 
 
 
 ##! New thermic automobiles of class $ecl$ (for verification)
-NewAUTO_th_bis[ecl] = NewAUTO_th[ecl,coil] + NewAUTO_th[ecl,cgas]
+NewAUTO_bis[ecl,th] = NewAUTO[ecl,coil] + NewAUTO[ecl,cgas]
 
 
 ### Level 5: Arbitrage between types of thermic automobiles
 
 ##! New thermic automobiles fueled with oil of class $ecl$
-NewAUTO_th[ecl,coil] = phi_NewAUTO_th[ecl,coil] * NewAUTO_th[ecl] if NewAUTO_th[ecl,coil]  <> 0
+NewAUTO[ecl,coil] = phi_NewAUTO[ecl,coil] * NewAUTO[ecl,th] if NewAUTO[ecl,coil]  <> 0
 
 ##! New thermic automobiles fueled with gas of class $ecl$
-NewAUTO_th[ecl,cgas] = phi_NewAUTO_th[ecl,cgas] * NewAUTO_th[ecl] if NewAUTO_th[ecl,cgas]  <> 0
+NewAUTO[ecl,cgas] = NewAUTO[ecl,th] - NewAUTO[ecl,coil]  if NewAUTO[ecl,cgas]  <> 0
 
 ##! Share of New thermic automobiles fueled with oil of class $ecl$
-d(phi_NewAUTO_th[ecl,coil]) = 0
+d(phi_NewAUTO[ecl,coil]) = 0
 ## For simplicity, the share of the different types of thermic automobiles is assumed constant. Arbitrage between types of thermic automobiles can be added by modifying the above equation. \\
-
-##! Share of New thermic automobiles fueled with gas of class $ecl$
-phi_NewAUTO_th[ecl,cgas] = 1 - phi_NewAUTO_th[ecl,coil]
 
 
 ### Level 5: Stock of automobiles
 
 ##! Stock of class $ecl$ electric automobiles
-d(AUTO_elec[ecl]) = (@year>%baseyear)*(NewAUTO_elec[ecl] - AUTO_elec[ecl,DES])
+d(AUTO[ecl,elec]) = (@year>%baseyear)*(NewAUTO[ecl,elec] - AUTO[ecl,elec,DES])
 
 ##! Stock of class $ecl$ thermic automobiles
-AUTO_th[ecl]  = AUTO_th[ecl,coil] + AUTO_th[ecl,cgas]
-# replace d(AUTO_th[ecl])   = (@year>%baseyear)*(NewAUTO_th[ecl]   - AUTO_th[ecl,DES]  )
+AUTO[ecl,th]  = AUTO[ecl,coil] + AUTO[ecl,cgas]
+# replace d(AUTO[ecl,th])   = (@year>%baseyear)*(NewAUTO[ecl,th]   - AUTO[ecl,th,DES]  )
 
 ##! Stock of class $ecl$ automobiles
-AUTO[ecl] = AUTO_elec[ecl] + AUTO_th[ecl]
+AUTO[ecl] = AUTO[ecl,elec] + AUTO[ecl,th]
 
 ##! Class $ecl$ electric automobiles destroyed
-AUTO_elec[ecl,DES] = delta_AUTO_elec[ecl,DES]*AUTO_elec[ecl]{-1}
+AUTO[ecl,elec,DES] = delta_AUTO[ecl,elec,DES]*AUTO[ecl,elec]{-1}
 
 ##! Class $ecl$ thermic automobiles destroyed
-AUTO_th[ecl,DES] = AUTO_th[ecl,coil,DES] + AUTO_th[ecl,cgas,DES] 
-# replace AUTO_th[ecl,DES] = delta_AUTO_th[ecl,DES]*AUTO_th[ecl]{-1}
+AUTO[ecl,th,DES] = AUTO[ecl,coil,DES] + AUTO[ecl,cgas,DES] 
+# replace AUTO[ecl,th,DES] = delta_AUTO[ecl,th,DES]*AUTO[ecl,th]{-1}
 
 ##! Class $ecl$ automobiles destroyed
-AUTO[ecl,DES] = AUTO_elec[ecl,DES] + AUTO_th[ecl,DES]
+AUTO[ecl,DES] = AUTO[ecl,elec,DES] + AUTO[ecl,th,DES]
 
 ##! Automobiles destroyed
 AUTO[DES] = sum(AUTO[ecl, DES] on ecl)
 
 
 ##! Stock of class $ecl$ thermic automobiles fueled with oil 
-d(AUTO_th[ecl,coil])   = (@year>%baseyear)*(NewAUTO_th[ecl,coil]   - AUTO_th[ecl,coil,DES]  )
+d(AUTO[ecl,coil])   = (@year>%baseyear)*(NewAUTO[ecl,coil]   - AUTO[ecl,coil,DES]  )
 
 ##! Class $ecl$ thermic automobiles fueled with oil destroyed
-AUTO_th[ecl,coil,DES] = delta_AUTO[ecl,coil,DES]*AUTO_th[ecl,coil]{-1}
+AUTO[ecl,coil,DES] = delta_AUTO[ecl,coil,DES]*AUTO[ecl,coil]{-1}
 
 ##! Stock of class $ecl$ thermic automobiles fueled with gas
-d(AUTO_th[ecl,cgas])   = (@year>%baseyear)*(NewAUTO_th[ecl,cgas]   - AUTO_th[ecl,cgas,DES]  )
+d(AUTO[ecl,cgas])   = (@year>%baseyear)*(NewAUTO[ecl,cgas]   - AUTO[ecl,cgas,DES]  )
 
 ##! Class $ecl$ thermic automobiles fueled with gas destroyed
-AUTO_th[ecl,cgas,DES] = delta_AUTO[ecl,cgas,DES]*AUTO_th[ecl,cgas]{-1}
+AUTO[ecl,cgas,DES] = delta_AUTO[ecl,cgas,DES]*AUTO[ecl,cgas]{-1}
 
 ##! Electric automobiles
-AUTO_elec = sum(AUTO_elec[ecl] on ecl)
+AUTO[elec] = sum(AUTO[ecl,elec] on ecl)
 
 ##! Thermic automobiles
-AUTO_th = sum(AUTO_th[ecl] on ecl)
+AUTO[th] = sum(AUTO[ecl,th] on ecl)
 
 ##! Electric automobiles destroyed
-AUTO_elec[DES] = sum(AUTO_elec[ecl, DES] on ecl)
+AUTO[elec,DES] = sum(AUTO[ecl,elec,DES] on ecl)
 
 ##! Thermic automobiles destroyed
-AUTO_th[DES] = sum(AUTO_th[ecl, DES] on ecl)
+AUTO[th,DES] = sum(AUTO[ecl,th,DES] on ecl)
 
 ### Households' energy consumption related to transport
 
 ##! Kilometers by electric automobile of class $ecl$
-KM_AUTO_elec[ecl]    = kmPerAuto_elec[ecl]    * AUTO_elec[ecl]        if KM_AUTO_elec[ecl]    <> 0
+KM_AUTO[ecl,elec]    = kmPerAUTO[ecl,elec]    * AUTO[ecl,elec]        if KM_AUTO[ecl,elec]    <> 0
 
 ##! Kilometers by class $ecl$ thermic automobiles fueled with oil
-KM_AUTO_th[ecl,coil] = kmPerAuto_th[ecl,coil] * AUTO_th[ecl,coil]     if KM_AUTO_th[ecl,coil] <> 0
+KM_AUTO[ecl,coil] = kmPerAUTO[ecl,coil] * AUTO[ecl,coil]     if KM_AUTO[ecl,coil] <> 0
  
 ##! Kilometers by class $ecl$ thermic automobiles fueled with gas
-KM_AUTO_th[ecl,cgas] = kmPerAuto_th[ecl,cgas] * AUTO_th[ecl,cgas]     if KM_AUTO_th[ecl,cgas] <> 0 
+KM_AUTO[ecl,cgas] = kmPerAUTO[ecl,cgas] * AUTO[ecl,cgas]     if KM_AUTO[ecl,cgas] <> 0 
 
 ##! Energy consumption of class $ecl$ automobiles fueled with electricity expressed in tonne of oil equivalent
-CH_AUTO_toe[ecl,cele] = KM_AUTO_elec[ecl]    * toePerKm[ecl,cele]   if CH_AUTO_toe[ecl,cele]  <> 0
+CH_AUTO_toe[ecl,cele] = KM_AUTO[ecl,elec]    * toePerKm[ecl,cele]   if CH_AUTO_toe[ecl,cele]  <> 0
 
 ##! Energy consumption of class $ecl$ automobiles fueled with oil expressed in tonne of oil equivalent
-CH_AUTO_toe[ecl,coil] = KM_AUTO_th[ecl,coil] * toePerKm[ecl,coil]   if CH_AUTO_toe[ecl,coil]  <> 0
+CH_AUTO_toe[ecl,coil] = KM_AUTO[ecl,coil] * toePerKm[ecl,coil]   if CH_AUTO_toe[ecl,coil]  <> 0
 
 ##! Energy consumption of class $ecl$ automobiles fueled with gas expressed in tonne of oil equivalent
-CH_AUTO_toe[ecl,cgas] = KM_AUTO_th[ecl,cgas] * toePerKm[ecl,cgas]   if CH_AUTO_toe[ecl,cgas]  <> 0
+CH_AUTO_toe[ecl,cgas] = KM_AUTO[ecl,cgas] * toePerKm[ecl,cgas]   if CH_AUTO_toe[ecl,cgas]  <> 0
 
 ##! Energy consumption of automobiles fueled with electricity expressed in tonne of oil equivalent
 CH_AUTO_toe[cele] = sum(CH_AUTO_toe[ecl,cele] on ecl)
@@ -234,7 +231,7 @@ d(log(CH_AUTO[cgas])) = d(log(CH_AUTO_toe[cgas]))
 # ############ VERIF
 verif_AUTObis = (AUTObis/AUTO - 1)*100 if AUTO <> 0
 
-Verif_NewAUTO_th[ecl] = (NewAUTO_th_bis[ecl]/NewAUTO_th[ecl]-1)*100 if NewAUTO_th[ecl] <> 0
+Verif_NewAUTO[ecl,th] = (NewAUTO_bis[ecl,th]/NewAUTO[ecl,th]-1)*100 if NewAUTO[ecl,th] <> 0
 
 
 # DO NOT REUSE
@@ -242,6 +239,6 @@ Verif_NewAUTO_th[ecl] = (NewAUTO_th_bis[ecl]/NewAUTO_th[ecl]-1)*100 if NewAUTO_t
 
 # Equation H.4.79 and H.4.80
 
-# NewAUTO[CA] = NewAUTO_elec + NewAUTO_th[CA]   #modifié
+# NewAUTO[CA] = NewAUTO[elec] + NewAUTO[th][CA]   #modifié
 
-# NewAUTO[c] = NewAUTO_th[c]  where c in %list_ener_class \ CA
+# NewAUTO[c] = NewAUTO[th][c]  where c in %list_ener_class \ CA
