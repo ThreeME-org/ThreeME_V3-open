@@ -197,7 +197,7 @@ d(U_REHAB[ecl,ecl2]) = (@year>%baseyear) * (RHO_U_GAIN[ecl,ecl2] * d(GAIN_REHAB[
 
 
 
-## This utility is a function of the gain from the rehabilitation. For convenience it is calibrated as equal to $\phi_REHAB_{ecl,ecl2}$ at the base year. \\
+## This utility is a function of the gain from the rehabilitation. For convenience it is calibrated as equal to \operatorname{log} $\phi_REHAB_{ecl,ecl2}$ at the base year. \\
 
 ##! Exponential sum of the utility from rehabilitating a $ecl$ to a $ecl2$ class building
 SUM_EXP_U_REHAB[ecl] = sum(EXP(U_REHAB[ecl,ecl2]) if REHAB[ecl,ecl2] <> 0 on ecl2)     if REHAB[ecl] <> 0

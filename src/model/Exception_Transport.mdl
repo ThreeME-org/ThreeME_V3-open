@@ -98,10 +98,20 @@ NewAUTO = (@year >  %baseyear)*(d(AUTO) + AUTO[DES]) _
 ##! New automobiles of class $ecl$
 NewAUTO[ecl] = phi_NewAUTO[ecl] * NewAUTO
 
-##! Share of new electric automobiles of class $ecl$
-d(phi_NewAUTO[ecl]) = 0
-## A EXPLICITER
+##! Utility of a automobile of class $ecl$
+d(U_AUTO[ecl]) = -0.76 * d(UC_K_AUTO[ecl]) - 0.2 * d(UC_E_AUTO[ecl])
+## This utility is a function of the gain from the rehabilitation. For convenience it is calibrated as equal to \operatorname{log} $\phi_NewAUTO_{ecl}$ at the base year. The coefficients of the utility function are derived from the study of \citet{durrmeyer2017rebate}. \\
+# Durrmeyer, I., & Samano, M. (2017). To rebate or not to rebate: Fuel economy standards versus feebates. The Economic Journal, 128(616), 3076-3116. 
 
+##! Exponential sum of the utilities of automobile per class
+SUM_EXP_U_AUTO = sum(EXP(U_AUTO[ecl]) on ecl)
+
+##! Notional share of class $ecl$ automobile
+phi_NewAUTO_n[ecl] = EXP(U_AUTO[ecl])/SUM_EXP_U_AUTO  if phi_NewAUTO_n[ecl] <> 0
+
+##! Share of class $ecl$ automobiles
+phi_NewAUTO[ecl] = ADJUST_phi_NewAUTO * phi_NewAUTO_n[ecl] + (1 - ADJUST_phi_NewAUTO) * phi_NewAUTO[ecl]{-1} if phi_NewAUTO[ecl] <> 0
+## Notice that ADJUST_phi_NewAUTO is commun to every class transition. This guaranty that sum(phi_NewAUTO[ecl] on ecl2) = 1. \\
 
 ### Level 4: Arbitrage between electric and thermic automobile per classes 
 

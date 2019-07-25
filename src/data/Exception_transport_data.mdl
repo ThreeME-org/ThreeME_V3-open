@@ -1,6 +1,12 @@
 include ..\model\lists
 
+#############################################
+#### Parameters
+#################################################
 include parameters
+
+ADJUST_phi_NewAUTO := 0.5
+
 
 #############################################
 #### Link with the rest of the model
@@ -38,6 +44,10 @@ P_km_traveler[croa] := P
 P_km_trav_auto_SD := P 
 
 PnewAUTO := P 
+
+UC_E_AUTO[ecl] := P
+UC_K_AUTO[ecl] := P
+
 
 ### END TO BE DELETED when endogenized
 
@@ -140,6 +150,8 @@ CH_AUTO_toe[cgas] := sum(CH_AUTO_toe[ecl,cgas] on ecl)
 
 km_AUTO[ecl] := km_AUTO[ecl,elec] +km_AUTO[ecl,coil] + km_AUTO[ecl,cgas] 
 
+SUM_EXP_U_AUTO := sum(EXP(U_AUTO[ecl]) on ecl)
+
 #######################################
 #####  Special data: not from model equation
 ###################################### 
@@ -174,6 +186,9 @@ phi_NewAUTO[ecl] := NewAUTO[ecl] / NewAUTO
 phi_NewAUTO[ecl,elec] := NewAUTO[ecl,elec] / NewAUTO[ecl] 
 
 phi_NewAUTO[ecl,coil] := NewAUTO[ecl,coil]/NewAUTO[ecl,th] 
+
+U_AUTO[ecl] := log(phi_NewAUTO[ecl])
+phi_NewAUTO_n[ecl] := phi_NewAUTO[ecl]
 
 toePerKm[ecl,cele] := CH_AUTO_toe[ecl,cele] / km_AUTO[ecl,elec]
 toePerKm[ecl,coil]  := CH_AUTO_toe[ecl,coil] / km_AUTO[ecl,coil]

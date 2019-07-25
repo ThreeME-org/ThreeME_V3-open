@@ -165,15 +165,6 @@ R_SUB_AUTO = R_SUB_AUTO_th*(1-share_elec) + R_SUB_AUTO_elec*share_elec
 UC_K_auto_elec[pcl] = ((PAUTO_elec[pcl]) / AUTO_elec_D[pcl] ) * ( 1 - R_SUB_AUTO_elec[pcl] ) * (  R_CASH_AUTO_elec[pcl] + _
     R_LOAN_AUTO_elec[pcl] * R_I_AUTO_elec[pcl]{-1} * LD_AUTO_elec[pcl] / ( 1 - ( 1 + R_I_AUTO_elec[pcl]{-1} )^( - LD_AUTO_elec[pcl] ) ) )
 
-##### FOnction d'utilité, Les coefficients proviennent de l'étude de Isis Durrmeyer "To Rebate or not To Rebate"
-
-U_auto_elec[pcl]=-0.76*UC_K_auto_elec[pcl]-0.2*UC_E_auto_elec[pcl]    
-
-d(phi_elec_n[pcl])= (@year>%baseyear)*d(exp(U_auto_elec[pcl])/(sum(exp(U_auto_elec[c]) where c in %list_price_class)))      
-
-phi_elec_n_tot= sum(phi_elec_n[pcl] if  phi_elec_n[pcl]>0 on pcl)   
-
-phi_elec[pcl] = (phi_elec_n[pcl]>0)*phi_elec_n[pcl]/phi_elec_n_tot + (phi_elec_n[pcl]<=0)*0
 
 #####Définition du coût de maintenance (hors batterie) du véhicule électrique:
 
