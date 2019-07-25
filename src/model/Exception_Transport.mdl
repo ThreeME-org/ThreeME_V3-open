@@ -123,7 +123,7 @@ NewAUTO[ecl,elec] = phi_NewAUTO[ecl,elec] * NewAUTO[ecl]
 phi_NewAUTO[ecl,elec] = phi_NewAUTO_n[ecl,elec]*(phi_NewAUTO_n[ecl,elec]<=1) + (phi_NewAUTO_n[ecl,elec]=1)
 
 ##! Notional share of class $ecl$ electric automobile
- d(phi_NewAUTO_n[ecl,elec]) / (1-phi_NewAUTO_n[ecl,elec]{-1}) = innovation[ecl] + imitation[ecl] * phi_NewAUTO_n[ecl,elec]{-1}
+d(phi_NewAUTO_n[ecl,elec]) / (1-phi_NewAUTO_n[ecl,elec]{-1}) = innovation_exo[ecl] + innovation[ecl] + imitation[ecl] * phi_NewAUTO_n[ecl,elec]{-1}
 ## The adoption of electric automobile is modeled according to Bass Diffusion Model \citep{bass1969new}. The parameters of the model are calibrated using the study of  \citet{taszka2017cost}. \\ 
 # Bass, F. M. (1969). A new product growth for model consumer durables. Management science, 15(5), 215-227.
 # Taszka, S., Domergue, S., Poret, M., & Monnoyer-Smith, L. (2017). Cost-benefit analysis of electrical vehicles. Cars.
