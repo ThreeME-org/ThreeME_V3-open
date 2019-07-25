@@ -193,22 +193,7 @@ UC_M_auto_th=(HOUSEHOLD_HYBRID_AUTO(219,1)*PCH_03/100*km_AUTO_th/(auto-auto_elec
 
 UC_auto_th = sum(@elem(phi_NewAUTO[ecl,th],%baseyear)* (UC_K_AUTO[ecl,th] + UC_E_AUTO[ecl,th]) on ecl) + UC_M_auto_th
  
-#### cf.hypothèses de l'étude du CGDD #Analyse coûts bénéfices des véhicules électriques" réalisée par Stéphane Taszka et Silvano Domergue. cf; Modèle de Bass (1963)
-             
-share_th = 1-share_elec
 
-share_elec= phiNVE*(phiNVE<=1) + (phiNVE=1)
-
-share_elec =  share_elec
-  
- d(phiNVE)=innovation * (1-phiNVE{-1}) + imitation * (phiNVE{-1}) * (1-phiNVE{-1})
-   
- imitation =  coeffBassimit 
-   
- innovation = coeffBassinnov 
-  
- d(coeffBassinnov) = ES_BASS*d((2*UC_auto_elec)^(-nu_diffusion)/((2*UC_auto_elec)^(-nu_diffusion)+(UC_auto_th)^(-nu_diffusion)))      
-  
 U_auto_elec * @elem(NewAUTO_elec,%baseyear) = sum(U_auto_elec[pcl] * @elem(NewAUTO_elec[pcl],%baseyear) on pcl)
   
 U_auto_th * @elem(NewAUTO_th,%baseyear) = sum(U_AUTO[ecl,th] * @elem(NewAUTO[ecl,th],%baseyear) on ecl)

@@ -43,10 +43,8 @@ PCH := P
 ### END TO BE COMMENTED when linked with the full model
 
 ### TO BE DELETED when endogenized
-P_km_traveler[crai] := P 
 P_km_trav_auto_LD := P 
 
-P_km_traveler[croa] := P 
 P_km_trav_auto_SD := P 
 
 PnewAUTO := P 
@@ -170,6 +168,10 @@ travperauto_SD := 1000*km_trav_auto_SD/km_AUTO_SD
 km_traveler_LD := km_traveler[crai] + km_trav_auto_LD
 km_traveler_SD := km_traveler[croa] + km_trav_auto_SD
 
+P_km_traveler[crai] * km_traveler[crai] := PCH[crai] * @elem(NCH[crai],%baseyear)
+
+P_km_traveler[croa] * km_traveler[croa] := PCH[croa] * @elem(NCH[croa],%baseyear)
+
 AUTO := sum(AUTO[ecl] on ecl)
 
 AUTObis := AUTO
@@ -207,8 +209,6 @@ innovation[ecl] := 0
 toePerKm[ecl,cele] := CH_AUTO_toe[ecl,cele] / km_AUTO[ecl,elec]
 toePerKm[ecl,coil]  := CH_AUTO_toe[ecl,coil] / km_AUTO[ecl,coil]
 toePerKm[ecl,cgas]  := CH_AUTO_toe[ecl,cgas] / km_AUTO[ecl,cgas]
-
-
 
 verif_AUTObis  := 0
 verif_NewAUTObis[ecl,th] := 0
