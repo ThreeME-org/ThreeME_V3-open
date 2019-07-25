@@ -211,5 +211,6 @@ toePerKm[ecl,cgas]  := CH_AUTO_toe[ecl,cgas] / km_AUTO[ecl,cgas]
 
 
 verif_AUTObis  := 0
-Verif_NewAUTO[ecl,th] := 0
+verif_NewAUTObis[ecl,th] := 0
 verif_km_AUTObis := 0
+verif_phi_NewAUTO[ecl] := 0
