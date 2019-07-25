@@ -7,6 +7,16 @@ include parameters
 
 ADJUST_phi_NewAUTO := 0.5
 
+# Parameters of the Bass diffusion model
+
+# innovation[ecl] := 0.0001152656269533692 # D'où vient ce chiffre?
+
+innovation[ecl] := d(phi_NewAUTO_n[ecl,elec]) / (1-phi_NewAUTO_n[ecl,elec]{-1}) - imitation[ecl] * phi_NewAUTO_n[ecl,elec]{-1}
+
+imitation[ecl] := 0.078
+ES_BASS[ecl] := 1
+nu_diffusion[ecl] := 7.82
+
 
 #############################################
 #### Link with the rest of the model
@@ -48,6 +58,8 @@ PnewAUTO := P
 UC_E_AUTO[ecl] := P
 UC_K_AUTO[ecl] := P
 
+UC_AUTO[ecl,elec] := P
+UC_AUTO[ecl,th] := P
 
 ### END TO BE DELETED when endogenized
 
@@ -188,7 +200,10 @@ phi_NewAUTO[ecl,elec] := NewAUTO[ecl,elec] / NewAUTO[ecl]
 phi_NewAUTO[ecl,coil] := NewAUTO[ecl,coil]/NewAUTO[ecl,th] 
 
 U_AUTO[ecl] := log(phi_NewAUTO[ecl])
+
 phi_NewAUTO_n[ecl] := phi_NewAUTO[ecl]
+phi_NewAUTO_n[ecl,elec] := phi_NewAUTO[ecl,elec]
+
 
 toePerKm[ecl,cele] := CH_AUTO_toe[ecl,cele] / km_AUTO[ecl,elec]
 toePerKm[ecl,coil]  := CH_AUTO_toe[ecl,coil] / km_AUTO[ecl,coil]

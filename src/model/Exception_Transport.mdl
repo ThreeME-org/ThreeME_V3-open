@@ -99,7 +99,7 @@ NewAUTO = (@year >  %baseyear)*(d(AUTO) + AUTO[DES]) _
 NewAUTO[ecl] = phi_NewAUTO[ecl] * NewAUTO
 
 ##! Utility of a automobile of class $ecl$
-d(U_AUTO[ecl]) = -0.76 * d(UC_K_AUTO[ecl]) - 0.2 * d(UC_E_AUTO[ecl])
+d(U_AUTO[ecl]) = (@year > %baseyear) * (-0.76 * d(UC_K_AUTO[ecl]) - 0.2 * d(UC_E_AUTO[ecl]))
 ## This utility is a function of the gain from the rehabilitation. For convenience it is calibrated as equal to \operatorname{log} $\phi_NewAUTO_{ecl}$ at the base year. The coefficients of the utility function are derived from the study of \citet{durrmeyer2017rebate}. \\
 # Durrmeyer, I., & Samano, M. (2017). To rebate or not to rebate: Fuel economy standards versus feebates. The Economic Journal, 128(616), 3076-3116. 
 
@@ -119,14 +119,20 @@ phi_NewAUTO[ecl] = ADJUST_phi_NewAUTO * phi_NewAUTO_n[ecl] + (1 - ADJUST_phi_New
 NewAUTO[ecl,elec] = phi_NewAUTO[ecl,elec] * NewAUTO[ecl]
 ## Every class of electric car has no emission. But their energy consumption vary per km. \\  
 
-##! Share of new electric automobiles of class $ecl$
-d(phi_NewAUTO[ecl,elec]) = 0
-## A EXPLICITER
+##! Share of class $ecl$ electric automobile
+phi_NewAUTO[ecl,elec] = phi_NewAUTO_n[ecl,elec]*(phi_NewAUTO_n[ecl,elec]<=1) + (phi_NewAUTO_n[ecl,elec]=1)
+
+##! Notional share of class $ecl$ electric automobile
+ d(phi_NewAUTO_n[ecl,elec]) / (1-phi_NewAUTO_n[ecl,elec]{-1}) = innovation[ecl] + imitation[ecl] * phi_NewAUTO_n[ecl,elec]{-1}
+## The adoption of electric automobile is modeled according to Bass Diffusion Model \citep{bass1969new}. The parameters of the model are calibrated using the study of  \citet{taszka2017cost}. \\ 
+# Bass, F. M. (1969). A new product growth for model consumer durables. Management science, 15(5), 215-227.
+# Taszka, S., Domergue, S., Poret, M., & Monnoyer-Smith, L. (2017). Cost-benefit analysis of electrical vehicles. Cars.
+
+##! Bass innovation parameter for class $ecl$ electric automobile
+d(innovation[ecl]) = ES_BASS[ecl]*d((2*UC_AUTO[ecl,elec])^(-nu_diffusion[ecl])/((2*UC_AUTO[ecl,elec])^(-nu_diffusion[ecl])+(UC_AUTO[ecl,th])^(-nu_diffusion[ecl])))      
 
 ##! New thermic automobiles of class $ecl$
 NewAUTO[ecl,th] = NewAUTO[ecl] - NewAUTO[ecl,elec] 
-
-
 
 ##! New thermic automobiles of class $ecl$ (for verification)
 NewAUTO_bis[ecl,th] = NewAUTO[ecl,coil] + NewAUTO[ecl,cgas]
