@@ -19,6 +19,9 @@ NCH[cveh] = ( @year > %baseyear ) * @elem(PnewAUTO,%baseyear) * NewAUTO + ( @yea
 ##! Price of public transport commodities $cth$ (train, road and air)
 d(log(P_km_traveler[cth])) = d(log(PCH[cth]))
 
+##! Interest rate paid for an investment in a class $ecl$ automobile fueled with energy $cea$
+d(R_I_AUTO[ecl,cea]) = d(R)
+
 #### Arbitrage between transport modes 
 ## The arbitrage between transport modes is defined in 5 level. Level 1 determine the evolution of air, long and short distance transport. In level 2, the consummer may substitutie bewteen long distance transport types (automobile and train) and short distance transport types (automobile and bus). Level 3 defines the arbitrage between electric and thermic automobile whereas level 4 defines the arbitrage between automobile class. In level 5, substitution between types of thermic automobiles may be introduced. \\
 
@@ -33,17 +36,11 @@ d(log(km_traveler_LD)) = (@year>%baseyear)*(0.6 * d(log(DISPINC_AT_VAL/PCH)) - 0
 ##! Price of long distance Kilometer-traveler (automobile and train)   
 P_km_traveler_LD * km_traveler_LD = P_km_traveler[crai] * km_traveler[crai] + P_km_trav_auto_LD * km_trav_auto_LD
 
-# Replace the previous approximation below:
-# d(log(P_km_traveler_LD)) = (km_traveler[crai]{-1} * d(log(PCH[crai])) + km_trav_auto_LD{-1} * d(log(P_km_trav_auto_LD))) / (km_traveler[crai]{-1} + km_trav_auto_LD{-1})
- 
 ##! Kilometer-travelers for short distance transport (by automobile and bus)     
 d(log(km_traveler_SD)) = (@year>%baseyear)*(0.4*d(log(DISPINC_AT_VAL/PCH)) - 0.3 * d(log(P_km_traveler_SD/PCH)))
 
 ##! Price of short distance  Kilometer-traveler (by automobile and bus)    
 P_km_traveler_SD * km_traveler_SD = P_km_traveler[croa] * km_traveler[croa] + P_km_trav_auto_SD * km_trav_auto_SD
-
-# Replace the previous approximation below:
-# d(log(P_km_traveler_SD)) = (km_traveler[croa]{-1} * d(log(PCH[croa])) + km_trav_auto_SD{-1} * d(log(PCH_auto_SD))) / (km_traveler[croa]{-1} + km_trav_auto_SD{-1})
 
 ### Level 2: Arbitrage between long distance transport (automobile and train)
  
@@ -134,7 +131,6 @@ NewAUTO[ecl,th] = NewAUTO[ecl] - NewAUTO[ecl,cele]
 ##! New thermic automobiles of class $ecl$ (for verification)
 NewAUTO_bis[ecl,th] = NewAUTO[ecl,coil] + NewAUTO[ecl,cgas]
 
-
 ### Level 5: Arbitrage between types of thermic automobiles
 
 ##! New thermic automobiles fueled with oil of class $ecl$
@@ -147,64 +143,60 @@ NewAUTO[ecl,cgas] = NewAUTO[ecl,th] - NewAUTO[ecl,coil]  if NewAUTO[ecl,cgas]  <
 d(phi_NewAUTO[ecl,coil]) = 0
 ## For simplicity, the share of the different types of thermic automobiles is assumed constant. Arbitrage between types of thermic automobiles can be added by modifying the above equation. \\
 
-
 ### Level 5: Stock of automobiles
 
-##! Stock of class $ecl$ electric automobiles
+##! Stock of automobiles of class $ecl$ fueled with energy $cea$ 
 d(AUTO[ecl,cea]) = (@year>%baseyear)*(NewAUTO[ecl,cea] - AUTO[ecl,cea,DES])
+
+##! Class $ecl$ fueled with energy $cea$ automobiles destroyed
+AUTO[ecl,cea,DES] = delta_AUTO[ecl,cea,DES]*AUTO[ecl,cea]{-1}
+
+##! Automobiles fueled with energy $cea$
+AUTO[cea] = sum(AUTO[ecl,cea] on ecl)
+
+##! Stock of class $ecl$ automobiles
+AUTO[ecl] = AUTO[ecl,cele] + AUTO[ecl,th]
+
+##! Thermic automobiles
+AUTO[th] = sum(AUTO[ecl,th] on ecl)
 
 ##! Stock of class $ecl$ thermic automobiles
 AUTO[ecl,th]  = AUTO[ecl,coil] + AUTO[ecl,cgas]
 # replace d(AUTO[ecl,th])   = (@year>%baseyear)*(NewAUTO[ecl,th]   - AUTO[ecl,th,DES]  )
 
-##! Stock of class $ecl$ automobiles
-AUTO[ecl] = AUTO[ecl,cele] + AUTO[ecl,th]
-
-##! Class $ecl$ electric automobiles destroyed
-AUTO[ecl,cea,DES] = delta_AUTO[ecl,cea,DES]*AUTO[ecl,cea]{-1}
-
-##! Class $ecl$ thermic automobiles destroyed
-AUTO[ecl,th,DES] = AUTO[ecl,coil,DES] + AUTO[ecl,cgas,DES] 
-# replace AUTO[ecl,th,DES] = delta_AUTO[ecl,th,DES]*AUTO[ecl,th]{-1}
-
-##! Class $ecl$ automobiles destroyed
-AUTO[ecl,DES] = AUTO[ecl,cele,DES] + AUTO[ecl,th,DES]
+##! Automobiles fueled with energy $cea$ destroyed
+AUTO[cea,DES] = sum(AUTO[ecl,cea,DES] on ecl)
 
 ##! Automobiles destroyed
 AUTO[DES] = sum(AUTO[ecl, DES] on ecl)
 
+##! Class $ecl$ automobiles destroyed
+AUTO[ecl,DES] = AUTO[ecl,cele,DES] + AUTO[ecl,th,DES]
 
-##! Electric automobiles
-AUTO[cea] = sum(AUTO[ecl,cea] on ecl)
-
-##! Thermic automobiles
-AUTO[th] = sum(AUTO[ecl,th] on ecl)
-
-##! Electric automobiles destroyed
-AUTO[cea,DES] = sum(AUTO[ecl,cea,DES] on ecl)
+##! Class $ecl$ thermic automobiles destroyed
+AUTO[ecl,th,DES] = AUTO[ecl,coil,DES] + AUTO[ecl,cgas,DES] 
+# replace AUTO[ecl,th,DES] = delta_AUTO[ecl,th,DES]*AUTO[ecl,th]{-1}
 
 ##! Thermic automobiles destroyed
 AUTO[th,DES] = sum(AUTO[ecl,th,DES] on ecl)
 
 ### User cost of automobile
 
+##! User energy cost of a  class $ecl$ automobile fueled with energy $cea$
+UC_E_AUTO[ecl,cea] = PE_AUTO[ecl,cea] * ((1 + GR_PE_AUTO_e[ecl,cea]) ^ AUTO_D[ecl,cea] - 1) / (GR_PE_AUTO_e[ecl,cea] * AUTO_D[ecl,cea]) if AUTO[ecl,cea] <> 0
+
+##! Energy price of a class $ecl$ automobile fueled with energy $cea$
 PE_AUTO[ecl,cea] * AUTO[ecl,cea] = PCH[cea] * CH_AUTO[cea] * CH_AUTO_toe[ecl,cea] / CH_AUTO_toe[cea]	if AUTO[ecl,cea] <> 0
 
-UC_E_AUTO[ecl,cea] = PE_AUTO[ecl,cea] * ((1 + GR_PE_AUTO_e[ecl,cea]) ^ AUTO_D[ecl,cea] - 1) / (GR_PE_AUTO_e[ecl,cea] * AUTO_D[ecl,cea]) if AUTO[ecl,cea] <> 0
-##! Growth rate of the energy price per square meter paid in class $ecl$ buildings
+
+##! Growth rate of the energy price of an automobile of class $ecl$ fueled with energy $cea$
 GR_PE_AUTO_e[ecl,cea] = (@year>%baseyear) * (ADJUST_GR_PE_AUTO_e_1 * @pchy( PE_AUTO[ecl,cea]{-1} ) _
                         + (1-ADJUST_GR_PE_AUTO_e_1) * GR_PE_AUTO_e[ecl,cea]{-1}) + (@year<=%baseyear)*GR_PRICES  if AUTO[ecl,cea] <> 0
 
 
-
+##! User capital cost of a class $ecl$ automobile fueled with energy $cea$
 UC_K_AUTO[ecl,cea] = (1 - R_SUB_AUTO[ecl,cea]) * PNewAUTO[ecl,cea] / AUTO_D[ecl,cea] * (R_CASH_AUTO[ecl,cea] +   _
       R_LOAN_AUTO[ecl,cea] * R_I_AUTO[ecl,cea]{-1} * LD_AUTO[ecl,cea] / ( 1 - ( 1 + R_I_AUTO[ecl,cea]{-1} )^( - LD_AUTO[ecl,cea] ) ) )
-
-
-
-##! Interest rate paid for an investment in a class $ecl$ automobile
-d(R_I_AUTO[ecl,cea]) = d(R)
-
 
 ### Debts
 
@@ -215,20 +207,18 @@ d(R_I_AUTO[ecl,cea]) = d(R)
 
 
 
-######################
-######################
 
 
 ##! User cost of  an automobile of class $ecl$
 UC_AUTO[ecl] = UC_K_AUTO[ecl] + UC_E_AUTO[ecl] 					if AUTO[ecl] <> 0
 
-##! User cost of an electric automobile of class $ecl$
+##! User cost of a class $ecl$ automobile fueled with energy $cea$
 UC_AUTO[ecl,cea] = UC_K_AUTO[ecl,cea] + UC_E_AUTO[ecl,cea] 	if AUTO[ecl,cea] <> 0
 
 ##! User cost of a thermic automobile of class $ecl$
 UC_AUTO[ecl,th] = UC_K_AUTO[ecl,th] + UC_E_AUTO[ecl,th] 		if AUTO[ecl,th] <> 0
 
-##! User capital cost of  an automobile of class $ecl$
+##! User capital cost of an automobile of class $ecl$
 UC_K_AUTO[ecl] * AUTO[ecl] = UC_K_AUTO[ecl,cele] * AUTO[ecl,cele] + UC_K_AUTO[ecl,th] * AUTO[ecl,th] 			if AUTO[ecl] <> 0
 
 ##! User capital cost of a thermic automobile of class $ecl$
@@ -240,29 +230,25 @@ UC_E_AUTO[ecl] * AUTO[ecl] = UC_E_AUTO[ecl,cele] * AUTO[ecl,cele] + UC_E_AUTO[ec
 ##! User energy cost of a thermic automobile of class $ecl$
 UC_E_AUTO[ecl,th] * AUTO[ecl,th] = UC_E_AUTO[ecl,coil] * AUTO[ecl,coil] + UC_E_AUTO[ecl,cgas] * AUTO[ecl,cgas]	if AUTO[ecl,th] <> 0
 
-
-
-
 ### Households' energy consumption related to transport
 
-##! Kilometers by electric automobile of class $ecl$
+##! Kilometers by a class $ecl$ automobile fueled with energy $cea$
 km_AUTO[ecl,cea] = km_AUTO * AUTO[ecl,cea] / AUTO     if km_AUTO[ecl,cea]    <> 0
 
-##! Kilometers by class $ecl$ 
+##! Kilometers by class $ecl$ automobile
 km_AUTO[ecl] = sum(km_AUTO[ecl,cea] on cea)
 
 ##! Total kilometers by automobile
 km_AUTObis = sum(km_AUTO[ecl] on ecl)
 
-##! Energy consumption of class $ecl$ automobiles fueled with electricity expressed in tonne of oil equivalent
+##! Energy consumption of a class $ecl$ automobile fueled with energy $cea$ expressed in tonne of oil equivalent
 CH_AUTO_toe[ecl,cea] = km_AUTO[ecl,cea]    * toePerKm[ecl,cea]   if CH_AUTO_toe[ecl,cea]  <> 0
 
-##! Energy consumption of automobiles fueled with electricity expressed in tonne of oil equivalent
+##! Energy consumption of automobiles fueled with energy $cea$ expressed in tonne of oil equivalent
 CH_AUTO_toe[cea] = sum(CH_AUTO_toe[ecl,cea] on ecl)
 
 ##! Households' final consumption of electricity (expressed in monetary unit)
 d(log(CH_AUTO[cea])) = d(log(CH_AUTO_toe[cea]))
-
 
 
 # ####################
