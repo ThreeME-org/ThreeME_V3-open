@@ -35,10 +35,6 @@ d(R_I_REHAB[ ecl])   = d(R)
 d(R_I_BUIL[ ecl])    = d(R)
 ## This corresponds to the interest rate paid to maintain the building in its class whereas the previous interest rate is the one paid to rehabilite the building to a higher class. \\
 
-##! Interest rate paid for an investment in a class $ecl$ automobile
-d(R_I_AUTO[ ecl])    = d(R)
-
-
 #### Building stock dynamic (in m2)
 
 ##! Total building stock
@@ -270,12 +266,12 @@ GR_PENER_m2_e[ecl] = (@year>%baseyear) * (ADJUST_GR_PENER_m2_e_1 * @pchy( PENER_
 
 ### Debts
 
-##! Debt Test 1
+##! Debt related to the rehabilitation of a class $ecl$ building
 DEBT_REHAB_Val[ecl] = (@year > %baseyear) * ( ( 1 - R_RMBS_REHAB[ecl] ) * DEBT_REHAB_Val[ecl]{-1} _
                                                   + R_LOAN_REHAB[ecl] * PREHAB[ecl] * REHAB[ecl] ) _
                                                   + (@year =< %baseyear) * DEBT_REHAB_Val[ecl]{-1} * ( 1 + GR_NOMI ) if REHAB[ecl] <> 0
 
-##! Debt Test 2
+##! Debt related to the purshase of a new  building of a class $ecl$
 DEBT_NewB_Val[ecl] = (@year > %baseyear) * ( ( 1 - R_RMBS_NewBUIL[ecl] ) * DEBT_NewB_Val[ecl]{-1} _
                                                   + R_LOAN_NewBUIL[ecl] * PNewBUIL[ecl] * NewBUIL[ecl] ) _
                                                   + (@year =< %baseyear) * DEBT_NewB_Val[ecl]{-1} * ( 1 + GR_NOMI )

@@ -71,9 +71,6 @@ R_I_REHAB[ecl] := R_I_BUIL[ecl]
 # For new buildings
 R_I_NewBUIL[ecl] := R_I_BUIL[ecl] 
 
-# For automobile
-R_I_AUTO[ecl] := R + 0.03
-
 # Loan duration for housing investment
 # For (maintaining) a building of ecl in the same class
 LD[ecl] := 25
