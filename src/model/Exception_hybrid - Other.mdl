@@ -134,60 +134,12 @@ PNewAUTO[c] = PNewAUTO_th[c]  where c in %list_ener_class \ CA
 
 PNewAUTO_th*NewAUTO_th = sum(PNewAUTO_th[ ecl] * NewAUTO_th[ ecl] on ecl)  if NewAUTO_th>0
 
-##Coût d'usage énergétique du véhicule
-
-dlog(PENER_AUTOelec[pcl]) = dlog(pch[23]) + dlog(EXP_AUTO_elec[pcl]) - dlog(AUTO_elec[pcl])
-
-dlog(EXP_AUTO_elec[pcl]) = dlog(km_AUTO_elec[pcl]) - dlog(prog_auto_elec) 
-
-###coût d'usage annualisé de l'énergie
-
-UC_E_auto_elec[pcl]=PENER_autoelec[pcl] #*((1+dlog(PCH))^(AUTO_elec_D[pcl])-1)/(dlog(PCH)*AUTO_elec_D[pcl])
-		
-R_SUB_AUTO_elec[pcl]= bonus_elec/PAUTO_elec[pcl]
-
-R_SUB_AUTO_elec = sum(R_SUB_AUTO_elec[pcl]*phi_elec[pcl] on pcl )
- 		
-R_SUB_AUTO[ecl,th]= bonus_th[ecl]/PNewAUTO[ecl,th]
- 
-R_SUB_AUTO[CA]*NewAUTO[CA] = (R_SUB_AUTO_elec*NewAUTO_elec + R_SUB_AUTO_th[CA]* NewAUTO_th[CA]) if NewAUTO[CA]>0
-
-#R_SUB_AUTO[c]*NewAUTO[c] = R_SUB_AUTO_th[c]* NewAUTO_th[c]  where c in %list_ener_class \ CA  if NewAUTO[c]>0
-
-R_SUB_AUTO[c] = R_SUB_AUTO_th[c]  where c in %list_ener_class \ CA  if NewAUTO[c]>0
-
-R_SUB_AUTO_th*NewAUTO_th = sum(R_SUB_AUTO[ecl,th]*NewAUTO[ecl,th] on ecl )  if NewAUTO_th>0
-
-R_SUB_AUTO = R_SUB_AUTO_th*(1-share_elec) + R_SUB_AUTO_elec*share_elec
-
-###coût d'achat annualisé du véhicule électrique (payé en partie grâce à l'emprunt)
-
-UC_K_auto_elec[pcl] = ((PAUTO_elec[pcl]) / AUTO_elec_D[pcl] ) * ( 1 - R_SUB_AUTO_elec[pcl] ) * (  R_CASH_AUTO_elec[pcl] + _
-    R_LOAN_AUTO_elec[pcl] * R_I_AUTO_elec[pcl]{-1} * LD_AUTO_elec[pcl] / ( 1 - ( 1 + R_I_AUTO_elec[pcl]{-1} )^( - LD_AUTO_elec[pcl] ) ) )
-
 
 #####Définition du coût de maintenance (hors batterie) du véhicule électrique:
 
 UC_M_auto_elec=(HOUSEHOLD_HYBRID_AUTO(218,1)*PCH_03/100*km_AUTO/auto)/1000 
 
 UC_auto_elec = sum(@elem(phi_elec[pcl],%baseyear)* (UC_K_auto_elec[pcl] + UC_E_auto_elec[pcl]) on pcl) + UC_M_auto_elec 
-
-
-
-PENER_AUTO[ecl,th] *AUTO[ecl,th]= pch[22] * EXP_AUTO[ecl,22] + pch[24] * EXP_AUTO[ecl,24] if AUTO[ecl,th] <> 0
-
-UC_E_AUTO[ecl,th] = PENER_AUTO[ecl,th] #*((1+dlog(PCH))^(AUTO_D[ecl]) - 1 ) / ( dlog(PCH)*AUTO_D[ecl] ) 
-      	
-UC_K_AUTO[ecl,th] = ((PNewAUTO[ecl,th]) / AUTO_D[ecl] ) * ( 1 - R_SUB_AUTO[ecl,th] ) * (  R_CASH_AUTO[ecl] +      _
-      R_LOAN_AUTO[ecl] * R_I_AUTO[ecl]{-1} * LD_AUTO[ecl] / ( 1 - ( 1 + R_I_AUTO[ecl]{-1} )^( - LD_AUTO[ecl] ) ) )
-
-U_AUTO[ecl,th]=-0.76*UC_K_AUTO[ecl,th]-0.2*UC_E_AUTO[ecl,th]                   
-
-d(phi_th_n[ecl]) = (@year>%baseyear)*d(exp(U_AUTO[ecl,th])/(sum(exp(U_auto_th[c]) where c in %list_ener_class))) 
-
-phi_th_n_tot = sum(phi_th_n[ecl]  if  phi_th_n[ecl]>0 on ecl)   
-
-phi_NewAUTO[ecl,th] = (phi_th_n[ecl]>0) * phi_th_n[ecl]/phi_th_n_tot + (phi_th_n[ecl]<=0)*0    
 
 UC_M_auto_th=(HOUSEHOLD_HYBRID_AUTO(219,1)*PCH_03/100*km_AUTO_th/(auto-auto_elec))/1000
 

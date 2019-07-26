@@ -7,11 +7,27 @@ include parameters
 
 ADJUST_phi_NewAUTO := 0.5
 
+R_I_AUTO[ecl,elec] := R + 0.3 
+
+R_SUB_AUTO[ecl,elec] := 0
+R_CASH_AUTO[ecl,elec] := 0.8
+R_LOAN_AUTO[ecl,elec] := 1 - R_CASH_AUTO[ecl,elec]
+
+
+AUTO_D[ecl,elec] := 12.85
+LD_AUTO[ecl,elec] := AUTO_D[ecl,elec]
+
+ADJUST_GR_PE_AUTO_e_1 := 0.2
+
+
 # Parameters of the Bass diffusion model
 
 imitation[ecl] := 0.078
 ES_BASS[ecl] := 1
 nu_diffusion[ecl] := 7.82
+
+
+
 
 
 #############################################
@@ -36,6 +52,11 @@ PCH[cair] := P
 PCH[crai] := P
 PCH[croa] := P
 
+
+PCH[cele] := P
+PCH[cgas] := P
+PCH[coil] := P
+
 DISPINC_AT_VAL := 1000000 * (1 + GR_NOMI) ^ (@year - %baseyear)
 
 PCH := P
@@ -49,13 +70,17 @@ P_km_trav_auto_SD := P
 
 PnewAUTO := P 
 
-UC_E_AUTO[ecl,elec] := P
+PNewAUTO[ecl,elec] := P
+
+# UC_E_AUTO[ecl,elec] := P
 UC_E_AUTO[ecl,coil] := P
 UC_E_AUTO[ecl,cgas] := P
 
-UC_K_AUTO[ecl,elec] := P
+# UC_K_AUTO[ecl,elec] := P
 UC_K_AUTO[ecl,coil] := P
 UC_K_AUTO[ecl,cgas] := P
+
+
 
 ### END TO BE DELETED when endogenized
 
@@ -178,9 +203,20 @@ UC_E_AUTO[ecl] * AUTO[ecl] := UC_E_AUTO[ecl,elec] * AUTO[ecl,elec] + UC_E_AUTO[e
 
 UC_E_AUTO[ecl,th] * AUTO[ecl,th] := UC_E_AUTO[ecl,coil] * AUTO[ecl,coil] + UC_E_AUTO[ecl,cgas] * AUTO[ecl,cgas]
 
+PE_AUTO[ecl,elec] * AUTO[ecl,elec] := PCH[cele] * CH_AUTO[cele]
+
+UC_E_AUTO[ecl,elec] := PE_AUTO[ecl,elec] * ((1 + GR_PE_AUTO_e[ecl,elec]) ^ AUTO_D[ecl,elec] - 1) / (GR_PE_AUTO_e[ecl,elec] * AUTO_D[ecl,elec]) 
+
+UC_K_AUTO[ecl,elec] := (1 - R_SUB_AUTO[ecl,elec]) * PNewAUTO[ecl,elec] / AUTO_D[ecl,elec] * (R_CASH_AUTO[ecl,elec] +   _
+      R_LOAN_AUTO[ecl,elec] * R_I_AUTO[ecl,elec]{-1} * LD_AUTO[ecl,elec] / ( 1 - ( 1 + R_I_AUTO[ecl,elec]{-1} )^( - LD_AUTO[ecl,elec] ) ) )
+
+
+
 #######################################
 #####  Special data: not from model equation
 ###################################### 
+
+GR_PE_AUTO_e[ecl,elec] := GR_PRICES
 
 travperauto_LD := 1000*km_trav_auto_LD/km_AUTO_LD
 travperauto_SD := 1000*km_trav_auto_SD/km_AUTO_SD

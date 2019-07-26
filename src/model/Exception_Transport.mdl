@@ -203,6 +203,37 @@ AUTO[th,DES] = sum(AUTO[ecl,th,DES] on ecl)
 
 ### User cost of automobile
 
+PE_AUTO[ecl,elec] * AUTO[ecl,elec] = PCH[cele] * CH_AUTO[cele]
+
+UC_E_AUTO[ecl,elec] = PE_AUTO[ecl,elec] * ((1 + GR_PE_AUTO_e[ecl,elec]) ^ AUTO_D[ecl,elec] - 1) / (GR_PE_AUTO_e[ecl,elec] * AUTO_D[ecl,elec]) 
+##! Growth rate of the energy price per square meter paid in class $ecl$ buildings
+GR_PE_AUTO_e[ecl,elec] = (@year>%baseyear) * (ADJUST_GR_PE_AUTO_e_1 * @pchy( PE_AUTO[ecl,elec]{-1} ) _
+                        + (1-ADJUST_GR_PE_AUTO_e_1) * GR_PE_AUTO_e[ecl,elec]{-1}) + (@year<=%baseyear)*GR_PRICES  if PE_AUTO[ecl,elec] <> 0
+
+
+
+UC_K_AUTO[ecl,elec] = (1 - R_SUB_AUTO[ecl,elec]) * PNewAUTO[ecl,elec] / AUTO_D[ecl,elec] * (R_CASH_AUTO[ecl,elec] +   _
+      R_LOAN_AUTO[ecl,elec] * R_I_AUTO[ecl,elec]{-1} * LD_AUTO[ecl,elec] / ( 1 - ( 1 + R_I_AUTO[ecl,elec]{-1} )^( - LD_AUTO[ecl,elec] ) ) )
+
+
+
+##! Interest rate paid for an investment in a class $ecl$ automobile
+d(R_I_AUTO[ecl,elec]) = d(R)
+
+
+### Debts
+
+##! Debt related to the purshase of a new  building of a class $ecl$
+# DEBT_NewB_Val[ecl] = (@year > %baseyear) * ( ( 1 - R_RMBS_NewBUIL[ecl] ) * DEBT_NewB_Val[ecl]{-1} _
+#                                                  + R_LOAN_NewBUIL[ecl] * PNewBUIL[ecl] * NewBUIL[ecl] ) _
+#                                                  + (@year =< %baseyear) * DEBT_NewB_Val[ecl]{-1} * ( 1 + GR_NOMI )
+
+
+
+######################
+######################
+
+
 ##! User cost of  an automobile of class $ecl$
 UC_AUTO[ecl] = UC_K_AUTO[ecl] + UC_E_AUTO[ecl]
 
