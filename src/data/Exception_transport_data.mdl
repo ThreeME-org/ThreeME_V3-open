@@ -140,7 +140,7 @@ km_AUTO := km_AUTO_LD + km_AUTO_SD
 
 NewAUTO[th] := NewAUTO - NewAUTO[cele]
 
-AUTO[ecl,cele,DES] := delta_AUTO[ecl,cele,DES]*AUTO[ecl,cele]{-1}
+AUTO[ecl,cea,DES] := delta_AUTO[ecl,cea,DES]*AUTO[ecl,cea]{-1}
 
 AUTO[ecl,th,DES] := AUTO[ecl,coil,DES] + AUTO[ecl,cgas,DES] 
 
@@ -150,40 +150,30 @@ AUTO[DES] := sum(AUTO[ecl, DES] on ecl)
 
 AUTO[ecl] := AUTO[ecl,cele] + AUTO[ecl,th]
 
-AUTO[cele] := sum(AUTO[ecl,cele] on ecl)
+AUTO[cea] := sum(AUTO[ecl,cea] on ecl)
 
 AUTO[th] := sum(AUTO[ecl,th] on ecl)
 
-AUTO[cele,DES] := sum(AUTO[ecl,cele,DES] on ecl)
+AUTO[cea,DES] := sum(AUTO[ecl,cea,DES] on ecl)
 
 AUTO[th,DES] := sum(AUTO[ecl,th,DES] on ecl)
-
-
-AUTO[ecl,coil,DES] := delta_AUTO[ecl,coil,DES]*AUTO[ecl,coil]{-1}
-AUTO[ecl,cgas,DES] := delta_AUTO[ecl,cgas,DES]*AUTO[ecl,cgas]{-1}
 
 AUTO[ecl,th]  := AUTO[ecl,coil] + AUTO[ecl,cgas]
 
 km_AUTO[cele] := km_AUTO * AUTO[cele] / AUTO
 km_AUTO[th] := km_AUTO - km_AUTO[cele]
 
-CH_AUTO_toe[cele] := sum(CH_AUTO_toe[ecl,cele] on ecl)
-CH_AUTO_toe[coil] := sum(CH_AUTO_toe[ecl,coil] on ecl)
-CH_AUTO_toe[cgas] := sum(CH_AUTO_toe[ecl,cgas] on ecl)
+CH_AUTO_toe[cea] := sum(CH_AUTO_toe[ecl,cea] on ecl)
 
-km_AUTO[ecl] := km_AUTO[ecl,cele] +km_AUTO[ecl,coil] + km_AUTO[ecl,cgas] 
+km_AUTO[ecl] := sum(km_AUTO[ecl,cea] on cea)
 
 SUM_EXP_U_AUTO := sum(EXP(U_AUTO[ecl]) on ecl)
 
 UC_AUTO[ecl] := UC_K_AUTO[ecl] + UC_E_AUTO[ecl]
 
-UC_AUTO[ecl,cele] := UC_K_AUTO[ecl,cele] + UC_E_AUTO[ecl,cele] 
+UC_AUTO[ecl,cea] := UC_K_AUTO[ecl,cea] + UC_E_AUTO[ecl,cea] 
 
 UC_AUTO[ecl,th] := UC_K_AUTO[ecl,th] + UC_E_AUTO[ecl,th] 
-
-UC_AUTO[ecl,coil] := UC_K_AUTO[ecl,coil] + UC_E_AUTO[ecl,coil] 
-
-UC_AUTO[ecl,cgas] := UC_K_AUTO[ecl,cgas] + UC_E_AUTO[ecl,cgas] 
 
 UC_K_AUTO[ecl] * AUTO[ecl] := UC_K_AUTO[ecl,cele] * AUTO[ecl,cele] + UC_K_AUTO[ecl,th] * AUTO[ecl,th] 
 
@@ -216,6 +206,8 @@ km_traveler_SD := km_traveler[croa] + km_trav_auto_SD
 P_km_traveler[crai] * km_traveler[crai] := PCH[crai] * @elem(NCH[crai],%baseyear)
 
 P_km_traveler[croa] * km_traveler[croa] := PCH[croa] * @elem(NCH[croa],%baseyear)
+
+P_km_traveler[cair] * km_traveler[cair] := PCH[cair] * @elem(NCH[cair],%baseyear)
 
 AUTO := sum(AUTO[ecl] on ecl)
 
@@ -251,9 +243,7 @@ phi_NewAUTO_targ[ecl,cele] := phi_NewAUTO[ecl,cele]
 innovation_exo[ecl] := d(phi_NewAUTO_targ[ecl,cele]) / (1-phi_NewAUTO_n[ecl,cele]{-1}) - (innovation[ecl] + imitation[ecl] * phi_NewAUTO_n[ecl,cele]{-1}) 
 innovation[ecl] := 0
 
-toePerKm[ecl,cele] := CH_AUTO_toe[ecl,cele] / km_AUTO[ecl,cele]
-toePerKm[ecl,coil]  := CH_AUTO_toe[ecl,coil] / km_AUTO[ecl,coil]
-toePerKm[ecl,cgas]  := CH_AUTO_toe[ecl,cgas] / km_AUTO[ecl,cgas]
+toePerKm[ecl,cea] := CH_AUTO_toe[ecl,cea] / km_AUTO[ecl,cea]
 
 verif_AUTObis  := 0
 verif_NewAUTObis[ecl,th] := 0
