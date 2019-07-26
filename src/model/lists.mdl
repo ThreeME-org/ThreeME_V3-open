@@ -1,24 +1,27 @@
 include .\R_lists
 
 # List of production factors
-%list_F := K L E MAT  #[f]
+%list_F := K L E MAT  #[f, ff]
 
 # List of Green House Gases (GHG)
 %list_GHG := CO2 CH4 N2O SF6 HFC PFC #[ghg]
 
-# List of transport used in the household nsted CES
-%list_chtrsp := crai croa auto
-chtrsp in %list_chtrsp
+# List of transport used in the household nested CES
+%list_chtrsp := crai croa auto #[chtrsp]
+
 
 # List of (public) transport used in the household transport block
 %list_com_TRSPH := crai croa cair #[cth] 
 
+# List of energy class for the housing and transport block
 %list_ener_class := CA CB CC CD CE CF CG #[ecl]
 %list_buil_class := CA CB CC CD CE CF CG DES #[bcl]
 
-%list_com_E_BUIL := ccoa cfue cgas cele chea
+# List of energy commodities used in building
+%list_com_E_BUIL := ccoa cfue cgas cele chea #[ceb, cebb]
 
-%list_com_E_AUTO := coil cgas cele
+# List of energy commodities used by automobiles
+%list_com_E_AUTO := coil cgas cele #[cea]
 
 
 # Default iterators
@@ -37,6 +40,7 @@ ctt in %list_com_TRSP
 
 cth in %list_com_TRSPH
 
+chtrsp in %list_chtrsp
 
 cmo in %list_com_MATO
 

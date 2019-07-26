@@ -7,15 +7,15 @@ include parameters
 
 ADJUST_phi_NewAUTO := 0.5
 
-R_I_AUTO[ecl,elec] := R + 0.3 
+R_I_AUTO[ecl,cea] := R + 0.3 
 
-R_SUB_AUTO[ecl,elec] := 0
-R_CASH_AUTO[ecl,elec] := 0.8
-R_LOAN_AUTO[ecl,elec] := 1 - R_CASH_AUTO[ecl,elec]
+R_SUB_AUTO[ecl,cea] := 0
+R_CASH_AUTO[ecl,cea] := 0.8
+R_LOAN_AUTO[ecl,cea] := 1 - R_CASH_AUTO[ecl,cea]
 
 
-AUTO_D[ecl,elec] := 12.85
-LD_AUTO[ecl,elec] := AUTO_D[ecl,elec]
+AUTO_D[ecl,cea] := 12.85
+LD_AUTO[ecl,cea] := AUTO_D[ecl,cea]
 
 ADJUST_GR_PE_AUTO_e_1 := 0.2
 
@@ -35,6 +35,7 @@ nu_diffusion[ecl] := 7.82
 #################################################
 
 ### TO BE COMMENTED when linked with the full model
+eps := 0.000000000001
 P 		 :=  1 * (1 + GR_PRICES) ^ (@year - %baseyear)
 
 CH[crai] := 4179 * (1 + GR_REAL) ^ (@year - %baseyear)
@@ -53,9 +54,7 @@ PCH[crai] := P
 PCH[croa] := P
 
 
-PCH[cele] := P
-PCH[cgas] := P
-PCH[coil] := P
+PCH[cea] := P
 
 DISPINC_AT_VAL := 1000000 * (1 + GR_NOMI) ^ (@year - %baseyear)
 
@@ -70,16 +69,7 @@ P_km_trav_auto_SD := P
 
 PnewAUTO := P 
 
-PNewAUTO[ecl,elec] := P
-
-# UC_E_AUTO[ecl,elec] := P
-UC_E_AUTO[ecl,coil] := P
-UC_E_AUTO[ecl,cgas] := P
-
-# UC_K_AUTO[ecl,elec] := P
-UC_K_AUTO[ecl,coil] := P
-UC_K_AUTO[ecl,cgas] := P
-
+PNewAUTO[ecl,cea] := P
 
 
 ### END TO BE DELETED when endogenized
@@ -103,14 +93,14 @@ CH_AUTO[coil] := @elem(NCH_AUTO[coil],%baseyear)
 CH_AUTO[cgas] := @elem(NCH_AUTO[cgas],%baseyear)
 
 
-AUTO[ecl,elec]  := TRANSPORT(10, $ecl)
+AUTO[ecl,cele]  := TRANSPORT(10, $ecl)
 AUTO[ecl,coil]  := TRANSPORT(11, $ecl)
 AUTO[ecl,cgas]  := TRANSPORT(12, $ecl)
 
 km_AUTO_LD := TRANSPORT(18, 9)
 km_AUTO_SD := TRANSPORT(19, 9)
 
-km_AUTO[ecl,elec]    := TRANSPORT(20, $ecl)
+km_AUTO[ecl,cele]    := TRANSPORT(20, $ecl)
 km_AUTO[ecl,coil] := TRANSPORT(21, $ecl)
 km_AUTO[ecl,cgas] := TRANSPORT(22, $ecl)
 
@@ -121,12 +111,12 @@ Km_traveler[crai] := TRANSPORT(26, 9)
 Km_traveler[croa] := TRANSPORT(28, 9)  	
 Km_traveler[cair] := TRANSPORT(30, 9)  
 
-NewAUTO[ecl,elec]  := TRANSPORT(36, $ecl)
+NewAUTO[ecl,cele]  := TRANSPORT(36, $ecl)
 
 NewAUTO[ecl,coil]  := TRANSPORT(38, $ecl)
 NewAUTO[ecl,cgas]  := TRANSPORT(39, $ecl)
 
-delta_AUTO[ecl,elec,DES] := TRANSPORT(44, $ecl) 
+delta_AUTO[ecl,cele,DES] := TRANSPORT(44, $ecl) 
 delta_AUTO[ecl,coil,DES] := TRANSPORT(45, $ecl)  
 delta_AUTO[ecl,cgas,DES] := TRANSPORT(46, $ecl) 
 
@@ -148,23 +138,23 @@ phi_km_trav_auto_SD := P_km_trav_auto_SD * km_trav_auto_SD / (P_km_traveler_SD *
 
 km_AUTO := km_AUTO_LD + km_AUTO_SD
 
-NewAUTO[th] := NewAUTO - NewAUTO[elec]
+NewAUTO[th] := NewAUTO - NewAUTO[cele]
 
-AUTO[ecl,elec,DES] := delta_AUTO[ecl,elec,DES]*AUTO[ecl,elec]{-1}
+AUTO[ecl,cele,DES] := delta_AUTO[ecl,cele,DES]*AUTO[ecl,cele]{-1}
 
 AUTO[ecl,th,DES] := AUTO[ecl,coil,DES] + AUTO[ecl,cgas,DES] 
 
-AUTO[ecl,DES] := AUTO[ecl,elec,DES] + AUTO[ecl,th,DES]
+AUTO[ecl,DES] := AUTO[ecl,cele,DES] + AUTO[ecl,th,DES]
 
 AUTO[DES] := sum(AUTO[ecl, DES] on ecl)
 
-AUTO[ecl] := AUTO[ecl,elec] + AUTO[ecl,th]
+AUTO[ecl] := AUTO[ecl,cele] + AUTO[ecl,th]
 
-AUTO[elec] := sum(AUTO[ecl,elec] on ecl)
+AUTO[cele] := sum(AUTO[ecl,cele] on ecl)
 
 AUTO[th] := sum(AUTO[ecl,th] on ecl)
 
-AUTO[elec,DES] := sum(AUTO[ecl,elec,DES] on ecl)
+AUTO[cele,DES] := sum(AUTO[ecl,cele,DES] on ecl)
 
 AUTO[th,DES] := sum(AUTO[ecl,th,DES] on ecl)
 
@@ -174,20 +164,20 @@ AUTO[ecl,cgas,DES] := delta_AUTO[ecl,cgas,DES]*AUTO[ecl,cgas]{-1}
 
 AUTO[ecl,th]  := AUTO[ecl,coil] + AUTO[ecl,cgas]
 
-km_AUTO[elec] := km_AUTO * AUTO[elec] / AUTO
-km_AUTO[th] := km_AUTO - km_AUTO[elec]
+km_AUTO[cele] := km_AUTO * AUTO[cele] / AUTO
+km_AUTO[th] := km_AUTO - km_AUTO[cele]
 
 CH_AUTO_toe[cele] := sum(CH_AUTO_toe[ecl,cele] on ecl)
 CH_AUTO_toe[coil] := sum(CH_AUTO_toe[ecl,coil] on ecl)
 CH_AUTO_toe[cgas] := sum(CH_AUTO_toe[ecl,cgas] on ecl)
 
-km_AUTO[ecl] := km_AUTO[ecl,elec] +km_AUTO[ecl,coil] + km_AUTO[ecl,cgas] 
+km_AUTO[ecl] := km_AUTO[ecl,cele] +km_AUTO[ecl,coil] + km_AUTO[ecl,cgas] 
 
 SUM_EXP_U_AUTO := sum(EXP(U_AUTO[ecl]) on ecl)
 
 UC_AUTO[ecl] := UC_K_AUTO[ecl] + UC_E_AUTO[ecl]
 
-UC_AUTO[ecl,elec] := UC_K_AUTO[ecl,elec] + UC_E_AUTO[ecl,elec] 
+UC_AUTO[ecl,cele] := UC_K_AUTO[ecl,cele] + UC_E_AUTO[ecl,cele] 
 
 UC_AUTO[ecl,th] := UC_K_AUTO[ecl,th] + UC_E_AUTO[ecl,th] 
 
@@ -195,28 +185,27 @@ UC_AUTO[ecl,coil] := UC_K_AUTO[ecl,coil] + UC_E_AUTO[ecl,coil]
 
 UC_AUTO[ecl,cgas] := UC_K_AUTO[ecl,cgas] + UC_E_AUTO[ecl,cgas] 
 
-UC_K_AUTO[ecl] * AUTO[ecl] := UC_K_AUTO[ecl,elec] * AUTO[ecl,elec] + UC_K_AUTO[ecl,th] * AUTO[ecl,th] 
+UC_K_AUTO[ecl] * AUTO[ecl] := UC_K_AUTO[ecl,cele] * AUTO[ecl,cele] + UC_K_AUTO[ecl,th] * AUTO[ecl,th] 
 
 UC_K_AUTO[ecl,th] * AUTO[ecl,th] := UC_K_AUTO[ecl,coil] * AUTO[ecl,coil] + UC_K_AUTO[ecl,cgas] * AUTO[ecl,cgas]
 
-UC_E_AUTO[ecl] * AUTO[ecl] := UC_E_AUTO[ecl,elec] * AUTO[ecl,elec] + UC_E_AUTO[ecl,th] * AUTO[ecl,th] 
+UC_E_AUTO[ecl] * AUTO[ecl] := UC_E_AUTO[ecl,cele] * AUTO[ecl,cele] + UC_E_AUTO[ecl,th] * AUTO[ecl,th] 
 
 UC_E_AUTO[ecl,th] * AUTO[ecl,th] := UC_E_AUTO[ecl,coil] * AUTO[ecl,coil] + UC_E_AUTO[ecl,cgas] * AUTO[ecl,cgas]
 
-PE_AUTO[ecl,elec] * AUTO[ecl,elec] := PCH[cele] * CH_AUTO[cele]
+UC_E_AUTO[ecl,cea] := PE_AUTO[ecl,cea] * ((1 + GR_PE_AUTO_e[ecl,cea]) ^ AUTO_D[ecl,cea] - 1) / (GR_PE_AUTO_e[ecl,cea] * AUTO_D[ecl,cea]) 
 
-UC_E_AUTO[ecl,elec] := PE_AUTO[ecl,elec] * ((1 + GR_PE_AUTO_e[ecl,elec]) ^ AUTO_D[ecl,elec] - 1) / (GR_PE_AUTO_e[ecl,elec] * AUTO_D[ecl,elec]) 
-
-UC_K_AUTO[ecl,elec] := (1 - R_SUB_AUTO[ecl,elec]) * PNewAUTO[ecl,elec] / AUTO_D[ecl,elec] * (R_CASH_AUTO[ecl,elec] +   _
-      R_LOAN_AUTO[ecl,elec] * R_I_AUTO[ecl,elec]{-1} * LD_AUTO[ecl,elec] / ( 1 - ( 1 + R_I_AUTO[ecl,elec]{-1} )^( - LD_AUTO[ecl,elec] ) ) )
-
+UC_K_AUTO[ecl,cea] := (1 - R_SUB_AUTO[ecl,cea]) * PNewAUTO[ecl,cea] / AUTO_D[ecl,cea] * (R_CASH_AUTO[ecl,cea] +   _
+      R_LOAN_AUTO[ecl,cea] * R_I_AUTO[ecl,cea]{-1} * LD_AUTO[ecl,cea] / ( 1 - ( 1 + R_I_AUTO[ecl,cea]{-1} )^( - LD_AUTO[ecl,cea] ) ) )
 
 
 #######################################
 #####  Special data: not from model equation
 ###################################### 
 
-GR_PE_AUTO_e[ecl,elec] := GR_PRICES
+GR_PE_AUTO_e[ecl,cea] := GR_PRICES
+
+PE_AUTO[ecl,cea] * (AUTO[ecl,cea] + eps) := PCH[cea] * (CH_AUTO[cea] * CH_AUTO_toe[ecl,cea] / CH_AUTO_toe[cea] + eps)
 
 travperauto_LD := 1000*km_trav_auto_LD/km_AUTO_LD
 travperauto_SD := 1000*km_trav_auto_SD/km_AUTO_SD
@@ -234,7 +223,7 @@ AUTObis := AUTO
 
 km_AUTObis := km_AUTO
 
-NewAUTO[ecl] := NewAUTO[ecl,elec] + NewAUTO[ecl,th]
+NewAUTO[ecl] := NewAUTO[ecl,cele] + NewAUTO[ecl,th]
 
 NewAUTO[ecl,th] := NewAUTO[ecl,coil] + NewAUTO[ecl,cgas]
 
@@ -242,27 +231,27 @@ NewAUTO_bis[ecl,th] := NewAUTO[ecl,th]
 
 NewAUTO := sum(NewAUTO[ecl] on ecl)
 
-NewAUTO[elec] := sum(NewAUTO[ecl,elec] on ecl)
+NewAUTO[cele] := sum(NewAUTO[ecl,cele] on ecl)
 
 kmPerAuto := km_AUTO / AUTO
 
 
 phi_NewAUTO[ecl] := NewAUTO[ecl] / NewAUTO
 
-phi_NewAUTO[ecl,elec] := NewAUTO[ecl,elec] / NewAUTO[ecl] 
+phi_NewAUTO[ecl,cele] := NewAUTO[ecl,cele] / NewAUTO[ecl] 
 
 phi_NewAUTO[ecl,coil] := NewAUTO[ecl,coil]/NewAUTO[ecl,th] 
 
 U_AUTO[ecl] := log(phi_NewAUTO[ecl])
 
 phi_NewAUTO_n[ecl] := phi_NewAUTO[ecl]
-phi_NewAUTO_n[ecl,elec] := phi_NewAUTO[ecl,elec]
+phi_NewAUTO_n[ecl,cele] := phi_NewAUTO[ecl,cele]
 
-phi_NewAUTO_targ[ecl,elec] := phi_NewAUTO[ecl,elec]
-innovation_exo[ecl] := d(phi_NewAUTO_targ[ecl,elec]) / (1-phi_NewAUTO_n[ecl,elec]{-1}) - (innovation[ecl] + imitation[ecl] * phi_NewAUTO_n[ecl,elec]{-1}) 
+phi_NewAUTO_targ[ecl,cele] := phi_NewAUTO[ecl,cele]
+innovation_exo[ecl] := d(phi_NewAUTO_targ[ecl,cele]) / (1-phi_NewAUTO_n[ecl,cele]{-1}) - (innovation[ecl] + imitation[ecl] * phi_NewAUTO_n[ecl,cele]{-1}) 
 innovation[ecl] := 0
 
-toePerKm[ecl,cele] := CH_AUTO_toe[ecl,cele] / km_AUTO[ecl,elec]
+toePerKm[ecl,cele] := CH_AUTO_toe[ecl,cele] / km_AUTO[ecl,cele]
 toePerKm[ecl,coil]  := CH_AUTO_toe[ecl,coil] / km_AUTO[ecl,coil]
 toePerKm[ecl,cgas]  := CH_AUTO_toe[ecl,cgas] / km_AUTO[ecl,cgas]
 
