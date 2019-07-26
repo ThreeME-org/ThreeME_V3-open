@@ -201,6 +201,38 @@ AUTO[elec,DES] = sum(AUTO[ecl,elec,DES] on ecl)
 ##! Thermic automobiles destroyed
 AUTO[th,DES] = sum(AUTO[ecl,th,DES] on ecl)
 
+### User cost of automobile
+
+##! User cost of  an automobile of class $ecl$
+UC_AUTO[ecl] = UC_K_AUTO[ecl] + UC_E_AUTO[ecl]
+
+##! User cost of an electric automobile of class $ecl$
+UC_AUTO[ecl,elec] = UC_K_AUTO[ecl,elec] + UC_E_AUTO[ecl,elec] 
+
+##! User cost of a thermic automobile of class $ecl$
+UC_AUTO[ecl,th] = UC_K_AUTO[ecl,th] + UC_E_AUTO[ecl,th] 
+
+##! User cost of a thermic automobile of class $ecl$ fueled with oil
+UC_AUTO[ecl,coil] = UC_K_AUTO[ecl,coil] + UC_E_AUTO[ecl,coil] 
+
+##! User cost of a thermic automobile of class $ecl$ fueled with gas
+UC_AUTO[ecl,cgas] = UC_K_AUTO[ecl,cgas] + UC_E_AUTO[ecl,cgas] 
+
+##! User capital cost of  an automobile of class $ecl$
+UC_K_AUTO[ecl] * AUTO[ecl] = UC_K_AUTO[ecl,elec] * AUTO[ecl,elec] + UC_K_AUTO[ecl,th] * AUTO[ecl,th] 
+
+##! User capital cost of a thermic automobile of class $ecl$
+UC_K_AUTO[ecl,th] * AUTO[ecl,th] = UC_K_AUTO[ecl,coil] * AUTO[ecl,coil] + UC_K_AUTO[ecl,cgas] * AUTO[ecl,cgas]
+
+##! User energy cost of  an automobile of class $ecl$
+UC_E_AUTO[ecl] * AUTO[ecl] = UC_E_AUTO[ecl,elec] * AUTO[ecl,elec] + UC_E_AUTO[ecl,th] * AUTO[ecl,th] 
+
+##! User energy cost of a thermic automobile of class $ecl$
+UC_E_AUTO[ecl,th] * AUTO[ecl,th] = UC_E_AUTO[ecl,coil] * AUTO[ecl,coil] + UC_E_AUTO[ecl,cgas] * AUTO[ecl,cgas]
+
+
+
+
 ### Households' energy consumption related to transport
 
 ##! Kilometers by electric automobile of class $ecl$
