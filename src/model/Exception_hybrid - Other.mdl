@@ -13,10 +13,6 @@ include ..\model\lists
 
 # Equation H.4.81
 
-EXP_MOBAUTO_Val[ecl] = ( @year > %baseyear ) * (DEBT_AUTO_Val[ecl]{-1} * ( R_I_AUTO[ecl]{-1} + R_RMBS_AUTO[ecl]{-1} ) +   _
-                                R_CASH_AUTO[ecl] * PNewAUTO[ecl] * NewAUTO[ecl] * ( 1 - R_SUB_AUTO[ecl] ) +       _
-                                PEXP_AUTO[ecl] * EXP_AUTO[ecl] ) +                                                    _
-                         ( @year <= %baseyear ) * (EXP_MOBAUTO_Val[ecl]{-1} * ( 1 + GR_NOMI ) )
 
 R_LOAN_AUTO[ecl] = 1 - R_CASH_AUTO[ecl]
 
@@ -26,10 +22,6 @@ GR_PENER_auto_e[ecl] = 0.8*GR_PENER_auto_e[ecl]{-1} + (1 - 0.8) * @pchy(PENER_au
 PENER_AUTO[ecl] * km_AUTO[ecl] = PEXP_AUTO[ecl] * EXP_AUTO[ecl] if AUTO[ecl] <> 0
   
 # Equation H.4.83
-
-DEBT_auto_Val[ecl] = (@year > %baseyear)*( DEBT_auto_Val[ecl]{-1}*(1 - R_RMBS_AUTO[ecl]) _
-                                             + R_LOAN_AUTO[ecl]*PNewAuto[ecl]*NewAuto[ecl]*(1 - R_SUB_AUTO[ecl]) ) _
-                       + (@year <= %baseyear)*(DEBT_auto_Val[ecl]{-1}*(1 + GR_NOMI))
 
 # Equation H.4.84
 

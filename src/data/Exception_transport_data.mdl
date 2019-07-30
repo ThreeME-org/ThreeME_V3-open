@@ -13,9 +13,11 @@ R_SUB_AUTO[ecl,cea] := 0
 R_CASH_AUTO[ecl,cea] := 0.8
 R_LOAN_AUTO[ecl,cea] := 1 - R_CASH_AUTO[ecl,cea]
 
-
 AUTO_D[ecl,cea] := 12.85
-LD_AUTO[ecl,cea] := AUTO_D[ecl,cea]
+
+LD_AUTO[ecl,cea] := 6
+R_RMBS_AUTO[ecl,cea] := 1/LD_AUTO[ecl,cea]
+
 
 ADJUST_GR_PE_AUTO_e_1 := 0.2
 
@@ -192,6 +194,8 @@ UC_K_AUTO[ecl,cea] := (1 - R_SUB_AUTO[ecl,cea]) * PNewAUTO[ecl,cea] / AUTO_D[ecl
 #######################################
 #####  Special data: not from model equation
 ###################################### 
+
+DEBT_AUTO_VAL[ecl,cea] := @elem(R_LOAN_AUTO[ecl,cea] * ( 1 + GR_NOMI ) / ( GR_NOMI + R_RMBS_AUTO[ecl,cea] ) * PNewAUTO[ecl,cea] * NewAUTO[ecl,cea], %baseyear) * ( 1 +  GR_NOMI) ^ ( @year - %baseyear )
 
 GR_PE_AUTO_e[ecl,cea] := GR_PRICES
 
