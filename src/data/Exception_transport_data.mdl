@@ -190,12 +190,26 @@ UC_E_AUTO[ecl,cea] := PE_AUTO[ecl,cea] * ((1 + GR_PE_AUTO_e[ecl,cea]) ^ AUTO_D[e
 UC_K_AUTO[ecl,cea] := (1 - R_SUB_AUTO[ecl,cea]) * PNewAUTO[ecl,cea] / AUTO_D[ecl,cea] * (R_CASH_AUTO[ecl,cea] +   _
       R_LOAN_AUTO[ecl,cea] * R_I_AUTO[ecl,cea]{-1} * LD_AUTO[ecl,cea] / ( 1 - ( 1 + R_I_AUTO[ecl,cea]{-1} )^( - LD_AUTO[ecl,cea] ) ) )
 
+EXP_AUTO_VAL[ecl] := sum(EXP_AUTO_VAL[ecl,cea] on cea)
+
+EXP_AUTO_VAL[cea] := sum(EXP_AUTO_VAL[ecl,cea] on ecl)
+
+EXP_AUTO_VAL := sum(EXP_AUTO_VAL[ecl] on ecl)
+
+
+
+
 
 #######################################
 #####  Special data: not from model equation
 ###################################### 
 
 DEBT_AUTO_VAL[ecl,cea] := @elem(R_LOAN_AUTO[ecl,cea] * ( 1 + GR_NOMI ) / ( GR_NOMI + R_RMBS_AUTO[ecl,cea] ) * PNewAUTO[ecl,cea] * NewAUTO[ecl,cea], %baseyear) * ( 1 +  GR_NOMI) ^ ( @year - %baseyear )
+
+
+EXP_AUTO_VAL[ecl,cea] := @elem(DEBT_AUTO_VAL[ecl,cea]{-1} * ( R_I_AUTO[ecl,cea]{-1} + R_RMBS_AUTO[ecl,cea]{-1} ) _
+                                + R_CASH_AUTO[ecl,cea] * PNewAUTO[ecl,cea] * NewAUTO[ecl,cea] * ( 1 - R_SUB_AUTO[ecl,cea] ) _
+                                + PCH[cea] * CH_AUTO[cea] * CH_AUTO_toe[ecl,cea] / CH_AUTO_toe[cea]  , %baseyear) * ( 1 +  GR_NOMI) ^ ( @year - %baseyear )
 
 GR_PE_AUTO_e[ecl,cea] := GR_PRICES
 
@@ -249,6 +263,9 @@ innovation[ecl] := 0
 
 toePerKm[ecl,cea] := CH_AUTO_toe[ecl,cea] / km_AUTO[ecl,cea]
 
+EXP_AUTO_VALbis := EXP_AUTO_VAL
+
+verif_EXP_AUTO_VALbis := 0
 verif_AUTObis  := 0
 verif_NewAUTObis[ecl,th] := 0
 verif_km_AUTObis := 0
