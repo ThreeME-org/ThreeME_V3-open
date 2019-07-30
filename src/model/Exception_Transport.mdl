@@ -198,6 +198,18 @@ GR_PE_AUTO_e[ecl,cea] = (@year>%baseyear) * (ADJUST_GR_PE_AUTO_e_1 * @pchy( PE_A
 UC_K_AUTO[ecl,cea] = (1 - R_SUB_AUTO[ecl,cea]) * PNewAUTO[ecl,cea] / AUTO_D[ecl,cea] * (R_CASH_AUTO[ecl,cea] +   _
       R_LOAN_AUTO[ecl,cea] * R_I_AUTO[ecl,cea]{-1} * LD_AUTO[ecl,cea] / ( 1 - ( 1 + R_I_AUTO[ecl,cea]{-1} )^( - LD_AUTO[ecl,cea] ) ) )
 
+
+##! Price of a new thermic automobiles fueled with oil of class $ecl$
+d(log(PNewAUTO[ecl,coil])) = d(log(PCH[cveh]))
+
+##! Price of a new thermic automobiles fueled with gas of class $ecl$
+d(log(PNewAUTO[ecl,cgas])) = d(log(PCH[cveh]))
+
+
+##! Price of a new electric automobiles of class $ecl$
+PNewAUTO[ecl,cele] = PNewAUTO[ecl,coil] + Pbattery + overcost_elec
+
+
 ##! User cost of  an automobile of class $ecl$
 UC_AUTO[ecl] = UC_K_AUTO[ecl] + UC_E_AUTO[ecl] 					if AUTO[ecl] <> 0
 
@@ -265,6 +277,25 @@ EXP_AUTO_VAL = sum(EXP_AUTO_VAL[ecl] on ecl)
 
 ##! Expenditures related to the use of an automobile (for verification)
 EXP_AUTO_VALbis = sum(EXP_AUTO_VAL[cea] on cea)
+
+##! Price of kilometer-travelers for short distance by automobile 
+P_km_AUTO * km_AUTO = EXP_AUTO_VAL * 1000
+# Expressed in Euro: km_AUTO in thousand km, EXP_AUTO_VAL in million Euro
+
+##! Price of kilometer-travelers for short distance by automobile  
+P_km_trav_auto_SD * km_trav_auto_SD = P_km_AUTO * km_AUTO_SD / 1000
+# Expressed in Euro : km_trav_auto_SD is expresed in million kilometer-traveler, P_km_AUTO * km_AUTO_SD expressed in Thousands
+# Equivalent to: P_km_trav_auto_SD = P_km_AUTO / travperauto_LD
+
+##! Price of kilometer-travelers for short distance by automobile  
+P_km_trav_auto_LD * km_trav_auto_LD = P_km_AUTO * km_AUTO_LD / 1000
+
+##! Price of kilometer-travelers for automobile transportation
+P_km_trav_auto * km_trav_auto = P_km_trav_auto_LD * km_trav_auto_LD + P_km_trav_auto_SD * km_trav_auto_SD
+
+##! Total kilometer-travelers by automobile 
+km_trav_auto = km_trav_auto_LD + km_trav_auto_SD
+
 
 # ####################
 # ############ VERIF

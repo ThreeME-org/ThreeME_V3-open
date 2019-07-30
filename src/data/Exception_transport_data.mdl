@@ -29,9 +29,6 @@ ES_BASS[ecl] := 1
 nu_diffusion[ecl] := 7.82
 
 
-
-
-
 #############################################
 #### Link with the rest of the model
 #################################################
@@ -58,6 +55,8 @@ PCH[croa] := P
 
 PCH[cea] := P
 
+PCH[cveh] := P
+
 DISPINC_AT_VAL := 1000000 * (1 + GR_NOMI) ^ (@year - %baseyear)
 
 PCH := P
@@ -65,14 +64,8 @@ PCH := P
 ### END TO BE COMMENTED when linked with the full model
 
 ### TO BE DELETED when endogenized
-P_km_trav_auto_LD := P 
-
-P_km_trav_auto_SD := P 
 
 PnewAUTO := P 
-
-PNewAUTO[ecl,cea] := P
-
 
 ### END TO BE DELETED when endogenized
 
@@ -118,6 +111,12 @@ NewAUTO[ecl,cele]  := TRANSPORT(36, $ecl)
 NewAUTO[ecl,coil]  := TRANSPORT(38, $ecl)
 NewAUTO[ecl,cgas]  := TRANSPORT(39, $ecl)
 
+PNewAUTO[ecl,coil]  := TRANSPORT(41, $ecl) / 1000 * (1 + GR_PRICES) ^ (@year - %baseyear)
+PNewAUTO[ecl,cgas]  := TRANSPORT(42, $ecl) / 1000 * (1 + GR_PRICES) ^ (@year - %baseyear)
+
+overcost_elec :=  3000 / 1000 * (1 + GR_PRICES) ^ (@year - %baseyear)     # Value 2015 in ThreeME V2
+Pbattery 	  := 14875 / 1000 * (1 + GR_PRICES) ^ (@year - %baseyear)     # Value 2015 in ThreeME V2
+
 delta_AUTO[ecl,cele,DES] := TRANSPORT(44, $ecl) 
 delta_AUTO[ecl,coil,DES] := TRANSPORT(45, $ecl)  
 delta_AUTO[ecl,cgas,DES] := TRANSPORT(46, $ecl) 
@@ -126,9 +125,20 @@ CH_AUTO_toe[ecl,cele] := TRANSPORT(48, $ecl)
 CH_AUTO_toe[ecl,coil] := TRANSPORT(49, $ecl)
 CH_AUTO_toe[ecl,cgas] := TRANSPORT(50, $ecl)
 
+
+
 #######################################
 #####  Construct data directly from model equation
 ###################################### 
+P_km_trav_auto * km_trav_auto := P_km_trav_auto_LD * km_trav_auto_LD + P_km_trav_auto_SD * km_trav_auto_SD
+
+km_trav_auto := km_trav_auto_LD + km_trav_auto_SD
+
+P_km_AUTO * km_AUTO := EXP_AUTO_VAL * 1000
+
+P_km_trav_auto_SD * km_trav_auto_SD := P_km_AUTO * km_AUTO_SD / 1000
+
+P_km_trav_auto_LD * km_trav_auto_LD := P_km_AUTO * km_AUTO_LD / 1000
 
 P_km_traveler_LD * km_traveler_LD := P_km_traveler[crai] * km_traveler[crai] + P_km_trav_auto_LD * km_trav_auto_LD
 
@@ -196,9 +206,7 @@ EXP_AUTO_VAL[cea] := sum(EXP_AUTO_VAL[ecl,cea] on ecl)
 
 EXP_AUTO_VAL := sum(EXP_AUTO_VAL[ecl] on ecl)
 
-
-
-
+PNewAUTO[ecl,cele] := PNewAUTO[ecl,coil] + Pbattery + overcost_elec
 
 #######################################
 #####  Special data: not from model equation

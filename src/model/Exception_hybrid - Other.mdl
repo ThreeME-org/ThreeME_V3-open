@@ -96,14 +96,7 @@ SUB_AUTO_VAL = sum(SUB_AUTO_VAL[ecl] on ecl)
 
 
 
-################ Coût du transport au km VP nouvelle version :   modifié
-
-p_mobauto_val*km_AUTO = exp_mobauto_val*1000
-
-d(log(PC_trav_auto_LD)) = d(log(p_mobauto_val))-d(log(travperauto_LD))
-
-d(log(PC_trav_auto_CD)) = d(log(p_mobauto_val))-d(log(travperauto_CD))
-
+#
 ################Coût du transport au km en transports en commun     modifié
 
 PC_trav_14*km_traveler_14 = pch_14*ch_14
@@ -112,19 +105,6 @@ PC_trav_15*km_traveler_15 = pch_15*ch_15
 
 
 
-## prix d'achat du véhicule
-
-PAUTO_elec[pcl] = PNewAUTO_th[pcl]+(Pbattery + overcost_elec)/1000
-
-PAUTO_elec*NewAUTO_elec = sum(PAUTO_elec[pcl]*NewAUTO_elec[pcl] on pcl)
-
-PNewAUTO[CA]*NewAUTO[CA] = PAUTO_elec*NewAUTO_elec + PNewAUTO_th[CA]*NewAUTO_th[CA] if  NewAUTO[CA]>0
-
-dlog(PNewAUTO[ecl,th]) =dlog(PCH_03)
-
-PNewAUTO[c] = PNewAUTO_th[c]  where c in %list_ener_class \ CA
-
-PNewAUTO_th*NewAUTO_th = sum(PNewAUTO_th[ ecl] * NewAUTO_th[ ecl] on ecl)  if NewAUTO_th>0
 
 
 #####Définition du coût de maintenance (hors batterie) du véhicule électrique:
