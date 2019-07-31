@@ -7,7 +7,7 @@ include parameters
 
 ADJUST_phi_NewAUTO := 0.5
 
-R_I_AUTO[ecl,cea] := R + 0.3 
+R_I_AUTO[ecl,cea] := R + 0.03 
 
 R_SUB_AUTO[ecl,cea] := 0
 R_CASH_AUTO[ecl,cea] := 0.8
@@ -134,8 +134,6 @@ P_km_trav_auto * km_trav_auto := P_km_trav_auto_LD * km_trav_auto_LD + P_km_trav
 
 km_trav_auto := km_trav_auto_LD + km_trav_auto_SD
 
-P_km_AUTO * km_AUTO := EXP_AUTO_VAL * 1000
-
 P_km_trav_auto_SD * km_trav_auto_SD := P_km_AUTO * km_AUTO_SD / 1000
 
 P_km_trav_auto_LD * km_trav_auto_LD := P_km_AUTO * km_AUTO_LD / 1000
@@ -211,6 +209,8 @@ PNewAUTO[ecl,cele] := PNewAUTO[ecl,coil] + Pbattery + overcost_elec
 #######################################
 #####  Special data: not from model equation
 ###################################### 
+
+P_km_AUTO := @elem(EXP_AUTO_VAL * 1000 / km_AUTO, %baseyear) * (1 + GR_PRICES) ^ (@year - %baseyear)
 
 DEBT_AUTO_VAL[ecl,cea] := @elem(R_LOAN_AUTO[ecl,cea] * ( 1 + GR_NOMI ) / ( GR_NOMI + R_RMBS_AUTO[ecl,cea] ) * PNewAUTO[ecl,cea] * NewAUTO[ecl,cea], %baseyear) * ( 1 +  GR_NOMI) ^ ( @year - %baseyear )
 

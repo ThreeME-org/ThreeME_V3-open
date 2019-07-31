@@ -9,15 +9,19 @@ include ..\model\lists
 
 # ##! Necessary (minimum) households' final consumption for energy commodity $cea$ consumed by automobiles
 d(log(NCH_AUTO[cea])) = (@year>%baseyear) * (d(log(CH_AUTO[cea]))) + (@year<=%baseyear) * (d(log(NCH_AUTO[cea]{-1}))) 
+# Expressed in million of Euros.
 
 ##! Necessary (minimum) households' final consumption for public transport commodities $cth$
 d(log(NCH[cth])) = (@year>%baseyear) * (d(log(Km_traveler[cth]))) + (@year<=%baseyear) * (d(log(NCH[cth]{-1})))  if Km_traveler[cth] <> 0 
+# Expressed in million of Euros.
 
 # ##! Necessary (minimum) households' final consumption for vehicles commodity $cveh$
 NCH[cveh] = ( @year > %baseyear ) * @elem(PnewAUTO,%baseyear) * NewAUTO + ( @year <= %baseyear ) * (NCH[cveh]{-1} * ( 1 + GR_REAL ) )
+# Expressed in million of Euros.
 
 ##! Price of public transport commodities $cth$ (train, road and air)
 d(log(P_km_traveler[cth])) = d(log(PCH[cth]))
+# Expressed in Euros.
 
 ##! Interest rate paid for an investment in a class $ecl$ automobile fueled with energy $cea$
 d(R_I_AUTO[ecl,cea]) = d(R)
@@ -29,18 +33,23 @@ d(R_I_AUTO[ecl,cea]) = d(R)
 
 ##! Kilometer-travelers for air transport
 d(log(Km_traveler[cair])) = (@year>%baseyear)*(1.5 * d(log(DISPINC_AT_VAL/PCH)) - 0.7 * d(log(P_km_traveler[cair]/PCH)))
+# Expressed in million.
 
 ##! Kilometer-travelers for long distance transport (by automobile and train)      
 d(log(km_traveler_LD)) = (@year>%baseyear)*(0.6 * d(log(DISPINC_AT_VAL/PCH)) - 0.4 * d(log(P_km_traveler_LD/PCH)))
+# Expressed in million.
 
 ##! Price of long distance Kilometer-traveler (automobile and train)   
 P_km_traveler_LD * km_traveler_LD = P_km_traveler[crai] * km_traveler[crai] + P_km_trav_auto_LD * km_trav_auto_LD
+# Expressed in Euros.
 
 ##! Kilometer-travelers for short distance transport (by automobile and bus)     
 d(log(km_traveler_SD)) = (@year>%baseyear)*(0.4*d(log(DISPINC_AT_VAL/PCH)) - 0.3 * d(log(P_km_traveler_SD/PCH)))
+# Expressed in million.
 
 ##! Price of short distance  Kilometer-traveler (by automobile and bus)    
 P_km_traveler_SD * km_traveler_SD = P_km_traveler[croa] * km_traveler[croa] + P_km_trav_auto_SD * km_trav_auto_SD
+# Expressed in Euros.
 
 ### Level 2: Arbitrage between long distance transport (automobile and train)
  
@@ -50,15 +59,18 @@ phi_km_trav_auto_LD = P_km_trav_auto_LD * km_trav_auto_LD / (P_km_traveler_LD * 
 ##! Kilometer-travelers for long distance by automobile 
 d(log(km_trav_auto_LD)) = (@year > %baseyear) * (d(log(km_traveler_LD)) _
                               +  0.5 * (1 - phi_km_trav_auto_LD{-1}) * d(log(P_km_trav_auto_LD)-log(P_km_traveler[crai]))) 
+# Expressed in million.
 
 ##! Kilometer-travelers for transport by train 
 d(log(km_traveler[crai])) = (@year>%baseyear)*(d(log(km_traveler_LD)) _
                               -  0.5 * phi_km_trav_auto_LD{-1} * d(log(P_km_traveler[crai])-log(P_km_trav_auto_LD)))
-    
+# Expressed in million.
+
 ### Level 2: Arbitrage between short distance transport (automobile and bus)
 ##! Kilometer-travelers for short distance by automobile 
 d(log(km_trav_auto_SD)) = (@year > %baseyear) * (d(log(km_traveler_SD)) _ 
                              - 0.2 * (1 - phi_km_trav_auto_SD{-1}) * d(log(P_km_trav_auto_SD)-log(P_km_traveler[croa])))
+# Expressed in million.
 
 ##! Share of Kilometer-travelers by automobile into the short distance Kilometer-travelers
 phi_km_trav_auto_SD = P_km_trav_auto_SD * km_trav_auto_SD / (P_km_traveler_SD * km_traveler_SD)
@@ -66,31 +78,39 @@ phi_km_trav_auto_SD = P_km_trav_auto_SD * km_trav_auto_SD / (P_km_traveler_SD * 
 ##! Kilometer-travelers for transport by road (bus)
 d(log(km_traveler[croa])) = (@year > %baseyear) * (d(log(km_traveler_SD)) _ 
                              - 0.2 * phi_km_trav_auto_SD{-1} * d(log(P_km_traveler[croa])-log(P_km_trav_auto_SD))) 
+# Expressed in million.
 
 #### Transport by automobile
 ##! Kilometers for long distance by automobile 
 d(log(km_AUTO_LD)) = (@year > %baseyear) * (d(log(km_trav_auto_LD)) - d(log(travperauto_LD)))
+# Expressed in thousand.
 
 ##! Kilometers for short distance by automobile 
 d(log(km_AUTO_SD)) = (@year > %baseyear) * (d(log(km_trav_auto_SD)) - d(log(travperauto_SD)))
+# Expressed in thousand.
 
 ##! Total kilometers by automobile 
 km_AUTO = km_AUTO_LD + km_AUTO_SD
+# Expressed in thousand.
 
 ##! Automobiles stock
 d(log(AUTO)) = (@year > %baseyear) * (d(log(km_AUTO)) - d(log(kmPerAuto))) 
+# Expressed in thousand.
 
 # Automobiles stock (for verification)
 AUTObis = sum(AUTO[ecl] on ecl)
+# Expressed in thousand.
 
 ##! New automobiles
 NewAUTO = (@year >  %baseyear)*(d(AUTO) + AUTO[DES]) _
             + (@year <= %baseyear) * NewAUTO{-1}
+# Expressed in thousand.
 
 ### Level 3: Arbitrage between automobile price classes 
 
 ##! New automobiles of class $ecl$
 NewAUTO[ecl] = phi_NewAUTO[ecl] * NewAUTO
+# Expressed in thousand.
 
 ##! Utility of a automobile of class $ecl$
 d(U_AUTO[ecl]) = (@year > %baseyear) * (-0.76 * d(UC_K_AUTO[ecl]) - 0.2 * d(UC_E_AUTO[ecl]))
@@ -112,6 +132,7 @@ phi_NewAUTO[ecl] = ADJUST_phi_NewAUTO * phi_NewAUTO_n[ecl] + (1 - ADJUST_phi_New
 ##! New electric automobiles of class $ecl$
 NewAUTO[ecl,cele] = phi_NewAUTO[ecl,cele] * NewAUTO[ecl]
 ## Every class of electric car has no emission. But their energy consumption vary per km. \\  
+# Expressed in thousand.
 
 ##! Share of class $ecl$ electric automobile
 phi_NewAUTO[ecl,cele] = phi_NewAUTO_n[ecl,cele]*(phi_NewAUTO_n[ecl,cele]<=1) + (phi_NewAUTO_n[ecl,cele]=1)
@@ -127,17 +148,21 @@ d(innovation[ecl]) = ES_BASS[ecl]*d((2*UC_AUTO[ecl,cele])^(-nu_diffusion[ecl])/(
 
 ##! New thermic automobiles of class $ecl$
 NewAUTO[ecl,th] = NewAUTO[ecl] - NewAUTO[ecl,cele] 
+# Expressed in thousand.
 
 ##! New thermic automobiles of class $ecl$ (for verification)
 NewAUTO_bis[ecl,th] = NewAUTO[ecl,coil] + NewAUTO[ecl,cgas]
+# Expressed in thousand.
 
 ### Level 5: Arbitrage between types of thermic automobiles
 
 ##! New thermic automobiles fueled with oil of class $ecl$
 NewAUTO[ecl,coil] = phi_NewAUTO[ecl,coil] * NewAUTO[ecl,th] if NewAUTO[ecl,coil]  <> 0
+# Expressed in thousand.
 
 ##! New thermic automobiles fueled with gas of class $ecl$
 NewAUTO[ecl,cgas] = NewAUTO[ecl,th] - NewAUTO[ecl,coil]  if NewAUTO[ecl,cgas]  <> 0
+# Expressed in thousand.
 
 ##! Share of New thermic automobiles fueled with oil of class $ecl$
 d(phi_NewAUTO[ecl,coil]) = 0
@@ -147,47 +172,59 @@ d(phi_NewAUTO[ecl,coil]) = 0
 
 ##! Stock of automobiles of class $ecl$ fueled with energy $cea$ 
 d(AUTO[ecl,cea]) = (@year>%baseyear)*(NewAUTO[ecl,cea] - AUTO[ecl,cea,DES])
+# Expressed in thousand.
 
 ##! Class $ecl$ fueled with energy $cea$ automobiles destroyed
 AUTO[ecl,cea,DES] = delta_AUTO[ecl,cea,DES]*AUTO[ecl,cea]{-1}
+# Expressed in thousand.
 
 ##! Automobiles fueled with energy $cea$
 AUTO[cea] = sum(AUTO[ecl,cea] on ecl)
+# Expressed in thousand.
 
 ##! Stock of class $ecl$ automobiles
 AUTO[ecl] = AUTO[ecl,cele] + AUTO[ecl,th]
+# Expressed in thousand.
 
 ##! Thermic automobiles
 AUTO[th] = sum(AUTO[ecl,th] on ecl)
+# Expressed in thousand.
 
 ##! Stock of class $ecl$ thermic automobiles
 AUTO[ecl,th]  = AUTO[ecl,coil] + AUTO[ecl,cgas]
 # replace d(AUTO[ecl,th])   = (@year>%baseyear)*(NewAUTO[ecl,th]   - AUTO[ecl,th,DES]  )
+# Expressed in thousand.
 
 ##! Automobiles fueled with energy $cea$ destroyed
 AUTO[cea,DES] = sum(AUTO[ecl,cea,DES] on ecl)
+# Expressed in thousand.
 
 ##! Automobiles destroyed
 AUTO[DES] = sum(AUTO[ecl, DES] on ecl)
+# Expressed in thousand.
 
 ##! Class $ecl$ automobiles destroyed
 AUTO[ecl,DES] = AUTO[ecl,cele,DES] + AUTO[ecl,th,DES]
+# Expressed in thousand.
 
 ##! Class $ecl$ thermic automobiles destroyed
 AUTO[ecl,th,DES] = AUTO[ecl,coil,DES] + AUTO[ecl,cgas,DES] 
 # replace AUTO[ecl,th,DES] = delta_AUTO[ecl,th,DES]*AUTO[ecl,th]{-1}
+# Expressed in thousand.
 
 ##! Thermic automobiles destroyed
 AUTO[th,DES] = sum(AUTO[ecl,th,DES] on ecl)
+# Expressed in thousand.
 
 ### User cost of automobile
 
 ##! User energy cost of a  class $ecl$ automobile fueled with energy $cea$
 UC_E_AUTO[ecl,cea] = PE_AUTO[ecl,cea] * ((1 + GR_PE_AUTO_e[ecl,cea]) ^ AUTO_D[ecl,cea] - 1) / (GR_PE_AUTO_e[ecl,cea] * AUTO_D[ecl,cea]) if AUTO[ecl,cea] <> 0
+# Expressed in Thousand of Euros.
 
 ##! Energy price of a class $ecl$ automobile fueled with energy $cea$
 PE_AUTO[ecl,cea] * AUTO[ecl,cea] = PCH[cea] * CH_AUTO[cea] * CH_AUTO_toe[ecl,cea] / CH_AUTO_toe[cea]	if AUTO[ecl,cea] <> 0
-
+# Expressed in Thousand of Euros.
 
 ##! Growth rate of the energy price of an automobile of class $ecl$ fueled with energy $cea$
 GR_PE_AUTO_e[ecl,cea] = (@year>%baseyear) * (ADJUST_GR_PE_AUTO_e_1 * @pchy( PE_AUTO[ecl,cea]{-1} ) _
@@ -197,50 +234,61 @@ GR_PE_AUTO_e[ecl,cea] = (@year>%baseyear) * (ADJUST_GR_PE_AUTO_e_1 * @pchy( PE_A
 ##! User capital cost of a class $ecl$ automobile fueled with energy $cea$
 UC_K_AUTO[ecl,cea] = (1 - R_SUB_AUTO[ecl,cea]) * PNewAUTO[ecl,cea] / AUTO_D[ecl,cea] * (R_CASH_AUTO[ecl,cea] +   _
       R_LOAN_AUTO[ecl,cea] * R_I_AUTO[ecl,cea]{-1} * LD_AUTO[ecl,cea] / ( 1 - ( 1 + R_I_AUTO[ecl,cea]{-1} )^( - LD_AUTO[ecl,cea] ) ) )
-
+# Expressed in Thousand of Euros.
 
 ##! Price of a new thermic automobiles fueled with oil of class $ecl$
 d(log(PNewAUTO[ecl,coil])) = d(log(PCH[cveh]))
+# Expressed in Thousand of Euros
 
 ##! Price of a new thermic automobiles fueled with gas of class $ecl$
 d(log(PNewAUTO[ecl,cgas])) = d(log(PCH[cveh]))
-
+# Expressed in Thousand of Euros
 
 ##! Price of a new electric automobiles of class $ecl$
 PNewAUTO[ecl,cele] = PNewAUTO[ecl,coil] + Pbattery + overcost_elec
-
+# Expressed in Thousand of Euros
 
 ##! User cost of  an automobile of class $ecl$
 UC_AUTO[ecl] = UC_K_AUTO[ecl] + UC_E_AUTO[ecl] 					if AUTO[ecl] <> 0
+# Expressed in Thousand of Euros
 
 ##! User cost of a class $ecl$ automobile fueled with energy $cea$
 UC_AUTO[ecl,cea] = UC_K_AUTO[ecl,cea] + UC_E_AUTO[ecl,cea] 	if AUTO[ecl,cea] <> 0
+# Expressed in Thousand of Euros
 
 ##! User cost of a thermic automobile of class $ecl$
 UC_AUTO[ecl,th] = UC_K_AUTO[ecl,th] + UC_E_AUTO[ecl,th] 		if AUTO[ecl,th] <> 0
+# Expressed in Thousand of Euros.
 
 ##! User capital cost of an automobile of class $ecl$
 UC_K_AUTO[ecl] * AUTO[ecl] = UC_K_AUTO[ecl,cele] * AUTO[ecl,cele] + UC_K_AUTO[ecl,th] * AUTO[ecl,th] 			if AUTO[ecl] <> 0
+# Expressed in Thousand of Euros.
 
 ##! User capital cost of a thermic automobile of class $ecl$
 UC_K_AUTO[ecl,th] * AUTO[ecl,th] = UC_K_AUTO[ecl,coil] * AUTO[ecl,coil] + UC_K_AUTO[ecl,cgas] * AUTO[ecl,cgas] 	if AUTO[ecl,th] <> 0
+# Expressed in Thousand of Euros.
 
 ##! User energy cost of  an automobile of class $ecl$
 UC_E_AUTO[ecl] * AUTO[ecl] = UC_E_AUTO[ecl,cele] * AUTO[ecl,cele] + UC_E_AUTO[ecl,th] * AUTO[ecl,th] 			if AUTO[ecl] <> 0
+# Expressed in Thousand of Euros.
 
 ##! User energy cost of a thermic automobile of class $ecl$
 UC_E_AUTO[ecl,th] * AUTO[ecl,th] = UC_E_AUTO[ecl,coil] * AUTO[ecl,coil] + UC_E_AUTO[ecl,cgas] * AUTO[ecl,cgas]	if AUTO[ecl,th] <> 0
+# Expressed in Thousand of Euros.
 
 ### Households' energy consumption related to transport
 
 ##! Kilometers by a class $ecl$ automobile fueled with energy $cea$
 km_AUTO[ecl,cea] = km_AUTO * AUTO[ecl,cea] / AUTO     if km_AUTO[ecl,cea]    <> 0
+# Expressed in Thousand
 
 ##! Kilometers by class $ecl$ automobile
 km_AUTO[ecl] = sum(km_AUTO[ecl,cea] on cea)
+# Expressed in Thousand
 
 ##! Total kilometers by automobile
 km_AUTObis = sum(km_AUTO[ecl] on ecl)
+# Expressed in Thousand
 
 ##! Energy consumption of a class $ecl$ automobile fueled with energy $cea$ expressed in tonne of oil equivalent
 CH_AUTO_toe[ecl,cea] = km_AUTO[ecl,cea]    * toePerKm[ecl,cea]   if CH_AUTO_toe[ecl,cea]  <> 0
@@ -250,7 +298,7 @@ CH_AUTO_toe[cea] = sum(CH_AUTO_toe[ecl,cea] on ecl)
 
 ##! Households' final consumption of electricity (expressed in monetary unit)
 d(log(CH_AUTO[cea])) = d(log(CH_AUTO_toe[cea]))
-
+# Expressed in million of Euros
 
 ### Debts and expenditures related to automobile
 
@@ -258,25 +306,31 @@ d(log(CH_AUTO[cea])) = d(log(CH_AUTO_toe[cea]))
 DEBT_AUTO_VAL[ecl,cea] = (@year > %baseyear) * ( DEBT_AUTO_VAL[ecl,cea]{-1} * (1 - R_RMBS_AUTO[ecl,cea]{-1}) _
                                                 + R_LOAN_AUTO[ecl,cea] * PNewAUTO[ecl,cea] * NewAUTO[ecl,cea] * (1 - R_SUB_AUTO[ecl,cea]) ) _
                        + (@year <= %baseyear)*(DEBT_AUTO_VAL[ecl,cea]{-1}*(1 + GR_NOMI))
+# Expressed in million of Euros
+
 
 ##! Expenditures related to the use of a class $ecl$ automobile fueled with energy $cea$ (in value)
 EXP_AUTO_VAL[ecl,cea] = ( @year > %baseyear ) * (DEBT_AUTO_VAL[ecl,cea]{-1} * ( R_I_AUTO[ecl,cea]{-1} + R_RMBS_AUTO[ecl,cea]{-1} ) _
                                 + R_CASH_AUTO[ecl,cea] * PNewAUTO[ecl,cea] * NewAUTO[ecl,cea] * ( 1 - R_SUB_AUTO[ecl,cea] ) _
                                 + PCH[cea] * CH_AUTO[cea] * CH_AUTO_toe[ecl,cea] / CH_AUTO_toe[cea] ) _
                         +  ( @year <= %baseyear ) * (EXP_AUTO_VAL[ecl,cea]{-1} * ( 1 + GR_NOMI ) )
-
+# Expressed in million of Euros
 
 ##! Expenditures related to the use of a class $ecl$ automobile (in value)
 EXP_AUTO_VAL[ecl] = sum(EXP_AUTO_VAL[ecl,cea] on cea)
+# Expressed in million of Euros
 
 ##! Expenditures related to the use of an automobile fueled with energy $cea$ (in value)
 EXP_AUTO_VAL[cea] = sum(EXP_AUTO_VAL[ecl,cea] on ecl)
+# Expressed in million of Euros
 
 ##! Expenditures related to the use of an automobile (in value)
 EXP_AUTO_VAL = sum(EXP_AUTO_VAL[ecl] on ecl)
+# Expressed in million of Euros
 
 ##! Expenditures related to the use of an automobile (for verification)
 EXP_AUTO_VALbis = sum(EXP_AUTO_VAL[cea] on cea)
+# Expressed in million of Euros
 
 ##! Price of kilometer-travelers for short distance by automobile 
 P_km_AUTO * km_AUTO = EXP_AUTO_VAL * 1000
@@ -284,18 +338,20 @@ P_km_AUTO * km_AUTO = EXP_AUTO_VAL * 1000
 
 ##! Price of kilometer-travelers for short distance by automobile  
 P_km_trav_auto_SD * km_trav_auto_SD = P_km_AUTO * km_AUTO_SD / 1000
-# Expressed in Euro : km_trav_auto_SD is expresed in million kilometer-traveler, P_km_AUTO * km_AUTO_SD expressed in Thousands
+# Expressed in Euro : km_trav_auto_SD is expresed in million, P_km_AUTO * km_AUTO_SD is expressed in Thousands
 # Equivalent to: P_km_trav_auto_SD = P_km_AUTO / travperauto_LD
 
 ##! Price of kilometer-travelers for short distance by automobile  
 P_km_trav_auto_LD * km_trav_auto_LD = P_km_AUTO * km_AUTO_LD / 1000
+# Expressed in Euro : km_trav_auto_LD is expresed in million, P_km_AUTO * km_AUTO_LD is expressed in Thousands
 
 ##! Price of kilometer-travelers for automobile transportation
 P_km_trav_auto * km_trav_auto = P_km_trav_auto_LD * km_trav_auto_LD + P_km_trav_auto_SD * km_trav_auto_SD
+# Expressed in Euro
 
 ##! Total kilometer-travelers by automobile 
 km_trav_auto = km_trav_auto_LD + km_trav_auto_SD
-
+# Expressed in million.
 
 # ####################
 # ############ VERIF
