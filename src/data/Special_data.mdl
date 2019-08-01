@@ -1,10 +1,10 @@
 include ..\model\lists
 
 ### This file defines the variables that are not loaded and that can not be calculated from their equation in the model. There may be several reasons:
-### - they are defined by a behavor equation.
+### - they are defined by a behavior equation.
 ### - using the equation of the model generate a circular reference
 
-### Export of commodity c be used in the corresponding behavor equation
+### Export of commodity c be used in the corresponding behavior equation
 Xbis[c] := X[c]
 
 ### Calibration of parameter from Equations
@@ -41,7 +41,7 @@ phi_|V|M[c, s] := |V|M[c, s] / (|V|[c, s] + eps) where V in CI I
 Stock_SAV_H_VAL := SAV_H_VAL * (1 + GR_NOMI) / GR_NOMI
 
 
-# Alias or defined to be used in behavor equations
+# Alias or defined to be used in behavior equations
 IA[s] := I[s]
 
 F[E, s] := sum(CI[ce, s] on ce)
@@ -76,9 +76,9 @@ ES_act_|V|M[m] := ES_|V|M[m] where V in MGS
 ES_act[f, ff, s] := ES[f, ff, s]
 
 # Non margin commodities set at 0
-MGS[c]	:= 0 where c in %list_com \ %list_com_MARG 
+MGS[c]	:= 0 where c in %list_com \ %list_com_MARG
 
-# Expected and nominal variables are initialised to their real value
+# Expected and nominal variables are initialized to their real value
 |V|_n[s] := |V|[s] where V in IA W MARKUP
 |V|_e[s] := |V|[s] where V in IA W
 
@@ -215,7 +215,7 @@ verif_EMSbis := 0
 
 
 ## Other Calibrations
-### Calibrated from the volume version of an equation in value. Volume not in the model because of cirlar reference.
+### Calibrated from the volume version of an equation in value. Volume not in the model because of circular reference.
 ### We can not use the Eq of the model:  YQ[c]*PYQ[c] + NTAXCD_VAL[c] + PMGPD[c]*MGPD[c] := PQD[c]*QD[c]
 ### because circular reference with NTAXCD_VAL[c] that depends on YQ[c].
 ###
