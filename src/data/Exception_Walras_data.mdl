@@ -4,7 +4,7 @@
 
 W_Walras := W
 
-# Instantanous adjusment for price and qantities
+# Instantaneous adjustment for price and quantities
 
 
 
@@ -28,5 +28,3 @@ W_Walras := W
 # ADJUST6_|V|M[c, s] := 1 where V in CI I
 
 # ADJUST6_X[c] := 1
-
-

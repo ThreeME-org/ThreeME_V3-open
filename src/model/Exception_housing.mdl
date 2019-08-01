@@ -38,7 +38,7 @@ d(R_I_BUIL[ ecl])    = d(R)
 #### Building stock dynamic (in m2)
 
 ##! Total building stock
-d(log(BUIL)) = (@year>%baseyear)*(d(log(POP)) + d(log(M2perCapita)))
+#d(log(BUIL)) = (@year > %baseyear) * (d(log(POP)) + d(log(M2perCapita)))
 ## It follows proportionally the size of the population ($POP$) and the number of square meter per inhabitant ($M2perCapita$). \\
 
 ##! Number of square meter per person
@@ -81,7 +81,7 @@ REHAB[ecl,ecl2] = (@year>%baseyear)*(phi_REHAB[ecl,ecl2]*tau_REHAB[ecl]*BUIL[ecl
 ##! Average price of new buildings
 PNEWBUIL *  NEWBUIL = sum( PNEWBUIL[ecl] * NEWBUIL[ecl] if NEWBUIL[ecl] <> 0 on ecl )
 
-##! Class $ecl$ rehabilitated buildings 
+##! Class $ecl$ rehabilitated buildings
               REHAB[ecl] = sum(                                           REHAB[ecl,ecl2] if REHAB[ecl,ecl2] <> 0 on ecl2) if REHAB[ecl] <> 0
 
 ##! Price of class $ecl$ rehabilitated buildings
@@ -289,7 +289,7 @@ EXP_HOUSING_Val = sum(EXP_Housing_Val[ecl] if EXP_Housing_Val[ecl] <> 0 on ecl)
 
 ##! Expenditures in rehabilitation of buildings (in value)
 EXP_REHAB_VAL = PREHAB * REHAB
-  
+
 ##! Expenditures in construction of new buildings (in value)
 EXP_NEWBUIL_VAL = ( PNEWBUIL * NEWBUIL )
 

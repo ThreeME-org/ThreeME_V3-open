@@ -6,10 +6,10 @@
 
 ## There are also several versions regarding the specification of prices and taxes on commodities: (1) the basic version where taxes are not differentiated between uses (e.g. intermediary, final consumption, export, etc.) and type (e.g. VAT, subsidies, etc.); (2) the advanced version where this differentiation is made. \\
 
-## In this appendix, $t$ is the time operator that may be omitted when no confusion arises, $e.g.$ $Z = Z_{t}$. Variables in first difference are referred as: $\varDelta\left(Z_{t}\right) = Z_{t}-Z_{t-1}$. Therefore the logarithm difference of a variable is approximativelly its growth rate: $\varDelta\left(\operatorname{log} Z_{t}\right) \approx Z_{t}/Z_{t-1}-1$. All parameters written in Greek letter are positive. $n$ as an exponent refers to the notional value of a given variable that is the optimal value desired by the maximization agent: $e.g.$ $Z^{n}$ is the notional value of variable $Z$. Because of adjustment constraint, effective values adjust slowly to their notional value.
+## In this appendix, $t$ is the time operator that may be omitted when no confusion arises, $e.g.$ $Z = Z_{t}$. Variables in first difference are referred as: $\varDelta\left(Z_{t}\right) = Z_{t}-Z_{t-1}$. Therefore the logarithm difference of a variable is approximatively its growth rate: $\varDelta\left(\operatorname{log} Z_{t}\right) \approx Z_{t}/Z_{t-1}-1$. All parameters written in Greek letter are positive. $n$ as an exponent refers to the notional value of a given variable that is the optimal value desired by the maximization agent: $e.g.$ $Z^{n}$ is the notional value of variable $Z$. Because of adjustment constraint, effective values adjust slowly to their notional value.
 
 #### Sets and indexes
-## This section provides the different sets for each index used in the equation description. \\ \\ 
+## This section provides the different sets for each index used in the equation description. \\ \\
 ##! Production factors $f$
 ## \begin{equation} f \in  \{ K,L,E,M \} \end{equation}
 

@@ -3,7 +3,7 @@
 ########################################
 
 ################################
-### Elastiscity of substitutions
+### Elasticities of substitution
 ################################
 
 ## Between household consumption commodities
@@ -52,13 +52,13 @@ ES_|V|M[c, s] := 0.8 where V in CI I
 ES_X[c] := 0.8
 
 ################################
-### Other elastiscities
+### Other elasticities
 ################################
 
-## Elastiscity of the mark-up to the demand
+## Elasticity of the mark-up to the demand
 RHO_MARKUP_Y := 0.75
 
-# Elastiscity of wages to prices, productivity, unemployment and labor
+# Elasticity of wages to prices, productivity, unemployment and labor
 
 RHO_W_Pe[s] := 1
 RHO_W_P[s] := 1 - RHO_W_Pe[s]

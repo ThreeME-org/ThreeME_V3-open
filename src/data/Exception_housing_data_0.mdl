@@ -15,14 +15,14 @@ PCH[ceb] := P
 
 PCH[CCON]:= P
 
-CH[ccoa] := 65 * (1 + GR_REAL) ^ (@year - %baseyear)
+CH[ccoa] := 65    * (1 + GR_REAL) ^ (@year - %baseyear)
 CH[cfue] := 43742 * (1 + GR_REAL) ^ (@year - %baseyear)
 CH[cgas] := 10467 * (1 + GR_REAL) ^ (@year - %baseyear)
 CH[cele] := 17844 * (1 + GR_REAL) ^ (@year - %baseyear)
-CH[chea] := 100 * (1 + GR_REAL) ^ (@year - %baseyear)
+CH[chea] := 100   * (1 + GR_REAL) ^ (@year - %baseyear)
 
 
-    
+
 
 POP := 63186 * (1 + GR_POP) ^ (@year - %baseyear)
 
@@ -40,7 +40,7 @@ NCH_BUIL[cele] := CH[cele] * 0.8
 NCH_BUIL[chea] := CH[chea] * 1.0
 
 #######################################
-###################################### 
+######################################
 # Round 0 for Housing block: hypothesis specific to the housing block
 
 rho_M2_DISPINC := 0
@@ -48,9 +48,9 @@ rho_M2_DISPINC := 0
 # Subsidy rate
 R_SUB[ecl,ecl2] := 0
 
-ADJUST0_tau_REHAB := 0.5 
+ADJUST0_tau_REHAB := 0.5
 
-ADJUST_phi_REHAB := 0.5 
+ADJUST_phi_REHAB := 0.5
 
 RHO_U_GAIN[ecl,ecl2] := 1
 
@@ -69,7 +69,7 @@ R_I_BUIL[ecl] := R + 0.01
 # For rehabilitating a class ecl building in a more efficient class
 R_I_REHAB[ecl] := R_I_BUIL[ecl]
 # For new buildings
-R_I_NewBUIL[ecl] := R_I_BUIL[ecl] 
+R_I_NewBUIL[ecl] := R_I_BUIL[ecl]
 
 # Loan duration for housing investment
 # For (maintaining) a building of ecl in the same class
@@ -85,7 +85,7 @@ R_RMBS_NewBUIL[ecl] := 1 / LD_NewBUIL[ecl]
 BUIL_D[ecl] := 25
 
 # Life duration for a class ecl building (after rehabilitation)
-# USE DIRECTLTY BUIL_D ? 
+# USE DIRECTLTY BUIL_D ?
 REHAB_D[ecl] := BUIL_D[ecl]
 
 # Adjustements
@@ -102,13 +102,13 @@ eta_ENERperM2[ecl, ceb] := 0.2
 
 ES_BUILNRJ[ecl, ceb, cebb] := 0.8
 
-# Proportion of rehabilitated building from the class ecl's  
+# Proportion of rehabilitated building from the class ecl's
 tau_REHAB[ecl] := BUILDING(1, $ecl)
 
-# Maximum proportion of rehabilitated building from the class ecl's  
+# Maximum proportion of rehabilitated building from the class ecl's
 tau_REHAB_MAX[ecl] := BUILDING(3, $ecl)
 
-# Minimum proportion of rehabilitated building from the class ecl's  
+# Minimum proportion of rehabilitated building from the class ecl's
 tau_REHAB_MIN[ecl] := BUILDING(2, $ecl)
 
 # Switching speed between the 2 regimes of the logistic function
@@ -138,6 +138,3 @@ REHAB[ecl,ecl2] := (phi_REHAB[ecl,ecl2]*tau_REHAB[ecl]*BUIL[ecl]{-1})
 REHAB[ecl] := sum(REHAB[ecl,ecl2] on ecl2)
 
 U_REHAB[ecl,ecl2] := phi_REHAB[ecl,ecl2]
-
-
-
