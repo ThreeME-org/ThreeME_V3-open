@@ -2,91 +2,6 @@ include ..\model\lists
 
   
   
-##################################################################################################################################
-##################################################################################################################################
-##################################################################################################################################
-#*********************************************************************************************************************************
-#*****************************************************TRANSPORTS******************************************************************
-
-#-----------------------------------------------------AUTOMOBILE-----------------------------------------------------------------
-
-
-# Equation H.4.81
-
-
-R_LOAN_AUTO[ecl] = 1 - R_CASH_AUTO[ecl]
-
-GR_PENER_auto_e[ecl] = 0.8*GR_PENER_auto_e[ecl]{-1} + (1 - 0.8) * @pchy(PENER_auto[ecl])
-
-
-PENER_AUTO[ecl] * km_AUTO[ecl] = PEXP_AUTO[ecl] * EXP_AUTO[ecl] if AUTO[ecl] <> 0
-  
-# Equation H.4.83
-
-# Equation H.4.84
-
-EXP_NEWAUTO_VAL[ecl] = PNewAuto[ecl] * NewAUTO[ecl]
-
-
-
-# Equation H.4.89 and H.4.90
-
-km_AUTO[ecl] = sum(km_AUTO[ ecl, ce] on ce)    #modifié
-
-dlog(EXP_AUTO[ecl,ce2]) = d(log(AUTO_th[ecl,ce2])) -dlog(PROG_AUTO)  if AUTO_th[ecl,ce2] <> 0   #modifié
-
-EXP_AUTO[CA,23] = sum(EXP_AUTO_elec[pcl] on pcl)                                             #modifié
-
-EXP_AUTO[c,23] = 0   where c in %list_ener_class \CA                                           #modifié
-
-
-# -------------------------------------------Aggregation of automobile expenditure--------------------------------------------
-# Equation H.4.91
-
-EXP_AUTO[ecl] = sum( EXP_AUTO[ecl,ce] if EXP_AUTO[ecl,ce] <> 0 on ce )
-
-PEXP_AUTO[ecl]*EXP_AUTO[ecl] = sum( PEXP[ce]*EXP_AUTO[ecl,ce] if EXP_AUTO[ecl,ce] <> 0 on ce )      # corrigé
-
-# Equation H.4.92
-
-@pv EXP_AUTO = sum( EXP_AUTO[ecl] if EXP_AUTO[ecl] <> 0 on ecl )
-
-EXP_AUTO[ce] = sum( EXP_AUTO[ecl,ce] if EXP_AUTO[ecl,ce] <> 0 on ecl )
-
-# Equation H.4.93
-
-EXP_AUTO[ce] = sum( EXP_AUTO[ecl,ce] if EXP_AUTO[ecl,ce] <> 0 on ecl )
-
-
-# -----------------------------------------------------------AGGREGATION AUTOMOBILE---------------------------------------------------
-
-
-
-
- # Equation H.4.99
- PnewAUTO*NewAUTO = PAUTO_elec*NewAUTO_elec + PNewAUTO_th*NewAUTO_th  if NewAUTO <> 0         #modifié
- 
-# Equation H.4.100
-EXP_NEWAUTO_VAL = sum(EXP_NewAUTO_VAL[ ecl] on ecl)
-
-
-# Equation H.4.103
-
-EXP_MOBAUTO_Val = sum(EXP_MOBAUTO_Val[ ecl] if EXP_MOBAUTO_Val[ ecl] <> 0 on ecl)
-
-
-
-# ------------------------------------------------------TRANSPORT COLLECTIF--------------------------------------------------------------
-# Equation H.4.113
-
-EXP_MOB_OTH_Val = sum(PEXP[trsp] * EXP[trsp] on trsp in %list_trsp_travel)
-
-# ---------------------------------------------------------Total mobility---------------------------------------------------
-# Equation H.4.117
-
-EXP_MOB_Val = EXP_MOBAuto_Val + EXP_MOB_OTH_Val + EXP_03_OTH_VAL
-
-
 
 # Subventions automobile ( Bonus-malus auto + bonus elec)
 
@@ -96,32 +11,17 @@ SUB_AUTO_VAL = sum(SUB_AUTO_VAL[ecl] on ecl)
 
 
 
-#
-################Coût du transport au km en transports en commun     modifié
-
-PC_trav_14*km_traveler_14 = pch_14*ch_14
-
-PC_trav_15*km_traveler_15 = pch_15*ch_15
-
-
 
 
 
 #####Définition du coût de maintenance (hors batterie) du véhicule électrique:
 
-UC_M_auto_elec=(HOUSEHOLD_HYBRID_AUTO(218,1)*PCH_03/100*km_AUTO/auto)/1000 
 
 UC_auto_elec = sum(@elem(phi_elec[pcl],%baseyear)* (UC_K_auto_elec[pcl] + UC_E_auto_elec[pcl]) on pcl) + UC_M_auto_elec 
 
-UC_M_auto_th=(HOUSEHOLD_HYBRID_AUTO(219,1)*PCH_03/100*km_AUTO_th/(auto-auto_elec))/1000
 
 UC_auto_th = sum(@elem(phi_NewAUTO[ecl,th],%baseyear)* (UC_K_AUTO[ecl,th] + UC_E_AUTO[ecl,th]) on ecl) + UC_M_auto_th
  
-
-U_auto_elec * @elem(NewAUTO_elec,%baseyear) = sum(U_auto_elec[pcl] * @elem(NewAUTO_elec[pcl],%baseyear) on pcl)
-  
-U_auto_th * @elem(NewAUTO_th,%baseyear) = sum(U_AUTO[ecl,th] * @elem(NewAUTO[ecl,th],%baseyear) on ecl)
-
 
 
 ##################################################################################################################################

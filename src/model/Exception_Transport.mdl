@@ -248,6 +248,22 @@ d(log(PNewAUTO[ecl,cgas])) = d(log(PCH[cveh]))
 PNewAUTO[ecl,cele] = PNewAUTO[ecl,coil] + Pbattery + overcost_elec
 # Expressed in Thousand of Euros
 
+##! Price of a new automobiles of class $ecl$
+PNewAUTO[ecl]*NewAUTO[ecl] = PNewAUTO[ecl,cele] * NewAUTO[ecl,cele] + PNewAUTO[ecl,th] * NewAUTO[ecl,th]
+# Expressed in Thousand of Euros
+
+##! Price of a new thermic automobiles of class $ecl$
+PNewAUTO[ecl,th] * NewAUTO[ecl,th] = PNewAUTO[ecl,coil] * NewAUTO[ecl,coil] + PNewAUTO[ecl,cgas] * NewAUTO[ecl,cgas]
+# Expressed in Thousand of Euros
+
+##! Price of a new automobiles
+PNewAUTO * NewAUTO = sum(PNewAUTO[ecl] * NewAUTO[ecl] on ecl)
+# Expressed in Thousand of Euros
+
+##! User maintenance cost of a class $ecl$ automobile fueled with energy $cea$
+UC_M_AUTO[ecl,cea] = PCH[cveh] * MCperkm[ecl,cea]/100*kmPerAuto/1000
+# Expressed in Thousand of Euros.
+
 ##! User cost of  an automobile of class $ecl$
 UC_AUTO[ecl] = UC_K_AUTO[ecl] + UC_E_AUTO[ecl] 					if AUTO[ecl] <> 0
 # Expressed in Thousand of Euros
