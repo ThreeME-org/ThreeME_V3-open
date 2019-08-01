@@ -1,8 +1,6 @@
 ##### Nested utility function for the consumer
 
-## This file provides the equations defining the consumer's nested utility function. In the basic version of the consumer block (see Section Consumer), the consumption of every commodity is modeled using generalized LES utility function where the elasticity of substitution between every commodity is constant. An increase in the price of fossil energy will increase the consumption of the other commodities uniformly whereas one expects that substitution will mainly affect the other energy source and household investment. This block amend the basic version by introducing a nested utility function. The first level separate the consumption related to housing and transport from the rest. We assume that the value share of the three types of expenditures (housing, transport and other) is constant which amount to assuming an elasticity of substitution of one (Cobb-Douglas hypothesis). \\
-
-# This file provides the equations defining the consumer’s nested utility function. In the basic version of the consumer block (see Section Consumer), the consumption of every commodity is modeled using generalized LES utility function where the elasticity of substitution between every commodity is constant. An increase in the price of fossil energy will increase the consumption of the other commodities uniformly whereas one expects that substitutions will mainly affect the other energy sources and household’s investment in more energy-efficient equipment. This block amends the basic version by introducing a nested utility function. \\
+## This file provides the equations defining the consumer’s nested utility function. In the basic version of the consumer block (see Section Consumer), the consumption of every commodity is modeled using generalized LES utility function where the elasticity of substitution between every commodity is constant. An increase in the price of fossil energy will increase the consumption of the other commodities uniformly whereas one expects that substitutions will mainly affect the other energy sources and household’s investment in more energy-efficient equipment. This block amends the basic version by introducing a nested utility function. \\
 
 ## The first level separates the consumption related to housing ($CH^{HOUS}$) and transport ($CH^{TRSP}$) from the rest. We assume that the value shares of the three types of expenditures (housing, transport and other) are constant which amount to assuming an Elasticity of Substitution (ES) of one (Cobb-Douglas hypothesis). \\
 
@@ -86,7 +84,7 @@ d(log(phi_MCH_HOUS[ce])) = (1 - ES_HOUS_ENER) * d(log(PCH_HOUS[ce] / PCH_HOUSENE
 
 ##! Price of the aggregate energy expenditures related to housing
 # Cette equation pose pb avec le peg
-#PCH_HOUSENER_CES  = (sum(@elem(phi_MCH_HOUS[ce], %baseyear) * PCH_HOUS[ce] ^ (1 - ES_HOUS_ENER) on ce)) ^ (1 / (1 - ES_HOUS_ENER)) if ES_HOUS_ENER <> 1
+PCH_HOUSENER_CES  = (sum(@elem(phi_MCH_HOUS[ce], %baseyear) * PCH_HOUS[ce] ^ (1 - ES_HOUS_ENER) on ce)) ^ (1 / (1 - ES_HOUS_ENER)) if ES_HOUS_ENER <> 1
 
 ##! Price of energy consumption $ce$ related to housing
 PCH_HOUS[ce] = PCH[ce]
@@ -103,13 +101,13 @@ CH_TRSP_VAL[chtrsp] = phi_MCH_TRSP[chtrsp] * CH_TRSP_VAL if CH_TRSP_VAL[chtrsp] 
 d(log(phi_MCH_TRSP[chtrsp])) = (1 - ES_CHTRSP) * d(log(PCH_TRSP[chtrsp] / PCH_TRSP_CES))     if phi_MCH_TRSP[chtrsp] <> 0
 
 ##! Price of the aggregate transport expenditures
-#PCH_TRSP_CES = (sum(@elem(phi_MCH_TRSP[chtrsp], %baseyear) * PCH_TRSP[chtrsp] ^ (1 - ES_CHTRSP) on chtrsp)) ^ (1 / (1 - ES_CHTRSP)) if ES_CHTRSP <> 1
+PCH_TRSP_CES = (sum(@elem(phi_MCH_TRSP[chtrsp], %baseyear) * PCH_TRSP[chtrsp] ^ (1 - ES_CHTRSP) on chtrsp)) ^ (1 / (1 - ES_CHTRSP)) if ES_CHTRSP <> 1
 
 ##! Price of transport consumption of commodity $ct$
 PCH_TRSP[ct] = PCH[ct]
 
 ##! Price of the aggregate automobile expenditures
-#PCH_TRSP[auto] = (@elem(CH_TRSPINV_VAL/CH_TRSP_VAL[auto], %baseyear) * PCH_TRSPINV^(1 - ES_TRSP_INV_ENER) + @elem(CH_TRSPENER_VAL/CH_TRSP_VAL[auto], %baseyear) *  PCH_TRSPENER^(1 - ES_TRSP_INV_ENER))^(1/(1 - ES_TRSP_INV_ENER)) if ES_TRSP_INV_ENER <> 1
+PCH_TRSP[auto] = (@elem(CH_TRSPINV_VAL/CH_TRSP_VAL[auto], %baseyear) * PCH_TRSPINV^(1 - ES_TRSP_INV_ENER) + @elem(CH_TRSPENER_VAL/CH_TRSP_VAL[auto], %baseyear) *  PCH_TRSPENER^(1 - ES_TRSP_INV_ENER))^(1/(1 - ES_TRSP_INV_ENER)) if ES_TRSP_INV_ENER <> 1
 
 ### Level 3: Disaggregation between investment and energy related to automobile transport expenditures
 
@@ -120,7 +118,7 @@ CH_TRSPINV_VAL = phi_MCH_TRSPINV * CH_TRSP_VAL[auto]
 CH_TRSPENER_VAL = CH_TRSP_VAL[auto] - CH_TRSPINV_VAL
 
 ##! Share of automobile transport investment expenditures into the total automobile transport expenditures
-#phi_MCH_TRSPINV	= 1 /( 1 + @elem( CH_TRSPENER_VAL/CH_TRSPINV_VAL  , %baseyear) * exp(SUBST_TRSPINV))  if CH_TRSPINV_VAL    <> 0
+phi_MCH_TRSPINV	= 1 /( 1 + @elem( CH_TRSPENER_VAL/CH_TRSPINV_VAL  , %baseyear) * exp(SUBST_TRSPINV))  if CH_TRSPINV_VAL    <> 0
 
 ##! Share of automobile transport investment expenditures into the total automobile transport expenditures
 d(SUBST_TRSPINV) 	= (1 - ES_TRSP_INV_ENER) * d(log(PCH_TRSPENER/PCH_TRSPINV))  if CH_TRSPINV_VAL    <> 0
@@ -141,7 +139,7 @@ CH_TRSP[ce] * PCH_TRSP[ce] = phi_MCH_TRSP[ce] * CH_TRSPENER_VAL  if CH_TRSP[ce] 
 d(log(phi_MCH_TRSP[ce])) = (1 - ES_TRSP_ENER) * d(log(PCH_TRSP[ce] / PCH_TRSPENER_CES))     if phi_MCH_TRSP[ce] <> 0
 
 ##! Price of the aggregate energy expenditures related to automobile transport
-#PCH_TRSPENER_CES  = (sum(@elem(phi_MCH_TRSP[ce], %baseyear) * PCH_TRSP[ce] ^ (1 - ES_TRSP_ENER) on ce)) ^ (1 / (1 - ES_TRSP_ENER)) if ES_TRSP_ENER <> 1
+PCH_TRSPENER_CES  = (sum(@elem(phi_MCH_TRSP[ce], %baseyear) * PCH_TRSP[ce] ^ (1 - ES_TRSP_ENER) on ce)) ^ (1 / (1 - ES_TRSP_ENER)) if ES_TRSP_ENER <> 1
 
 ##! Price of energy consumption $ce$ related to automobile transport
 PCH_TRSP[ce] = PCH[ce]

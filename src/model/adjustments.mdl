@@ -30,10 +30,10 @@ F[K, s] = (1 - Rdep[s]) * F[K, s]{-1} + IA[s] if F[K, s] <> 0
 # IA_n[s] = F_n[K, s] - (1 - Rdep[s]) * F[K, s]{-1} _
 # 	   + (F_n[K, s] - (1 - Rdep[s]) * F[K, s]{-1} < 0.00001) * (0.00001 - (F_n[K, s] - (1 - Rdep[s]) * F[K, s]{-1})) if IA_n[s] <> 0
 
-##! Investment from the sector $s$
+# ##! Investment from the sector $s$
 # log(IA[s]) = ADJUST0_IA[s] * log(IA_n[s]) + (1 - ADJUST0_IA[s]) * (log(IA[s]{-1}) + d(log(IA_e[s])))
 
-##! Expected investment from the sector $s$
+# ##! Expected investment from the sector $s$
 # d(log(IA_e[s])) = ADJUST1_IA[s] * d(log(IA_e[s]{-1})) + ADJUST2_IA[s]       * d(log(IA[s]{-1})) + ADJUST3_IA[s] * d(log(IA_n[s]))
 
 ##! Households final consumption of commodity $c$

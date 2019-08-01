@@ -38,7 +38,7 @@ d(R_I_BUIL[ ecl])    = d(R)
 #### Building stock dynamic (in m2)
 
 ##! Total building stock
-#d(log(BUIL)) = (@year > %baseyear) * (d(log(POP)) + d(log(M2perCapita)))
+d(log(BUIL)) = (@year > %baseyear) * (d(log(POP)) + d(log(M2perCapita)))
 ## It follows proportionally the size of the population ($POP$) and the number of square meter per inhabitant ($M2perCapita$). \\
 
 ##! Number of square meter per person
