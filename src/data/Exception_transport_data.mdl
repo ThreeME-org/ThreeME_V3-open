@@ -69,8 +69,7 @@ NCH_AUTO[cgas] := CH[cgas] * 0.05
 
 NCH[cth] := CH[cth] * 1.0
 
-NCH[cveh] := @elem(PNewAUTO*NewAUTO,%baseyear) * (1 + GR_REAL) ^ (@year - %baseyear) 
-
+NCH[cveh] := @elem(PNewAUTO*NewAUTO + UC_M_AUTO*AUTO, %baseyear) * (1 + GR_REAL) ^ (@year - %baseyear) 
 
 #######################################
 #####  Round 0: load primary date for transport block
@@ -177,11 +176,12 @@ km_AUTO[ecl] := sum(km_AUTO[ecl,cea] on cea)
 
 SUM_EXP_U_AUTO := sum(EXP(U_AUTO[ecl]) on ecl)
 
-UC_AUTO[ecl] := UC_K_AUTO[ecl] + UC_E_AUTO[ecl]
 
-UC_AUTO[ecl,cea] := UC_K_AUTO[ecl,cea] + UC_E_AUTO[ecl,cea] 
+UC_AUTO[ecl] := UC_K_AUTO[ecl] + UC_E_AUTO[ecl] + UC_M_AUTO[ecl]	
 
-UC_AUTO[ecl,th] := UC_K_AUTO[ecl,th] + UC_E_AUTO[ecl,th] 
+UC_AUTO[ecl,cea] := UC_K_AUTO[ecl,cea] + UC_E_AUTO[ecl,cea] + UC_M_AUTO[ecl,cea] 
+
+UC_AUTO[ecl,th] := UC_K_AUTO[ecl,th] + UC_E_AUTO[ecl,th] + UC_M_AUTO[ecl,th] 
 
 UC_K_AUTO[ecl] * AUTO[ecl] := UC_K_AUTO[ecl,cele] * AUTO[ecl,cele] + UC_K_AUTO[ecl,th] * AUTO[ecl,th] 
 
@@ -212,6 +212,17 @@ PNewAUTO * NewAUTO := sum(PNewAUTO[ecl] * NewAUTO[ecl] on ecl)
 
 UC_M_AUTO[ecl,cea] := PCH[cveh] * MCperkm[ecl,cea]/100*kmPerAuto/1000
 
+UC_M_AUTO[ecl] * AUTO[ecl] := UC_M_AUTO[ecl,cele] * AUTO[ecl,cele] + UC_M_AUTO[ecl,th] * AUTO[ecl,th] 			if AUTO[ecl] <> 0
+
+UC_M_AUTO[ecl,th] * AUTO[ecl,th] := UC_M_AUTO[ecl,coil] * AUTO[ecl,coil] + UC_M_AUTO[ecl,cgas] * AUTO[ecl,cgas]	if AUTO[ecl,th] <> 0
+
+UC_AUTO * AUTO := sum(UC_AUTO[ecl] * AUTO[ecl] on ecl)	  if AUTO <> 0
+
+UC_K_AUTO * AUTO := sum(UC_K_AUTO[ecl] * AUTO[ecl] on ecl) if AUTO <> 0
+
+UC_E_AUTO * AUTO := sum(UC_E_AUTO[ecl] * AUTO[ecl] on ecl) if AUTO <> 0
+
+UC_M_AUTO * AUTO := sum(UC_M_AUTO[ecl] * AUTO[ecl] on ecl) if AUTO <> 0
 
 #######################################
 #####  Special data: not from model equation
@@ -224,7 +235,8 @@ DEBT_AUTO_VAL[ecl,cea] := @elem(R_LOAN_AUTO[ecl,cea] * ( 1 + GR_NOMI ) / ( GR_NO
 
 EXP_AUTO_VAL[ecl,cea] := @elem(DEBT_AUTO_VAL[ecl,cea]{-1} * ( R_I_AUTO[ecl,cea]{-1} + R_RMBS_AUTO[ecl,cea]{-1} ) _
                                 + R_CASH_AUTO[ecl,cea] * PNewAUTO[ecl,cea] * NewAUTO[ecl,cea] * ( 1 - R_SUB_AUTO[ecl,cea] ) _
-                                + PCH[cea] * CH_AUTO[cea] * CH_AUTO_toe[ecl,cea] / CH_AUTO_toe[cea]  , %baseyear) * ( 1 +  GR_NOMI) ^ ( @year - %baseyear )
+                                + PCH[cea] * CH_AUTO[cea] * CH_AUTO_toe[ecl,cea] / CH_AUTO_toe[cea] _
+                                + UC_M_AUTO[ecl,cea] * AUTO[ecl,cea] , %baseyear) * ( 1 +  GR_NOMI) ^ ( @year - %baseyear )
 
 GR_PE_AUTO_e[ecl,cea] := GR_PRICES
 
@@ -279,6 +291,10 @@ innovation[ecl] := 0
 toePerKm[ecl,cea] := CH_AUTO_toe[ecl,cea] / km_AUTO[ecl,cea]
 
 EXP_AUTO_VALbis := EXP_AUTO_VAL
+
+UC_AUTObis := UC_AUTO
+
+verif_UC_AUTObis  := 0
 
 verif_EXP_AUTO_VALbis := 0
 verif_AUTObis  := 0
