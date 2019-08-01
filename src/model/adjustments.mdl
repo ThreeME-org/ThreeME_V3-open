@@ -30,12 +30,14 @@ F[K, s] = (1 - Rdep[s]) * F[K, s]{-1} + IA[s] if F[K, s] <> 0
 # IA_n[s] = F_n[K, s] - (1 - Rdep[s]) * F[K, s]{-1} _
 # 	   + (F_n[K, s] - (1 - Rdep[s]) * F[K, s]{-1} < 0.00001) * (0.00001 - (F_n[K, s] - (1 - Rdep[s]) * F[K, s]{-1})) if IA_n[s] <> 0
 
+##! Investment from the sector $s$
 # log(IA[s]) = ADJUST0_IA[s] * log(IA_n[s]) + (1 - ADJUST0_IA[s]) * (log(IA[s]{-1}) + d(log(IA_e[s])))
 
-# d(log(IA_e[s])) = ADJUST1_IA[s] * d(log(IA_e[s]{-1})) + ADJUST2_IA[s] * d(log(IA[s]{-1})) + ADJUST3_IA[s] * d(log(IA_n[s]))
+##! Expected investment from the sector $s$
+# d(log(IA_e[s])) = ADJUST1_IA[s] * d(log(IA_e[s]{-1})) + ADJUST2_IA[s]       * d(log(IA[s]{-1})) + ADJUST3_IA[s] * d(log(IA_n[s]))
 
 ##! Households final consumption of commodity $c$
-log(CH[c])      = ADJUST0_CH[c] * log(CH_n[c])        + (1 - ADJUST0_CH[c]) * (log(CH[c]{-1})   +                 d(log(CH_e[c]))) if CH[c]   <> 0
+log(CH[c])        = ADJUST0_CH[c] * log(CH_n[c])        + (1 - ADJUST0_CH[c]) * (log(CH[c]{-1})   +                 d(log(CH_e[c]))) if CH[c]   <> 0
 
 ##! Expected households final consumption of commodity $c$
 d(log(CH_e[c])) = ADJUST1_CH[c] * d(log(CH_e[c]{-1})) + ADJUST2_CH[c]       * d(log(CH[c]{-1})) + ADJUST3_CH[c] * d(log(CH_n[c]))  if CH_e[c] <> 0
@@ -43,7 +45,7 @@ d(log(CH_e[c])) = ADJUST1_CH[c] * d(log(CH_e[c]{-1})) + ADJUST2_CH[c]       * d(
 ##! Production price of sector $s$
 log(PY[s])      = ADJUST0_PY[s] * log(PY_n[s])        + (1 - ADJUST0_PY[s]) * (log(PY[s]{-1})   +                 d(log(PY_e[s])))
 
-##! Expected production priceof sector $s$
+##! Expected production price of sector $s$
 d(log(PY_e[s])) = ADJUST1_PY[s] * d(log(PY_e[s]{-1})) + ADJUST2_PY[s]       * d(log(PY[s]{-1})) + ADJUST3_PY[s] * d(log(PY_n[s]))
 
 ##! Wages of the sector $s$
@@ -73,10 +75,10 @@ d(log(PROP_INC_G_VAL_e)) = ADJUST1_PROP_INC_G_VAL * d(log(PROP_INC_G_VAL_e{-1}))
 SUBST_F[f, s]     = ADJUST6_F[f, s]     * SUBST_F_n[f, s]     + (1 - ADJUST6_F[f, s])     * SUBST_F[f, s]{-1}     if F[f, s]     <> 0
 
 ##! Substitution effect of the domestic margin paid $m$ for the commodity $c$
-SUBST_MGPD[m, c] = ADJUST6_MGPD[m, c] * SUBST_MGPD_n[m, c] + (1 - ADJUST6_MGPD[m, c]) * SUBST_MGPD[m, c]{-1} if MGPD[m, c] <> 0
+SUBST_MGPD[m, c]  = ADJUST6_MGPD[m, c]  * SUBST_MGPD_n[m, c]  + (1 - ADJUST6_MGPD[m, c])  * SUBST_MGPD[m, c]{-1}  if MGPD[m, c] <> 0
 
 ##! Substitution effect on the imported margin paid $m$ for the commodity $c$
-SUBST_MGPM[m, c] = ADJUST6_MGPM[m, c] * SUBST_MGPM_n[m, c] + (1 - ADJUST6_MGPM[m, c]) * SUBST_MGPM[m, c]{-1} if MGPM[m, c] <> 0
+SUBST_MGPM[m, c]  = ADJUST6_MGPM[m, c]  * SUBST_MGPM_n[m, c]  + (1 - ADJUST6_MGPM[m, c])  * SUBST_MGPM[m, c]{-1}  if MGPM[m, c] <> 0
 
 ##! Substitution effect on the energy intermediate consumption $ce$ in the sector $s$
 SUBST_CI[ce, s]   = ADJUST6_CI[ce, s]   * SUBST_CI_n[ce, s]   + (1 - ADJUST6_CI[ce, s])   * SUBST_CI[ce, s]{-1}   if CI[ce, s]   <> 0
@@ -93,7 +95,8 @@ SUBST_CHM[c]      = ADJUST6_CHM[c]      * SUBST_CHM_n[c]      + (1 - ADJUST6_CHM
 ##! Substitution effect on the imported government final consumption for the commodity $c$
 SUBST_GM[c]       = ADJUST6_GM[c]       * SUBST_GM_n[c]       + (1 - ADJUST6_GM[c])       * SUBST_GM[c]{-1}       if GM[c]       <> 0
 
-##! Substitution effect on the government final consumption for the imported commodity $c$
+# Substitution effect on the government final consumption for the imported commodity $c$ (titre précédent mais faux)
+##! Substitution effect on the exports for the imported commodity $c$
 SUBST_XM[c]       = ADJUST6_XM[c]       * SUBST_XM_n[c]       + (1 - ADJUST6_XM[c])       * SUBST_XM[c]{-1}       if XM[c]       <> 0
 
 ##! Substitution effect on the intermediate consumption for the imported commodity $c$ in the sector $s$

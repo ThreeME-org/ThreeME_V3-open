@@ -28,7 +28,7 @@ phi_MGSM[m] = 1 /( 1 + @elem( MGSD[m]/MGSM[m], %baseyear) * exp( SUBST_MGSM[m]))
 ##! Import share of commodity $c$ for household final consumption
 phi_CHM[c] 	= 1 /( 1 + @elem( CHD[c]/CHM[c]  , %baseyear) * exp( SUBST_CHM[c]))  if CHM[c]    <> 0
 
-##! Import share $\varphi_c$ of commodity $c$ on the governement final consumption
+##! Import share $\varphi_c$ of commodity $c$ on the government final consumption
 phi_GM[c] 	= 1 /( 1 + @elem( GD[c]/GM[c]    , %baseyear) * exp( SUBST_GM[c]))   if GM[c]     <> 0
 
 ##! Notional substitution effect induced by a change in the relative price between imported and domestically produced commodity $c$ for margins supplied
@@ -38,7 +38,7 @@ d(SUBST_MGSM_n[c]) 	= - ES_MGSM[c] * d(log(PMGSD[c]) - log(PMGSM[c]))           
 d(SUBST_CHM_n[c]) 	= - ES_CHM[c]  * d(log(PCHD[c])  - log(PCHM[c])) 	           if CHM[c]    <> 0
 
 ##! Notional substitution effect induced by a change in the relative price between imported and domestically produced commodity $c$ for government final consumption
-d(SUBST_GM_n[c]) 	= - ES_GM[c]   * d(log(PGD[c])   - log(PGM[c])) 	             if GM[c]     <> 0
+d(SUBST_GM_n[c]) 	  = - ES_GM[c]   * d(log(PGD[c])   - log(PGM[c])) 	           if GM[c]     <> 0
 
 ##! Intermediary consumption from sector $s$ in domestically produced commodity $c$
 CID[c, s] = (1 - phi_CIM[c, s]) * CI[c, s]                                       if CID[c, s] <> 0
@@ -79,7 +79,7 @@ phi_XM[c] 	= 1 /( 1 + @elem( XD[c]/XM[c]    , %baseyear) * exp( SUBST_XM[c]))   
 ##! Notional substitution effect induced by a change in the relative price between imported and domestic products $c$ for exports
 d(SUBST_XM_n[c]) 	= - ES_XM[c]   * d(log(PXD[c])   - log(PXM[c]))                 if XM[c]              <> 0
 
-##! Foreign demand for exports of commmodity $c$
+##! Foreign demand for exports of commodity $c$
 d(log(X[c])) = d(log(WD[c])) + d(SUBST_X[c])                                      if X[c]               <> 0
 
 ##! Notional substitution effect induced by a change in the relative price between export prices and (converted in domestic currency) international prices for the commodity $c$

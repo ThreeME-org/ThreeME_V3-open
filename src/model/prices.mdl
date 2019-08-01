@@ -27,7 +27,7 @@ d(log(1+MARKUP_n2[s])) = RHO_MARKUP_Y * (d(log(Y[s])) - d(log(Y[s]{-1}))) if Y[s
 d(log(YCAP[s])) = sum(phi[f, s]{-1} * d(log(F[f, s]*PROG[f, s])) if F[f, s] <> 0 on f) + ADJUST_YCAP_Y[s] * (log(Y[s]{-1}) - log(YCAP[s]{-1} * @elem(CUR[s], %baseyear))) if YCAP[s] <> 0
 ## The production capacity is defined by the production function and the effective quantities of inputs. \\
 
-##! Capacity utilisation ratio of the sector $s$
+##! Capacity utilization ratio of the sector $s$
 CUR[s]          = Y[s] / YCAP[s]
 
 ##! Average mark-up on commodity $c$
@@ -61,9 +61,9 @@ d(R_n)      = RHO_Rn_Cons + RHO_Rn_P * d(d(P)/P{-1}) - RHO_Rn_UnR * d(UnR)
 
 ##! Interest rate paid on capital by sector $s$
 d(R[s])     = d(R)
-## We assume a constant premiun on the key interest rate of the Central Bank. \\
+## We assume a constant premium on the key interest rate of the Central Bank. \\
 
-##! Interest rate paid by the Governement on its debt
+##! Interest rate paid by the Government on its debt
 d(r_DEBT_G) = d(r)
 
 #### Costs
@@ -129,7 +129,7 @@ PM[c]        = EXR * PWD[c]  if M[c]        <> 0
 
 ##! Price of domestically produced commodity $c$, expressed at market price
 PYQS[c] * YQS[c] = PYQ[c] * YQ[c] + PMGPD[c] * MGPD[c] + NTAXCD_VAL[c]      if YQS[c]      <> 0
-## $YQS_{c}$ is the volume of the production expressed at market price. It should not be seen as a composite of several "goods": production at base price, margins and taxes. Its does not increase when the volume of the margins and taxes increase. The price does instead. This is equivalent to assuming that $YQS_{c}$ is always proportionnal to and $YQ_{c}$ since the volume of margins and taxes depends on the latter. Writing it following the specification composite of several goods, $YQS_{c} = YQ_{c} + MGPD_{c} + NTAXCD_{c}$, would lead to inacurate results since a decrease in the quantity of margins used per unit of production would not lead to a decrease of the selling price. \\
+## $YQS_{c}$ is the volume of the production expressed at market price. It should not be seen as a composite of several "goods": production at base price, margins and taxes. Its does not increase when the volume of the margins and taxes increase. The price does instead. This is equivalent to assuming that $YQS_{c}$ is always proportionnal to and $YQ_{c}$ since the volume of margins and taxes depends on the latter. Writing it following the specification composite of several goods, $YQS_{c} = YQ_{c} + MGPD_{c} + NTAXCD_{c}$, would lead to inaccurate results since a decrease in the quantity of margins used per unit of production would not lead to a decrease of the selling price. \\
 
 ##! Production of commodity $c$, expressed at market price
 d(log(YQS[c]))   =    d(log(YQ[c]))	                                        if YQS[c]      <> 0
@@ -142,7 +142,7 @@ d(log(MS[c]))    =    d(log(M[c]))                                          if M
 
 ##! Market price of the margins paid to commodity $m$ on domestically produced commodity $c$
 PMGPD[m, c] * MGS[m] = PMGSD[m] * MGSD[m] + PMGSM[m] * MGSM[m]        if MGPD[m, c] <> 0
-## We assume that the margins paid on domestic and imported commodities can be produced by domestic and foreign (using the import share of the margin supplied). The price of the margins paid to commodity $m$ is assumed commun to all commodity $c$. \\
+## We assume that the margins paid on domestic and imported commodities can be produced by domestic and foreign (using the import share of the margin supplied). The price of the margins paid to commodity $m$ is assumed common to all commodity $c$. \\
 
 ##! Market price of the margins paid to commodity $m$ on imported commodity $c$
 PMGPM[m, c] = PMGPD[m, c] if MGPM[m, c] <> 0
@@ -154,10 +154,10 @@ PMGSD[c]     = PYQS[c]      if MGSD[c]     <> 0
 ##! Market price of margins supplied by imported commodity $c$
 PMGSM[c]     = PMS[c]       if MGSM[c]     <> 0
 
-##! Market price of domestically produced intermediate consumption $c$ purshased by sector $s$
+##! Market price of domestically produced intermediate consumption $c$ purchased by sector $s$
 PCID[c, s]   = PYQS[c]      if CID[c, s]   <> 0
 
-##! Market price of imported intermediate consumption $c$ purshased by sector $s$
+##! Market price of imported intermediate consumption $c$ purchased by sector $s$
 PCIM[c, s]   = PMS[c]       if CIM[c, s]   <> 0
 
 ##! Market price of domestically produced households final consumption $c$
@@ -172,10 +172,10 @@ PGD[c]       = PYQS[c]      if GD[c]       <> 0
 ##! Market price of imported Government final consumption $c$
 PGM[c]       = PMS[c]       if GM[c]       <> 0
 
-##! Market price of domestically produced investment $c$ purshased by sector $s$
+##! Market price of domestically produced investment $c$ purchased by sector $s$
 PID[c, s]    = PYQS[c]      if ID[c, s]    <> 0
 
-##! Market price of imported investment $c$ purshased by sector $s$
+##! Market price of imported investment $c$ purchased by sector $s$
 PIM[c, s]    = PMS[c]       if IM[c, s]    <> 0
 
 ##! Market price of domestically produced exports $c$
@@ -192,7 +192,7 @@ PDSM[c]      = PMS[c]       if DSM[c]      <> 0
 
 #### Average market prices for various uses (aggregation of domestic and imported uses)
 
-##! Market price of intermediate consumption $c$ purshased by sector $s$
+##! Market price of intermediate consumption $c$ purchased by sector $s$
 PCI[c, s] * CI[c, s]  = PCID[c, s] * CID[c, s] + PCIM[c, s] * CIM[c, s]     if CI[c, s]   <> 0
 
 ##! Market price of households final consumption $c$
