@@ -227,10 +227,10 @@ d(log(MSBVAT[c] )) = d(log(M[c] ))                                              
 ##! Market price of margins supplied by imported commodity $c$
 @over PMGSM[c]   = PMSBVAT[c]                                                      if MGSM[c]   <> 0
 
-##! Market price of domestically produced intermediate consumption $c$ purshased by sector $s$
+##! Market price of domestically produced intermediate consumption $c$ purchased by sector $s$
 @over PCID[c, s] = PYQSBVAT[c] + T2VAL_CI[c,s] / CI[c,s]                    if CID[c, s] <> 0
 
-##! Market price of imported intermediate consumption $c$ purshased by sector $s$
+##! Market price of imported intermediate consumption $c$ purchased by sector $s$
 @over PCIM[c, s] = PMSBVAT[c]  + T2VAL_CI[c,s] / CI[c,s]                    if CIM[c, s] <> 0
 
 ##! Market price of domestically produced households final consumption $c$
@@ -245,10 +245,10 @@ d(log(MSBVAT[c] )) = d(log(M[c] ))                                              
 ##! Market price of imported Government final consumption $c$
 @over PGM[c]     = PMSBVAT[c]                                                      if GM[c]     <> 0
 
-##! Market price of domestically produced investment $c$ purshased by sector $s$
+##! Market price of domestically produced investment $c$ purchased by sector $s$
 @over PID[c, s]  = PYQSBVAT[c]                                                     if ID[c, s]  <> 0
 
-##! Market price of imported investment $c$ purshased by sector $s$
+##! Market price of imported investment $c$ purchased by sector $s$
 @over PIM[c, s]  = PMSBVAT[c]                                                      if IM[c, s]  <> 0
 
 ##! Market price of domestically produced exports $c$

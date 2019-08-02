@@ -1,7 +1,7 @@
 ##### Supply-Use equilibrium
 
 ## This section provides the equations defining the supply use - equilibrium for the domestic and imported products and at the aggregate level. It also derives the GDP according to various definitions. All equations are therefore accounting identity. \\  \\
-## Each identity is expressed in value and in volume. The value equation defines therefore a price index. By convention, the variable $Z$ is always expressed in volume. $PZ$ is its price. Therefore the quantity expressed in value is $Z^{VAL} = PZ * Z$. In most case, values are expresed as $PZ * Z$. When there is a risk that a variable in volume is equal to zero in simulation, we shall defined value as $Z^{VAL}$ to avoid a division by zero issue. A typical exemple would be the value-added of sector $s$: $VA^{VAL}_{s} = PY_{s} \; Y_{s} - PCI_{s} \; CI_{s}$.
+## Each identity is expressed in value and in volume. The value equation defines therefore a price index. By convention, the variable $Z$ is always expressed in volume. $PZ$ is its price. Therefore the quantity expressed in value is $Z^{VAL} = PZ * Z$. In most case, values are expressed as $PZ * Z$. When there is a risk that a variable in volume is equal to zero in simulation, we shall defined value as $Z^{VAL}$ to avoid a division by zero issue. A typical example would be the value-added of sector $s$: $VA^{VAL}_{s} = PY_{s} \; Y_{s} - PCI_{s} \; CI_{s}$.
 
 #### Use side
 
@@ -22,7 +22,7 @@ PQM[c]  * QM[c]  = PMGSM[c] * MGSM[c] + PCIM[c] * CIM[c] + PCHM[c] * CHM[c] + PG
 ### Margins supplied (value & volume):
 # TO BE CHANGED !!: Margins paid --> Margins used / Margins supplied -->  margins supplied
 ## The margins supplied by commodity $m$ corresponds to the margins supplied by this commodity. By definition, the margins supplied is the sum of the margins paid (or used) on the commodities $c$. \\ \\
-## The margins paid on domestic and imported products ($MGPD_{m, c}$ and $MGPM_{m, c}$) are defined with behavorial equations in the producer block. They follow the domestic and imported production of commodity $c$ ($YQ_{c}$ and $M_{c}$) more or less proportionnally depending on the possibility of substitutions between margins. The margins paid are then aggregated to define the margins supplied, $MGS_{m}$. The latter is then disagrated between the domestic and imported margins supplied ($MGSD_{c}$ and $MGSM_{c}$). See specification in the producer block. \\
+## The margins paid on domestic and imported products ($MGPD_{m, c}$ and $MGPM_{m, c}$) are defined with behavioral equations in the producer block. They follow the domestic and imported production of commodity $c$ ($YQ_{c}$ and $M_{c}$) more or less proportionally depending on the possibility of substitutions between margins. The margins paid are then aggregated to define the margins supplied, $MGS_{m}$. The latter is then disaggregated between the domestic and imported margins supplied ($MGSD_{c}$ and $MGSM_{c}$). See specification in the producer block. \\
 
 ##! Market price of the margins supplied by commodity $m$
 PMGS[m] * MGS[m]  = sum(PMGP[m, c] * MGP[m, c] 	if MGP[m, c] <> 0 on c) 	   if MGS[m]    <> 0
@@ -40,7 +40,7 @@ PMGSbis[m] * MGSbis[m] = PMGSD[m] * MGSD[m] + PMGSM[m] * MGSM[m] 				   if MGSbi
 ## Same variable as $MGS_{m}$ above to check the accounting consistency. \\
 
 ### Aggregation of imports and domestic production for commodity $c$ per use, expressed at market price (value & volume)
-## This subsection aggregates imports and domestic production for commodity $c$ for various uses. It does not do it for Exports, Households and Government final consumption ($X$, $CH$ and $G$) because these aggregates are already defined in behaviour equations (see Trade international, Consumer and Governement blocks). Expressed in value, this subsection also defines the prices indexes at market price for commodity $c$ per use as a weighted average of imported and domestic production per uses: \textit{i.e.} for $Q$ (production of commodities ), $CI$ (intermediary consumption), $I$ (private investment) and $DS$ (change in inventories). \\
+## This subsection aggregates imports and domestic production for commodity $c$ for various uses. It does not do it for Exports, Households and Government final consumption ($X$, $CH$ and $G$) because these aggregates are already defined in behaviour equations (see Trade international, Consumer and Government blocks). Expressed in value, this subsection also defines the prices indexes at market price for commodity $c$ per use as a weighted average of imported and domestic production per uses: \textit{i.e.} for $Q$ (production of commodities ), $CI$ (intermediary consumption), $I$ (private investment) and $DS$ (change in inventories). \\
 ##  \\
 
 ##! Market price of the production of commodity $c$
@@ -67,8 +67,8 @@ PDS[c] * DS[c]   = PDSD[c] * DSD[c] + PDSM[c] * DSM[c]                if DS[c]  
 ##! Change in inventories of commodity $c$, expressed at market price
 		 DS[c]   = 		     DSD[c] + 		    DSM[c]                if DS[c]  <> 0
 
-### Agregation on sectors: production of commodity $c$ per use for domestic and imported products, expressed at market price (value & volume)
-## This subsection provides the aggregates for commodity $c$ for various uses, for domestic and imported products. They are calculated through the aggregation of the corresponding sectoral data on the sector index. \\
+### Aggregation on sectors: production of commodity $c$ per use for domestic and imported products, expressed at market price (value & volume)
+## This subsection provides the aggregates for commodity $c$ for various uses, for domestic and imported products. They are calculated through the aggregation of the corresponding sectorial data on the sector index. \\
 
 ##! Market price for the domestically produced commodity $c$ used as intermediary consumption
 PCID[c] * CID[c] = sum(PCID[c, s] * CID[c, s] if CID[c, s] <> 0 on s) if CID[c] <> 0
@@ -95,8 +95,8 @@ PIM[c]  * IM[c]  = sum(PIM[c, s]  * IM[c, s]  if IM[c, s]  <> 0 on s) if IM[c]  
 		  IM[c]  = sum( 		    IM[c, s]  if IM[c, s]  <> 0 on s) if IM[c]  <> 0
 
 
-### Agregation on commodities: imported, domestic and aggregate intermediate consumption and investment of sector $s$, expressed at market price (value & volume)
-## This subsection provides the intermediate consumption and investment of sector $s$ (imported, domestically produced and aggregated). They are calculated through the aggregation of the corresponding sectoral data on the commodity index. \\
+### Aggregation on commodities: imported, domestic and aggregate intermediate consumption and investment of sector $s$, expressed at market price (value & volume)
+## This subsection provides the intermediate consumption and investment of sector $s$ (imported, domestically produced and aggregated). They are calculated through the aggregation of the corresponding sectorial data on the commodity index. \\
 
 ##! Market price of domestically produced intermediate consumption of sector $s$
 PCID[s] * CID[s] 	= sum(PCID[c, s] * CID[c, s] 	if CID[c, s]  <> 0 on c) 		if CID[s]    <> 0
@@ -309,7 +309,7 @@ YQ[c] * PYQ[c] 		 + NTAXCD_VAL[c]  + PMGPD[c] * MGPD[c] = PQD[c] * QD[c]    	   
 
 ##! Basic price of the production of commodity $c$ (for verification)
 PYQbis[c] * YQ[c] 	 + NTAXCD_VAL[c]  + PMGPD[c] * MGPD[c] = PQD[c] * QD[c]    	   if YQ[c]      <> 0
-##  This price is already defined as a weighted average of the production price of the sectors producing commodity $c$ in the price block: $PYQ . YQ = \sum_{c} PYQ_{c} \; YQ_{c}$. To verify the accounting consistancy, we define it here under an alias name. \\
+##  This price is already defined as a weighted average of the production price of the sectors producing commodity $c$ in the price block: $PYQ . YQ = \sum_{c} PYQ_{c} \; YQ_{c}$. To verify the accounting consistency, we define it here under an alias name. \\
 
 ##! Production of commodity $c$, expressed at basic price (for verification)
 			YQbis[c] + NTAXCD[c] 	  + 		   MGPD[c] = 		  QD[c]    	   if YQbis[c]   <> 0
@@ -320,7 +320,7 @@ M[c] * PM[c] + NTAXCM_VAL[c] + PMGPM[c] * MGPM[c] = PQM[c] * QM[c] 			   	   if 
 
 ##! Basic price of imports of commodity $c$ (for verification)
 PMbis[c] * M[c]      + NTAXCM_VAL[c]  + PMGPM[c] * MGPM[c] = PQM[c] * QM[c] 	   if M[c]       <> 0
-##  This price is already defined in the price block as $PM_{c} = EXR . PWD_{c}$. To verify the accounting consistancy, we define it here under an alias name. \\
+##  This price is already defined in the price block as $PM_{c} = EXR . PWD_{c}$. To verify the accounting consistency, we define it here under an alias name. \\
 
 ##! Imports of commodity $c$, expressed at basic price (for verification)
 		   Mbis[c]   + NTAXCM[c] 	  + 		   MGPM[c] = 		  QM[c] 	   if Mbis[c]    <> 0
@@ -377,7 +377,7 @@ PM      * M 		= sum(PM[c]      * M[c]    	 	if M[c] 	  <> 0 on c) 		if M 		 <> 0
 
 ##! Production of sector $s$, expressed at basic price
 		Y[s]        = sum(Y[c, s] 			 	    if Y[c, s]    <> 0 on c) 		if Y[s] 	 <> 0
-## The production price of sector $s$ is defined in the producer block as a behavour equation. It can not therefore be defined here as an index. \\
+## The production price of sector $s$ is defined in the producer block as a behavior equation. It can not therefore be defined here as an index. \\
 
 ##! Value-added of sector $s$ expressed in value
 VA_VAL[s] = PY[s] * Y[s] - PCI[s] * CI[s]
