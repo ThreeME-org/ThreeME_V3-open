@@ -122,7 +122,7 @@ else
 
   ' Clean up results folder
   %cmd = @left(@linepath, 2) + " & cd " + @addquotes(@linepath) + " & del /Q ..\..\results\*.txt"
-  'shell(h) {%cmd}
+  shell(h) {%cmd}
 
   '************************************************
   '*********** SOLVE SCENARIOS ********************
@@ -137,8 +137,8 @@ else
   call run_scenario("baseline")
 
   'call run_standard("EXR10", 0)
-  call run_standard("CT1", %iso3, 1)
-  'call run_standard("EXR10 EXPG1 RSSC1 INCT1 VAT1 WD1 FF10 CT1", %iso3, 1) ' Option: 1 for result in excel template; 0 only scenario run
+  ' call run_standard("RSSC1", %iso3, 1)
+  call run_standard("EXR10 EXPG1 RSSC1 INCT1 VAT1 WD1 FF10 CT1", %iso3, 1) ' Option: 1 for result in excel template; 0 only scenario run
   ''  call run_standard("CT1", 1)
 
   '' call output_template("EXR10")

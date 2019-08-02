@@ -10,7 +10,7 @@
 %baseyear = "2000"
 
 ' Set the end of the sample
-%lastdate = "2050"
+%lastdate = "2150"
 
 
 ' Data calibrations to be used in the model run - file names are space-separated and found inside data\calibration
@@ -24,7 +24,7 @@
 ' Set "realist" for simulating a realistic reference scenario; something else for a stationary  reference scenario
 %ref = ""
 
-%sensitivity = "yes"
+%sensitivity = " "
 
 ' ********************
 ' Additional options
@@ -32,7 +32,7 @@
 ' Define model name
 %modelname = "a_3ME"
 ' Set "new" for loading the data and the specification of the model; something else for loading an existing workfile
-%load = ""
+%load = "new"
 ' Set "u0, u1,... " for user options; "d" diagnostic option; something else for default option
 %solveopt = "u0"
 ' Set the threshold under which the value is rounded to zero.
