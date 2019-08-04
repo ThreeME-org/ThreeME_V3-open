@@ -224,6 +224,8 @@ latex <- list(
       str_c("\\sum_{", str_c(dynWhere(.args[[1]]), collapse = ", "), "} ", .args[[1]])
     } else if (name == "d") {
       str_c("\\varDelta \\left(", .args[[1]], "\\right)")
+    } else if (name == "exp") {
+      str_c("e^{", .args[[1]], "}")
     } else if (name == "@elem") {
       if (str_detect(.args[[1]], ", t-1\\}")) {
         str_replace(.args[[1]], ", t-1\\}", ", t_{0}-1}")
@@ -290,6 +292,7 @@ texHeader <- function(out){
   \\usepackage{array}
   \\usepackage{ragged2e}
   \\usepackage{import}
+  \\usepackage{accents}
   
   \\makeatletter
   \\newcommand{\\repeatablebody}[2]{
@@ -349,13 +352,27 @@ exoVariableTeX <- function(v) {
         \\ensuremath{", str_replace_all(variableTeX(v), fixed("$"), ""), "}~ \\endgroup")
 }
 
+explicit <- list(
+  "PCH_HOUSENER_CES" = "PCH^{HOUSENER,CES} = \\left( \\sum_{ce} \\varphi^{MCH,HOUS}_{ce, t_0} \\; {PCH^{HOUS}_{ce}} ^ {\\left( 1 - {\\sigma^{HOUS,ENER}} \\right)} \\right) ^ {\\frac{1}{1 - \\sigma^{HOUS,ENER}}}",
+  "PCH_TRSP_CES" = "PCH^{TRSP,CES} = \\left( \\sum_{chtrsp} \\varphi^{MCH,TRSP}_{chtrsp, t_0} \\; {PCH^{TRSP}_{chtrsp}} ^ {\\left( 1 - \\sigma^{CHTRSP} \\right)} \\right) ^ {\\left( \\frac{1}{\\left( 1 - \\sigma^{CHTRSP} \\right)} \\right)}",
+  "PCH_TRSP[auto]" = "PCH^{TRSP}_{auto} = \\left( \\frac{CH^{TRSPINV,VAL}_{t_0}}{CH^{TRSP,VAL}_{auto, t_0}} \\; {PCH^{TRSPINV}} ^ {\\left( 1 - \\sigma^{TRSP,INV,ENER} \\right)} + \\frac{CH^{TRSPENER,VAL}_{t_0}}{CH^{TRSP,VAL}_{auto, t_0}} \\; {PCH^{TRSPENER}} ^ {\\left( 1 - \\sigma^{TRSP,INV,ENER} \\right)} \\right) ^ {\\frac{1}{1 - \\sigma^{TRSP,INV,ENER}}}",
+  "PCH_TRSPENER_CES" = "PCH^{TRSPENER,CES} = \\left( \\sum_{ce} \\varphi^{MCH,TRSP}_{ce, t_0} \\; {PCH^{TRSP}_{ce}} ^ {\\left( 1 - \\sigma^{TRSP,ENER} \\right)} \\right) ^ { \\frac{1}{ 1 - \\sigma^{TRSP,ENER} }  }"
+)
+
 toTeX <- function(eq) {
   # !!! HACK
-  # Temporary fix
-  eq <- str_replace(eq, " where f in %list_F \\\\ K", "")
-  
-  code <- peg %>% apply_rule("Equation", eq, exe = T) %>% value %>% parse(text = .)
-  eval(code, latex)
+  # Short circuit the compiler for the few equations that are too complex to handle in this version
+  if (currentVar %in% names(explicit)) {
+    eq <- unlist(str_split(explicit[currentVar], " = "))
+    latex$dynEq(eq[1], eq[2])
+  } else {
+    # !!! HACK
+    # Temporary fix
+    eq <- str_replace(eq, " where f in %list_F \\\\ K", "")
+    
+    code <- peg %>% apply_rule("Equation", eq, exe = T) %>% value %>% parse(text = .)
+    eval(code, latex)
+  }
 }
 
 glossaryTeX <- function(glossary) {
