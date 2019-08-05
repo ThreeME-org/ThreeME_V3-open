@@ -8,7 +8,7 @@
 
 ## At the third level of the nest, energy housing related expenditures ($CH^{HOUSENER}$) are disaggregated between energy types ($CH^{HOUSENER}_{ce}$). Automobile expenditures ($CH^{TRSP}_{auto}$) are disaggregated between energy expenditure ($CH^{TRSPENER}$) and investment expenditure ($CH^{TRSPINV}$). \\
 
-## At the third level of the nest, energy transport related expenditure ($CH^{TRSPENER}$) are disaggregated between energy types ($CH^{HOUSENER}_{ce}$). Except for the first level were the ES is one, in the other levels of the nest, the ES can be chosen freely. \\
+## At the fourth level of the nest, energy transport related expenditure ($CH^{TRSPENER}$) are disaggregated between energy types ($CH^{HOUSENER}_{ce}$). Except for the first level were the ES is one, in the other levels of the nest, the ES can be chosen freely. \\
 
 # Nest defined in this block:
 #
