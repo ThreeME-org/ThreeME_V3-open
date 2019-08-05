@@ -16,13 +16,13 @@ NCH[ccon] = (@year > %baseyear) * (@elem(PNewBUIL,%baseyear) * NewBUIL + @elem(P
 NCH_BUIL[ceb] = (@year > %baseyear) * @elem(PENER_BUIL[ceb], %baseyear) * ENER_BUIL[ceb] _
                 + (@year <= %baseyear) * (NCH_BUIL[ceb]{-1} * ( 1 + GR_REAL ))
 
-##! Price of class $ecl$ new building
+##! Price of class $ecl$ new building per square meter
 d(log(PNewBUIL[ecl])) = d(log(PCH[CCON]))
 
-##! Price of investment for rehabilitating a class $ecl$ building to class $ecl2$
+##! Price of investment for rehabilitating a class $ecl$ building to class $ecl2$ per square meter
 d(log(PREHAB[ecl,ecl2])) = d(log(PCH[CCON])) if REHAB[ecl,ecl2] <> 0
 
-##! Price of investment for rehabilitating a class $ecl$ building in the same class $ecl$
+##! Price of investment for rehabilitating a class $ecl$ building in the same class $ecl$ per square meter
 d(log(PREHAB[ecl,ecl])) = d(log(PCH[CCON]))  # Must be added because REHAB[ecl,ecl] = 0  (test if merging the 2 eq. does not change the results)
 
 ##! Interest rate paid for an investment in a new class $ecl$ building
@@ -95,7 +95,7 @@ PREHAB *  REHAB = sum( PREHAB[ecl]  * REHAB[ecl] if REHAB[ecl] <> 0 on ecl )
 
 #### Energy consumption of buildings
 
-##! Consumption of energy $ceb$ by class $ecl$ buildings (in GWh)
+##! Consumption of energy $ceb$ by class $ecl$ buildings expressed in toe
 # GWh est un million de KWh --> plutot l'exprimer dans cette unité ?
 
 ENER_BUIL[ecl, ceb] = ENERperM2[ ecl, ceb] * BUIL[ecl] if ENER_BUIL[ ecl, ceb] <> 0
