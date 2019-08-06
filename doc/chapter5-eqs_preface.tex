@@ -524,11 +524,11 @@
 
 \repeatablebody{Trade_inter.mdlGM[c]}{GM_{c} = \varphi^{GM}_{c} \; G_{c}}
 
-\repeatablebody{Trade_inter.mdlphi_MGSM[m]}{\varphi^{MGSM}_{m} = \frac{1}{\left( 1 + \frac{MGSD_{m}}{MGSM_{m}, t_0} \; \operatorname{exp} SUBST^{MGSM}_{m} \right)}}
+\repeatablebody{Trade_inter.mdlphi_MGSM[m]}{\varphi^{MGSM}_{m} = \frac{1}{\left( 1 + \frac{MGSD_{m}}{MGSM_{m}, t_0} \; e^{SUBST^{MGSM}_{m}} \right)}}
 
-\repeatablebody{Trade_inter.mdlphi_CHM[c]}{\varphi^{CHM}_{c} = \frac{1}{\left( 1 + \frac{CHD_{c}}{CHM_{c}, t_0} \; \operatorname{exp} SUBST^{CHM}_{c} \right)}}
+\repeatablebody{Trade_inter.mdlphi_CHM[c]}{\varphi^{CHM}_{c} = \frac{1}{\left( 1 + \frac{CHD_{c}}{CHM_{c}, t_0} \; e^{SUBST^{CHM}_{c}} \right)}}
 
-\repeatablebody{Trade_inter.mdlphi_GM[c]}{\varphi^{GM}_{c} = \frac{1}{\left( 1 + \frac{GD_{c}}{GM_{c}, t_0} \; \operatorname{exp} SUBST^{GM}_{c} \right)}}
+\repeatablebody{Trade_inter.mdlphi_GM[c]}{\varphi^{GM}_{c} = \frac{1}{\left( 1 + \frac{GD_{c}}{GM_{c}, t_0} \; e^{SUBST^{GM}_{c}} \right)}}
 
 \repeatablebody{Trade_inter.mdlSUBST_MGSM_n[c]}{\varDelta \left(SUBST^{MGSM,n}_{c}\right) = -\sigma^{MGSM}_{c} \; \varDelta \left(\operatorname{log} PMGSD_{c} - \operatorname{log} PMGSM_{c}\right)}
 
@@ -544,9 +544,9 @@
 
 \repeatablebody{Trade_inter.mdlIM[c, s]}{IM_{c, s} = \varphi^{IM}_{c, s} \; I_{c, s}}
 
-\repeatablebody{Trade_inter.mdlphi_CIM[c, s]}{\varphi^{CIM}_{c, s} = \frac{1}{\left( 1 + \frac{CID_{c, s}}{CIM_{c, s}, t_0} \; \operatorname{exp} SUBST^{CIM}_{c, s} \right)}}
+\repeatablebody{Trade_inter.mdlphi_CIM[c, s]}{\varphi^{CIM}_{c, s} = \frac{1}{\left( 1 + \frac{CID_{c, s}}{CIM_{c, s}, t_0} \; e^{SUBST^{CIM}_{c, s}} \right)}}
 
-\repeatablebody{Trade_inter.mdlphi_IM[c, s]}{\varphi^{IM}_{c, s} = \frac{1}{\left( 1 + \frac{ID_{c, s}}{IM_{c, s}, t_0} \; \operatorname{exp} SUBST^{IM}_{c, s} \right)}}
+\repeatablebody{Trade_inter.mdlphi_IM[c, s]}{\varphi^{IM}_{c, s} = \frac{1}{\left( 1 + \frac{ID_{c, s}}{IM_{c, s}, t_0} \; e^{SUBST^{IM}_{c, s}} \right)}}
 
 \repeatablebody{Trade_inter.mdlSUBST_CIM_n[c, s]}{\varDelta \left(SUBST^{CIM,n}_{c, s}\right) = -\sigma^{CIM}_{c, s} \; \varDelta \left(\operatorname{log} PCID_{c, s} - \operatorname{log} PCIM_{c, s}\right)}
 
@@ -556,7 +556,7 @@
 
 \repeatablebody{Trade_inter.mdlXM[c]}{XM_{c} = \varphi^{XM}_{c} \; X_{c}}
 
-\repeatablebody{Trade_inter.mdlphi_XM[c]}{\varphi^{XM}_{c} = \frac{1}{\left( 1 + \frac{XD_{c}}{XM_{c}, t_0} \; \operatorname{exp} SUBST^{XM}_{c} \right)}}
+\repeatablebody{Trade_inter.mdlphi_XM[c]}{\varphi^{XM}_{c} = \frac{1}{\left( 1 + \frac{XD_{c}}{XM_{c}, t_0} \; e^{SUBST^{XM}_{c}} \right)}}
 
 \repeatablebody{Trade_inter.mdlSUBST_XM_n[c]}{\varDelta \left(SUBST^{XM,n}_{c}\right) = -\sigma^{XM}_{c} \; \varDelta \left(\operatorname{log} PXD_{c} - \operatorname{log} PXM_{c}\right)}
 
@@ -913,5 +913,29 @@
 \repeatablebody{ETS.mdlRSC[s]}{RSC_{s} \; PRSC_{s} = W_{s} \; F_{L, s} \; RRSC_{s} - ETS^{VAL}_{s}}
 
 \repeatablebody{ETS.mdlNCH[ccon]}{NCH_{ccon}  = PNewBUIL_{t_0} \; NewBUIL + PREHAB_{t_0} \; REHAB + CH^{OTH}_{CCON} }
+
+\repeatablebody{Exception_NestedCES.mdlES[MAT, K, s]}{ES_{MAT, K, s} = \sigma^{NEST^{MAT,KEL}}_{s}}
+
+\repeatablebody{Exception_NestedCES.mdlES[K, MAT, s]}{ES_{K, MAT, s} = ES_{MAT, K, s}}
+
+\repeatablebody{Exception_NestedCES.mdlES[MAT, E, s]}{ES_{MAT, E, s} = \sigma^{NEST^{MAT,KEL}}_{s}}
+
+\repeatablebody{Exception_NestedCES.mdlES[E, MAT, s]}{ES_{E, MAT, s} = ES_{MAT, E, s}}
+
+\repeatablebody{Exception_NestedCES.mdlES[MAT, L, s]}{ES_{MAT, L, s} = \sigma^{NEST^{MAT,KEL}}_{s}}
+
+\repeatablebody{Exception_NestedCES.mdlES[L, MAT, s]}{ES_{L, MAT, s} = ES_{MAT, L, s}}
+
+\repeatablebody{Exception_NestedCES.mdlES[K, E, s]}{ES_{K, E, s} = \frac{\sigma^{NEST^{K,E}}_{s}}{\left( 1 - \varphi_{MAT, s} - \varphi_{L, s} \right) - \frac{\sigma^{NEST^{MAT,KEL}}_{s}}{\left( 1 - \varphi_{MAT, s} \right) - \sigma^{NEST^{KE,L}}_{s} \; \frac{\varphi_{L, s}}{\frac{1 - \varphi_{MAT, s}}{1 - \varphi_{MAT, s} - \varphi_{L, s}}}}}}
+
+\repeatablebody{Exception_NestedCES.mdlES[E, K, s]}{ES_{E, K, s} = ES_{K, E, s}}
+
+\repeatablebody{Exception_NestedCES.mdlES[K, L, s]}{ES_{K, L, s} = \frac{\sigma^{NEST^{KE,L}}_{s} - \sigma^{NEST^{MAT,KEL}}_{s} \; \varphi_{MAT, s}}{1 - \varphi_{MAT, s}}}
+
+\repeatablebody{Exception_NestedCES.mdlES[L, K, s]}{ES_{L, K, s} = ES_{K, L, s}}
+
+\repeatablebody{Exception_NestedCES.mdlES[E, L, s]}{ES_{E, L, s} = ES_{K, L, s}}
+
+\repeatablebody{Exception_NestedCES.mdlES[L, E, s]}{ES_{L, E, s} = ES_{E, L, s}}
 
 
