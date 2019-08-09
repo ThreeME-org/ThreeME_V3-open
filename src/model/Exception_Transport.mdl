@@ -34,12 +34,12 @@ d(R_I_AUTO[ecl,cea]) = d(R)
 
 
 ##! Kilometer-travelers for air transport
-d(log(km_traveler[cair])) = (@year > %baseyear) * (theta_DISPINC_SD * d(log(DISPINC_AT_VAL/PCH)) - theta_km_traveler[cair] * d(log(P_km_traveler[cair]/PCH))) + (@year <= %baseyear) * (0)
+d(log(km_traveler[cair])) = (@year > %baseyear) * (theta_kmtravcair_DISPINC * d(log(DISPINC_AT_VAL/PCH)) - theta_kmtravcair_Pkmtrav * d(log(P_km_traveler[cair]/PCH))) + (@year <= %baseyear) * (0)
 # Expressed in million.
 
 
 ##! Kilometer-travelers for long distance transport (by automobile and train)
-d(log(km_traveler_LD)) = (@year > %baseyear) * (theta_DISPINC_LD * d(log(DISPINC_AT_VAL/PCH)) - theta_km_traveler_LD * d(log(P_km_traveler_LD/PCH))) + (@year <= %baseyear) * (0)
+d(log(km_traveler_LD)) = (@year > %baseyear) * (theta_kmtravLD_DISPINC * d(log(DISPINC_AT_VAL/PCH)) - theta_kmtravLD_Pkmtrav * d(log(P_km_traveler_LD/PCH))) + (@year <= %baseyear) * (0)
 # Expressed in million.
 
 ##! Price of long distance Kilometer-traveler (automobile and train)
@@ -48,7 +48,7 @@ P_km_traveler_LD * km_traveler_LD = P_km_traveler[crai] * km_traveler[crai] + P_
 
 
 ##! Kilometer-travelers for short distance transport (by automobile and bus)
-d(log(km_traveler_SD)) = (@year > %baseyear) * (theta_DISPINC_SD * d(log(DISPINC_AT_VAL/PCH)) - theta_km_traveler_SD * d(log(P_km_traveler_SD/PCH))) + (@year <= %baseyear) * (0)
+d(log(km_traveler_SD)) = (@year > %baseyear) * (theta_kmtravSD_DISPINC * d(log(DISPINC_AT_VAL/PCH)) - theta_kmtravSD_Pkmtrav * d(log(P_km_traveler_SD/PCH))) + (@year <= %baseyear) * (0)
 # Expressed in million.
 
 
@@ -63,25 +63,25 @@ phi_km_trav_auto_LD = P_km_trav_auto_LD * km_trav_auto_LD / (P_km_traveler_LD * 
 
 ##! Kilometer-travelers for long distance by automobile
 d(log(km_trav_auto_LD)) = (@year > %baseyear) * (d(log(km_traveler_LD)) _
-                              +  theta_km_trav_auto_LD * (1 - phi_km_trav_auto_LD{-1}) * d(log(P_km_trav_auto_LD)-log(P_km_traveler[crai]))) + (@year <= %baseyear) * (0)
+                              +  theta_kmtrav_autoLD_crai * (1 - phi_km_trav_auto_LD{-1}) * d(log(P_km_trav_auto_LD)-log(P_km_traveler[crai]))) + (@year <= %baseyear) * (0)
 # Expressed in million.
 
 
 ##! Kilometer-travelers for transport by train
 d(log(km_traveler[crai])) = (@year > %baseyear) * (d(log(km_traveler_LD)) _
-                              -  theta_km_trav_auto_LD * phi_km_trav_auto_LD{-1} * d(log(P_km_traveler[crai])-log(P_km_trav_auto_LD))) + (@year <= %baseyear) * (0)
+                              -  theta_kmtrav_autoLD_crai * phi_km_trav_auto_LD{-1} * d(log(P_km_traveler[crai])-log(P_km_trav_auto_LD))) + (@year <= %baseyear) * (0)
 # Expressed in million.
 
 ### Level 2: Arbitrage between short distance transport (automobile and bus)
 ##! Kilometer-travelers for short distance by automobile
-d(log(km_trav_auto_SD)) = (@year > %baseyear) * (d(log(km_traveler_SD)) - theta_km_trav_auto_SD * (1 - phi_km_trav_auto_SD{-1}) * d(log(P_km_trav_auto_SD)-log(P_km_traveler[croa]))) + (@year <= %baseyear) * (0)
+d(log(km_trav_auto_SD)) = (@year > %baseyear) * (d(log(km_traveler_SD)) - theta_kmtrav_autoSD_croa * (1 - phi_km_trav_auto_SD{-1}) * d(log(P_km_trav_auto_SD)-log(P_km_traveler[croa]))) + (@year <= %baseyear) * (0)
 # Expressed in million.
 
 ##! Share of Kilometer-travelers by automobile into the short distance Kilometer-travelers
 phi_km_trav_auto_SD = P_km_trav_auto_SD * km_trav_auto_SD / (P_km_traveler_SD * km_traveler_SD)
 
 ##! Kilometer-travelers for transport by road (bus)
-d(log(km_traveler[croa])) = (@year > %baseyear) * (d(log(km_traveler_SD)) - theta_km_trav_auto_SD * phi_km_trav_auto_SD{-1} * d(log(P_km_traveler[croa]) - log(P_km_trav_auto_SD))) + (@year <= %baseyear) * (0)
+d(log(km_traveler[croa])) = (@year > %baseyear) * (d(log(km_traveler_SD)) - theta_kmtrav_autoSD_croa * phi_km_trav_auto_SD{-1} * d(log(P_km_traveler[croa]) - log(P_km_trav_auto_SD))) + (@year <= %baseyear) * (0)
 # Expressed in million.
 
 
@@ -118,7 +118,7 @@ NewAUTO[ecl] = phi_NewAUTO[ecl] * NewAUTO
 # Expressed in thousand.
 
 ##! Utility of a automobile of class $ecl$
-d(U_AUTO[ecl]) = (@year > %baseyear) * (-theta_UC_K_AUTO * d(UC_K_AUTO[ecl]) - theta_12 * d(UC_E_AUTO[ecl])) + (@year <= %baseyear) * (0)
+d(U_AUTO[ecl]) = (@year > %baseyear) * (-theta_U_AUTO_UC_K * d(UC_K_AUTO[ecl]) - theta_U_AUTO_UC_E * d(UC_E_AUTO[ecl])) + (@year <= %baseyear) * (0)
 ## This utility is a function of the gain from the rehabilitation. For convenience it is calibrated as equal to $\operatorname{log} \varphi^{NewAUTO}_{ecl}$ at the base year. The coefficients of the utility function are derived from the study of Durrmeyer (2017). \\
 # Durrmeyer, I., & Samano, M. (2017). To rebate or not to rebate: Fuel economy standards versus feebates. The Economic Journal, 128(616), 3076-3116. \citet{durrmeyer2017rebate}
 ##  \footnote{Durrmeyer, I., & Samano, M. (2017). To rebate or not to rebate: Fuel economy standards versus feebates. The Economic Journal, 128(616), 3076-3116}

@@ -29,16 +29,21 @@ ES_BASS[ecl] := 1
 nu_diffusion[ecl] := 7.82
 
 # Parameters of the Bass diffusion model
-theta_DISPINC_SD = 1.5
-theta_km_traveler[cair] = 0.7
-theta_DISPINC_LD = 0.6
-theta_km_traveler_LD = 0.4
-theta_DISPINC_SD = 0.4
-theta_km_traveler_SD = 0.3
-theta_km_trav_auto_LD = 0.5
-theta_km_trav_auto_SD = 0.2
-theta_UC_K_AUTO = 0.76
-theta_UC_E_AUTO = 0.2
+theta_kmtravcair_DISPINC := 1.5
+theta_kmtravcair_Pkmtrav := 0.7
+
+theta_kmtravLD_DISPINC := 0.6
+theta_kmtravLD_Pkmtrav := 0.4
+
+theta_kmtravSD_DISPINC := 0.4
+theta_kmtravSD_Pkmtrav := 0.3
+
+theta_kmtrav_autoLD_crai := 0.5
+theta_kmtrav_autoSD_croa := 0.2
+
+theta_U_AUTO_UC_K := 0.76
+theta_U_AUTO_UC_E := 0.2
+
 
 
 #############################################
@@ -118,9 +123,9 @@ NewAUTO[ecl,cgas]  := TRANSPORT(39, $ecl)
 overcost_elec :=  3000 / 1000 * (1 + GR_PRICES) ^ (@year - %baseyear)     # Value 2015 in ThreeME V2
 Pbattery 	  := 14875 / 1000 * (1 + GR_PRICES) ^ (@year - %baseyear)     # Value 2015 in ThreeME V2
 
-delta_AUTO[ecl,cele,DES] := TRANSPORT(44, $ecl)
-delta_AUTO[ecl,coil,DES] := TRANSPORT(45, $ecl)
-delta_AUTO[ecl,cgas,DES] := TRANSPORT(46, $ecl)
+Rdep_AUTO[ecl,cele,DES] := TRANSPORT(44, $ecl)
+Rdep_AUTO[ecl,coil,DES] := TRANSPORT(45, $ecl)
+Rdep_AUTO[ecl,cgas,DES] := TRANSPORT(46, $ecl)
 
 CH_AUTO_toe[ecl,cele] := TRANSPORT(48, $ecl)
 CH_AUTO_toe[ecl,coil] := TRANSPORT(49, $ecl)
