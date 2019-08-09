@@ -35,9 +35,7 @@ d(R_I_BUIL[ ecl])    = d(R)
 #### Building stock dynamic (in m2)
 
 ##! Total building stock
-
-
-#d(log(BUIL)) = (@year > %baseyear) * (d(log(POP)) + d(log(M2perCapita)))
+d(log(BUIL)) = (@year > %baseyear) * (d(log(POP)) + d(log(M2perCapita))) + (@year <= %baseyear) * (0)
 ## It follows proportionally the size of the population ($POP$) and the number of square meter per inhabitant ($M2perCapita$). \\
 
 ##! Number of square meter per person
@@ -96,18 +94,14 @@ PREHAB *  REHAB = sum( PREHAB[ecl]  * REHAB[ecl] if REHAB[ecl] <> 0 on ecl )
 ENER_BUIL[ecl, ceb] = ENERperM2[ ecl, ceb] * BUIL[ecl] if ENER_BUIL[ ecl, ceb] <> 0
 
 ##! Consumption of energy $ceb$ per square meter in class $ecl$ buildings
-d(log(ENERperM2[ecl, ceb])) = 0 if ENER_BUIL[ ecl, ceb] <> 0
-## L'équation se répète ici dans le pdf; une conditionnalité serait sans doute mieux non ?
-# sobri�t�, reglementation thermique, substitution inter�nergie  integr� dans exceptions_ADEMEhaut: REPRENDRE
-
 d(log(ENERperM2[ecl, ceb])) = - eta_ENERperM2[ecl, ceb] * d(log(PCH[ceb])-log(PCH))*(d(log(PCH[ceb])-log(PCH))>0) + d(SUBST_NRJperM2[ecl, ceb]) if ENERperM2[ecl, ceb] <> 0
 
+
+##! Substitution between energy commodity $ceb$ and the other energy commodities $cebb$ consumed in class $ecl$ buildings
 d(SUBST_NRJperM2[ecl, ceb]) = sum(-ES_BUILNRJ[ecl, ceb, cebb] * phi[ecl, cebb]{-1} * d(log(PCH[ceb]) - log(PCH[cebb]))) if  ENERperM2[ecl, ceb] <> 0
 
-
-## ! Share of energy expenditures by $ecl$ class building
+##! Share of energy expenditures by $ecl$ class building
 phi[ecl, ceb] = (PCH[ceb] * CH_ENER_BUIL[ecl, ceb]) / (sum(PCH[cebb] * CH_ENER_BUIL[ecl, cebb] on cebb))
-
 
 ##! Consumption of energy $ceb$ by class $ecl$ buildings (in millions of euros)
 d(log(CH_ENER_BUIL[ecl, ceb])) = d(log(ENER_BUIL[ecl, ceb])) if ENER_BUIL[ ecl, ceb] <> 0
@@ -214,7 +208,7 @@ UC_E_REHAB[ecl] = sum(phi_REHAB[ecl,ecl2] * UC_E[ecl2] if REHAB[ecl,ecl2] <> 0 o
 UC_K_REHAB[ecl] = sum(phi_REHAB[ecl,ecl2] * UC_K_REHAB[ecl,ecl2] if REHAB[ecl,ecl2]  <> 0 on ecl2) if REHAB[ecl]  <> 0
 
 ##! User capital cost of a $ecl$ class building after rehabilitation to a $ecl2$ class
-#UC_K_REHAB[ecl,ecl2] = (1 - R_SUB[ecl,ecl2]) * (PREHAB[ecl,ecl2] / REHAB_D[ecl2] * ( R_CASH_REHAB[ecl] + R_LOAN_REHAB[ecl] * R_I_REHAB[ecl]{-1} * LD_REHAB[ecl] / ( 1 - ( 1 + R_I_REHAB[ecl]{-1})^( -LD_REHAB[ecl] ) ) )) if REHAB[ecl,ecl2] <> 0
+UC_K_REHAB[ecl,ecl2] = (1 - R_SUB[ecl,ecl2]) * (PREHAB[ecl,ecl2] / REHAB_D[ecl2] * ( R_CASH_REHAB[ecl] + (R_LOAN_REHAB[ecl] * R_I_REHAB[ecl]{-1} * LD_REHAB[ecl]) / ( 1 - ( 1 + R_I_REHAB[ecl]{-1})^( -LD_REHAB[ecl] ) ) )) if REHAB[ecl,ecl2] <> 0
 
 
 
@@ -239,7 +233,7 @@ UC[ecl] = UC_K[ecl] + UC_E[ecl]
 
 ##! User cost of capital of a class $ecl$ building
 UC_K[ecl] = ( PREHAB[ecl,ecl] / BUIL_D[ecl] ) * ( R_CASH[ecl] + (R_LOAN[ecl] * R_I_BUIL[ecl]{-1} * LD[ecl]) / _
-                 ( 1 - ( 1 + R_I_BUIL[ecl]{-1}) ^( -LD[ecl] ) )
+                 ( 1 - ( 1 + R_I_BUIL[ecl]{-1}) ^( -LD[ecl] ) ) )
 
 ## Notice that it depends on $PREHAB_{ecl,ecl}$, the price of rehabilitating (maintaining) a building of $ecl$ in the same class. \\
 
@@ -302,12 +296,10 @@ EXP_NEWBUIL_VAL = PNEWBUIL * NEWBUIL
 
 # Verif hybrid
 
-#Verif_BUILbis = (BUILbis/BUIL - 1)*100
+Verif_BUILbis = (BUILbis/BUIL - 1)*100
 
-#Verif_phi_REHAB[ecl] = (1 - (sum(phi_REHAB[ecl,ecl2] if phi_REHAB[ecl,ecl2] <> 0 on ecl2))) * 100  if REHAB[ecl]  <> 0
+Verif_phi_REHAB[ecl] = (1 - (sum(phi_REHAB[ecl,ecl2] if phi_REHAB[ecl,ecl2] <> 0 on ecl2))) * 100  if REHAB[ecl]  <> 0
 
-#Verif_HYBRID = ( (sum(verif_phi_REHAB[ecl] on ecl))^2 + Verif_BUILbis^2 )^(1/2)
+Verif_HYBRID = ( (sum(verif_phi_REHAB[ecl] on ecl))^2 + Verif_BUILbis^2 )^(1/2)
 
-
-# Test
-#verif_UC_K_REHAB[ecl] = (UC_K_REHABbis[ecl]/UC_K_REHAB[ecl] - 1) * 100 if REHAB[ecl]  <> 0
+verif_UC_K_REHAB[ecl] = (UC_K_REHABbis[ecl]/UC_K_REHAB[ecl] - 1) * 100 if REHAB[ecl]  <> 0
