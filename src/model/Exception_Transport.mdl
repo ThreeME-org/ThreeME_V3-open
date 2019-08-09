@@ -412,14 +412,14 @@ km_trav_auto = km_trav_auto_LD + km_trav_auto_SD
 # ############ VERIF ############
 # ###############################
 
-verif_EXP_AUTO_VALbis = (EXP_AUTO_VALbis/EXP_AUTO_VAL - 1)*100 if EXP_AUTO_VAL <> 0
+# verif_EXP_AUTO_VALbis = (EXP_AUTO_VALbis/EXP_AUTO_VAL - 1)*100 if EXP_AUTO_VAL <> 0
 
-verif_AUTObis = (AUTObis/AUTO - 1)*100 if AUTO <> 0
-verif_km_AUTObis = (km_AUTObis/km_AUTO - 1)*100 if km_AUTO <> 0
+# verif_AUTObis = (AUTObis/AUTO - 1)*100 if AUTO <> 0
+# verif_km_AUTObis = (km_AUTObis/km_AUTO - 1)*100 if km_AUTO <> 0
 
-verif_NewAUTObis[ecl,th] = (NewAUTO_bis[ecl,th]/NewAUTO[ecl,th]-1)*100 if NewAUTO[ecl,th] <> 0
+# verif_NewAUTObis[ecl,th] = (NewAUTO_bis[ecl,th]/NewAUTO[ecl,th]-1)*100 if NewAUTO[ecl,th] <> 0
 
-verif_phi_NewAUTO[ecl] = (1 - (sum((phi_NewAUTO[ecl2]^2)^(1/2) on ecl2))) * 100
+# verif_phi_NewAUTO[ecl] = (1 - (sum((phi_NewAUTO[ecl2]^2)^(1/2) on ecl2))) * 100
 # Squared specification to avoid negative phi_NewAUTO[ecl]
 
-verif_UC_AUTObis = (UC_AUTObis/UC_AUTO - 1)*100 if UC_AUTO <> 0
+# verif_UC_AUTObis = (UC_AUTObis/UC_AUTO - 1)*100 if UC_AUTO <> 0
