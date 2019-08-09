@@ -7,45 +7,44 @@ library(stringr)
 # 
 # First evaluate the whole file (Run)
 # Then, example use:
-teXdoc(c("test.mdl"), out = "test_0")
 
- teXdoc(c("Exception_Transport.mdl", "Exception_housing.mdl","Exception_ConsumerNested.mdl" ), out = "Exceptions")
- teXdoc(c("Exception_housing.mdl"), out = "test_2")
- teXdoc(c("Exception_Transport.mdl"), out = "test_2")
-  
- teXdoc(c("Exception_ConsumerNested.mdl"), out = "test_3")
- 
- 
- 
- teXdoc(c(
-         "Intro_doc_eqs.mdl",
-         "SU.mdl",
-         "prices.mdl",
-         "producer.mdl",
-         "consumer.mdl",
-         "government.mdl",
-         "Trade_inter.mdl",
-         "demography.mdl",
-         "ghg_emissions.mdl",
-         "energybalance.mdl",
-         "adjustments.mdl",
-         "Exception_taxes_prices.mdl",
-         "Exception_ConsumerNested.mdl",
-         "Exception_NestedCES.mdl",
-         "Exception_housing.mdl",   # To write explicitely some equations 
-         "Exception_Transport.mdl", # To write explicitely some equations 
-         #"Exception_Walras.mdl",
-         #"Exception_hybrid - Other.mdl",
-         "ETS.mdl"
-         ), 
-        #exo = c("exogenous.mdl"),
-        out = "chapter5-eqs")
+ # teXdoc(c("test.mdl"), out = "test_0")
+ # teXdoc(c("Exception_Transport.mdl"), out = "test")
+ # 
+ # teXdoc(c("Exception_Transport.mdl", "Exception_housing.mdl","Exception_ConsumerNested.mdl" ), out = "Exceptions")
+ # teXdoc(c("Exception_housing.mdl"), out = "test_2")
+ # teXdoc(c("Exception_Transport.mdl"), out = "test_2")
+ # 
+ # teXdoc(c("Exception_ConsumerNested.mdl"), out = "test_3")
+ # 
+ # teXdoc(c(
+ #         "Intro_doc_eqs.mdl",
+ #         "SU.mdl",
+ #         "prices.mdl",
+ #         "producer.mdl",
+ #         "consumer.mdl",
+ #         "government.mdl",
+ #         "Trade_inter.mdl",
+ #         "demography.mdl",
+ #         "ghg_emissions.mdl",
+ #         "energybalance.mdl",
+ #         "adjustments.mdl",
+ #         "Exception_taxes_prices.mdl",
+ #         "Exception_ConsumerNested.mdl",
+ #         "Exception_NestedCES.mdl",
+ #         "Exception_housing.mdl",   # To write explicitely some equations 
+ #         "Exception_Transport.mdl", # To write explicitely some equations 
+ #         #"Exception_Walras.mdl",
+ #         #"Exception_hybrid - Other.mdl",
+ #         "ETS.mdl"
+ #         ), 
+ #        #exo = c("exogenous.mdl"),
+ #        out = "chapter5-eqs")
 
 # "out =" can be ommited.
-  # If ' out = "outputfilename" ' is ommited, the output files will be "doc.tex", doc.pdf, etc.  
+# If ' out = "outputfilename" ' is ommited, the output files will be "doc.tex", doc.pdf, etc.  
   
   rm(list = ls())
-  #teXdoc(c("Exception_Transport.mdl"), out = "test")
   peg <- new.parser()
   
   
