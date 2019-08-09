@@ -90,7 +90,6 @@ d(log(km_traveler[croa])) = (@year > %baseyear) * (d(log(km_traveler_SD)) - thet
 d(log(km_AUTO_LD)) = (@year > %baseyear) * (d(log(km_trav_auto_LD)) - d(log(travperauto_LD))) + (@year <= %baseyear) * (0)
 # Expressed in thousand.
 
-
 ##! Kilometers for short distance by automobile
 d(log(km_AUTO_SD)) = (@year > %baseyear) * (d(log(km_trav_auto_SD)) - d(log(travperauto_SD))) + (@year <= %baseyear) * (0)
 # Expressed in thousand.
@@ -119,9 +118,8 @@ NewAUTO[ecl] = phi_NewAUTO[ecl] * NewAUTO
 
 ##! Utility of a automobile of class $ecl$
 d(U_AUTO[ecl]) = (@year > %baseyear) * (-theta_U_AUTO_UC_K * d(UC_K_AUTO[ecl]) - theta_U_AUTO_UC_E * d(UC_E_AUTO[ecl])) + (@year <= %baseyear) * (0)
-## This utility is a function of the gain from the rehabilitation. For convenience it is calibrated as equal to $\operatorname{log} \varphi^{NewAUTO}_{ecl}$ at the base year. The coefficients of the utility function are derived from the study of Durrmeyer (2017). \\
-# Durrmeyer, I., & Samano, M. (2017). To rebate or not to rebate: Fuel economy standards versus feebates. The Economic Journal, 128(616), 3076-3116. \citet{durrmeyer2017rebate}
-##  \footnote{Durrmeyer, I., & Samano, M. (2017). To rebate or not to rebate: Fuel economy standards versus feebates. The Economic Journal, 128(616), 3076-3116}
+## This utility is a function of the gain from the rehabilitation. For convenience it is calibrated as equal to $\operatorname{log} \varphi^{NewAUTO}_{ecl}$ at the base year. The coefficients of the utility function are derived from the study of Durrmeyer and Samano (2017) \footnote{Durrmeyer, I., & Samano, M. (2017). To rebate or not to rebate: Fuel economy standards versus feebates. The Economic Journal, 128(616), 3076-3116}. \\
+# \citet{durrmeyer2017rebate}
 
 ##!  sum of the expnential utilities of automobile per class
 SUM_exp_U_AUTO = sum(exp(U_AUTO[ecl]) on ecl)
@@ -135,7 +133,6 @@ phi_NewAUTO[ecl] = ADJUST_phi_NewAUTO * phi_NewAUTO_n[ecl] + (1 - ADJUST_phi_New
 
 ### Level 4: Arbitrage between electric and thermic automobile per classes
 
-
 ##! New electric automobiles of class $ecl$
 NewAUTO[ecl,cele] = phi_NewAUTO[ecl,cele] * NewAUTO[ecl]
 ## Every class of electric car has no emission. But their energy consumption vary per km. \\
@@ -147,16 +144,11 @@ phi_NewAUTO[ecl,cele] = phi_NewAUTO_n[ecl,cele] * (phi_NewAUTO_n[ecl,cele] <= 1)
 
 ##! Notional share of class $ecl$ electric automobile
 d(phi_NewAUTO_n[ecl,cele]) / (1-phi_NewAUTO_n[ecl,cele]{-1}) = innovation_exo[ecl] + innovation[ecl] + imitation[ecl] * phi_NewAUTO_n[ecl,cele]{-1}
-## The adoption of electric automobile is modeled according to Bass Diffusion Model (Bass, 1969). The parameters of the model are calibrated using the study of Taszka (2017) . \\
-## \footnote{Bass, F. M. (1969). A new product growth for model consumer durables. Management science, 15(5), 215-227}
-## \footnote{Taszka, S., Domergue, S., Poret, M., & Monnoyer-Smith, L. (2017). Cost-benefit analysis of electrical vehicles.}
-
-# Bass, F. M. (1969). A new product growth for model consumer durables. Management science, 15(5), 215-227. \citep{bass1969new}
-# Taszka, S., Domergue, S., Poret, M., & Monnoyer-Smith, L. (2017). Cost-benefit analysis of electrical vehicles. Cars. \citet{taszka2017cost}
+## The adoption of electric automobile is modeled according to Bass Diffusion Model (Bass, 1969) \footnote{Bass, F. M. (1969). A new product growth for model consumer durables. Management science, 15(5), 215-227}. The parameters of the model are calibrated using the study of Taszka et al. (2017) \footnote{Taszka, S., Domergue, S., Poret, M., & Monnoyer-Smith, L. (2017). Cost-benefit analysis of electrical vehicles.}. \\
+# \citep{bass1969new}  \citet{taszka2017cost}
 
 ##! Bass innovation parameter for class $ecl$ electric automobile
 d(innovation[ecl]) = ES_BASS[ecl] * d(((2 * UC_AUTO[ecl,cele])^(-nu_diffusion[ecl])) / (((2 * UC_AUTO[ecl,cele])^(-nu_diffusion[ecl]) + (UC_AUTO[ecl,th])^(-nu_diffusion[ecl]))))
-
 
 ##! New thermic automobiles of class $ecl$
 NewAUTO[ecl,th] = NewAUTO[ecl] - NewAUTO[ecl,cele]
@@ -181,7 +173,6 @@ NewAUTO[ecl,cgas] = NewAUTO[ecl,th] - NewAUTO[ecl,coil]  if NewAUTO[ecl,cgas]  <
 d(phi_NewAUTO[ecl,coil]) = 0
 ## For simplicity, the share of the different types of thermic automobiles is assumed constant. Arbitrage between types of thermic automobiles can be added by modifying the above equation. \\
 
-
 ### Level 5: Stock of automobiles
 
 ##! Stock of automobiles of class $ecl$ fueled with energy $cea$
@@ -191,7 +182,6 @@ d(AUTO[ecl,cea]) = (@year > %baseyear) * (NewAUTO[ecl,cea] - AUTO[ecl,cea,DES]) 
 ##! Class $ecl$ fueled with energy $cea$ automobiles destroyed
 AUTO[ecl,cea,DES] = Rdep_AUTO[ecl,cea,DES] * AUTO[ecl,cea]{-1}
 # Expressed in thousand.
-
 
 ##! Automobiles fueled with energy $cea$
 AUTO[cea] = sum(AUTO[ecl,cea] on ecl)
@@ -234,7 +224,7 @@ AUTO[th,DES] = sum(AUTO[ecl,th,DES] on ecl)
 ### User cost of automobile
 
 ##! User energy cost of a  class $ecl$ automobile fueled with energy $cea$
-UC_E_AUTO[ecl,cea] = PE_AUTO[ecl,cea] * ((1 + GR_PE_AUTO_e[ecl,cea]) ^ AUTO_D[ecl,cea] - 1) / (GR_PE_AUTO_e[ecl,cea] * AUTO_D[ecl,cea]) if AUTO[ecl,cea] <> 0
+UC_E_AUTO[ecl,cea] = PE_AUTO[ecl,cea] * (((1 + GR_PE_AUTO_e[ecl,cea]) ^ AUTO_D[ecl,cea]) - 1) / (GR_PE_AUTO_e[ecl,cea] * AUTO_D[ecl,cea]) if AUTO[ecl,cea] <> 0
 # Expressed in Thousand of Euros.
 
 ##! Energy price of a class $ecl$ automobile fueled with energy $cea$
@@ -246,7 +236,7 @@ GR_PE_AUTO_e[ecl,cea] = (@year > %baseyear) * (ADJUST_GR_PE_AUTO_e_1 * @pchy( PE
 
 
 ##! User capital cost of a class $ecl$ automobile fueled with energy $cea$
-UC_K_AUTO[ecl,cea] = (1 - R_SUB_AUTO[ecl,cea]) * PNewAUTO[ecl,cea] / AUTO_D[ecl,cea] * (R_CASH_AUTO[ecl,cea] +   _
+UC_K_AUTO[ecl,cea] = ((1 - R_SUB_AUTO[ecl,cea]) * PNewAUTO[ecl,cea] / AUTO_D[ecl,cea]) * (R_CASH_AUTO[ecl,cea] +   _
                           R_LOAN_AUTO[ecl,cea] * R_I_AUTO[ecl,cea]{-1} * LD_AUTO[ecl,cea] / ( 1 - ( 1 + R_I_AUTO[ecl,cea]{-1} )^( - LD_AUTO[ecl,cea] ) ) )
 # Expressed in Thousand of Euros.
 ## To write explicitly \\
@@ -337,8 +327,6 @@ UC_M_AUTO[ecl] * AUTO[ecl] = UC_M_AUTO[ecl,cele] * AUTO[ecl,cele] + UC_M_AUTO[ec
 UC_M_AUTO[ecl,th] * AUTO[ecl,th] = UC_M_AUTO[ecl,coil] * AUTO[ecl,coil] + UC_M_AUTO[ecl,cgas] * AUTO[ecl,cgas]	if AUTO[ecl,th] <> 0
 # Expressed in Thousand of Euros.
 
-
-
 ### Households' energy consumption related to transport
 
 ##! Kilometers by a class $ecl$ automobile fueled with energy $cea$
@@ -424,14 +412,14 @@ km_trav_auto = km_trav_auto_LD + km_trav_auto_SD
 # ############ VERIF ############
 # ###############################
 
-#verif_EXP_AUTO_VALbis = (EXP_AUTO_VALbis/EXP_AUTO_VAL - 1)*100 if EXP_AUTO_VAL <> 0
+verif_EXP_AUTO_VALbis = (EXP_AUTO_VALbis/EXP_AUTO_VAL - 1)*100 if EXP_AUTO_VAL <> 0
 
-#verif_AUTObis = (AUTObis/AUTO - 1)*100 if AUTO <> 0
-#verif_km_AUTObis = (km_AUTObis/km_AUTO - 1)*100 if km_AUTO <> 0
+verif_AUTObis = (AUTObis/AUTO - 1)*100 if AUTO <> 0
+verif_km_AUTObis = (km_AUTObis/km_AUTO - 1)*100 if km_AUTO <> 0
 
-#verif_NewAUTObis[ecl,th] = (NewAUTO_bis[ecl,th]/NewAUTO[ecl,th]-1)*100 if NewAUTO[ecl,th] <> 0
+verif_NewAUTObis[ecl,th] = (NewAUTO_bis[ecl,th]/NewAUTO[ecl,th]-1)*100 if NewAUTO[ecl,th] <> 0
 
-#verif_phi_NewAUTO[ecl] = (1 - (sum((phi_NewAUTO[ecl2]^2)^(1/2) on ecl2))) * 100
+verif_phi_NewAUTO[ecl] = (1 - (sum((phi_NewAUTO[ecl2]^2)^(1/2) on ecl2))) * 100
 # Squared specification to avoid negative phi_NewAUTO[ecl]
 
-#verif_UC_AUTObis = (UC_AUTObis/UC_AUTO - 1)*100 if UC_AUTO <> 0
+verif_UC_AUTObis = (UC_AUTObis/UC_AUTO - 1)*100 if UC_AUTO <> 0
