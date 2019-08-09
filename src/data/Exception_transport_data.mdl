@@ -7,7 +7,7 @@ include parameters
 
 ADJUST_phi_NewAUTO := 0.5
 
-R_I_AUTO[ecl,cea] := R + 0.03 
+R_I_AUTO[ecl,cea] := R + 0.03
 
 R_SUB_AUTO[ecl,cea] := 0
 R_CASH_AUTO[ecl,cea] := 0.8
@@ -28,6 +28,18 @@ imitation[ecl] := 0.078
 ES_BASS[ecl] := 1
 nu_diffusion[ecl] := 7.82
 
+# Parameters of the Bass diffusion model
+theta_DISPINC_SD = 1.5
+theta_km_traveler[cair] = 0.7
+theta_DISPINC_LD = 0.6
+theta_km_traveler_LD = 0.4
+theta_DISPINC_SD = 0.4
+theta_km_traveler_SD = 0.3
+theta_km_trav_auto_LD = 0.5
+theta_km_trav_auto_SD = 0.2
+theta_UC_K_AUTO = 0.76
+theta_UC_E_AUTO = 0.2
+
 
 #############################################
 #### Link with the rest of the model
@@ -40,7 +52,7 @@ P 		 :=  1 * (1 + GR_PRICES) ^ (@year - %baseyear)
 CH[crai] := 4179 * (1 + GR_REAL) ^ (@year - %baseyear)
 CH[croa] := 9238 * (1 + GR_REAL) ^ (@year - %baseyear)
 CH[cair] := 7336 * (1 + GR_REAL) ^ (@year - %baseyear)
-  
+
 
 
 
@@ -69,14 +81,14 @@ NCH_AUTO[cgas] := CH[cgas] * 0.05
 
 NCH[cth] := CH[cth] * 1.0
 
-NCH[cveh] := @elem(PNewAUTO*NewAUTO + UC_M_AUTO*AUTO, %baseyear) * (1 + GR_REAL) ^ (@year - %baseyear) 
+NCH[cveh] := @elem(PNewAUTO*NewAUTO + UC_M_AUTO*AUTO, %baseyear) * (1 + GR_REAL) ^ (@year - %baseyear)
 
 #######################################
 #####  Round 0: load primary date for transport block
-###################################### 
+######################################
 
 CH_AUTO[cele] := @elem(NCH_AUTO[cele],%baseyear)
-CH_AUTO[coil] := @elem(NCH_AUTO[coil],%baseyear) 
+CH_AUTO[coil] := @elem(NCH_AUTO[coil],%baseyear)
 CH_AUTO[cgas] := @elem(NCH_AUTO[cgas],%baseyear)
 
 
@@ -93,10 +105,10 @@ km_AUTO[ecl,cgas] := TRANSPORT(22, $ecl)
 
 
 km_trav_auto_LD	  := TRANSPORT(24, 9)
-km_trav_auto_SD	  := TRANSPORT(25, 9)	
-Km_traveler[crai] := TRANSPORT(26, 9)  
-Km_traveler[croa] := TRANSPORT(28, 9)  	
-Km_traveler[cair] := TRANSPORT(30, 9)  
+km_trav_auto_SD	  := TRANSPORT(25, 9)
+km_traveler[crai] := TRANSPORT(26, 9)
+km_traveler[croa] := TRANSPORT(28, 9)
+km_traveler[cair] := TRANSPORT(30, 9)
 
 NewAUTO[ecl,cele]  := TRANSPORT(36, $ecl)
 
@@ -106,16 +118,16 @@ NewAUTO[ecl,cgas]  := TRANSPORT(39, $ecl)
 overcost_elec :=  3000 / 1000 * (1 + GR_PRICES) ^ (@year - %baseyear)     # Value 2015 in ThreeME V2
 Pbattery 	  := 14875 / 1000 * (1 + GR_PRICES) ^ (@year - %baseyear)     # Value 2015 in ThreeME V2
 
-delta_AUTO[ecl,cele,DES] := TRANSPORT(44, $ecl) 
-delta_AUTO[ecl,coil,DES] := TRANSPORT(45, $ecl)  
-delta_AUTO[ecl,cgas,DES] := TRANSPORT(46, $ecl) 
+delta_AUTO[ecl,cele,DES] := TRANSPORT(44, $ecl)
+delta_AUTO[ecl,coil,DES] := TRANSPORT(45, $ecl)
+delta_AUTO[ecl,cgas,DES] := TRANSPORT(46, $ecl)
 
 CH_AUTO_toe[ecl,cele] := TRANSPORT(48, $ecl)
 CH_AUTO_toe[ecl,coil] := TRANSPORT(49, $ecl)
 CH_AUTO_toe[ecl,cgas] := TRANSPORT(50, $ecl)
 
-overcost_elec[ecl] :=  TRANSPORT(52, $ecl) / 1000 * (1 + GR_PRICES) ^ (@year - %baseyear)    
-Pbattery[ecl] 	  := TRANSPORT(53, $ecl) / 1000 * (1 + GR_PRICES) ^ (@year - %baseyear)     
+overcost_elec[ecl] :=  TRANSPORT(52, $ecl) / 1000 * (1 + GR_PRICES) ^ (@year - %baseyear)
+Pbattery[ecl] 	  := TRANSPORT(53, $ecl) / 1000 * (1 + GR_PRICES) ^ (@year - %baseyear)
 
 PNewAUTO[ecl,coil]  := TRANSPORT(55, $ecl) / 1000 * (1 + GR_PRICES) ^ (@year - %baseyear)
 PNewAUTO[ecl,cgas]  := TRANSPORT(56, $ecl) / 1000 * (1 + GR_PRICES) ^ (@year - %baseyear)
@@ -126,7 +138,7 @@ MCperkm[ecl,cgas] := TRANSPORT(60, $ecl)
 
 #######################################
 #####  Construct data directly from model equation
-###################################### 
+######################################
 P_km_trav_auto * km_trav_auto := P_km_trav_auto_LD * km_trav_auto_LD + P_km_trav_auto_SD * km_trav_auto_SD
 
 km_trav_auto := km_trav_auto_LD + km_trav_auto_SD
@@ -147,9 +159,9 @@ km_AUTO := km_AUTO_LD + km_AUTO_SD
 
 NewAUTO[th] := NewAUTO - NewAUTO[cele]
 
-AUTO[ecl,cea,DES] := delta_AUTO[ecl,cea,DES]*AUTO[ecl,cea]{-1}
+AUTO[ecl,cea,DES] := Rdep_AUTO[ecl,cea,DES]*AUTO[ecl,cea]{-1}
 
-AUTO[ecl,th,DES] := AUTO[ecl,coil,DES] + AUTO[ecl,cgas,DES] 
+AUTO[ecl,th,DES] := AUTO[ecl,coil,DES] + AUTO[ecl,cgas,DES]
 
 AUTO[ecl,DES] := AUTO[ecl,cele,DES] + AUTO[ecl,th,DES]
 
@@ -177,21 +189,21 @@ km_AUTO[ecl] := sum(km_AUTO[ecl,cea] on cea)
 SUM_EXP_U_AUTO := sum(EXP(U_AUTO[ecl]) on ecl)
 
 
-UC_AUTO[ecl] := UC_K_AUTO[ecl] + UC_E_AUTO[ecl] + UC_M_AUTO[ecl]	
+UC_AUTO[ecl] := UC_K_AUTO[ecl] + UC_E_AUTO[ecl] + UC_M_AUTO[ecl]
 
-UC_AUTO[ecl,cea] := UC_K_AUTO[ecl,cea] + UC_E_AUTO[ecl,cea] + UC_M_AUTO[ecl,cea] 
+UC_AUTO[ecl,cea] := UC_K_AUTO[ecl,cea] + UC_E_AUTO[ecl,cea] + UC_M_AUTO[ecl,cea]
 
-UC_AUTO[ecl,th] := UC_K_AUTO[ecl,th] + UC_E_AUTO[ecl,th] + UC_M_AUTO[ecl,th] 
+UC_AUTO[ecl,th] := UC_K_AUTO[ecl,th] + UC_E_AUTO[ecl,th] + UC_M_AUTO[ecl,th]
 
-UC_K_AUTO[ecl] * AUTO[ecl] := UC_K_AUTO[ecl,cele] * AUTO[ecl,cele] + UC_K_AUTO[ecl,th] * AUTO[ecl,th] 
+UC_K_AUTO[ecl] * AUTO[ecl] := UC_K_AUTO[ecl,cele] * AUTO[ecl,cele] + UC_K_AUTO[ecl,th] * AUTO[ecl,th]
 
 UC_K_AUTO[ecl,th] * AUTO[ecl,th] := UC_K_AUTO[ecl,coil] * AUTO[ecl,coil] + UC_K_AUTO[ecl,cgas] * AUTO[ecl,cgas]
 
-UC_E_AUTO[ecl] * AUTO[ecl] := UC_E_AUTO[ecl,cele] * AUTO[ecl,cele] + UC_E_AUTO[ecl,th] * AUTO[ecl,th] 
+UC_E_AUTO[ecl] * AUTO[ecl] := UC_E_AUTO[ecl,cele] * AUTO[ecl,cele] + UC_E_AUTO[ecl,th] * AUTO[ecl,th]
 
 UC_E_AUTO[ecl,th] * AUTO[ecl,th] := UC_E_AUTO[ecl,coil] * AUTO[ecl,coil] + UC_E_AUTO[ecl,cgas] * AUTO[ecl,cgas]
 
-UC_E_AUTO[ecl,cea] := PE_AUTO[ecl,cea] * ((1 + GR_PE_AUTO_e[ecl,cea]) ^ AUTO_D[ecl,cea] - 1) / (GR_PE_AUTO_e[ecl,cea] * AUTO_D[ecl,cea]) 
+UC_E_AUTO[ecl,cea] := PE_AUTO[ecl,cea] * ((1 + GR_PE_AUTO_e[ecl,cea]) ^ AUTO_D[ecl,cea] - 1) / (GR_PE_AUTO_e[ecl,cea] * AUTO_D[ecl,cea])
 
 UC_K_AUTO[ecl,cea] := (1 - R_SUB_AUTO[ecl,cea]) * PNewAUTO[ecl,cea] / AUTO_D[ecl,cea] * (R_CASH_AUTO[ecl,cea] +   _
       R_LOAN_AUTO[ecl,cea] * R_I_AUTO[ecl,cea]{-1} * LD_AUTO[ecl,cea] / ( 1 - ( 1 + R_I_AUTO[ecl,cea]{-1} )^( - LD_AUTO[ecl,cea] ) ) )
@@ -226,7 +238,7 @@ UC_M_AUTO * AUTO := sum(UC_M_AUTO[ecl] * AUTO[ecl] on ecl) if AUTO <> 0
 
 #######################################
 #####  Special data: not from model equation
-###################################### 
+######################################
 
 P_km_AUTO := @elem(EXP_AUTO_VAL * 1000 / km_AUTO, %baseyear) * (1 + GR_PRICES) ^ (@year - %baseyear)
 
@@ -275,9 +287,9 @@ kmPerAuto := km_AUTO / AUTO
 
 phi_NewAUTO[ecl] := NewAUTO[ecl] / NewAUTO
 
-phi_NewAUTO[ecl,cele] := NewAUTO[ecl,cele] / NewAUTO[ecl] 
+phi_NewAUTO[ecl,cele] := NewAUTO[ecl,cele] / NewAUTO[ecl]
 
-phi_NewAUTO[ecl,coil] := NewAUTO[ecl,coil]/NewAUTO[ecl,th] 
+phi_NewAUTO[ecl,coil] := NewAUTO[ecl,coil]/NewAUTO[ecl,th]
 
 U_AUTO[ecl] := log(phi_NewAUTO[ecl])
 
@@ -285,7 +297,7 @@ phi_NewAUTO_n[ecl] := phi_NewAUTO[ecl]
 phi_NewAUTO_n[ecl,cele] := phi_NewAUTO[ecl,cele]
 
 phi_NewAUTO_targ[ecl,cele] := phi_NewAUTO[ecl,cele]
-innovation_exo[ecl] := d(phi_NewAUTO_targ[ecl,cele]) / (1-phi_NewAUTO_n[ecl,cele]{-1}) - (innovation[ecl] + imitation[ecl] * phi_NewAUTO_n[ecl,cele]{-1}) 
+innovation_exo[ecl] := d(phi_NewAUTO_targ[ecl,cele]) / (1-phi_NewAUTO_n[ecl,cele]{-1}) - (innovation[ecl] + imitation[ecl] * phi_NewAUTO_n[ecl,cele]{-1})
 innovation[ecl] := 0
 
 toePerKm[ecl,cea] := CH_AUTO_toe[ecl,cea] / km_AUTO[ecl,cea]
