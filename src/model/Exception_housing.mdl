@@ -276,9 +276,9 @@ DEBT_NewB_Val[ecl] = (@year > %baseyear) * ( ( 1 - R_RMBS_NewBUIL[ecl] ) * DEBT_
 
 
 ##! Housing expenditures in class $ecl$ buildings (in value)
-#EXP_HOUSING_Val[ecl] = (@year > %baseyear) * ( DEBT_REHAB_Val[ecl]{-1} * (R_I_REHAB[ecl]{-1} + R_RMBS_REHAB[ecl]{-1} ) _
-#                                                  + R_CASH_REHAB[ecl] * PREHAB[ecl] * REHAB[ecl] + DEBT_NewB_Val[ecl]{-1} * ( R_I_NewBUIL[ecl]{-1} + R_RMBS_NewBUIL[ecl]{-1} ) _
-#                                                  + R_CASH_NewBUIL[ecl] * PNewBUIL[ecl] * NewBUIL[ecl] + PENER_BUIL[ecl] * ENER_BUIL[ecl] ) + (@year <= %baseyear) * EXP_HOUSING_Val[ecl]{-1} * ( 1 + GR_NOMI )
+EXP_HOUSING_Val[ecl] = (@year > %baseyear) * ( DEBT_REHAB_Val[ecl]{-1} * (R_I_REHAB[ecl]{-1} + R_RMBS_REHAB[ecl]{-1} ) _
+                                                  + R_CASH_REHAB[ecl] * PREHAB[ecl] * REHAB[ecl] + DEBT_NewB_Val[ecl]{-1} * ( R_I_NewBUIL[ecl]{-1} + R_RMBS_NewBUIL[ecl]{-1} ) _
+                                                  + R_CASH_NewBUIL[ecl] * PNewBUIL[ecl] * NewBUIL[ecl] + PENER_BUIL[ecl] * ENER_BUIL[ecl] ) + (@year <= %baseyear) * EXP_HOUSING_Val[ecl]{-1} * ( 1 + GR_NOMI )
 
 
 
