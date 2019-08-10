@@ -10,6 +10,8 @@ SUM_EXP_U_REHAB[ecl] := sum(EXP(U_REHAB[ecl,ecl2]) if REHAB[ecl,ecl2] <> 0 on ec
 
 PREHAB[ecl] := if(REHAB[ecl] <> 0, (sum((1 - R_SUB[ecl,ecl2])*PREHAB[ecl,ecl2]*REHAB[ecl,ecl2] on ecl2) ) / REHAB[ecl] , P)
 
+U_REHAB[ecl,ecl2] := log(phi_REHAB[ecl,ecl2]) if phi_REHAB[ecl,ecl2] <> 0
+
 # Exemple suppression element of list
 # PREHAB[ecl]*REHAB[ecl] := sum((1 - R_SUB[ecl,ecl2])*PREHAB[ecl,ecl2]*REHAB[ecl,ecl2] on ecl2 in %list_ener_class \ CA) where ecl in %list_ener_class \ CA
 # aaaa := sum( REHAB[ecl2] on ecl2 in %list_ener_class \ CA CB)

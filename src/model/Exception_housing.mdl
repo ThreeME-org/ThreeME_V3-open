@@ -89,13 +89,10 @@ PREHAB *  REHAB = sum( PREHAB[ecl]  * REHAB[ecl] if REHAB[ecl] <> 0 on ecl )
 #### Energy consumption of buildings
 
 ##! Consumption of energy $ceb$ by class $ecl$ buildings expressed in toe
-# GWh est un million de KWh --> plutot l'exprimer dans cette unité ?
-
 ENER_BUIL[ecl, ceb] = ENERperM2[ ecl, ceb] * BUIL[ecl] if ENER_BUIL[ ecl, ceb] <> 0
 
 ##! Consumption of energy $ceb$ per square meter in class $ecl$ buildings
 d(log(ENERperM2[ecl, ceb])) = - eta_ENERperM2[ecl, ceb] * d(log(PCH[ceb])-log(PCH))*(d(log(PCH[ceb])-log(PCH))>0) + d(SUBST_NRJperM2[ecl, ceb]) if ENERperM2[ecl, ceb] <> 0
-
 
 ##! Substitution between energy commodity $ceb$ and the other energy commodities $cebb$ consumed in class $ecl$ buildings
 d(SUBST_NRJperM2[ecl, ceb]) = sum(-ES_BUILNRJ[ecl, ceb, cebb] * phi[ecl, cebb]{-1} * d(log(PCH[ceb]) - log(PCH[cebb]))) if  ENERperM2[ecl, ceb] <> 0
@@ -118,9 +115,7 @@ PCH_ENER_BUIL[ecl] *  CH_ENER_BUIL[ecl] = sum(PCH[ceb] * CH_ENER_BUIL[ecl, ceb] 
 ##! Consumption of energy $ceb$ (in millions of euros)
 CH_ENER_BUIL[ceb] =  sum(CH_ENER_BUIL[ecl, ceb] if CH_ENER_BUIL[ecl,ceb] <> 0 on ecl)
 
-
-   # ------------AGGREGATION CONSOMMATION D'ENERGIE EN KwH ET EN MILLION D'EURO
-##! Energy consumption in class $ecl$ buildings (in kWh)
+##! Energy consumption in class $ecl$ buildings (in toe)
                   ENER_BUIL[ecl] = sum(                       ENER_BUIL[ecl, ceb] if ENER_BUIL[ecl, ceb] <> 0 on ceb)
 
 ##! Energy consumption in class $ecl$ buildings (in millions of euros)
@@ -162,7 +157,7 @@ tau_REHAB_N[ecl] = tau_REHAB_MAX[ecl] + (tau_REHAB_MIN[ecl] - tau_REHAB_MAX[ecl]
 
 
 ##! First derivative of the notional rehabilitation rate of a class $ecl$ building $\tau^{REHAB_N}_{ecl}$ with respect to the log of payback time $Payback^{REHAB}_{ecl}$
-nu_REHAB[ecl] = (tau_REHAB_MAX[ecl] - tau_REHAB_MIN[ecl]) * sigma[ecl] * Payback_REHAB[ecl] * exp(tau[ecl] - sigma[ecl] * Payback_REHAB[ecl]) / (1 + exp(tau[ecl] - sigma[ecl] * Payback_REHAB[ecl]))^2 if REHAB[ecl] <> 0
+nu_REHAB[ecl] = ((tau_REHAB_MAX[ecl] - tau_REHAB_MIN[ecl]) * sigma[ecl] * Payback_REHAB[ecl] * exp(tau[ecl] - sigma[ecl] * Payback_REHAB[ecl])) / (1 + exp(tau[ecl] - sigma[ecl] * Payback_REHAB[ecl]))^2 if REHAB[ecl] <> 0
 
 ##! Rehabilitation rate of a class $ecl$ building
 tau_REHAB[ecl] = ADJUST0_tau_REHAB*tau_REHAB_N[ecl] + (1-ADJUST0_tau_REHAB)*tau_REHAB[ecl]{-1} if REHAB[ecl] <> 0
@@ -178,7 +173,7 @@ Payback_REHAB[ecl] = (UC_K_REHAB[ecl]*BUIL_D[ecl] - UC_K[ecl]*BUIL_D[ecl])/(UC_E
 GAIN_REHAB[ecl,ecl2] = (UC_E[ecl] - UC_E[ecl2]) - UC_K_REHAB[ecl,ecl2] if REHAB[ecl,ecl2] <> 0
 
 ##! Utility from rehabilitating a $ecl$ to a $ecl2$ class building
-d(U_REHAB[ecl,ecl2]) = (@year > %baseyear) * (RHO_U_GAIN[ecl,ecl2] * d(GAIN_REHAB[ecl,ecl2])/GAIN_REHAB[ecl,ecl2]{-1}) + (@year <= %baseyear) * 0   if U_REHAB[ecl,ecl2] <> 0
+d(U_REHAB[ecl,ecl2]) = (@year > %baseyear) * (RHO_U_GAIN[ecl,ecl2] * d(GAIN_REHAB[ecl,ecl2])/GAIN_REHAB[ecl,ecl2]{-1}) + (@year <= %baseyear) * 0   if phi_REHAB[ecl,ecl2] <> 0
 
 # Replace specification pr�c�dente. Specification non homog�ne: changer l'unit� mon�taire change les r�sultats!! D'o� *6000 dans la V2? De plus pourquoi un retard? A discuter avec Ga�l et Aur�lien!
 # d(U_REHAB[ecl,ecl2]) = (@year > %baseyear) * (RHO_U_GAIN[ecl,ecl2] * d(GAIN_REHAB[ecl,ecl2]{-1}))   if U_REHAB[ecl,ecl2] <> 0
@@ -194,9 +189,7 @@ d(phi_REHAB_n[ecl,ecl2]) = d(exp(U_REHAB[ecl,ecl2])/SUM_exp_U_REHAB[ecl])  if ph
 phi_REHAB[ecl,ecl2] = ADJUST_phi_REHAB * phi_REHAB_n[ecl,ecl2] + (1 - ADJUST_phi_REHAB) * phi_REHAB[ecl,ecl2]{-1} if phi_REHAB[ecl,ecl2] <> 0
 ## Notice that $\alpha^{\varphi^{REHAB}}$ is common to every class transition. This ensures that $\sum_{ecl2}(\varphi^{REHAB}_{ecl,ecl2} = 1$. \\
 
-
 ### User costs
-
 
 ##! User cost of a $ecl$ class building after rehabilitation to a more energy efficient class
 UC_REHAB[ecl] = UC_K_REHAB[ecl] + UC_E_REHAB[ecl] if REHAB[ecl] <> 0
@@ -210,17 +203,11 @@ UC_K_REHAB[ecl] = sum(phi_REHAB[ecl,ecl2] * UC_K_REHAB[ecl,ecl2] if REHAB[ecl,ec
 ##! User capital cost of a $ecl$ class building after rehabilitation to a $ecl2$ class
 UC_K_REHAB[ecl,ecl2] = (1 - R_SUB[ecl,ecl2]) * (PREHAB[ecl,ecl2] / REHAB_D[ecl2] * ( R_CASH_REHAB[ecl] + (R_LOAN_REHAB[ecl] * R_I_REHAB[ecl]{-1} * LD_REHAB[ecl]) / ( 1 - ( 1 + R_I_REHAB[ecl]{-1})^( -LD_REHAB[ecl] ) ) )) if REHAB[ecl,ecl2] <> 0
 
-
-
-
 # Replace the previous specification: TO BE DELETED AFTER VERIF ! (NEXT 2 EQUATIONS)
-##! Test
-UC_K_REHABbis[ecl] = PREHAB_delta[ecl] * ( R_CASH_REHAB[ecl] + R_LOAN_REHAB[ecl] * R_I_REHAB[ecl]{-1} * LD_REHAB[ecl] / _
-                                               ( 1 - ( 1 + R_I_REHAB[ecl]{-1})^( -LD_REHAB[ecl] ) ) ) if REHAB[ecl] <> 0
-##! Test
-PREHAB_delta[ecl] = sum( (1 - R_SUB[ecl,ecl2]) * PREHAB[ecl,ecl2] * phi_REHAB[ecl,ecl2] / REHAB_D[ecl2] _
-                        if REHAB[ecl,ecl2]  <> 0 on ecl2) if REHAB[ecl]  <> 0
-
+# UC_K_REHABbis[ecl] = PREHAB_delta[ecl] * ( R_CASH_REHAB[ecl] + R_LOAN_REHAB[ecl] * R_I_REHAB[ecl]{-1} * LD_REHAB[ecl] / _
+#                                               ( 1 - ( 1 + R_I_REHAB[ecl]{-1})^( -LD_REHAB[ecl] ) ) ) if REHAB[ecl] <> 0
+# PREHAB_delta[ecl] = sum( (1 - R_SUB[ecl,ecl2]) * PREHAB[ecl,ecl2] * phi_REHAB[ecl,ecl2] / REHAB_D[ecl2] _
+#                        if REHAB[ecl,ecl2]  <> 0 on ecl2) if REHAB[ecl]  <> 0
 
 ##! Share of the class $ecl$ building rehabilitation investment paid through a loan
 R_LOAN_REHAB[ecl] = 1 - R_CASH_REHAB[ecl] if REHAB[ecl] <> 0
@@ -241,16 +228,11 @@ UC_K[ecl] = ( PREHAB[ecl,ecl] / BUIL_D[ecl] ) * ( R_CASH[ecl] + (R_LOAN[ecl] * R
 R_LOAN[ecl] = 1 - R_CASH[ecl]
 
 ##! User energy cost of a class $ecl$ building
-UC_E[ ecl] = PENER_m2[ ecl] * (((1 + GR_PENER_m2_e[ ecl]) ^(BUIL_D[ ecl]) - 1) / (GR_PENER_m2_e[ ecl] * BUIL_D[ ecl]) )
+UC_E[ ecl] = PENER_m2[ ecl] * ((((1 + GR_PENER_m2_e[ ecl]) ^(BUIL_D[ ecl])) - 1) / (GR_PENER_m2_e[ ecl] * BUIL_D[ ecl]) )
 
-
-#Original limitation of the exposant taking all the variables BUIL_D[ ecl] - 1
-#UC_E[ ecl] = PENER_m2[ ecl] * ( ((1 + GR_PENER_m2_e[ ecl]) ^ BUIL_D[ ecl] - 1) / (GR_PENER_m2_e[ ecl] * BUIL_D[ ecl]) )
 # PROVIDE THE DERIVATION OF THIS FORMULA as comment
-
-
-# Gael a retirer les conditionnalit�: risque de division par 0?
-# L'ancienne sp�cification:
+# Gael a retiré les conditionnalité: risque de division par 0?
+# Ancienne spécification:
 # UC_E_H01_CC  = PENER_m2_H01_CC  * ( ( GR_PENER_m2_e_H01_CC  = < 1e-05 )  * 1  +   ( GR_PENER_m2_e_H01_CC > 1e-05 )  * ( ( 1  + GR_PENER_m2_e_H01_CC ) ^ ( BUIL_D_H01_CC )  - 1 )  / ( ( GR_PENER_m2_e_H01_CC  + ( GR_PENER_m2_e_H01_CC >= 0 )  * ( GR_PENER_m2_e_H01_CC <= 0 )  * 1e-07 )  * BUIL_D_H01_CC ) )
 
 ##! Energy price per square meter paid in class $ecl$ buildings
@@ -268,12 +250,10 @@ DEBT_REHAB_Val[ecl] = (@year > %baseyear) * (( 1 - R_RMBS_REHAB[ecl] ) * DEBT_RE
 ##! Debt related to the purchase of a new  building of a class $ecl$ (in value)
 DEBT_NewB_Val[ecl] = (@year > %baseyear) * ( ( 1 - R_RMBS_NewBUIL[ecl] ) * DEBT_NewB_Val[ecl]{-1} + R_LOAN_NewBUIL[ecl] * PNewBUIL[ecl] * NewBUIL[ecl] ) + (@year <= %baseyear) * DEBT_NewB_Val[ecl]{-1} * ( 1 + GR_NOMI )
 
-
 ##! Housing expenditures in class $ecl$ buildings (in value)
 EXP_HOUSING_Val[ecl] = (@year > %baseyear) * ( DEBT_REHAB_Val[ecl]{-1} * (R_I_REHAB[ecl]{-1} + R_RMBS_REHAB[ecl]{-1} ) _
                                                   + R_CASH_REHAB[ecl] * PREHAB[ecl] * REHAB[ecl] + DEBT_NewB_Val[ecl]{-1} * ( R_I_NewBUIL[ecl]{-1} + R_RMBS_NewBUIL[ecl]{-1} ) _
                                                   + R_CASH_NewBUIL[ecl] * PNewBUIL[ecl] * NewBUIL[ecl] + PENER_BUIL[ecl] * ENER_BUIL[ecl] ) + (@year <= %baseyear) * EXP_HOUSING_Val[ecl]{-1} * ( 1 + GR_NOMI )
-
 
 
 # Exception_housing.mdl file explicitly
@@ -292,14 +272,12 @@ EXP_NEWBUIL_VAL = PNEWBUIL * NEWBUIL
 
 
 
+# Verif Housing
 
+# Verif_BUILbis = (BUILbis/BUIL - 1)*100
 
-# Verif hybrid
+# Verif_phi_REHAB[ecl] = (1 - (sum(phi_REHAB[ecl,ecl2] if phi_REHAB[ecl,ecl2] <> 0 on ecl2))) * 100  if REHAB[ecl]  <> 0
 
-Verif_BUILbis = (BUILbis/BUIL - 1)*100
+# Verif_HYBRID = ( (sum(verif_phi_REHAB[ecl] on ecl))^2 + Verif_BUILbis^2 )^(1/2)
 
-Verif_phi_REHAB[ecl] = (1 - (sum(phi_REHAB[ecl,ecl2] if phi_REHAB[ecl,ecl2] <> 0 on ecl2))) * 100  if REHAB[ecl]  <> 0
-
-Verif_HYBRID = ( (sum(verif_phi_REHAB[ecl] on ecl))^2 + Verif_BUILbis^2 )^(1/2)
-
-verif_UC_K_REHAB[ecl] = (UC_K_REHABbis[ecl]/UC_K_REHAB[ecl] - 1) * 100 if REHAB[ecl]  <> 0
+# verif_UC_K_REHAB[ecl] = (UC_K_REHABbis[ecl]/UC_K_REHAB[ecl] - 1) * 100 if REHAB[ecl]  <> 0

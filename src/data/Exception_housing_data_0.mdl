@@ -136,5 +136,3 @@ ENER_BUIL[ceb] := sum(ENER_BUIL[ecl, ceb] on ecl)
 REHAB[ecl,ecl2] := (phi_REHAB[ecl,ecl2]*tau_REHAB[ecl]*BUIL[ecl]{-1})
 
 REHAB[ecl] := sum(REHAB[ecl,ecl2] on ecl2)
-
-U_REHAB[ecl,ecl2] := phi_REHAB[ecl,ecl2]
