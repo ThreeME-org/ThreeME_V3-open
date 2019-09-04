@@ -1,8 +1,384 @@
-##! Percentage of freely allocated permits to sector $s$
+# POUR LA PARTIE EXOGENOUS L'ORDRE DES SOUS-PARTIES  SUIT CELUI DE L'ENSEMBLE DES EQUATIONS 
+
+# 1 SUPPLY_USE OK
+# 2 PRICES OK
+# 3 PRODUCER OK
+# 4 CONSUMER OK
+# 5 GOVERNMENT OK
+# 6 TRADE OK
+# 7 DEMOGRAPHY OK
+# 8 GHG EMISSIONS OK
+# 9 ADJUSTMENT OK
+# 10 EXCEPTION TAXES PRICES OK
+# 11 ETS OK
+
+
+#### From prices section
+
+##! Constant in the wage equation for sector $s$
+RHO_W_X[s]
+
+##! Elasticity of the notional wage inflation to prices inflation for sector $s$
+RHO_W_P[s]
+
+##! Elasticity of the notional wage inflation to expected price inflation for sector $s$
+RHO_W_Pe[s]
+
+##! Elasticity of the notional wage inflation to labor productivity growth for sector $s$
+RHO_W_PROG[s]
+
+##! Elasticity of the notional wage inflation to the unemployment rate for sector $s$
+RHO_W_U[s]
+
+##! Change in the long term NAIRU
+DNAIRU
+
+##! Elasticity of the notional wage inflation to the variation of the unemployment rate for sector $s$
+RHO_W_DU[s]
+
+##! Elasticity of the notional wage inflation to the growth rate of share of labor in sector $s$
+RHO_W_L[s]
+
+##! Constant of the notional interest rate equation (Taylor rule).
+## The constant is equal to zero in the baseline scenario. It can be used to simulate monetary shocks. \\
+RHO_Rn_Cons
+
+##! Elasticity of the notional interest rate to inflation
+RHO_Rn_P
+
+##! Elasticity of the notional interest rate to the unemployment rate
+RHO_Rn_UnR
+
+
+
+
+
+
+
+
+
+
+#### From producer section
+##!  Share of the production input $f$ by sector $s$
+phi[f, s]
+
+
+
+
+
+
+
+
+
+#### From Consumer section
+
+##! Elasticity of the linear elasticity system
+es_lesces
+
+##! Nominal growth rate of the economy
+gr_nomi
+
+##! Risk premium
+riskprem
+
+##! Nominal price index
+Pwages
+
+##! Elasticity of the marginal propensity to share to the growth rate of the interest rate
+RHO_MPS_R
+
+##! Elasticity of the marginal propensity to share to the growth rate of unemployment
+RHO_MPS_UnR
+
+##! Rate of social taxes to the disposable income
+RINC_SOC_TAX
+
+##! Population growth rate
+RR_POP
+
+##! unemployment growth rate
+RR_Un
+
+##! Transfers to households
+## (should be endogenous)
+TRSF_HH_VAL
+
+##! Labor productivity in the sector $s$
+prog_L[s]
+
+
+
+
+
+
+
+
+
+#### From government section
+
+##! tax rate on the production of sector $s$
+RNTAXS[s]
+
+##! Employers' social security contribution rate of the sector $s$
+RRSC[s]
+
+##! Public expenditures trend from the government
+EXPG_trend
+
+##! Propriety income of the government expressed in value
+phi_PROP_INC_G
+
+##! Share of debt reimbursed every year
+Phi_RD_G
+
+
+
+
+
+
+
+
+
+
+#### From International Trade section
+
+##! Elasticity of substitution between imported and domestically produced commodity $c$ for margins supplied
+ES_MGSM[c]
+
+##! Elasticity of substitution between imported and domestically produced commodity $c$ for households final consumption
+ES_CHM[c]
+
+##! Elasticity of substitution between imported and domestically produced commodity $c$ for government final consumption
+ES_GM[c]
+
+##! Elasticity of substitution between imported and domestic intermediary consumption in commodity $c$ from the sector $s$
+ES_CIM[c, s]
+
+##! Elasticity of substitution between imported and domestic investment in commodity $c$ from the sector $s$
+ES_IM[c, s]
+
+##! Elasticity of substitution between domestic and imported commodity $c$ for exports
+ES_XM[c]
+
+##! Elasticity of substitution between french exports and rest of the world exports
+ES_X[c]
+
+##! Exchange rate of the euro with the rest of world's currency
+EXR
+## The rest of the world's currency is equal to an international basket of currencies weighted by the share of commercial trade with France
+
+
+
+
+
+
+
+
+
+#### From Demography section
+
+##! Total population
+POP
+
+##! Elasticity of unemployed population with the labor force participation
+# $\rho^[patr}_{UnR}$
+RHO_PATR_UnR
+
+##! Participation rate to the labor force trend
+# $Partr_trend$
+PARTR_TREND
+
+
+
+
+
+
+
+
+#### From Emissions section
+
+##! Emissions intensity of the greenhouse gas $ghg$ related to the intermediary consumption of commodity $c$ by sector $s$
+IEMS_CI[ghg,c,s]
+
+##! Emissions intensity of the greenhouse gas $ghg$ related to the material consumption of sector $s$
+IEMS_MAT[ghg,s]
+
+##! Emissions intensity of the greenhouse gas $ghg$ related to the final production of sector $s$
+IEMS_Y[ghg,s]
+
+##! Emissions intensity of the greenhouse gas $ghg$ related to the household final consumption of commodity $c$
+IEMS_CH[ghg,c]
+
+
+
+
+
+
+
+
+
+#### From Adjustment section
+
+##! Adjustment  parameter between the notional and the previous period value of the mark-up in the sector $s$
+ADJUST_MARKUP[s]
+
+##! Adjustment parameter on the formation of inflation expectation
+ADJUST_Pe_P1
+
+##! Adjustment parameter on the formation of production of the sector $s$ expectation
+ADJUST_Ye_Y[s]
+
+##! Adjustment parameter between the notional and the expected value of the variable $F{f,s,t}$
+ADJUST0[f, s]
+
+##! Adjustment parameter between the expected and the real value of a variable $F^{e}_{f,s,t-1}$
+ADJUST1[f, s]
+
+##! Adjustment parameter between the previous period real value and the current value of a variable $F_{f,s,t-1}$
+ADJUST2[f, s]
+
+##! Adjustment parameter between the notional and the real value of the variable $F^{n}_{f,s,t-1}$
+ADJUST3[f, s]
+
+##! Adjustment parameter between the notional and the  expected value of investment in the sector $s$
+ADJUST0_IA[s]
+
+##! Adjustment parameter on the previous period expected value of investment in the sector $s$
+ADJUST1_IA[s]
+
+##! Adjustment parameter on the previous period real value of investment in the sector $s$
+ADJUST2_IA[s]
+
+##! Adjustment parameter on the notional value of investment in the sector $s$
+ADJUST3_IA[s]
+
+##! Adjustment parameter between the notional and the expected value of household consumption of commodity $c$
+ADJUST0_CH[c]
+
+##! Adjustment parameter on the previous period expected value of household consumption of commodity $c$
+ADJUST1_CH[c]
+
+##! Adjustment parameter on the previous period real value of household consumption of commodity $c$
+ADJUST2_CH[c]
+
+##! Adjustment parameter on the notional value of household consumption of commodity $c$
+ADJUST3_CH[c]
+
+##! Adjustment parameter on the notional value of production price in the sector $s$
+ADJUST0_PY[s]
+
+##! Adjustment parameter on the previous period expected value of production price in the sector $s$
+ADJUST1_PY[s]
+
+##! Adjustment parameter on the previous period value of production price in the sector $s$
+ADJUST2_PY[s]
+
+##! Adjustment parameter on the notional value of production price in the sector $s$
+ADJUST3_PY[s]
+
+##! Adjustment parameter on the notional value of the wages in the sector $s$
+ADJUST_W_Wn[s]
+
+##! Adjustment parameter on the previous period value of the wages in the sector $s$
+ADJUST_W_W1[s]
+
+##! Adjustment parameter on the ratio between the previous period value of the wages and the previous period notional value in the sector $s$
+ADJUST_W_W1Wn1[s]
+
+##! Adjustment parameter on the notional value of the labor participation ratio
+ADJUST0_PARTR
+
+##! Adjustment parameter on the notional value of the interest rate
+ADJUST0_R
+
+##! Adjustment parameter on the notional value of the Households property income
+ADJUST0_PROP_INC_H_VAL
+
+##! Adjustment parameter on the expected value of the Households property income
+ADJUST1_PROP_INC_H_VAL
+
+##! Adjustment parameter on the notional value of the government property income
+ADJUST0_PROP_INC_G_VAL
+
+##! Adjustment parameter on the expected value of the government property income
+ADJUST1_PROP_INC_G_VAL
+
+# Substitutions
+
+##! Adjustment parameter between the notional and the real value for the substitution effect on the production factor $f$ in the sector $s$
+ADJUST6[f, s]
+
+##! Adjustment parameter between the notional and the real value for the substitution effect on the domestic margin paid $m$ for the commodity $c$
+ADJUST6_MGPD[m, c]
+
+##! Adjustment parameter between the notional and the real value for the substitution effect on the imported margin paid $m$ for the commodity $c$
+ADJUST6_MGPM[m, c]
+
+##! Adjustment parameter between the notional and the real value for the substitution effect on the energy intermediate consumption $ce$ in the sector $s$
+ADJUST6_CI[ce, s]
+
+##! Adjustment parameter between the notional and the real value for the substitution effect on the transportation intermediate consumption $ce$ in the sector $s$
+ADJUST6_CI[ct, s]
+
+##! Adjustment parameter between the notional and the real value for the substitution effect on the imported margin supplied for the commodity $m$
+ADJUST6_MGSM[m]
+
+##! Adjustment parameter between the notional and the real value for the substitution effect on the imported households final consumption for the commodity $c$
+ADJUST6_CHM[c]
+
+##! Adjustment parameter between the notional and the real value for the substitution effect on the  imported government final consumption for the commodity $c$
+ADJUST6_GM[c]
+
+##! Adjustment parameter between the notional and the real value for the substitution effect on the exports for the imported commodity $c$
+ADJUST6_XM[c]
+
+##! Adjustment parameter between the notional and the real value for the substitution effect on the intermediate consumption for the imported commodity $c$ in the sector $s$
+ADJUST6_CIM[c, s]
+
+##! Adjustment parameter between the notional and the real value for the substitution effect on the investment for the imported commodity $c$ in the sector $s$
+ADJUST6_IM[c, s]
+
+##! Adjustment parameter between the notional and the real value for the substitution effect on the exports of the commodity $c$
+ADJUST6_X[c]
+
+
+
+
+
+
+
+
+
+
+#### From Taxes and Price exception
+
+##! Carbon tax rate on the greenhouse gas $ghg$ associated to the intermediary consumption of commodity $c$ by the sector $s$
+R2_CI[ghg,c,s]
+
+##! Carbon tax rate on the greenhouse gas $ghg$ associated to the material consumption of the sector $s$
+R2_MAT[ghg,s]
+
+##! Carbon tax rate on the greenhouse gas $ghg$ associated to the final production of the sector $s$
+R2_Y[ghg,s]
+
+##! Carbon tax rate on the greenhouse gas $ghg$ associated to the household final consumption of the sector $s$
+R2_CH[ghg,c]
+
+
+
+
+
+
+
+
+
+
+#### From ETS section
+
+##! Percentage of emissions covered by an ETS scheme for the sector $s$
+share_ETS[s]
 ## For each sector, the quantity of free permits is defined as a share of emissions that are eligible to the emission trading scheme. \\
+
+##! Percentage of freely allocated permits to sector $s$
 share_free[s]
-
-
-##! Alpha variable (used as a test for exogenous variable documentation)
-## Test exogenous variable
-alpha_exo
+## For each sector, there is a share of emissions that are eligible to the emission trading scheme. \\

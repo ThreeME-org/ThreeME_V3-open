@@ -1,0 +1,27 @@
+
+
+
+##! Stock of building of the energy efficiency class $ecl$
+
+## - It increases by the amount of the new buildings constructed in class $ecl$: $NewBUIL_{ecl}$ \\
+## - It increases by the amount of rehabilitated buildings from a lower class to class $ecl$: $\sum(REHAB_{ecl2,ecl})$ \\
+## - It increases by the downgraded buildings from a higher class to class $ecl$: $\sum(DEP_BUIL_{ecl2,ecl})$ \\
+## - it decreases by the amount of rehabilitated buildings from class ecl to a higher class: $\sum(REHAB_{ecl,ecl2]})$ \\
+## - It decreases by the downgraded buildings from class $ecl$ to lower class: $\sum(DEP_BUIL_{ecl,bcl})$ \\
+
+##! Notional rehabilitation rate of a class $ecl$ building
+
+## It corresponds to the proportion of class $ecl$ building rehabilitated to a higher class. In order to avoid discontinuity, the proportion of rehabilitated building is defined according to a logistic function. A logistic function is defined by 2 regimes, $Y_{i}$ and $Y_{f}$, the switching speed between the 2 regimes, $\sigma$, and point of inflection between the 2 regimes, $\frac{\tau}{\sigma}$.\\ $Y = (1 - \Phi^{X}) Y_{i} + \Phi^{X}Y_{f}$ with $\Phi^{X}=(1-EXP(\tau-\sigma X))^{-1}$ which is equivalent to: $Y = \frac{Y_{i} + (Y_{f} - Y_{i})}{(1-EXP(tau-sigma*X))}$. The point of inflection corresponds to the case where $\Phi^{X } = \frac{1}{2}$ that is where $X = \frac{\tau}{\sigma}$. \\
+
+## - Replace the previous specification that had several drawbacks: \\
+# - $d(\tau_REHAB_N_{ecl}) = (@year>%baseyear)*(d(\tau^{REHAB_trend}_{ecl}) - nu_REHAB_{ecl} d(log(Payback^{REHAB}_{ecl})))$ if $\tau^{REHAB}_{ecl} <> 0$ with a max and min value \\
+## - $d(\tau^{REHAB_N}_{ecl}) = d(\tau^{REHAB_trend}_{ecl}) - \nu^{REHAB}_{ecl} d(log(Payback^{REHAB}_{ecl}))$ if $\tau^{REHAB}_{ecl} <> 0$ with a max and min value \\
+## - Discontinuity in the first derivative at the max and minimum value \\
+## - Constant elasticity $\tau^{REHAB_N}_{ecl}$ and $Payback^{REHAB}_{ecl}$ whatever the level of $\tau^{REHAB_N}_{ecl}$ \\
+## - Infeasible solution if $Payback^{REHAB}_{ecl} <0$ \\
+
+
+
+##! Utility from rehabilitating a $ecl$ to a $ecl2$ class building
+
+## This utility is a function of the gain from the rehabilitation. For convenience it is calibrated as equal to $\phi_REHAB_{ecl,ecl2}$ at the base year. \\

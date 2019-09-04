@@ -5,9 +5,3 @@
 @over d(log(W[s])) = d(log(W_Walras))
 
 # Use the solver to find W_Walras such that d(UnR) = 0 (UnR is constant)
-
-
-
-
-
-

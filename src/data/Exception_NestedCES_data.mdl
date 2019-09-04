@@ -11,21 +11,20 @@
 ###		   /\    --> ES_NEST_K_E
 ###		  K  E
 ###
-### The speficication of the ES used between two inputs is the one presented in Reynès (2018, Appendix B):
+### The specification of the ES used between two inputs is the one presented in Reynès (2018, Appendix B):
 ### Reynès, F. (2019), "The Cobb-Douglas function as a flexible function. A new perspective on homogeneous functions through the lens of output elasticities", Mathematical Social Sciences 97, 11-17.
 
-# Elasticity of Substitution (ES) between material and the agregate capital-energy-labor
+# Elasticity of Substitution (ES) between material and the aggregate capital-energy-labor
 ES_NEST_MAT_KEL[s] := 0.0
 
-# ES between the agregate capital-energy and labor
+# ES between the aggregate capital-energy and labor
 ES_NEST_KE_L[s] := 0.5
 
-# ES between the agregate capital and energy (within the agregate capital-energy)
-# It is important to notice that this ES is the ES within the agregate capital-energy. The actual ES depends on the ES in other parts of the nest and on input shares.
+# ES between the aggregate capital and energy (within the aggregate capital-energy)
+# It is important to notice that this ES is the ES within the aggregate capital-energy. The actual ES depends on the ES in other parts of the nest and on input shares.
 ES_NEST_K_E[s] := 0.2
 
-
-# From the ES in the different levels of the nest, it is possible the actual elasticity between two inputs. Since the ES between two inputs is symetric, we have:
+# From the ES in the different levels of the nest, it is possible the actual elasticity between two inputs. Since the ES between two inputs is symmetric, we have:
 
 # ES between material and capital
 @over ES[MAT, K, s] := ES_NEST_MAT_KEL[s]

@@ -7,10 +7,10 @@ P_ETS_nominal = (P_ETS/1000000) * PGDP
 ## For each sector, the quantity of free permits is defined as a share of emissions that are eligible to the emission trading scheme. \\
 Q_ETS_free[s] = share_free[s] * share_ETS[s] * EMS[s]
 
-##! Quantity of emissions permits required for sector $s$ relative to its ce2 energy consumption
+##! Quantity of emissions permits required for sector $s$ relative to its $ce2$ energy consumption
 Q_ETS[ce2, s] = (share_ETS[s] * EMS[ce2, s]) - Q_ETS_free[s] * EMS[ce2, s] / EMS[s] if EMS[ce2, s] > 0
 
-##! Nominal value of emissions permits bought by sector $s$ due to ce2 consumption
+##! Nominal value of emissions permits bought by sector $s$ due to $ce2$ consumption
 ETS_VAL[ce2, s] = (P_ETS_nominal * Q_ETS[ce2, s]) if EMS[ce2, s] <> 0
 
 ##! Nominal value of emissions permits required for sector $s$
@@ -20,10 +20,10 @@ ETS_VAL[s] = sum(ETS_VAL[ce2, s] on ce2)
 ETS_VAL_TOT = sum(ETS_VAL[s] on s)
 
 #### Scenario 1 : price signal
-## We overwrite the equation of the price block in order to add the ETS cost (energy ce2 used in activity s).
-## We only consider energy goods ce2 - and not ce - since intermediary consumption of electricity does not induce dioxyde emissions. \\
+## We overwrite the equation of the price block in order to add the ETS cost (energy $ce2$ used in activity $s$).
+## We only consider energy goods $ce2$ - and not ce - since intermediary consumption of electricity does not induce dioxyde emissions. \\
 
-##! Price of ce2 energy consumption in sector $s$
+##! Price of $ce2$ energy consumption in sector $s$
 PE[ce2,s]*E[ce2,s] = PED[ce2]*ED[ce2, s] + PEM[ce2]*EM[ce2, s] + ETS_VAL_SEC[ce2, s] if E[ce2,s] <> 0
 
 #### Scenario 2 : implicit production subvention
@@ -43,3 +43,7 @@ INC_G_VAL = PNTAXC * NTAXC + NTAXS_VAL + INC_SOC_TAX_VAL + PRSC * RSC + PROP_INC
 
 ##! Employers' social security contribution paid by sector $s$
 RSC[s] * PRSC[s] = W[s] * F[L, s] * RRSC[s] - ETS_VAL[s]
+
+
+##! Necessary (minimum) households' final consumption for construction commodity $ccon$
+NCH[ccon] = ( @year > %baseyear ) * ( @elem(PNewBUIL,%baseyear) * NewBUIL + @elem(PREHAB,%baseyear) * REHAB +  CH_OTH[CCON]) + ( @year <= %baseyear ) * (NCH[ccon]{-1} * ( 1 + GR_REAL ) )

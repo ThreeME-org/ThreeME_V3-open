@@ -4,37 +4,37 @@
 
 ### Taxes and social contributions
 
-## We assume that the volume of the tax varies only when the volume of the taxe bases (e.g. production, consumption) varies. Hence an increase in the tax rate does not increase the volume of the tax but increases its price. This is coherent with the specification of the production price: increasing the tax rate on production increases the production price but not production. \\
+## We assume that the volume of the tax varies only when the volume of the tax bases (e.g. production, consumption) varies. Hence an increase in the tax rate does not increase the volume of the tax but increases its price. This is consistent with the specification of the production price: increasing the tax rate on production increases the production price but not production. \\
 
 ##! Net taxes on domestically produced commodity $c$ expressed in value
-NTAXCD_VAL[c] = 			RNTAXCD[c]	* PYQ[c]	  * YQ[c]
+NTAXCD_VAL[c] = 			RNTAXCD[c]	 * PYQ[c]	 * YQ[c]
 
 ##! Net taxes on domestically produced commodity $c$
-NTAXCD[c] 		= @elem(RNTAXCD[c], %baseyear)  * YQ[c]
+NTAXCD[c] 		= @elem(RNTAXCD[c], %baseyear) * YQ[c]
 
 ##! Net taxes on imported commodity $c$ expressed in value
-NTAXCM_VAL[c]  = 	 	   RNTAXCM[c]	* PM[c] 	  * M[c]
+NTAXCM_VAL[c] = 	 	  RNTAXCM[c]   * PM[c] 	 * M[c]
 
 ##! Net taxes on imported commodity $c$
-NTAXCM[c] 		 = @elem(RNTAXCM[c], %baseyear) * M[c]
+NTAXCM[c] 		= @elem(RNTAXCM[c], %baseyear) * M[c]
 
 ##! Net taxes on commodity $c$ expressed in value
-NTAXC_VAL[c] 	 = NTAXCD_VAL[c] + NTAXCM_VAL[c]
+NTAXC_VAL[c] 	= NTAXCD_VAL[c] + NTAXCM_VAL[c]
 
 ##! Net taxes on commodity $c$
-NTAXC[c] 		 	 = NTAXCD[c] 		 + NTAXCM[c]
+NTAXC[c] 		 	= NTAXCD[c] 	  + NTAXCM[c]
 
 ##! Net taxes on the production of sector $s$ expressed in value
 NTAXS_VAL[s] 	 = 			 RNTAXS[s]	* PY[s]	    * Y[s] + T2VAL_MAT[s] + T2VAL_Y[s] - T2VAL_SEC * F[L,s]/F[L] * REDIS_CT_LS
 
 ##! Net taxes on the production of sector $s$
-NTAXS[s] 		   = @elem(RNTAXS[s], %baseyear)  * Y[s] + T2_MAT[s] + T2_Y[s]
+NTAXS[s] 		  =  @elem(RNTAXS[s], %baseyear)  * Y[s] + T2_MAT[s]    + T2_Y[s]
 
 ##! Employers' social security contribution paid by sector $s$
 RSC[s] * PRSC[s] = W[s] * F[L, s] * RRSC[s] - T2VAL_SEC * F[L,s]/F[L] * REDIS_CT_RRSC
 
 ##! Price of the employers' social security contribution paid by sector $s$
-		  		PRSC[s] = P
+		  	 PRSC[s] = P
 
 ### Aggregate taxes and social contributions
 
@@ -51,13 +51,13 @@ NTAXS_VAL = sum(NTAXS_VAL[s] on s)
 NTAXS 		= sum(NTAXS[s] 		 on s)
 
 ##! Price of the aggregate employers' social security contribution paid by sector $s$
-PRSC * RSC = sum(PRSC[s] * RSC[s] on s)
+PRSC * RSC  = sum(PRSC[s]   * RSC[s] on s)
 
 ##! Aggregate employers' social security contribution paid by sectors
 		    RSC = sum(			      RSC[s] on s)
 
 ##! Average employers' social security contribution rate
-RRSC 			 = 		 (PRSC 	* RSC) / (W * F[L])
+RRSC 			  = 		(PRSC 	*   RSC) / (W * F[L])
 
 RRSC_ef[s] =     RSC[s] * PRSC[s] / (W[s] * F[L,s])
 
@@ -69,13 +69,13 @@ PROP_INC_G_VAL_n  = phi_PROP_INC_G * PNOS * NOS + (PNOS * NOS <= 0.00001 ) * (0.
 ##! Aggregate incomes of the Government expressed in value
 INC_G_VAL 			  = PNTAXC * NTAXC + NTAXS_VAL + INC_SOC_TAX_VAL + PRSC * RSC + PROP_INC_G_VAL
 
-#### Spendings
+#### spending
 
 ##!  Government final consumption of commodity $c$
 d(log(G[c])) = d(log(EXPG)) if G[c] <> 0
 
-##! Aggregate spendings of the Government expressed in value
-SPEND_G_VAL 		  = PG  * G  + SOC_BENF_VAL + DEBT_G_VAL{-1}*(Phi_RD_G{-1} + r_DEBT_G{-1}) 
+##! Aggregate spending of the Government expressed in value
+SPEND_G_VAL 		  = PG  * G  + SOC_BENF_VAL + DEBT_G_VAL{-1} * (Phi_RD_G{-1} + r_DEBT_G{-1})
 
 #### Deficit and debt
 

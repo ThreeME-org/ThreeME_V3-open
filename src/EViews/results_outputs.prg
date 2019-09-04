@@ -68,19 +68,30 @@ next
 
   endif
 
-
-  if %user = "Fred_Hybrid" then
+  if %user = "Fred_transport" then
 
 For %_x _0
 
-      graph a_graph_hybrid{%_x}.line(m) BUIL_CA{%_x} BUIL_CB{%_x} BUIL_CC{%_x} BUIL_CD{%_x} BUIL_CE{%_x} BUIL_CF{%_x} BUIL_CG{%_x} BUIL_DES{%_x}
+      
+      graph a_graph_auto{%_x}.line(m) AUTO{%_x} AUTO_CA{%_x} AUTO_CB{%_x} AUTO_CC{%_x} AUTO_CD{%_x} AUTO_CE{%_x} AUTO_CF{%_x} AUTO_CG{%_x} AUTO_DES{%_x}  AUTO_cele{%_x} AUTO_CA_cele{%_x} AUTO_CB_cele{%_x} AUTO_CC_cele{%_x} AUTO_CD_cele{%_x} AUTO_CE_cele{%_x} AUTO_CF_cele{%_x} AUTO_CG_cele{%_x}
 
-      show  a_graph_hybrid{%_x}
+      show  a_graph_auto{%_x}
+
+
 next
 
-      'graph a_graph_macro_1L.line(m) 100*(GDP_1/GDP_0-1)
+endif
 
-      'show  a_graph_macro_1L
+  if %user = "Fred_housing" then
+
+For %_x _0
+
+      graph a_graph_housing{%_x}.line(m) BUIL{%_x} BUIL_CA{%_x} BUIL_CB{%_x} BUIL_CC{%_x} BUIL_CD{%_x} BUIL_CE{%_x} BUIL_CF{%_x} BUIL_CG{%_x} BUIL_DES{%_x}
+
+      show  a_graph_housing{%_x}
+      
+next
+
 
 endif
 

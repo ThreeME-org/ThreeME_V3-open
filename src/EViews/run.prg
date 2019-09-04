@@ -37,19 +37,25 @@ if %load="new"  then
   ' Load calibration data from the Excel file
   call load_calibration
 
-  ' Create the series using the dependencies (add-ins "series")
-  ''''' {%modelname}.series round0 Prices_data SU_data Special_data Other_data Exception_Hybrid_data_0
-
-  ' Export all variables to a csv file (used by the external compiler)
-  call export_all_to_csv
-
-  ''''' {%modelname}.series Exception_Hybrid_data_if
-
-  ' Create the series using the dependencies (add-ins "series")
-  ''''' {%modelname}.series Exception_Hybrid_data
 
   ' Create the series using the dependencies (add-ins "series")
   {%modelname}.series ..\model\lists parameters R_Calibration
+
+' FOR HOUSING and TRANSPORT
+    ' Create the series using the dependencies (add-ins "series")
+    '{%modelname}.series Exception_housing_data_0
+
+    ' Export all variables to a csv file (used by the external compiler)
+    'call export_all_to_csv
+
+    '{%modelname}.series Exception_housing_data_if
+    '
+    ' Create the series using the dependencies (add-ins "series")
+    '{%modelname}.series Exception_housing_data
+
+    ' Create the series using the dependencies (add-ins "series")
+    '{%modelname}.series Exception_transport_data
+' END FOR HOUSING and TRANSPORT
 
   ' Export all variables to a csv file (used by the external compiler)
   call export_all_to_csv
@@ -73,7 +79,6 @@ if %load="new"  then
   '' show a_addfactors
 
   smpl @all
-
 
 
   ' Save the workfile for memory
@@ -144,13 +149,14 @@ else
   '' call output_template("EXR10")
 
 
-
   ' call run_enr("PPE_ENRhaut")
 
   ' ***************************************
   ' Call (eventually) here the subroutine you want to use to analyse the results
   '' call additional_outputs("Fred")
-  '' call additional_outputs("Fred_Hybrid")
+  ' call additional_outputs("Fred_housing")
+  call additional_outputs("Fred_transport")
+  
   ' call output_template(%scenario_name)
 
   ' *******************
