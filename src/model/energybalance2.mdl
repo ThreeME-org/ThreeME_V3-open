@@ -1,0 +1,43 @@
+#### Primary supply
+##! Primary production of energy $ce$, expressed in toe 
+Y_toe[ce] + M_toe[ce] = TL_toe[ce] + CI_toe[ce] + CH_toe[ce] + X_toe[ce]
+
+##! Imported primary production of energy $ce$, expressed in toe 
+d(log(M_toe[ce])) = d(log(M[ce])) if M[ce] <> 0
+
+# ou ???
+# Part des imports compta nat (prix de base)
+M_toe[ce] = (TL_toe[ce] + CI_toe[ce] + CH_toe[ce] + X_toe[ce]) * M[ce]/(Y[ce] + M[ce])
+# Part des imports compta nat (prix de d'aquisition)
+M_toe[ce] = (TL_toe[ce] + CI_toe[ce] + CH_toe[ce] + X_toe[ce]) * QM[c] /(QD[ce] + QM[ce])
+
+
+#### Total use (end use and transformation)
+
+##! Transformation losses of energy $ce$ , expressed in toe 
+# Specification très naive correct seulement si la part des imports et le mix de production de la commodité est constant
+# TL_toe[ce] = phi_TL_toe[ce] * (CI_toe[ce] + CH_toe[ce] + X_toe[ce])
+
+# Meilleure specification: prendre en compte les effets de structures
+TL_toe[ce] = sum(TL_toe[ce,s] if TL_toe[ce,s] <> 0 on s)
+
+##! Transformation losses of energy $ce$ by energy sector s, expressed in toe 
+d(log(TL_toe[ce,s])) = d(log(phi_TL[ce,s] * CI[ce, s])) if TL_toe[ce,s] <> 0
+
+# phi_TL[ce,se] = 1 pour secteur energétique ; 0 pour autre secteur (approximativement)
+# D'où importance de distinguer Crude oil / refined oil 
+
+##! End use for energy $ce$ of sectors, expressed in toe 
+CI_toe[ce] = sum(CI_toe[ce, s] if CI_toe[ce, s] <> 0 on s)
+
+##! End use for energy $ce$ of sector $s$, expressed in toe 
+d(log(CI_toe[ce, s])) = d(log((1 - phi_TL[ce,s])*CI[ce, s])) if CI_toe[ce, s] <> 0
+
+##! End use for energy $ce$ of households, expressed in toe 
+d(log(CH_toe[ce])) = d(log(CH[ce])) if CH_toe[ce] <> 0
+
+##! External end use for energy $ce$, expressed in toe 
+d(log(X_toe[ce])) = d(log(X[ce])) if X_toe[ce] <> 0
+
+
+
