@@ -28,7 +28,7 @@ imitation[ecl] := 0.078
 ES_BASS[ecl] := 1
 nu_diffusion[ecl] := 7.82
 
-# Parameters of the Bass diffusion model
+# Parameters of Level 1
 theta_kmtravcair_DISPINC := 1.5
 theta_kmtravcair_Pkmtrav := 0.7
 

@@ -27,7 +27,7 @@ d(log(P_km_traveler[cth])) = d(log(PCH[cth]))
 d(R_I_AUTO[ecl,cea]) = d(R)
 
 #### Arbitrage between transport modes
-## The arbitrage between transport modes is defined in 5 level. Level 1 determine the evolution of air, long and short distance transport. In level 2, the consumer may substitute between long distance transport types (automobile and train) and short distance transport types (automobile and bus). Level 3 defines the arbitrage between electric and thermic automobile whereas level 4 defines the arbitrage between automobile class. In level 5, substitution between types of thermic automobiles may be introduced. \\
+## The arbitrage between transport modes is defined in 5 level. Level 1 determine the evolution of air, long and short distance transport. In level 2, the consumer may substitute between long distance transport types (automobile and train) and short distance transport types (automobile and bus). Level 3 defines the arbitrage between automobile class whereas level 4 defines the arbitrage between electric and thermic automobile. In level 5, substitution between types of thermic automobiles may be introduced. \\
 
 
 ### Level 1: Determination of air, long and short distance transport
@@ -59,7 +59,7 @@ P_km_traveler_SD * km_traveler_SD = P_km_traveler[croa] * km_traveler[croa] + P_
 ### Level 2: Arbitrage between long distance transport (automobile and train)
 
 ##! Share of Kilometer-travelers by automobile into the long distance Kilometer-travelers
-phi_km_trav_auto_LD = P_km_trav_auto_LD * km_trav_auto_LD / (P_km_traveler_LD * km_traveler_LD)
+phi_km_trav_auto_LD = (P_km_trav_auto_LD * km_trav_auto_LD) / (P_km_traveler_LD * km_traveler_LD)
 
 ##! Kilometer-travelers for long distance by automobile
 d(log(km_trav_auto_LD)) = (@year > %baseyear) * (d(log(km_traveler_LD)) _
@@ -78,7 +78,7 @@ d(log(km_trav_auto_SD)) = (@year > %baseyear) * (d(log(km_traveler_SD)) - theta_
 # Expressed in million.
 
 ##! Share of Kilometer-travelers by automobile into the short distance Kilometer-travelers
-phi_km_trav_auto_SD = P_km_trav_auto_SD * km_trav_auto_SD / (P_km_traveler_SD * km_traveler_SD)
+phi_km_trav_auto_SD = (P_km_trav_auto_SD * km_trav_auto_SD) / (P_km_traveler_SD * km_traveler_SD)
 
 ##! Kilometer-travelers for transport by road (bus)
 d(log(km_traveler[croa])) = (@year > %baseyear) * (d(log(km_traveler_SD)) - theta_kmtrav_autoSD_croa * phi_km_trav_auto_SD{-1} * d(log(P_km_traveler[croa]) - log(P_km_trav_auto_SD))) + (@year <= %baseyear) * (0)
@@ -118,7 +118,7 @@ NewAUTO[ecl] = phi_NewAUTO[ecl] * NewAUTO
 
 ##! Utility of a automobile of class $ecl$
 d(U_AUTO[ecl]) = (@year > %baseyear) * (-theta_U_AUTO_UC_K * d(UC_K_AUTO[ecl]) - theta_U_AUTO_UC_E * d(UC_E_AUTO[ecl])) + (@year <= %baseyear) * (0)
-## This utility is a function of the gain from the rehabilitation. For convenience it is calibrated as equal to $\operatorname{log} \varphi^{NewAUTO}_{ecl}$ at the base year. The coefficients of the utility function are derived from the study of Durrmeyer and Samano (2017) \footnote{Durrmeyer, I., & Samano, M. (2017). To rebate or not to rebate: Fuel economy standards versus feebates. The Economic Journal, 128(616), 3076-3116}. \\
+## The utility of an automobile is a negative function of its capital and energy user costs. For convenience it is calibrated as equal to $\operatorname{log} \varphi^{NewAUTO}_{ecl}$ at the base year. The coefficients of the utility function are derived from the study of Durrmeyer and Samano (2017) \footnote{Durrmeyer, I., & Samano, M. (2017). To rebate or not to rebate: Fuel economy standards versus feebates. The Economic Journal, 128(616), 3076-3116}. \\
 # \citet{durrmeyer2017rebate}
 
 ##! Sum of the exponential of the automobile utilities per class
@@ -267,7 +267,7 @@ PNewAUTO * NewAUTO = sum(PNewAUTO[ecl] * NewAUTO[ecl] on ecl)
 # Expressed in Thousand of Euros
 
 ##! User maintenance cost of a class $ecl$ automobile fueled with energy $cea$
-UC_M_AUTO[ecl,cea] = PCH[cveh] * MCperkm[ecl,cea]/100*kmPerAuto/1000
+UC_M_AUTO[ecl,cea] = PCH[cveh] * (MCperkm[ecl,cea]/100) * (kmPerAuto/1000)
 # Expressed in Thousand of Euros.
 
 ##! User cost of an automobile
