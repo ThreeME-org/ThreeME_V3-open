@@ -1,6 +1,6 @@
 ##### Introduction
 
-## This appendix provides all the equations of the model. The names of variables are defined in the Glossary in the last section of the document and ranked in alphabetical order. The glossary provides also the number of the equation defining a given variable and the page where this equation is located. Because there are several versions of ThreeME, an endogenous variable may be defined more than once in the document. In such a case, it appears several time in the Glossary. \\
+## This chapter provides all the equations of the model. The names of variables are defined in the Glossary in the last section of the chapter and ranked in alphabetical order. The glossary provides also the number of the equation defining a given variable and the page where this equation is located. Because there are several versions of ThreeME, an endogenous variable may be defined more than once in the document. In such a case, it appears several time in the Glossary. \\
 
 ## For instance, there are three versions of the household block: (1) the basic version where a LES utility function is assumed for all commodities; (2) the nested version where transport, car, housing and energy consumption are modeled using a nested utility function; (3) the hybrid version where transport, car, housing and energy consumption are modeled using a bottom-up model. \\
 
