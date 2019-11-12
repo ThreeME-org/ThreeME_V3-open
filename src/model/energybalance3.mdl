@@ -1,0 +1,47 @@
+##### Energy balance
+
+## This file provides the equations defining the energy balance in physical units. The unit used is the tonne of oil equivalent (toe). The International Energy Agency (IEA) defines the following correspondence: 1 toe = 11.63 megawatt-hours (MWh) = 41.868 gigajoules (GJ). Chapter 1 of the documention discusses in detail the correspondance and differences between the energy balance and the national account definitions and equilibrium. It also provides the hypotheses used to derived the simplified energy balance presented bellow. \\
+
+#### Total supply (domestic and imported)
+##! Production of energy $ce$, expressed in toe 
+Y_toe[ce] + M_toe[ce] = Losses_toe[ce] + CI_toe[ce] + CH_toe[ce] + X_toe[ce]
+## Production regroups the primary (indigenous) production (including Recovered & recycled products) and the secondary production (energy transformation output) of the energy balances. Depending on the energy source, this variable is (mainly) a primary or a secondary production: e.g., primary for crude oil and natural gaz; secondary, for electricity. \\
+
+##! Imported production of energy $ce$, expressed in toe 
+d(log(M_toe[ce])) = d(log(M[ce])) if M[ce] <> 0
+
+#### Total use (end use and losses)
+##! Losses related of energy $ce$, expressed in toe 
+Losses_toe[ce] = DL[ce] + ACL[ce]
+## Losses include the distribution losses and the auto-consumption part of energy sector own use. \\
+
+##! Distribution losses related of energy $ce$, expressed in toe 
+d(log(DL[ce])) = d(log(CI_toe[ce] + CH_toe[ce] + X_toe[ce])) if DL[ce] <> 0
+
+##! Auto-consumption losses of energy $ce$, expressed in toe 
+ACL[ce] = sum(ACL[ce, s] if ACL[ce, s] <> 0 on s) if ACL[ce] <> 0
+
+##! Auto-consumption losses of energy $ce$ by producer s, expressed in toe 
+d(log(ACL[ce, s])) = d(log(Y[ce, s])) if ACL[ce, s] <> 0
+## These are mainly the losses related to the auto-consumption of electricity by electricity producers. This equation allows for taking into account the fact that the loss rate differs per technology. \\ 
+
+##! End use for energy $ce$ of sectors, expressed in toe 
+CI_toe[ce] = sum(CI_toe[ce, s] if CI_toe[ce, s] <> 0 on s)
+
+##! End use for energy $ce$ of sector $s$, expressed in toe 
+d(log(CI_toe[ce, s])) = d(log(CI[ce, s])) if CI_toe[ce, s] <> 0
+## This varable regroups the following energy balance variables: energy transformation input, energy sector own use excluding the auto-consumption and “Final consumption” of non-energy sector. \\
+
+##! End use for energy $ce$ of households, expressed in toe 
+d(log(CH_toe[ce])) = d(log(CH[ce])) if CH_toe[ce] <> 0
+
+##! External end use for energy $ce$, expressed in toe 
+d(log(X_toe[ce])) = d(log(X[ce])) if X_toe[ce] <> 0
+
+#### Indicators
+##! Physical intensity of national account production of energy $ce$
+IYQ[ce] = Y_toe[ce] / YQ[ce] if IYQ[ce]  <> 0
+# Expressed in toe per in million of Euros
+
+##! Auto-consumption losses rate of energy $ce$
+ACL[ce] = ACL[ce]/Y_toe[ce] if Y_toe[ce] <> 0
