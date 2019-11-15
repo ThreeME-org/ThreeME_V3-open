@@ -29,8 +29,8 @@ d(R_I_AUTO[ecl,cea]) = d(R)
 #### Arbitrage between transport modes
 ## The arbitrage between transport modes is defined in 5 level. Level 1 determine the evolution of air, long and short distance transport. In level 2, the consumer may substitute between long distance transport types (automobile and train) and short distance transport types (automobile and bus). Level 3 defines the arbitrage between automobile class whereas level 4 defines the arbitrage between electric and thermic automobile. In level 5, substitution between types of thermic automobiles may be introduced. \\
 
-
 ### Level 1: Determination of air, long and short distance transport
+## The elasticities used in Level 1 and 2 come from the model MODEV: see Cori, M. (2019). MODEV - La modélisation des flux nationaux de transport}, Th{\'e}ma Essentiel, Commissariat général au développement durable}; Calio, J., & Méteyer, J. C. (2001). Le modèle multimodal de transport intérieur à longue distance du SES: MODEV. Notes de synthèse du SES.
 
 
 ##! Kilometer-travelers for air transport
