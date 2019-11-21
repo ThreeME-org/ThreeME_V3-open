@@ -210,10 +210,12 @@ IEMS_Y[ghg,s]
 IEMS_CH[ghg,c]
 
 
+#### From energy balance
+##! Share of energy $ce$ produced by sector $s$ (energy balance definition)
+PhiY_toe[ce, s]
 
-
-
-
+##! Net production price of energy $ce$ supplied by sector $s$
+PY_toe[ce, s]
 
 
 
