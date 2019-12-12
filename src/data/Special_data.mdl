@@ -41,6 +41,7 @@ phi_|V|M[c, s] := |V|M[c, s] / (|V|[c, s] + eps) where V in CI I
 # From equilibrated steady state
 Stock_SAV_H_VAL := SAV_H_VAL * (1 + GR_NOMI) / GR_NOMI
 
+PhiY_toe[ce, s] := Y_toe[ce, s]/Y_toe[ce]
 
 # Alias or defined to be used in behavior equations
 IA[s] := I[s]
@@ -66,6 +67,9 @@ CH_n_VAL := PCH * CH
 EXPG := G
 
 MARKUP_n2[s] := MARKUP_n[s]
+
+YG_toebis[ce] := YG_toe[ce]
+
 
 ## Need to use @elem. Otherwither the variable is not defined at %baseyear-2. Missing data error in the simulation.
 PROP_INC_G_VAL := @elem(phi_PROP_INC_G * PNOS * NOS, %baseyear) * (1 + GR_NOMI) ^ (@year - %baseyear)
@@ -214,6 +218,7 @@ verif_EMS_CIbis[ghg] := 0
 
 verif_EMSbis := 0
 
+verif_YG_toe[ce] := 0
 
 ## Other Calibrations
 ### Calibrated from the volume version of an equation in value. Volume not in the model because of circular reference.

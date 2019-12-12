@@ -55,6 +55,26 @@ IEMS_Y[ghg,s] := 1
 IEMS_CH[ghg,c] := 1
 
 ############################
+### ENERGY DATA
+############################
+CI_toe[ce, s] := CI[ce, s] * 0.1
+
+CH_toe[ce] := CH[ce] * 0.1
+ 
+X_toe[ce] := X[ce] * 0.1
+
+M_toe[ce] := M[ce] * 0.1
+
+Y_toe[ce, s] := PhiY[ce, s]*Y_toe[ce]
+
+PY_toe[ce, s]:= P
+
+DL_toe[ce] := (CI_toe[ce] + CH_toe[ce] + X_toe[ce]) * 0.01
+
+AC_toe[ce, s] := 0.01 * Y_toe[ce, s]
+
+
+############################
 ### OTHER DATA
 ############################
 

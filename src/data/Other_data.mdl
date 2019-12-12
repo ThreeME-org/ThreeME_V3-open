@@ -106,3 +106,34 @@ EMS_CH := sum(EMS_CH[ghg] on ghg)
 EMS := EMS_CI + EMS_MAT + EMS_Y + EMS_CH
 
 EMSbis := sum(EMS[ghg] on ghg)
+
+
+# From energy balance
+
+
+CI_toe[ce] := sum(CI_toe[ce, s] on s)
+
+# # PhiY[ce, s] := (@elem(PY_toe[ce, s], %baseyear) * PhiY_toe[ce, s]) / (sum((@elem(PY_toe[ce, s], %baseyear) * PhiY_toe[ce, s]) on s))
+
+
+Y_toe[ce] + M_toe[ce] := CI_toe[ce] + CH_toe[ce] + X_toe[ce]
+
+YG_toe[ce, s] := Y_toe[ce, s] + DLY_toe[ce, s] + AC_toe[ce, s]
+
+MG_toe[ce] := M_toe[ce] + DLM_toe[ce]
+
+DLY_toe[ce, s] := DL_toe[ce] * Y_toe[ce, s] / (Y_toe[ce] + M_toe[ce])
+
+DLM_toe[ce] := DL_toe[ce] * M_toe[ce] / (Y_toe[ce] + M_toe[ce])
+
+YG_toe[ce] := sum(YG_toe[ce, s] on s)
+
+DLY[ce] := sum(DLY_toe[ce, s] on s)
+
+AC_toe[ce] := sum(AC_toe[ce, s] on s)
+
+RY_toe[ce] := Y_toe[ce] / YG_toe[ce]
+
+RDLY[ce] := DLY[ce] / YG_toe[ce]
+
+RAC[ce] := AC_toe[ce] / YG_toe[ce]
