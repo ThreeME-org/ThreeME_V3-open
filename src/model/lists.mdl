@@ -26,6 +26,7 @@ include .\R_lists
 
 # Default iterators
 s in %list_sec
+ss in %list_sec
 
 c in %list_com
 

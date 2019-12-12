@@ -4,6 +4,8 @@
 ### This file provides the equations defining check variables
 ### Check variables begins with verif. They should always be equal to zero in the calibration and in the simulation. For ratio variables (such as the phi shares), the error is calculated in percentage point difference. For variables in level, the error is calculated in percentage relative difference.
 
+verif_PhiY[ce] = (1 - (sum(PhiY[ce, s] on s)))*100
+
 verif_phi_F[s] = (1 - (sum(phi[ff, s] on ff)))*100
 
 verif_phi_MGPD[c] = (1 - (sum(phi_MGPD[m, c] on m)))*100 if MGPD[c] <> 0
@@ -56,6 +58,15 @@ Verif_Bal_G_Prim_VAbis = (Bal_G_Prim_VALbis/Bal_G_Prim_VAL - 1)*100
 verif_EMS_CIbis[ghg] = (EMS_CIbis[ghg]/EMS_CI[ghg] - 1)*100 if EMS_CIbis[ghg] <> 0
 
 verif_EMSbis = (EMSbis/EMS - 1)*100
+
+verif_PhiY[ce, s] = (PhiY[ce, s] - PhiY_toe[ce, s])*100
+# Equal to 0 if all PY_toe[ce, s] = PY_toe[ce].
+
+
+verif_YG_toebis[ce] = (YG_toebis[ce]/YG_toe[ce] - 1)*100 if YG_toe[ce] <> 0
+
+verif_Y_toebis[ce] = (Y_toebis[ce]/Y_toe[ce] - 1)*100 if Y_toe[ce] <> 0
+
 
 
 

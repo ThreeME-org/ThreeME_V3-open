@@ -128,12 +128,12 @@ DLM_toe[ce] := DL_toe[ce] * M_toe[ce] / (Y_toe[ce] + M_toe[ce])
 
 YG_toe[ce] := sum(YG_toe[ce, s] on s)
 
-DLY[ce] := sum(DLY_toe[ce, s] on s)
+DLY_toe[ce] := sum(DLY_toe[ce, s] on s)
 
 AC_toe[ce] := sum(AC_toe[ce, s] on s)
 
 RY_toe[ce] := Y_toe[ce] / YG_toe[ce]
 
-RDLY[ce] := DLY[ce] / YG_toe[ce]
+RDLY_toe[ce] := DLY_toe[ce] / YG_toe[ce]
 
-RAC[ce] := AC_toe[ce] / YG_toe[ce]
+RAC_toe[ce] := AC_toe[ce] / YG_toe[ce]
