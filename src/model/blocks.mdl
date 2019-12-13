@@ -19,6 +19,7 @@ include ..\model\Verif
 
 include ..\model\ghg_emissions
 
+include ..\model\energybalance
 
 
 
