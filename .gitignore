@@ -16,7 +16,6 @@ dependency.graphml
 
 !src/utils/output_list.txt
 
-results/standard/*.txt
 results/all.csv
 results/dgec/*.txt
 results/*.txt
