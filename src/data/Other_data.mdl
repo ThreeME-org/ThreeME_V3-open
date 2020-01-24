@@ -2,7 +2,7 @@ include ..\model\lists
 
 ### From producer block
 
-phi_MGPD[m, c]  := PMGPD[m, c] * MGPD[m, c] / (sum(PMGPD[mm, c] * MGPD[mm, c] on mm))                                                   if MGPD[m, c] <> 0
+phi_MGPD[m, c]  := PMGPD[m, c] * MGPD[m, c] / (sum(PMGPD[mm, c] * MGPD[mm, c] on mm))
 phi_MGPM[m, c]  := PMGPM[m, c] * MGPM[m, c] / (sum(PMGPM[mm, c] * MGPM[mm, c] on mm))
 
 
