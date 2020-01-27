@@ -2,7 +2,6 @@
 in.txt
 out.txt.prg
 dependency.graphml
-src/addin/model/_tmp_all_vars.csv
 
 # Ignore back-up EViews files
 *.~rg
