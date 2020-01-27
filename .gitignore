@@ -10,7 +10,6 @@ src/addin/model/_tmp_all_vars.csv
 
 
 # Ignore result files
-results/standard/*.txt
 results/*.wf1
 
 # Ignore project files (R, Sublime, etc.)
