@@ -1,32 +1,26 @@
-commandlog.txt
-errors.txt
-output*
-THREEME.ppr
-*.ppr
-perso*
-*.~rg
-*.DS_Store
-tmp_*
-_tmp_*
+# Ignore temporary files of the compiler
 in.txt
-out.txt*
+out.txt.prg
 dependency.graphml
-.~lock.*
-*.wf1
+src/addin/model/_tmp_all_vars.csv
 
-!src/utils/output_list.txt
-
-results/all.csv
-results/dgec/*.txt
-results/*.txt
-
+# Ignore back-up EViews files
+*.~rg
 *.~f1
-test.csv
+
+
+# Ignore result files
+results/standard/*.txt
+results/*.wf1
+
+# Ignore project files (R, Sublime, etc.)
 
 .Rhistory
 .Rproj.user
 *.sublime-project
 *.sublime-workspace
 
+# Ignore log files from the compiler to Latex
 doc/*.aux
 doc/*.log
+
