@@ -69,7 +69,7 @@ if %load="new"  then
   {%modelname}.load blocks
 
   ' Put add factors to all equations
-  smpl 1997 2000
+  smpl %firstdate %baseyear
   '' {%modelname}.addassign @all
   ' Set add factor values so that the equation has no residual when evaluated at actuals
   '' {%modelname}.addinit(v=n) @all

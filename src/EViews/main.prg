@@ -59,4 +59,4 @@ else
 
 endif
 
-smpl 2000 @last
+smpl %baseyear @last

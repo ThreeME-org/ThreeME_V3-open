@@ -486,7 +486,7 @@ subroutine run_euro(string %iso3)
     {%modelname}.load blocks
 
     ' Put add factors to all equations
-    smpl 1997 2000
+    smpl %firstdate %baseyear
 
     smpl @all
 
