@@ -4,14 +4,14 @@ subroutine R_lists
 
 %list_com = "cagr cbio cfor cfoo cveh cgla cpap cche cpla cmet cigo ccgo ccon crai croa cwat cair cpri cpub cmin ccoa ccoi cgam cfut cfuh cgas cele chea"
 
-%list_com_MAT = "cagr cbio cfor cfoo cveh cgla cpap cche cpla cmet cigo ccgo ccon crai croa cwat cair cpri cpub cmin ccoa ccoi cgam cfut cfuh cgas cele chea"
+%list_com_MAT = "cagr cbio cfor cfoo cveh cgla cpap cche cpla cmet cigo ccgo ccon crai croa cwat cair cpri cpub cmin ccoi cgam"
 
-%list_com_MATO = "cagr cbio cfor cfoo cveh cgla cpap cche cpla cmet cigo ccgo ccon cpri cpub cmin ccoa ccoi cgam cfut cfuh cgas cele chea"
+%list_com_MATO = "cagr cbio cfor cfoo cveh cgla cpap cche cpla cmet cigo ccgo ccon cpri cpub cmin ccoi cgam"
 
 %list_com_MARG = "crai croa cwat cair cpri"
 
 %list_com_TRSP = "crai croa cwat cair"
 
-%list_com_E = ""
+%list_com_E = "ccoa cfut cfuh cgas cele chea" 
 
 endsub
