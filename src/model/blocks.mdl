@@ -17,9 +17,9 @@ include ..\model\Adjustments
 
 include ..\model\Verif
 
-include ..\model\ghg_emissions
+# include ..\model\ghg_emissions
 
-include ..\model\energybalance
+# include ..\model\energybalance
 
 
 
@@ -27,8 +27,8 @@ include ..\model\energybalance
 ## Exception files ALWAYS at the end because of the @over's
 include ..\model\Exception_taxes_prices
 include ..\model\Exception_NestedCES
-include ..\model\Exception_ConsumerNested
-include ..\model\Exception_Other 
+# include ..\model\Exception_ConsumerNested
+# include ..\model\Exception_Other 
 
 # include ..\model\Exception_housing
 # include ..\model\Exception_Transport

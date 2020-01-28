@@ -39,15 +39,13 @@ if %load="new"  then
 
 
   ' Create the series using the dependencies (add-ins "series")
-  {%modelname}.series ..\model\lists parameters R_Calibration
+  {%modelname}.series ..\model\lists parameters R_Calibration_FRA round0 Prices_data SU_data Special_data Other_data Exception_taxes_prices_data Exception_NestedCES_data
+
+  ' Exception_ConsumerNested_data  Exception_Other_data
 
   ' Export all variables to a csv file (used by the external compiler)
   call export_all_to_csv
 
-  {%modelname}.series round0 Prices_data SU_data Special_data Other_data Exception_taxes_prices_data Exception_NestedCES_data Exception_ConsumerNested_data Exception_Other_data
-
-  ' Export all variables to a csv file (used by the external compiler)
-  call export_all_to_csv
 
 ' FOR HOUSING and TRANSPORT
     ' Create the series using the dependencies (add-ins "series")
@@ -68,6 +66,8 @@ if %load="new"  then
   ' Load the model specification from the model/ folder
   {%modelname}.load blocks
 
+stop
+
   ' Put add factors to all equations
   smpl %firstdate %baseyear
   '' {%modelname}.addassign @all
@@ -81,7 +81,7 @@ if %load="new"  then
 
 
   ' Save the workfile for memory
-  wfsave {%wfname}
+  'wfsave {%wfname}
 
 else
 
