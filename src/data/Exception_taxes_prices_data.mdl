@@ -21,16 +21,16 @@ T2_CI[ghg,c,s] := @elem(R2_CI[ghg,c,s],%baseyear) * EMS_CI[ghg,c,s]
 T2VAL_CI[ghg,c] := sum(T2VAL_CI[ghg,c,s] on s)
 
 ##! Carbon tax in value on intermediary consumption emissions depending on ghg emission types and domestic commodity c
-T2VAL_CID[ghg,c] := sum(T2VAL_CI[ghg,c,s] * CID[c,s] / CI[c,s]  on s)
+T2VAL_CID[ghg,c] := sum(T2VAL_CI[ghg,c,s] * CID[c,s] / (CI[c,s] + eps)  on s)
 
 ##! Carbon tax in volume on intermediary consumption emissions depending on ghg emission types and domestic commodity c
-T2_CID[ghg,c] := sum(T2_CI[ghg,c,s] * CID[c,s] / CI[c,s]  on s)
+T2_CID[ghg,c] := sum(T2_CI[ghg,c,s] * CID[c,s] / (CI[c,s] + eps)  on s)
 
 ##! Carbon tax in value on intermediary consumption emissions depending on ghg emission types and imported commodity c
-T2VAL_CIM[ghg,c] := sum(T2VAL_CI[ghg,c,s] * CIM[c,s] / CI[c,s]  on s)
+T2VAL_CIM[ghg,c] := sum(T2VAL_CI[ghg,c,s] * CIM[c,s] / (CI[c,s] + eps)  on s)
 
 ##! Carbon tax in volume on intermediary consumption emissions depending on ghg emission types and imported commodity c
-T2_CIM[ghg,c] := sum(T2_CI[ghg,c,s] * CIM[c,s] / CI[c,s]  on s)
+T2_CIM[ghg,c] := sum(T2_CI[ghg,c,s] * CIM[c,s] / (CI[c,s] + eps)  on s)
 
 ##! Carbon tax in value on intermediary consumption emissions depending on ghg emission types and sector s
 T2VAL_CI[ghg,s] := sum(T2VAL_CI[ghg,c,s] on c)
@@ -168,8 +168,8 @@ VAT := VATD + VATM
 OTHCT := OTHCTD + OTHCTM
 SUBC := SUBCD + SUBCM
 
-@over NTAXCD_VAL[c] := PVATD[c] * VATD[c] + POTHCTD[c] * OTHCTD[c] + PSUBCD[c] * SUBCD[c]  + T2VAL_CH[c] * CHD[c]/CH[c] + T2VAL_CI[c] * CID[c]/CI[c]
-@over NTAXCD[c] := VATD[c] +              OTHCTD[c] +             SUBCD[c]   +   (T2VAL_CH[c] * CHD[c]/CH[c])/PCH[c] + (T2VAL_CI[c] * CID[c]/CI[c])/PCI[c]
+@over NTAXCD_VAL[c] := PVATD[c] * VATD[c] + POTHCTD[c] * OTHCTD[c] + PSUBCD[c] * SUBCD[c]  + T2VAL_CH[c] * CHD[c]/(CH[c] + eps) + T2VAL_CI[c] * CID[c]/(CI[c] + eps)
+@over NTAXCD[c] := VATD[c] +              OTHCTD[c] +             SUBCD[c]   +   (T2VAL_CH[c] * CHD[c]/(CH[c] + eps))/PCH[c] + (T2VAL_CI[c] * CID[c]/(CI[c] + eps))/PCI[c]
 
 RVATD := (PVATD * VATD) / (PCHD * CHD - PVATD   * VATD)
 

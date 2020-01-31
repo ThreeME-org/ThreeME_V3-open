@@ -14,16 +14,16 @@ T2_CI[ghg,c,s] = @elem(R2_CI[ghg,c,s],%baseyear) * EMS_CI[ghg,c,s]
 T2VAL_CI[ghg,c] = sum(T2VAL_CI[ghg,c,s] on s)
 
 ##! Carbon tax in value on intermediary consumption emissions depending on $ghg$ emission types and domestic commodity $c$
-T2VAL_CID[ghg,c] = sum(T2VAL_CI[ghg,c,s] * CID[c,s] / CI[c,s]  on s)
+T2VAL_CID[ghg,c] = sum(T2VAL_CI[ghg,c,s] * CID[c,s] / CI[c,s] if CID[c,s] <> 0 on s)
 
 ##! Carbon tax in volume on intermediary consumption emissions depending on $ghg$ emission types and domestic commodity $c$
-T2_CID[ghg,c] = sum(T2_CI[ghg,c,s] * CID[c,s] / CI[c,s]  on s)
+T2_CID[ghg,c] = sum(T2_CI[ghg,c,s] * CID[c,s] / CI[c,s]  if CID[c,s] <> 0 on s)
 
 ##! Carbon tax in value on intermediary consumption emissions depending on $ghg$ emission types and imported commodity $c$
-T2VAL_CIM[ghg,c] = sum(T2VAL_CI[ghg,c,s] * CIM[c,s] / CI[c,s]  on s)
+T2VAL_CIM[ghg,c] = sum(T2VAL_CI[ghg,c,s] * CIM[c,s] / CI[c,s]  if CIM[c,s] <> 0 on s)
 
 ##! Carbon tax in volume on intermediary consumption emissions depending on $ghg$ emission types and imported commodity $c$
-T2_CIM[ghg,c] = sum(T2_CI[ghg,c,s] * CIM[c,s] / CI[c,s]  on s)
+T2_CIM[ghg,c] = sum(T2_CI[ghg,c,s] * CIM[c,s] / CI[c,s] if CIM[c,s] <> 0 on s)
 
 ##! Carbon tax in value on intermediary consumption emissions depending on $ghg$ emission types and sector $s$
 T2VAL_CI[ghg,s] = sum(T2VAL_CI[ghg,c,s] on c)
@@ -142,10 +142,10 @@ T2VAL_CH = sum(T2VAL_CH[c] on c)
 
 ##! Net taxes on domestically produced commodity $c$ expressed in value
 # @over NTAXCD_VAL[c] = PVATD[c] * VATD[c] + POTHCTD[c] * OTHCTD[c] + PSUBCD[c] * SUBCD[c]   if NTAXCD_VAL[c] <> 0
-@over NTAXCD_VAL[c] = PVATD[c] * VATD[c] + POTHCTD[c] * OTHCTD[c] + PSUBCD[c] * SUBCD[c]  + T2VAL_CH[c] * CHD[c]/CH[c] + T2VAL_CID[c]   if NTAXCD_VAL[c] <> 0
+@over NTAXCD_VAL[c] = PVATD[c] * VATD[c] + POTHCTD[c] * OTHCTD[c] + PSUBCD[c] * SUBCD[c]  + T2VAL_CH[c] * CHD[c]/(CH[c] + eps)+ T2VAL_CID[c]   if NTAXCD_VAL[c] <> 0
 
 ##! Net taxes on domestically produced commodity $c$
-@over NTAXCD[c]     =            VATD[c] +              OTHCTD[c] +             SUBCD[c] +  T2_CH[c] * CHD[c]/CH[c]    + T2_CID[c]      if NTAXCD[c]     <> 0
+@over NTAXCD[c]     =            VATD[c] +              OTHCTD[c] +             SUBCD[c] +  T2_CH[c] * CHD[c]/(CH[c] + eps)   + T2_CID[c]      if NTAXCD[c]     <> 0
 # @over NTAXCD[c]     =            VATD[c] +              OTHCTD[c] +             SUBCD[c]   +   (T2VAL_CH[c] * CHD[c]/CH[c])/PCH[c] + (T2VAL_CI[c] * CID[c]/CI[c])/PCI[c]  if NTAXCD[c]     <> 0
 
 ## This is not defined anymore by simply assuming a constant rate over the production value: $NTAXCD^{VAL}_{c} = RNTAXCD_{c}*PYQ_{c}*YQ_{c}$. Different taxes are now defined depending on their basis (see below). \\

@@ -41,7 +41,7 @@ phi_|V|M[c, s] := |V|M[c, s] / (|V|[c, s] + eps) where V in CI I
 # From equilibrated steady state
 Stock_SAV_H_VAL := SAV_H_VAL * (1 + GR_NOMI) / GR_NOMI
 
-PhiY_toe[ce, s] := Y_toe[ce, s]/Y_toe[ce]
+PhiY_toe[ce, s] := Y_toe[ce, s]/(Y_toe[ce] + eps)
 
 # Alias or defined to be used in behavior equations
 IA[s] := I[s]
