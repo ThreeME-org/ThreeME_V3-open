@@ -39,9 +39,6 @@
 
 # @over d(log(W[s])) = 0.55 * d(log(W[s]{-1})) + 0.45 * d(log(P_e)) + 0.26 * d(log(Y[s]/F_L[s])) + 0.19 * d(log(PROG_L)) - 0.4 * d(UnR) - 0.05 * (log(W[s]{-1}) - (W0[s] + log(Y[s]{-1}/F_L[s]{-1}) + log(PVA{-1}) - 2 * UnR{-1} + log((1+RRSC[s]{-1})/(1-RINC_SOC_TAX{-1}))))
 
-##! Social benefits expressed in value (MESANGE)
-@over SOC_BENF_VAL     = RR_POP * @elem(W, %baseyear) * PROG_L * P * POP + RR_Un * W * Un + DSOC_BENF_VAL
-
 ##! Investment in sector $s$ (MESANGE)
 # @over d(log(IA[s])) = - 1.06 * log(1+GR_REAL) + 1.84 * d(log(Y_e[s])) + 0.22 * d(log(IA[s]{-1}))  + ADJUST_IA_SUBST[s] * d(SUBST_F[K, s]) + ADJUST_IA_Kn[s] * (log(F_n[K, s]{-1}) - log(F[K, s]{-1})) if F[K, s] <> 0
 

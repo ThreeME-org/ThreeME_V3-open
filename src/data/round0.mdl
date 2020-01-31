@@ -94,3 +94,5 @@ phi_PROP_INC_G := (1 - phi_PROP_INC_H)*1
 
 ## Share of the net operating surplus going to the Rest of the World
 phi_PROP_INC_ROW := 1 - phi_PROP_INC_H - phi_PROP_INC_G
+
+DSOC_BENF_VAL := 0
