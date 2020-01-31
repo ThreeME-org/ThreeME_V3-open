@@ -66,7 +66,6 @@ if %load="new"  then
   ' Load the model specification from the model/ folder
   {%modelname}.load blocks
 
-stop
 
   ' Put add factors to all equations
   smpl %firstdate %baseyear
@@ -139,7 +138,7 @@ else
   'call run_baseshock ' Perform a baseline and a shock
 
   call run_scenario("baseline")
-
+stop 
   ' call run_standard("EXR10", %iso3, 0) ' Option: 1 for result in excel template; 0 only scenario run
   ' call run_standard("RSSC1", %iso3, 1)
   ' call run_standard("EXR10 EXPG1 RSSC1 INCT1 VAT1 WD1 FF10 CT1", %iso3, 1) ' Option: 1 for result in excel template; 0 only scenario run
