@@ -16,7 +16,7 @@ PCH[ceb] := P
 PCH[CCON]:= P
 
 CH[ccoa] := 65    * (1 + GR_REAL) ^ (@year - %baseyear)
-CH[cfue] := 43742 * (1 + GR_REAL) ^ (@year - %baseyear)
+CH[cfuh] := 43742 * (1 + GR_REAL) ^ (@year - %baseyear)
 CH[cgas] := 10467 * (1 + GR_REAL) ^ (@year - %baseyear)
 CH[cele] := 17844 * (1 + GR_REAL) ^ (@year - %baseyear)
 CH[chea] := 100   * (1 + GR_REAL) ^ (@year - %baseyear)
@@ -34,10 +34,11 @@ PCH := P
 
 # Share of household's energy consumption used by buildings
 NCH_BUIL[ccoa] := CH[ccoa] * 0.5
-NCH_BUIL[cfue] := CH[cfue] * 0.2
+NCH_BUIL[cfuh] := CH[cfuh] * 0.2
 NCH_BUIL[cgas] := CH[cgas] * 0.95
 NCH_BUIL[cele] := CH[cele] * 0.8
 NCH_BUIL[chea] := CH[chea] * 1.0
+
 
 #######################################
 ######################################
@@ -123,7 +124,7 @@ PREHAB[ecl,ecl2] := BUILDING(28+$ecl, $ecl2) / M2perHOUSING / 1000000 * P
 
 PNEWBUIL[ecl] := BUILDING(37, $ecl) / 1000000 * P
 
-delta_BUIL[ecl,bcl] := BUILDING(19 + $ecl, $bcl)
+Rdep_BUIL[ecl,bcl] := BUILDING(19 + $ecl, $bcl)
 phi_REHAB[ecl,ecl2] := BUILDING(10 + $ecl, $ecl2)
 
 ENER_BUIL[ecl, ceb] := BUILDING(41 + $ceb, $ecl)

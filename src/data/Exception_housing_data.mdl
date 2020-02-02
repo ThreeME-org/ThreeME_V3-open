@@ -74,7 +74,7 @@ verif_UC_K_REHAB[ecl] := 0
 NewBUIL[ecl] :=   phi_NewBUIL[ecl] * (d(BUIL) + BUIL[DES])
 
 
-DEP_BUIL[ecl,bcl] := delta_BUIL[ecl,bcl]*BUIL[ecl]{-1}
+DEP_BUIL[ecl,bcl] := Rdep_BUIL[ecl,bcl]*BUIL[ecl]{-1}
 
 
 BUIL[DES] := sum(DEP_BUIL[ecl,DES] on ecl)

@@ -18,7 +18,7 @@ include .\R_lists
 %list_buil_class := CA CB CC CD CE CF CG DES #[bcl]
 
 # List of energy commodities used in building
-%list_com_E_BUIL := ccoa cfue cgas cele chea #[ceb, cebb]
+%list_com_E_BUIL := ccoa cfuh cgas cele chea #[ceb, cebb]
 
 # List of energy commodities used by automobiles
 %list_com_E_AUTO := coil cgas cele #[cea]
