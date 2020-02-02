@@ -39,7 +39,7 @@ if %load="new"  then
 
 
   ' Create the series using the dependencies (add-ins "series")
-  {%modelname}.series ..\model\lists parameters R_Calibration_FRA round0 Prices_data SU_data Special_data Other_data Exception_taxes_prices_data Exception_NestedCES_data
+  '{%modelname}.series ..\model\lists parameters R_Calibration_FRA round0 Prices_data SU_data Special_data Other_data Exception_taxes_prices_data Exception_NestedCES_data
 
   ' Exception_ConsumerNested_data  Exception_Other_data
 
@@ -49,18 +49,18 @@ if %load="new"  then
 
 ' FOR HOUSING and TRANSPORT
     ' Create the series using the dependencies (add-ins "series")
-    {%modelname}.series Exception_housing_data_0
+    '{%modelname}.series Exception_housing_data_0
 
     ' Export all variables to a csv file (used by the external compiler)
-    call export_all_to_csv
+    'call export_all_to_csv
 
-    {%modelname}.series Exception_housing_data_if
+    '{%modelname}.series Exception_housing_data_if
     
     ' Create the series using the dependencies (add-ins "series")
-    {%modelname}.series Exception_housing_data
+    '{%modelname}.series Exception_housing_data
 
     ' Create the series using the dependencies (add-ins "series")
-    '{%modelname}.series Exception_transport_data
+    {%modelname}.series Exception_transport_data
 ' END FOR HOUSING and TRANSPORT
   call export_all_to_csv
 
@@ -153,8 +153,8 @@ else
   ' ***************************************
   ' Call (eventually) here the subroutine you want to use to analyse the results
   '' call additional_outputs("Fred")
-  call additional_outputs("Fred_housing")
-  ' call additional_outputs("Fred_transport")
+  'call additional_outputs("Fred_housing")
+  call additional_outputs("Fred_transport")
   
   ' call output_template(%scenario_name)
 
