@@ -17,8 +17,15 @@
 
 subroutine run(string %data_calibration, string %data_shock)
 
-' ***********************
-' Create the Workfile
+
+  '************************************************
+  '*********** CREATE ThreeME MODEL ***************
+  '************************************************
+
+
+' *************************************************
+' CREATE THE EVIEWS WORKFILE
+
 %wfname = ".\..\..\results\"+%modelname+"_"+%DC
 wfcreate(wf=%wfname, page=%modelname) {%freq} {%firstdate} {%lastdate}
 
@@ -28,8 +35,8 @@ call R_lists
 ' Used by setThreeMe
  call loadThreeMeLists
 
-' ******************
-' Load the model
+' *************************************************
+' LOAD THE MODEL
 
 if %load="new"  then
   'Give a name to the Model
@@ -37,36 +44,35 @@ if %load="new"  then
   ' Load calibration data from the Excel file
   call load_calibration
 
-
+' CREATE SERIES FOR THE MASTER VERSION (from the "scr/data" folder)
   ' Create the series using the dependencies (add-ins "series")
   {%modelname}.series ..\model\lists parameters R_Calibration_FRA round0 Prices_data SU_data Special_data Other_data Exception_taxes_prices_data Exception_NestedCES_data
-
   ' Exception_ConsumerNested_data  Exception_Other_data
 
-  ' Export all variables to a csv file (used by the external compiler)
-  'call export_all_to_csv
+' CREATE SERIES FOR THE HOUSING AND TRANSPORT BLOCKS (from the "scr/data" folder)
 
-
-' FOR HOUSING and TRANSPORT
-    ' Create the series using the dependencies (add-ins "series")
+    ' Create the "roun0" series for the housing block (initialization)
     {%modelname}.series Exception_housing_data_0
 
     ' Export all variables to a csv file (used by the external compiler)
     call export_all_to_csv
 
+    ' Create the series with if conditionalities (Housing block) 
     {%modelname}.series Exception_housing_data_if
     
-    ' Create the series using the dependencies (add-ins "series")
+    ' Create the series for the Housing block 
     {%modelname}.series Exception_housing_data
 
     ' Create the series using the dependencies (add-ins "series")
     {%modelname}.series Exception_transport_data
-' END FOR HOUSING and TRANSPORT
+
+' LOAD THE MODEL EQUATIONS
+
+  ' Export all variables to a csv file (used by the external compiler)
   call export_all_to_csv
 
-  ' Load the model specification from the model/ folder
+  ' Load the model specification from the "scr/model" folder
   {%modelname}.load blocks
-
 
   ' Put add factors to all equations
   smpl %firstdate %baseyear
@@ -92,6 +98,12 @@ else
 endif
 
 
+  '************************************************
+  '*********** RUN ThreeME MODEL ******************
+  '************************************************
+
+' *************************************************
+' RUN SENSITIVITY ANALYSIS (see wiki page)
 
 if %sensitivity = "yes" then
 
@@ -122,15 +134,16 @@ if %sensitivity = "yes" then
 
 else
 
+
+' *************************************************
+' RUN SENARIOS
+
   smpl @all
 
   ' Clean up results folder
   %cmd = @left(@linepath, 2) + " & cd " + @addquotes(@linepath) + " & del /Q ..\..\results\*.txt"
   shell(h) {%cmd}
 
-  '************************************************
-  '*********** SOLVE SCENARIOS ********************
-  '************************************************
   !scenario = 0
 
   ' ***************************************
