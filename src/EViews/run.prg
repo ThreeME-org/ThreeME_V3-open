@@ -39,29 +39,30 @@ if %load="new"  then
 
 
   ' Create the series using the dependencies (add-ins "series")
-  {%modelname}.series ..\model\lists parameters R_Calibration_FRA round0 Prices_data SU_data Special_data Other_data Exception_taxes_prices_data Exception_NestedCES_data
+  '{%modelname}.series ..\model\lists parameters R_Calibration_FRA round0 Prices_data SU_data Special_data Other_data Exception_taxes_prices_data Exception_NestedCES_data
 
   ' Exception_ConsumerNested_data  Exception_Other_data
 
   ' Export all variables to a csv file (used by the external compiler)
-  call export_all_to_csv
+  'call export_all_to_csv
 
 
 ' FOR HOUSING and TRANSPORT
     ' Create the series using the dependencies (add-ins "series")
-    '{%modelname}.series Exception_housing_data_0
+    {%modelname}.series Exception_housing_data_0
 
     ' Export all variables to a csv file (used by the external compiler)
-    'call export_all_to_csv
+    call export_all_to_csv
 
-    '{%modelname}.series Exception_housing_data_if
-    '
+    {%modelname}.series Exception_housing_data_if
+    
     ' Create the series using the dependencies (add-ins "series")
-    '{%modelname}.series Exception_housing_data
+    {%modelname}.series Exception_housing_data
 
     ' Create the series using the dependencies (add-ins "series")
     '{%modelname}.series Exception_transport_data
 ' END FOR HOUSING and TRANSPORT
+  call export_all_to_csv
 
   ' Load the model specification from the model/ folder
   {%modelname}.load blocks
@@ -138,7 +139,7 @@ else
   'call run_baseshock ' Perform a baseline and a shock
 
   call run_scenario("baseline")
-stop 
+ 
   ' call run_standard("EXR10", %iso3, 0) ' Option: 1 for result in excel template; 0 only scenario run
   ' call run_standard("RSSC1", %iso3, 1)
   ' call run_standard("EXR10 EXPG1 RSSC1 INCT1 VAT1 WD1 FF10 CT1", %iso3, 1) ' Option: 1 for result in excel template; 0 only scenario run
@@ -152,7 +153,7 @@ stop
   ' ***************************************
   ' Call (eventually) here the subroutine you want to use to analyse the results
   '' call additional_outputs("Fred")
-  ' call additional_outputs("Fred_housing")
+  call additional_outputs("Fred_housing")
   ' call additional_outputs("Fred_transport")
   
   ' call output_template(%scenario_name)
