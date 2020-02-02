@@ -65,7 +65,7 @@ CH[cair] := 7336 * (1 + GR_REAL) ^ (@year - %baseyear)
 
 CH[cele] := 17844 * (1 + GR_REAL) ^ (@year - %baseyear)
 CH[cgas] := 10467 * (1 + GR_REAL) ^ (@year - %baseyear)
-CH[coil] := 43742 * (1 + GR_REAL) ^ (@year - %baseyear)
+CH[cfut] := 43742 * (1 + GR_REAL) ^ (@year - %baseyear)
 
 PCH[cair] := P
 PCH[crai] := P
@@ -83,7 +83,7 @@ PCH := P
 ### END TO BE COMMENTED when linked with the full model
 
 NCH_AUTO[cele] := CH[cele] * 0.01
-NCH_AUTO[coil] := CH[coil] * 0.8
+NCH_AUTO[cfut] := CH[cfut] * 0.8
 NCH_AUTO[cgas] := CH[cgas] * 0.05
 
 NCH[cth] := CH[cth] * 1.0
@@ -95,19 +95,19 @@ NCH[cveh] := @elem(PNewAUTO*NewAUTO + UC_M_AUTO*AUTO, %baseyear) * (1 + GR_REAL)
 ######################################
 
 CH_AUTO[cele] := @elem(NCH_AUTO[cele],%baseyear)
-CH_AUTO[coil] := @elem(NCH_AUTO[coil],%baseyear)
+CH_AUTO[cfut] := @elem(NCH_AUTO[cfut],%baseyear)
 CH_AUTO[cgas] := @elem(NCH_AUTO[cgas],%baseyear)
 
 
 AUTO[ecl,cele]  := TRANSPORT(10, $ecl)
-AUTO[ecl,coil]  := TRANSPORT(11, $ecl)
+AUTO[ecl,cfut]  := TRANSPORT(11, $ecl)
 AUTO[ecl,cgas]  := TRANSPORT(12, $ecl)
 
 km_AUTO_LD := TRANSPORT(18, 9)
 km_AUTO_SD := TRANSPORT(19, 9)
 
 km_AUTO[ecl,cele]    := TRANSPORT(20, $ecl)
-km_AUTO[ecl,coil] := TRANSPORT(21, $ecl)
+km_AUTO[ecl,cfut] := TRANSPORT(21, $ecl)
 km_AUTO[ecl,cgas] := TRANSPORT(22, $ecl)
 
 
@@ -119,28 +119,28 @@ km_traveler[cair] := TRANSPORT(30, 9)
 
 NewAUTO[ecl,cele]  := TRANSPORT(36, $ecl)
 
-NewAUTO[ecl,coil]  := TRANSPORT(38, $ecl)
+NewAUTO[ecl,cfut]  := TRANSPORT(38, $ecl)
 NewAUTO[ecl,cgas]  := TRANSPORT(39, $ecl)
 
 overcost_elec :=  3000 / 1000 * (1 + GR_PRICES) ^ (@year - %baseyear)     # Value 2015 in ThreeME V2
 Pbattery 	  := 14875 / 1000 * (1 + GR_PRICES) ^ (@year - %baseyear)     # Value 2015 in ThreeME V2
 
 Rdep_AUTO[ecl,cele,DES] := TRANSPORT(44, $ecl)
-Rdep_AUTO[ecl,coil,DES] := TRANSPORT(45, $ecl)
+Rdep_AUTO[ecl,cfut,DES] := TRANSPORT(45, $ecl)
 Rdep_AUTO[ecl,cgas,DES] := TRANSPORT(46, $ecl)
 
 CH_AUTO_toe[ecl,cele] := TRANSPORT(48, $ecl)
-CH_AUTO_toe[ecl,coil] := TRANSPORT(49, $ecl)
+CH_AUTO_toe[ecl,cfut] := TRANSPORT(49, $ecl)
 CH_AUTO_toe[ecl,cgas] := TRANSPORT(50, $ecl)
 
 overcost_elec[ecl] :=  TRANSPORT(52, $ecl) / 1000 * (1 + GR_PRICES) ^ (@year - %baseyear)
 Pbattery[ecl] 	  := TRANSPORT(53, $ecl) / 1000 * (1 + GR_PRICES) ^ (@year - %baseyear)
 
-PNewAUTO[ecl,coil]  := TRANSPORT(55, $ecl) / 1000 * (1 + GR_PRICES) ^ (@year - %baseyear)
+PNewAUTO[ecl,cfut]  := TRANSPORT(55, $ecl) / 1000 * (1 + GR_PRICES) ^ (@year - %baseyear)
 PNewAUTO[ecl,cgas]  := TRANSPORT(56, $ecl) / 1000 * (1 + GR_PRICES) ^ (@year - %baseyear)
 
 MCperkm[ecl,cele] := TRANSPORT(58, $ecl)
-MCperkm[ecl,coil] := TRANSPORT(59, $ecl)
+MCperkm[ecl,cfut] := TRANSPORT(59, $ecl)
 MCperkm[ecl,cgas] := TRANSPORT(60, $ecl)
 
 #######################################
@@ -168,7 +168,7 @@ NewAUTO[th] := NewAUTO - NewAUTO[cele]
 
 AUTO[ecl,cea,DES] := Rdep_AUTO[ecl,cea,DES]*AUTO[ecl,cea]{-1}
 
-AUTO[ecl,th,DES] := AUTO[ecl,coil,DES] + AUTO[ecl,cgas,DES]
+AUTO[ecl,th,DES] := AUTO[ecl,cfut,DES] + AUTO[ecl,cgas,DES]
 
 AUTO[ecl,DES] := AUTO[ecl,cele,DES] + AUTO[ecl,th,DES]
 
@@ -184,7 +184,7 @@ AUTO[cea,DES] := sum(AUTO[ecl,cea,DES] on ecl)
 
 AUTO[th,DES] := sum(AUTO[ecl,th,DES] on ecl)
 
-AUTO[ecl,th]  := AUTO[ecl,coil] + AUTO[ecl,cgas]
+AUTO[ecl,th]  := AUTO[ecl,cfut] + AUTO[ecl,cgas]
 
 km_AUTO[cele] := km_AUTO * AUTO[cele] / AUTO
 km_AUTO[th] := km_AUTO - km_AUTO[cele]
@@ -204,11 +204,11 @@ UC_AUTO[ecl,th] := UC_K_AUTO[ecl,th] + UC_E_AUTO[ecl,th] + UC_M_AUTO[ecl,th]
 
 UC_K_AUTO[ecl] * AUTO[ecl] := UC_K_AUTO[ecl,cele] * AUTO[ecl,cele] + UC_K_AUTO[ecl,th] * AUTO[ecl,th]
 
-UC_K_AUTO[ecl,th] * AUTO[ecl,th] := UC_K_AUTO[ecl,coil] * AUTO[ecl,coil] + UC_K_AUTO[ecl,cgas] * AUTO[ecl,cgas]
+UC_K_AUTO[ecl,th] * AUTO[ecl,th] := UC_K_AUTO[ecl,cfut] * AUTO[ecl,cfut] + UC_K_AUTO[ecl,cgas] * AUTO[ecl,cgas]
 
 UC_E_AUTO[ecl] * AUTO[ecl] := UC_E_AUTO[ecl,cele] * AUTO[ecl,cele] + UC_E_AUTO[ecl,th] * AUTO[ecl,th]
 
-UC_E_AUTO[ecl,th] * AUTO[ecl,th] := UC_E_AUTO[ecl,coil] * AUTO[ecl,coil] + UC_E_AUTO[ecl,cgas] * AUTO[ecl,cgas]
+UC_E_AUTO[ecl,th] * AUTO[ecl,th] := UC_E_AUTO[ecl,cfut] * AUTO[ecl,cfut] + UC_E_AUTO[ecl,cgas] * AUTO[ecl,cgas]
 
 UC_E_AUTO[ecl,cea] := PE_AUTO[ecl,cea] * ((1 + GR_PE_AUTO_e[ecl,cea]) ^ AUTO_D[ecl,cea] - 1) / (GR_PE_AUTO_e[ecl,cea] * AUTO_D[ecl,cea])
 
@@ -221,11 +221,11 @@ EXP_AUTO_VAL[cea] := sum(EXP_AUTO_VAL[ecl,cea] on ecl)
 
 EXP_AUTO_VAL := sum(EXP_AUTO_VAL[ecl] on ecl)
 
-PNewAUTO[ecl,cele] := PNewAUTO[ecl,coil] + Pbattery + overcost_elec
+PNewAUTO[ecl,cele] := PNewAUTO[ecl,cfut] + Pbattery + overcost_elec
 
 PNewAUTO[ecl]*NewAUTO[ecl] := PNewAUTO[ecl,cele] * NewAUTO[ecl,cele] + PNewAUTO[ecl,th] * NewAUTO[ecl,th]
 
-PNewAUTO[ecl,th] * NewAUTO[ecl,th] := PNewAUTO[ecl,coil] * NewAUTO[ecl,coil] + PNewAUTO[ecl,cgas] * NewAUTO[ecl,cgas]
+PNewAUTO[ecl,th] * NewAUTO[ecl,th] := PNewAUTO[ecl,cfut] * NewAUTO[ecl,cfut] + PNewAUTO[ecl,cgas] * NewAUTO[ecl,cgas]
 
 PNewAUTO * NewAUTO := sum(PNewAUTO[ecl] * NewAUTO[ecl] on ecl)
 
@@ -233,7 +233,7 @@ UC_M_AUTO[ecl,cea] := PCH[cveh] * MCperkm[ecl,cea]/100*kmPerAuto/1000
 
 UC_M_AUTO[ecl] * AUTO[ecl] := UC_M_AUTO[ecl,cele] * AUTO[ecl,cele] + UC_M_AUTO[ecl,th] * AUTO[ecl,th] 			if AUTO[ecl] <> 0
 
-UC_M_AUTO[ecl,th] * AUTO[ecl,th] := UC_M_AUTO[ecl,coil] * AUTO[ecl,coil] + UC_M_AUTO[ecl,cgas] * AUTO[ecl,cgas]	if AUTO[ecl,th] <> 0
+UC_M_AUTO[ecl,th] * AUTO[ecl,th] := UC_M_AUTO[ecl,cfut] * AUTO[ecl,cfut] + UC_M_AUTO[ecl,cgas] * AUTO[ecl,cgas]	if AUTO[ecl,th] <> 0
 
 UC_AUTO * AUTO := sum(UC_AUTO[ecl] * AUTO[ecl] on ecl)	  if AUTO <> 0
 
@@ -281,7 +281,7 @@ km_AUTObis := km_AUTO
 
 NewAUTO[ecl] := NewAUTO[ecl,cele] + NewAUTO[ecl,th]
 
-NewAUTO[ecl,th] := NewAUTO[ecl,coil] + NewAUTO[ecl,cgas]
+NewAUTO[ecl,th] := NewAUTO[ecl,cfut] + NewAUTO[ecl,cgas]
 
 NewAUTO_bis[ecl,th] := NewAUTO[ecl,th]
 
@@ -296,7 +296,7 @@ phi_NewAUTO[ecl] := NewAUTO[ecl] / NewAUTO
 
 phi_NewAUTO[ecl,cele] := NewAUTO[ecl,cele] / NewAUTO[ecl]
 
-phi_NewAUTO[ecl,coil] := NewAUTO[ecl,coil]/NewAUTO[ecl,th]
+phi_NewAUTO[ecl,cfut] := NewAUTO[ecl,cfut]/NewAUTO[ecl,th]
 
 U_AUTO[ecl] := log(phi_NewAUTO[ecl])
 

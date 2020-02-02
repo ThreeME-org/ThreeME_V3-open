@@ -21,7 +21,7 @@ include .\R_lists
 %list_com_E_BUIL := ccoa cfuh cgas cele chea #[ceb, cebb]
 
 # List of energy commodities used by automobiles
-%list_com_E_AUTO := coil cgas cele #[cea]
+%list_com_E_AUTO := cfut cgas cele #[cea]
 
 
 # Default iterators
