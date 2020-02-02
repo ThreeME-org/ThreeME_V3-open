@@ -51,34 +51,30 @@ theta_U_AUTO_UC_E := 0.2
 #################################################
 
 ### TO BE COMMENTED when linked with the full model
-include parameters
+# include parameters
 
-eps := 0.000000000001
-P 		 :=  1 * (1 + GR_PRICES) ^ (@year - %baseyear)
+# eps := 0.000000000001
+# P 		 :=  1 * (1 + GR_PRICES) ^ (@year - %baseyear)
 
-CH[crai] := 4179 * (1 + GR_REAL) ^ (@year - %baseyear)
-CH[croa] := 9238 * (1 + GR_REAL) ^ (@year - %baseyear)
-CH[cair] := 7336 * (1 + GR_REAL) ^ (@year - %baseyear)
+# CH[crai] := 4179 * (1 + GR_REAL) ^ (@year - %baseyear)
+# CH[croa] := 9238 * (1 + GR_REAL) ^ (@year - %baseyear)
+# CH[cair] := 7336 * (1 + GR_REAL) ^ (@year - %baseyear)
 
+# CH[cele] := 17844 * (1 + GR_REAL) ^ (@year - %baseyear)
+# CH[cgas] := 10467 * (1 + GR_REAL) ^ (@year - %baseyear)
+# CH[cfut] := 43742 * (1 + GR_REAL) ^ (@year - %baseyear)
 
+# PCH[cair] := P
+# PCH[crai] := P
+# PCH[croa] := P
 
+# PCH[cea] := P
 
-CH[cele] := 17844 * (1 + GR_REAL) ^ (@year - %baseyear)
-CH[cgas] := 10467 * (1 + GR_REAL) ^ (@year - %baseyear)
-CH[cfut] := 43742 * (1 + GR_REAL) ^ (@year - %baseyear)
+# PCH[cveh] := P
 
-PCH[cair] := P
-PCH[crai] := P
-PCH[croa] := P
+# DISPINC_AT_VAL := 1000000 * (1 + GR_NOMI) ^ (@year - %baseyear)
 
-
-PCH[cea] := P
-
-PCH[cveh] := P
-
-DISPINC_AT_VAL := 1000000 * (1 + GR_NOMI) ^ (@year - %baseyear)
-
-PCH := P
+# PCH := P
 
 ### END TO BE COMMENTED when linked with the full model
 
