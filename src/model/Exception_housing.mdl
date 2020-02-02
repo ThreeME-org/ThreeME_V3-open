@@ -26,13 +26,13 @@ d(log(PREHAB[ecl,ecl2])) = d(log(PCH[CCON])) if REHAB[ecl,ecl2] <> 0
 d(log(PREHAB[ecl,ecl])) = d(log(PCH[CCON]))  # Must be added because REHAB[ecl,ecl] = 0  (test if merging the 2 eq. does not change the results)
 
 ##! Interest rate paid for an investment in a new class $ecl$ building
-d(R_I_NewBUIL[ ecl]) = d(R)
+d(R_I_NewBUIL[ecl]) = d(R)
 
 ##! Interest rate paid for an investment in the rehabilitation of a class $ecl$ building
-d(R_I_REHAB[ ecl])   = d(R)
+d(R_I_REHAB[ecl])   = d(R)
 
 ##! Interest rate paid for a (maintenance) investment of a class $ecl$ building
-d(R_I_BUIL[ ecl])    = d(R)
+d(R_I_BUIL[ecl])    = d(R)
 ## This corresponds to the interest rate paid to maintain the building in its class whereas the previous interest rate is the one paid to rehabilitate the building to a higher class. \\
 
 #### Building stock dynamic (in m2)
@@ -96,7 +96,7 @@ PREHAB *  REHAB = sum( PREHAB[ecl]  * REHAB[ecl] if REHAB[ecl] <> 0 on ecl )
 #### Energy consumption of buildings
 
 ##! Consumption of energy $ceb$ by class $ecl$ buildings expressed in toe
-ENER_BUIL[ecl, ceb] = ENERperM2[ ecl, ceb] * BUIL[ecl] if ENER_BUIL[ ecl, ceb] <> 0
+ENER_BUIL[ecl, ceb] = ENERperM2[ecl, ceb] * BUIL[ecl] if ENER_BUIL[ecl, ceb] <> 0
 
 ##! Consumption of energy $ceb$ per square meter in class $ecl$ buildings
 d(log(ENERperM2[ecl, ceb])) = - eta_ENERperM2[ecl, ceb] * d(log(PCH[ceb])-log(PCH)) * (d(log(PCH[ceb])-log(PCH))>0) _
@@ -109,7 +109,7 @@ d(SUBST_NRJperM2[ecl, ceb]) = sum(-ES_BUILNRJ[ecl, ceb, cebb] * phi[ecl, cebb]{-
 phi[ecl, ceb] = (PCH[ceb] * CH_ENER_BUIL[ecl, ceb]) / (sum(PCH[cebb] * CH_ENER_BUIL[ecl, cebb] on cebb)) if phi[ecl, ceb] <> 0
 
 ##! Consumption of energy $ceb$ by class $ecl$ buildings (in millions of euros)
-d(log(CH_ENER_BUIL[ecl, ceb])) = d(log(ENER_BUIL[ecl, ceb])) if ENER_BUIL[ ecl, ceb] <> 0
+d(log(CH_ENER_BUIL[ecl, ceb])) = d(log(ENER_BUIL[ecl, ceb])) if ENER_BUIL[ecl, ceb] <> 0
 
 ##! Price of energy $ceb$ in class $ecl$ buildings (euros per kWh)
 PENER_BUIL[ecl, ceb] * ENER_BUIL[ecl, ceb] = PCH[ceb] * CH_ENER_BUIL[ecl, ceb] if ENER_BUIL[ecl, ceb] <> 0
@@ -136,10 +136,10 @@ PENER_BUIL[ecl] * ENER_BUIL[ecl] = sum(PENER_BUIL[ecl, ceb] * ENER_BUIL[ecl, ceb
 PCH_ENER_BUIL * CH_ENER_BUIL =  sum(PCH_ENER_BUIL[ecl] * CH_ENER_BUIL[ecl] if CH_ENER_BUIL[ecl] <> 0 on ecl)
 
 ##! Total energy consumption in class $ceb$ buildings (in volume)
-             ENER_BUIL[ ceb] = sum(                         ENER_BUIL[ ecl, ceb] if ENER_BUIL[ ecl, ceb] <> 0 on ecl)
+             ENER_BUIL[ceb] = sum(                         ENER_BUIL[ecl, ceb] if ENER_BUIL[ecl, ceb] <> 0 on ecl)
 
 ##! Total energy consumption in class $ceb$ buildings (in value)
-PENER_BUIL[ ceb] *  ENER_BUIL[ ceb] = sum(PENER_BUIL[ ecl, ceb] * ENER_BUIL[ ecl, ceb] if ENER_BUIL[ ecl, ceb] <> 0 on ecl) if ENER_BUIL[ceb] <> 0
+PENER_BUIL[ceb] *  ENER_BUIL[ceb] = sum(PENER_BUIL[ecl, ceb] * ENER_BUIL[ecl, ceb] if ENER_BUIL[ecl, ceb] <> 0 on ecl) if ENER_BUIL[ceb] <> 0
 
 #### Arbitrage in buildings investment decisions
 
@@ -241,8 +241,8 @@ UC_K[ecl] = ( PREHAB[ecl,ecl] / BUIL_D[ecl] ) _
 R_LOAN[ecl] = 1 - R_CASH[ecl]
 
 ##! User energy cost of a class $ecl$ building
-UC_E[ ecl]  = PENER_m2[ ecl] * ((((1 + GR_PENER_m2_e[ ecl]) ^(BUIL_D[ ecl])) - 1) _
-            / (GR_PENER_m2_e[ ecl] * BUIL_D[ ecl]) )
+UC_E[ecl]  = PENER_m2[ecl] * ((((1 + GR_PENER_m2_e[ecl]) ^(BUIL_D[ecl])) - 1) _
+            / (GR_PENER_m2_e[ecl] * BUIL_D[ecl]) )
 
 
 # PROVIDE THE DERIVATION OF THIS FORMULA as comment
