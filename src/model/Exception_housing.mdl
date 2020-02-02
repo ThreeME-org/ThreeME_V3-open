@@ -13,7 +13,7 @@ NCH[ccon]   = (@year > %baseyear) * (@elem(PNewBUIL,%baseyear) * NewBUIL + @elem
 
 ##! Necessary (minimum) households' final consumption for energy commodities $ceb$ related to buildings
 NCH_BUIL[ceb]   = (@year > %baseyear) * (@elem(PENER_BUIL[ceb], %baseyear) * ENER_BUIL[ceb]) _
-                + (@year <= %baseyear) * (NCH_BUIL[ceb]{-1} * ( 1 + GR_REAL ))
+                + (@year <= %baseyear) * (NCH_BUIL[ceb]{-1} * ( 1 + GR_REAL )) if NCH_BUIL[ceb] <> 0
 
 
     ##! Price of class $ecl$ new building per square meter
@@ -106,7 +106,7 @@ d(log(ENERperM2[ecl, ceb])) = - eta_ENERperM2[ecl, ceb] * d(log(PCH[ceb])-log(PC
 d(SUBST_NRJperM2[ecl, ceb]) = sum(-ES_BUILNRJ[ecl, ceb, cebb] * phi[ecl, cebb]{-1} * d(log(PCH[ceb]) - log(PCH[cebb]))) if  ENERperM2[ecl, ceb] <> 0
 
 ##! Share of energy expenditures by $ecl$ class building
-phi[ecl, ceb] = (PCH[ceb] * CH_ENER_BUIL[ecl, ceb]) / (sum(PCH[cebb] * CH_ENER_BUIL[ecl, cebb] on cebb))
+phi[ecl, ceb] = (PCH[ceb] * CH_ENER_BUIL[ecl, ceb]) / (sum(PCH[cebb] * CH_ENER_BUIL[ecl, cebb] on cebb)) if phi[ecl, ceb] <> 0
 
 ##! Consumption of energy $ceb$ by class $ecl$ buildings (in millions of euros)
 d(log(CH_ENER_BUIL[ecl, ceb])) = d(log(ENER_BUIL[ecl, ceb])) if ENER_BUIL[ ecl, ceb] <> 0
@@ -121,7 +121,7 @@ PCH_ENER_BUIL[ecl] *  CH_ENER_BUIL[ecl] = sum(PCH[ceb] * CH_ENER_BUIL[ecl, ceb] 
                       CH_ENER_BUIL[ecl] = sum(           CH_ENER_BUIL[ecl, ceb] if CH_ENER_BUIL[ecl,ceb] <> 0 on ceb)
 
 ##! Consumption of energy $ceb$ (in millions of euros)
-CH_ENER_BUIL[ceb] =  sum(CH_ENER_BUIL[ecl, ceb] if CH_ENER_BUIL[ecl,ceb] <> 0 on ecl)
+CH_ENER_BUIL[ceb] =  sum(CH_ENER_BUIL[ecl, ceb] if CH_ENER_BUIL[ecl,ceb] <> 0 on ecl) if CH_ENER_BUIL[ceb] <> 0
 
 ##! Energy consumption in class $ecl$ buildings (in toe)
                   ENER_BUIL[ecl] = sum(                       ENER_BUIL[ecl, ceb] if ENER_BUIL[ecl, ceb] <> 0 on ceb)
@@ -139,7 +139,7 @@ PCH_ENER_BUIL * CH_ENER_BUIL =  sum(PCH_ENER_BUIL[ecl] * CH_ENER_BUIL[ecl] if CH
              ENER_BUIL[ ceb] = sum(                         ENER_BUIL[ ecl, ceb] if ENER_BUIL[ ecl, ceb] <> 0 on ecl)
 
 ##! Total energy consumption in class $ceb$ buildings (in value)
-PENER_BUIL[ ceb] *  ENER_BUIL[ ceb] = sum(PENER_BUIL[ ecl, ceb] * ENER_BUIL[ ecl, ceb] if ENER_BUIL[ ecl, ceb] <> 0 on ecl)
+PENER_BUIL[ ceb] *  ENER_BUIL[ ceb] = sum(PENER_BUIL[ ecl, ceb] * ENER_BUIL[ ecl, ceb] if ENER_BUIL[ ecl, ceb] <> 0 on ecl) if ENER_BUIL[ceb] <> 0
 
 #### Arbitrage in buildings investment decisions
 

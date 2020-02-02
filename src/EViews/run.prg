@@ -39,7 +39,7 @@ if %load="new"  then
 
 
   ' Create the series using the dependencies (add-ins "series")
-  '{%modelname}.series ..\model\lists parameters R_Calibration_FRA round0 Prices_data SU_data Special_data Other_data Exception_taxes_prices_data Exception_NestedCES_data
+  {%modelname}.series ..\model\lists parameters R_Calibration_FRA round0 Prices_data SU_data Special_data Other_data Exception_taxes_prices_data Exception_NestedCES_data
 
   ' Exception_ConsumerNested_data  Exception_Other_data
 

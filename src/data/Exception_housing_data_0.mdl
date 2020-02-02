@@ -7,28 +7,28 @@ include parameters
 #################################################
 
 ### TO BE COMMENTED when linked with the full model
-eps := 0.000000000001
+# eps := 0.000000000001
 
-P 		 :=  1 * (1 + GR_PRICES) ^ (@year - %baseyear)
+# P 		 :=  1 * (1 + GR_PRICES) ^ (@year - %baseyear)
 
-PCH[ceb] := P
+# PCH[ceb] := P
 
-PCH[CCON]:= P
+# PCH[CCON]:= P
 
-CH[ccoa] := 65    * (1 + GR_REAL) ^ (@year - %baseyear)
-CH[cfuh] := 43742 * (1 + GR_REAL) ^ (@year - %baseyear)
-CH[cgas] := 10467 * (1 + GR_REAL) ^ (@year - %baseyear)
-CH[cele] := 17844 * (1 + GR_REAL) ^ (@year - %baseyear)
-CH[chea] := 100   * (1 + GR_REAL) ^ (@year - %baseyear)
-
-
+# CH[ccoa] := 65    * (1 + GR_REAL) ^ (@year - %baseyear)
+# CH[cfuh] := 43742 * (1 + GR_REAL) ^ (@year - %baseyear)
+# CH[cgas] := 10467 * (1 + GR_REAL) ^ (@year - %baseyear)
+# CH[cele] := 17844 * (1 + GR_REAL) ^ (@year - %baseyear)
+# CH[chea] := 100   * (1 + GR_REAL) ^ (@year - %baseyear)
 
 
-POP := 63186 * (1 + GR_POP) ^ (@year - %baseyear)
 
-DISPINC_AT_VAL := 1159382 * (1 + GR_NOMI) ^ (@year - %baseyear)
 
-PCH := P
+# POP := 63186 * (1 + GR_POP) ^ (@year - %baseyear)
+
+# DISPINC_AT_VAL := 1159382 * (1 + GR_NOMI) ^ (@year - %baseyear)
+
+# PCH := P
 
 ### END TO BE COMMENTED when linked with the full model
 
@@ -38,7 +38,6 @@ NCH_BUIL[cfuh] := CH[cfuh] * 0.2
 NCH_BUIL[cgas] := CH[cgas] * 0.95
 NCH_BUIL[cele] := CH[cele] * 0.8
 NCH_BUIL[chea] := CH[chea] * 1.0
-
 
 #######################################
 ######################################
@@ -129,7 +128,7 @@ phi_REHAB[ecl,ecl2] := BUILDING(10 + $ecl, $ecl2)
 
 ENER_BUIL[ecl, ceb] := BUILDING(41 + $ceb, $ecl)
 
-CH_ENER_BUIL[ecl, ceb] := @elem(NCH_BUIL[ceb], %baseyear) * ENER_BUIL[ecl, ceb]/ENER_BUIL[ceb]
+CH_ENER_BUIL[ecl, ceb] := @elem(NCH_BUIL[ceb], %baseyear) * ENER_BUIL[ecl, ceb]/(ENER_BUIL[ceb] + eps)
 
 ENER_BUIL[ceb] := sum(ENER_BUIL[ecl, ceb] on ecl)
 
