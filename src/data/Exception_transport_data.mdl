@@ -3,7 +3,7 @@ include ..\model\lists
 #############################################
 #### Parameters
 #################################################
-include parameters
+
 
 ADJUST_phi_NewAUTO := 0.5
 
@@ -51,6 +51,8 @@ theta_U_AUTO_UC_E := 0.2
 #################################################
 
 ### TO BE COMMENTED when linked with the full model
+include parameters
+
 eps := 0.000000000001
 P 		 :=  1 * (1 + GR_PRICES) ^ (@year - %baseyear)
 

@@ -1,12 +1,13 @@
 include ..\model\lists
 
-include parameters
 
 #############################################
 #### Link with the rest of the model
 #################################################
 
 ### TO BE COMMENTED when linked with the full model
+# include parameters
+
 # eps := 0.000000000001
 
 # P 		 :=  1 * (1 + GR_PRICES) ^ (@year - %baseyear)
