@@ -16,18 +16,18 @@ include ..\model\lists
 
 # PCH[CCON]:= P
 
-# CH[ccoa] := 65    * (1 + GR_REAL) ^ (@year - %baseyear)
-# CH[cfuh] := 43742 * (1 + GR_REAL) ^ (@year - %baseyear)
-# CH[cgas] := 10467 * (1 + GR_REAL) ^ (@year - %baseyear)
-# CH[cele] := 17844 * (1 + GR_REAL) ^ (@year - %baseyear)
-# CH[chea] := 100   * (1 + GR_REAL) ^ (@year - %baseyear)
+# CH[ccoa] := 0    * (1 + GR_REAL) ^ (@year - %baseyear)
+# CH[cfuh] := 20914.99999999 * (1 + GR_REAL) ^ (@year - %baseyear)
+# CH[cgas] := 10868.3960559 * (1 + GR_REAL) ^ (@year - %baseyear)
+# CH[cele] := 25977.4250989 * (1 + GR_REAL) ^ (@year - %baseyear)
+# CH[chea] := 2489.17884522 * (1 + GR_REAL) ^ (@year - %baseyear)
 
 
 
 
 # POP := 63186 * (1 + GR_POP) ^ (@year - %baseyear)
 
-# DISPINC_AT_VAL := 1159382 * (1 + GR_NOMI) ^ (@year - %baseyear)
+# DISPINC_AT_VAL := 1382026.041503597 * (1 + GR_NOMI) ^ (@year - %baseyear)
 
 # PCH := P
 
