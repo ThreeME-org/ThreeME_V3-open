@@ -46,7 +46,7 @@ if %load="new"  then
 
 ' CREATE SERIES FOR THE MASTER VERSION (from the "scr/data" folder)
   ' Create the series using the dependencies (add-ins "series")
-  {%modelname}.series ..\model\lists parameters R_Calibration_FRA round0 Prices_data SU_data Special_data Other_data Exception_taxes_prices_data Exception_NestedCES_data
+  '{%modelname}.series ..\model\lists parameters R_Calibration_FRA round0 Prices_data SU_data Special_data Other_data Exception_taxes_prices_data Exception_NestedCES_data
   ' Exception_ConsumerNested_data  Exception_Other_data
 
 ' CREATE SERIES FOR THE HOUSING AND TRANSPORT BLOCKS (from the "scr/data" folder)
@@ -64,7 +64,7 @@ if %load="new"  then
     {%modelname}.series Exception_housing_data
 
     ' Create the series using the dependencies (add-ins "series")
-    {%modelname}.series Exception_transport_data
+    '{%modelname}.series Exception_transport_data
 
 ' LOAD THE MODEL EQUATIONS
 
@@ -167,7 +167,7 @@ else
   ' Call (eventually) here the subroutine you want to use to analyse the results
   '' call additional_outputs("Fred")
   call additional_outputs("Fred_housing")
-  call additional_outputs("Fred_transport")
+''  call additional_outputs("Fred_transport")
   
   ' call output_template(%scenario_name)
 

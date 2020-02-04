@@ -6,30 +6,30 @@ include ..\model\lists
 #################################################
 
 ### TO BE COMMENTED when linked with the full model
-# include parameters
+include parameters
 
-# eps := 0.000000000001
+eps := 0.000000000001
 
-# P 		 :=  1 * (1 + GR_PRICES) ^ (@year - %baseyear)
+P 		 :=  1 * (1 + GR_PRICES) ^ (@year - %baseyear)
 
-# PCH[ceb] := P
+PCH[ceb] := P
 
-# PCH[CCON]:= P
+PCH[CCON]:= P
 
-# CH[ccoa] := 0    * (1 + GR_REAL) ^ (@year - %baseyear)
-# CH[cfuh] := 20914.99999999 * (1 + GR_REAL) ^ (@year - %baseyear)
-# CH[cgas] := 10868.3960559 * (1 + GR_REAL) ^ (@year - %baseyear)
-# CH[cele] := 25977.4250989 * (1 + GR_REAL) ^ (@year - %baseyear)
-# CH[chea] := 2489.17884522 * (1 + GR_REAL) ^ (@year - %baseyear)
-
-
+CH[ccoa] := 0    * (1 + GR_REAL) ^ (@year - %baseyear)
+CH[cfuh] := 20914.99999999 * (1 + GR_REAL) ^ (@year - %baseyear)
+CH[cgas] := 10868.3960559 * (1 + GR_REAL) ^ (@year - %baseyear)
+CH[cele] := 25977.4250989 * (1 + GR_REAL) ^ (@year - %baseyear)
+CH[chea] := 2489.17884522 * (1 + GR_REAL) ^ (@year - %baseyear)
 
 
-# POP := 63186 * (1 + GR_POP) ^ (@year - %baseyear)
 
-# DISPINC_AT_VAL := 1382026.041503597 * (1 + GR_NOMI) ^ (@year - %baseyear)
 
-# PCH := P
+POP := 63186 * (1 + GR_POP) ^ (@year - %baseyear)
+
+DISPINC_AT_VAL := 1382026.041503597 * (1 + GR_NOMI) ^ (@year - %baseyear)
+
+PCH := P
 
 ### END TO BE COMMENTED when linked with the full model
 
