@@ -90,10 +90,13 @@ PK[s] * F[K, s] = (1 - Rdep[s]) * PK[s]{-1} * F[K, s]{-1} + PI[s] * I[s]
 
 ##! Energy costs in sector $s$
 C[E, s]         = PE[s]
-## In first approximation the cost of energy correspond to the energy price. However if the producer is forward-looking, she will integrate the anticipation of price increase in it definition of the user cost of energy. In this case the specification becomes: \\
+## In first approximation the cost of energy correspond to the energy price. However if the producer is forward-looking, she will integrate the anticipation of price increase in its definition of the user cost of energy and consider the average cost (eventually discounted) over the life time of the equipment. In this case of a discounta rate of zero, the specification becomes: \\
 
-# Energy costs in sector $s$ (forward-looking specification)
-# Cbis[E, s]      = PE[s]
+# ##! Energy costs in sector $s$ (forward-looking specification)
+# Cbis[E, s]      = PE[s] * ((PE_e[s]/PE_e[s]{-1}) ^ (1/Rdep[s]) - 1) / ((PE_e[s]/PE_e[s]{-1}-1) * (1/Rdep[s]))
+
+# ##! Expected energy price inflation
+# d(log(PE_e[s])) = ADJUST_PEe_PE1 * d(log(PE_e[s]{-1})) + (1 - ADJUST_PEe_PE1)    * d(log(PE_e[s]{-1}))
 
 ##! Price of energy in sector $s$
 PE[s]     * F[E, s]   = sum(PCI[ce, s] * CI[ce, s] if CI[ce, s] <> 0 on ce) if F[E, s]    <> 0
