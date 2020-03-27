@@ -122,6 +122,9 @@ ADJUST3_PY[s] := 1 - ADJUST1_PY[s] - ADJUST2_PY[s]
 
 ADJUST_Pe_P1 := 0.7
 
+## In the expected energy price inflation
+ADJUST_PEe_PE1[s] := 0.7
+
 # In wage Equation
 ADJUST_W_Wn[s] := 0.4
 ADJUST_W_W1[s] := 1 - ADJUST_W_Wn[s]

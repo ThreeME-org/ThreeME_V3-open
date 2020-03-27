@@ -7,7 +7,7 @@ EXR := 1
 
 |V| := P where V in PQD PQM PCID PCIM PCHD PCHM PGD PGM PID PIM PXD PXM PDSD PDSM PQ PCI PCIbis PCH PG  PI PIbis PX PDS PGDP PM PGDP PGDPbis PGDPter PGDP4 PYQ PY PY_n PY_e PYQS PMS PVA PNTAX PSUB PEXPH PNEXP PEXPG PI P_e PE PK PMGSD PMGSM PMGS PMGPD PMGPM PNTAXC PGOS PNOS PWAGES PNCH PRSC PVATD POTHCTD PSUBCD PVATM POTHCTM PSUBCM PVAT POTHCT PSUBC PCH_CES
 
-|V|[s] := P where V in PI PY PY_n PY_e PMAT PE PWAGES PRSC
+|V|[s] := P where V in PI PY PY_n PY_e PMAT PE PE_e PWAGES PRSC
 
 PCI[c, s] := P
 PCI|O|[s] := P
@@ -62,6 +62,9 @@ CU[s] * Y[s] := sum(C[f, s] * F[f, s] on f) + NTAXS_VAL[s]
 C[K, s] := PK[s] * (Rdep[s] + r[s])
 C[L, s] :=  W[s] * (1 + RRSC[s])
 C[E, s] := PE[s]
+
+Cbis[E, s] := PE[s] * ((PE_e[s]/PE_e[s]{-1}) ^ (1/Rdep[s]) - 1) / ((PE_e[s]/PE_e[s]{-1}-1) * (1/Rdep[s]))
+
 C[MAT, s] := PMAT[s] 
 
 C[K] * F[K] := sum(C[K, s] * F[K, s] on s)
