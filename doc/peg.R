@@ -9,7 +9,7 @@ library(stringr)
 # Then, example use:
 
  # teXdoc(c("test.mdl"), out = "test_0")
- # teXdoc(c("Exception_Transport.mdl"), out = "test")
+ teXdoc(c("Exception_Transport.mdl"), out = "test")
  # 
  # teXdoc(c("Exception_Transport.mdl", "Exception_housing.mdl","Exception_ConsumerNested.mdl" ), out = "Exceptions")
  # teXdoc(c("Exception_housing.mdl"), out = "test_2")
@@ -17,29 +17,29 @@ library(stringr)
  # 
  # teXdoc(c("Exception_ConsumerNested.mdl"), out = "test_3")
  # 
- # teXdoc(c(
- #         "Intro_doc_eqs.mdl",
- #         "SU.mdl",
- #         "prices.mdl",
- #         "producer.mdl",
- #         "consumer.mdl",
- #         "government.mdl",
- #         "Trade_inter.mdl",
- #         "demography.mdl",
- #         "ghg_emissions.mdl",
- #         "energybalance.mdl",
- #         "adjustments.mdl",
- #         "Exception_taxes_prices.mdl",
- #         "Exception_ConsumerNested.mdl",
- #         "Exception_NestedCES.mdl",
- #         "Exception_housing.mdl",   # To write explicitely some equations 
- #         "Exception_Transport.mdl", # To write explicitely some equations 
- #         #"Exception_Walras.mdl",
- #         #"Exception_hybrid - Other.mdl",
- #         "ETS.mdl"
- #         ), 
- #        #exo = c("exogenous.mdl"),
- #        out = "chapter5-eqs")
+  teXdoc(c(
+          "Intro_doc_eqs.mdl",
+          "SU.mdl",
+          "prices.mdl",
+          "producer.mdl",
+          "consumer.mdl",
+          "government.mdl",
+          "Trade_inter.mdl",
+          "demography.mdl",
+          "ghg_emissions.mdl",
+          "energybalance.mdl",
+          "adjustments.mdl",
+          "Exception_taxes_prices.mdl",
+          "Exception_ConsumerNested.mdl",
+          "Exception_NestedCES.mdl",
+          "Exception_housing.mdl",   # To write explicitely some equations 
+          "Exception_Transport.mdl", # To write explicitely some equations 
+          "Exception_Walras.mdl",
+          #"Exception_hybrid - Other.mdl",
+          "ETS.mdl"
+          ), 
+         exo = c("exogenous.mdl"),
+         out = "chapter5-eqs")
 
 # "out =" can be ommited.
 # If ' out = "outputfilename" ' is ommited, the output files will be "doc.tex", doc.pdf, etc.  
@@ -216,6 +216,7 @@ library(stringr)
         # Phi for shares
         str_replace("^(p|P)hi_(.*)", "\\\\varphi^{\\2}") %>%
         str_replace("^(p|P)hi$", "\\\\varphi") %>%
+        str_replace("^(p|P)hi(.*)", "\\\\varphi^{\\2}") %>%
         # Rho
         str_replace("^RHO(.*)", "\\\\rho\\1") %>%
         # Alpha for adjustment coefficients

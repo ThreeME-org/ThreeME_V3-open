@@ -4,15 +4,15 @@
 
 ##! Emissions of the greenhouse gas $ghg$ related to the intermediary consumption of commodity $c$ by sector $s$
 d(log(EMS_CI[ghg,c,s])) = d(log(CI[c,s]   * IEMS_CI[ghg,c,s]))              if EMS_CI[ghg,c,s] <> 0
-## In practice only a few intermediaries generate emissions (e.g. coal, gas, petrol). IEMS_CI[ghg,c,s] is the corresponding emission intensity calibrated to 1 in the baseyear. It may change over time because of the increase of the share of biofuels. \\
+## In practice only a few intermediaries generate emissions (e.g. coal, gas, petrol). $IEMS_CI_{ghg,c,s}$ is the corresponding emission intensity calibrated to 1 in the baseyear. It may change over time because of the increase in the share of biofuels. \\
 
 ##! Emissions of the greenhouse gas $ghg$ related to the  materials consumption of sector $s$
 d(log(EMS_MAT[ghg,s]))  = d(log(F[MAT,s]  * IEMS_MAT[ghg,s]))           if EMS_MAT[ghg,s] <> 0
-## This mainly corresponds to the CO2 emissions from decarbonation. \\
+## This mainly corresponds to the $CO_{2}$ emissions from decarbonation. \\
 
 ##! Emissions of the greenhouse gas $ghg$ related to the final production of sector $s$
 d(log(EMS_Y[ghg,s]))    = d(log(Y[s]      * IEMS_Y[ghg,s]))             if EMS_Y[ghg,s]   <> 0
-## This mainly correspond to the emissions from agriculture. \\
+## This mainly corresponds to the emissions from agriculture. \\
 
 ##! Emissions of the greenhouse gas $ghg$ related to the household consumption $c$
 d(log(EMS_CH[ghg,c]))   = d(log(CH[c]     * IEMS_CH[ghg,c]))            if EMS_CH[ghg,c]  <> 0
