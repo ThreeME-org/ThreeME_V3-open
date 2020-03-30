@@ -16,7 +16,7 @@ NCH_BUIL[ceb]   = (@year > %baseyear) * (@elem(PENER_BUIL[ceb], %baseyear) * ENE
                 + (@year <= %baseyear) * (NCH_BUIL[ceb]{-1} * ( 1 + GR_REAL )) if NCH_BUIL[ceb] <> 0
 
 
-    ##! Price of class $ecl$ new building per square meter
+##! Price of class $ecl$ new building per square meter
 d(log(PNewBUIL[ecl])) = d(log(PCH[CCON]))
 
 ##! Price of investment for rehabilitating a class $ecl$ building to class $ecl2$ per square meter
@@ -54,6 +54,7 @@ d(BUIL[ecl]) = (@year > %baseyear) * (NewBUIL[ecl]  + sum(REHAB[ecl2,ecl] if REH
                                                     - (sum(REHAB[ecl,ecl2] if REHAB[ecl,ecl2] <> 0 on ecl2)) _
                                                     - (sum(DEP_BUIL[ecl,bcl] if DEP_BUIL[ecl,bcl] <> 0 on bcl))) + (@year <= %baseyear) * 0
 
+## The variation of stocks of building per class depends on several variables:\\
 ## - It increases by the amount of the new buildings constructed in class $ecl$: $NewBUIL_{ecl}$ \\
 ## - It increases by the amount of rehabilitated buildings from a lower class to class $ecl$: $\sum REHAB_{ecl2, ecl}$ \\
 ## - It increases by the downgraded buildings from a higher class to class $ecl$: $\sum DEP^{BUIL}_{ecl2, ecl}$ \\
@@ -99,7 +100,7 @@ PREHAB *  REHAB = sum( PREHAB[ecl]  * REHAB[ecl] if REHAB[ecl] <> 0 on ecl )
 ENER_BUIL[ecl, ceb] = ENERperM2[ecl, ceb] * BUIL[ecl] if ENER_BUIL[ecl, ceb] <> 0
 
 ##! Consumption of energy $ceb$ per square meter in class $ecl$ buildings
-d(log(ENERperM2[ecl, ceb])) = - eta_ENERperM2[ecl, ceb] * d(log(PCH[ceb])-log(PCH)) * (d(log(PCH[ceb])-log(PCH))>0) _
+d(log(ENERperM2[ecl, ceb])) = - eta_ENERperM2[ecl, ceb] * d(log(PCH[ceb])-log(PCH)) * (d(log(PCH[ceb])-log(PCH)) >0) _
                                 + d(SUBST_NRJperM2[ecl, ceb]) if ENERperM2[ecl, ceb] <> 0
 
 ##! Substitution between energy commodity $ceb$ and the other energy commodities $cebb$ consumed in class $ecl$ buildings
@@ -148,20 +149,13 @@ PENER_BUIL[ceb] *  ENER_BUIL[ceb] = sum(PENER_BUIL[ecl, ceb] * ENER_BUIL[ecl, ce
 ##! Notional rehabilitation rate of a class $ecl$ building
 tau_REHAB_N[ecl] = tau_REHAB_MAX[ecl] + (tau_REHAB_MIN[ecl] - tau_REHAB_MAX[ecl]) / (1 + exp(tau[ecl] - sigma[ecl] * Payback_REHAB[ecl])) if REHAB[ecl] <> 0
 ## It corresponds to the proportion of class $ecl$ building rehabilitated to a higher class. In order to avoid discontinuity, the proportion of rehabilitated building is defined according to a logistic function. A logistic function is defined by 2 regimes, $Yi$ and $Yf$, the switching speed between the 2 regimes, $\sigma$, and point of inflection between the 2 regimes, $\frac{\tau}{\sigma}$. \\
-## $Y = (1 - \Phi(X))Yi + \Phi(X))Yf$ with $\Phi(X) = (1-\operatorname{e}^{\tau-\sigma.X})^{-1}$ which is equivalent to: $Y = Yi + \frac{Yf - Yi}{1-\operatorname{e}^{\tau-\sigma.X}}$.The point of inflection corresponds to the case where $\Phi(X) = 1/2$ that is where $X = \tau / \sigma$. \\
+## $Y = (1 - \Phi(X))Yi + \Phi(X))Yf$ with $\Phi(X) = (1-\operatorname{e}^{\tau-\sigma.X})^{-1}$ which is equivalent to: $Y = Yi + \frac{Yf - Yi}{1-\operatorname{e}^{\tau-\sigma.X}}$.The point of inflection corresponds to the case where $\Phi(X) = 1/2$ that is where $X = \tau / \sigma$. This replaces the previous specification that had several drawbacks: \\
+## - $\tau^{REHAB_N}_{ecl} = (\Delta(\tau^{REHAB\_trend}_{ecl}) - \nu^{REHAB}_{ecl} . \Delta(\log(Payback^{REHAB}_{ecl})))$ \\ with a max and min value \\
+##  - Discontinuity in the first derivative at the max and minimum value \\
+##  - Constant elasticity $\tau^{REHAB_N}_{ecl}$ and $Payback^{REHAB}_{ecl}$ whatever the level of $\tau^{REHAB_N}_{ecl}$. \\
+##  - Infeasible solution if $Payback^{REHAB}_{ecl} <0$ \\
 
-## - Replace the previous specification that had several drawbacks: \\
-## - $\tau^{REHAB_N}_{ecl}) = (\Delta(\tau^{REHAB_trend}_{ecl}) - \nu^{REHAB}_{ecl} . \Delta(\log(Payback^{REHAB}_{ecl})))$ if $\tau^{REHAB}_{ecl} <> 0$ with a max and min value \\
-## - Discontinuity in the first derivative at the max and minimum value \\
-## - Constant elasticity $\tau^{REHAB_N}_{ecl}$ and $Payback^{REHAB}_{ecl}$ whatever the level of $\tau^{REHAB_N}_{ecl}$. \\
-## - Infeasible solution if $Payback^{REHAB}_{ecl} <0$ \\
-
-# With the logistic function no need to use the following specification:
-    # Reminder: max(a, b) = 1/2 * (a + b + |a - b|)
-    # Here, Payback_REHAB[ecl] = max(1, Payback_REHAB_real[ecl]) to exclude negative values and allow log(Payback_REHAB[ecl]) above
-    # NB: The function @max(a, b) doesn't exist in eViews...
-
-    # Payback_REHAB[ecl] = 1/2 * (1 + Payback_REHAB_r[ecl] + @abs(1 - Payback_REHAB_r[ecl])) if REHAB[ecl] <> 0
+# Payback_REHAB[ecl] = 1/2 * (1 + Payback_REHAB_r[ecl] + @abs(1 - Payback_REHAB_r[ecl])) if REHAB[ecl] <> 0
 
 
 ##! First derivative of the notional rehabilitation rate of a class $ecl$ building $\tau^{REHAB_N}_{ecl}$ with respect to the log of payback time $Payback^{REHAB}_{ecl}$
@@ -169,7 +163,7 @@ nu_REHAB[ecl] = ((tau_REHAB_MAX[ecl] - tau_REHAB_MIN[ecl]) * sigma[ecl] * Paybac
                 / (1 + exp(tau[ecl] - sigma[ecl] * Payback_REHAB[ecl]))^2 if REHAB[ecl] <> 0
 
 ##! Rehabilitation rate of a class $ecl$ building
-tau_REHAB[ecl] = ADJUST0_tau_REHAB*tau_REHAB_N[ecl] + (1-ADJUST0_tau_REHAB)*tau_REHAB[ecl]{-1} if REHAB[ecl] <> 0
+tau_REHAB[ecl] = ADJUST0_tau_REHAB * tau_REHAB_N[ecl] + (1-ADJUST0_tau_REHAB) * tau_REHAB[ecl]{-1} if REHAB[ecl] <> 0
 
 ##! Payback time of rehabilitating a class $ecl$ building
 Payback_REHAB[ecl] = (UC_K_REHAB[ecl]*BUIL_D[ecl] - UC_K[ecl]*BUIL_D[ecl])/(UC_E[ecl] - UC_E_REHAB[ecl]) - 1 if REHAB[ecl] <> 0

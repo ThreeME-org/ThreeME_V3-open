@@ -1,7 +1,7 @@
 
 ##### Prices
 
-## This file provides the equations defining the prices, wages and the interest rates. \\
+## This section provides the equations defining the prices, wages and the interest rates. \\
 
 #### Behavioral equations
 
@@ -36,8 +36,8 @@ CUR[s]          = Y[s] / YCAP[s]
 ### Wage setting
 ##! Notional wage in sector $s$
 d(log(W_n[s])) = RHO_W_Cons[s] + RHO_W_P[s]*d(log(P)) + RHO_W_Pe[s]*d(log(P_e)) + RHO_W_PROG[s]*d(log(PROG_L[s])) - RHO_W_U[s] * (UnR - DNAIRU) - RHO_W_DU[s]*d(UnR) + RHO_W_L[s]*d(log(F[L, s]) - log(F[L])) if W_n[s] <> 0
-## This general specification combines various wage equations found in the literature: the Phillips curve and the WS curve. The WS curve à la Layard et al. (2005) requires the following constraints: \begin{center} $\rho^{W,P}_{s} + \rho^{W,Pe}_{s} = \rho^{W,PROG}_{s} = 1, \rho^{W,U}_{s} = \rho^{W,Cons}_{s}= 0$ \end{center}
-## In the case of a Phillips curve, the $NAIRU$ is predetermined in the long run when wages are fully indexed on price and productivity. To have a long run "Time-Varying" $NAIRU$ under these hypotheses, we have to assume that the constant is a function of the unemployment rate (see Heyer et al. 2007): \begin{center} $d(\rho^{W,Cons}_{s}) =  \rho^{Cons,U}_{s} *\rho^{W,U}_{s} * d(UnR)$ \end{center}
+## This general specification combines various wage equations found in the literature: the Phillips curve and the WS curve. The WS curve {\'a} la Layard et al. (2005) requires the following constraints: \begin{center} $\rho^{W,P}_{s} + \rho^{W,Pe}_{s} = \rho^{W,PROG}_{s} = 1, \rho^{W,U}_{s} = \rho^{W,Cons}_{s}= 0$ \end{center}
+## In the case of a Phillips curve, the $NAIRU$ is predetermined in the long run when wages are fully indexed on price and productivity. To have a long run "Time-Varying" $NAIRU$ under these hypotheses, we have to assume that the constant is a function of the unemployment rate (see Heyer et al. 2007): \\
 
 d(RHO_W_Cons[s]) = RHO_Cons_U[s] * RHO_W_U[s] * d(UnR)
 
@@ -69,7 +69,7 @@ d(r_DEBT_G) = d(r)
 #### Costs
 
 ##! Notional unit cost of production in sector $s$
-CU_n[s] * Y[s]  = sum(C[f, s] * F_n[f, s] on f) + NTAXS_VAL[s] 
+CU_n[s] * Y[s]  = sum(C[f, s] * F_n[f, s] on f) + NTAXS_VAL[s]
 ## The notional price is based on the notional unit cost of production instead of the effective one. This leads to a more stable dynamic and gives a better representation of expectations. \\
 
 ##! Unit cost of production in sector $s$
@@ -86,13 +86,13 @@ C[K, s]         = PK[s] * (Rdep[s] + r[s])
 
 ##! Price of capital in sector $s$
 PK[s] * F[K, s] = (1 - Rdep[s]) * PK[s]{-1} * F[K, s]{-1} + PI[s] * I[s]
-## The price of capital is calibrated by rewriting the above equation in the long run. Its baseyear value is always smaller than 1 because it is calibrated as follows: \begin{center} $PK_{s} = \frac{PI_{s}*(\delta_{s}+GR^{REAL})*(1+GR^{PRICES})}{(Rdep_{s}-1+(1+GR^{REAL})*(1+GR^{PRICES}))}$ \end{center}
+## The price of capital is calibrated by rewriting the above equation in the long run. Its baseyear value is always smaller than 1 because it is calibrated as follows: \begin{center} $PK_{s} = \frac{PI_{s}*(\delta_{s}+g^{REAL})*(1+g^{PRICES})}{(Rdep_{s}-1+(1+g^{REAL})*(1+GR^{PRICES}))}$ \end{center}
 
 ##! Energy costs in sector $s$
 C[E, s]         = PE[s]
 ## In first approximation the cost of energy correspond to the energy price. However if the producer is forward-looking, she will integrate the anticipation of price increase in its definition of the user cost of energy and consider the average cost (eventually discounted) over the life time of the equipment. In this case of a discounta rate of zero, the specification becomes: \\
 
-# ##! Energy costs in sector $s$ (forward-looking specification)
+##! Energy costs in sector $s$ (forward-looking specification)
 Cbis[E, s]      = PE[s] * ((PE_e[s]/PE_e[s]{-1}) ^ (1/Rdep[s]) - 1) / ((PE_e[s]/PE_e[s]{-1}-1) * (1/Rdep[s]))
 
 # ##! Expected energy price inflation

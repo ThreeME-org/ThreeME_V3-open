@@ -1,6 +1,6 @@
 ##### Producer
 
-## This file provides the equations defining the producer behaviour.
+## This section provides the equations defining the producer behaviour.
 
 # Most equation are behavioral equations. They are not used to calibrate the initial value of variables. They may be inverted to calibrate a parameter.
 
@@ -41,7 +41,7 @@ d(SUBST_F_n[f, s]) = sum(- ES[f, ff, s] * phi[ff, s]{-1} * d(log(C[f, s]/PROG[f,
 phi[f, s]          = (C[f, s] * F_n[f, s]) / (sum(C[ff, s] * F_n[ff, s] on ff))
 
 
-##! Aggregate production factors $f$ 
+##! Aggregate production factors $f$
 F[f] = sum(F[f, s] on s)
 
 ##! Investment in commodity $c$ by sector $s$

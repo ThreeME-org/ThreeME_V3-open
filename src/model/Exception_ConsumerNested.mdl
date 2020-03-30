@@ -1,6 +1,6 @@
 ##### Nested utility function for the consumer
 
-## This file provides the equations defining the consumer’s nested utility function. In the basic version of the consumer block (see Section Consumer), the consumption of every commodity is modeled using generalized LES utility function where the elasticity of substitution between every commodity is constant. An increase in the price of fossil energy will increase the consumption of the other commodities uniformly whereas one expects that substitutions will mainly affect the other energy sources and household’s investment in more energy-efficient equipment. This block amends the basic version by introducing a nested utility function. \\
+## This section provides the equations defining the consumer’s nested utility function. In the basic version of the consumer block (see Section Consumer), the consumption of every commodity is modeled using generalized LES utility function where the elasticity of substitution between every commodity is constant. An increase in the price of fossil energy will increase the consumption of the other commodities uniformly whereas one expects that substitutions will mainly affect the other energy sources and household’s investment in more energy-efficient equipment. This block amends the basic version by introducing a nested utility function. \\
 
 ## The first level separates the consumption related to housing ($CH^{HOUS}$) and transport ($CH^{TRSP}$) from the rest. We assume that the value shares of the three types of expenditures (housing, transport and other) are constant which amount to assuming an Elasticity of Substitution (ES) of one (Cobb-Douglas hypothesis). \\
 
@@ -44,7 +44,7 @@ NCH[cveh] = CH_TRSPINV_VAL / PNCH[cveh]
 NCH[ce] = CH_HOUS[ce] + CH_TRSP[ce]
 
 # ########################
-#### Level 1: Disaggregation of aggregate expenditures
+### Level 1: Disaggregation of aggregate expenditures
 
 ##! Households' final consumption related to housing in value
 d(log(CH_HOUS_VAL)) =  d(log(CH_n_VAL))
@@ -97,7 +97,7 @@ PCH_HOUS[ce] = PCH[ce]
 CH_TRSP_VAL[chtrsp] = phi_MCH_TRSP[chtrsp] * CH_TRSP_VAL if CH_TRSP_VAL[chtrsp]  <> 0
 
 
-##! Share of transport consumption $chtrsp$ into the total transport expenditures related to housing
+##! Share of transport consumption $chtrsp$ into the total transport expenditures
 d(log(phi_MCH_TRSP[chtrsp])) = (1 - ES_CHTRSP) * d(log(PCH_TRSP[chtrsp] / PCH_TRSP_CES))     if phi_MCH_TRSP[chtrsp] <> 0
 
 ##! Price of the aggregate transport expenditures

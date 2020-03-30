@@ -3,7 +3,7 @@
 
 ##### Transport
 
-## This file provides the equations defining the hybrid block on transport.
+## This section provides the equations defining the hybrid block on transport.
 
 #### Link with the rest of the model
 
@@ -30,7 +30,7 @@ d(R_I_AUTO[ecl,cea]) = d(R)
 ## The arbitrage between transport modes is defined in 5 level. Level 1 determine the evolution of air, long and short distance transport. In level 2, the consumer may substitute between long distance transport types (automobile and train) and short distance transport types (automobile and bus). Level 3 defines the arbitrage between automobile class whereas level 4 defines the arbitrage between electric and thermic automobile. In level 5, substitution between types of thermic automobiles may be introduced. \\
 
 ### Level 1: Determination of air, long and short distance transport
-## The elasticities used in Level 1 and 2 come from the model MODEV: see Cori, M. (2019). MODEV - La mod{\'e}lisation des flux nationaux de transport, Th{\'e}ma Essentiel, Commissariat g{\'e}n{\'e}ral au d{\'e}veloppement durable; Calio, J., & M{\'e}teyer, J. C. (2001). Le mod{\`e}le multimodal de transport int{\'e}rieur à longue distance du SES: MODEV. Notes de synth{\`e}se du SES.
+# The elasticities used in Level 1 and 2 come from the model MODEV: see Cori, M. (2019). MODEV - La mod{\'e}lisation des flux nationaux de transport, Th{\'e}ma Essentiel, Commissariat g{\'e}néral au d{\'e}veloppement durable; Calio, J., & M{\'e}teyer, J. C. (2001). Le mod{\'e}le multimodal de transport int{\'e}rieur {\`a} longue distance du SES: MODEV. Notes de synth{\`e}se du SES.
 
 
 ##! Kilometer-travelers for air transport
@@ -155,22 +155,22 @@ NewAUTO[ecl,th] = NewAUTO[ecl] - NewAUTO[ecl,cele]
 # Expressed in thousand.
 
 ##! New thermic automobiles of class $ecl$ (for verification)
-NewAUTO_bis[ecl,th] = NewAUTO[ecl,cfut] + NewAUTO[ecl,cgas]
+NewAUTO_bis[ecl,th] = NewAUTO[ecl,coil] + NewAUTO[ecl,cgas]
 # Expressed in thousand.
 
 
 ### Level 5: Arbitrage between types of thermic automobiles
 
 ##! New thermic automobiles fueled with oil of class $ecl$
-NewAUTO[ecl,cfut] = phi_NewAUTO[ecl,cfut] * NewAUTO[ecl,th] if NewAUTO[ecl,cfut]  <> 0
+NewAUTO[ecl,coil] = phi_NewAUTO[ecl,coil] * NewAUTO[ecl,th] if NewAUTO[ecl,coil]  <> 0
 # Expressed in thousand.
 
 ##! New thermic automobiles fueled with gas of class $ecl$
-NewAUTO[ecl,cgas] = NewAUTO[ecl,th] - NewAUTO[ecl,cfut]  if NewAUTO[ecl,cgas]  <> 0
+NewAUTO[ecl,cgas] = NewAUTO[ecl,th] - NewAUTO[ecl,coil]  if NewAUTO[ecl,cgas]  <> 0
 # Expressed in thousand.
 
 ##! Share of New thermic automobiles fueled with oil of class $ecl$
-d(phi_NewAUTO[ecl,cfut]) = 0
+d(phi_NewAUTO[ecl,coil]) = 0
 ## For simplicity, the share of the different types of thermic automobiles is assumed constant. Arbitrage between types of thermic automobiles can be added by modifying the above equation. \\
 
 ### Level 5: Stock of automobiles
@@ -196,7 +196,7 @@ AUTO[th] = sum(AUTO[ecl,th] on ecl)
 # Expressed in thousand.
 
 ##! Stock of class $ecl$ thermic automobiles
-AUTO[ecl,th]  = AUTO[ecl,cfut] + AUTO[ecl,cgas]
+AUTO[ecl,th]  = AUTO[ecl,coil] + AUTO[ecl,cgas]
 # replace d(AUTO[ecl,th])   = (@year > %baseyear) * (NewAUTO[ecl,th]   - AUTO[ecl,th,DES])
 # Expressed in thousand.
 
@@ -213,7 +213,7 @@ AUTO[ecl,DES] = AUTO[ecl,cele,DES] + AUTO[ecl,th,DES]
 # Expressed in thousand.
 
 ##! Class $ecl$ thermic automobiles destroyed
-AUTO[ecl,th,DES] = AUTO[ecl,cfut,DES] + AUTO[ecl,cgas,DES]
+AUTO[ecl,th,DES] = AUTO[ecl,coil,DES] + AUTO[ecl,cgas,DES]
 # replace AUTO[ecl,th,DES] = delta_AUTO[ecl,th,DES] * AUTO[ecl,th]{-1}
 # Expressed in thousand.
 
@@ -232,18 +232,18 @@ PE_AUTO[ecl,cea] * AUTO[ecl,cea] = PCH[cea] * CH_AUTO[cea] * CH_AUTO_toe[ecl,cea
 # Expressed in Thousand of Euros.
 
 ##! Growth rate of the energy price of an automobile of class $ecl$ fueled with energy $cea$
-GR_PE_AUTO_e[ecl,cea] = (@year > %baseyear) * (ADJUST_GR_PE_AUTO_e_1 * @pchy( PE_AUTO[ecl,cea]{-1} ) + (1-ADJUST_GR_PE_AUTO_e_1) * GR_PE_AUTO_e[ecl,cea]{-1}) + (@year <= %baseyear) * GR_PRICES  if AUTO[ecl,cea] <> 0
+GR_PE_AUTO_e[ecl,cea] = (@year > %baseyear) * (ADJUST_GR_PE_AUTO_e_1 * @pchy(PE_AUTO[ecl,cea]{-1}) + (1-ADJUST_GR_PE_AUTO_e_1) * GR_PE_AUTO_e[ecl,cea]{-1}) + (@year <= %baseyear) * GR_PRICES  if AUTO[ecl,cea] <> 0
 
 
 ##! User capital cost of a class $ecl$ automobile fueled with energy $cea$
 UC_K_AUTO[ecl,cea] = ((1 - R_SUB_AUTO[ecl,cea]) * PNewAUTO[ecl,cea] / AUTO_D[ecl,cea]) * (R_CASH_AUTO[ecl,cea] +   _
                           (R_LOAN_AUTO[ecl,cea] * R_I_AUTO[ecl,cea]{-1} * LD_AUTO[ecl,cea]) / ( 1 - ( 1 + R_I_AUTO[ecl,cea]{-1} )^( - LD_AUTO[ecl,cea] ) ) )
 # Expressed in Thousand of Euros.
-## To write explicitly \\
+
 
 
 ##! Price of a new thermic automobiles fueled with oil of class $ecl$
-d(log(PNewAUTO[ecl,cfut])) = d(log(PCH[cveh]))
+d(log(PNewAUTO[ecl,coil])) = d(log(PCH[cveh]))
 # Expressed in Thousand of Euros
 
 ##! Price of a new thermic automobiles fueled with gas of class $ecl$
@@ -251,7 +251,7 @@ d(log(PNewAUTO[ecl,cgas])) = d(log(PCH[cveh]))
 # Expressed in Thousand of Euros
 
 ##! Price of a new electric automobiles of class $ecl$
-PNewAUTO[ecl,cele] = PNewAUTO[ecl,cfut] + Pbattery + overcost_elec
+PNewAUTO[ecl,cele] = PNewAUTO[ecl,coil] + Pbattery + overcost_elec
 # Expressed in Thousand of Euros
 
 ##! Price of a new automobiles of class $ecl$
@@ -259,7 +259,7 @@ PNewAUTO[ecl] * NewAUTO[ecl] = PNewAUTO[ecl,cele] * NewAUTO[ecl,cele] + PNewAUTO
 # Expressed in Thousand of Euros
 
 ##! Price of a new thermic automobiles of class $ecl$
-PNewAUTO[ecl,th] * NewAUTO[ecl,th] = PNewAUTO[ecl,cfut] * NewAUTO[ecl,cfut] + PNewAUTO[ecl,cgas] * NewAUTO[ecl,cgas]
+PNewAUTO[ecl,th] * NewAUTO[ecl,th] = PNewAUTO[ecl,coil] * NewAUTO[ecl,coil] + PNewAUTO[ecl,cgas] * NewAUTO[ecl,cgas]
 # Expressed in Thousand of Euros
 
 ##! Price of a new automobiles
@@ -307,7 +307,7 @@ UC_K_AUTO[ecl] * AUTO[ecl] = UC_K_AUTO[ecl,cele] * AUTO[ecl,cele] + UC_K_AUTO[ec
 # Expressed in Thousand of Euros.
 
 ##! User capital cost of a thermic automobile of class $ecl$
-UC_K_AUTO[ecl,th] * AUTO[ecl,th] = UC_K_AUTO[ecl,cfut] * AUTO[ecl,cfut] + UC_K_AUTO[ecl,cgas] * AUTO[ecl,cgas] 	if AUTO[ecl,th] <> 0
+UC_K_AUTO[ecl,th] * AUTO[ecl,th] = UC_K_AUTO[ecl,coil] * AUTO[ecl,coil] + UC_K_AUTO[ecl,cgas] * AUTO[ecl,cgas] 	if AUTO[ecl,th] <> 0
 # Expressed in Thousand of Euros.
 
 ##! User energy cost of  an automobile of class $ecl$
@@ -315,7 +315,7 @@ UC_E_AUTO[ecl] * AUTO[ecl] = UC_E_AUTO[ecl,cele] * AUTO[ecl,cele] + UC_E_AUTO[ec
 # Expressed in Thousand of Euros.
 
 ##! User energy cost of a thermic automobile of class $ecl$
-UC_E_AUTO[ecl,th] * AUTO[ecl,th] = UC_E_AUTO[ecl,cfut] * AUTO[ecl,cfut] + UC_E_AUTO[ecl,cgas] * AUTO[ecl,cgas]	if AUTO[ecl,th] <> 0
+UC_E_AUTO[ecl,th] * AUTO[ecl,th] = UC_E_AUTO[ecl,coil] * AUTO[ecl,coil] + UC_E_AUTO[ecl,cgas] * AUTO[ecl,cgas]	if AUTO[ecl,th] <> 0
 # Expressed in Thousand of Euros.
 
 
@@ -324,7 +324,7 @@ UC_M_AUTO[ecl] * AUTO[ecl] = UC_M_AUTO[ecl,cele] * AUTO[ecl,cele] + UC_M_AUTO[ec
 # Expressed in Thousand of Euros.
 
 ##! User maintenance cost of a thermic automobile of class $ecl$
-UC_M_AUTO[ecl,th] * AUTO[ecl,th] = UC_M_AUTO[ecl,cfut] * AUTO[ecl,cfut] + UC_M_AUTO[ecl,cgas] * AUTO[ecl,cgas]	if AUTO[ecl,th] <> 0
+UC_M_AUTO[ecl,th] * AUTO[ecl,th] = UC_M_AUTO[ecl,coil] * AUTO[ecl,coil] + UC_M_AUTO[ecl,cgas] * AUTO[ecl,cgas]	if AUTO[ecl,th] <> 0
 # Expressed in Thousand of Euros.
 
 ### Households' energy consumption related to transport
@@ -367,7 +367,7 @@ EXP_AUTO_VAL[ecl,cea] = (@year > %baseyear) * (DEBT_AUTO_VAL[ecl,cea]{-1} * ( R_
                                 + UC_M_AUTO[ecl,cea] * AUTO[ecl,cea]) _
                                 +  (@year <= %baseyear) * (EXP_AUTO_VAL[ecl,cea]{-1} * ( 1 + GR_NOMI ) )
 
-                                ## Missing part of the equation
+
 # Expressed in million of Euros
 
 ##! Expenditures related to the use of a class $ecl$ automobile (in value)

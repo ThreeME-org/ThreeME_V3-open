@@ -1,6 +1,6 @@
 ##### Energy balance
 
-## This file provides the equations defining the energy balance in physical units. The unit used is the tonne of oil equivalent (toe). The International Energy Agency (IEA) defines the following correspondence: 1 toe = 11.63 megawatt-hours (MWh) = 41.868 gigajoules (GJ). Chapter 1 of the documention discusses in detail the correspondance and differences between the energy balance and the national account definitions and equilibrium. It also provides the hypotheses used to derived the simplified energy balance presented below. \\
+## This section provides the equations defining the energy balance in physical units. The unit used is the tonne of oil equivalent (toe). The International Energy Agency (IEA) defines the following correspondence: 1 toe = 11.63 megawatt-hours (MWh) = 41.868 gigajoules (GJ). Chapter 1 of the documention discusses in detail the correspondance and differences between the energy balance and the national account definitions and equilibrium. It also provides the hypotheses used to derived the simplified energy balance presented below. \\
 
 #### End uses
 ##! End use for energy $ce$ of sectors, expressed in toe
@@ -74,7 +74,7 @@ DLY_toe[ce] = sum(DLY_toe[ce, s] if DLY_toe[ce, s] <> 0 on s) if DLY_toe[ce] <> 
 AC_toe[ce] = sum(AC_toe[ce, s] if AC_toe[ce, s] <> 0 on s) if AC_toe[ce] <> 0
 
 #### Indicators
-## These indicators by definition sum up to one and can also be interpreted as shares of the gross energy production $YG^{toe}_{ce}$ . \\
+## These indicators by definition sum up to one and can also be interpreted as shares of the gross energy production $YG^{toe}_{ce}$. \\
 ##! Net production rate for energy $ce$
 RY_toe[ce] = Y_toe[ce] / YG_toe[ce] if YG_toe[ce] <> 0
 

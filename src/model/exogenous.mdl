@@ -1,4 +1,4 @@
-# POUR LA PARTIE EXOGENOUS L'ORDRE DES SOUS-PARTIES  SUIT CELUI DE L'ENSEMBLE DES EQUATIONS 
+# POUR LA PARTIE EXOGENOUS L'ORDRE DES SOUS-PARTIES  SUIT CELUI DE L'ENSEMBLE DES EQUATIONS
 
 # 1 SUPPLY_USE OK
 # 2 PRICES OK
@@ -100,16 +100,10 @@ RR_POP
 RR_Un
 
 ##! Transfers to households
-## (should be endogenous)
 TRSF_HH_VAL
 
 ##! Labor productivity in the sector $s$
 prog_L[s]
-
-
-
-
-
 
 
 
@@ -130,15 +124,6 @@ phi_PROP_INC_G
 
 ##! Share of debt reimbursed every year
 Phi_RD_G
-
-
-
-
-
-
-
-
-
 
 #### From International Trade section
 
@@ -170,11 +155,6 @@ EXR
 
 
 
-
-
-
-
-
 #### From Demography section
 
 ##! Total population
@@ -187,10 +167,6 @@ RHO_PATR_UnR
 ##! Participation rate to the labor force trend
 # $Partr_trend$
 PARTR_TREND
-
-
-
-
 
 
 
@@ -216,7 +192,6 @@ PhiY_toe[ce, s]
 
 ##! Net production price of energy $ce$ supplied by sector $s$
 PY_toe[ce, s]
-
 
 
 #### From Adjustment section
@@ -343,13 +318,17 @@ ADJUST6_IM[c, s]
 ##! Adjustment parameter between the notional and the real value for the substitution effect on the exports of the commodity $c$
 ADJUST6_X[c]
 
+##! Adjustment parameter between the notional and the real value of rehabilitation rate for buildings
+ADJUST0_tau_REHAB
 
+##! Adjustment parameter between the rehabilitation of a building of a class $ecl$ to a class $ecl2$
+ADJUST_phi_REHAB
 
+##! Adjustment parameter between the growth rate of the energy price per square meter between its past period and its expected value
+ADJUST_GR_PENER_m2_e_1
 
-
-
-
-
+##! Adjustment parameter between the notional share and the past period value of $ecl$ class automobiles in the year's sales
+ADJUST_phi_NewAUTO
 
 
 #### From Taxes and Price exception
@@ -370,11 +349,6 @@ R2_CH[ghg,c]
 
 
 
-
-
-
-
-
 #### From ETS section
 
 ##! Percentage of emissions covered by an ETS scheme for the sector $s$
@@ -384,3 +358,105 @@ share_ETS[s]
 ##! Percentage of freely allocated permits to sector $s$
 share_free[s]
 ## For each sector, there is a share of emissions that are eligible to the emission trading scheme. \\
+
+
+
+
+#### From Nested utility function section
+
+##! Elasticity of substitution between investment and expenditures in energy housing
+ES_HOUS_INV_ENER
+
+##! Elasticity of substitution between energy housing expenditures
+ES_HOUS_ENER
+
+##! Elasticity of substitution between investment and expenditures in transport
+ES_TRSP_INV_ENER
+
+##! Elasticity of substitution between transport expenditures
+ES_CHTRSP
+
+
+
+
+#### From Housing section
+
+
+##! Depreciation rate of building stock from class $ecl$ to class $bcl$
+Rdep_BUIL[ecl,bcl]
+
+##! Elasticity of substitution between the energy commodity $ceb$ and the surface of housing per capita in class $ecl$ buldings
+eta_ENERperM2[ecl, ceb]
+
+##! Elasticity of substitution between the energy commodity $ceb$ and the other energy commodities $cebb$ in class $ecl$ buldings
+ES_BUILNRJ[ecl, ceb, cebb]
+
+##! Lower bound of the rehabilitation rate for buildings of class $ecl$
+tau_REHAB_MIN[ecl]
+
+##! Upper bound of the rehabilitation rate for buildings of class $ecl$
+tau_REHAB_MAX[ecl]
+
+##! Adjustment parameter on the growth rate of the energy prices
+ADJUST_GR_PE_AUTO_e_1
+
+
+
+
+
+#### From Transport section
+
+##! kilometer-traveler of public transport commodity $cth$
+km_traveler[cth]
+
+##! Elasticity of substitution between long-distance air transport and income
+theta_kmtravcair_DISPINC
+
+##! Price elasticity of long-distance air transport
+theta_kmtravcair_Pkmtrav
+
+
+##! Elasticity of substitution between long-distance (by road or train) transports and income
+theta_kmtravLD_DISPINC
+
+##! Price elasticity of short-distance (by road or train) of transport commodity
+theta_kmtravLD_Pkmtrav
+
+##! Elasticity of substitution between long-distance (by road or train) transports and income
+theta_kmtravSD_DISPINC
+
+##! Price elasticity of short-distance (by road or train) of transport commodity
+theta_kmtravSD_Pkmtrav
+
+##! Elasticity between road and rail transport use for short distance trips
+theta_kmtrav_autoLD_crai
+
+##! Elasticity between automobile and bus use for short distance trips
+theta_kmtrav_autoSD_croa
+
+##! Elasticity between road and rail transport use for long distance trips
+theta_kmtrav_autoLD_crai
+
+##! exogenous innovation trend in electric cars
+innovation_exo[ecl]
+
+##! Elasticity between the the innovation in electric cars and the bass diffusion model equation
+ES_BASS[ecl]
+
+##! Elasticity between the the innovation stock in electric cars and its diffusion
+nu_diffusion[ecl]
+
+##! Elasticity between the marginal utility from automobile use and its capital cost
+theta_U_AUTO_UC_K
+
+##! Elasticity between the marginal utility from automobile use and its energy cost
+theta_U_AUTO_UC_E
+
+##! Depreciation rate of automobile of class $ecl$ into other classes $cea$ and destruction $DES$
+Rdep_AUTO[ecl,cea,DES]
+
+##! Maintenance cost per km for the automobile of class $ecl$ fueled with energy $cea$
+MCperkm[ecl,cea]
+
+##! Energy consumption in ton equivalent petrol per km for the automobile of class $ecl$ fueled with energy $cea$
+toePerKm[ecl,cea]
