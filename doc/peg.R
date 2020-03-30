@@ -7,40 +7,32 @@ library(stringr)
 # 
 # First evaluate the whole file (Run)
 # Then, example use:
-
- # teXdoc(c("test.mdl"), out = "test_0")
  teXdoc(c("Exception_Transport.mdl"), out = "test")
- # 
- # teXdoc(c("Exception_Transport.mdl", "Exception_housing.mdl","Exception_ConsumerNested.mdl" ), out = "Exceptions")
- # teXdoc(c("Exception_housing.mdl"), out = "test_2")
- # teXdoc(c("Exception_Transport.mdl"), out = "test_2")
- # 
- # teXdoc(c("Exception_ConsumerNested.mdl"), out = "test_3")
- # 
-  teXdoc(c(
-          "Intro_doc_eqs.mdl",
-          "SU.mdl",
-          "prices.mdl",
-          "producer.mdl",
-          "consumer.mdl",
-          "government.mdl",
-          "Trade_inter.mdl",
-          "demography.mdl",
-          "ghg_emissions.mdl",
-          "energybalance.mdl",
-          "adjustments.mdl",
-          "Exception_taxes_prices.mdl",
-          "Exception_ConsumerNested.mdl",
-          "Exception_NestedCES.mdl",
-          "Exception_housing.mdl",   # To write explicitely some equations 
-          "Exception_Transport.mdl", # To write explicitely some equations 
-          "Exception_Walras.mdl",
-          #"Exception_hybrid - Other.mdl",
-          "ETS.mdl"
-          ), 
-         exo = c("exogenous.mdl"),
-         out = "chapter5-eqs")
-
+  
+ teXdoc(c(
+   "Intro_doc_eqs.mdl",
+   "SU.mdl",
+   "prices.mdl",
+   "producer.mdl",
+   "consumer.mdl",
+   "government.mdl",
+   "Trade_inter.mdl",
+   "demography.mdl",
+   "ghg_emissions.mdl", # Ajouter autres indicateurs empreinte carbone et inventaire nationaux
+   "energybalance.mdl",
+   "adjustments.mdl",
+   "Exception_taxes_prices.mdl",
+   "Exception_ConsumerNested.mdl",
+   "Exception_NestedCES.mdl",
+   "Exception_housing.mdl",   # explicitely written of equations 39 / 59  
+   "Exception_Transport.mdl", # explicitely written of equations 29 / 50
+   #"Exception_Walras.mdl",
+   #"Exception_hybrid - Other.mdl",
+   "ETS.mdl"
+ ), 
+ exo = c("exogenous.mdl"),
+ out = "chapter5-eqs")
+ 
 # "out =" can be ommited.
 # If ' out = "outputfilename" ' is ommited, the output files will be "doc.tex", doc.pdf, etc.  
   
@@ -235,7 +227,7 @@ library(stringr)
         str_replace("^eta(.*)", "\\\\zeta") %>%
         str_replace("^sigma(.*)", "\\\\sigma^{\\1}") %>%
         str_replace("^nu(.*)", "\\\\nu^{\\1}") %>%
-        # rho for exception transport block
+        # theta for exception transport block
         str_replace("theta_(.*)", "\\\\theta^{\\1}") %>%
         # Exponential operator name
         #str_replace("EXPO(.*)", "\\\\operatorname{e}^{\\1}") %>%  # EXP --> EXPENDITURES & EXP-->  should be distinguish explicitely 
@@ -247,6 +239,7 @@ library(stringr)
         str_replace("%baseyear", "t_0") %>%
         str_replace("^@pchy(.*)", "g^{\\1}") %>%
         str_replace("^GR_(.*)", "g^{\\1}") %>%
+        str_replace("^(.*)^2", "{\\1}^{2}") %>%
         # Escape % if still present
         str_replace("%", "\\\\%") %>%
         # If underscores in name, split to exponent
@@ -406,8 +399,12 @@ library(stringr)
     "PCH_TRSPENER_CES" = "PCH^{TRSPENER,CES} = \\left( \\sum_{ce} \\varphi^{MCH,TRSP}_{ce, t_0} \\; {PCH^{TRSP}_{ce}} ^ {\\left( 1 - \\sigma^{TRSP,ENER} \\right)} \\right) ^ { \\frac{1}{ 1 - \\sigma^{TRSP,ENER} }  }",
     # Exception_housing.mdl file
    "EXP_HOUSING_Val[ecl]" =  "EXP^{HOUSING,Val}_{ecl} = \\left( DEBT^{REHAB,Val}_{ecl, t-1} \\; \\left( R^{I,REHAB}_{ecl, t-1} + R^{RMBS,REHAB}_{ecl, t-1} \\right) + R^{CASH,REHAB}_{ecl} \\; PREHAB_{ecl} \\; REHAB_{ecl} + DEBT^{NewB,Val}_{ecl, t-1} \\; \\left( R^{I,NewBUIL}_{ecl, t-1} + R^{RMBS,NewBUIL}_{ecl, t-1} \\right) + R^{CASH,NewBUIL}_{ecl} \\; PNewBUIL_{ecl} \\; NewBUIL_{ecl} + PENER^{BUIL}_{ecl} \\; ENER^{BUIL}_{ecl} \\right)",
+   "GR_PENER_m2_e[ecl]" = "g^{PENER^{m2,e}}_{ecl}  = \\alpha^{g^{PENER,m2,e}_{1}} \\; g^{PENER^{m2}}_{ecl, t-1} + \\left( 1 - \\alpha^{g^{PENER,m2,e}_{1}} \\right) \\; g^{PENER^{m2,e}}_{ecl, t-1}",
+   "nu_REHAB[ecl]" = "\\nu^{^{REHAB}}_{ecl} = \\frac{\\left( \\tau^{REHAB,MAX}_{ecl} - \\tau^{REHAB,MIN}_{ecl} \\right) \\; \\sigma_{ecl} \\; Payback^{REHAB}_{ecl} \\; e^{\tau_{ecl} - \\sigma_{ecl} \\; Payback^{REHAB}_{ecl}}}{\\left( 1 + e^{\\tau_{ecl} - \\sigma_{ecl} \\; Payback^{REHAB}_{ecl}} \\right)^{2}}",
   # Exception_transport.mdl file # Not red by the compiler (double upperscript taken in charge by Latex though)
-  "d(innovation[ecl])" = "  \\varDelta \\left(innovation_{ecl}\\right) = \\eta^{BASS}_{ecl} \\; \\varDelta \\frac{2 \\; UC^{AUTO}_{ecl, cele}^{-\\nu^{diffusion}_{ecl}}}{2 \\; UC^{AUTO}_{ecl, cele}^{-\\nu^{diffusion}_{ecl}} +  UC^{AUTO}_{ecl, th} ^ {-\\nu^{diffusion}_{ecl}}}"
+  "d(innovation[ecl])" = "  \\varDelta \\left(innovation_{ecl}\\right) = \\eta^{BASS}_{ecl} \\; \\varDelta \\frac{2 \\; UC^{AUTO}_{ecl, cele}^{-\\nu^{diffusion}_{ecl}}}{2 \\; UC^{AUTO}_{ecl, cele}^{-\\nu^{diffusion}_{ecl}} +  UC^{AUTO}_{ecl, th} ^ {-\\nu^{diffusion}_{ecl}}}",
+  "phi_NewAUTO[ecl,cele]" = "  \\varphi^{NewAuto}_{ecl,cele} = \\varphi^{NewAuto^{n}}_{ecl,cele}",
+  "GR_PE_AUTO_e[ecl,cea]" = "g^{PE^{AUTO}}_{ecl, cea} =  \\alpha^{g^{PE^{AUTO,e}}_{1}} \\; g^{PE^{AUTO}_{ecl, cea, t-1}}  + \\left( 1 - \\alpha^{g^{PE^{AUTO,e}}_{1}} \\right) \\; g^{PE^{AUTO,e}_{ecl, cea, t-1}}"  
   )
   toTeX <- function(eq) {
     # !!! HACK
