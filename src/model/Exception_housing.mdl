@@ -149,8 +149,10 @@ PENER_BUIL[ceb] *  ENER_BUIL[ceb] = sum(PENER_BUIL[ecl, ceb] * ENER_BUIL[ecl, ce
 ##! Notional rehabilitation rate of a class $ecl$ building
 tau_REHAB_N[ecl] = tau_REHAB_MAX[ecl] + (tau_REHAB_MIN[ecl] - tau_REHAB_MAX[ecl]) / (1 + exp(tau[ecl] - sigma[ecl] * Payback_REHAB[ecl])) if REHAB[ecl] <> 0
 ## It corresponds to the proportion of class $ecl$ building rehabilitated to a higher class. In order to avoid discontinuity, the proportion of rehabilitated building is defined according to a logistic function. A logistic function is defined by 2 regimes, $Yi$ and $Yf$, the switching speed between the 2 regimes, $\sigma$, and point of inflection between the 2 regimes, $\frac{\tau}{\sigma}$. \\
-## $Y = (1 - \Phi(X))Yi + \Phi(X))Yf$ with $\Phi(X) = (1-\operatorname{e}^{\tau-\sigma.X})^{-1}$ which is equivalent to: $Y = Yi + \frac{Yf - Yi}{1-\operatorname{e}^{\tau-\sigma.X}}$.The point of inflection corresponds to the case where $\Phi(X) = 1/2$ that is where $X = \tau / \sigma$. This replaces the previous specification that had several drawbacks: \\
-## - $\tau^{REHAB_N}_{ecl} = (\Delta(\tau^{REHAB\_trend}_{ecl}) - \nu^{REHAB}_{ecl} . \Delta(\log(Payback^{REHAB}_{ecl})))$ \\ with a max and min value \\
+## $Y = (1 - \Phi(X))Yi + \Phi(X))Yf$ with $\Phi(X) = (1-\operatorname{e}^{\tau-\sigma.X})^{-1}$ which is equivalent to: $Y = Yi + \frac{Yf - Yi}{1-\operatorname{e}^{\tau-\sigma.X}}$.The point of inflection corresponds to the case where $\Phi(X) = 1/2$ that is where $X = \tau / \sigma$. \\
+## This replaces the previous specification: \\
+## - $\tau^{REHAB_N}_{ecl} = (\Delta(\tau^{REHAB\_trend}_{ecl}) - \nu^{REHAB}_{ecl} . \Delta(\log(Payback^{REHAB}_{ecl})))$ with a max and min value. \\
+## The previous specification had several drawbacks: 
 ##  - Discontinuity in the first derivative at the max and minimum value \\
 ##  - Constant elasticity $\tau^{REHAB_N}_{ecl}$ and $Payback^{REHAB}_{ecl}$ whatever the level of $\tau^{REHAB_N}_{ecl}$. \\
 ##  - Infeasible solution if $Payback^{REHAB}_{ecl} <0$ \\
