@@ -141,12 +141,10 @@ T2VAL_CH = sum(T2VAL_CH[c] on c)
 ### Average tax rates on commodities
 
 ##! Net taxes on domestically produced commodity $c$ expressed in value
-# @over NTAXCD_VAL[c] = PVATD[c] * VATD[c] + POTHCTD[c] * OTHCTD[c] + PSUBCD[c] * SUBCD[c]   if NTAXCD_VAL[c] <> 0
-@over NTAXCD_VAL[c] = PVATD[c] * VATD[c] + POTHCTD[c] * OTHCTD[c] + PSUBCD[c] * SUBCD[c]  + T2VAL_CH[c] * CHD[c]/(CH[c]+eps) + T2VAL_CID[c]   if NTAXCD_VAL[c] <> 0
+@over NTAXCD_VAL[c] = PVATD[c] * VATD[c] + POTHCTD[c] * OTHCTD[c] + PSUBCD[c] * SUBCD[c]  + T2VAL_CH[c] * CHD[c]/(CH[c]+eps) + T2VAL_CID[c]
 
 ##! Net taxes on domestically produced commodity $c$
-@over NTAXCD[c]     =            VATD[c] +              OTHCTD[c] +             SUBCD[c] +  T2_CH[c] * CHD[c]/(CH[c]+eps)    + T2_CID[c]      if NTAXCD[c]     <> 0
-# @over NTAXCD[c]     =            VATD[c] +              OTHCTD[c] +             SUBCD[c]   +   (T2VAL_CH[c] * CHD[c]/CH[c])/PCH[c] + (T2VAL_CI[c] * CID[c]/CI[c])/PCI[c]  if NTAXCD[c]     <> 0
+@over NTAXCD[c]     =            VATD[c] +              OTHCTD[c] +             SUBCD[c] +  T2_CH[c] * CHD[c]/(CH[c]+eps)    + T2_CID[c]
 
 ## This is not defined anymore by simply assuming a constant rate over the production value: $NTAXCD^{VAL}_{c} = RNTAXCD_{c}*PYQ_{c}*YQ_{c}$. Different taxes are now defined depending on their basis (see below). \\
 
@@ -156,10 +154,10 @@ RNTAXCD[c] = NTAXCD_VAL[c] / (PYQ[c] * YQ[c])     if YQ[c] <> 0
 ## This rate become now endogenous by inverting the equation of $NTAXCD^{VAL}_{c}$. This specification ensures the accounting equality between the various GDP definition. \\
 
 ##! Net taxes on imported commodity $c$ expressed in value
-@over NTAXCM_VAL[c] = PVATM[c] * VATM[c] + POTHCTM[c] * OTHCTM[c] + PSUBCM[c] * SUBCM[c] + T2VAL_CH[c] * CHM[c]/(CH[c]+eps) + T2VAL_CIM[c]   if NTAXCM_VAL[c] <> 0
+@over NTAXCM_VAL[c] = PVATM[c] * VATM[c] + POTHCTM[c] * OTHCTM[c] + PSUBCM[c] * SUBCM[c] + T2VAL_CH[c] * CHM[c]/(CH[c]+eps) + T2VAL_CIM[c]
 
 ##! Net taxes on imported commodity $c$
-@over NTAXCM[c]     =            VATM[c] +              OTHCTM[c] +             SUBCM[c] + T2_CH[c]    * CHM[c]/(CH[c]+eps) + T2_CIM[c]      if NTAXCM[c]     <> 0
+@over NTAXCM[c]     =            VATM[c] +              OTHCTM[c] +             SUBCM[c] + T2_CH[c]    * CHM[c]/(CH[c]+eps) + T2_CIM[c]
 
 ##! Average tax rate on imported commodity $c$
 RNTAXCM[c] = NTAXCM_VAL[c] / (PM[c]  * M[c] )   if M[c] <> 0
