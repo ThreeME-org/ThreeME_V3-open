@@ -1,6 +1,6 @@
 
 ##### International Trade
-## This file provides the equations defining the allocation between domestic and imported goods per use.The differentiation per use allows for distinguishing import share per use and therefore a more realistic representation of the economy than model that assume a common import share. Indeed, the import share of export is generally smaller than for consumption.
+## This section provides the equations defining the allocation between domestic and imported goods per use.The differentiation per use allows for distinguishing import share per use and therefore a more realistic representation of the economy than model that assume a common import share. Indeed, the import share of export is generally smaller than for consumption.
 
 #### Domestic demand
 

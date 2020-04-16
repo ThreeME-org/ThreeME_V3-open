@@ -1,8 +1,9 @@
 ##### Greenhouse gases emissions
 ## This section provides the equations defining the path of GreenHouse Gases (GHG) emissions. All emission types are expressed in $CO_{2}$-equivalent (GWP factors are taken from the fifth IPCC report) to facilitate aggregation. For the same emission type (e.g. $CO_{2}$), several equation are defined depending on the emission source: intermediary consumption, household consumption or production. \\
+
 #Emissions are defined for the following list: $ghg = {CO2;CH4;N2O;SF6;HFC;PFC}$
 
-#### Reaction equations
+#### Behavioural equations
 
 ##! Emissions of the greenhouse gas $ghg$ related to the intermediary consumption of commodity $c$ by sector $s$
 d(log(EMS_CI[ghg,c,s])) = d(log(CI[c,s]   * IEMS_CI[ghg,c,s]))              if EMS_CI[ghg,c,s] <> 0

@@ -4,7 +4,7 @@
 
 ### Taxes and social contributions
 
-## We assume that the volume of the tax varies only when the volume of the tax bases (e.g. production, consumption) varies. Hence an increase in the tax rate does not increase the volume of the tax but increases its price. This is consistent with the specification of the production price: increasing the tax rate on production increases the production price but not production. \\
+## We assume that the volume of the tax varies only when the volume of the tax bases (e.g. production, consumption) varies. Hence an increase in the tax rate does not increase the volume of the tax but only increases its price. This is consistent with the specification of the production price: increasing the tax rate on production increases the production price but not production. \\
 
 ##! Net taxes on domestically produced commodity $c$ expressed in value
 NTAXCD_VAL[c] = 			RNTAXCD[c]	 * PYQ[c]	 * YQ[c]
@@ -85,7 +85,7 @@ SAV_G_VAL 	  	  = INC_G_VAL - SPEND_G_VAL
 
 ##! Primary balance of the Government expressed in value (deficit)
 Bal_G_Prim_VAL 		= SAV_G_VAL + DEBT_G_VAL{-1} * (Phi_RD_G{-1} + r_DEBT_G{-1})
-## It corresponds to the savings excluding the reimbursement and the interest on the debt. \\
+## It corresponds to the savings excluding the reimbursement and the interest paid on the debt. \\
 
 ##! Primary balance of the Government expressed in value (deficit) (for verification)
 Bal_G_Prim_VALbis = INC_G_VAL - (PG  * G  + SOC_BENF_VAL)

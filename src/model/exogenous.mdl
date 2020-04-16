@@ -1,22 +1,27 @@
-# POUR LA PARTIE EXOGENOUS L'ORDRE DES SOUS-PARTIES  SUIT CELUI DE L'ENSEMBLE DES EQUATIONS
-
-# 1 SUPPLY_USE OK
-# 2 PRICES OK
-# 3 PRODUCER OK
-# 4 CONSUMER OK
-# 5 GOVERNMENT OK
-# 6 TRADE OK
-# 7 DEMOGRAPHY OK
-# 8 GHG EMISSIONS OK
-# 9 ADJUSTMENT OK
-# 10 EXCEPTION TAXES PRICES OK
-# 11 ETS OK
+# Les variables exogènes sont classées par section dans l'ordre et par ordre alphabétique au sein de chacune d'entre elles
 
 
-#### From prices section
 
-##! Constant in the wage equation for sector $s$
-RHO_W_X[s]
+#### From Prices section
+
+##! Change in the long term NAIRU
+DNAIRU
+
+##! Constant of the notional interest rate equation (Taylor rule).
+## The constant is equal to zero in the baseline scenario. It can be used to simulate monetary shocks. \\
+RHO_Rn_Cons
+
+##! Elasticity of the notional interest rate to inflation
+RHO_Rn_P
+
+##! Elasticity of the notional interest rate to the unemployment rate
+RHO_Rn_UnR
+
+##! Elasticity of the notional wage inflation to the variation of the unemployment rate for sector $s$
+RHO_W_DU[s]
+
+##! Elasticity of the notional wage inflation to the growth rate of share of labor in sector $s$
+RHO_W_L[s]
 
 ##! Elasticity of the notional wage inflation to prices inflation for sector $s$
 RHO_W_P[s]
@@ -30,43 +35,14 @@ RHO_W_PROG[s]
 ##! Elasticity of the notional wage inflation to the unemployment rate for sector $s$
 RHO_W_U[s]
 
-##! Change in the long term NAIRU
-DNAIRU
-
-##! Elasticity of the notional wage inflation to the variation of the unemployment rate for sector $s$
-RHO_W_DU[s]
-
-##! Elasticity of the notional wage inflation to the growth rate of share of labor in sector $s$
-RHO_W_L[s]
-
-##! Constant of the notional interest rate equation (Taylor rule).
-## The constant is equal to zero in the baseline scenario. It can be used to simulate monetary shocks. \\
-RHO_Rn_Cons
-
-##! Elasticity of the notional interest rate to inflation
-RHO_Rn_P
-
-##! Elasticity of the notional interest rate to the unemployment rate
-RHO_Rn_UnR
+##! Constant in the wage equation for sector $s$
+RHO_W_X[s]
 
 
 
-
-
-
-
-
-
-
-#### From producer section
+#### From Producer section
 ##!  Share of the production input $f$ by sector $s$
 phi[f, s]
-
-
-
-
-
-
 
 
 
@@ -78,11 +54,14 @@ es_lesces
 ##! Nominal growth rate of the economy
 gr_nomi
 
-##! Risk premium
-riskprem
-
 ##! Nominal price index
 Pwages
+
+##! Labor productivity in the sector $s$
+prog_L[s]
+
+##! Rate of social taxes to the disposable income
+RINC_SOC_TAX
 
 ##! Elasticity of the marginal propensity to share to the growth rate of the interest rate
 RHO_MPS_R
@@ -90,8 +69,8 @@ RHO_MPS_R
 ##! Elasticity of the marginal propensity to share to the growth rate of unemployment
 RHO_MPS_UnR
 
-##! Rate of social taxes to the disposable income
-RINC_SOC_TAX
+##! Risk premium
+riskprem
 
 ##! Population growth rate
 RR_POP
@@ -102,19 +81,9 @@ RR_Un
 ##! Transfers to households
 TRSF_HH_VAL
 
-##! Labor productivity in the sector $s$
-prog_L[s]
 
 
-
-
-#### From government section
-
-##! tax rate on the production of sector $s$
-RNTAXS[s]
-
-##! Employers' social security contribution rate of the sector $s$
-RRSC[s]
+#### From Government section
 
 ##! Public expenditures trend from the government
 EXPG_trend
@@ -125,22 +94,30 @@ phi_PROP_INC_G
 ##! Share of debt reimbursed every year
 Phi_RD_G
 
-#### From International Trade section
+##! tax rate on the production of sector $s$
+RNTAXS[s]
 
-##! Elasticity of substitution between imported and domestically produced commodity $c$ for margins supplied
-ES_MGSM[c]
+##! Employers' social security contribution rate of the sector $s$
+RRSC[s]
+
+
+
+#### From International trade section
 
 ##! Elasticity of substitution between imported and domestically produced commodity $c$ for households final consumption
 ES_CHM[c]
 
-##! Elasticity of substitution between imported and domestically produced commodity $c$ for government final consumption
-ES_GM[c]
-
 ##! Elasticity of substitution between imported and domestic intermediary consumption in commodity $c$ from the sector $s$
 ES_CIM[c, s]
 
+##! Elasticity of substitution between imported and domestically produced commodity $c$ for government final consumption
+ES_GM[c]
+
 ##! Elasticity of substitution between imported and domestic investment in commodity $c$ from the sector $s$
 ES_IM[c, s]
+
+##! Elasticity of substitution between imported and domestically produced commodity $c$ for margins supplied
+ES_MGSM[c]
 
 ##! Elasticity of substitution between domestic and imported commodity $c$ for exports
 ES_XM[c]
@@ -157,6 +134,9 @@ EXR
 
 #### From Demography section
 
+##! Participation rate to the labor force trend
+PARTR_TREND
+
 ##! Total population
 POP
 
@@ -164,14 +144,12 @@ POP
 # $\rho^[patr}_{UnR}$
 RHO_PATR_UnR
 
-##! Participation rate to the labor force trend
-# $Partr_trend$
-PARTR_TREND
 
 
+#### From GHG Emissions section
 
-
-#### From Emissions section
+##! Emissions intensity of the greenhouse gas $ghg$ related to the household final consumption of commodity $c$
+IEMS_CH[ghg,c]
 
 ##! Emissions intensity of the greenhouse gas $ghg$ related to the intermediary consumption of commodity $c$ by sector $s$
 IEMS_CI[ghg,c,s]
@@ -182,11 +160,9 @@ IEMS_MAT[ghg,s]
 ##! Emissions intensity of the greenhouse gas $ghg$ related to the final production of sector $s$
 IEMS_Y[ghg,s]
 
-##! Emissions intensity of the greenhouse gas $ghg$ related to the household final consumption of commodity $c$
-IEMS_CH[ghg,c]
 
 
-#### From energy balance
+#### From Energy balance section
 ##! Share of energy $ce$ produced by sector $s$ (energy balance definition)
 PhiY_toe[ce, s]
 
@@ -194,64 +170,14 @@ PhiY_toe[ce, s]
 PY_toe[ce, s]
 
 
-#### From Adjustment section
 
-##! Adjustment  parameter between the notional and the previous period value of the mark-up in the sector $s$
-ADJUST_MARKUP[s]
+#### From Adjustment section
 
 ##! Adjustment parameter on the formation of inflation expectation
 ADJUST_Pe_P1
 
-##! Adjustment parameter on the formation of production of the sector $s$ expectation
-ADJUST_Ye_Y[s]
-
-##! Adjustment parameter between the notional and the expected value of the variable $F{f,s,t}$
-ADJUST0[f, s]
-
-##! Adjustment parameter between the expected and the real value of a variable $F^{e}_{f,s,t-1}$
-ADJUST1[f, s]
-
-##! Adjustment parameter between the previous period real value and the current value of a variable $F_{f,s,t-1}$
-ADJUST2[f, s]
-
-##! Adjustment parameter between the notional and the real value of the variable $F^{n}_{f,s,t-1}$
-ADJUST3[f, s]
-
-##! Adjustment parameter between the notional and the  expected value of investment in the sector $s$
-ADJUST0_IA[s]
-
-##! Adjustment parameter on the previous period expected value of investment in the sector $s$
-ADJUST1_IA[s]
-
-##! Adjustment parameter on the previous period real value of investment in the sector $s$
-ADJUST2_IA[s]
-
-##! Adjustment parameter on the notional value of investment in the sector $s$
-ADJUST3_IA[s]
-
-##! Adjustment parameter between the notional and the expected value of household consumption of commodity $c$
-ADJUST0_CH[c]
-
-##! Adjustment parameter on the previous period expected value of household consumption of commodity $c$
-ADJUST1_CH[c]
-
-##! Adjustment parameter on the previous period real value of household consumption of commodity $c$
-ADJUST2_CH[c]
-
-##! Adjustment parameter on the notional value of household consumption of commodity $c$
-ADJUST3_CH[c]
-
-##! Adjustment parameter on the notional value of production price in the sector $s$
-ADJUST0_PY[s]
-
-##! Adjustment parameter on the previous period expected value of production price in the sector $s$
-ADJUST1_PY[s]
-
-##! Adjustment parameter on the previous period value of production price in the sector $s$
-ADJUST2_PY[s]
-
-##! Adjustment parameter on the notional value of production price in the sector $s$
-ADJUST3_PY[s]
+##! Adjustment  parameter between the notional and the previous period value of the mark-up in the sector $s$
+ADJUST_MARKUP[s]
 
 ##! Adjustment parameter on the notional value of the wages in the sector $s$
 ADJUST_W_Wn[s]
@@ -262,34 +188,74 @@ ADJUST_W_W1[s]
 ##! Adjustment parameter on the ratio between the previous period value of the wages and the previous period notional value in the sector $s$
 ADJUST_W_W1Wn1[s]
 
+##! Adjustment parameter on the formation of production of the sector $s$ expectation
+ADJUST_Ye_Y[s]
+
+##! Adjustment parameter between the notional and the expected value of the variable $F{f,s,t}$
+ADJUST0[f, s]
+
+##! Adjustment parameter between the notional and the expected value of household consumption of commodity $c$
+ADJUST0_CH[c]
+
+##! Adjustment parameter between the notional and the  expected value of investment in the sector $s$
+ADJUST0_IA[s]
+
 ##! Adjustment parameter on the notional value of the labor participation ratio
 ADJUST0_PARTR
-
-##! Adjustment parameter on the notional value of the interest rate
-ADJUST0_R
 
 ##! Adjustment parameter on the notional value of the Households property income
 ADJUST0_PROP_INC_H_VAL
 
-##! Adjustment parameter on the expected value of the Households property income
-ADJUST1_PROP_INC_H_VAL
+##! Adjustment parameter on the notional value of the interest rate
+ADJUST0_R
 
-##! Adjustment parameter on the notional value of the government property income
-ADJUST0_PROP_INC_G_VAL
+##! Adjustment parameter on the notional value of production price in the sector $s$
+ADJUST0_PY[s]
+
+##! Adjustment parameter between the expected and the real value of a variable $F^{e}_{f,s,t-1}$
+ADJUST1[f, s]
+
+##! Adjustment parameter on the previous period expected value of household consumption of commodity $c$
+ADJUST1_CH[c]
+
+##! Adjustment parameter on the previous period expected value of investment in the sector $s$
+ADJUST1_IA[s]
 
 ##! Adjustment parameter on the expected value of the government property income
 ADJUST1_PROP_INC_G_VAL
+
+##! Adjustment parameter on the previous period expected value of production price in the sector $s$
+ADJUST1_PY[s]
+
+##! Adjustment parameter between the previous period real value and the current value of a variable $F_{f,s,t-1}$
+ADJUST2[f, s]
+
+##! Adjustment parameter on the previous period real value of household consumption of commodity $c$
+ADJUST2_CH[c]
+
+##! Adjustment parameter on the previous period real value of investment in the sector $s$
+ADJUST2_IA[s]
+
+##! Adjustment parameter on the previous period value of production price in the sector $s$
+ADJUST2_PY[s]
+
+##! Adjustment parameter between the notional and the real value of the variable $F^{n}_{f,s,t-1}$
+ADJUST3[f, s]
+
+##! Adjustment parameter on the notional value of household consumption of commodity $c$
+ADJUST3_CH[c]
+
+##! Adjustment parameter on the notional value of investment in the sector $s$
+ADJUST3_IA[s]
+
+##! Adjustment parameter on the notional value of production price in the sector $s$
+ADJUST3_PY[s]
+
 
 # Substitutions
 
 ##! Adjustment parameter between the notional and the real value for the substitution effect on the production factor $f$ in the sector $s$
 ADJUST6[f, s]
-
-##! Adjustment parameter between the notional and the real value for the substitution effect on the domestic margin paid $m$ for the commodity $c$
-ADJUST6_MGPD[m, c]
-
-##! Adjustment parameter between the notional and the real value for the substitution effect on the imported margin paid $m$ for the commodity $c$
-ADJUST6_MGPM[m, c]
 
 ##! Adjustment parameter between the notional and the real value for the substitution effect on the energy intermediate consumption $ce$ in the sector $s$
 ADJUST6_CI[ce, s]
@@ -297,41 +263,39 @@ ADJUST6_CI[ce, s]
 ##! Adjustment parameter between the notional and the real value for the substitution effect on the transportation intermediate consumption $ce$ in the sector $s$
 ADJUST6_CI[ct, s]
 
-##! Adjustment parameter between the notional and the real value for the substitution effect on the imported margin supplied for the commodity $m$
-ADJUST6_MGSM[m]
-
 ##! Adjustment parameter between the notional and the real value for the substitution effect on the imported households final consumption for the commodity $c$
 ADJUST6_CHM[c]
-
-##! Adjustment parameter between the notional and the real value for the substitution effect on the  imported government final consumption for the commodity $c$
-ADJUST6_GM[c]
-
-##! Adjustment parameter between the notional and the real value for the substitution effect on the exports for the imported commodity $c$
-ADJUST6_XM[c]
 
 ##! Adjustment parameter between the notional and the real value for the substitution effect on the intermediate consumption for the imported commodity $c$ in the sector $s$
 ADJUST6_CIM[c, s]
 
+##! Adjustment parameter between the notional and the real value for the substitution effect on the  imported government final consumption for the commodity $c$
+ADJUST6_GM[c]
+
 ##! Adjustment parameter between the notional and the real value for the substitution effect on the investment for the imported commodity $c$ in the sector $s$
 ADJUST6_IM[c, s]
+
+##! Adjustment parameter between the notional and the real value for the substitution effect on the imported margin supplied for the commodity $m$
+ADJUST6_MGSM[m]
+
+##! Adjustment parameter between the notional and the real value for the substitution effect on the domestic margin paid $m$ for the commodity $c$
+ADJUST6_MGPD[m, c]
+
+##! Adjustment parameter between the notional and the real value for the substitution effect on the imported margin paid $m$ for the commodity $c$
+ADJUST6_MGPM[m, c]
 
 ##! Adjustment parameter between the notional and the real value for the substitution effect on the exports of the commodity $c$
 ADJUST6_X[c]
 
-##! Adjustment parameter between the notional and the real value of rehabilitation rate for buildings
-ADJUST0_tau_REHAB
-
-##! Adjustment parameter between the rehabilitation of a building of a class $ecl$ to a class $ecl2$
-ADJUST_phi_REHAB
-
-##! Adjustment parameter between the growth rate of the energy price per square meter between its past period and its expected value
-ADJUST_GR_PENER_m2_e_1
-
-##! Adjustment parameter between the notional share and the past period value of $ecl$ class automobiles in the year's sales
-ADJUST_phi_NewAUTO
+##! Adjustment parameter between the notional and the real value for the substitution effect on the exports for the imported commodity $c$
+ADJUST6_XM[c]
 
 
-#### From Taxes and Price exception
+
+#### From Taxes and Prices exception
+
+##! Carbon tax rate on the greenhouse gas $ghg$ associated to the household final consumption of the sector $s$
+R2_CH[ghg,c]
 
 ##! Carbon tax rate on the greenhouse gas $ghg$ associated to the intermediary consumption of commodity $c$ by the sector $s$
 R2_CI[ghg,c,s]
@@ -342,45 +306,49 @@ R2_MAT[ghg,s]
 ##! Carbon tax rate on the greenhouse gas $ghg$ associated to the final production of the sector $s$
 R2_Y[ghg,s]
 
-##! Carbon tax rate on the greenhouse gas $ghg$ associated to the household final consumption of the sector $s$
-R2_CH[ghg,c]
-
-
-
 
 
 #### From ETS section
-
-##! Percentage of emissions covered by an ETS scheme for the sector $s$
-share_ETS[s]
-## For each sector, the quantity of free permits is defined as a share of emissions that are eligible to the emission trading scheme. \\
 
 ##! Percentage of freely allocated permits to sector $s$
 share_free[s]
 ## For each sector, there is a share of emissions that are eligible to the emission trading scheme. \\
 
+##! Percentage of emissions covered by an ETS scheme for the sector $s$
+share_ETS[s]
+## For each sector, the quantity of free permits is defined as a share of emissions that are eligible to the emission trading scheme. \\
 
 
 
 #### From Nested utility function section
 
-##! Elasticity of substitution between investment and expenditures in energy housing
-ES_HOUS_INV_ENER
+##! Elasticity of substitution between transport expenditures
+ES_CHTRSP
 
 ##! Elasticity of substitution between energy housing expenditures
 ES_HOUS_ENER
 
+##! Elasticity of substitution between investment and expenditures in energy housing
+ES_HOUS_INV_ENER
+
 ##! Elasticity of substitution between investment and expenditures in transport
 ES_TRSP_INV_ENER
-
-##! Elasticity of substitution between transport expenditures
-ES_CHTRSP
-
 
 
 
 #### From Housing section
 
+##! Adjustment parameter between the growth rate of the energy price per square meter between its past period and its expected value
+ADJUST_GR_PENER_m2_e_1
+
+##! Adjustment parameter between the rehabilitation of a building of a class $ecl$ to a class $ecl2$
+ADJUST_phi_REHAB
+
+##! Adjustment parameter between the notional and the real value of rehabilitation rate for buildings
+ADJUST0_tau_REHAB
+
+##! Lifetime of a building of class $ecl$ (definition ?)
+BUIL_D[ecl]
 
 ##! Depreciation rate of building stock from class $ecl$ to class $bcl$
 Rdep_BUIL[ecl,bcl]
@@ -391,30 +359,98 @@ eta_ENERperM2[ecl, ceb]
 ##! Elasticity of substitution between the energy commodity $ceb$ and the other energy commodities $cebb$ in class $ecl$ buldings
 ES_BUILNRJ[ecl, ceb, cebb]
 
+##! Growth rate of the nominal interest rate
+GR_NOMI
+
+##! Duration of the loan funding rehabilitation
+LD_REHAB[ecl]
+
+##! Duration of the loan for housing of class $ecl$ investment
+LD[ecl]
+
+
+##! Share of investment for rehabilitation directly paid by the households
+R_CASH_REHAB[ecl]
+
+##! Share of investment for the construction of a building directly paid by the households
+R_CASH_NewBUIL[ecl]
+
+##! Share of investment for rehabilitation directly paid by the households
+R_RMBS_REHAB[ecl]
+
+##! Share of the reimbursement of a loan related to the purchase of building of class $ecl$
+R_RMBS_NewBUIL[ecl]
+
+##! Share of public subsidy for the rehabilitation of a building from class $ecl$ to class $ecl2$
+R_SUB[ecl,ecl2]
+
+
+##! Utility elasticity of the financial gain induced by the rehabilitating a building from class $ecl$ to class $ecl2$
+RHO_U_GAIN[ecl,ecl2]
+
+##! Switching speed between the 2 regimes of the logistic function representing the notional rehabilitation rate of a class $ecl$ building
+sigma[ecl]
+
 ##! Lower bound of the rehabilitation rate for buildings of class $ecl$
 tau_REHAB_MIN[ecl]
 
 ##! Upper bound of the rehabilitation rate for buildings of class $ecl$
 tau_REHAB_MAX[ecl]
 
-##! Adjustment parameter on the growth rate of the energy prices
-ADJUST_GR_PE_AUTO_e_1
-
-
-
 
 
 #### From Transport section
 
+##! Adjustment parameter between the notional share and the past period value of $ecl$ class automobiles in the year's sales
+ADJUST_phi_NewAUTO
+
+##! Adjustment parameter on the growth rate of the energy prices
+ADJUST_GR_PE_AUTO_e_1
+
+##! Life duration of a car of class $ecl$ fueled with energy $cea$
+AUTO_D[ecl,cea]
+
+##! Depreciation rate of automobile of class $ecl$ into other classes $cea$ and destruction $DES$
+Rdep_AUTO[ecl,cea,DES]
+
+##! Average distance in km driven by cars in a year
+kmPerAuto
+
 ##! kilometer-traveler of public transport commodity $cth$
 km_traveler[cth]
+
+# Duration of loan for the purchase of a class $ecl$ car fueled with energy $cea$
+LD_AUTO[ecl,cea]
+
+##! exogenous innovation trend in electric cars
+innovation_exo[ecl]
+
+##! Maintenance cost per km for the automobile of class $ecl$ fueled with energy $cea$
+MCperkm[ecl,cea]
+
+##! Elasticity between the the innovation in electric cars and the bass diffusion model equation
+ES_BASS[ecl]
+
+##! Elasticity between the the innovation stock in electric cars and its diffusion
+nu_diffusion[ecl]
+
+##! Share of the price for a new car directly financed by the household
+R_CASH_AUTO[ecl,cea]
+
+##! Share of the price of the purchase of a new car financed through a loan
+R_LOAN_AUTO[ecl,cea]
+
+##! Share of the reimbursement of a loan related to the purchase of a car
+R_RMBS_AUTO[ecl,cea]
+
+##! Share of the price of the purchase of a car financed by a public subsidy
+R_SUB_AUTO[ecl,cea]
 
 ##! Elasticity of substitution between long-distance air transport and income
 theta_kmtravcair_DISPINC
 
 ##! Price elasticity of long-distance air transport
 theta_kmtravcair_Pkmtrav
-
 
 ##! Elasticity of substitution between long-distance (by road or train) transports and income
 theta_kmtravLD_DISPINC
@@ -428,35 +464,20 @@ theta_kmtravSD_DISPINC
 ##! Price elasticity of short-distance (by road or train) of transport commodity
 theta_kmtravSD_Pkmtrav
 
-##! Elasticity between road and rail transport use for short distance trips
+##! Elasticity between road and rail transport use for long distance trips
 theta_kmtrav_autoLD_crai
+
+##! Elasticity between road and rail transport use for short distance trips
+theta_kmtrav_autoSD_crai
 
 ##! Elasticity between automobile and bus use for short distance trips
 theta_kmtrav_autoSD_croa
 
-##! Elasticity between road and rail transport use for long distance trips
-theta_kmtrav_autoLD_crai
-
-##! exogenous innovation trend in electric cars
-innovation_exo[ecl]
-
-##! Elasticity between the the innovation in electric cars and the bass diffusion model equation
-ES_BASS[ecl]
-
-##! Elasticity between the the innovation stock in electric cars and its diffusion
-nu_diffusion[ecl]
-
-##! Elasticity between the marginal utility from automobile use and its capital cost
-theta_U_AUTO_UC_K
-
 ##! Elasticity between the marginal utility from automobile use and its energy cost
 theta_U_AUTO_UC_E
 
-##! Depreciation rate of automobile of class $ecl$ into other classes $cea$ and destruction $DES$
-Rdep_AUTO[ecl,cea,DES]
-
-##! Maintenance cost per km for the automobile of class $ecl$ fueled with energy $cea$
-MCperkm[ecl,cea]
+##! Elasticity between the marginal utility from automobile use and its capital cost
+theta_U_AUTO_UC_K
 
 ##! Energy consumption in ton equivalent petrol per km for the automobile of class $ecl$ fueled with energy $cea$
 toePerKm[ecl,cea]

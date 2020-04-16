@@ -220,7 +220,7 @@ PYQSBVAT[c] * YQSBVAT[c] = PYQ[c] * YQ[c] + POTHCTD[c] * OTHCTD[c] + PSUBCD[c] *
 ##! Production of commodity $c$ expressed at market price before VAT
 YQSBVAT[c] = YQ[c] + OTHCTD[c] + SUBCD[c] + MGPD[c] 														   if YQSBVAT[c] <> 0
 
-## $YQSBVAT_{c}$ is the volume of the production expressed at market price before VAT. It should \textbf{\underline{not}} be seen as a composite of several "goods": production at basic price, margins and taxes. Indeed, it does not increase when the volume of the commercial and transport margins increase. The price does instead. Consequently, $YQSBVAT_{c}$ is always proportional to $YQ_{c}$. Notice the consistency with the specification of the volume of a tax or a subvention: the tax rate does not increase the volume of the tax but increases its price. The volume of the tax increases only when the volume of the tax base (e.g. consumption, production) increases. \\
+## $YQSBVAT_{c}$ is the volume of the production expressed at market price before VAT. It should \textbf{\underline{not}} be seen as a composite of several ''goods'': production at basic price, margins and taxes. Indeed, it does not increase when the volume of the commercial and transport margins increase. The price does instead. Consequently, $YQSBVAT_{c}$ is always proportional to $YQ_{c}$. Notice the consistency with the specification of the volume of a tax or a subvention: the tax rate does not increase the volume of the tax but increases its price. The volume of the tax increases only when the volume of the tax base (e.g. consumption, production) increases. \\
 
 ##! Selling price before VAT for imported commodity $c$
 PMSBVAT[c]  * MSBVAT[c]  = PM[c]  * M[c]  + POTHCTM[c] * OTHCTM[c] + PSUBCM[c] * SUBCM[c] + PMGPM[c] * MGPM[c] if MSBVAT[c]  <> 0

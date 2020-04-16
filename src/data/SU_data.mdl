@@ -1,5 +1,8 @@
 include ..\model\lists
 
+
+## This section provides the equations defining the supply and demand structure stating the accounting equilibrium. \\
+
 #####################
 ###### USE SIDE #####
 #####################
@@ -34,9 +37,9 @@ YQbis[c] + NTAXCD[c] + MGPD[c] := QD[c]
 
 Mbis[c] + NTAXCM[c] + MGPM[c] := QM[c]
 
-MGPD := sum(MGPD[c] on c) 
+MGPD := sum(MGPD[c] on c)
 
-MGPM := sum(MGPM[c] on c) 
+MGPM := sum(MGPM[c] on c)
 
 MGS[m] := sum(MGP[m, c] on c)
 

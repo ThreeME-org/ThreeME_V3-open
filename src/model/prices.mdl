@@ -37,7 +37,7 @@ CUR[s]          = Y[s] / YCAP[s]
 ##! Notional wage in sector $s$
 d(log(W_n[s])) = RHO_W_Cons[s] + RHO_W_P[s]*d(log(P)) + RHO_W_Pe[s]*d(log(P_e)) + RHO_W_PROG[s]*d(log(PROG_L[s])) - RHO_W_U[s] * (UnR - DNAIRU) - RHO_W_DU[s]*d(UnR) + RHO_W_L[s]*d(log(F[L, s]) - log(F[L])) if W_n[s] <> 0
 ## This general specification combines various wage equations found in the literature: the Phillips curve and the WS curve. The WS curve {\'a} la Layard et al. (2005) requires the following constraints: \begin{center} $\rho^{W,P}_{s} + \rho^{W,Pe}_{s} = \rho^{W,PROG}_{s} = 1, \rho^{W,U}_{s} = \rho^{W,Cons}_{s}= 0$ \end{center}
-## In the case of a Phillips curve, the $NAIRU$ is predetermined in the long run when wages are fully indexed on price and productivity. To have a long run "Time-Varying" $NAIRU$ under these hypotheses, we have to assume that the constant is a function of the unemployment rate (see Heyer et al. 2007): \\
+## In the case of a Phillips curve, the $NAIRU$ is predetermined in the long run when wages are fully indexed on price and productivity. To have a long run ``time-varying`` $NAIRU$ under these hypotheses, we have to assume that the constant is a function of the unemployment rate (see Heyer et al. 2007): \\
 
 d(RHO_W_Cons[s]) = RHO_Cons_U[s] * RHO_W_U[s] * d(UnR)
 
@@ -81,7 +81,7 @@ C[L, s]   * F[L,s]      =  W[s] * F[L, s] + RSC[s] * PRSC[s]
 
 ##! Capital cost in sector $s$
 C[K, s]         = PK[s] * (Rdep[s] + r[s])
-## It is preferable to calculate the user cost of capital based on the price of capital rather than on the price of investment. Indeed the price of the average capital installed is lower than the one of investment because of inflation. Using the price of investment tends to overestimate the cost of capital because it assumes that the debt contracted to finance past investments is indexed on inflation which is not the case in reality. Moreover using the price of investment often lead to unstable dynamics because it overestimate the impact of inflationary shocks on the cost of capital. \\
+## It is preferable to calculate the user cost of capital based on the price of capital rather than on the price of investment. Indeed the price of the average capital installed is lower than the one of investment because of inflation. Using the price of investment tends to overestimate the cost of capital because it assumes that the debt contracted to finance past investments is indexed on inflation which is not the case in reality. Moreover using the price of investment often leads to unstable dynamics because it overestimates the impact of inflationary shocks on the cost of capital. \\
 
 
 ##! Price of capital in sector $s$
@@ -95,7 +95,7 @@ C[E, s]         = PE[s]
 ##! Energy costs in sector $s$ (forward-looking specification)
 Cbis[E, s]      = PE[s] * ((PE_e[s]/PE_e[s]{-1}) ^ (1/Rdep[s]) - 1) / ((PE_e[s]/PE_e[s]{-1}-1) * (1/Rdep[s]))
 
-# ##! Expected energy price inflation
+##! Expected energy price inflation
 d(log(PE_e[s])) = ADJUST_PEe_PE1[s] * d(log(PE[s]{-1})) + (1 - ADJUST_PEe_PE1[s])    * d(log(PE_e[s]{-1}))
 
 ##! Price of energy in sector $s$
@@ -132,7 +132,7 @@ PM[c]        = EXR * PWD[c]  if M[c]        <> 0
 
 ##! Price of domestically produced commodity $c$, expressed at market price
 PYQS[c] * YQS[c] = PYQ[c] * YQ[c] + PMGPD[c] * MGPD[c] + NTAXCD_VAL[c]      if YQS[c]      <> 0
-## $YQS_{c}$ is the volume of the production expressed at market price. It should not be seen as a composite of several "goods": production at base price, margins and taxes. Its does not increase when the volume of the margins and taxes increase. The price does instead. This is equivalent to assuming that $YQS_{c}$ is always proportional to and $YQ_{c}$ since the volume of margins and taxes depends on the latter. Writing it following the specification composite of several goods, $YQS_{c} = YQ_{c} + MGPD_{c} + NTAXCD_{c}$, would lead to inaccurate results since a decrease in the quantity of margins used per unit of production would not lead to a decrease of the selling price. \\
+## $YQS_{c}$ is the volume of the production expressed at market price. It should not be seen as a composite of several ``goods``: production at base price, margins and taxes. Its does not increase when the volume of the margins and taxes increase. The price does instead. This is equivalent to assuming that $YQS_{c}$ is always proportional to and $YQ_{c}$ since the volume of margins and taxes depends on the latter. Writing it following the specification composite of several goods, $YQS_{c} = YQ_{c} + MGPD_{c} + NTAXCD_{c}$, would lead to inaccurate results since a decrease in the quantity of margins used per unit of production would not lead to a decrease of the selling price. \\
 
 ##! Production of commodity $c$, expressed at market price
 YQS[c] = YQ[c] + MGPD[c] + NTAXCD[c]								        if YQS[c]      <> 0
