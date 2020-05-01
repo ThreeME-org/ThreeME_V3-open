@@ -1,7 +1,7 @@
 include ..\model\lists
 
-# include parameters
-# include R_Calibration
+include parameters
+include R_Calibration_FRA
 include elasticities
 
 eps := 0.000000000001
@@ -42,16 +42,16 @@ empl := 1.014 * F[L]
 ### EMISSIONS DATA
 ############################
 
-EMS_CI[ghg,c,s] := 1 * (1 + GR_REAL) ^ (@year - %baseyear)
+# EMS_CI[ghg,c,s] := 1 * (1 + GR_REAL) ^ (@year - %baseyear)
 IEMS_CI[ghg,c,s] := 1
 
-EMS_MAT[ghg,s] := 1 * (1 + GR_REAL) ^ (@year - %baseyear)
+# EMS_MAT[ghg,s] := 1 * (1 + GR_REAL) ^ (@year - %baseyear)
 IEMS_MAT[ghg,s] := 1
 
-EMS_Y[ghg,s] := 1 * (1 + GR_REAL) ^ (@year - %baseyear)
+# EMS_Y[ghg,s] := 1 * (1 + GR_REAL) ^ (@year - %baseyear)
 IEMS_Y[ghg,s] := 1
 
-EMS_CH[ghg,c] := 1 * (1 + GR_REAL) ^ (@year - %baseyear)
+# EMS_CH[ghg,c] := 1 * (1 + GR_REAL) ^ (@year - %baseyear)
 IEMS_CH[ghg,c] := 1
 
 ############################
