@@ -6,6 +6,173 @@
 
 ' ============================================================================
 ' ============================================================================
+' ==============    RUN SCENARIO     =========================================
+' ============================================================================
+
+' This subroutine runs an individual scenario, baseline or shock: define the scenario you want to simulate in a conditionality with the extra data that is loaded using load_excel()
+' If the scenario is not defined in the conditinnalities, it runs "baseline-steady" by default (that is not extra file is loaded)
+
+subroutine run_scenario(string %scenario_name)
+
+  if %scenario_name = "baseline-steady" then
+  
+    smpl {%baseyear} @last
+    ' Solve the model
+    call solvemodel(%solveopt)
+    ' Exit subroutine
+    return
+
+  endif   
+
+
+  if %scenario_name = "baseline" then
+
+    ' #### Calibrate scenario baseline directly
+    smpl {%baseyear}+1 @last
+
+    ' Changes in stocks converge progressivelly to 0 
+    for %c {%list_com}
+      DSD_{%c} = DSD_{%c}(-1) * 0.8
+      DSM_{%c} = DSM_{%c}(-1) * 0.8
+
+    next
+
+
+    ' #### Calibrate scenario baseline from an excel sheet
+
+    ' Load the data for scenario "baseline"
+    smpl {%baseyear} @last
+    call load_excel("France", "scenarii", "baseline")
+
+    ' Interpolate the variables in the list
+    ' call interpolate("POP GDP_TREND")
+
+    ' #### Simulate the scenario by solving the model
+    smpl {%baseyear} @last
+    call solvemodel(%solveopt)
+    ' Exit subroutine
+    return
+
+  endif
+
+
+  if %scenario_name = "covid" then
+    ' Create a new scenario that can be compared with the baseline
+    {%modelname}.scenario(n, a=2) {%scenario_name}
+
+    ' Calibrate scenario "covid" directly
+    smpl 2020 @last
+      for %c {%list_com}
+        ' shock_CH_{%c} = - 0.4 * 0.5 ^ (@year - 2020)
+      next
+    smpl {%baseyear} @last
+
+
+    ' Load the data for scenario "covid"
+    call load_excel("France", "scenarii", "covid")
+
+    ' Solve the model
+    call solvemodel(%solveopt)
+
+    ' Send results to Excel
+    smpl {%baseyear} @last 
+    %index = "2"
+    group Macro 100*(GDP_{%index}/GDP_0-1) 100*(CH_{%index}/CH_0-1) 100*(I_{%index}/I_0-1) 100*(X_{%index}/X_0-1) 100*(M_{%index}/M_0-1) 100*((DISPINC_AT_VAL_{%index}/PCH_{%index})/(DISPINC_AT_VAL_0/PCH_0)-1) 100*(RSAV_H_VAL_{%index}-RSAV_H_VAL_0) 100*(PCH_{%index}/PCH_0-1) 100*(PY_{%index}/PY_0-1)  100*(PVA_{%index}/PVA_0-1) 100*(PCI_{%index}/PCI_0-1) 100*(PX_{%index}/PX_0-1) 100*(PM_{%index}/PM_0-1) 100*(W_{%index}/W_0-1) 100*((C_L_{%index}/PVA_{%index})/(C_L_0/PVA_0)-1) (F_L_{%index}-F_L_0) 100*(UnR_{%index}-UnR_0) 100*(RBal_Trade_VAL_{%index}-RBal_Trade_VAL_0) 100*(RBal_G_Prim_VAL_{%index}-RBal_G_Prim_VAL_0) 100*(RDEBT_G_VAL_{%index}-RDEBT_G_VAL_0) 100*(EMS_{%index}/EMS_0-1) 100*(CH_0+G_0)/GDP_0*((CH_{%index}+G_{%index})/(CH_0+G_0)-1) 100*I_0/GDP_0*(I_{%index}/I_0-1) 100*(X_0-M_0)/GDP_0*((X_{%index}-M_{%index})/(X_0-M_0)-1) 100*DS_0/GDP_0*(DS_{%index}/DS_0-1)
+
+    
+    call savetoexcel("Macro", "Result_France.xlsx", "YES")
+
+    ' Exit subroutine
+    return
+
+  endif
+
+  'Display error message
+  scalar answer = @uiprompt("ERROR: NO SIMULATION ! The scenario is not defined in the subroutine run_scenario. Would you like to continue?", "YN")
+  if answer = 2 then
+    stop
+  endif
+
+endsub
+
+' ============================================================================
+' ============================================================================
+' ==============    SAVE TO EXCEL    =========================================
+' ============================================================================
+
+' This subroutine copies results to excel using the template %filemane located in the directory "result". It copies the list of groups "%groupresult" (Syntax: "group1 group2 group 3") in the sheet using the name of the group. A sheet per group is created or filled in (if already existing).  If the %duplicate% = "YES", the template is replicated with a name starting with the date and hours. Otherwise it writes directly in the template. Important: Do not use spaces in the name of the template.
+
+subroutine savetoexcel(string %groupresult, string %filemane,  string %duplicate)
+
+  if %duplicate = "YES" then
+
+    ' Defines the date string
+    %date = @addquotes(@strnow("YYYY-MM-DD_HH-MI-SS"))
+    '@uiprompt(@addquotes({%date}))
+
+    ' Defines the path of the template (for windows shell)
+    %pathfile = "..\..\results\"+%filemane
+    '@uiprompt(@addquotes(%pathfile))
+
+    ' Defines the path of the duplicated template with the date (for windows shell)
+    %pathfile2 = "..\..\results\"+{%date}+"_"+%filemane
+
+    ' Defines the command for windows shell: duplicates the template under another name
+    %cmd = "copy "+%pathfile+" "+%pathfile2 
+    shell(h) {%cmd}
+
+    ' Defines the path of the duplicated template (for the wfsave command of Eviews)
+    %pathfile2b = ".\..\..\results\"+{%date}+"_"+%filemane
+ 
+  else
+
+    ' Defines the path of the template (for the wfsave command of Eviews)
+    %pathfile2b = ".\..\..\results\"+%filemane
+
+  endif 
+
+  ' Copy each group of the list in a separate sheet of the (eventually duplicated) template
+  for %sheet {%groupresult}
+    wfsave(type=excelxml, mode=update) {%pathfile2b} range={%sheet}!a1 byrow @keep {%sheet} @smpl {%baseyear} @last
+  next
+
+endsub
+
+
+' ============================================================================
+' ============================================================================
+' ==============    INTERPOLATE      =========================================
+' ============================================================================
+' This subroutine interpolates a list of series %list_na (syntax: "SER1 SER2 SER3") with missing data. At least the baseyear and last date should be available. The subroutines (1) creates a backup of the series computing its steady state calibration; (2) interpolates the series (_int); (3) saves the incomplete series (_na); (4) replaces the series with the interpolated trajectory.
+
+subroutine interpolate(string %list_na)
+    
+    smpl @all
+    ' Interpolate all the variables in the list
+    for  %series {%list_na}
+
+      ' Backup of the steady state calibration of the series
+      series {%series}_bckp = @elem({%series}, {%baseyear}) * (@elem({%series}, {%baseyear})/@elem({%series}(-1), {%baseyear})) ^ (@year - {%baseyear})
+
+      ' Interpolation of the series
+      {%series}.ipolate(type=lcr) {%series}_int
+        ' lcr (log-Catmull-Rom spline) provide the best interpolation: the most stable growth rate
+        ' lcr is equivalent to lcs (log-cardinal spline) with tension=0.0 :
+        ' {%series}.ipolate(type=lcs, tension=0.0) {%series}_int
+
+      ' Saves the incomplete series
+      series {%series}_na = {%series}
+
+      ' Replaces the series with the interpolated trajectory
+      {%series} = {%series}_int
+
+    next 
+
+endsub
+
+
+' ============================================================================
+' ============================================================================
 ' ============== RUN STANDARD SHOCKS =========================================
 ' ============================================================================
 
@@ -56,7 +223,7 @@ subroutine standard_backup()
   series EXR_bckp = EXR
   series RINC_SOC_TAX_bckp=RINC_SOC_TAX
 
-  for %c cagr cveh ccon crai croa cpri ccoa cele
+  for %c {%list_com}
     series RVATD_bckp_{%c} = RVATD_{%c}
     series RVATM_bckp_{%c} = RVATM_{%c}
   next
@@ -65,7 +232,8 @@ subroutine standard_backup()
     series WD_bckp_{%c} = WD_{%c}
   next
 
-  series PWD_ccoa_bckp = PWD_ccoa
+  series PWD_coil_bckp = PWD_coil
+  series PWD_cgae_bckp = PWD_cgae
 
   for %c {%list_com}
     for %s {%list_sec}
@@ -84,6 +252,11 @@ subroutine standard_backup()
   for %c {%list_com}
     series R2_CH_CO2_bckp_{%c} = R2_CH_CO2_{%c}
   next
+
+  for %c {%list_com} 
+    series RSUBCD_bckp_{%c} = RSUBCD_{%c}
+    series RSUBCM_bckp_{%c} = RSUBCM_{%c}
+  next
 endsub
 
 subroutine standard_restore_backup()
@@ -99,7 +272,7 @@ subroutine standard_restore_backup()
   series EXR = EXR_bckp
   series RINC_SOC_TAX=RINC_SOC_TAX_bckp
 
-  for %c cagr cveh ccon crai croa cpri ccoa cele
+  for %c {%list_com}
     series RVATD_{%c} = RVATD_bckp_{%c}
     series RVATM_{%c} = RVATM_bckp_{%c}
   next
@@ -108,7 +281,8 @@ subroutine standard_restore_backup()
     series WD_{%c} = WD_bckp_{%c}
   next
 
-  series PWD_ccoa = PWD_ccoa_bckp
+  series PWD_coil = PWD_coil_bckp
+  series PWD_cgae = PWD_cgae_bckp
 
   for %c {%list_com}
     for %s {%list_sec}
@@ -126,6 +300,11 @@ subroutine standard_restore_backup()
 
   for %c {%list_com}
     series R2_CH_CO2_{%c} = R2_CH_CO2_bckp_{%c}
+  next
+
+  for %c {%list_com}
+    series RSUBCD_{%c} = RSUBCD_bckp_{%c}
+    series RSUBCM_{%c} = RSUBCM_bckp_{%c}
   next
 endsub
 
@@ -155,7 +334,7 @@ subroutine standard_shock(string %shock)
   ' 10% decrease of the exchange rate
   if @lower(%shock) = "exr10" then
 
-    EXR = EXR * 1.05
+    EXR = EXR * 1.1
 
   endif
 
@@ -172,7 +351,7 @@ subroutine standard_shock(string %shock)
   series RVAT_shock = (PVAT * VAT) / (PCH * CH - PVAT * VAT)
   series RVAT_shock_new = RVAT_shock  + (0.01 * @elem(GDP, %baseyear) * PGDP)/(PCH * CH - PVAT * VAT)
 
-  for %c cagr cveh ccon crai croa cpri ccoa cele
+  for %c {%list_com}
     RVATD_{%c} = RVATD_{%c} * RVAT_shock_new / RVAT_shock
     RVATM_{%c} = RVATM_{%c} * RVAT_shock_new / RVAT_shock
   next
@@ -224,8 +403,79 @@ subroutine standard_shock(string %shock)
 
   endif
 
+  ' 1 GDP point increase of carbon tax
+  if @lower(%shock) = "ct2" then
+
+ REDIS_CT_LS = 1
+ REDIS_CT_RRSC = 1 - REDIS_CT_LS
+ REDIS_CT_H = 1
+
+  for %c {%list_com}
+    for %s {%list_sec}
+      R2_CI_CO2_{%c}_{%s} = R2_CI_CO2_{%c}_{%s} + 0.01 * @elem(GDP, %baseyear) / (EMS_CI_CO2+EMS_MAT_CO2+EMS_Y_CO2+EMS_CH_CO2)
+    next
+  next
+
+  for %s {%list_sec}
+    R2_MAT_CO2_{%s} = R2_MAT_CO2_{%s} + 0.01 * @elem(GDP, %baseyear) / (EMS_CI_CO2+EMS_MAT_CO2+EMS_Y_CO2+EMS_CH_CO2)
+  next
+
+  for %s {%list_sec}
+    R2_Y_CO2_{%s} = R2_Y_CO2_{%s} + 0.01 * @elem(GDP, %baseyear) / (EMS_CI_CO2+EMS_MAT_CO2+EMS_Y_CO2+EMS_CH_CO2)
+  next
 
 
+  for %c {%list_com}
+    R2_CH_CO2_{%c} = R2_CH_CO2_{%c} + 0.01 * @elem(GDP, %baseyear) / (EMS_CI_CO2+EMS_MAT_CO2+EMS_Y_CO2+EMS_CH_CO2)
+  next
+
+  endif
+
+
+  ' Decrease of SUBC by 0.5% of ex ante GDP
+  if @lower(%shock) = "sub1" then
+
+  for %c ccoa 
+  series RSUBC_shock_{%c} = (PSUBCD_{%c} * SUBCD_{%c} + PSUBCM_{%c} * SUBCM_{%c}) / (YQ_{%c} + M_{%c})
+  series RSUBC_shock_new_{%c} = RSUBC_shock_{%c}  + (0.005 * @elem(GDP, %baseyear) * PGDP)/(YQ_{%c} + M_{%c})
+  next
+
+  for %c ccoa
+    RSUBCD_{%c} = RSUBCD_{%c} * RSUBC_shock_new_{%c} / RSUBC_shock_{%c}
+    RSUBCM_{%c} = RSUBCM_{%c} * RSUBC_shock_new_{%c} / RSUBC_shock_{%c}
+  next
+
+  endif
+
+  ' Decrease of SUBC by 0.01% of ex ante GDP
+  if @lower(%shock) = "sub2" then
+
+  for %c ccoa 
+  series RSUBCD_shock_{%c} = @elem(PSUBCD_{%c} * SUBCD_{%c}, %baseyear) / @elem(YQ_{%c}, %baseyear)
+  series RSUBCM_shock_{%c} = @elem(PSUBCM_{%c} * SUBCM_{%c}, %baseyear) / @elem(M_{%c}, %baseyear)
+  next
+
+  for %c ccoa
+    RSUBCD_{%c} = RSUBCD_shock_{%c} + (0.001 * @elem(GDP, %baseyear) * PGDP)/YQ_{%c}
+    RSUBCM_{%c} = RSUBCM_shock_{%c} + (0.001 * @elem(GDP, %baseyear) * PGDP)/M_{%c}
+  next
+
+  endif
+
+    ' Removing energy subsidies
+  if @lower(%shock) = "sub3" then
+
+  for %c ccoa 
+  series RSUBCD_shock_{%c} = @elem(PSUBCD_{%c} * SUBCD_{%c}, %baseyear) / @elem(YQ_{%c}, %baseyear)
+  series RSUBCM_shock_{%c} = @elem(PSUBCM_{%c} * SUBCM_{%c}, %baseyear) / @elem(M_{%c}, %baseyear)
+  next
+
+  for %c ccoa
+    RSUBCD_{%c} = RSUBCD_shock_{%c} * 0.6 ^ (@year - {%baseyear})
+    RSUBCM_{%c} = RSUBCM_shock_{%c} * 0.6 ^ (@year - {%baseyear})
+  next
+
+  endif
 
   smpl @all
 
@@ -257,40 +507,6 @@ subroutine run_baseshock
           call run_scenario(%DS)
 
     next
-
-endsub
-
-' ============================================================================
-' +++++++++++++++++++++++++++
-' Subroutine "run_scenario"
-' +++++++++++++++++++++++++++
-
-' This subroutine runs an individual scenario, baseline or shock
-' Pass in "baseline" as the %scenario_name for the baseline scenario
-
-subroutine run_scenario(string %scenario_name)
-
-  if %scenario_name = "baseline" then
-
-    ' Load a realistic reference scenario if requested (in configuration.prg)
-    if %ref="realist" then
-      call load_realist
-    endif
-
-    ' Solve the model
-    call solvemodel(%solveopt)
-
-  else
-
-    ' Create a new scenario that can be compared with the baseline
-    {%modelname}.scenario(n, a=2) {%scenario_name}
-
-    ' Load data for the shock to be simulated
-    call load_data_shocks(%scenario_name)
-
-    call solvemodel(%solveopt)
-
-  endif
 
 endsub
 

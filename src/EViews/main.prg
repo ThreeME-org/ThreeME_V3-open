@@ -34,29 +34,10 @@ include .\results_outputs
 include .\..\addin\model_addin.prg
 include .\..\addin\export.prg
 
-
 ' ***********
-' Model run
-
-If %shocks = "euro" then
-
-  for %iso3 AUT BGR CZE EST FIN FRA HUN ITA LVA LTU LUX NLD POL PRT ROU SVK SVN ESP
-
-    call run_euro(%iso3)
-
-  next
-
-else
-
-  For %DC {%calibrations}
-
-      ' Relative paths
-      %data_calibration = ".\..\..\data\calibrations\"+%DC+".xls"
-      %iso3 = "FRA"
-      call run(%data_calibration,%data_shocks)
-
-  Next
-
-endif
+' Compile and run the model (option "new") or run an existing model (option "workfile"). By default a new model is compiled and run without the message asking to save the workfile.
+call run("workfile")
 
 smpl %baseyear @last
+
+
