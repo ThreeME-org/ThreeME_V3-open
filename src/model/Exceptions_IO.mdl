@@ -6,43 +6,35 @@
 
 ########### Step 2
 # Block the multiplicator of intermediaries
-### @over d(log(YQ[c])) = d(log(YQ[c]{-1})) if YQ[c] <> 0
-@over d(log(YQ[c])) = d(log(expg_trend)) if YQ[c] <> 0
+@over d(log(YQ[c])) = d(log(GDP_trend)) if YQ[c] <> 0
 
 ########### Step 3
 
 # Block the multiplicator of transport and trade margins 
-
-### @over d(log(MT|O|[trsp, c])) = d(log(MT|O|[trsp, c]{-1})) if MT|O|[trsp, c] <> 0 where O in (D M), c in %list_com \ %list_trsp
-### @over d(log(MC|O|[c])) = d(log(MC|O|[c]{-1})) if MC|O|[c] <> 0 where O in (D M), c in %list_com \ %list_com_commarg
-@over d(log(MT|O|[trsp, c])) = d(log(expg_trend)) if MT|O|[trsp, c] <> 0 where O in (D M), c in %list_com \ %list_trsp
-@over d(log(MC|O|[c])) = d(log(expg_trend)) if MC|O|[c] <> 0 where O in (D M), c in %list_com \ %list_com_commarg
-
+@over d(log(MGPD[m, c])) = d(log(GDP_trend)) if MGPD[m, c] <> 0
+@over d(log(MGPM[m, c])) = d(log(GDP_trend)) if MGPM[m, c] <> 0
 
 ########### Step 4
 
 # Block the multiplicator of investment
 
-### @over d(log(IA[s])) = d(log(IA[s]{-1})) if K[s] <> 0
-@over d(log(IA[s])) = d(log(expg_trend)) if K[s] <> 0
+@over d(log(IA[s])) = d(log(GDP_trend)) if K[s] <> 0
 
 
 ########### Step 5
 
 # Block the multiplicator of consumption
 
-### @over d(log(EXP_n[c, h])) = d(log(EXP_n[c, h]{-1})) if EXP[c, h] <> 0
-@over d(log(EXP_n[c, h])) = d(log(expg_trend)) if EXP[c, h] <> 0
-
+@over d(log(CH_n[c])) = d(log(GDP_trend)) if CH_n[c] <> 0
 
 ########### Step 6
 # Block prices effects: Wages and prices grow at a constant rate
 
 ## In addition to the behavioural equation (notional wage and price), we need to block other prices because they are modified by a change in production share (for PYQ[c]) or by a change in transport and trade margins intensity (for PYQS[c] and PMS[c]). Margins intensity changes when we make the transport and trade margins exogenous.
 
-@over d(log(W_S_n[s])) = d(log(W_S_n[s]{-1}))
+@over d(log(W_n[s])) = d(log(W_n[s]{-1}))
 @over d(log(PY_n[s])) = d(log(PY_n[s]{-1}))
-
+			
 @over d(log(PYQ[c])) = d(log(PYQ[c]{-1}))
 
 @over d(log(PYQS[c])) = d(log(PYQS[c]{-1}))
