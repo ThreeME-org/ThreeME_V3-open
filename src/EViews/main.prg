@@ -36,7 +36,7 @@ include .\..\addin\export.prg
 
 ' ***********
 ' Compile and run the model (option "new") or run an existing model (option "workfile"). By default a new model is compiled and run without the message asking to save the workfile.
-call run("workfile")
+call run("new")
 
 smpl %baseyear @last
 
