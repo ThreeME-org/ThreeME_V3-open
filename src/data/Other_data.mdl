@@ -118,6 +118,20 @@ CI_toe[ce] := sum(CI_toe[ce, s] on s)
 
 Y_toe[ce] + M_toe[ce] := CI_toe[ce] + CH_toe[ce] + X_toe[ce]
 
+CI_toe[s]  := sum(CI_toe[ce, s] on ce)
+
+CI_toe     := sum(CI_toe[ce] on ce)
+
+CH_toe     := sum(CH_toe[ce] on ce)
+
+X_toe      := sum(X_toe[ce] on ce)
+
+Y_toe[s]   := sum(Y_toe[ce, s] on ce)
+
+Y_toe      := sum(Y_toe[ce] on ce)
+
+M_toe      := sum(M_toe[ce] on ce)
+
 YG_toe[ce, s] := Y_toe[ce, s] + DLY_toe[ce, s] + AC_toe[ce, s]
 
 MG_toe[ce] := M_toe[ce] + DLM_toe[ce]
