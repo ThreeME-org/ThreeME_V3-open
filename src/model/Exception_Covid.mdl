@@ -1,6 +1,6 @@
 ##### Exception equations for ThreeME - Covid
 
-#### Baseline scenario 
+#### Baseline scenario
 
 
 ##! Labor technical progress gain
@@ -9,7 +9,7 @@ log(1 + GR_PROG[L, s]) = d(log(GDP_trend)) - d(log(POP))
 ##! Government expenditures
 d(log(EXPG)) = d(log(GDP_trend))
 
-##! World demand 
+##! World demand
 d(log(WD[c])) = d(log(GDP_trend))
 
 #### Shock Covid
@@ -21,6 +21,18 @@ d(log(WD[c])) = d(log(GDP_trend))
 ##! Optimal households final consumption of commodity $c$
 log(CH1[c])        = ADJUST0_CH[c] * log(CH_n[c])        + (1 - ADJUST0_CH[c]) * (log(CH1[c]{-1})   +                 d(log(CH_e[c]))) if CH[c]   <> 0
 
+
 ##! Expected households final consumption of commodity $c$
 @over d(log(CH_e[c])) = ADJUST1_CH[c] * d(log(CH_e[c]{-1})) + ADJUST2_CH[c]       * d(log(CH1[c]{-1})) + ADJUST3_CH[c] * d(log(CH_n[c]))  if CH_e[c] <> 0
 
+
+
+##! Effective FBCF  of commodity $c$
+#@over I[c] = I1[c] + shock_I[c]*(@elem(I[c], 2020))
+
+
+##! Optimal households final consumption of commodity $c$
+#log(I1[c])        = ADJUST0_I[c] * log(I_n[c])        + (1 - ADJUST0_I[c]) * (log(I1[c]{-1})   +                 d(log(I_e[c]))) if I[c]   <> 0
+
+##! Expected households final consumption of commodity $c$
+#@over d(log(I_e[c])) = ADJUST1_I[c] * d(log(I_e[c]{-1})) + ADJUST2_I[c]       * d(log(I1[c]{-1})) + ADJUST3_I[c] * d(log(I_n[c]))  if I_e[c] <> 0
