@@ -18,7 +18,7 @@
 
 # Block the multiplicator of investment
 
-@over d(log(IA[s])) = d(log(GDP_trend)) if K[s] <> 0
+@over d(log(IA[s])) = d(log(GDP_trend)) if F_K[s] <> 0
 
 
 ########### Step 5
