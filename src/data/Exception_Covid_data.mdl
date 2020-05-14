@@ -1,10 +1,13 @@
 include ..\model\lists
 
-#### Baseline scenario 
+#### Baseline scenario
 GDP_trend := GDP
 G_trend := G
 
-#### Covid  scenario 
+#### Covid  scenario
 CH1[c] := CH[c]
 shock_CH[c] := 0
 
+#### Covid  scenario
+I1[c] := I[c]
+shock_I[c] := 0
