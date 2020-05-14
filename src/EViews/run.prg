@@ -86,7 +86,7 @@ endif
 ' ***************************************
 ' Call here the subroutine you want to use to solve the shock
 call run_scenario("baseline-steady")
-stop 
+ 
 call run_scenario("covid")
 
 ' ****************************************

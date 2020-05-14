@@ -1,11 +1,10 @@
 ' **********************************
 ' List for sheet baseline
 ' **********************************
-%read = "yes"
+%read = "no"
 if %read = "yes" then
 
-%list_com = "c_AZ c_DE c_C1 c_C2 c_C3 c_C4 c_C5 c_FZ c_GZ c_HZ c_IZ c_JZ c_KZ c_LZ c_MN c_OQ c_RU"
-
+%list_com = "cAZ cDE cC1 cC2 cC3 cC4 cC5 cFZ cGZ cHZ cIZ cJZ cKZ cLZ cMN cOQ cRU"
 %show = "POP GDP_trend PARTR_trend" 
  
 ' Foreign prices for commodities
@@ -20,10 +19,10 @@ endif
 ' **********************************
 ' List for sheet covid
 ' **********************************
-%read2 = "no"
+%read2 = "yes"
 if %read2 = "yes" then
 
-%list_com = "c_AZ c_DE c_C1 c_C2 c_C3 c_C4 c_C5 c_FZ c_GZ c_HZ c_IZ c_JZ c_KZ c_LZ c_MN c_OQ c_RU"
+%list_com = "cAZ cDE cC1 cC2 cC3 cC4 cC5 cFZ cGZ cHZ cIZ cJZ cKZ cLZ cMN cOQ cRU"
 
 %show = ""  
 
@@ -31,6 +30,21 @@ if %read2 = "yes" then
 for %c {%list_com}
 	%show = %show + " shock_CH_"+%c
 next
+
+' Shock on investment
+for %c {%list_com}
+	%show = %show + " shock_I_"+%c
+next
+
+' Shock on goverment comsuption
+for %c {%list_com}
+	%show = %show + " shock_G_"+%c
+next
+' Shock on exports
+for %c {%list_com}
+	%show = %show + " shock_X_"+%c
+next
+
 show  {%show}
 
 endif
