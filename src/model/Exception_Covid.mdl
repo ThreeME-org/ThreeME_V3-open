@@ -15,7 +15,7 @@ d(log(WD[c])) = d(log(GDP_trend))
 #### Shock Covid
 
 ##! Effective households final consumption of commodity $c$
-@over CH[c] = CH1[c] + shock_CH[c]*(@elem(CH[c], 2020))
+@over CH[c] = CH1[c] + shock_CH[c]*(@elem(CH[c], 2020))  if CH[c]   <> 0
 
 
 ##! Optimal households final consumption of commodity $c$
@@ -25,14 +25,22 @@ log(CH1[c])        = ADJUST0_CH[c] * log(CH_n[c])        + (1 - ADJUST0_CH[c]) *
 ##! Expected households final consumption of commodity $c$
 @over d(log(CH_e[c])) = ADJUST1_CH[c] * d(log(CH_e[c]{-1})) + ADJUST2_CH[c]       * d(log(CH1[c]{-1})) + ADJUST3_CH[c] * d(log(CH_n[c]))  if CH_e[c] <> 0
 
+##! Effective investment in commodity $c$ by sector $s$
+@over I[c, s] = I1[c, s] + shock_I[c]*(@elem(I[c, s], 2020))    if I[c, s]    <> 0
+
+##! Optimal investment in commodity $c$ by sector $s$
+d(log(I1[c, s])) = d(log(IA[s]))      if I[c, s]    <> 0
+
+##! Effective Government final consumption of commodity $c$
+@over G[c] = G1[c] + shock_G[c]*(@elem(G[c], 2020))  if G[c] <> 0
+
+##! Optimal Government final consumption of commodity $c$
+d(log(G1[c])) = d(log(EXPG)) if G[c] <> 0
 
 
-##! Effective FBCF  of commodity $c$
-#@over I[c] = I1[c] + shock_I[c]*(@elem(I[c], 2020))
+##! Effective exports of commodity $c$
+@over X[c] = X1[c] + shock_X[c]*(@elem(X[c], 2020))  if X[c] <> 0
 
 
-##! Optimal households final consumption of commodity $c$
-#log(I1[c])        = ADJUST0_I[c] * log(I_n[c])        + (1 - ADJUST0_I[c]) * (log(I1[c]{-1})   +                 d(log(I_e[c]))) if I[c]   <> 0
-
-##! Expected households final consumption of commodity $c$
-#@over d(log(I_e[c])) = ADJUST1_I[c] * d(log(I_e[c]{-1})) + ADJUST2_I[c]       * d(log(I1[c]{-1})) + ADJUST3_I[c] * d(log(I_n[c]))  if I_e[c] <> 0
+##! Optimal exports of commodity $c$
+d(log(X1[c])) = d(log(WD[c])) + d(SUBST_X[c])    if X[c] <> 0

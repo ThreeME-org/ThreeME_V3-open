@@ -8,6 +8,11 @@ G_trend := G
 CH1[c] := CH[c]
 shock_CH[c] := 0
 
-#### Covid  scenario
-I1[c] := I[c]
+I1[c, s] := I[c, s]
 shock_I[c] := 0
+
+G1[c] := G[c]
+shock_G[c] := 0
+
+X1[c] := X[c]
+shock_X[c] := 0
