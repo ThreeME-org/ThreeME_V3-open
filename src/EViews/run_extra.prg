@@ -14,8 +14,10 @@
 
 subroutine run_scenario(string %scenario_name)
 
+  statusline Simulating scenario %scenario_name. 
+
   if %scenario_name = "baseline-steady" then
-  
+    
     smpl {%baseyear} @last
     ' Solve the model
     call solvemodel(%solveopt)
@@ -55,8 +57,8 @@ subroutine run_scenario(string %scenario_name)
 
   endif
 
-
   if %scenario_name = "covid" then
+
     ' Create a new scenario that can be compared with the baseline
     {%modelname}.scenario(n, a=2) {%scenario_name}
 
@@ -67,20 +69,38 @@ subroutine run_scenario(string %scenario_name)
       next
     smpl {%baseyear} @last
 
-
     ' Load the data for scenario "covid"
     call load_excel("France", "scenarii", "covid")
-
     ' Solve the model
     call solvemodel(%solveopt)
 
     ' Send results to Excel
-    smpl {%baseyear} @last 
+    smpl {%baseyear} @last  
     %index = "2"
-    group Macro 100*(GDP_{%index}/GDP_0-1) 100*(CH_{%index}/CH_0-1) 100*(I_{%index}/I_0-1) 100*(X_{%index}/X_0-1) 100*(M_{%index}/M_0-1) 100*((DISPINC_AT_VAL_{%index}/PCH_{%index})/(DISPINC_AT_VAL_0/PCH_0)-1) 100*(RSAV_H_VAL_{%index}-RSAV_H_VAL_0) 100*(PCH_{%index}/PCH_0-1) 100*(PY_{%index}/PY_0-1)  100*(PVA_{%index}/PVA_0-1) 100*(PCI_{%index}/PCI_0-1) 100*(PX_{%index}/PX_0-1) 100*(PM_{%index}/PM_0-1) 100*(W_{%index}/W_0-1) 100*((C_L_{%index}/PVA_{%index})/(C_L_0/PVA_0)-1) (F_L_{%index}-F_L_0) 100*(UnR_{%index}-UnR_0) 100*(RBal_Trade_VAL_{%index}-RBal_Trade_VAL_0) 100*(RBal_G_Prim_VAL_{%index}-RBal_G_Prim_VAL_0) 100*(RDEBT_G_VAL_{%index}-RDEBT_G_VAL_0) 100*(EMS_{%index}/EMS_0-1) 100*(CH_0+G_0)/GDP_0*((CH_{%index}+G_{%index})/(CH_0+G_0)-1) 100*I_0/GDP_0*(I_{%index}/I_0-1) 100*(X_0-M_0)/GDP_0*((X_{%index}-M_{%index})/(X_0-M_0)-1) 100*DS_0/GDP_0*(DS_{%index}/DS_0-1)
+    group Macro 100*(GDP_{%index}/GDP_0-1) 100*(CH_{%index}/CH_0-1) 100*(I_{%index}/I_0-1) 100*(X_{%index}/X_0-1) 100*(M_{%index}/M_0-1) 100*((DISPINC_AT_VAL_{%index}/PCH_{%index})/(DISPINC_AT_VAL_0/PCH_0)-1) 100*(RSAV_H_VAL_{%index}-RSAV_H_VAL_0) 100*(PCH_{%index}/PCH_0-1) 100*(PY_{%index}/PY_0-1)  100*(PVA_{%index}/PVA_0-1) 100*(PCI_{%index}/PCI_0-1) 100*(PX_{%index}/PX_0-1) 100*(PM_{%index}/PM_0-1) 100*(W_{%index}/W_0-1) 100*((C_L_{%index}/PVA_{%index})/(C_L_0/PVA_0)-1) (F_L_{%index}-F_L_0) 100*(UnR_{%index}-UnR_0) 100*(RBal_Trade_VAL_{%index}-RBal_Trade_VAL_0) 100*(RBal_G_Prim_VAL_{%index}-RBal_G_Prim_VAL_0) 100*(RDEBT_G_VAL_{%index}-RDEBT_G_VAL_0) 100*(EMS_{%index}/EMS_0-1) 100*(EMS_CO2_{%index}/EMS_CO2_0-1) 100*(CH_0+G_0)/GDP_0*((CH_{%index}+G_{%index})/(CH_0+G_0)-1) 100*I_0/GDP_0*(I_{%index}/I_0-1) 100*(X_0-M_0)/GDP_0*((X_{%index}-M_{%index})/(X_0-M_0)-1) 100*DS_0/GDP_0*(DS_{%index}/DS_0-1)
 
+    ' Sectorial results
+    %report_sect = "100*(Y_2/Y_0-1) 100*(F_L_2/F_L_0-1) (F_L_2-F_L_0)  100*(EMS_CI_CO2_2/EMS_CI_CO2_0-1)" 
     
-    call savetoexcel("Macro", "Result_France.xlsx", "YES")
+    for %s {%list_sec}
+       %report_sect = %report_sect + " 100*(Y_"+%s+"_2/Y_"+%s+"_0-1)"  
+    next
+
+    for %s {%list_sec}
+       %report_sect = %report_sect + " 100*(F_L_"+%s+"_2/F_L_"+%s+"_0-1)"  
+    next
+
+    for %s {%list_sec}
+       %report_sect = %report_sect + " (F_L_"+%s+"_2-F_L_"+%s+"_0)"  
+    next
+
+    for %s {%list_sec}
+       %report_sect = %report_sect + " 100*(EMS_CI_CO2_"+%s+"_2/EMS_CI_CO2_"+%s+"_0-1)"  
+    next
+
+    group Sectors {%report_sect}
+
+    call savetoexcel("Macro Sectors", "Result_France.xlsx", "YES")
 
     ' Exit subroutine
     return
@@ -167,6 +187,82 @@ subroutine interpolate(string %list_na)
       {%series} = {%series}_int
 
     next 
+
+endsub
+
+' ============================================================================
+' ============================================================================
+' ==============    CHECK ADDFACTOR  =========================================
+' ============================================================================
+
+' This subroutine check if the model is correctly calibrated at the baseyear.
+
+subroutine checkaddfactor(string %model,scalar !threshold)
+
+statusline Creating Add factors and checking if they are different from 0 at baseyear.
+
+' Put add factors to all equations
+smpl @all
+{%modelname}.addassign @all
+' Set add factor values so that the equation has no residual when evaluated at actuals
+{%modelname}.addinit(v=n) @all
+
+' Make the list of all endogenous variables
+%endo = {%modelname}.@endoglist
+
+' Initialisation of the list of imballanced equations
+%imbalance = ""
+
+' Checking and listing the equations with non zero addfactors
+for %var {%endo} 
+  if @abs(@elem({%var}_a, %baseyear)) > !threshold then
+    %imbalance = %imbalance +" "+%var+"_a"
+  endif
+next 
+
+' Result messages
+if @str(@wcount(%imbalance)) > 0 then
+  scalar answer = @uiprompt("WARNING: NON ZERO ADD FACTORS AT BASEYEAR: "+@str(@wcount(%imbalance))+" equations have a calibration imballance higher than "+@str(!threshold)+". Would you like see them and abord?", "YN")
+  if answer = 1 then
+      smpl {%baseyear} {%baseyear}
+      show {%imbalance}
+      stop
+  endif
+
+else
+
+ @uiprompt("CHECK ADD FACTORS OK !")
+
+endif
+
+endsub
+
+' ============================================================================
+' ============================================================================
+' ==============    FIT TARGET       =========================================
+' ============================================================================
+
+' This subroutine creates SUT from simulated scenario and given years
+
+subroutine fittarget(string %objective)
+
+if %objective = "test" then
+
+    group controls GDP_cont
+    group targets GDP
+    group trajectories GDP_trend
+
+    smpl {%baseyear} @last
+    {%modelname}.mcontrol controls targets trajectories
+
+    group baseline GDP_cont 
+    %pathfile = ".\..\..\data\Tunisia\fittarget.xlsx"
+    ' Save to excel 
+    wfsave(type=excelxml, mode=update) {%pathfile} range=baseline!a1 byrow @keep baseline @smpl {%baseyear} @last
+  
+endif
+
+
 
 endsub
 

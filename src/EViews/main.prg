@@ -29,14 +29,17 @@ include .\run_extra
 
 ' Utility procedures
 include .\results_outputs
+include .\create_sut
+
 
 ' Addin: External compiler
 include .\..\addin\model_addin.prg
 include .\..\addin\export.prg
 
 ' ***********
-' Compile and run the model (option "new") or run an existing model (option "workfile"). By default a new model is compiled and run without the message asking to save the workfile.
-call run("workfile")
+' Compile and run the model (option1 = "new") or run an existing model (option1 = "workfile"). 
+' Can run with warning messages (Option2 = "warnings") or with no warning messages  (Option2 = "nowarnings").
+call run("new", "warnings")
 
 smpl %baseyear @last
 

@@ -15,7 +15,7 @@
 ' - loads the specification of the model
 ' - run scenario(s)
 
-subroutine run(string %load)
+subroutine run(string %load, string %warnings)
 
 '************************************************
 '*********** DEFINE THE MODEL *******************
@@ -27,8 +27,11 @@ call R_lists
 call EViews_lists
 
 if %load="workfile"  then
-' ## Load the workfile of an existing model 
-  @uiprompt("We will load the following Workfile : ...\ThreeME_V3\results\"+%modelname+".wf1")
+' ## Load the workfile of an existing model
+  if %warnings = "warnings"  then 
+    @uiprompt("We will load the following Workfile : ...\ThreeME_V3\results\"+%modelname+".wf1")
+  endif
+
   wfopen {%wfname}    ' Load workfile if already created (the workfile should be in ThreeME_V3\results\)
 
 else
@@ -44,29 +47,26 @@ else
   ' call load_calibration
 
   ' Create the series using the dependencies (add-ins "series")
+  statusline "Compiling the calibration of the model's variables... Please wait it may take a few minuts..."
+
   {%modelname}.series round0 Prices_data SU_data Special_data Other_data Exception_taxes_prices_data Exception_NestedCES_data Exception_Other_data Exception_Covid_data 
   '' Exception_ConsumerNested_data
-  
+
   ' Export all variables to a csv file (used by the external compiler)
   call export_all_to_csv
 
   ' Load the model specification from the model/ folder
+  statusline Compiling the equations of the model... Please wait it may take a few minuts...
+
   {%modelname}.load blocks
 
-  ' # Put add factors to all equations
-  smpl @all
-  {%modelname}.addassign @all
-  ' # Set add factor values so that the equation has no residual when evaluated at actuals
-  {%modelname}.addinit(v=n) @all
-  ' # Show all add factors
-  group a_addfactors *_a
-  show a_addfactors
-
+' Save the workfile before running simulation
 if %load = "new" then
-    ' Save the workfile before running simulation
-    scalar answer = @uiprompt("Would you like to save the workfile before running any simulation ? It will be saved as : ...\ThreeME_V3\results\"+%modelname+".wf1", "YN")
-    if answer = 1 then
-        wfsave {%wfname}
+    if %warnings = "warnings"  then 
+      scalar answer = @uiprompt("Would you like to save the workfile before running any simulation ? It will be saved as : ...\ThreeME_V3\results\"+%modelname+".wf1", "YN")
+      if answer = 1 then
+          wfsave {%wfname}
+      endif
     endif
 endif
 
@@ -77,17 +77,24 @@ endif
 
 endif
 
+' Checking that equations are balanced at baseyear (add factors = 0)
+  if %warnings = "warnings"  then 
+    call checkaddfactor(%modelname,1e-6)
+  endif
 
 '************************************************
 '*********** SOLVE SCENARIOS ********************
 '************************************************
-!scenario = 0
 
 ' ***************************************
 ' Call here the subroutine you want to use to solve the shock
 call run_scenario("baseline-steady")
  
 call run_scenario("covid")
+
+' Save Supply Use tables for sellected years and scenarii
+call create_sut("2010 2020 2030 ", "0 2")
+
 
 ' ****************************************
 ' call run_standard("EXPG1", %iso3, 1)
