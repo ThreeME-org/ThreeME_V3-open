@@ -81,7 +81,11 @@ RBal_Trade_VAL := Bal_Trade_VAL / (PGDP * GDP)
 
 EMS_CI[ghg,c] := sum(EMS_CI[ghg,c,s] on s)
 
+EMS_CI[c]  := sum(EMS_CI[ghg,c] on ghg)
+
 EMS_CI[ghg,s] := sum(EMS_CI[ghg,c,s] on c)
+
+EMS_CI[s]  := sum(EMS_CI[ghg,s] on ghg)
 
 EMS_CI[ghg] := sum(EMS_CI[ghg,s] on s)
 
@@ -92,6 +96,10 @@ EMS_MAT[ghg] := sum(EMS_MAT[ghg,s] on s)
 EMS_Y[ghg] := sum(EMS_Y[ghg,s] on s)
 
 EMS_CH[ghg] := sum(EMS_CH[ghg,c] on c)
+
+EMS_CH[c]  := sum(EMS_CH[ghg,c] on ghg)
+
+EMS[c] := EMS_CI[c] + EMS_CH[c]
 
 EMS[ghg] := EMS_CI[ghg] + EMS_MAT[ghg] + EMS_Y[ghg] + EMS_CH[ghg]
 
