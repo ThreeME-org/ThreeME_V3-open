@@ -54,7 +54,7 @@ Y_toe     = sum(Y_toe[ce] on ce)
 M_toe     = sum(M_toe[ce]   if M_toe[ce] <> 0 on ce)
 
 ##! Share of energy $ce$ produced by sector $s$ (national account definition) 
-# PhiY[ce, s] = (@elem(PY_toe[ce, s], %baseyear) * PhiY_toe[ce, s]) / (sum((@elem(PY_toe[ce, ss], %baseyear) * PhiY_toe[ce, ss]) if PhiY_toe[ce, ss] <> 0 on ss))  if PhiY[ce, s] <> 0
+PhiY[ce, s] = (sum(@elem(PhiY[ce, ss], %baseyear) if PhiY_toe[ce, ss] <> 0 on ss)) * (@elem(PY_toe[ce, s], %baseyear) * PhiY_toe[ce, s]) / (sum((@elem(PY_toe[ce, ss], %baseyear) * PhiY_toe[ce, ss]) if PhiY_toe[ce, ss] <> 0 on ss))  if PhiY_toe[ce, s] <> 0
 ## If the (net) production price of energy $ce$ is common amongst producers, the national account definition share,  $\varphi^{Y}_{c, s}$, is equal to the energy balance definition share  $\varphi^{Ytoe}_{c, s}$. \\
 
 #### Gross supply (domestic and imported)
