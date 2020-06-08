@@ -74,6 +74,101 @@ subroutine run_scenario(string %scenario_name)
     ' Solve the model
     call solvemodel(%solveopt)
 
+
+    call outputs_covid 
+
+    ' Exit subroutine
+    return
+
+  endif
+
+  if %scenario_name = "covid-oil" then
+
+    ' Create a new scenario that can be compared with the baseline
+    {%modelname}.scenario(n, a=2) {%scenario_name}
+
+    smpl {%baseyear} @last
+    ' Load the data for scenario "covid"
+    call load_excel("France", "scenarii", "covid")
+    call load_excel("France", "scenarii", "oilprice")
+
+    ' Interpolate the variables in the list
+    call interpolate("PWD_CC2 PWD_CDE")
+
+    ' Solve the model
+    call solvemodel(%solveopt)
+
+    call outputs_covid 
+
+    ' Exit subroutine
+    return
+
+  endif
+
+
+  if %scenario_name = "covid-oil-co2tax" then
+
+    ' Create a new scenario that can be compared with the baseline
+    {%modelname}.scenario(n, a=2) {%scenario_name}
+
+    smpl {%baseyear} @last
+    ' Load the data for scenario "covid"
+    call load_excel("France", "scenarii", "covid")
+    call load_excel("France", "scenarii", "oilprice")
+    call load_excel("France", "scenarii", "co2tax")
+
+    ' Interpolate the variables in the list
+    call interpolate("PWD_CC2 PWD_CDE RCO2")
+
+     REDIS_CT_LS = 1
+     REDIS_CT_RRSC = 1 - REDIS_CT_LS
+     REDIS_CT_H = 1
+
+      for %c {%list_com}
+        for %s {%list_sec}
+          R2_CI_CO2_{%c}_{%s} = RCO2
+        next
+      next
+
+      for %s {%list_sec}
+        R2_MAT_CO2_{%s} = RCO2
+      next
+
+      for %s {%list_sec}
+        R2_Y_CO2_{%s} = RCO2
+      next
+
+      for %c {%list_com}
+        R2_CH_CO2_{%c} = RCO2
+      next
+
+    ' Solve the model
+    call solvemodel(%solveopt)
+
+    call outputs_covid 
+
+    ' Exit subroutine
+    return
+
+  endif
+
+
+
+
+  'Display error message
+  scalar answer = @uiprompt("ERROR: NO SIMULATION ! The scenario is not defined in the subroutine run_scenario. Would you like to continue?", "YN")
+  if answer = 2 then
+    stop
+  endif
+
+endsub
+
+' ============================================================================
+' ============================================================================
+' ==============    OUTPUTS    ===============================================
+' ============================================================================
+subroutine outputs_covid 
+
     ' Send results to Excel
     smpl {%baseyear} @last  
     %index = "2"
@@ -152,17 +247,11 @@ subroutine run_scenario(string %scenario_name)
 
 
     call savetoexcel("Macro Sectors GHG", "Result_France.xlsx", "YES")
-
-    ' Exit subroutine
-    return
-
-  endif
-
-  'Display error message
-  scalar answer = @uiprompt("ERROR: NO SIMULATION ! The scenario is not defined in the subroutine run_scenario. Would you like to continue?", "YN")
-  if answer = 2 then
-    stop
-  endif
+    
+    ' To copy results manually
+    show Macro
+    show Sectors
+    show GHG
 
 endsub
 
@@ -226,10 +315,14 @@ subroutine interpolate(string %list_na)
       series {%series}_bckp = @elem({%series}, {%baseyear}) * (@elem({%series}, {%baseyear})/@elem({%series}(-1), {%baseyear})) ^ (@year - {%baseyear})
 
       ' Interpolation of the series
+      if @elem({%series}, %baseyear) > 0 then
       {%series}.ipolate(type=lcr) {%series}_int
         ' lcr (log-Catmull-Rom spline) provide the best interpolation: the most stable growth rate
         ' lcr is equivalent to lcs (log-cardinal spline) with tension=0.0 :
         ' {%series}.ipolate(type=lcs, tension=0.0) {%series}_int
+      else
+         {%series}.ipolate(type=cr) {%series}_int
+      endif
 
       ' Saves the incomplete series
       series {%series}_na = {%series}
@@ -240,6 +333,29 @@ subroutine interpolate(string %list_na)
     next 
 
 endsub
+
+subroutine interpolate_period(string %list_na, string %firstyear, string %lastyear)
+    
+    smpl {%firstyear} {%lastyear}
+    ' Interpolate all the variables in the list
+    for  %series {%list_na}
+      ' Interpolation of the series
+      if @elem({%series}, %firstyear) > 0 then
+        {%series}.ipolate(type=lcr) {%series}_int
+        ' lcr (log-Catmull-Rom spline) provide the best interpolation: the most stable growth rate
+        ' lcr is equivalent to lcs (log-cardinal spline) with tension=0.0 :
+        ' {%series}.ipolate(type=lcs, tension=0.0) {%series}_int
+      else
+         {%series}.ipolate(type=cr) {%series}_int
+      endif
+      ' Saves the incomplete series
+      series {%series}_na = {%series}
+
+      ' Replaces the series with the interpolated trajectory
+      {%series} = {%series}_int
+    next 
+endsub
+
 
 ' ============================================================================
 ' ============================================================================
