@@ -101,6 +101,8 @@ EMS_CH[c]  := sum(EMS_CH[ghg,c] on ghg)
 
 EMS[c] := EMS_CI[c] + EMS_CH[c]
 
+EMS[ghg, c] := EMS_CI[ghg,c] + EMS_CH[ghg,c]
+
 EMS[ghg] := EMS_CI[ghg] + EMS_MAT[ghg] + EMS_Y[ghg] + EMS_CH[ghg]
 
 EMS_CI := sum(EMS_CI[ghg] on ghg)

@@ -55,6 +55,8 @@ EMS_CH[c]    = sum( EMS_CH[ghg,c]   if EMS_CH[ghg,c]   <> 0 on ghg )    if EMS_C
 ##! Emissions of the greenhouse gas related to commodity $c$
 EMS[c] = EMS_CI[c] + EMS_CH[c]  if EMS[c] <> 0
 
+EMS[ghg, c] = EMS_CI[ghg,c] + EMS_CH[ghg,c] if EMS[ghg, c] <> 0
+
 ##! Aggregate emissions of the greenhouse gas $ghg$
 EMS[ghg]       = EMS_CI[ghg] + EMS_MAT[ghg] + EMS_Y[ghg] + EMS_CH[ghg]  if EMS[ghg]       <> 0
 
