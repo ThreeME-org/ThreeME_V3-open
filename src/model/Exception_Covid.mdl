@@ -44,3 +44,14 @@ d(log(G1[c])) = d(log(EXPG)) if G[c] <> 0
 
 ##! Optimal exports of commodity $c$
 d(log(X1[c])) = d(log(WD[c])) + d(SUBST_X[c])    if X[c] <> 0
+
+
+##! Carbon tax in Value     
+R2_CI_CO2[c, s] = RCO2_VOL * PCH
+
+R2_MAT_CO2[s] = RCO2_VOL * PCH
+      
+R2_Y_CO2[s] = RCO2_VOL * PCH
+   
+R2_CH_CO2[c] = RCO2_VOL * PCH
+    

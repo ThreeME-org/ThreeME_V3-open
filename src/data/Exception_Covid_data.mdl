@@ -16,3 +16,5 @@ shock_G[c] := 0
 
 X1[c] := X[c]
 shock_X[c] := 0
+
+RCO2_VOL := 0
