@@ -155,10 +155,10 @@ RNTAXCD[c] = NTAXCD_VAL[c] / (PYQ[c] * YQ[c])     if YQ[c] <> 0
 ## This rate become now endogenous by inverting the equation of $NTAXCD^{VAL}_{c}$. This specification ensures the accounting equality between the various GDP definition. \\
 
 ##! Net taxes on imported commodity $c$ expressed in value
-@over NTAXCM_VAL[c] = PVATM[c] * VATM[c] + POTHCTM[c] * OTHCTM[c] + PSUBCM[c] * SUBCM[c] + T2VAL_CH[c] * CHM[c]/CH[c] + T2VAL_CIM[c]   if NTAXCM_VAL[c] <> 0
+@over NTAXCM_VAL[c] = PVATM[c] * VATM[c] + POTHCTM[c] * OTHCTM[c] + PSUBCM[c] * SUBCM[c] + T2VAL_CH[c] * CHM[c]/(CH[c] + eps) + T2VAL_CIM[c]   if NTAXCM_VAL[c] <> 0
 
 ##! Net taxes on imported commodity $c$
-@over NTAXCM[c]     =            VATM[c] +              OTHCTM[c] +             SUBCM[c] + T2_CH[c]    * CHM[c]/CH[c] + T2_CIM[c]      if NTAXCM[c]     <> 0
+@over NTAXCM[c]     =            VATM[c] +              OTHCTM[c] +             SUBCM[c] + T2_CH[c]    * CHM[c]/(CH[c] + eps) + T2_CIM[c]      if NTAXCM[c]     <> 0
 
 ##! Average tax rate on imported commodity $c$
 RNTAXCM[c] = NTAXCM_VAL[c] / (PM[c]  * M[c] )   if M[c] <> 0
