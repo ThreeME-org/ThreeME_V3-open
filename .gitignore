@@ -10,6 +10,9 @@ dependency.graphml
 
 # Ignore result files
 results/*.wf1
+results/*.json
+results/*/*.wf1
+results/*/*.json
 
 # Ignore project files (R, Sublime, etc.)
 
