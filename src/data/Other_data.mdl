@@ -2,15 +2,15 @@ include ..\model\lists
 
 ### From producer block
 
-phi_MGPD[m, c]  := PMGPD[m, c] * MGPD[m, c] / (sum(PMGPD[mm, c] * MGPD[mm, c] on mm))
-phi_MGPM[m, c]  := PMGPM[m, c] * MGPM[m, c] / (sum(PMGPM[mm, c] * MGPM[mm, c] on mm))
+phi_MGPD[m, c]  := PMGPD[m, c] * MGPD[m, c] / (sum(PMGPD[mm, c] * MGPD[mm, c] on mm) + eps)
+phi_MGPM[m, c]  := PMGPM[m, c] * MGPM[m, c] / (sum(PMGPM[mm, c] * MGPM[mm, c] on mm) + eps)
 
 
-phi[f, s] := C[f, s] * F_n[f, s] / (sum(C[ff, s] * F_n[ff, s] on ff))
+phi[f, s] := C[f, s] * F_n[f, s] / (sum(C[ff, s] * F_n[ff, s] on ff) + eps)
 
-phi[E, ce, s] := PCI[ce, s]*CI[ce, s] / (sum(PCI[cee, s]*CI[cee, s] on cee))
+phi[E, ce, s] := PCI[ce, s]*CI[ce, s] / (sum(PCI[cee, s]*CI[cee, s] on cee) + eps)
 
-phi_TRSP[ct, s] := PCI[ct, s]*CI[ct, s] / (sum(PCI[ctt, s]*CI[ctt, s] on ctt))
+phi_TRSP[ct, s] := PCI[ct, s]*CI[ct, s] / (sum(PCI[ctt, s]*CI[ctt, s] on ctt) + eps)
 
 F[K] := sum(F[K, s] on s)
 F[L] := sum(F[L, s] on s)
