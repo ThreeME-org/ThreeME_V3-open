@@ -73,9 +73,9 @@ next
 For %_x _0
 
       
-      graph a_graph_auto{%_x}.line(m) AUTO{%_x} AUTO_CA{%_x} AUTO_CB{%_x} AUTO_CC{%_x} AUTO_CD{%_x} AUTO_CE{%_x} AUTO_CF{%_x} AUTO_CG{%_x} AUTO_DES{%_x}  AUTO_cele{%_x} AUTO_CA_cele{%_x} AUTO_CB_cele{%_x} AUTO_CC_cele{%_x} AUTO_CD_cele{%_x} AUTO_CE_cele{%_x} AUTO_CF_cele{%_x} AUTO_CG_cele{%_x}
+      'graph a_graph_auto{%_x}.line(m) AUTO{%_x} AUTO_CA{%_x} AUTO_CB{%_x} AUTO_CC{%_x} AUTO_CD{%_x} AUTO_CE{%_x} AUTO_CF{%_x} AUTO_CG{%_x} AUTO_DES{%_x}  AUTO_cele{%_x} AUTO_CA_cele{%_x} AUTO_CB_cele{%_x} AUTO_CC_cele{%_x} AUTO_CD_cele{%_x} AUTO_CE_cele{%_x} AUTO_CF_cele{%_x} AUTO_CG_cele{%_x}
 
-      show  a_graph_auto{%_x}
+      'show  a_graph_auto{%_x}
 
 
 next
@@ -86,9 +86,9 @@ endif
 
 For %_x _0
 
-      graph a_graph_housing{%_x}.line(m) BUIL{%_x} BUIL_CA{%_x} BUIL_CB{%_x} BUIL_CC{%_x} BUIL_CD{%_x} BUIL_CE{%_x} BUIL_CF{%_x} BUIL_CG{%_x} BUIL_DES{%_x}
+      'graph a_graph_housing{%_x}.line(m) BUIL{%_x} BUIL_CA{%_x} BUIL_CB{%_x} BUIL_CC{%_x} BUIL_CD{%_x} BUIL_CE{%_x} BUIL_CF{%_x} BUIL_CG{%_x} BUIL_DES{%_x}
 
-      show  a_graph_housing{%_x}
+      'show  a_graph_housing{%_x}
       
 next
 
@@ -271,50 +271,50 @@ if %graphopt="ADEME" then
       show  a_graph_ems_0
 
       '-----------***Graph Buildings***------------------'
-      %series = ""
-      For %cl {%list_buil_class}
-          %series  = %series+" BUIL_"+%cl+%_x
-      next
-
-      graph a_graph_buil_0.line(m) {%series} BUIL{%_x}
-      show  a_graph_buil_0
-
-      %series = ""
-      For %cl {%list_ener_class}
-          %series  = %series+" 100*BUIL_"+%cl+%_x+"/BUIL"+%_x
-      next
-
-      graph a_graph_builshare_0.line(m) {%series}
-      show  a_graph_builshare_0
-
-
-
-      %series = ""
-      For %h {%list_household}
-      	For %ecl CB CC CD CE CF CG
-          		%series  = %series+" Payback_REHAB_"+%h+"_"+%ecl+%_x+" 100*tau_REHAB_"+%h+"_"+%ecl+%_x
-      	next
-      next
-
-      graph a_graph_Payback_0.line(m) {%series}
-      show  a_graph_Payback_0
-
-      '-----------***Graph Auto***------------------'
-      %series = ""
-      For %cl {%list_buil_class}
-          %series  = %series+" AUTO_"+%cl+%_x
-      next
-
-      graph a_graph_AUTO_0.line(m) {%series} AUTO{%_x}
-      show  a_graph_AUTO_0
-
-      %series = ""
-      For %cl {%list_ener_class}
-          %series  = %series+" 100*AUTO_"+%cl+%_x+"/AUTO"+%_x
-      next
-
-      graph a_graph_AUTOshare_0.line(m) {%series}
-      show  a_graph_AUTOshare_0
+''      %series = ""
+''      For %cl {%list_buil_class}
+''          %series  = %series+" BUIL_"+%cl+%_x
+''      next
+''
+''      graph a_graph_buil_0.line(m) {%series} BUIL{%_x}
+''      show  a_graph_buil_0
+''
+''      %series = ""
+''      For %cl {%list_ener_class}
+''          %series  = %series+" 100*BUIL_"+%cl+%_x+"/BUIL"+%_x
+''      next
+''
+''      graph a_graph_builshare_0.line(m) {%series}
+''      show  a_graph_builshare_0
+''
+''
+''
+''      %series = ""
+''      For %h {%list_household}
+''      	For %ecl CB CC CD CE CF CG
+''          		%series  = %series+" Payback_REHAB_"+%h+"_"+%ecl+%_x+" 100*tau_REHAB_"+%h+"_"+%ecl+%_x
+''      	next
+''      next
+''
+''      graph a_graph_Payback_0.line(m) {%series}
+''      show  a_graph_Payback_0
+''
+''      '-----------***Graph Auto***------------------'
+''      %series = ""
+''      For %cl {%list_buil_class}
+''          %series  = %series+" AUTO_"+%cl+%_x
+''      next
+''
+''      graph a_graph_AUTO_0.line(m) {%series} AUTO{%_x}
+''      show  a_graph_AUTO_0
+''
+''      %series = ""
+''      For %cl {%list_ener_class}
+''          %series  = %series+" 100*AUTO_"+%cl+%_x+"/AUTO"+%_x
+''      next
+''
+''      graph a_graph_AUTOshare_0.line(m) {%series}
+''      show  a_graph_AUTOshare_0
 
 
   endif
@@ -398,24 +398,24 @@ if %graphopt="ADEME" then
       graph a_graph_Q_Mtep_ep_sedif2.line(m)  {%series}
       show a_graph_Q_Mtep_ep_sedif2
 
-      '-----------***Graph Buildings***------------------'
-      %series = ""
-      For %cl {%list_buil_class}
-          %series  = %series+" (BUIL_"+%cl+%_x+" - BUIL_"+%cl+"_0)"
-      next
-
-      graph a_graph_buil_2.line(m) {%series} (BUIL{%_x}-BUIL_0)
-      show  a_graph_buil_2
-
-
-       '-----------***Graph Auto***------------------'
-      %series = ""
-      For %cl {%list_ener_class}
-          %series  = %series+" (AUTO_"+%cl+%_x+" - AUTO_"+%cl+"_0)"
-      next
-
-      graph a_graph_AUTO_2.line(m) {%series} (AUTO{%_x}-AUTO_0)
-      show  a_graph_AUTO_2
+'      '-----------***Graph Buildings***------------------'
+'      %series = ""
+'      For %cl {%list_buil_class}
+'          %series  = %series+" (BUIL_"+%cl+%_x+" - BUIL_"+%cl+"_0)"
+'      next
+'
+'      graph a_graph_buil_2.line(m) {%series} (BUIL{%_x}-BUIL_0)
+'      show  a_graph_buil_2
+'
+'
+'       '-----------***Graph Auto***------------------'
+'      %series = ""
+'      For %cl {%list_ener_class}
+'          %series  = %series+" (AUTO_"+%cl+%_x+" - AUTO_"+%cl+"_0)"
+'      next
+'
+'      graph a_graph_AUTO_2.line(m) {%series} (AUTO{%_x}-AUTO_0)
+'      show  a_graph_AUTO_2
 
   endif
 
