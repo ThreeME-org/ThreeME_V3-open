@@ -55,7 +55,7 @@ d(log(CI[ce, s]))    = d(log(F[E, s])) + d(SUBST_CI[ce,s])                      
 d(SUBST_CI_n[ce, s]) = sum(- ES_NRJ[ce, cee, s] * phi[E, cee, s]{-1} * d(log(PCI[ce, s]) - log(PCI[cee, s])) on cee)      if CI[ce, s]  <> 0
 
 ##! Share of energy $ce$ into the total energy use of sector $s$
-phi[E, ce, s] = (PCI[ce, s]*CI[ce, s]) / (sum(PCI[cee, s]*CI[cee, s] on cee))
+phi[E, ce, s] = (PCI[ce, s]*CI[ce, s]) / (sum(PCI[cee, s]*CI[cee, s] on cee) + eps)
 
 
 ##! Material consumption $cmo$ of sector $s$
