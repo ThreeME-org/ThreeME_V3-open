@@ -321,10 +321,18 @@ subroutine savetoexcel(string %groupresult, string %filemane,  string %duplicate
 
   endif 
 
+  %allresults = ""
   ' Copy each group of the list in a separate sheet of the (eventually duplicated) template
   for %sheet {%groupresult}
     wfsave(type=excelxml, mode=update) {%pathfile2b} range={%sheet}!a1 byrow @keep {%sheet} @smpl {%baseyear} @last
+  
+    %allresults = %allresults + " " + %sheet  
   next
+
+  group allresults {%allresults}
+  %pathfile3 = ".\..\..\results\"+{%date}+"_allresults"
+  freeze(allresults_table) allresults
+  allresults_table.save(t=csv) %pathfile3
 
 endsub
 
