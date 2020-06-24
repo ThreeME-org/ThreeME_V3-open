@@ -98,9 +98,10 @@ endif
 ' Call here the subroutine you want to use to solve the shock
 call run_scenario("baseline-steady")
  
-' call run_scenario("covid")
-' call run_scenario("covid-oil")
-call run_scenario("covid-oil-co2tax")
+call run_scenario("co2tax")
+'call run_scenario("covid")
+'call run_scenario("covid-oil")
+'call run_scenario("covid-oil-co2tax")
 
 
 ' Save Supply Use tables for sellected years and scenarii

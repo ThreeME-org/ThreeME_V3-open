@@ -67,7 +67,7 @@ ES_IM[c, s] := 0.6
 @over ES_IM[ce, s] := 0.0
 
 ## Between exported and the rest of world commodities sold abroad
-ES_X[c] := 0
+ES_X[c] := 0.6
 
 ################################
 ### Other elasticities

@@ -57,6 +57,32 @@ subroutine run_scenario(string %scenario_name)
 
   endif
 
+    if %scenario_name = "co2tax" then
+
+    ' Create a new scenario that can be compared with the baseline
+    {%modelname}.scenario(n, a=2) {%scenario_name}
+
+    smpl {%baseyear} @last
+    ' Load the data for scenario "covid"
+    call load_excel("France", "scenarii", "co2tax")
+
+    ' Interpolate the variables in the list
+    call interpolate("RCO2_VOL")
+
+     REDIS_CT_LS = 1
+     REDIS_CT_RRSC = 1 - REDIS_CT_LS
+     REDIS_CT_H = 1
+
+    ' Solve the model
+    call solvemodel(%solveopt)
+
+    call outputs_covid 
+
+    ' Exit subroutine
+    return
+
+  endif
+
   if %scenario_name = "covid" then
 
     ' Create a new scenario that can be compared with the baseline
