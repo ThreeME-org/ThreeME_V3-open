@@ -3,27 +3,32 @@ library(tidyr)
 library(ggplot2)
 library(stringr)
 library(extrafont)
-
-font_import() # takes a few minutes
+# takes a few minutes
 loadfonts(device="postscript")
 loadfonts(device = "pdf", quiet = FALSE)
 
 
-police <- "Arial"
+police <- "Calibri"
 
-line_scenario <- c("longdash", "twodash", "dotted", "solid")
-
-
+line_scenario <- c("solid", "twodash", "dotted", "longdash")
+scenario <- c("ClimatePol", "Covid", "Covid_LowOil", "Covid_lowOil_ClimatePol")
 formmat_img <- c( "png", "pdf")
-# pour trouver son user_path
-getwd()
 
-user_path <- "/Users/paul/Documents/Professionnel/"
+# pour trouver son user_path getwd()
+user_path <- str_c("/Users/paul/Documents/Professionnel/")
+
+
 path_plot <- str_c("ThreeME_V3/plots/")
+
 path_res.plot <- str_c("ThreeME_V3/results/plots/")
 
 
-plot_list <- c("plot_res.1", "plot_res.2", "plot_res.3", "plot_res.4")
+plot_list <- c("plot_res.1",
+               "plot_res.2",
+               "plot_res.3",
+               "plot_res.4",
+               "plot_res.all",
+               "plot_calib")
 
 
 for (plot in plot_list)
