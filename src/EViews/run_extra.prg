@@ -64,7 +64,7 @@ subroutine run_scenario(string %scenario_name)
 
     smpl {%baseyear} @last
     ' Load the data for scenario "covid"
-    call load_excel("France", "scenarii", "co2tax")
+    call load_excel("France", "scenarii", "co2tax_500")
 
     ' Interpolate the variables in the list
     call interpolate("RCO2_VOL")
@@ -141,7 +141,7 @@ subroutine run_scenario(string %scenario_name)
     ' Load the data for scenario "covid"
     call load_excel("France", "scenarii", "covid")
     call load_excel("France", "scenarii", "oilprice")
-    call load_excel("France", "scenarii", "co2tax")
+    call load_excel("France", "scenarii", "co2tax_500")
 
     ' Interpolate the variables in the list
     call interpolate("PWD_CC2 PWD_CDE RCO2_VOL")
