@@ -19,7 +19,7 @@ for (frmt in formmat_img){
     data_plot <- cbind(data_plot, df.temp)
   }
   
-  data_plot <- data_plot %>% gather(key = scenario, value = value, - year)
+  data_plot <- data_plot %>% `colnames<-`(c("year", scenario_label)) %>%  gather(key = scenario, value = value, - year)
   
   plot.4 <- ggplot(data =  data_plot, aes(x = year, y = value/100)) +
     geom_line(aes(linetype = scenario)) +
