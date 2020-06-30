@@ -2,7 +2,7 @@ library(scales)
 library(readxl)
 library(colorspace)
 
-plot.dir <- "plot_sector"
+plot.dir <- "plot_sector.2"
 
 
 pal <- sequential_hcl(n = 4, h = 0, c = c(0, NA, NA), l = c(30, 90), power = 1.5, register = )
@@ -11,7 +11,7 @@ frmt <- "png"
 for (frmt in formmat_img){
   
   dir.create(str_c(user_path,path_res.plot,frmt,"/", plot.dir,"/"), recursive = TRUE)
-
+  
   label_sectors <- factor(label_sectors, levels = label_sectors)
   
   rep.plot <- list()
@@ -24,14 +24,14 @@ for (frmt in formmat_img){
   data_plot <- data.frame()
   for (sc in scenario){
     df.temp <- rep.plot[[str_c("df_",sc)]] %>%
-      select(contains("X100..F_L_S")) %>%
-     `colnames<-`(str_c(sectors.desc$label_sectors)) %>%  cbind( data_year, "Scenario" = str_c(sc), .) %>% 
+      select(contains("..I_S")) %>%
+      `colnames<-`(str_c(sectors.desc$label_sectors)) %>%  cbind( data_year, "Scenario" = str_c(sc), .) %>% 
       gather(key = sectors, value = value, - year, - Scenario)
-   
-     data_plot <- rbind(data_plot,df.temp)
+    
+    data_plot <- rbind(data_plot,df.temp)
   }
   data_plot <- data_plot %>% filter(year == 2040)
-
+  
   
   
   plot_g <- ggplot() +
