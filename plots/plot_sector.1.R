@@ -2,17 +2,16 @@ library(scales)
 library(readxl)
 library(colorspace)
 
-plot.dir <- "plot_sector.1"
+plot.dir <- "plot_sector.VA"
 
 
-pal <- sequential_hcl(n = 4, h = 0, c = c(0, NA, NA), l = c(30, 90), power = 1.5, register = )
 
 frmt <- "png" 
 for (frmt in formmat_img){
   
   dir.create(str_c(user_path,path_res.plot,frmt,"/", plot.dir,"/"), recursive = TRUE)
   
-  label_sectors <- factor(label_sectors, levels = label_sectors)
+  label_sectors <- factor(sectors.desc$label_sectors, levels = sectors.desc$label_sectors)
   
   rep.plot <- list()
   for (sc in scenario){
@@ -25,7 +24,7 @@ for (frmt in formmat_img){
   for (sc in scenario){
     df.temp <- rep.plot[[str_c("df_",sc)]] %>%
       select(contains("VA_S")) %>%
-      `colnames<-`(str_c(sectors.desc$label_sectors)) %>%  cbind( data_year, "Scenario" = str_c(sc), .) %>% 
+      `colnames<-`(str_c(sectors.desc$label_sectors)) %>%  cbind( data_year, "Scenario" = df_SC$label[df_SC$scenario == str_c(sc)], .) %>% 
       gather(key = sectors, value = value, - year, - Scenario)
     
     data_plot <- rbind(data_plot,df.temp)
@@ -47,7 +46,7 @@ for (frmt in formmat_img){
     theme(
       plot.title = element_text(size = 12, family = police),
       plot.subtitle = element_text(size = 8, family = police),
-      legend.text= element_text(size = 14, family = police),
+      legend.text= element_text(size = 12, family = police),
       legend.position = "bottom",
       axis.title.x = element_text(size = 16 ,family = police),
       axis.title.y = element_text(size = 12,family = police), 
@@ -74,5 +73,7 @@ for (frmt in formmat_img){
   
   
   ggsave(str_c(plot.dir,".",frmt), plot, device = frmt, path = str_c(user_path, path_res.plot,frmt,"/", plot.dir), width = 200 , height = 300 , units = "mm", dpi = 600)
-  write.csv(data_plot,str_c(user_path,path_res.plot,frmt,"/", plot.dir,"/",plot.dir,".data.csv"))
+  ggsave(str_c(plot.dir,".pdf"), plot, device = cairo_pdf, path = str_c(user_path, path_res.plot,frmt,"/", plot.dir), width = 200 , height = 300 , units = "mm", dpi = 600)
+  
+   write.csv(data_plot,str_c(user_path,path_res.plot,frmt,"/", plot.dir,"/",plot.dir,".data.csv"))
 }

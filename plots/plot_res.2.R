@@ -1,10 +1,9 @@
-plot.dir <- "plot_res.2"
+plot.dir <- "plot_res.CO2"
 
 for (frmt in formmat_img){
   
   dir.create(str_c(user_path,path_res.plot,frmt,"/", plot.dir,"/"), recursive = TRUE)
-  
-  date <-  "2020-06-24_08-29-13"
+
   
   rep.plot <- list()
   for (sc in scenario){
@@ -41,13 +40,13 @@ for (frmt in formmat_img){
       legend.title = element_blank()
     ) +
     labs(
-      title= str_c("CO2 Emissions"), 
+      title= bquote(~CO[2]~ "Emissions"), 
       subtitle =  "" ,
       caption="",
       x= "",
       y=""
     )  
-  
+
   
   
   ggsave(str_c(plot.dir,".",frmt), plot.2, device = frmt, path = str_c(user_path, path_res.plot,frmt,"/", plot.dir), width = 300 , height = 300 , units = "mm", dpi = 600)
