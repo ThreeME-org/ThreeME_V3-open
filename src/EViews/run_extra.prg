@@ -3,6 +3,464 @@
 
 ' 'User defined subroutine (multi-scenarios, solver, targets, etc.)
 ' ============================================================================
+' ============================================================================
+' ============================================================================
+' ==============    RUN SCENARIO     =========================================
+' ============================================================================
+' This subroutine runs an individual scenario, baseline or shock: define the scenario you want to simulate in a conditionality with the extra data that is loaded using load_excel()
+' If the scenario is not defined in the conditinnalities, it runs "baseline-steady" by default (that is not extra file is loaded)
+
+subroutine run_scenario(string %scenario_name)
+  statusline Simulating scenario %scenario_name. 
+
+  if %scenario_name = "baseline-steady" then
+    
+    smpl {%baseyear} @last
+    ' Solve the model
+    call solvemodel(%solveopt)
+    ' Exit subroutine
+    return
+  endif
+
+  if %scenario_name = "baseline" then
+    ' #### Calibrate scenario baseline directly
+    smpl {%baseyear}+1 @last
+
+    ' Changes in stocks converge progressivelly to 0 
+    for %c {%list_com}
+      DSD_{%c} = DSD_{%c}(-1) * 0.8
+      DSM_{%c} = DSM_{%c}(-1) * 0.8
+    next
+    ' #### Calibrate scenario baseline from an excel sheet
+
+    ' Load the data for scenario "baseline"
+    smpl {%baseyear} @last
+    call load_excel("Tunisia", "scenarii", "baseline")
+    call load_excel("Tunisia", "scenarii", "baseline_fittarget")
+    ' Interpolate the variables in the list
+    call interpolate("POP GDP_TREND PWD_COIL PWD_CFUT PWD_CFUH PWD_CGAS PHIY_TOE_CELE_SEWI")
+
+    ' Save baseline energy subsidy rates for redistribution 
+    smpl 2015 @last
+    for %c cfut cfuh
+      RSUBCD_base_{%c} = RSUBCD_{%c}
+      RSUBCM_base_{%c} = RSUBCD_base_{%c}  
+    next
+    for %c cgas cele
+      RSUBCD_base_{%c} = RSUBCD_{%c}
+      RSUBCM_base_{%c} = RSUBCM_{%c}  
+    next
+    ' #### Simulate the scenario by solving the model
+    smpl {%baseyear} @last
+    call solvemodel(%solveopt)
+    ' Exit subroutine
+    return
+  endif
+
+ if %scenario_name = "carbontax_s1" then
+  ' Create a new scenario that can be compared with the baseline
+   {%modelname}.scenario(n, a=2) {%scenario_name}
+
+   call load_excel("Tunisia", "scenarii", "carbontax_s1")
+   call interpolate("RCO2TAX_VOL")
+ 
+   REDIS_CT_LS = 1
+   REDIS_CT_RRSC = 1 - REDIS_CT_LS
+   REDIS_CT_H = 1
+
+   call solvemodel(%solveopt) 
+
+   call outputs
+
+   ' Exit subroutine
+    return
+ endif
+
+
+endsub
+
+' ============================================================================
+' ============================================================================
+' ==============    OUTPUTS    ===============================================
+' ============================================================================
+
+subroutine outputs 
+
+' Send results to Excel 
+    %index = "2"
+    group Macro 100*(GDP_{%index}/GDP_0-1) 100*(CH_{%index}/CH_0-1) 100*(I_{%index}/I_0-1) 100*(X_{%index}/X_0-1) 100*(M_{%index}/M_0-1) 100*((DISPINC_AT_VAL_{%index}/PCH_{%index})/(DISPINC_AT_VAL_0/PCH_0)-1) 100*(RSAV_H_VAL_{%index}-RSAV_H_VAL_0) 100*(PCH_{%index}/PCH_0-1) 100*(PY_{%index}/PY_0-1)  100*(PVA_{%index}/PVA_0-1) 100*(PCI_{%index}/PCI_0-1) 100*(PX_{%index}/PX_0-1) 100*(PM_{%index}/PM_0-1) 100*(W_{%index}/W_0-1) 100*((C_L_{%index}/PVA_{%index})/(C_L_0/PVA_0)-1) (F_L_{%index}-F_L_0) 100*(UnR_{%index}-UnR_0) 100*(RBal_Trade_VAL_{%index}-RBal_Trade_VAL_0) 100*(RBal_G_Prim_VAL_{%index}-RBal_G_Prim_VAL_0) 100*(RDEBT_G_VAL_{%index}-RDEBT_G_VAL_0) 100*(EMS_CO2_{%index}/EMS_CO2_0-1) 100*(CH_0+G_0)/GDP_0*((CH_{%index}+G_{%index})/(CH_0+G_0)-1) 100*I_0/GDP_0*(I_{%index}/I_0-1) 100*(X_0-M_0)/GDP_0*((X_{%index}-M_{%index})/(X_0-M_0)-1) 100*DS_0/GDP_0*(DS_{%index}/DS_0-1)
+'output for main baseline variables
+    %baseline = "@PCH(GDP_0) @PCH(pch_0) UNR_0 RDEBT_G_VAL_0 RBal_G_Prim_VAL_0 rbal_trade_val_0 EMS_CO2_0 ESUB_GDP_0 T2VOL_CI_CO2_0 T2VOL_CH_CO2_0 POP GR_PROG_L_sgas_0 GDP_0 PCH_0 PWD_coil EMS_CH_CO2_0 EMS_CI_CO2_0 RSUBCD_cfut RSUBCD_cfuh RSUBCD_cgas RSUBCD_cele RSUBCM_cfut RSUBCM_cfuh RSUBCM_cgas RSUBCM_cele" 
+
+  ' Concatenation des strings
+   for %c {%list_com_E}
+     %baseline = %baseline + " ESUB_GDP_"+%c+"_0"
+   next
+   for %c {%list_com_E}
+   if @isobject("T2VOL_CI_CO2"+%c+"_0") = 0 then
+     %baseline = %baseline + " T2VOL_CI_CO2_"+%c+"_0"
+   endif
+   next
+   'for %c {%list_com_E}
+   'if @isobject("T2VOL_CH_CO2"+%c+"_0") = 0 then
+     '%baseline = %baseline + " T2VOL_CH_CO2_"+%c+"_0"
+   'endif
+   'next
+
+   for %c {%list_com_E}
+   if @elem(SUBC_VOL_{%c}, %baseyear) <> 0 then
+     %baseline = %baseline + " SUBC_VOL_"+%c+"_0"
+   endif
+   next
+
+' output for main shock variables
+    %shock = "@PCH(GDP_2) @PCH(pch_2) UNR_2 RDEBT_G_VAL_2 RBal_G_Prim_VAL_2 rbal_trade_val_2 EMS_CO2_2 ESUB_GDP_2 T2VOL_CI_CO2_2 T2VOL_CH_CO2_2" 
+  ' Concatenation des strings
+   for %c {%list_com_E}
+     %shock = %shock + " ESUB_GDP_"+%c+"_2"
+   next
+
+   for %c {%list_com_E}
+   if @isobject("T2VOL_CI_CO2"+%c+"_2") = 0 then
+      %shock = %shock + " T2VOL_CI_CO2_"+%c+"_2"
+   endif
+   next
+
+   'for %c {%list_com_E}
+   'if @isobject("T2VOL_CH_CO2"+%c+"_2") = 0 then
+      '%shock = %shock + " T2VOL_CH_CO2_"+%c+"_2"
+   'endif
+   'next
+  for %c {%list_com_E}
+   if @elem(SUBC_VOL_{%c}, %baseyear) <> 0 then
+     %shock = %shock + " SUBC_VOL_"+%c+"_2"
+   endif
+   next
+'Output for reporting baseline variables by secteurs and/or commodities
+   %reporting_0 = "EMS_CO2_0 EMS_CI_CO2_0 EMS_CH_CO2_0 Y_toe_0 M_toe_0 CI_toe_0 CH_toe_0 X_toe_0 F_L_0 I_0 VA_0 Y_0 CH_toe_cfuh_0 CH_toe_cgas_0 CH_HOUS_toe_cele_0 CH_toe_cfut_0 CH_TRSP_toe_cele_0 CH_toe_HOUS_0 CH_toe_TRSP_0"
+
+   for %s {%list_sec_AGREG}
+   if @elem(IA_{%s}, %baseyear) <> 0 then
+      %reporting_0 = %reporting_0 + " IA_"+%s+"_0" 
+   endif  
+   next
+
+   for %s {%list_sec_AGREG}
+   if @elem(F_L_{%s}, %baseyear) <> 0 then
+      %reporting_0 = %reporting_0 + " F_L_"+%s+"_0" 
+   endif   
+   next
+
+   for %s {%list_sec_AGREG}
+   if @elem(VA_{%s}, %baseyear) <> 0 then
+      %reporting_0 = %reporting_0 + " VA_"+%s+"_0" 
+   endif   
+   next  
+
+   for %s {%list_sec_AGREG}
+   if @elem(Y_{%s}, %baseyear) <> 0 then
+      %reporting_0 = %reporting_0 + " Y_"+%s+"_0" 
+   endif   
+   next 
+
+   for %s {%list_sec_AGREG}
+   if @elem(EMS_CI_CO2_{%s}, %baseyear) <> 0 then
+      %reporting_0 = %reporting_0 + " EMS_CI_CO2_"+%s+"_0" 
+   endif   
+   next
+
+   for %c {%list_com_E}
+   if @elem(EMS_CI_CO2_{%c}, %baseyear) <> 0 then
+      %reporting_0 = %reporting_0 + " EMS_CI_CO2_"+%c+"_0" 
+   endif
+   next
+
+   for %c {%list_com_E}
+   if @elem(EMS_CH_CO2_{%c}, %baseyear) <> 0 then
+      %reporting_0 = %reporting_0 + " EMS_CH_CO2_"+%c+"_0" 
+   endif
+   next
+
+   for %s {%list_sec_AGREG}
+   if @elem(Y_TOE_{%s}, %baseyear) <> 0 then
+      %reporting_0 = %reporting_0 + " Y_TOE_"+%s+"_0"
+   endif    
+   next
+
+   for %s {%list_sec_AGREG}
+   if @elem(CI_TOE_{%s}, %baseyear) <> 0 then
+     %reporting_0 = %reporting_0 + " CI_TOE_"+%s+"_0" 
+   endif  
+   next
+
+   for %c {%list_com_E}
+    if @elem(CI_TOE_{%c}, %baseyear) <> 0  then 
+      %reporting_0 = %reporting_0 + " CI_TOE_"+%c+"_0" 
+    endif  
+   next
+
+   for %c {%list_com_E}
+    if @elem(CH_TOE_{%c}, %baseyear) <> 0  then 
+      %reporting_0 = %reporting_0 + " CH_TOE_"+%c+"_0" 
+    endif  
+   next   
+
+   for %c {%list_com_E}
+    if @elem(X_TOE_{%c}, %baseyear) <> 0  then 
+      %reporting_0 = %reporting_0 + " X_TOE_"+%c+"_0" 
+    endif  
+   next 
+
+  for %c {%list_com_E}
+    if @elem(M_TOE_{%c}, %baseyear) <> 0  then 
+      %reporting_0 = %reporting_0 + " M_TOE_"+%c+"_0" 
+    endif  
+   next 
+
+  for %c {%list_com_E}
+    for %s {%list_sec_AGREG}
+    if @elem(CI_TOE_{%c}_{%s}, %baseyear) <> 0  then 
+      %reporting_0 = %reporting_0 + " CI_TOE_"+%c+"_"+%s+"_0" 
+    endif  
+    next
+  next
+
+  for %c {%list_com_E}
+    for %s {%list_sec_AGREG}
+    if @elem(Y_TOE_{%c}_{%s}, %baseyear) <> 0  then 
+      %reporting_0 = %reporting_0 + " Y_TOE_"+%c+"_"+%s+"_0" 
+    endif  
+    next
+  next 
+
+
+'Output for reporting shock variables by secteurs and/or commodities
+   %reporting_2 = "EMS_CO2_2 EMS_CI_CO2_2 EMS_CH_CO2_2 Y_toe_2 M_toe_2 CI_toe_2 CH_toe_2 X_toe_2 F_L_2 I_2 VA_2 Y_2 CH_toe_cfuh_2 CH_toe_cgas_2 CH_HOUS_toe_cele_2 CH_toe_cfut_2 CH_TRSP_toe_cele_2 CH_toe_HOUS_2 CH_toe_TRSP_2"
+   for %s {%list_sec_AGREG}
+   if @elem(IA_{%s}, %baseyear) <> 0 then
+      %reporting_2 = %reporting_2 + " IA_"+%s+"_2" 
+   endif
+   next
+   for %s {%list_sec_AGREG}
+   if @elem(F_L_{%s}, %baseyear) <> 0 then
+      %reporting_2 = %reporting_2 + " F_L_"+%s+"_2" 
+   endif
+   next
+   for %s {%list_sec_AGREG}
+   if @elem(VA_{%s}, %baseyear) <> 0 then
+      %reporting_2 = %reporting_2 + " VA_"+%s+"_2" 
+   endif   
+   next  
+   for %s {%list_sec_AGREG}
+   if @elem(Y_{%s}, %baseyear) <> 0 then
+      %reporting_2 = %reporting_2 + " Y_"+%s+"_2" 
+   endif   
+   next   
+   for %s {%list_sec_AGREG}
+   if @elem(EMS_CI_CO2_{%s}, %baseyear) <> 0 then
+      %reporting_2 = %reporting_2 + " EMS_CI_CO2_"+%s+"_2" 
+   endif
+   next
+   for %c {%list_com_E}
+   if @elem(EMS_CI_CO2_{%c}, %baseyear) <> 0 then
+      %reporting_2 = %reporting_2 + " EMS_CI_CO2_"+%c+"_2" 
+   endif
+   next
+   for %c {%list_com_E}
+   if @elem(EMS_CH_CO2_{%c}, %baseyear) <> 0 then
+      %reporting_2 = %reporting_2 + " EMS_CH_CO2_"+%c+"_2" 
+   endif
+   next
+   for %s {%list_sec_AGREG}
+   if @elem(Y_TOE_{%s}, %baseyear) <> 0 then
+      %reporting_2 = %reporting_2 + " Y_TOE_"+%s+"_2"
+   endif 
+   next
+   for %s {%list_sec_AGREG}
+   if @elem(CI_TOE_{%s}, %baseyear) <> 0 then
+     %reporting_2 = %reporting_2 + " CI_TOE_"+%s+"_2"
+   endif   
+   next
+   for %c {%list_com_E}
+    if @elem(CI_TOE_{%c}, %baseyear) <> 0  then 
+      %reporting_2 = %reporting_2 + " CI_TOE_"+%c+"_2" 
+    endif  
+   next
+   for %c {%list_com_E}
+    if @elem(CH_TOE_{%c}, %baseyear) <> 0  then 
+      %reporting_2 = %reporting_2 + " CH_TOE_"+%c+"_2" 
+    endif  
+   next   
+   for %c {%list_com_E}
+    if @elem(X_TOE_{%c}, %baseyear) <> 0  then 
+      %reporting_2 = %reporting_2 + " X_TOE_"+%c+"_2" 
+    endif  
+   next
+  for %c {%list_com_E}
+    if @elem(M_TOE_{%c}, %baseyear) <> 0  then 
+      %reporting_2 = %reporting_2 + " M_TOE_"+%c+"_2" 
+    endif  
+   next 
+  for %c {%list_com_E}
+    for %s {%list_sec_AGREG}
+    if @elem(CI_TOE_{%c}_{%s}, %baseyear) <> 0  then 
+      %reporting_2 = %reporting_2 + " CI_TOE_"+%c+"_"+%s+"_2" 
+    endif  
+    next
+  next
+  for %c {%list_com_E}
+    for %s {%list_sec_AGREG}
+    if @elem(Y_TOE_{%c}_{%s}, %baseyear) <> 0  then 
+      %reporting_2 = %reporting_2 + " Y_TOE_"+%c+"_"+%s+"_2" 
+    endif  
+    next
+  next
+    group Baseline_SUB {%baseline}  
+    group shock_SUB {%shock}
+    group reporting_base {%reporting_0}
+    group reporting_shock {%reporting_2}
+call savetoexcel("Macro Baseline_SUB Shock_SUB reporting_base reporting_shock", "Result_Tunisie.xlsx", "YES")
+endsub
+' ============================================================================
+' ============================================================================
+' ==============    SAVE TO EXCEL    =========================================
+' ============================================================================
+' This subroutine copies results to excel using the template %filemane located in the directory "result". It copies the list of groups "%groupresult" (Syntax: "group1 group2 group 3") in the sheet using the name of the group. A sheet per group is created or filled in (if already existing).  If the %duplicate% = "YES", the template is replicated with a name starting with the date and hours. Otherwise it writes directly in the template. Important: Do not use spaces in the name of the template.
+
+subroutine savetoexcel(string %groupresult, string %filemane,  string %duplicate)
+
+  if %duplicate = "YES" then
+
+    ' Defines the date string
+    %date = @addquotes(@strnow("YYYY-MM-DD_HH-MI-SS"))
+    '@uiprompt(@addquotes({%date}))
+
+    ' Defines the path of the template (for windows shell)
+    %pathfile = "..\..\results\"+%filemane
+    '@uiprompt(@addquotes(%pathfile))
+
+    ' Defines the path of the duplicated template with the date (for windows shell)
+    %pathfile2 = "..\..\results\"+{%date}+"_"+%filemane
+    ' Defines the command for windows shell: duplicates the template under another name
+    %cmd = "copy "+%pathfile+" "+%pathfile2 
+    shell(h) {%cmd}
+
+    ' Defines the path of the duplicated template (for the wfsave command of Eviews)
+    %pathfile2b = ".\..\..\results\"+{%date}+"_"+%filemane
+ 
+  else
+    ' Defines the path of the template (for the wfsave command of Eviews)
+    %pathfile2b = ".\..\..\results\"+%filemane
+
+  endif 
+
+  ' Copy each group of the list in a separate sheet of the (eventually duplicated) template
+  for %sheet {%groupresult}
+    wfsave(type=excelxml, mode=update) {%pathfile2b} range={%sheet}!a1 byrow @keep {%sheet} @smpl {%baseyear} @last
+  next
+endsub
+' ============================================================================
+' ============================================================================
+' ==============    INTERPOLATE      =========================================
+' ============================================================================
+' This subroutine interpolates a list of series %list_na (syntax: "SER1 SER2 SER3") with missing data. At least the baseyear and last date should be available. The subroutines (1) creates a backup of the series computing its steady state calibration; (2) interpolates the series (_int); (3) saves the incomplete series (_na); (4) replaces the series with the interpolated trajectory.
+
+subroutine interpolate(string %list_na)
+    
+    smpl @all
+    ' Interpolate all the variables in the list
+    for  %series {%list_na}
+      ' Backup of the steady state calibration of the series
+      if @elem({%series}, %baseyear) <> 0 then
+        'series {%series}_bckp = @elem({%series}, {%baseyear}) * (@elem({%series}, {%baseyear})/@elem({%series}(-1), {%baseyear})) ^ (@year - {%baseyear})
+      else
+        series {%series}_bckp = 0
+      endif
+      ' Interpolation of the series
+      if @elem({%series}, %baseyear) > 0 then
+        {%series}.ipolate(type=lcr) {%series}_int
+        ' lcr (log-Catmull-Rom spline) provide the best interpolation: the most stable growth rate
+        ' lcr is equivalent to lcs (log-cardinal spline) with tension=0.0 :
+        ' {%series}.ipolate(type=lcs, tension=0.0) {%series}_int
+      else
+         {%series}.ipolate(type=cr) {%series}_int
+      endif
+      ' Saves the incomplete series
+      series {%series}_na = {%series}
+
+      ' Replaces the series with the interpolated trajectory
+      {%series} = {%series}_int
+    next 
+endsub
+subroutine interpolate_period(string %list_na, string %firstyear, string %lastyear)
+    
+    smpl {%firstyear} {%lastyear}
+    ' Interpolate all the variables in the list
+    for  %series {%list_na}
+
+      ' Interpolation of the series
+      if @elem({%series}, %firstyear) > 0 then
+        {%series}.ipolate(type=lcr) {%series}_int
+        ' lcr (log-Catmull-Rom spline) provide the best interpolation: the most stable growth rate
+        ' lcr is equivalent to lcs (log-cardinal spline) with tension=0.0 :
+        ' {%series}.ipolate(type=lcs, tension=0.0) {%series}_int
+      else
+         {%series}.ipolate(type=cr) {%series}_int
+      endif
+
+      ' Saves the incomplete series
+      series {%series}_na = {%series}
+      ' Replaces the series with the interpolated trajectory
+      {%series} = {%series}_int
+
+    next 
+
+endsub
+
+
+
+
+' ============================================================================
+' ============================================================================
+' ==============    CHECK ADDFACTOR  =========================================
+' ============================================================================
+
+' This subroutine check if the model is correctly calibrated at the baseyear.
+subroutine checkaddfactor(string %model,scalar !threshold)
+statusline Creating Add factors and checking if they are different from 0 at baseyear.
+' Put add factors to all equations
+smpl @all
+{%modelname}.addassign @all
+' Set add factor values so that the equation has no residual when evaluated at actuals
+{%modelname}.addinit(v=n) @all
+' Make the list of all endogenous variables
+%endo = {%modelname}.@endoglist
+
+' Initialisation of the list of imballanced equations
+%imbalance = ""
+' Checking and listing the equations with non zero addfactors
+for %var {%endo} 
+  if @abs(@elem({%var}_a, %baseyear)) > !threshold then
+    %imbalance = %imbalance +" "+%var+"_a"
+  endif
+next 
+
+' Result messages
+shell(h) rundll32 user32.dll,MessageBeep
+if @str(@wcount(%imbalance)) > 0 then
+  scalar answer = @uiprompt("WARNING: NON ZERO ADD FACTORS AT BASEYEAR: "+@str(@wcount(%imbalance))+" equations have a calibration imballance higher than "+@str(!threshold)+". Would you like see them and abord?", "YN")
+  if answer = 1 then
+      smpl {%baseyear} {%baseyear}
+      show {%imbalance}
+      stop
+  endif
+else
+ @uiprompt("CHECK ADD FACTORS OK !")
+endif
+endsub
+
+
+
 
 ' ============================================================================
 ' ============================================================================
@@ -260,39 +718,6 @@ subroutine run_baseshock
 
 endsub
 
-' ============================================================================
-' +++++++++++++++++++++++++++
-' Subroutine "run_scenario"
-' +++++++++++++++++++++++++++
-
-' This subroutine runs an individual scenario, baseline or shock
-' Pass in "baseline" as the %scenario_name for the baseline scenario
-
-subroutine run_scenario(string %scenario_name)
-
-  if %scenario_name = "baseline" then
-
-    ' Load a realistic reference scenario if requested (in configuration.prg)
-    if %ref="realist" then
-      call load_realist
-    endif
-
-    ' Solve the model
-    call solvemodel(%solveopt)
-
-  else
-
-    ' Create a new scenario that can be compared with the baseline
-    {%modelname}.scenario(n, a=2) {%scenario_name}
-
-    ' Load data for the shock to be simulated
-    call load_data_shocks(%scenario_name)
-
-    call solvemodel(%solveopt)
-
-  endif
-
-endsub
 
 
 ' ============================================================================
