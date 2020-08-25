@@ -25,8 +25,14 @@ d(log(EMS_CH[ghg,c]))   = d(log(CH[c]     * IEMS_CH[ghg,c]))            if EMS_C
 ##! Emissions of the greenhouse gas $ghg$ related to the intermediary consumption of commodity $c$
 EMS_CI[ghg,c]  = sum( EMS_CI[ghg,c,s] if EMS_CI[ghg,c,s] <> 0 on s )    if EMS_CI[ghg,c]  <> 0
 
+##! Emissions of the greenhouse gas related to the intermediary consumption of commodity $c$
+EMS_CI[c]  = sum( EMS_CI[ghg,c] if EMS_CI[ghg,c] <> 0 on ghg )    if EMS_CI[c] <> 0
+
 ##! Emissions of the greenhouse gas $ghg$ related to the intermediary consumption by sector $s$
 EMS_CI[ghg,s]  = sum( EMS_CI[ghg,c,s] if EMS_CI[ghg,c,s] <> 0 on c )    if EMS_CI[ghg,s]  <> 0
+
+##! Emissions of the greenhouse gas related to the intermediary consumption of sectors
+EMS_CI[s]  = sum( EMS_CI[ghg,s] if EMS_CI[ghg,s] <> 0 on ghg )    if EMS_CI[s]  <> 0
 
 ##! Emissions of the greenhouse gas $ghg$ related to the intermediary consumption
 EMS_CI[ghg]    = sum( EMS_CI[ghg,s]   if EMS_CI[ghg,s]   <> 0 on s )    if EMS_CI[ghg]    <> 0
@@ -42,6 +48,12 @@ EMS_Y[ghg]     = sum( EMS_Y[ghg,s]    if EMS_Y[ghg,s]    <> 0 on s )    if EMS_Y
 
 ##! Emissions of the greenhouse gas $ghg$ related to the household final consumption
 EMS_CH[ghg]    = sum( EMS_CH[ghg,c]   if EMS_CH[ghg,c]   <> 0 on c )    if EMS_CH[ghg]    <> 0
+
+##! Emissions of the greenhouse gas related to the household final consumption of commodity $c$
+EMS_CH[c]    = sum( EMS_CH[ghg,c]   if EMS_CH[ghg,c]   <> 0 on ghg )    if EMS_CH[c]    <> 0
+
+##! Emissions of the greenhouse gas related to commodity $c$
+EMS[c] = EMS_CI[c] + EMS_CH[c]  if EMS[c] <> 0
 
 ##! Aggregate emissions of the greenhouse gas $ghg$
 EMS[ghg]       = EMS_CI[ghg] + EMS_MAT[ghg] + EMS_Y[ghg] + EMS_CH[ghg]  if EMS[ghg]       <> 0
@@ -63,3 +75,5 @@ EMS            = EMS_CI + EMS_MAT + EMS_Y + EMS_CH
 
 ##! Aggregate emissions by type of gas $ghg$
 EMSbis         = sum( EMS[ghg]        if EMS[ghg]        <> 0 on ghg )
+
+

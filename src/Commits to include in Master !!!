@@ -1,0 +1,17 @@
+Commits to include in Master !!!
+
+Suivre ordre d'apparition!!!
+
+git cherry-pick
+
+  d9f2193b179378424b20080a0077e9c42280a1e0
+
+  14cd1cecafaf541e39972674d488fe7ee1799285
+
+  d19e5fbef696e669f75c21937a814a0b83856ddc
+
+include agregate variables in block energybalance
+	cd5a2c70167d4ccd00fb1a2daf735957516f0f68
+
+Cherrypick to master: add emission aggregations (per com et per sect)
+	21ff70fd6ba1b996556cf880fc78d675201df18b

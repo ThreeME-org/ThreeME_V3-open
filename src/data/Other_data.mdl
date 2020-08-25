@@ -81,7 +81,11 @@ RBal_Trade_VAL := Bal_Trade_VAL / (PGDP * GDP)
 
 EMS_CI[ghg,c] := sum(EMS_CI[ghg,c,s] on s)
 
+EMS_CI[c]  := sum(EMS_CI[ghg,c] on ghg)
+
 EMS_CI[ghg,s] := sum(EMS_CI[ghg,c,s] on c)
+
+EMS_CI[s]  := sum(EMS_CI[ghg,s] on ghg)
 
 EMS_CI[ghg] := sum(EMS_CI[ghg,s] on s)
 
@@ -92,6 +96,10 @@ EMS_MAT[ghg] := sum(EMS_MAT[ghg,s] on s)
 EMS_Y[ghg] := sum(EMS_Y[ghg,s] on s)
 
 EMS_CH[ghg] := sum(EMS_CH[ghg,c] on c)
+
+EMS_CH[c]  := sum(EMS_CH[ghg,c] on ghg)
+
+EMS[c] := EMS_CI[c] + EMS_CH[c]
 
 EMS[ghg] := EMS_CI[ghg] + EMS_MAT[ghg] + EMS_Y[ghg] + EMS_CH[ghg]
 
@@ -117,6 +125,20 @@ CI_toe[ce] := sum(CI_toe[ce, s] on s)
 
 
 Y_toe[ce] + M_toe[ce] := CI_toe[ce] + CH_toe[ce] + X_toe[ce]
+
+CI_toe[s]  := sum(CI_toe[ce, s] on ce)
+
+CI_toe     := sum(CI_toe[ce] on ce)
+
+CH_toe     := sum(CH_toe[ce] on ce)
+
+X_toe      := sum(X_toe[ce] on ce)
+
+Y_toe[s]   := sum(Y_toe[ce, s] on ce)
+
+Y_toe      := sum(Y_toe[ce] on ce)
+
+M_toe      := sum(M_toe[ce] on ce)
 
 YG_toe[ce, s] := Y_toe[ce, s] + DLY_toe[ce, s] + AC_toe[ce, s]
 
