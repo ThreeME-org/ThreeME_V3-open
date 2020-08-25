@@ -65,7 +65,7 @@ CH_HOUSENER_VAL = CH_HOUS_VAL - CH_HOUSINV_VAL
 ##! Share of housing investment expenditures into the total housing expenditures
 phi_MCH_HOUSINV	= 1 /( 1 + @elem( CH_HOUSENER_VAL/CH_HOUSINV_VAL  , %baseyear) * exp(SUBST_HOUSINV))  if CH_HOUSINV_VAL    <> 0
 
-##! Substitution effect induced by a change in the relative price between investment and energy housing expenditures
+##! Substitution between housing investment and energy housing expenditures
 d(SUBST_HOUSINV) 	= (1 - ES_HOUS_INV_ENER) * d(log(PCH_HOUSENER/PCH_HOUSINV))  if CH_HOUSINV_VAL    <> 0
 
 ##! Price of the aggregate energy expenditure related to housing
@@ -120,9 +120,8 @@ CH_TRSPENER_VAL = CH_TRSP_VAL[auto] - CH_TRSPINV_VAL
 ##! Share of automobile transport investment expenditures into the total automobile transport expenditures
 phi_MCH_TRSPINV	= 1 /( 1 + @elem( CH_TRSPENER_VAL/CH_TRSPINV_VAL  , %baseyear) * exp(SUBST_TRSPINV))  if CH_TRSPINV_VAL    <> 0
 
-##! Share of automobile transport investment expenditures into the total automobile transport expenditures
+##! Substitution between automobile investment and energy automobile expenditures
 d(SUBST_TRSPINV) 	= (1 - ES_TRSP_INV_ENER) * d(log(PCH_TRSPENER/PCH_TRSPINV))  if CH_TRSPINV_VAL    <> 0
-
 
 ##! Price of the aggregate energy expenditure related to automobile transport
 PCH_TRSPENER = PCH_TRSPENER_CES    # SUPPRIMER 1 DES 2 ?

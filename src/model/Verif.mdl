@@ -59,8 +59,8 @@ verif_EMS_CIbis[ghg] = (EMS_CIbis[ghg]/EMS_CI[ghg] - 1)*100 if EMS_CIbis[ghg] <>
 
 verif_EMSbis = (EMSbis/EMS - 1)*100
 
-verif_PhiY[ce, s] = (PhiY[ce, s] - PhiY_toe[ce, s])*100
-# Equal to 0 if all PY_toe[ce, s] = PY_toe[ce].
+# verif_PhiY[ce, s] = (PhiY[ce, s] - PhiY_toe[ce, s])*100
+# Equal to 0 if all PY_toe[ce, s] = PY_toe[ce] and if no service energy sector providers (such as electricity transmission since their toe is equal to zero). This verif is therefore deactivated.
 
 
 verif_YG_toebis[ce] = (YG_toebis[ce]/YG_toe[ce] - 1)*100 if YG_toe[ce] <> 0
