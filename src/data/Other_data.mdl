@@ -117,7 +117,7 @@ EMSbis := sum(EMS[ghg] on ghg)
 
 EMS[ghg,c] := EMS_CI[ghg,c] + EMS_CH[ghg,c] 
 
-EMS[c] := sum(EMS[ghg,c] on ghg)
+EMSbis[c] := sum(EMS[ghg,c] on ghg)
 
 # From energy balance
 
