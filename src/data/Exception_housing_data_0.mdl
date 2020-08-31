@@ -39,6 +39,8 @@ NCH_BUIL[cfuh] := CH[cfuh] * 0.2
 NCH_BUIL[cgas] := CH[cgas] * 0.95
 NCH_BUIL[cele] := CH[cele] * 0.8
 NCH_BUIL[chea] := CH[chea] * 1.0
+NCH_BUIL[cbio] := CH[cbio] * 1.0
+
 
 #######################################
 ######################################
