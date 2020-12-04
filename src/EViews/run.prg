@@ -51,23 +51,23 @@ else
   model {%modelname}
   
   ' Load calibration data from the Excel file (if needed)
-  ' call load_calibration
+  call load_calibration
 
   ' Create the series using the dependencies (add-ins "series")
   statusline "Compiling the calibration of the model's variables... Please wait it may take a few minuts..."
-  {%modelname}.series ..\model\lists parameters R_Calibration_FRA round0 Prices_data SU_data Special_data Other_data Exception_taxes_prices_data 'Exception_NestedCES_data
+  '{%modelname}.series ..\model\lists parameters R_Calibration_FRA round0 Prices_data SU_data Special_data Other_data Exception_taxes_prices_data Exception_NestedCES_data Exception_housing_data_0 Exception_housing_data
   ' Exception_ConsumerNested_data  Exception_Other_data
 
   ' CREATE SERIES FOR THE HOUSING AND TRANSPORT BLOCKS (from the "scr/data" folder)
 
   ' Create the "round0" series for the housing block (initialization)
-  '{%modelname}.series Exception_housing_data_0
+  {%modelname}.series Exception_housing_data_0 Exception_housing_data
 
   ' Export all variables to a csv file (used by the external compiler)
   call export_all_to_csv
 
   ' Create the series with if conditionalities (Housing block) 
-  '{%modelname}.series Exception_housing_data_if
+  {%modelname}.series Exception_housing_data_if
     
   ' Create the series for the Housing block 
   '{%modelname}.series Exception_housing_data
@@ -113,7 +113,7 @@ endif
 ' Call here the subroutine you want to use to solve the shock
 call run_scenario("baseline-steady")
 
-
+stop
 ' ****************************************
 ' call run_standard("EXPG1", %iso3, 1)
 ' call run_standard("CT1 CT2 SUB1 SUB2 SUB3 EXPG1 INCT1 VAT1 FF10", %iso3, 1) ' Option: 1 for result in excel template; 0 only scenario run

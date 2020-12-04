@@ -49,7 +49,11 @@ tau[ecl] := sigma[ecl]*Payback_REHAB[ecl] + log((tau_REHAB_MIN[ecl]-tau_REHAB_MA
 nu_REHAB[ecl] := (tau_REHAB_MAX[ecl] - tau_REHAB_MIN[ecl]) * sigma[ecl] * Payback_REHAB[ecl] * EXP(tau[ecl] - sigma[ecl] * Payback_REHAB[ecl]) / (1 + EXP(tau[ecl] - sigma[ecl] * Payback_REHAB[ecl]))^2
 
 
-NCH[ccon] := @elem(PNewBUIL * NewBUIL + PREHAB * REHAB, %baseyear) * ( 1 +  GR_REAL) ^ (@year - %baseyear)
+@over NCH[ccon] := @elem(PNewBUIL * NewBUIL + PREHAB * REHAB, %baseyear) * ( 1 +  GR_REAL) ^ (@year - %baseyear)
+
+PREHAB[ecl] := (sum((1 - R_SUB[ecl,ecl2])*PREHAB[ecl,ecl2]*REHAB[ecl,ecl2] on ecl2) ) / (REHAB[ecl] + eps)
+
+
 
 SUBST_NRJperM2[ecl, ceb] := 0
 
