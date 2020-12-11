@@ -7,6 +7,9 @@
 #### Link with the rest of the model
 # FOR THE MAIN TEXT IN THE DOCUMENTATION !!! When this block is activated, the expenditures related to construction, transport, vehicles and energy commodities are not defined anymore by the basic version of the consumer block (see Section Consumer). To do so the necessary (minimum) households' final consumption for this commodity is endogenized and calibrated at their total at the base year: $NCH_{c} = CH_{c}$ for $c$ \in  \{ ccon,ct,cveh,ceb \}$. In other words, we assume that these expenditures have the priority over the other ones. \\
 
+##! Necessary (minimum) households' final consumption for energy commodity $ce$
+NCH[ce] = NCH_BUIL[ce] + NCH_AUTO[ce]
+
 ##! Necessary (minimum) households' final consumption for construction commodity $ccon$
 NCH[ccon]   = (@year > %baseyear) * (@elem(PNewBUIL,%baseyear) * NewBUIL + @elem(PREHAB,%baseyear) * REHAB) _
             + (@year <= %baseyear) * (NCH[ccon]{-1} * ( 1 + GR_REAL ))

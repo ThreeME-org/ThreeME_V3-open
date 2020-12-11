@@ -55,13 +55,13 @@ else
 
   ' Create the series using the dependencies (add-ins "series")
   statusline "Compiling the calibration of the model's variables... Please wait it may take a few minuts..."
-  '{%modelname}.series ..\model\lists parameters R_Calibration_FRA round0 Prices_data SU_data Special_data Other_data Exception_taxes_prices_data Exception_NestedCES_data Exception_housing_data
+  {%modelname}.series ..\model\lists parameters R_Calibration_FRA round0 Prices_data SU_data Special_data Other_data Exception_taxes_prices_data Exception_NestedCES_data Exception_housing_data
   ' Exception_ConsumerNested_data  Exception_Other_data
 
   ' CREATE SERIES FOR THE HOUSING AND TRANSPORT BLOCKS (from the "scr/data" folder)
 
   ' Create the "round0" series for the housing block (initialization)
-  {%modelname}.series Exception_housing_data
+  '{%modelname}.series Exception_housing_data
 
   ' Export all variables to a csv file (used by the external compiler)
   call export_all_to_csv

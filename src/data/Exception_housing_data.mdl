@@ -6,47 +6,51 @@ include ..\model\lists
 #################################################
 
 ### TO BE COMMENTED when linked with the full model
-include parameters
+# include parameters
 
-eps := 0.000000000001
+# eps := 0.000000000001
 
-P 		 :=  1 * (1 + GR_PRICES) ^ (@year - %baseyear)
+# P 		 :=  1 * (1 + GR_PRICES) ^ (@year - %baseyear)
 
-PCH[ceb] := P
+# PCH[ceb] := P
 
-PCH[CCON]:= P
+# PCH[CCON]:= P
 
-CH[ccoa] := 89.463215033    * (1 + GR_REAL) ^ (@year - %baseyear)
-CH[cfuh] := 324.95231566 * (1 + GR_REAL) ^ (@year - %baseyear)
-CH[cgas] := 3969.95874284 * (1 + GR_REAL) ^ (@year - %baseyear)
-CH[cele] := 27385.063664725 * (1 + GR_REAL) ^ (@year - %baseyear)
-CH[chea] := 3951.03275349 * (1 + GR_REAL) ^ (@year - %baseyear)
-CH[cbio] := 51.03275349 * (1 + GR_REAL) ^ (@year - %baseyear)
+# CH[ccoa] := 89.463215033    * (1 + GR_REAL) ^ (@year - %baseyear)
+# CH[cfuh] := 324.95231566 * (1 + GR_REAL) ^ (@year - %baseyear)
+# CH[cgas] := 3969.95874284 * (1 + GR_REAL) ^ (@year - %baseyear)
+# CH[cele] := 27385.063664725 * (1 + GR_REAL) ^ (@year - %baseyear)
+# CH[chea] := 3951.03275349 * (1 + GR_REAL) ^ (@year - %baseyear)
+# CH[cbio] := 51.03275349 * (1 + GR_REAL) ^ (@year - %baseyear)
 
-POP := 72462.64550252939 * (1 + GR_POP) ^ (@year - %baseyear)
+# POP := 72462.64550252939 * (1 + GR_POP) ^ (@year - %baseyear)
 
-DISPINC_AT_VAL := 1362573.016990683 * (1 + GR_NOMI) ^ (@year - %baseyear)
+# DISPINC_AT_VAL := 1362573.016990683 * (1 + GR_NOMI) ^ (@year - %baseyear)
 
-PCH := P
+# PCH := P
 
 ### END TO BE COMMENTED when linked with the full model
 
 # Share of household's energy consumption used by buildings
-NCH_BUIL[ccoa] := CH[ccoa] * 1.0
-NCH_BUIL[cfuh] := CH[cfuh] * 1.0
-NCH_BUIL[cgas] := CH[cgas] * 0.95
-NCH_BUIL[cele] := CH[cele] * 0.8
-NCH_BUIL[chea] := CH[chea] * 1.0
-NCH_BUIL[cbio] := CH[cbio] * 1.0
+
+NCH_BUIL[ce] := 0
+@over NCH_BUIL[ccoa] := CH[ccoa] * 1.0
+@over NCH_BUIL[cfuh] := CH[cfuh] * 1.0
+@over NCH_BUIL[cgas] := CH[cgas] * 0.95
+@over NCH_BUIL[cele] := CH[cele] * 0.8
+@over NCH_BUIL[chea] := CH[chea] * 1.0
+@over NCH_BUIL[cbio] := CH[cbio] * 1.0
 
 @over NCH[ccon] := @elem(PNewBUIL * NewBUIL + PREHAB * REHAB, %baseyear) * ( 1 +  GR_REAL) ^ (@year - %baseyear)
 
 # Share of household's energy consumption used by automobiles
-NCH_AUTO[cele] := CH[cele] * 0.2
-NCH_AUTO[cgas] := CH[cgas] * 0.05
 
-@over NCH[c] := NCH_BUIL[c] + NCH_AUTO[c] where c in cele cgas
+NCH_AUTO[ce] := 0
+@over NCH_AUTO[cfut] := CH[cfut] * 1.0
+@over NCH_AUTO[cgas] := CH[cgas] * 0.05
+@over NCH_AUTO[cele] := CH[cele] * 0.19999
 
+@over NCH[ce] := NCH_BUIL[ce] + NCH_AUTO[ce]
 
 #######################################
 ######################################
