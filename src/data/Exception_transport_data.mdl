@@ -78,10 +78,11 @@ theta_U_AUTO_UC_E := 0.2
 
 ### END TO BE COMMENTED when linked with the full model
 
-NCH_AUTO[cele] := CH[cele] * 0.01
-NCH_AUTO[cfut] := CH[cfut] * 0.8
-NCH_AUTO[cgas] := CH[cgas] * 0.05
+## To be activated if Transport block alone 
+# NCH_AUTO[cele] := CH[cele] * 0.01
+# NCH_AUTO[cgas] := CH[cgas] * 0.05
 
+NCH_AUTO[cfut] := CH[cfut] * 0.8
 NCH[cth] := CH[cth] * 1.0
 
 NCH[cveh] := @elem(PNewAUTO*NewAUTO + UC_M_AUTO*AUTO, %baseyear) * (1 + GR_REAL) ^ (@year - %baseyear)

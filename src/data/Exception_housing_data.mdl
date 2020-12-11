@@ -1,5 +1,153 @@
 include ..\model\lists
 
+
+#############################################
+#### Link with the rest of the model
+#################################################
+
+### TO BE COMMENTED when linked with the full model
+include parameters
+
+eps := 0.000000000001
+
+P 		 :=  1 * (1 + GR_PRICES) ^ (@year - %baseyear)
+
+PCH[ceb] := P
+
+PCH[CCON]:= P
+
+CH[ccoa] := 89.463215033    * (1 + GR_REAL) ^ (@year - %baseyear)
+CH[cfuh] := 324.95231566 * (1 + GR_REAL) ^ (@year - %baseyear)
+CH[cgas] := 3969.95874284 * (1 + GR_REAL) ^ (@year - %baseyear)
+CH[cele] := 27385.063664725 * (1 + GR_REAL) ^ (@year - %baseyear)
+CH[chea] := 3951.03275349 * (1 + GR_REAL) ^ (@year - %baseyear)
+CH[cbio] := 51.03275349 * (1 + GR_REAL) ^ (@year - %baseyear)
+
+POP := 72462.64550252939 * (1 + GR_POP) ^ (@year - %baseyear)
+
+DISPINC_AT_VAL := 1362573.016990683 * (1 + GR_NOMI) ^ (@year - %baseyear)
+
+PCH := P
+
+### END TO BE COMMENTED when linked with the full model
+
+# Share of household's energy consumption used by buildings
+NCH_BUIL[ccoa] := CH[ccoa] * 0.0
+NCH_BUIL[cfuh] := CH[cfuh] * 1.0
+NCH_BUIL[cgas] := CH[cgas] * 0.95
+NCH_BUIL[cele] := CH[cele] * 0.8
+NCH_BUIL[chea] := CH[chea] * 1.0
+NCH_BUIL[cbio] := CH[cbio] * 1.0
+
+@over NCH[ccon] := @elem(PNewBUIL * NewBUIL + PREHAB * REHAB, %baseyear) * ( 1 +  GR_REAL) ^ (@year - %baseyear)
+
+# Share of household's energy consumption used by automobiles
+NCH_AUTO[cele] := CH[cele] * 0.2
+NCH_AUTO[cgas] := CH[cgas] * 0.05
+
+@over NCH[c] := NCH_BUIL[c] + NCH_AUTO[c] where c in cele cgas
+
+
+#######################################
+######################################
+# Round 0 for Housing block: hypothesis specific to the housing block
+
+rho_M2_DISPINC := 0
+
+# Subsidy rate
+R_SUB[ecl,ecl2] := 0
+
+ADJUST0_tau_REHAB := 0.5
+
+ADJUST_phi_REHAB := 0.5
+
+RHO_U_GAIN[ecl,ecl2] := 1
+
+# Share of housing investment paid cash
+# For (maintaining) a building of ecl in the same class
+R_CASH[ecl]  := 0.5
+# For rehabilitating a class ecl building in a more efficient class
+R_CASH_REHAB[ecl] := R_CASH[ecl]
+# For new buildings
+R_CASH_NewBUIL[ecl] := 0.2
+
+# Interest rate paid housing investment
+# For (maintaining) a building of ecl in the same class
+R_I_BUIL[ecl] := R + 0.01
+
+# For rehabilitating a class ecl building in a more efficient class
+R_I_REHAB[ecl] := R_I_BUIL[ecl]
+# For new buildings
+R_I_NewBUIL[ecl] := R_I_BUIL[ecl]
+
+# Loan duration for housing investment
+# For (maintaining) a building of ecl in the same class
+LD[ecl] := 25
+# For rehabilitating a class ecl building in a more efficient class
+LD_REHAB[ecl] := LD[ecl]
+LD_NewBUIL[ecl] := LD[ecl]
+
+R_RMBS_REHAB[ecl] := 1 / LD_REHAB[ecl]
+R_RMBS_NewBUIL[ecl] := 1 / LD_NewBUIL[ecl]
+
+# Life duration for a class ecl building
+BUIL_D[ecl] := 25
+
+# Life duration for a class ecl building (after rehabilitation)
+# USE DIRECTLTY BUIL_D ?
+REHAB_D[ecl] := BUIL_D[ecl]
+
+# Adjustements
+ADJUST_GR_PENER_m2_e_1 := 0.2
+
+## From R / Excel
+
+M2perHOUSING := 91.35039201
+
+# Number of square meter per inhabitant
+M2perCapita := 37.8748670376437
+
+eta_ENERperM2[ecl, ceb] := 0.2
+
+ES_BUILNRJ[ecl, ceb, cebb] := 0.8
+
+# Proportion of rehabilitated building from the class ecl's
+tau_REHAB[ecl] := BUILDING(1, $ecl)
+
+# Maximum proportion of rehabilitated building from the class ecl's
+tau_REHAB_MAX[ecl] := BUILDING(3, $ecl)
+
+# Minimum proportion of rehabilitated building from the class ecl's
+tau_REHAB_MIN[ecl] := BUILDING(2, $ecl)
+
+# Switching speed between the 2 regimes of the logistic function
+sigma[ecl] := BUILDING(4, $ecl)
+
+
+BUIL[ecl] := BUILDING(39, $ecl)
+
+phi_NewBUIL[ecl] := BUILDING(8, $ecl)
+
+PREHAB[ecl,ecl2] := BUILDING(28+$ecl, $ecl2) / M2perHOUSING / 1000000 * P
+
+PNEWBUIL[ecl] := BUILDING(37, $ecl) / 1000000 * P
+
+Rdep_BUIL[ecl,bcl] := BUILDING(19 + $ecl, $bcl)
+phi_REHAB[ecl,ecl2] := BUILDING(10 + $ecl, $ecl2)
+
+ENER_BUIL[ecl, ceb] := BUILDING(41 + $ceb, $ecl)
+
+CH_ENER_BUIL[ecl, ceb] := @elem(NCH_BUIL[ceb], %baseyear) * ENER_BUIL[ecl, ceb]/(ENER_BUIL[ceb] + eps)
+
+ENER_BUIL[ceb] := sum(ENER_BUIL[ecl, ceb] on ecl)
+
+# Needed for conditionnality in next round
+REHAB[ecl,ecl2] := (phi_REHAB[ecl,ecl2]*tau_REHAB[ecl]*BUIL[ecl]{-1})
+
+REHAB[ecl] := sum(REHAB[ecl,ecl2] on ecl2)
+
+
+
 ###################################################################################
 ## Special data (inversion of eq. / modification of the equation / alias)
 ###################################################################################
@@ -48,9 +196,6 @@ tau[ecl] := sigma[ecl]*Payback_REHAB[ecl] + log((tau_REHAB_MIN[ecl]-tau_REHAB_MA
 # First derivative of the rehabilitation rate (tau_REHAB_MIN[ecl]) with respect to the log of payback time (Payback_REHAB[ecl])
 nu_REHAB[ecl] := (tau_REHAB_MAX[ecl] - tau_REHAB_MIN[ecl]) * sigma[ecl] * Payback_REHAB[ecl] * EXP(tau[ecl] - sigma[ecl] * Payback_REHAB[ecl]) / (1 + EXP(tau[ecl] - sigma[ecl] * Payback_REHAB[ecl]))^2
 
-
-@over NCH[ccon] := @elem(PNewBUIL * NewBUIL + PREHAB * REHAB, %baseyear) * ( 1 +  GR_REAL) ^ (@year - %baseyear)
-
 PREHAB[ecl] := (sum((1 - R_SUB[ecl,ecl2])*PREHAB[ecl,ecl2]*REHAB[ecl,ecl2] on ecl2) ) / (REHAB[ecl] + eps)
 
 
@@ -74,7 +219,6 @@ verif_UC_K_REHAB[ecl] := 0
 ## Directly from equations
 ###################################################################################
 ### But without the conditionality on the year !!!!
-
 NewBUIL[ecl] :=   phi_NewBUIL[ecl] * (d(BUIL) + BUIL[DES])
 
 
