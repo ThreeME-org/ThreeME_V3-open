@@ -429,7 +429,7 @@ endsub
 subroutine checkaddfactor(string %model,scalar !threshold)
 statusline Creating Add factors and checking if they are different from 0 at baseyear.
 ' Put add factors to all equations
-smpl @all
+smpl {%baseyear} {%baseyear}
 {%modelname}.addassign @all
 ' Set add factor values so that the equation has no residual when evaluated at actuals
 {%modelname}.addinit(v=n) @all
@@ -457,6 +457,8 @@ if @str(@wcount(%imbalance)) > 0 then
 else
  @uiprompt("CHECK ADD FACTORS OK !")
 endif
+
+smpl @all
 endsub
 
 
