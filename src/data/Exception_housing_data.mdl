@@ -32,7 +32,7 @@ PCH := P
 ### END TO BE COMMENTED when linked with the full model
 
 # Share of household's energy consumption used by buildings
-NCH_BUIL[ccoa] := CH[ccoa] * 0.0
+NCH_BUIL[ccoa] := CH[ccoa] * 1.0
 NCH_BUIL[cfuh] := CH[cfuh] * 1.0
 NCH_BUIL[cgas] := CH[cgas] * 0.95
 NCH_BUIL[cele] := CH[cele] * 0.8
