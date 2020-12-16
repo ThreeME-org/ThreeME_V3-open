@@ -46,7 +46,7 @@ empl := 1.014 * F[L]
 IEMS_CI[ghg,c,s] := EMS_CI[ghg,c,s] / (CI[c, s] + eps)
 
 # EMS_MAT[ghg,s] := 1 * (1 + GR_REAL) ^ (@year - %baseyear)
-IEMS_MAT[ghg,s] := EMS_CI[ghg,s] / (CI[s] + eps)
+IEMS_MAT[ghg,s] := EMS_MAT[ghg,s] / (F_MAT[s] + eps)
 
 # EMS_Y[ghg,s] := 1 * (1 + GR_REAL) ^ (@year - %baseyear)
 IEMS_Y[ghg,s] := EMS_Y[ghg,s] / (Y[s] + eps)
