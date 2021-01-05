@@ -67,7 +67,9 @@ IEMS_CH[ghg,c] := EMS_CH[ghg,c] / (CH[c] + eps)
 
 # Y_toe[ce, s] := PhiY[ce, s]*Y_toe[ce]
 
-PY_toe[ce, s]:= P
+# PY_toe[ce, s]:= P
+
+PY_toe[ce, s] := Y[ce, s]/(Y_toe[ce, s] + eps)
 
 # DL_toe[ce] := (CI_toe[ce] + CH_toe[ce] + X_toe[ce]) * 0.01
 
