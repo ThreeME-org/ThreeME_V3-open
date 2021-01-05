@@ -31,4 +31,4 @@ include ..\model\energybalance
 # include ..\model\Exception_Other 
 
 include ..\model\Exception_housing
-# include ..\model\Exception_Transport
+include ..\model\Exception_Transport

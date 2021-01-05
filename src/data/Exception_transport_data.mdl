@@ -78,14 +78,24 @@ theta_U_AUTO_UC_E := 0.2
 
 ### END TO BE COMMENTED when linked with the full model
 
-## To be activated if Transport block alone 
-# NCH_AUTO[cele] := CH[cele] * 0.01
-# NCH_AUTO[cgas] := CH[cgas] * 0.05
+#NCH_AUTO[ce] := 0
+#@over NCH_AUTO[cele] := CH[cele] * TRANSPORT(48, 9)/(TRANSPORT(48, 9) + BUILDING(44, 9)*1000000)
+#@over NCH_AUTO[cfut] := CH[cfut] * 1
+#@over NCH_AUTO[cgas] := CH[cgas] * TRANSPORT(50, 9)/(TRANSPORT(50, 9) + BUILDING(45, 9)*1000000)
 
-NCH_AUTO[cfut] := CH[cfut] * 0.8
-NCH[cth] := CH[cth] * 1.0
+NCH_AUTO[ce] := 0
+@over NCH_AUTO[cfut] := CH[cfut] * 1.0
+@over NCH_AUTO[cgas] := CH[cgas] - NCH_BUIL[cgas]
+@over NCH_AUTO[cele] := CH[cele] - NCH_BUIL[cele]
 
-NCH[cveh] := @elem(PNewAUTO*NewAUTO + UC_M_AUTO*AUTO, %baseyear) * (1 + GR_REAL) ^ (@year - %baseyear)
+
+@over NCH[cth] := CH[cth] * 1.0
+
+@over NCH[cveh] := @elem(PNewAUTO*NewAUTO + UC_M_AUTO*AUTO, %baseyear) * (1 + GR_REAL) ^ (@year - %baseyear)
+
+CH_AUTO_toe[ecl,cele] := TRANSPORT(48, $ecl) /(TRANSPORT(48, 9) + BUILDING(44, 9)*1000000) * @elem(CH_toe[cele], %baseyear) * 1000000 
+CH_AUTO_toe[ecl,cfut] := TRANSPORT(49, $ecl) /(TRANSPORT(49, 9)						     ) * @elem(CH_toe[cfut], %baseyear) * 1000000 
+CH_AUTO_toe[ecl,cgas] := TRANSPORT(50, $ecl) /(TRANSPORT(50, 9) + BUILDING(45, 9)*1000000) * @elem(CH_toe[cgas], %baseyear) * 1000000 
 
 #######################################
 #####  Round 0: load primary date for transport block
@@ -125,10 +135,6 @@ Pbattery 	  := 14875 / 1000 * (1 + GR_PRICES) ^ (@year - %baseyear)     # Value 
 Rdep_AUTO[ecl,cele,DES] := TRANSPORT(44, $ecl)
 Rdep_AUTO[ecl,cfut,DES] := TRANSPORT(45, $ecl)
 Rdep_AUTO[ecl,cgas,DES] := TRANSPORT(46, $ecl)
-
-CH_AUTO_toe[ecl,cele] := TRANSPORT(48, $ecl)
-CH_AUTO_toe[ecl,cfut] := TRANSPORT(49, $ecl)
-CH_AUTO_toe[ecl,cgas] := TRANSPORT(50, $ecl)
 
 overcost_elec[ecl] :=  TRANSPORT(52, $ecl) / 1000 * (1 + GR_PRICES) ^ (@year - %baseyear)
 Pbattery[ecl] 	  := TRANSPORT(53, $ecl) / 1000 * (1 + GR_PRICES) ^ (@year - %baseyear)
