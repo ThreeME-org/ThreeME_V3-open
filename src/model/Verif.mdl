@@ -6,6 +6,8 @@
 
 verif_PhiY[c] = (1 - (sum(PhiY[c, s] on s)))*100
 
+verif_PhiY_toe[ce] = (1 - (sum(PhiY_toe[ce, s] on s)))*100
+
 verif_phi_F[s] = (1 - (sum(phi[ff, s] on ff)))*100
 
 verif_phi_MGPD[c] = (1 - (sum(phi_MGPD[m, c] on m)))*100 if MGPD[c] <> 0
@@ -67,10 +69,12 @@ verif_YG_toebis[ce] = (YG_toebis[ce]/YG_toe[ce] - 1)*100 if YG_toe[ce] <> 0
 
 verif_Y_toebis[ce] = (Y_toebis[ce]/Y_toe[ce] - 1)*100 if Y_toe[ce] <> 0
 
-Verif_ALL = ( sum(verif_phi_F[s]^2 on s) + sum(verif_phi_MGPD[c]^2 on c) + sum(verif_phi_MGPM[c]^2 on c) + sum(verif_phi[E, s]^2 on s) + sum(verif_phi_TRSP[s]^2 on s) + sum(verif_Mbis[c]^2 on c) + sum(verif_PMbis[c]^2 on c) + sum(verif_MGSbis[c]^2 on c) + sum(verif_PMGSbis[c]^2 on c) + sum(verif_YQbis[c]^2 on c) + sum(verif_PYQbis[c]^2 on c) + Verif_PCH_CES^2 +Verif_phi_MCH^2 + Verif_phi_CH^2 + Verif_GDPbis^2 + Verif_PGDPbis^2 + Verif_GDPter^2 + Verif_PGDPter^2 + Verif_GDP4^2 + Verif_PGDP4^2 + Verif_CIbis^2 + Verif_PCIbis^2 + Verif_Ibis^2 + Verif_PIbis^2 + Verif_YQ^2 + Verif_PYQ^2 + Verif_Bal_G_Prim_VAbis^2 + sum(verif_EMS_CIbis[ghg]^2 on ghg) + verif_EMSbis^2 + sum(verif_PhiY[c]^2 on c) + sum(verif_YG_toebis[ce]^2 + verif_Y_toebis[ce]^2 on ce) + sum(verif_PhiY[ce, s]^2 on ce) + sum(verif_PhiY[ce, s]^2 on s) )^(1/2)
+Verif_ALL = ( sum(verif_phi_F[s]^2 on s) + sum(verif_phi_MGPD[c]^2 on c) + sum(verif_phi_MGPM[c]^2 on c) + sum(verif_phi[E, s]^2 on s) + sum(verif_phi_TRSP[s]^2 on s) + sum(verif_Mbis[c]^2 on c) + sum(verif_PMbis[c]^2 on c) + sum(verif_MGSbis[c]^2 on c) + sum(verif_PMGSbis[c]^2 on c) + sum(verif_YQbis[c]^2 on c) + sum(verif_PYQbis[c]^2 on c) + Verif_PCH_CES^2 +Verif_phi_MCH^2 + Verif_phi_CH^2 + Verif_GDPbis^2 + Verif_PGDPbis^2 + Verif_GDPter^2 + Verif_PGDPter^2 + Verif_GDP4^2 + Verif_PGDP4^2 + Verif_CIbis^2 + Verif_PCIbis^2 + Verif_Ibis^2 + Verif_PIbis^2 + Verif_YQ^2 + Verif_PYQ^2 + Verif_Bal_G_Prim_VAbis^2 + sum(verif_EMS_CIbis[ghg]^2 on ghg) + verif_EMSbis^2 + sum(verif_PhiY[c]^2 on c) + sum(verif_PhiY_toe[ce]^2 on ce) + sum(verif_YG_toebis[ce]^2 + verif_Y_toebis[ce]^2 on ce) )^(1/2)
 
-# Verif_ALL2 exclude Verif_PCH_CES which not at zero when the block Exception_ConsumerNested.mdl is activated
-#Verif_ALL2 = ( sum(verif_phi_F[s]^2 on s) + sum(verif_phi_MGPD[c]^2 on c) + sum(verif_phi_MGPM[c]^2 on c) + sum(verif_phi[E, s]^2 on s) + sum(verif_phi_TRSP[s]^2 on s) + sum(verif_Mbis[c]^2 on c) + sum(verif_PMbis[c]^2 on c) + sum(verif_MGSbis[c]^2 on c) + sum(verif_PMGSbis[c]^2 on c) + sum(verif_YQbis[c]^2 on c) + sum(verif_PYQbis[c]^2 on c) + Verif_phi_MCH^2 + Verif_phi_CH^2 + Verif_GDPbis^2 + Verif_PGDPbis^2 + Verif_GDPter^2 + Verif_PGDPter^2 + Verif_GDP4^2 + Verif_PGDP4^2 + Verif_CIbis^2 + Verif_PCIbis^2 + Verif_Ibis^2 + Verif_PIbis^2 + Verif_YQ^2 + Verif_PYQ^2 + Verif_Bal_G_Prim_VAbis^2 + sum(verif_EMS_CIbis[ghg]^2 on ghg) + verif_EMSbis^2 + sum(verif_PhiY[c]^2 on c) + sum(verif_YG_toebis[ce]^2 + verif_Y_toebis[ce]^2 on ce) + sum(verif_PhiY[ce, s]^2 on ce) + sum(verif_PhiY[ce, s]^2 on s) )^(1/2)
+# Verif_ALL2 include Verif_PCH_CES which not at zero when the block Exception_ConsumerNested.mdl is activated
+
+Verif_ALL2 = Verif_ALL + ( Verif_PCH_CES^2  )^(1/2)
+
 
 ### Verification for the actual elasticities
 ## The series should converge asymptotically to the inputed elasticities.
