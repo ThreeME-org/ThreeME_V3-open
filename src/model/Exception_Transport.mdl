@@ -250,7 +250,7 @@ d(log(PNewAUTO[ecl,cgas])) = d(log(PCH[cveh]))
 # Expressed in Thousand of Euros
 
 ##! Price of a new electric automobiles of class $ecl$
-PNewAUTO[ecl,cele] = PNewAUTO[ecl,cfut] + Pbattery + overcost_elec
+PNewAUTO[ecl,cele] = PNewAUTO[ecl,cfut] + Pbattery[ecl] + overcost_elec[ecl]
 # Expressed in Thousand of Euros
 
 ##! Price of a new automobiles of class $ecl$
