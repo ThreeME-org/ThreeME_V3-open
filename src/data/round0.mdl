@@ -39,40 +39,18 @@ LF := F[L]/(1 - 0.1)
 empl := 1.014 * F[L]
 
 ############################
-### EMISSIONS DATA
+### EMISSIONS AND ENERGY DATA
 ############################
 
-# EMS_CI[ghg,c,s] := 1 * (1 + GR_REAL) ^ (@year - %baseyear)
 IEMS_CI[ghg,c,s] := EMS_CI[ghg,c,s] / (CI[c, s] + eps)
 
-# EMS_MAT[ghg,s] := 1 * (1 + GR_REAL) ^ (@year - %baseyear)
 IEMS_MAT[ghg,s] := EMS_MAT[ghg,s] / (F_MAT[s] + eps)
 
-# EMS_Y[ghg,s] := 1 * (1 + GR_REAL) ^ (@year - %baseyear)
 IEMS_Y[ghg,s] := EMS_Y[ghg,s] / (Y[s] + eps)
 
-# EMS_CH[ghg,c] := 1 * (1 + GR_REAL) ^ (@year - %baseyear)
 IEMS_CH[ghg,c] := EMS_CH[ghg,c] / (CH[c] + eps)
 
-############################
-### ENERGY DATA
-############################
-# CI_toe[ce, s] := CI[ce, s] * 0.1
-
-# CH_toe[ce] := CH[ce] * 0.1
- 
-# X_toe[ce] := X[ce] * 0.1
-
-# M_toe[ce] := M[ce] * 0.1
-
-# Y_toe[ce, s] := PhiY[ce, s]*Y_toe[ce]
-
-PY_toe[ce, s]:= P
-
-# DL_toe[ce] := (CI_toe[ce] + CH_toe[ce] + X_toe[ce]) * 0.01
-
-# AC_toe[ce, s] := 0.01 * Y_toe[ce, s]
-
+PY_toe[ce, s] := Y[ce, s]/(Y_toe[ce, s] + eps)
 
 ############################
 ### OTHER DATA
