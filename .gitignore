@@ -25,4 +25,3 @@ results/*/*.json
 doc/*.aux
 doc/*.log
 
-src/addin/model/_tmp_all_vars.csv
