@@ -53,7 +53,7 @@ else
   ' Load calibration data from the Excel file (if needed)
   ' call load_calibration
 
-  ' Export all variables to a csv file (used by the external compiler)
+  ' Export all variables to a csv file (this file is needed to execute the external compiler)
   call export_all_to_csv
 
   ' Create the series using the dependencies (add-ins "series")
@@ -105,7 +105,7 @@ endif
 
 ' Checking that equations are balanced at baseyear (add factors = 0)
   if %load = "new" and %warnings = "warnings" then 
-    call checkaddfactor(%modelname,1e-6)
+    call checkaddfactor(%modelname,1e-4)
   endif
 
 
