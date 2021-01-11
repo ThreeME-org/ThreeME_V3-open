@@ -117,11 +117,9 @@ endif
 ' Call here the subroutine you want to use to solve the shock
 call run_scenario("baseline-steady")
 
-
 ' ****************************************
-' call run_standard("EXPG1", %iso3, 1)
-' call run_standard("CT1 CT2 SUB1 SUB2 SUB3 EXPG1 INCT1 VAT1 FF10", %iso3, 1) ' Option: 1 for result in excel template; 0 only scenario run
-'' call run_standard("RSSC1 EXR10 WD1", %iso3, 1) ' Option: 1 for result in excel template; 0 only scenario run
+call run_standard("EXR10 EXPG1 RSSC1 VAT1 INCT1 WD1 FF10 CT1", %iso3, 1) ' Option: 1 for result in excel template; 0 only scenario run
+
 ' ***************************************
 ' Call (eventually) here the subroutine you want to use to analyse the results
 '' call additional_outputs("Fred")
