@@ -53,7 +53,7 @@ else
   ' Load calibration data from the Excel file (if needed)
   call load_calibration
 
-  ' Export all variables to a csv file (used by the external compiler)
+  ' Export all variables to a csv file (this file is needed to execute the external compiler)
   call export_all_to_csv
 
   ' Create the series using the dependencies (add-ins "series")
@@ -104,7 +104,7 @@ endif
 
 ' Checking that equations are balanced at baseyear (add factors = 0)
   if %load = "new" and %warnings = "warnings" then 
-    call checkaddfactor(%modelname,1e-6)
+    call checkaddfactor(%modelname,1e-4)
   endif
 
 
@@ -116,11 +116,9 @@ endif
 ' Call here the subroutine you want to use to solve the shock
 call run_scenario("baseline-steady")
 
-stop
 ' ****************************************
-' call run_standard("EXPG1", %iso3, 1)
-' call run_standard("CT1 CT2 SUB1 SUB2 SUB3 EXPG1 INCT1 VAT1 FF10", %iso3, 1) ' Option: 1 for result in excel template; 0 only scenario run
-'' call run_standard("RSSC1 EXR10 WD1", %iso3, 1) ' Option: 1 for result in excel template; 0 only scenario run
+call run_standard("EXR10 EXPG1 RSSC1 VAT1 INCT1 WD1 FF10 CT1", %iso3, 1) ' Option: 1 for result in excel template; 0 only scenario run
+
 ' ***************************************
 ' Call (eventually) here the subroutine you want to use to analyse the results
 

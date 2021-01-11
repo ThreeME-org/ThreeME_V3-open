@@ -525,7 +525,7 @@ subroutine standard_backup()
     series WD_bckp_{%c} = WD_{%c}
   next
 
-  series PWD_ccoa_bckp = PWD_ccoa
+  series PWD_ccoi_bckp = PWD_ccoi
 
   for %c {%list_com}
     for %s {%list_sec}
@@ -568,7 +568,7 @@ subroutine standard_restore_backup()
     series WD_{%c} = WD_bckp_{%c}
   next
 
-  series PWD_ccoa = PWD_ccoa_bckp
+  series PWD_ccoi = PWD_ccoi_bckp
 
   for %c {%list_com}
     for %s {%list_sec}
@@ -652,7 +652,7 @@ subroutine standard_shock(string %shock)
   ' 10% increase of fossil fuel prices
   if @lower(%shock) = "ff10" then
 
-  PWD_ccoa = PWD_ccoa * 1.1
+  PWD_ccoi = PWD_ccoi * 1.1
 
 
   endif
