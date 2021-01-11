@@ -123,6 +123,10 @@ stop
 '' call run_standard("RSSC1 EXR10 WD1", %iso3, 1) ' Option: 1 for result in excel template; 0 only scenario run
 ' ***************************************
 ' Call (eventually) here the subroutine you want to use to analyse the results
+
+' Creation of SU table on value and in volume
+' call create_sut("2015 2020 2030", "0 2")
+
 '' call additional_outputs("Fred")
 ' *******************
 ' Error reporting

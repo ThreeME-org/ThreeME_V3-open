@@ -19,6 +19,7 @@ include .\sensitivity
 include .\run
 include .\run_extra
 ' Utility procedures
+include .\create_sut
 include .\results_outputs
 
 ' Addin: External compiler
