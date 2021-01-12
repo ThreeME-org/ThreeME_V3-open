@@ -1,76 +1,71 @@
-##### Consumer
-## This section provides the equations defining the households' income structure as well as their consumption and savings behaviour. \\
+##### Consumer disaggregated
+## This section provides the equations defining the households' income structure per type of households as well as their consumption and savings behaviour. \\
 
 
 #### Households' income
 
-##! Disposable income before tax expressed in value
-DISPINC_BT_VAL   = PWAGES * WAGES + PROP_INC_H_VAL + SOC_BENF_VAL + TRSF_HH_VAL
-## The disposable income before tax is used as base for the income tax. \\
+##! Disposable income before tax of household $h$ expressed in value 
+DISPINC_BT_VAL[h]   = WAGES_VAL[h] + PROP_INC_H_VAL[h] + SOC_BENF_VAL[h] + TRSF_HH_VAL[h]
 
-##! Disposable income after tax expressed in value
-DISPINC_AT_VAL   = DISPINC_BT_VAL - INC_SOC_TAX_VAL
-## The definition of the disposable income after tax corresponds to the definition of ``gross disposable income`` defined in the annual account by institutional sector of Eurostat (b.6.g). \\
+##! Gross wages of household $h$
+WAGES_VAL[h]= phi_WAGES[h] * PWAGES * WAGES
 
-##! Income and social taxes expressed in value
-INC_SOC_TAX_VAL  = RINC_SOC_TAX * DISPINC_BT_VAL - T2VAL_CH * REDIS_CT_H
+##! Disposable income after tax of household $h$ expressed in value 
+DISPINC_AT_VAL[h]   = DISPINC_BT_VAL[h] - INC_SOC_TAX_VAL[h]
 
-##! Property incomes expressed in value
-PROP_INC_H_VAL_n = phi_PROP_INC_H * PNOS * NOS + (PNOS * NOS <= 0.00001 ) * (0.00001 - phi_PROP_INC_H * PNOS * NOS)
+##! Income and social taxes expressed in value of household $h$
+INC_SOC_TAX_VAL[h]  = RINC_SOC_TAX[h] * DISPINC_BT_VAL[h] - T2VAL_CH * REDIS_CT_H[h]
 
-##! Social benefits expressed in value
-SOC_BENF_VAL     = RR_POP * @elem(W, %baseyear) * PROG_L * P * POP + RR_Un * W * Un + DSOC_BENF_VAL
+##! Property incomes of household $h$ expressed in value 
+PROP_INC_H_VAL[h] = phi_PROP_INC_H[h] * PROP_INC_H_VAL
 
-# Rendre endogène avec vrai données!!!
-# The replacement ratio should be endogenous because of the duration limit of unemployment benefits. To be tested.
-# d(log(RR_Un))  = - 1.0 * d(log(UnR))
-
-# Transfers to households
-# Should be endogenous? Check V2
-# TRSF_HH_VAL = ?????
+##! Social benefits of household $h$ expressed in value
+SOC_BENF_VAL[h] = phi_SOC_BENF[h] * SOC_BENF_VAL
 
 #### Households' expenditures
 
+##! Aggregate notional households final consumption of household $h$ expressed in value
+CH_n_VAL[h]  = DISPINC_AT_VAL[h] * (1 - MPS_n[h])
+
+##! Notional marginal propensity to save of household $h$ 
+d(MPS_n[h])  = RHO_MPS_R[h] * d(R - d(P)/P{-1}) + RHO_MPS_UnR[h] * d(UnR)
+
+##! Household $h$ 's final consumption $c$
+(CH_n[c, h] - NCH[c, h]) * PCH[c] = phi_MCH[c, h] * (CH_n_VAL[h] - PNCH[h] * NCH[h])  if CH[c, h] <> 0
+
+##! Share of commodity $c$ into the household $h$ 's total marginal consumption
+d(log(phi_MCH[c, h])) = (1 - ES_LESCES[h]) * d(log(PCH[c] / PCH_CES[h]))     if phi_MCH[c, h] <> 0
+
+##! CES consumption price index of household $h$
+PCH_CES[h] = (sum(@elem(phi_MCH[c, h], %baseyear) * PCH[c] ^ (1 - ES_LESCES[h]) on c)) ^ (1 / (1 - ES_LESCES[h])) if ES_LESCES[h] <> 1
+
+##! Household $h$ 's savings expressed in value
+SAV_H_VAL[h]  = DISPINC_AT_VAL[h] - PCH[h] * CH[h]
+
+##! Household $h$ 's savings rate
+RSAV_H_VAL[h] = SAV_H_VAL[h] / DISPINC_AT_VAL[h]
+
+#### Aggregations
+##!Notional households' final consumption $c$
+@over CH_n[c] =  sum(CH_n[c, h] on h)
+
+##! Agregate notional marginal propensity to save
+@over (1 - MPS_n) = CH_n_VAL / DISPINC_AT_VAL
+
+##! Disposable income after tax expressed in value
+@over DISPINC_AT_VAL = sum(DISPINC_AT_VAL[h] on h) 
+
 ##! Aggregate notional households final consumption expressed in value
-CH_n_VAL  = DISPINC_AT_VAL * (1 - MPS_n)
+@over CH_n_VAL = sum(CH_n_VAL[h] on h)
 
-##! Notional marginal propensity to save
-d(MPS_n)  = RHO_MPS_R * d(R - d(P)/P{-1}) + RHO_MPS_UnR * d(UnR)
+##! Price of aggregate necessary household $h$ 's consumption
+PNCH[h] * NCH[h] = sum(PNCH[c] * NCH[c, h] if NCH[c, h] <> 0 on c) if NCH[h] <> 0
 
-# Test of the financial block suggest that the following specification lead to more stable results.
-#d(MPS_n) =  RHO_MPS_P * d(d(P)/P{-1}) + RHO_MPS_UnR * d(UnR)
-# To be tested
+##! Aggregate necessary household $h$ 's final consumption
+	   NCH[h] = sum(NCH[c, h] if NCH[c, h] <> 0 on c) if NCH[h] <> 0
 
-##! Households' final consumption $c$
-(CH_n[c] - NCH[c]) * PCH[c] = phi_MCH[c] * (CH_n_VAL - PNCH * NCH)  if CH[c]      <> 0
-## We assume a Linear Expenditure System (LES) utility function to model consumption decisions between the commodity types. A LES specification assumes that a share of the base year consumption ($NCH_{c}$) is incompressible and therefore the relation between income and consumption is not linear. This specification allows for the distinction between the consumption of necessity and luxurious goods. \\
-
-##! Price of necessary households consumption $c$
-PNCH[c] = PCH[c]
-
-##! Price of aggregate necessary households consumption
-PNCH * NCH = sum(PNCH[c] * NCH[c] on c) if NCH <> 0
+##! Price of aggregate necessary household $h$ 's consumption
+PCH[h] * CH[h] = sum(PCH[c] * CH[c, h] if CH[c, h] <> 0 on c) if CH[h] <> 0
 
 ##! Aggregate necessary households final consumption
-	   NCH = sum(NCH[c] 		  on c) if NCH <> 0
-
-##! Share of commodity $c$ into the total marginal household consumption
-d(log(phi_MCH[c])) = (1 - ES_LESCES) * d(log(PCH[c] / PCH_CES))     if phi_MCH[c] <> 0
-
-## The household marginal propensity to spend in commodity $c$, $\varphi^{MCH}_{c}$, is generally constant in a LES setting assuming implicitly an elasticity of substitution of one between commodities. We assume here a more general case where the elasticity of substitution can vary from zero to infinity. \\
-
-##! Share of commodity $c$ into the total household consumption
-Phi_CH[c] = CH[c]/CH                                                if CH[c]      <> 0
-## Notice that if $NCH_{c} = 0$, $\varphi^{CH}_{c} = \varphi^{MCH}_{c}$.\\
-
-##! CES consumption price index
-PCH_CES = (sum(@elem(phi_MCH[c], %baseyear) * PCH[c] ^ (1 - ES_LESCES) on c)) ^ (1 / (1 - ES_LESCES)) if ES_LESCES <> 1
-
-##! Households savings expressed in value
-SAV_H_VAL  = DISPINC_AT_VAL - PCH * CH
-
-##! Households savings rate
-RSAV_H_VAL = SAV_H_VAL / DISPINC_AT_VAL
-
-##! Households savings stock
-Stock_SAV_H_VAL = Stock_SAV_H_VAL{-1} + SAV_H_VAL
+	   CH[h] = sum(CH[c, h] if CH[c, h] <> 0 on c) if CH[h] <> 0

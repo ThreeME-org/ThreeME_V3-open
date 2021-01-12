@@ -24,7 +24,7 @@ include .\R_lists
 %list_com_E_AUTO := cfut cgas cele #[cea]
 
 # List of households
-%list_households := H01 H02 H03 H05 H06 H07 H08 H09 H10 #[h]
+%list_households := H01 H02 H03 H04 H05 H06 H07 H08 H09 H10 #[h]
 
 
 # Default iterators
