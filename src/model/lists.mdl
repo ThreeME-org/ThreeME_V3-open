@@ -23,6 +23,9 @@ include .\R_lists
 # List of energy commodities used by automobiles
 %list_com_E_AUTO := cfut cgas cele #[cea]
 
+# List of households
+%list_households := H01 H02 H03 H05 H06 H07 H08 H09 H10 #[h]
+
 
 # Default iterators
 s in %list_sec
@@ -64,6 +67,8 @@ ghg in %list_GHG
 ecl in %list_ener_class
 ecl2 in %list_ener_class
 bcl in %list_buil_class
+
+h in %list_households
 
 O in D M
 

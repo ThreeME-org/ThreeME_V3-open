@@ -1,0 +1,76 @@
+##### Consumer
+## This section provides the equations defining the households' income structure as well as their consumption and savings behaviour. \\
+
+
+#### Households' income
+
+##! Disposable income before tax expressed in value
+DISPINC_BT_VAL   = PWAGES * WAGES + PROP_INC_H_VAL + SOC_BENF_VAL + TRSF_HH_VAL
+## The disposable income before tax is used as base for the income tax. \\
+
+##! Disposable income after tax expressed in value
+DISPINC_AT_VAL   = DISPINC_BT_VAL - INC_SOC_TAX_VAL
+## The definition of the disposable income after tax corresponds to the definition of ``gross disposable income`` defined in the annual account by institutional sector of Eurostat (b.6.g). \\
+
+##! Income and social taxes expressed in value
+INC_SOC_TAX_VAL  = RINC_SOC_TAX * DISPINC_BT_VAL - T2VAL_CH * REDIS_CT_H
+
+##! Property incomes expressed in value
+PROP_INC_H_VAL_n = phi_PROP_INC_H * PNOS * NOS + (PNOS * NOS <= 0.00001 ) * (0.00001 - phi_PROP_INC_H * PNOS * NOS)
+
+##! Social benefits expressed in value
+SOC_BENF_VAL     = RR_POP * @elem(W, %baseyear) * PROG_L * P * POP + RR_Un * W * Un + DSOC_BENF_VAL
+
+# Rendre endogène avec vrai données!!!
+# The replacement ratio should be endogenous because of the duration limit of unemployment benefits. To be tested.
+# d(log(RR_Un))  = - 1.0 * d(log(UnR))
+
+# Transfers to households
+# Should be endogenous? Check V2
+# TRSF_HH_VAL = ?????
+
+#### Households' expenditures
+
+##! Aggregate notional households final consumption expressed in value
+CH_n_VAL  = DISPINC_AT_VAL * (1 - MPS_n)
+
+##! Notional marginal propensity to save
+d(MPS_n)  = RHO_MPS_R * d(R - d(P)/P{-1}) + RHO_MPS_UnR * d(UnR)
+
+# Test of the financial block suggest that the following specification lead to more stable results.
+#d(MPS_n) =  RHO_MPS_P * d(d(P)/P{-1}) + RHO_MPS_UnR * d(UnR)
+# To be tested
+
+##! Households' final consumption $c$
+(CH_n[c] - NCH[c]) * PCH[c] = phi_MCH[c] * (CH_n_VAL - PNCH * NCH)  if CH[c]      <> 0
+## We assume a Linear Expenditure System (LES) utility function to model consumption decisions between the commodity types. A LES specification assumes that a share of the base year consumption ($NCH_{c}$) is incompressible and therefore the relation between income and consumption is not linear. This specification allows for the distinction between the consumption of necessity and luxurious goods. \\
+
+##! Price of necessary households consumption $c$
+PNCH[c] = PCH[c]
+
+##! Price of aggregate necessary households consumption
+PNCH * NCH = sum(PNCH[c] * NCH[c] on c) if NCH <> 0
+
+##! Aggregate necessary households final consumption
+	   NCH = sum(NCH[c] 		  on c) if NCH <> 0
+
+##! Share of commodity $c$ into the total marginal household consumption
+d(log(phi_MCH[c])) = (1 - ES_LESCES) * d(log(PCH[c] / PCH_CES))     if phi_MCH[c] <> 0
+
+## The household marginal propensity to spend in commodity $c$, $\varphi^{MCH}_{c}$, is generally constant in a LES setting assuming implicitly an elasticity of substitution of one between commodities. We assume here a more general case where the elasticity of substitution can vary from zero to infinity. \\
+
+##! Share of commodity $c$ into the total household consumption
+Phi_CH[c] = CH[c]/CH                                                if CH[c]      <> 0
+## Notice that if $NCH_{c} = 0$, $\varphi^{CH}_{c} = \varphi^{MCH}_{c}$.\\
+
+##! CES consumption price index
+PCH_CES = (sum(@elem(phi_MCH[c], %baseyear) * PCH[c] ^ (1 - ES_LESCES) on c)) ^ (1 / (1 - ES_LESCES)) if ES_LESCES <> 1
+
+##! Households savings expressed in value
+SAV_H_VAL  = DISPINC_AT_VAL - PCH * CH
+
+##! Households savings rate
+RSAV_H_VAL = SAV_H_VAL / DISPINC_AT_VAL
+
+##! Households savings stock
+Stock_SAV_H_VAL = Stock_SAV_H_VAL{-1} + SAV_H_VAL
