@@ -28,7 +28,7 @@ include ..\model\energybalance
 include ..\model\Exception_taxes_prices
 # include ..\model\Exception_NestedCES
 # include ..\model\Exception_ConsumerNested
-include ..\model\Exception_ConsumerDisaggregated.mdl
+# include ..\model\Exception_ConsumerDisaggregated.mdl
 
 # include ..\model\Exception_Other 
 
