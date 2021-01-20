@@ -65,14 +65,17 @@ MG_toe[ce] = M_toe[ce] + DLM_toe[ce] if MG_toe[ce] <> 0
 
 ##! Distribution losses of energy $ce$, expressed in toe
 d(log(DL_toe[ce])) = d(log(CI_toe[ce] + CH_toe[ce] + X_toe[ce])) if DL_toe[ce] <> 0
+# TEST different ratio between DLY_toe[ce, s] & DLM_toe[ce] # DL_toe[ce] = DLY_toe[ce] + DLM_toe[ce] 	if DL_toe[ce] <> 0
 ## For simplicity, we assume that the distribution losses related of energy $ce$ are proportional to the end use of this commodity. \\
 
 ##! Distribution losses of energy $ce$ produced by sector $s$, expressed in toe
 DLY_toe[ce, s] = DL_toe[ce] * Y_toe[ce, s] / (Y_toe[ce] + M_toe[ce]) if DLY_toe[ce, s] <> 0
+# TEST different ratio between DLY_toe[ce, s] & DLM_toe[ce] # d(log(DLY_toe[ce, s])) = d(log(Y_toe[ce, s])) if DLY_toe[ce, s] <> 0
 ## Distribution losses are disaggregated between producers of energy $ce$ proportionally to their share into the total domestic and foreign net production. \\
 
 ##! Distribution losses of imported energy $ce$, expressed in toe
 DLM_toe[ce] = DL_toe[ce] * M_toe[ce] / (Y_toe[ce] + M_toe[ce]) if DLM_toe[ce] <> 0
+# TEST different ratio between DLY_toe[ce, s] & DLM_toe[ce] # d(log(DLM_toe[ce])) = d(log(M_toe[ce])) 	if DLM_toe[ce] <> 0
 
 ##! Auto-consumption of energy $ce$ by producer $s$, expressed in toe
 d(log(AC_toe[ce, s])) = d(log(Y_toe[ce, s])) if AC_toe[ce, s] <> 0
