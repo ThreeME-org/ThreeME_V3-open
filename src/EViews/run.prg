@@ -117,7 +117,9 @@ endif
 call run_scenario("baseline-steady")
 
 ' ****************************************
-call run_standard("EXR10 EXPG1 RSSC1 VAT1 INCT1 WD1 FF10 CT1", %iso3, 1) ' Option: 1 for result in excel template; 0 only scenario run
+'call run_standard("EXR10 RSSC1 VAT1 INCT1 WD1 FF10 CT1", %iso3, 1) ' Option: 1 for result in excel template; 0 only scenario run
+
+'call run_standard("EXR10 EXPG1 RSSC1 VAT1 INCT1 WD1 FF10 CT1", %iso3, 1) ' Option: 1 for result in excel template; 0 only scenario run
 
 ' ***************************************
 ' Call (eventually) here the subroutine you want to use to analyse the results

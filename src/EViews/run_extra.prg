@@ -35,21 +35,11 @@ subroutine run_scenario(string %scenario_name)
 
     ' Load the data for scenario "baseline"
     smpl {%baseyear} @last
-    call load_excel("Tunisia", "scenarii", "baseline")
-    call load_excel("Tunisia", "scenarii", "baseline_fittarget")
+    call load_excel("France", "scenarii", "baseline")
+    ' call load_excel("France", "scenarii", "baseline_fittarget")
     ' Interpolate the variables in the list
     call interpolate("POP GDP_TREND PWD_COIL PWD_CFUT PWD_CFUH PWD_CGAS PHIY_TOE_CELE_SEWI")
 
-    ' Save baseline energy subsidy rates for redistribution 
-    smpl 2015 @last
-    for %c cfut cfuh
-      RSUBCD_base_{%c} = RSUBCD_{%c}
-      RSUBCM_base_{%c} = RSUBCD_base_{%c}  
-    next
-    for %c cgas cele
-      RSUBCD_base_{%c} = RSUBCD_{%c}
-      RSUBCM_base_{%c} = RSUBCM_{%c}  
-    next
     ' #### Simulate the scenario by solving the model
     smpl {%baseyear} @last
     call solvemodel(%solveopt)
@@ -61,7 +51,7 @@ subroutine run_scenario(string %scenario_name)
   ' Create a new scenario that can be compared with the baseline
    {%modelname}.scenario(n, a=2) {%scenario_name}
 
-   call load_excel("Tunisia", "scenarii", "carbontax_s1")
+   call load_excel("France", "scenarii", "carbontax_s1")
    call interpolate("RCO2TAX_VOL")
  
    REDIS_CT_LS = 1
@@ -75,6 +65,23 @@ subroutine run_scenario(string %scenario_name)
    ' Exit subroutine
     return
  endif
+
+ if %scenario_name = "share_elec_enr" then
+  ' Create a new scenario that can be compared with the baseline
+   {%modelname}.scenario(n, a=2) {%scenario_name}
+
+    ' Load the data for scenario ENR
+    call load_excel("France", "scenarii", "share_elec_enr")
+    call interpolate("PHIY_TOE_CELE_SEWI PHIY_TOE_CELE_SESO")
+
+   call solvemodel(%solveopt) 
+
+   call outputs
+
+   ' Exit subroutine
+    return
+ endif
+
 
 
 endsub

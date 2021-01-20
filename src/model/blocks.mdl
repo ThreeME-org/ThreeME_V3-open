@@ -15,7 +15,7 @@ include ..\model\Demography
 
 include ..\model\Adjustments
 
-# include ..\model\Verif
+include ..\model\Verif
 
 include ..\model\ghg_emissions
 

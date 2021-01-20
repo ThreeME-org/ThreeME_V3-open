@@ -9,7 +9,7 @@
 %baseyear = "2015"
 
 ' Set the end of the sample
-%lastdate = "2165"
+%lastdate = "2050"
 ' Data calibrations to be used in the model run - file names are space-separated and found inside data\calibration
 ' Example: to run the NEW, NR_AS_G and NR_AS_G_WS calibrations, use "NEW NR_AS_G NR_AS_G_WS"
 %calibrations = "DATA"
