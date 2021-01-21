@@ -117,6 +117,8 @@ endif
 ' Call here the subroutine you want to use to solve the shock
 call run_scenario("baseline-steady")
 
+call run_scenario("share_elec_enr")
+
 ' ****************************************
 'call run_standard("EXR10 RSSC1 VAT1 INCT1 WD1 FF10 CT1", %iso3, 1) ' Option: 1 for result in excel template; 0 only scenario run
 
@@ -127,7 +129,7 @@ call run_scenario("baseline-steady")
 ' Call (eventually) here the subroutine you want to use to analyse the results
 
 ' Creation of SU table on value and in volume
-' call create_sut("2015 2020 2030", "0 2")
+call create_sut("2015 2020 2030 2050", "0 2")
 
 '' call additional_outputs("Fred")
 ' *******************

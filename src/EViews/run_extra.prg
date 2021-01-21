@@ -72,7 +72,7 @@ subroutine run_scenario(string %scenario_name)
 
     ' Load the data for scenario ENR
     call load_excel("France", "scenarii", "share_elec_enr")
-    call interpolate("PHIY_TOE_CELE_SEWI PHIY_TOE_CELE_SESO")
+    call interpolate("PHIY_TOE_CELE_SECH PHIY_TOE_CELE_SECO PHIY_TOE_CELE_SEGA PHIY_TOE_CELE_SEHY PHIY_TOE_CELE_SENU PHIY_TOE_CELE_SEOI PHIY_TOE_CELE_SEOT PHIY_TOE_CELE_SESO PHIY_TOE_CELE_SEWI")
 
    call solvemodel(%solveopt) 
 
@@ -96,237 +96,29 @@ subroutine outputs
 ' Send results to Excel 
     %index = "2"
     group Macro 100*(GDP_{%index}/GDP_0-1) 100*(CH_{%index}/CH_0-1) 100*(I_{%index}/I_0-1) 100*(X_{%index}/X_0-1) 100*(M_{%index}/M_0-1) 100*((DISPINC_AT_VAL_{%index}/PCH_{%index})/(DISPINC_AT_VAL_0/PCH_0)-1) 100*(RSAV_H_VAL_{%index}-RSAV_H_VAL_0) 100*(PCH_{%index}/PCH_0-1) 100*(PY_{%index}/PY_0-1)  100*(PVA_{%index}/PVA_0-1) 100*(PCI_{%index}/PCI_0-1) 100*(PX_{%index}/PX_0-1) 100*(PM_{%index}/PM_0-1) 100*(W_{%index}/W_0-1) 100*((C_L_{%index}/PVA_{%index})/(C_L_0/PVA_0)-1) (F_L_{%index}-F_L_0) 100*(UnR_{%index}-UnR_0) 100*(RBal_Trade_VAL_{%index}-RBal_Trade_VAL_0) 100*(RBal_G_Prim_VAL_{%index}-RBal_G_Prim_VAL_0) 100*(RDEBT_G_VAL_{%index}-RDEBT_G_VAL_0) 100*(EMS_CO2_{%index}/EMS_CO2_0-1) 100*(CH_0+G_0)/GDP_0*((CH_{%index}+G_{%index})/(CH_0+G_0)-1) 100*I_0/GDP_0*(I_{%index}/I_0-1) 100*(X_0-M_0)/GDP_0*((X_{%index}-M_{%index})/(X_0-M_0)-1) 100*DS_0/GDP_0*(DS_{%index}/DS_0-1)
+
 'output for main baseline variables
-    %baseline = "@PCH(GDP_0) @PCH(pch_0) UNR_0 RDEBT_G_VAL_0 RBal_G_Prim_VAL_0 rbal_trade_val_0 EMS_CO2_0 ESUB_GDP_0 T2VOL_CI_CO2_0 T2VOL_CH_CO2_0 POP GR_PROG_L_sgas_0 GDP_0 PCH_0 PWD_coil EMS_CH_CO2_0 EMS_CI_CO2_0 RSUBCD_cfut RSUBCD_cfuh RSUBCD_cgas RSUBCD_cele RSUBCM_cfut RSUBCM_cfuh RSUBCM_cgas RSUBCM_cele" 
+    %baseline = "@PCH(GDP_0) @PCH(pch_0) UNR_0 RDEBT_G_VAL_0 RBal_G_Prim_VAL_0 rbal_trade_val_0 EMS_CO2_0 POP GDP_0 PCH_0 EMS_CH_CO2_0 EMS_CI_CO2_0" 
 
   ' Concatenation des strings
-   for %c {%list_com_E}
-     %baseline = %baseline + " ESUB_GDP_"+%c+"_0"
-   next
-   for %c {%list_com_E}
-   if @isobject("T2VOL_CI_CO2"+%c+"_0") = 0 then
-     %baseline = %baseline + " T2VOL_CI_CO2_"+%c+"_0"
-   endif
-   next
-   'for %c {%list_com_E}
-   'if @isobject("T2VOL_CH_CO2"+%c+"_0") = 0 then
-     '%baseline = %baseline + " T2VOL_CH_CO2_"+%c+"_0"
-   'endif
-   'next
-
-   for %c {%list_com_E}
-   if @elem(SUBC_VOL_{%c}, %baseyear) <> 0 then
-     %baseline = %baseline + " SUBC_VOL_"+%c+"_0"
+   for %c {%list_com}
+   if @isobject("EMS_"+%c+"_0") = 1 then
+     %baseline = %baseline + " EMS_"+%c+"_0"
    endif
    next
 
-' output for main shock variables
-    %shock = "@PCH(GDP_2) @PCH(pch_2) UNR_2 RDEBT_G_VAL_2 RBal_G_Prim_VAL_2 rbal_trade_val_2 EMS_CO2_2 ESUB_GDP_2 T2VOL_CI_CO2_2 T2VOL_CH_CO2_2" 
-  ' Concatenation des strings
-   for %c {%list_com_E}
-     %shock = %shock + " ESUB_GDP_"+%c+"_2"
-   next
-
-   for %c {%list_com_E}
-   if @isobject("T2VOL_CI_CO2"+%c+"_2") = 0 then
-      %shock = %shock + " T2VOL_CI_CO2_"+%c+"_2"
+   for %c {%list_com}
+   if @isobject("EMS_CO2_"+%c+"_0") = 1 then
+     %baseline = %baseline + " EMS_CO2_"+%c+"_0"
    endif
    next
 
-   'for %c {%list_com_E}
-   'if @isobject("T2VOL_CH_CO2"+%c+"_2") = 0 then
-      '%shock = %shock + " T2VOL_CH_CO2_"+%c+"_2"
-   'endif
-   'next
-  for %c {%list_com_E}
-   if @elem(SUBC_VOL_{%c}, %baseyear) <> 0 then
-     %shock = %shock + " SUBC_VOL_"+%c+"_2"
-   endif
-   next
-'Output for reporting baseline variables by secteurs and/or commodities
-   %reporting_0 = "EMS_CO2_0 EMS_CI_CO2_0 EMS_CH_CO2_0 Y_toe_0 M_toe_0 CI_toe_0 CH_toe_0 X_toe_0 F_L_0 I_0 VA_0 Y_0 CH_toe_cfuh_0 CH_toe_cgas_0 CH_HOUS_toe_cele_0 CH_toe_cfut_0 CH_TRSP_toe_cele_0 CH_toe_HOUS_0 CH_toe_TRSP_0"
-
-   for %s {%list_sec_AGREG}
-   if @elem(IA_{%s}, %baseyear) <> 0 then
-      %reporting_0 = %reporting_0 + " IA_"+%s+"_0" 
-   endif  
-   next
-
-   for %s {%list_sec_AGREG}
-   if @elem(F_L_{%s}, %baseyear) <> 0 then
-      %reporting_0 = %reporting_0 + " F_L_"+%s+"_0" 
-   endif   
-   next
-
-   for %s {%list_sec_AGREG}
-   if @elem(VA_{%s}, %baseyear) <> 0 then
-      %reporting_0 = %reporting_0 + " VA_"+%s+"_0" 
-   endif   
-   next  
-
-   for %s {%list_sec_AGREG}
-   if @elem(Y_{%s}, %baseyear) <> 0 then
-      %reporting_0 = %reporting_0 + " Y_"+%s+"_0" 
-   endif   
-   next 
-
-   for %s {%list_sec_AGREG}
-   if @elem(EMS_CI_CO2_{%s}, %baseyear) <> 0 then
-      %reporting_0 = %reporting_0 + " EMS_CI_CO2_"+%s+"_0" 
-   endif   
-   next
-
-   for %c {%list_com_E}
-   if @elem(EMS_CI_CO2_{%c}, %baseyear) <> 0 then
-      %reporting_0 = %reporting_0 + " EMS_CI_CO2_"+%c+"_0" 
-   endif
-   next
-
-   for %c {%list_com_E}
-   if @elem(EMS_CH_CO2_{%c}, %baseyear) <> 0 then
-      %reporting_0 = %reporting_0 + " EMS_CH_CO2_"+%c+"_0" 
-   endif
-   next
-
-   for %s {%list_sec_AGREG}
-   if @elem(Y_TOE_{%s}, %baseyear) <> 0 then
-      %reporting_0 = %reporting_0 + " Y_TOE_"+%s+"_0"
-   endif    
-   next
-
-   for %s {%list_sec_AGREG}
-   if @elem(CI_TOE_{%s}, %baseyear) <> 0 then
-     %reporting_0 = %reporting_0 + " CI_TOE_"+%s+"_0" 
-   endif  
-   next
-
-   for %c {%list_com_E}
-    if @elem(CI_TOE_{%c}, %baseyear) <> 0  then 
-      %reporting_0 = %reporting_0 + " CI_TOE_"+%c+"_0" 
-    endif  
-   next
-
-   for %c {%list_com_E}
-    if @elem(CH_TOE_{%c}, %baseyear) <> 0  then 
-      %reporting_0 = %reporting_0 + " CH_TOE_"+%c+"_0" 
-    endif  
-   next   
-
-   for %c {%list_com_E}
-    if @elem(X_TOE_{%c}, %baseyear) <> 0  then 
-      %reporting_0 = %reporting_0 + " X_TOE_"+%c+"_0" 
-    endif  
-   next 
-
-  for %c {%list_com_E}
-    if @elem(M_TOE_{%c}, %baseyear) <> 0  then 
-      %reporting_0 = %reporting_0 + " M_TOE_"+%c+"_0" 
-    endif  
-   next 
-
-  for %c {%list_com_E}
-    for %s {%list_sec_AGREG}
-    if @elem(CI_TOE_{%c}_{%s}, %baseyear) <> 0  then 
-      %reporting_0 = %reporting_0 + " CI_TOE_"+%c+"_"+%s+"_0" 
-    endif  
-    next
-  next
-
-  for %c {%list_com_E}
-    for %s {%list_sec_AGREG}
-    if @elem(Y_TOE_{%c}_{%s}, %baseyear) <> 0  then 
-      %reporting_0 = %reporting_0 + " Y_TOE_"+%c+"_"+%s+"_0" 
-    endif  
-    next
-  next 
 
 
-'Output for reporting shock variables by secteurs and/or commodities
-   %reporting_2 = "EMS_CO2_2 EMS_CI_CO2_2 EMS_CH_CO2_2 Y_toe_2 M_toe_2 CI_toe_2 CH_toe_2 X_toe_2 F_L_2 I_2 VA_2 Y_2 CH_toe_cfuh_2 CH_toe_cgas_2 CH_HOUS_toe_cele_2 CH_toe_cfut_2 CH_TRSP_toe_cele_2 CH_toe_HOUS_2 CH_toe_TRSP_2"
-   for %s {%list_sec_AGREG}
-   if @elem(IA_{%s}, %baseyear) <> 0 then
-      %reporting_2 = %reporting_2 + " IA_"+%s+"_2" 
-   endif
-   next
-   for %s {%list_sec_AGREG}
-   if @elem(F_L_{%s}, %baseyear) <> 0 then
-      %reporting_2 = %reporting_2 + " F_L_"+%s+"_2" 
-   endif
-   next
-   for %s {%list_sec_AGREG}
-   if @elem(VA_{%s}, %baseyear) <> 0 then
-      %reporting_2 = %reporting_2 + " VA_"+%s+"_2" 
-   endif   
-   next  
-   for %s {%list_sec_AGREG}
-   if @elem(Y_{%s}, %baseyear) <> 0 then
-      %reporting_2 = %reporting_2 + " Y_"+%s+"_2" 
-   endif   
-   next   
-   for %s {%list_sec_AGREG}
-   if @elem(EMS_CI_CO2_{%s}, %baseyear) <> 0 then
-      %reporting_2 = %reporting_2 + " EMS_CI_CO2_"+%s+"_2" 
-   endif
-   next
-   for %c {%list_com_E}
-   if @elem(EMS_CI_CO2_{%c}, %baseyear) <> 0 then
-      %reporting_2 = %reporting_2 + " EMS_CI_CO2_"+%c+"_2" 
-   endif
-   next
-   for %c {%list_com_E}
-   if @elem(EMS_CH_CO2_{%c}, %baseyear) <> 0 then
-      %reporting_2 = %reporting_2 + " EMS_CH_CO2_"+%c+"_2" 
-   endif
-   next
-   for %s {%list_sec_AGREG}
-   if @elem(Y_TOE_{%s}, %baseyear) <> 0 then
-      %reporting_2 = %reporting_2 + " Y_TOE_"+%s+"_2"
-   endif 
-   next
-   for %s {%list_sec_AGREG}
-   if @elem(CI_TOE_{%s}, %baseyear) <> 0 then
-     %reporting_2 = %reporting_2 + " CI_TOE_"+%s+"_2"
-   endif   
-   next
-   for %c {%list_com_E}
-    if @elem(CI_TOE_{%c}, %baseyear) <> 0  then 
-      %reporting_2 = %reporting_2 + " CI_TOE_"+%c+"_2" 
-    endif  
-   next
-   for %c {%list_com_E}
-    if @elem(CH_TOE_{%c}, %baseyear) <> 0  then 
-      %reporting_2 = %reporting_2 + " CH_TOE_"+%c+"_2" 
-    endif  
-   next   
-   for %c {%list_com_E}
-    if @elem(X_TOE_{%c}, %baseyear) <> 0  then 
-      %reporting_2 = %reporting_2 + " X_TOE_"+%c+"_2" 
-    endif  
-   next
-  for %c {%list_com_E}
-    if @elem(M_TOE_{%c}, %baseyear) <> 0  then 
-      %reporting_2 = %reporting_2 + " M_TOE_"+%c+"_2" 
-    endif  
-   next 
-  for %c {%list_com_E}
-    for %s {%list_sec_AGREG}
-    if @elem(CI_TOE_{%c}_{%s}, %baseyear) <> 0  then 
-      %reporting_2 = %reporting_2 + " CI_TOE_"+%c+"_"+%s+"_2" 
-    endif  
-    next
-  next
-  for %c {%list_com_E}
-    for %s {%list_sec_AGREG}
-    if @elem(Y_TOE_{%c}_{%s}, %baseyear) <> 0  then 
-      %reporting_2 = %reporting_2 + " Y_TOE_"+%c+"_"+%s+"_2" 
-    endif  
-    next
-  next
-    group Baseline_SUB {%baseline}  
-    group shock_SUB {%shock}
-    group reporting_base {%reporting_0}
-    group reporting_shock {%reporting_2}
-call savetoexcel("Macro Baseline_SUB Shock_SUB reporting_base reporting_shock", "Result_Tunisie.xlsx", "YES")
+    group Baseline {%baseline}  
+
+call savetoexcel("Macro Baseline", "Result_France.xlsx", "YES")
+
 endsub
 ' ============================================================================
 ' ============================================================================
