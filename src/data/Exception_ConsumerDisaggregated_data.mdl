@@ -1,0 +1,53 @@
+include ..\model\lists
+
+nb_households := 10
+
+# Round 0:  to be loaded from R
+
+WAGES_VAL[h] := PWAGES*WAGES/nb_households
+PROP_INC_H_VAL[h] := PROP_INC_H_VAL/nb_households
+SOC_BENF_VAL[h] := SOC_BENF_VAL/nb_households
+TRSF_HH_VAL[h] := TRSF_HH_VAL/nb_households
+INC_SOC_TAX_VAL[h] := INC_SOC_TAX_VAL/nb_households
+CH_n_VAL[h] := CH_n_VAL/nb_households
+CH[c, h] := CH[c]/nb_households
+
+
+# Parameters
+ES_LESCES[h] := 0.5
+REDIS_CT_H[h] := 0
+NCH[c, h] := 0
+RHO_MPS_R[h] := 0
+RHO_MPS_UnR[h] := 0
+
+# Special data
+PCH_CES[h] := P
+PNCH[h] := P
+PCH[h] := P
+
+
+CH_n[c, h] := CH[c, h]
+phi_WAGES[h] := WAGES_VAL[h] / (PWAGES * WAGES)
+
+RINC_SOC_TAX[h] := INC_SOC_TAX_VAL[h] / DISPINC_BT_VAL[h]
+
+phi_PROP_INC_H[h] := PROP_INC_H_VAL[h]/PROP_INC_H_VAL
+
+phi_SOC_BENF[h] := SOC_BENF_VAL[h] / SOC_BENF_VAL
+
+(1 - MPS_n[h]) := CH_n_VAL[h] / DISPINC_AT_VAL[h] 
+
+phi_MCH[c, h] := (CH_n[c, h] - NCH[c, h]) * PCH[c] / (CH_n_VAL[h] - PNCH[h] * NCH[h])
+
+# Data calibrated directly from equations
+DISPINC_BT_VAL[h]   := WAGES_VAL[h] + PROP_INC_H_VAL[h] + SOC_BENF_VAL[h] + TRSF_HH_VAL[h]
+
+DISPINC_AT_VAL[h]   := DISPINC_BT_VAL[h] - INC_SOC_TAX_VAL[h]
+
+SAV_H_VAL[h]  := DISPINC_AT_VAL[h] - PCH[h] * CH[h]
+
+RSAV_H_VAL[h] := SAV_H_VAL[h] / DISPINC_AT_VAL[h]
+
+NCH[h] := sum(NCH[c, h] on c)
+
+CH[h] := sum(CH[c, h] on c)

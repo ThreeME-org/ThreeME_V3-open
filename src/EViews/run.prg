@@ -58,6 +58,7 @@ else
 
   ' Create the series using the dependencies (add-ins "series")
   statusline "Compiling the calibration of the model's variables... Please wait it may take a few minutes..."
+
   {%modelname}.series ..\model\lists parameters R_Calibration_FRA round0 Prices_data SU_data Special_data Other_data Exception_taxes_prices_data Exception_NestedCES_data Exception_housing_data Exception_transport_data
   ' Exception_ConsumerNested_data  Exception_Other_data
 
@@ -120,6 +121,7 @@ call run_scenario("baseline-steady")
 'call run_standard("EXR10 RSSC1 VAT1 INCT1 WD1 FF10 CT1", %iso3, 1) ' Option: 1 for result in excel template; 0 only scenario run
 
 'call run_standard("EXR10 EXPG1 RSSC1 VAT1 INCT1 WD1 FF10 CT1", %iso3, 1) ' Option: 1 for result in excel template; 0 only scenario run
+
 
 ' ***************************************
 ' Call (eventually) here the subroutine you want to use to analyse the results
