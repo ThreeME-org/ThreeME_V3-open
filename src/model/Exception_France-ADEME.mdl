@@ -5,7 +5,9 @@
 #### Additional equations to fit scenarii 
 
 ##! Share of electicity produced by wind sector (national account definition)
-PhiY_toe[cele, sewi] = 1 - (sum(PhiY_toe[cele, s] on s where s in %list_sec \ sewi))
+PhiY_toe[cele, sewi] = 1 - PhiY_toe[cele, SECH] - PhiY_toe[cele, SECO]- PhiY_toe[cele, SEGA]- PhiY_toe[cele, SEHY]- PhiY_toe[cele, SENU]- PhiY_toe[cele, SEOI]- PhiY_toe[cele, SEOT]- PhiY_toe[cele, SESO]
+# The following does not work: Find correct syntax
+# PhiY_toe[cele, sewi] = 1 - (sum(PhiY_toe[cele, s] on s, where s in %list_sec \ sewi))
 
 
 ### Fitting baseline GDP
