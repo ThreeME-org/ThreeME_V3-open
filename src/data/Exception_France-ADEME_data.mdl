@@ -44,11 +44,11 @@ PS_CH[ce] := 0
 PS_CI[ce] := 0
 
 # TO DO : update initilaisation with Hybrid block names
-CH_toe_hous := CH_toe[cfuh] + CH_toe[cgas] + CH_HOUS_toe[cele]
-CH_HOUS_toe[cele] :=  CH_toe[cele] * CH_HOUS[cele] / (CH_HOUS[cele] + CH_TRSP[cele])
+#CH_toe_hous := CH_toe[cfuh] + CH_toe[cgas] + CH_HOUS_toe[cele]
+#CH_HOUS_toe[cele] :=  CH_toe[cele] * CH_HOUS[cele] / (CH_HOUS[cele] + CH_TRSP[cele])
 
-CH_toe_trsp := CH_toe[cfut] + CH_TRSP_toe[cele]
-CH_TRSP_toe[cele] := CH_toe[cele] * CH_TRSP[cele] / (CH_HOUS[cele] + CH_TRSP[cele])
+#CH_toe_trsp := CH_toe[cfut] + CH_TRSP_toe[cele]
+#CH_TRSP_toe[cele] := CH_toe[cele] * CH_TRSP[cele] / (CH_HOUS[cele] + CH_TRSP[cele])
 
 
 ##! Carbon tax in volume on households' consumption
@@ -106,7 +106,7 @@ CI_toe[sagg] := sum(CI_toe[ce, sagg] on ce)
 Verif_CI_toe := sum(CI_toe[sagg] on sagg) - CI_toe
 
 CF_toe[ce] := CI_toe[ce, IND] + CI_toe[ce, TRSP] + CI_toe[ce, SER] + CH_toe[ce]
-CF_CI_toe[ce] := CI_toe[ce, IND] + CI_toe[ce, TRSP] + CI_toe[ce, SER] + CI_toe[ce, setd]
+CF_CI_toe[ce] := CI_toe[ce, IND] + CI_toe[ce, TRSP] + CI_toe[ce, SER]
 
 
 Y_toe[ce, IND]  := sum(Y_toe[ce, sind] on sind)      

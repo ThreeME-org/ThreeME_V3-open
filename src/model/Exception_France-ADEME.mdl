@@ -1,6 +1,12 @@
 ##### Exception equations for ThreeME - France - ADEME
 
+
+
 #### Additional equations to fit scenarii 
+
+##! Share of electicity produced by wind sector (national account definition)
+PhiY_toe[cele, sewi] = 1 - (sum(PhiY_toe[cele, s] on s where s in %list_sec \ sewi))
+
 
 ### Fitting baseline GDP
 
@@ -125,12 +131,12 @@ verif_EMS_CI[ghg]  = sum(EMS_CI[ghg, sagg] on sagg) - EMS_CI[ghg]
 # !!! TO DO: UPDATE depending on the targets of the SNBC!
 # introduce all the relevent commodities
 ##! End use for energy consumption of households related to housing, expressed in toe
-CH_toe_hous = CH_toe[cfuh] + CH_toe[cgas] + CH_HOUS_toe[cele]
-CH_HOUS_toe[cele] =  CH_toe[cele] * CH_HOUS[cele] / (CH_HOUS[cele] + CH_TRSP[cele])
+#CH_toe_hous = CH_toe[cfuh] + CH_toe[cgas] + CH_HOUS_toe[cele]
+#CH_HOUS_toe[cele] =  CH_toe[cele] * CH_HOUS[cele] / (CH_HOUS[cele] + CH_TRSP[cele])
 
 ##! End use for energy consumption of households related to transport, expressed in toe
-CH_toe_trsp = CH_toe[cfut] + CH_TRSP_toe[cele]
-CH_TRSP_toe[cele] = CH_toe[cele] * CH_TRSP[cele] / (CH_HOUS[cele] + CH_TRSP[cele])
+#CH_toe_trsp = CH_toe[cfut] + CH_TRSP_toe[cele]
+#CH_TRSP_toe[cele] = CH_toe[cele] * CH_TRSP[cele] / (CH_HOUS[cele] + CH_TRSP[cele])
 
 ##! End use for energy $ce$ of agregate sector, expressed in toe 
 CI_toe[ce, IND]  = sum(CI_toe[ce, sind]   if CI_toe[ce, sind] <> 0 on sind)    if CI_toe[ce, IND]  <> 0
@@ -143,7 +149,7 @@ CI_toe[ce, ELE]  = sum(CI_toe[ce, sele]   if CI_toe[ce, sele] <> 0 on sele)     
 CF_toe[ce] = CI_toe[ce, IND] + CI_toe[ce, TRSP] + CI_toe[ce, SER] + CH_toe[ce]
 
 ##! Final consumption (energy balance definition) of economic sectors for energy $ce$, expressed in toe
-CF_CI_toe[ce] = CI_toe[ce, IND] + CI_toe[ce, TRSP] + CI_toe[ce, SER] + CI_toe[ce, setd]
+CF_CI_toe[ce] = CI_toe[ce, IND] + CI_toe[ce, TRSP] + CI_toe[ce, SER]
 
 
 ##! End use for agregate energy of agregate sector, expressed in toe 
