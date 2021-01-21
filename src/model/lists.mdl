@@ -26,6 +26,24 @@ include .\R_lists
 # List of households
 %list_households := H01 H02 H03 H04 H05 H06 H07 H08 H09 H10 #[h]
 
+# List of industry sectors
+%list_sec_IND := sagr sfoo stex sveh sgla sche sogo scon #[sind]
+
+# List of transport sectors
+%list_sec_TRSP := srai sroa sair #[strsp]
+
+# List of services sectors
+%list_sec_SER := spri spub #[sser]
+
+# List of transformation sectors
+%list_sec_TRSF := soil sbfu sgas sbga #[strsf]
+
+# List of electricity sectors
+%list_sec_ELE := senu seoi sega seco sewi seso sehy sech seot #[sele]
+
+# List of agregate secteors
+%list_sec_AGREG := ind trsp ser trsf ele #[sagg]
+
 
 # Default iterators
 s in %list_sec
@@ -71,5 +89,12 @@ bcl in %list_buil_class
 h in %list_households
 
 O in D M
+
+sind in %list_sec_IND
+strsp in %list_sec_TRSP
+sser in %list_sec_SER
+strsf in %list_sec_TRSF
+sele in %list_sec_ELE
+sagg in %list_sec_AGREG
 
 %baseyear := 2015

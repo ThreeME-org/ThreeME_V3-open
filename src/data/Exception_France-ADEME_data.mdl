@@ -16,14 +16,10 @@ include ..\model\lists
 @over ES_NRJ[cfut, cfuh, s] := 0.0
 @over ES_NRJ[cfuh, cfut, s] := 0.0
 
-# To correct for the price difference between PY_toe_cgas_sext and PY_toe_cgas_sgas
-@over PY_toe_cgas_sext := P * 1.070234156047238
-
 #### Baseline scenario 
 GDP_trend := GDP
 GDP_cont := 0 
 G_trend := G
-RDEBT_G_VAL_cont := 0 
 
 GR_PROG_exo[E, s] := 0
 
@@ -40,59 +36,20 @@ GR_PROG_TRSP_base := 0
 CH_HOUS_base[ce]  := 0
 CH_TRSP_base[ce]  := 0
 
-CH_TRSP1[ce] := CH_TRSP[ce]
-CH_HOUS1[ce] := CH_HOUS[ce]
-
 PS_CI[ce, s] := 0
 
-PS_HOUS_ENER_INV := 0
-PS_TRSP_ENER_INV := 0  
 
 PS_CH[ce] := 0
 
 PS_CI[ce] := 0
 
-PS_CH_HOUSENER_CES := 1
-PS_CH_TRSPENER_CES := 1
-
-
-#### Energy balance  
-##! Net production of energy $ce$, expressed in toe 
-@over Y_toe[ce] + M_toe[ce] := CI_toe[ce] + CH_toe[ce] + X_toe[ce] +  DS_toe[ce]
-# Includes the change in stocks in the demand side: DS_toe[ce] is NOT merged with production anymore. This corrects the inconsistency with the input data. 
-
+# TO DO : update initilaisation with Hybrid block names
 CH_toe_hous := CH_toe[cfuh] + CH_toe[cgas] + CH_HOUS_toe[cele]
 CH_HOUS_toe[cele] :=  CH_toe[cele] * CH_HOUS[cele] / (CH_HOUS[cele] + CH_TRSP[cele])
 
 CH_toe_trsp := CH_toe[cfut] + CH_TRSP_toe[cele]
 CH_TRSP_toe[cele] := CH_toe[cele] * CH_TRSP[cele] / (CH_HOUS[cele] + CH_TRSP[cele])
 
-#### Reduction of subsidies on energy and redistribution
-# Reduction of subsidies: calibration the redistribution
-RSUBCD_base[ce]:= RSUBCD[ce]
-RSUBCM_base[ce]:= RSUBCM[ce]
-DSUB_VAL[ce] := 0
-DSUB_VAL_H[ce] := 0
-DSUB_VAL := 0
-DSUB_VAL_H := 0
-
-REDIS_SUB_LS := 0
-REDIS_SUB_RRSC := 0
-REDIS_SUB_H := 0
-
-REDIS_CT2_LS[s] := 0
-REDIS_CT2_H := 0
-
-# Correct that the subsidies on transport are neglected in 2015
-@over SUBCD_CFUT := -0.0000000001 * YQ_CFUT
-@over SUBCM_CFUT := -0.0000000001 * M_CFUT
-
-
-#### Share of energy subsidy in GDP
-ESUB_GDP[ce] := (PSUBCD[ce] * SUBCD[ce] + PSUBCM[ce] * SUBCM[ce]) / (PGDP * GDP)
-ESUB_GDP := sum(ESUB_GDP[ce] on ce)
-
-SUBC_VOL[c] := (PSUBC[c]  *  SUBC[c]) / PCH
 
 ##! Carbon tax in volume on households' consumption
 T2VOL_CH[ghg,c] :=  T2VAL_CH[ghg,c]/PCH				
@@ -103,8 +60,6 @@ T2VOL_CI[ghg,c] := T2VAL_CI[ghg,c]/PCH
 T2VOL_CI[ghg] := sum(T2VOL_CI[ghg,c] on c)
 
 RCO2TAX_VOL := 0
-
-R2_CH_CO2_exon := 0
 
 ##! output for IA, F[L], EMS
 
@@ -162,9 +117,3 @@ Y_toe[ce, ELE]  := sum(Y_toe[ce, sele] on sele)
 
 Y_toe[sagg] := sum(Y_toe[ce, sagg] on ce)
 Verif_Y_toe := sum(Y_toe[sagg] on sagg) - Y_toe
-
-IEMS_CO2_CGAS := 1
-
-# Activate only for the electricitity shock: the steady state reaches the same GDP level in 2050 than the baseline. The decomposition of effects is more consistent in terms of CO2 emission levels 
-# @over GR_POP     := 0.005700801
-# @over GR_PROG[L] := (1+0.047620153)/(1+GR_POP)-1

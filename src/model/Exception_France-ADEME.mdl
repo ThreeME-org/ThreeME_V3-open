@@ -1,39 +1,4 @@
-##### Exception equations for ThreeME - Tunisia
-
-#### Decrease in the emission coefficient of gas
-## In order to account for the increase of the share of thermic solar
-IEMS_CI[CO2,cgas,s] = IEMS_CO2_CGAS
-IEMS_CH[CO2,cgas] = IEMS_CO2_CGAS
-
-#### Stability of the Tunisian crude and refined oil production after 2015
-## !! Theses equations are incompatable with a steady states !!
-
-@over d(log(X_coil)) = (@year > %baseyear) * 0 + (@year <= %baseyear) * (d(log(X_coil{-1})))
-@over d(log(X_cfut)) = (@year > %baseyear) * 0 + (@year <= %baseyear) * (d(log(X_cfut{-1})))
-@over d(log(X_cfuh)) = (@year > %baseyear) * 0 + (@year <= %baseyear) * (d(log(X_cfuh{-1})))
-
-##! Intermediary consumption from sector $s$ in domestically produced commodity $c$
-@over d(log(CID[coil, s])) = (@year > %baseyear) * 0 + (@year <= %baseyear) * (d(log(CID[coil, s]{-1}))) 		if CID[coil, s] <> 0
-
-@over CIM[coil, s] = CI[coil, s] - CID[coil, s]  if CIM[coil, s] <> 0
-
-@over d(log(CID[cfut, s])) = (@year > %baseyear) * 0 + (@year <= %baseyear) * (d(log(CID[cfut, s]{-1}))) 		if CID[cfut, s] <> 0
-
-@over CIM[cfut, s] = CI[cfut, s] - CID[cfut, s]  if CIM[cfut, s] <> 0
-
-@over d(log(CHD[cfut])) = (@year > %baseyear) * 0 + (@year <= %baseyear) * (d(log(CHD[cfut]{-1}))) 		if CHD[cfut] <> 0
-
-@over CHM[cfut] = CH[cfut] - CHD[cfut]  if CHM[cfut] <> 0
-
-
-@over d(log(CID[cfuh, s])) = (@year > %baseyear) * 0 + (@year <= %baseyear) * (d(log(CID[cfuh, s]{-1}))) 		if CID[cfuh, s] <> 0
-
-@over CIM[cfuh, s] = CI[cfuh, s] - CID[cfuh, s]  if CIM[cfuh, s] <> 0
-
-@over d(log(CHD[cfuh])) = (@year > %baseyear) * 0 + (@year <= %baseyear) * (d(log(CHD[cfuh]{-1}))) 		if CHD[cfuh] <> 0
-
-@over CHM[cfuh] = CH[cfuh] - CHD[cfuh]  if CHM[cfuh] <> 0
-
+##### Exception equations for ThreeME - France - ADEME
 
 #### Additional equations to fit scenarii 
 
@@ -48,22 +13,6 @@ d(log(EXPG)) = d(log(GDP_trend)) + 0.5 * GDP_cont
 ##! World demand 
 d(log(WD[c])) = d(log(GDP_trend)) + 0.5 * GDP_cont
 
-### Fitting subsidies and debt ratio target
-
-##! Agregate subsidies on commodity $c$ expressed in volume (deplated with the consummer price)
-SUBC_VOL[c] = (PSUBC[c]  *  SUBC[c]) / PCH
-
-##! Subsidies rate on imported fuel commodity CFUH
-RSUBCM[CFUH] = RSUBCD[CFUH]
-
-##! Subsidies rate on imported fuel commodity CFUT
-RSUBCM[CFUT] = RSUBCD[CFUT]
-
-### Fitting debt ratio target
-
-##! Social benefits expressed in value
-@over SOC_BENF_VAL     = RR_POP * @elem(W, %baseyear) * PROG_L * P * POP + RR_Un * W * Un + DSOC_BENF_VAL + RDEBT_G_VAL_cont
-
 ### Fitting energy consumption for non energy sectors
 
 ##! Energy efficiency gains in sector $s$
@@ -72,7 +21,7 @@ RSUBCM[CFUT] = RSUBCD[CFUT]
 ##! Energy consumption $ce$ of sector $s$
 @over d(log(CI[ce, s]))    = d(log(F[E, s])) + d(SUBST_CI[ce,s]) - GR_CI_base[ce, s] if CI[ce, s]  <> 0
 
-GR_CI_base[ce, s] = GR_CI_base[ce]  where s in %list_sec \ sext soil sgas sega sewi seso seot
+GR_CI_base[ce, s] = GR_CI_base[ce]  where s in %list_sec \ soil sbfu sgas sbga senu seoi sega seco sewi seso sehy sech seot
 
 ##! Substitution effect on the energy intermediate consumption $ce$ in the sector $s$
 @over d(SUBST_CI_n[ce, s]) = sum(- ES_NRJ[ce, cee, s] * phi[E, cee, s]{-1} * d(log(PCI[ce, s] * exp(PS_CI[ce, s])) - log(PCI[cee, s]*exp(PS_CI[cee, s]))) on cee)      if CI[ce, s]  <> 0
@@ -85,78 +34,33 @@ PS_CI[ce, s] = PS_CI[ce]
 # Inclusion of a price signal if we want to fit transport targets
 
 ### Fitting energy consumption for households
+# !!!! TO DO: Stock of building per class and ENERperM2[ecl, ceb]
+# NCH_BUIL[ce] --> BUIL[ecl] : 
+# Add trend in:
+##! Consumption of energy $ceb$ per square meter in class $ecl$ buildings
+#d(log(ENERperM2[ecl, ceb])) = - eta_ENERperM2[ecl, ceb] * d(log(PCH[ceb])-log(PCH)) * (d(log(PCH[ceb])-log(PCH)) >0) _
+#                                + d(SUBST_NRJperM2[ecl, ceb]) if ENERperM2[ecl, ceb] <> 0
+# - GR_PROG_HOUS_base
 
-##! Households' final consumption related to housing in value
-@over d(log(CH_HOUS_VAL)) =  d(log(CH_n_VAL)) - GR_PROG_HOUS_base
+## TO DO : ADD TREND IN
+##! Kilometer-travelers for air transport
+#d(log(km_traveler[cair])) = (@year > %baseyear) * (theta_kmtravcair_DISPINC * d(log(DISPINC_AT_VAL/PCH)) - theta_kmtravcair_Pkmtrav * d(log(P_km_traveler[cair]/PCH))) + (@year <= %baseyear) * (0)
+# Expressed in million.
 
-##! Households' final consumption related to transport in value
-@over d(log(CH_TRSP_VAL)) =  d(log(CH_n_VAL)) - GR_PROG_TRSP_base
+##! Kilometer-travelers for long distance transport (by automobile and train)
+# d(log(km_traveler_LD)) = (@year > %baseyear) * (theta_kmtravLD_DISPINC * d(log(DISPINC_AT_VAL/PCH)) - theta_kmtravLD_Pkmtrav * d(log(P_km_traveler_LD/PCH))) + (@year <= %baseyear) * (0)
+# Expressed in million.
 
-##! Households' final consumption of energy commodity $ce$ related to housing
-CH_HOUS1[ce] * PCH_HOUS[ce] = phi_MCH_HOUS[ce] * CH_HOUSENER_VAL  if CH_HOUS[ce]  <> 0
-
-@over CH_HOUS[ce] = CH_HOUS1[ce] + CH_HOUS_base[ce] 			  if CH_HOUS[ce]  <> 0
-
-##! Households' final consumption of energy commodity $ce$ related to automobile transport
-CH_TRSP1[ce] * PCH_TRSP[ce] = phi_MCH_TRSP[ce] * CH_TRSPENER_VAL  if CH_TRSP[ce]  <> 0
-
-@over CH_TRSP[ce] = CH_TRSP1[ce] + CH_TRSP_base[ce] 			  if CH_TRSP[ce]  <> 0
-
-##! Substitution between housing investment and energy housing expenditures
-@over d(SUBST_HOUSINV) 	= (1 - ES_HOUS_INV_ENER) * d(log(PCH_HOUSENER/PCH_HOUSINV)) + PS_HOUS_ENER_INV  if CH_HOUSINV_VAL    <> 0
-
-##! Substitution between automobile investment and energy automobile expenditures
-@over d(SUBST_TRSPINV) 	= (1 - ES_TRSP_INV_ENER) * d(log(PCH_TRSPENER/PCH_TRSPINV)) + PS_TRSP_ENER_INV if CH_TRSPINV_VAL    <> 0
-
-##! Share of energy consumption $ce$ into the total energy consumption related to housing
-@over d(log(phi_MCH_HOUS[ce])) = (1 - ES_HOUS_ENER) * d(log(PCH_HOUS[ce] / PCH_HOUSENER_CES)) - ES_HOUS_ENER * d(log(exp(PS_CH[ce]) / PS_CH_HOUSENER_CES))    if phi_MCH_HOUS[ce] <> 0
-
-##! Price of the aggregate energy expenditures related to housing
-PS_CH_HOUSENER_CES  = (sum(@elem(phi_MCH_HOUS[ce], %baseyear) * (exp(PS_CH[ce])) ^ (- ES_HOUS_ENER) on ce)) ^ (1 / (- ES_HOUS_ENER)) if ES_HOUS_ENER <> 0
-
-##! Share of energy consumption $ce$ into the total energy consumption related to automobile transport
-@over d(log(phi_MCH_TRSP[ce])) = (1 - ES_TRSP_ENER) * d(log(PCH_TRSP[ce] / PCH_TRSPENER_CES)) - ES_TRSP_ENER * d(log(exp(PS_CH[ce]) / PS_CH_TRSPENER_CES))     if phi_MCH_TRSP[ce] <> 0
-
-##! Price of the aggregate energy expenditures related to automobile transport
-PS_CH_TRSPENER_CES = (sum(@elem(phi_MCH_TRSP[ce], %baseyear) * (exp(PS_CH[ce])) ^ (- ES_TRSP_ENER) on ce)) ^ (1 / (- ES_TRSP_ENER)) if ES_TRSP_ENER <> 0
-   
-# For meeting target CO2 gas emission
-PHIY_TOE_CELE_SEGA = @elem(PHIY_TOE_CELE_SEGA, 2015) + @elem(PHIY_TOE_CELE_SEWI, 2015)+ @elem(PHIY_TOE_CELE_SESO, 2015) - PHIY_TOE_CELE_SEWI - PHIY_TOE_CELE_SESO
+##! Kilometer-travelers for short distance transport (by automobile and bus)
+#d(log(km_traveler_SD)) = (@year > %baseyear) * (theta_kmtravSD_DISPINC * d(log(DISPINC_AT_VAL/PCH)) - theta_kmtravSD_Pkmtrav * d(log(P_km_traveler_SD/PCH))) + (@year <= %baseyear) * (0)
+# Expressed in million.
 
 #### Energy balance  
 
-##! Net production of energy $ce$, expressed in toe 
-@over Y_toe[ce] + M_toe[ce] = CI_toe[ce] + CH_toe[ce] + X_toe[ce] +  DS_toe[ce] 	if Y_toe[ce] <> 0
-# Includes the change in stocks in the demand side: DS_toe[ce] is NOT merged with production anymore. This corrects the inconsistency with the input data. 
 
-#### Reduction of subsidies on energy and redistribution
-## The reduction of the subsidies can be used to reduced the public debt. Alternativelly, the income generated can be redistributed to firms and households. To do so the following block of equation has to be added. \\
-##! Redistribution of changes in subsidies rate on commodity $ce$
-DSUB_VAL[ce] = (RSUBCD[ce]-RSUBCD_base[ce])* YQ[ce] + (RSUBCM[ce]-RSUBCM_base[ce])* M[ce] 
-
-##! Redistribution to households of changes in subsidies on commodity $ce$   
-DSUB_VAL_H[ce]	= (RSUBCD[ce]-RSUBCD_base[ce])* YQ[ce] * CHD[ce] / (CID[ce] + CHD[ce]) + (RSUBCM[ce]-RSUBCM_base[ce])* M[ce] * CHM[ce] / (CIM[ce] + CHM[ce] + eps)
-
-##! Redistribution of changes in subsidies rate on energy commodities
-DSUB_VAL = sum(DSUB_VAL[ce] on ce)
-
-##! Redistribution of changes in subsidies rate on energy commodities
-DSUB_VAL_H = sum(DSUB_VAL_H[ce] on ce)
-
-##! Net taxes on the production of sector $s$ expressed in value
-@over NTAXS_VAL[s] = RNTAXS[s] * PY[s] * Y[s] + T2VAL_MAT[s] + T2VAL_Y[s] - T2VAL_SEC * F[L,s]/F[L] * REDIS_CT_LS - (T2VAL_CH + T2VAL_SEC) * REDIS_CT2_LS[s] - (DSUB_VAL - DSUB_VAL_H) * F[L,s]/F[L] * REDIS_SUB_LS
-
-##! Employers' social security contribution paid by sector $s$
-@over RSC[s] * PRSC[s] = W[s] * F[L, s] * RRSC[s] - T2VAL_SEC * F[L,s]/F[L] * REDIS_CT_RRSC - (DSUB_VAL - DSUB_VAL_H) * F[L,s]/F[L] * REDIS_SUB_RRSC
-
-##! Income and social taxes expressed in value
-@over INC_SOC_TAX_VAL  = RINC_SOC_TAX * DISPINC_BT_VAL - T2VAL_CH * REDIS_CT_H - DSUB_VAL_H * REDIS_SUB_H - (T2VAL_CH + T2VAL_SEC) * REDIS_CT2_H
 
 #### Additional outputs
 
-##! Share of energy subsidy in GDP
-ESUB_GDP[ce] = (PSUBCD[ce] * SUBCD[ce] + PSUBCM[ce] * SUBCM[ce]) / (PGDP * GDP)
-ESUB_GDP = sum(ESUB_GDP[ce] on ce)	
 
 ##! Carbon tax in volume on households' consumption
 T2VOL_CH[ghg,c] =  T2VAL_CH[ghg,c]/PCH 					if EMS_CH[ghg,c] <> 0
@@ -176,7 +80,7 @@ R2_MAT_CO2[s]= RCO2TAX_VOL*PCH
 R2_Y_CO2[s] = RCO2TAX_VOL*PCH
 
 ##! Carbon tax rate on the greenhouse gas $ghg$ associated to the household final consumption of the sector $s$
-R2_CH_CO2[c] = RCO2TAX_VOL*PCH*(1-R2_CH_CO2_exon)
+R2_CH_CO2[c] = RCO2TAX_VOL*PCH
 
 ##! Investment in agregate sector 
 IA_IND  = sum(IA[sind]  on sind)
@@ -218,7 +122,8 @@ EMS_CI[ghg, sagg]  = sum(EMS_CI[ghg, c, sagg] if EMS_CI[ghg, c, sagg] <> 0 on c)
 
 verif_EMS_CI[ghg]  = sum(EMS_CI[ghg, sagg] on sagg) - EMS_CI[ghg] 
 
-
+# !!! TO DO: UPDATE depending on the targets of the SNBC!
+# introduce all the relevent commodities
 ##! End use for energy consumption of households related to housing, expressed in toe
 CH_toe_hous = CH_toe[cfuh] + CH_toe[cgas] + CH_HOUS_toe[cele]
 CH_HOUS_toe[cele] =  CH_toe[cele] * CH_HOUS[cele] / (CH_HOUS[cele] + CH_TRSP[cele])
