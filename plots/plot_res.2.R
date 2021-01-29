@@ -1,4 +1,4 @@
-plot.dir <- "plot_res.CO2"
+plot.dir <- "plot_fig.2.CO2 "
 
 for (frmt in formmat_img){
   
@@ -25,13 +25,13 @@ for (frmt in formmat_img){
     geom_line(aes(linetype = scenario)) +
     scale_linetype_manual(values = line_scenario) +
     scale_y_continuous(labels = label_percent(accuracy = 1L)) + 
-    theme_minimal() +
+    theme_classic() + 
     theme(
       plot.title = element_text(size = 12, family = police, hjust = 0.5),
       plot.subtitle = element_text(size = 8, family = police),
       legend.text= element_text(size = 10, family = police),
-      axis.line = element_line(colour = "gray", 
-                               size = 0.3, linetype = "solid"),
+      #axis.line = element_line(colour = "gray", 
+      #                         size = 0.3, linetype = "solid"),
       axis.title.x = element_text(size = 16 ,family = police),
       axis.title.y = element_text(size = 12,family = police), 
       axis.text.x =  element_text( size = 10,family = police),
@@ -40,7 +40,7 @@ for (frmt in formmat_img){
       legend.title = element_blank()
     ) +
     labs(
-      title= bquote(~CO[2]~ "Emissions"), 
+      title= bquote("Émissions de "~CO[2] ), 
       subtitle =  "" ,
       caption="",
       x= "",

@@ -21,15 +21,18 @@ for (frmt in formmat_img){
   data_plot <- data.frame()
   for (sc in scenario){
     df.temp <- rep.plot[[str_c("df_",sc)]] %>%
-      select(contains("X100..F_L_S")) %>%
+      select(starts_with("F_L_S")) %>%
       `colnames<-`(str_c(sectors.desc$label_sectors)) %>%  cbind( data_year, "Scenario" = df_SC$label[df_SC$scenario == str_c(sc)], .) %>% 
       gather(key = sectors, value = value, - year, - Scenario)
    
      data_plot <- rbind(data_plot,df.temp)
   }
-  data_plot <- data_plot %>% filter(year == 2040)
+  data_plot <- data_plot %>%
+    filter(year == 2040) %>% 
+    filter(Scenario == "COVID & Low Oil & Climate Pol.")     
 
-  
+  - 22.965530  -7.852906 -6.015080
+  data_plot$value %>% sum()
   
   plot_g <- ggplot() +
     geom_bar(data =  data_plot  ,

@@ -16,11 +16,11 @@ fonts()
   pal <- sequential_hcl(n = 4, h = 0, c = c(0, NA, NA), l = c(20, 70), power = 1.2, register = )
   
   # Police used in the plots
-  police <- "Times New Roman"
+  police <- "Calibri"
   
   line_scenario <- c("solid", "dotted", "twodash", "longdash")
   scenario <- c("ClimatePol", "Covid", "Covid_LowOil", "Covid_lowOil_ClimatePol")
-  scenario_label <- c("Climate Pol.", "Covid", "Covid & Low Oil", "Covid & Low Oil & Climate Pol.")
+  scenario_label <- c("Pol Clim.", "COVID", "COVID & PétroleBas", "COVID & PétroleBas & Pol Clim.")
   #scenario_label <- c("Climate Pol", "Covid", "Covid-LowOil", "Covid-LowOil-Climate Pol.")
   
   df_SC <- cbind("scenario"= scenario,"label" = scenario_label) %>% data.frame(., stringsAsFactors = FALSE)
@@ -52,18 +52,19 @@ fonts()
       heights = unit.c(unit(1, "npc") - lheight, lheight))
   }
   
+  sectors.desc$label_sectors_FR
   
-  
-  plot_list <- c("plot_res.1",
+  plot_list <- c(
+    "plot_res.1",
                  "plot_res.2",
-                 "plot_res.3",
+               "plot_res.3",
                  "plot_res.4",
-                 "plot_res.all",
-                 "plot_calib",
-                 "plot_sector.1",
-                 "plot_sector.2",
-                 "plot_sector.3",
-                 "plot_sector.4"
+                 "plot_res.all"
+       #          "plot_calib",
+        #         "plot_sector.1",
+         #        "plot_sector.2",
+          #       "plot_sector.3",
+           #      "plot_sector.4"
                  )
   
   
