@@ -22,3 +22,7 @@ results/*.wf1
 doc/*.aux
 doc/*.log
 
+*.eps
+*.pdf
+*.csv
+*.png
