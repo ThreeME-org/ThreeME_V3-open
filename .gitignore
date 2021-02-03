@@ -23,6 +23,5 @@ doc/*.aux
 doc/*.log
 
 *.eps
-*.pdf
 *.csv
 *.png
