@@ -56,11 +56,13 @@ else
   ' Load calibration data from the Excel file (if needed)
   ' call load_calibration
 
+  ' Export all variables to a csv file (used by the external compiler)
+  call export_all_to_csv
+
   ' Create the series using the dependencies (add-ins "series")
   statusline "Compiling the calibration of the model's variables... Please wait it may take a few minuts..."
 
   {%modelname}.series round0 Prices_data SU_data Special_data Other_data Exception_taxes_prices_data Exception_NestedCES_data Exception_Other_data Exception_Covid_data 
-  '' Exception_ConsumerNested_data
 
   ' Export all variables to a csv file (used by the external compiler)
   call export_all_to_csv
@@ -102,19 +104,6 @@ call run_scenario("baseline-steady")
 'call run_scenario("covid")
 'call run_scenario("covid-oil")
 call run_scenario("covid-oil-co2tax")
-
-
-' Save Supply Use tables for sellected years and scenarii
-' call create_sut("2010 2020 2030 ", "0 2")
-
-
-' ****************************************
-' call run_standard("EXPG1", %iso3, 1)
-' call run_standard("CT1 CT2 SUB1 SUB2 SUB3 EXPG1 INCT1 VAT1 FF10", %iso3, 1) ' Option: 1 for result in excel template; 0 only scenario run
-'' call run_standard("RSSC1 EXR10 WD1", %iso3, 1) ' Option: 1 for result in excel template; 0 only scenario run
-' ***************************************
-' Call (eventually) here the subroutine you want to use to analyse the results
-'' call additional_outputs("Fred")
 
 ' *******************
 ' Error reporting

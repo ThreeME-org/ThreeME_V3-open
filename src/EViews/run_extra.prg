@@ -46,9 +46,6 @@ subroutine run_scenario(string %scenario_name)
     smpl {%baseyear} @last
     call load_excel("France", "scenarii", "baseline")
 
-    ' Interpolate the variables in the list
-    ' call interpolate("POP GDP_TREND")
-
     ' #### Simulate the scenario by solving the model
     smpl {%baseyear} @last
     call solvemodel(%solveopt)

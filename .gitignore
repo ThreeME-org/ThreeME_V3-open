@@ -23,5 +23,5 @@ doc/*.aux
 doc/*.log
 
 *.eps
-*.csv
 *.png
+src/addin/model/_tmp_all_vars.csv
