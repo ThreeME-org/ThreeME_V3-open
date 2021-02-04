@@ -1,0 +1,89 @@
+"","year","Scenario","sectors","value"
+"1",2040,"Climate Pol.","Agriculture, forestry and fishing",10.80433
+"2",2040,"Climate Pol.","Mining and quarrying, energy, water,
+ waste management and remediation",-12.06101
+"3",2040,"Climate Pol.","Manufacture of food, beverages 
+ and tobacco products",5.34505
+"4",2040,"Climate Pol.","Coking and refining",-26.84828
+"5",2040,"Climate Pol.","Manufacture of electrical, electronic and 
+ computer equipment; machinery manufacturing",-3.581138
+"6",2040,"Climate Pol.","Transport equipment manufacturing",-2.220347
+"7",2040,"Climate Pol.","Manufacture of other industrial products",0.485723
+"8",2040,"Climate Pol.","Construction",8.584941
+"9",2040,"Climate Pol.","Trade ; repair of motor vehicles and motorcycles",3.279747
+"10",2040,"Climate Pol.","Transport and storage",3.454469
+"11",2040,"Climate Pol.","Accommodation and catering",7.533201
+"12",2040,"Climate Pol.","Information and communication",2.782408
+"13",2040,"Climate Pol.","Financial and insurance activities",2.298123
+"14",2040,"Climate Pol.","Real estate activities",5.273195
+"15",2040,"Climate Pol.","Specialized, scientific and technical activities 
+ and administrative and support service activities",0.783733
+"16",2040,"Climate Pol.","Public administration, education,
+ human health and social work",1.421898
+"17",2040,"Climate Pol.","Other service activities",-0.117341
+"18",2040,"Covid","Agriculture, forestry and fishing",0.159413
+"19",2040,"Covid","Mining and quarrying, energy, water,
+ waste management and remediation",0.088415
+"20",2040,"Covid","Manufacture of food, beverages 
+ and tobacco products",0.145671
+"21",2040,"Covid","Coking and refining",0.147967
+"22",2040,"Covid","Manufacture of electrical, electronic and 
+ computer equipment; machinery manufacturing",0.143238
+"23",2040,"Covid","Transport equipment manufacturing",0.130749
+"24",2040,"Covid","Manufacture of other industrial products",0.123522
+"25",2040,"Covid","Construction",0.182548
+"26",2040,"Covid","Trade ; repair of motor vehicles and motorcycles",0.135373
+"27",2040,"Covid","Transport and storage",0.132307
+"28",2040,"Covid","Accommodation and catering",0.147946
+"29",2040,"Covid","Information and communication",0.135073
+"30",2040,"Covid","Financial and insurance activities",0.136114
+"31",2040,"Covid","Real estate activities",0.1194
+"32",2040,"Covid","Specialized, scientific and technical activities 
+ and administrative and support service activities",0.132822
+"33",2040,"Covid","Public administration, education,
+ human health and social work",0.026242
+"34",2040,"Covid","Other service activities",0.12247
+"35",2040,"Covid & Low Oil","Agriculture, forestry and fishing",-0.774051
+"36",2040,"Covid & Low Oil","Mining and quarrying, energy, water,
+ waste management and remediation",4.747796
+"37",2040,"Covid & Low Oil","Manufacture of food, beverages 
+ and tobacco products",1.091097
+"38",2040,"Covid & Low Oil","Coking and refining",-9.887173
+"39",2040,"Covid & Low Oil","Manufacture of electrical, electronic and 
+ computer equipment; machinery manufacturing",3.61333
+"40",2040,"Covid & Low Oil","Transport equipment manufacturing",3.316417
+"41",2040,"Covid & Low Oil","Manufacture of other industrial products",2.260493
+"42",2040,"Covid & Low Oil","Construction",-2.215995
+"43",2040,"Covid & Low Oil","Trade ; repair of motor vehicles and motorcycles",0.7531
+"44",2040,"Covid & Low Oil","Transport and storage",1.144919
+"45",2040,"Covid & Low Oil","Accommodation and catering",0.042938
+"46",2040,"Covid & Low Oil","Information and communication",0.968318
+"47",2040,"Covid & Low Oil","Financial and insurance activities",1.143189
+"48",2040,"Covid & Low Oil","Real estate activities",0.315013
+"49",2040,"Covid & Low Oil","Specialized, scientific and technical activities 
+ and administrative and support service activities",1.264959
+"50",2040,"Covid & Low Oil","Public administration, education,
+ human health and social work",0.167437
+"51",2040,"Covid & Low Oil","Other service activities",2.087615
+"52",2040,"Covid & Low Oil & Climate Pol.","Agriculture, forestry and fishing",11.1258
+"53",2040,"Covid & Low Oil & Climate Pol.","Mining and quarrying, energy, water,
+ waste management and remediation",-10.3177
+"54",2040,"Covid & Low Oil & Climate Pol.","Manufacture of food, beverages 
+ and tobacco products",6.519142
+"55",2040,"Covid & Low Oil & Climate Pol.","Coking and refining",-37.85565
+"56",2040,"Covid & Low Oil & Climate Pol.","Manufacture of electrical, electronic and 
+ computer equipment; machinery manufacturing",-0.985915
+"57",2040,"Covid & Low Oil & Climate Pol.","Transport equipment manufacturing",0.329546
+"58",2040,"Covid & Low Oil & Climate Pol.","Manufacture of other industrial products",2.301491
+"59",2040,"Covid & Low Oil & Climate Pol.","Construction",6.493874
+"60",2040,"Covid & Low Oil & Climate Pol.","Trade ; repair of motor vehicles and motorcycles",3.868314
+"61",2040,"Covid & Low Oil & Climate Pol.","Transport and storage",4.588848
+"62",2040,"Covid & Low Oil & Climate Pol.","Accommodation and catering",7.900366
+"63",2040,"Covid & Low Oil & Climate Pol.","Information and communication",3.570422
+"64",2040,"Covid & Low Oil & Climate Pol.","Financial and insurance activities",3.115721
+"65",2040,"Covid & Low Oil & Climate Pol.","Real estate activities",5.719911
+"66",2040,"Covid & Low Oil & Climate Pol.","Specialized, scientific and technical activities 
+ and administrative and support service activities",1.568767
+"67",2040,"Covid & Low Oil & Climate Pol.","Public administration, education,
+ human health and social work",1.576146
+"68",2040,"Covid & Low Oil & Climate Pol.","Other service activities",0.945561

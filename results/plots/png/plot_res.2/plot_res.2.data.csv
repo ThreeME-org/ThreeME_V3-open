@@ -1,0 +1,105 @@
+"","year","scenario","value"
+"1",2015,"Climate Pol.",0
+"2",2016,"Climate Pol.",0
+"3",2017,"Climate Pol.",0
+"4",2018,"Climate Pol.",0
+"5",2019,"Climate Pol.",0
+"6",2020,"Climate Pol.",-1.193699
+"7",2021,"Climate Pol.",-3.10013
+"8",2022,"Climate Pol.",-5.356269
+"9",2023,"Climate Pol.",-7.738263
+"10",2024,"Climate Pol.",-10.11794
+"11",2025,"Climate Pol.",-12.4261
+"12",2026,"Climate Pol.",-14.62845
+"13",2027,"Climate Pol.",-16.71088
+"14",2028,"Climate Pol.",-18.67062
+"15",2029,"Climate Pol.",-20.51115
+"16",2030,"Climate Pol.",-22.23907
+"17",2031,"Climate Pol.",-23.86237
+"18",2032,"Climate Pol.",-25.38936
+"19",2033,"Climate Pol.",-26.82817
+"20",2034,"Climate Pol.",-28.18637
+"21",2035,"Climate Pol.",-29.47088
+"22",2036,"Climate Pol.",-30.68792
+"23",2037,"Climate Pol.",-31.84303
+"24",2038,"Climate Pol.",-32.94111
+"25",2039,"Climate Pol.",-33.98652
+"26",2040,"Climate Pol.",-34.98309
+"27",2015,"Covid",0
+"28",2016,"Covid",0
+"29",2017,"Covid",0
+"30",2018,"Covid",0
+"31",2019,"Covid",0
+"32",2020,"Covid",-6.60783
+"33",2021,"Covid",-2.160687
+"34",2022,"Covid",-1.56299
+"35",2023,"Covid",-1.239584
+"36",2024,"Covid",-0.976124
+"37",2025,"Covid",-0.74621
+"38",2026,"Covid",-0.551061
+"39",2027,"Covid",-0.391741
+"40",2028,"Covid",-0.26638
+"41",2029,"Covid",-0.171079
+"42",2030,"Covid",-0.100933
+"43",2031,"Covid",-0.050786
+"44",2032,"Covid",-0.015762
+"45",2033,"Covid",0.008413
+"46",2034,"Covid",0.025235
+"47",2035,"Covid",0.037394
+"48",2036,"Covid",0.046823
+"49",2037,"Covid",0.054812
+"50",2038,"Covid",0.062138
+"51",2039,"Covid",0.069202
+"52",2040,"Covid",0.076146
+"53",2015,"Covid & Low Oil",0
+"54",2016,"Covid & Low Oil",0
+"55",2017,"Covid & Low Oil",0
+"56",2018,"Covid & Low Oil",0
+"57",2019,"Covid & Low Oil",0
+"58",2020,"Covid & Low Oil",-2.693905
+"59",2021,"Covid & Low Oil",5.780637
+"60",2022,"Covid & Low Oil",9.663774
+"61",2023,"Covid & Low Oil",12.36248
+"62",2024,"Covid & Low Oil",14.20167
+"63",2025,"Covid & Low Oil",15.39391
+"64",2026,"Covid & Low Oil",16.11782
+"65",2027,"Covid & Low Oil",16.51808
+"66",2028,"Covid & Low Oil",16.70423
+"67",2029,"Covid & Low Oil",16.75505
+"68",2030,"Covid & Low Oil",16.72507
+"69",2031,"Covid & Low Oil",16.65087
+"70",2032,"Covid & Low Oil",16.55615
+"71",2033,"Covid & Low Oil",16.45569
+"72",2034,"Covid & Low Oil",16.35816
+"73",2035,"Covid & Low Oil",16.26814
+"74",2036,"Covid & Low Oil",16.18755
+"75",2037,"Covid & Low Oil",16.11666
+"76",2038,"Covid & Low Oil",16.05479
+"77",2039,"Covid & Low Oil",16.00075
+"78",2040,"Covid & Low Oil",15.95323
+"79",2015,"Covid & Low Oil & Climate Pol.",0
+"80",2016,"Covid & Low Oil & Climate Pol.",0
+"81",2017,"Covid & Low Oil & Climate Pol.",0
+"82",2018,"Covid & Low Oil & Climate Pol.",0
+"83",2019,"Covid & Low Oil & Climate Pol.",0
+"84",2020,"Covid & Low Oil & Climate Pol.",-4.156706
+"85",2021,"Covid & Low Oil & Climate Pol.",1.653303
+"86",2022,"Covid & Low Oil & Climate Pol.",2.186461
+"87",2023,"Covid & Low Oil & Climate Pol.",1.27884
+"88",2024,"Covid & Low Oil & Climate Pol.",-0.464706
+"89",2025,"Covid & Low Oil & Climate Pol.",-2.677923
+"90",2026,"Covid & Low Oil & Climate Pol.",-5.115844
+"91",2027,"Covid & Low Oil & Climate Pol.",-7.619361
+"92",2028,"Covid & Low Oil & Climate Pol.",-10.0911
+"93",2029,"Covid & Low Oil & Climate Pol.",-12.47563
+"94",2030,"Covid & Low Oil & Climate Pol.",-14.74449
+"95",2031,"Covid & Low Oil & Climate Pol.",-16.88591
+"96",2032,"Covid & Low Oil & Climate Pol.",-18.89803
+"97",2033,"Covid & Low Oil & Climate Pol.",-20.78466
+"98",2034,"Covid & Low Oil & Climate Pol.",-22.55268
+"99",2035,"Covid & Low Oil & Climate Pol.",-24.2104
+"100",2036,"Covid & Low Oil & Climate Pol.",-25.76658
+"101",2037,"Covid & Low Oil & Climate Pol.",-27.22987
+"102",2038,"Covid & Low Oil & Climate Pol.",-28.60844
+"103",2039,"Covid & Low Oil & Climate Pol.",-29.90979
+"104",2040,"Covid & Low Oil & Climate Pol.",-31.1407
