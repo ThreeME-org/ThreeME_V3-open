@@ -26,7 +26,7 @@ fonts()
   df_SC <- cbind("scenario"= scenario,"label" = scenario_label) %>% data.frame(., stringsAsFactors = FALSE)
   
   
-  formmat_img <- c( "png", "pdf")
+  format_img <- c( "png", "pdf")
   
   # pour trouver son user_path getwd()
   user_path <- str_c("/Users/paul/Documents/Professionnel/")

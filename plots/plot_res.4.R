@@ -1,7 +1,7 @@
 plot.dir <- "plot_fig.2.Inv"
 
 
-for (frmt in formmat_img){
+for (frmt in format_img){
   
   dir.create(str_c(user_path,path_res.plot,frmt,"/", plot.dir,"/"), recursive = TRUE)
   

@@ -7,7 +7,8 @@ plot.dir <- "plot_sector.VA"
 
 
 frmt <- "png" 
-for (frmt in formmat_img){
+for (frmt in formm
+     at_img){
   
   dir.create(str_c(user_path,path_res.plot,frmt,"/", plot.dir,"/"), recursive = TRUE)
   
