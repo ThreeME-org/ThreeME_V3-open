@@ -7,8 +7,7 @@ plot.dir <- "plot_sector.VA"
 
 
 frmt <- "png" 
-for (frmt in formm
-     at_img){
+for (frmt in format_img){
   
   dir.create(str_c(user_path,path_res.plot,frmt,"/", plot.dir,"/"), recursive = TRUE)
   
@@ -57,7 +56,8 @@ for (frmt in formm
       legend.title = element_blank()
     ) +
     labs(
-      title= str_c(""), #Employment variation in % deviation to the baseline across sectors in 2040 
+      title= str_c("Goods and services demand variation between the COVID scenarios and the baseline scenario, in
+2020"), #Employment variation in % deviation to the baseline across sectors in 2040 
       subtitle =  "" ,
       caption="",
       x= "",
@@ -74,7 +74,7 @@ for (frmt in formm
   
   
   ggsave(str_c(plot.dir,".",frmt), plot, device = frmt, path = str_c(user_path, path_res.plot,frmt,"/", plot.dir), width = 200 , height = 300 , units = "mm", dpi = 600)
-  ggsave(str_c(plot.dir,".pdf"), plot, device = cairo_pdf, path = str_c(user_path, path_res.plot,frmt,"/", plot.dir), width = 200 , height = 300 , units = "mm", dpi = 600)
+  #ggsave(str_c(plot.dir,".pdf"), plot, device = cairo_pdf, path = str_c(user_path, path_res.plot,frmt,"/", plot.dir), width = 200 , height = 300 , units = "mm", dpi = 600)
   
    write.csv(data_plot,str_c(user_path,path_res.plot,frmt,"/", plot.dir,"/",plot.dir,".data.csv"))
 }

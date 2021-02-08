@@ -34,7 +34,7 @@
     
     
     ggsave(str_c(plot.dir,".",frmt), plot, device = frmt, path = str_c(user_path, path_res.plot,frmt,"/", plot.dir), width = 200 , height = 200 , units = "mm", dpi = 600)
-   ggsave(str_c(plot.dir,".pdf"), plot, device = cairo_pdf, path = str_c(user_path, path_res.plot,frmt,"/", plot.dir), width = 200 , height = 200 , units = "mm", dpi = 600)
+   #ggsave(str_c(plot.dir,".pdf"), plot, device = cairo_pdf, path = str_c(user_path, path_res.plot,frmt,"/", plot.dir), width = 200 , height = 200 , units = "mm", dpi = 600)
   
      write.csv(data_plot,str_c(user_path,path_res.plot,frmt,"/", plot.dir,"/",plot.dir,".data.csv"))
   }

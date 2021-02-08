@@ -39,7 +39,7 @@ for (frmt in format_img){
       legend.title = element_blank()
     ) +
     labs(
-      title= str_c("Emploi"), 
+      title= str_c("Employment"), 
       subtitle =  "" ,
       caption="",
       x= "",

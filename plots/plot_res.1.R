@@ -40,7 +40,7 @@ for (frmt in format_img){
       legend.title = element_blank()
     ) +
     labs(
-      title= str_c("Produit Intérieur Brut"), 
+      title= str_c("Gross Domestic Product"), 
       subtitle =  "" ,
       caption="",
       x= "",

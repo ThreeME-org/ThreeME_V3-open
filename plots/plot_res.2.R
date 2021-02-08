@@ -40,7 +40,7 @@ for (frmt in format_img){
       legend.title = element_blank()
     ) +
     labs(
-      title= bquote("Émissions de "~CO[2] ), 
+      title= bquote(~CO[2], " Emissions"), 
       subtitle =  "" ,
       caption="",
       x= "",

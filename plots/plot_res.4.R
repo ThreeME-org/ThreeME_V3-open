@@ -41,11 +41,11 @@ for (frmt in format_img){
       legend.title = element_blank()
     ) +
     labs(
-      title= str_c("Investissement"), 
+      title= str_c("Investment"), 
       subtitle =  "" ,
       caption="",
       x= "",
-      y= "En %"
+      y= "In %"
     )  
   plot.4
   
