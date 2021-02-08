@@ -5,6 +5,7 @@
   library(extrafont)
   library(scales)
   library(readxl)
+  library(colorspace)
   
   font_import()
   fonts()
@@ -20,8 +21,8 @@
     
     line_scenario <- c("solid", "dotted", "twodash", "longdash")
     scenario <- c("ClimatePol", "Covid", "Covid_LowOil", "Covid_lowOil_ClimatePol")
-    scenario_label <- c("Pol Clim.", "COVID", "COVID & PétroleBas", "COVID & PétroleBas & Pol Clim.")
-    #scenario_label <- c("Climate Pol", "Covid", "Covid-LowOil", "Covid-LowOil-Climate Pol.")
+    #scenario_label <- c("Pol Clim.", "COVID", "COVID & PétroleBas", "COVID & PétroleBas & Pol Clim.")
+    scenario_label <- c("Climate Pol", "Covid", "Covid-LowOil", "Covid-LowOil-Climate Pol.")
     
     df_SC <- cbind("scenario"= scenario,"label" = scenario_label) %>% data.frame(., stringsAsFactors = FALSE)
     

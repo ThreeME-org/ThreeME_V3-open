@@ -1,105 +1,105 @@
 "","year","scenario","value"
-"1",2015,"Pol Clim.",0
-"2",2016,"Pol Clim.",0
-"3",2017,"Pol Clim.",0
-"4",2018,"Pol Clim.",0
-"5",2019,"Pol Clim.",0
-"6",2020,"Pol Clim.",0.036003
-"7",2021,"Pol Clim.",0.110145
-"8",2022,"Pol Clim.",0.214483
-"9",2023,"Pol Clim.",0.33899
-"10",2024,"Pol Clim.",0.474618
-"11",2025,"Pol Clim.",0.61446
-"12",2026,"Pol Clim.",0.753934
-"13",2027,"Pol Clim.",0.890448
-"14",2028,"Pol Clim.",1.022869
-"15",2029,"Pol Clim.",1.150999
-"16",2030,"Pol Clim.",1.275149
-"17",2031,"Pol Clim.",1.395849
-"18",2032,"Pol Clim.",1.513673
-"19",2033,"Pol Clim.",1.629155
-"20",2034,"Pol Clim.",1.742759
-"21",2035,"Pol Clim.",1.854879
-"22",2036,"Pol Clim.",1.965857
-"23",2037,"Pol Clim.",2.076001
-"24",2038,"Pol Clim.",2.185595
-"25",2039,"Pol Clim.",2.294912
-"26",2040,"Pol Clim.",2.404212
-"27",2015,"COVID",0
-"28",2016,"COVID",0
-"29",2017,"COVID",0
-"30",2018,"COVID",0
-"31",2019,"COVID",0
-"32",2020,"COVID",-2.886112
-"33",2021,"COVID",-2.26991
-"34",2022,"COVID",-1.583158
-"35",2023,"COVID",-1.019071
-"36",2024,"COVID",-0.591525
-"37",2025,"COVID",-0.280507
-"38",2026,"COVID",-0.062477
-"39",2027,"COVID",0.083433
-"40",2028,"COVID",0.174564
-"41",2029,"COVID",0.225085
-"42",2030,"COVID",0.246493
-"43",2031,"COVID",0.248028
-"44",2032,"COVID",0.236973
-"45",2033,"COVID",0.218891
-"46",2034,"COVID",0.197848
-"47",2035,"COVID",0.176633
-"48",2036,"COVID",0.157003
-"49",2037,"COVID",0.139908
-"50",2038,"COVID",0.125712
-"51",2039,"COVID",0.114384
-"52",2040,"COVID",0.105655
-"53",2015,"COVID & PétroleBas",0
-"54",2016,"COVID & PétroleBas",0
-"55",2017,"COVID & PétroleBas",0
-"56",2018,"COVID & PétroleBas",0
-"57",2019,"COVID & PétroleBas",0
-"58",2020,"COVID & PétroleBas",-2.827161
-"59",2021,"COVID & PétroleBas",-2.106456
-"60",2022,"COVID & PétroleBas",-1.290666
-"61",2023,"COVID & PétroleBas",-0.603715
-"62",2024,"COVID & PétroleBas",-0.076731
-"63",2025,"COVID & PétroleBas",0.305358
-"64",2026,"COVID & PétroleBas",0.568403
-"65",2027,"COVID & PétroleBas",0.738612
-"66",2028,"COVID & PétroleBas",0.8392
-"67",2029,"COVID & PétroleBas",0.889549
-"68",2030,"COVID & PétroleBas",0.905293
-"69",2031,"COVID & PétroleBas",0.898681
-"70",2032,"COVID & PétroleBas",0.878989
-"71",2033,"COVID & PétroleBas",0.852942
-"72",2034,"COVID & PétroleBas",0.825118
-"73",2035,"COVID & PétroleBas",0.798371
-"74",2036,"COVID & PétroleBas",0.774218
-"75",2037,"COVID & PétroleBas",0.753216
-"76",2038,"COVID & PétroleBas",0.735286
-"77",2039,"COVID & PétroleBas",0.719974
-"78",2040,"COVID & PétroleBas",0.706663
-"79",2015,"COVID & PétroleBas & Pol Clim.",0
-"80",2016,"COVID & PétroleBas & Pol Clim.",0
-"81",2017,"COVID & PétroleBas & Pol Clim.",0
-"82",2018,"COVID & PétroleBas & Pol Clim.",0
-"83",2019,"COVID & PétroleBas & Pol Clim.",0
-"84",2020,"COVID & PétroleBas & Pol Clim.",-2.791384
-"85",2021,"COVID & PétroleBas & Pol Clim.",-1.994411
-"86",2022,"COVID & PétroleBas & Pol Clim.",-1.071753
-"87",2023,"COVID & PétroleBas & Pol Clim.",-0.25797
-"88",2024,"COVID & PétroleBas & Pol Clim.",0.406105
-"89",2025,"COVID & PétroleBas & Pol Clim.",0.927733
-"90",2026,"COVID & PétroleBas & Pol Clim.",1.327303
-"91",2027,"COVID & PétroleBas & Pol Clim.",1.627845
-"92",2028,"COVID & PétroleBas & Pol Clim.",1.851287
-"93",2029,"COVID & PétroleBas & Pol Clim.",2.01707
-"94",2030,"COVID & PétroleBas & Pol Clim.",2.141695
-"95",2031,"COVID & PétroleBas & Pol Clim.",2.238665
-"96",2032,"COVID & PétroleBas & Pol Clim.",2.318592
-"97",2033,"COVID & PétroleBas & Pol Clim.",2.389434
-"98",2034,"COVID & PétroleBas & Pol Clim.",2.456815
-"99",2035,"COVID & PétroleBas & Pol Clim.",2.524406
-"100",2036,"COVID & PétroleBas & Pol Clim.",2.594342
-"101",2037,"COVID & PétroleBas & Pol Clim.",2.667617
-"102",2038,"COVID & PétroleBas & Pol Clim.",2.744455
-"103",2039,"COVID & PétroleBas & Pol Clim.",2.824613
-"104",2040,"COVID & PétroleBas & Pol Clim.",2.907624
+"1",2015,"Climate Pol",0
+"2",2016,"Climate Pol",0
+"3",2017,"Climate Pol",0
+"4",2018,"Climate Pol",0
+"5",2019,"Climate Pol",0
+"6",2020,"Climate Pol",0.036003
+"7",2021,"Climate Pol",0.110145
+"8",2022,"Climate Pol",0.214483
+"9",2023,"Climate Pol",0.33899
+"10",2024,"Climate Pol",0.474618
+"11",2025,"Climate Pol",0.61446
+"12",2026,"Climate Pol",0.753934
+"13",2027,"Climate Pol",0.890448
+"14",2028,"Climate Pol",1.022869
+"15",2029,"Climate Pol",1.150999
+"16",2030,"Climate Pol",1.275149
+"17",2031,"Climate Pol",1.395849
+"18",2032,"Climate Pol",1.513673
+"19",2033,"Climate Pol",1.629155
+"20",2034,"Climate Pol",1.742759
+"21",2035,"Climate Pol",1.854879
+"22",2036,"Climate Pol",1.965857
+"23",2037,"Climate Pol",2.076001
+"24",2038,"Climate Pol",2.185595
+"25",2039,"Climate Pol",2.294912
+"26",2040,"Climate Pol",2.404212
+"27",2015,"Covid",0
+"28",2016,"Covid",0
+"29",2017,"Covid",0
+"30",2018,"Covid",0
+"31",2019,"Covid",0
+"32",2020,"Covid",-2.886112
+"33",2021,"Covid",-2.26991
+"34",2022,"Covid",-1.583158
+"35",2023,"Covid",-1.019071
+"36",2024,"Covid",-0.591525
+"37",2025,"Covid",-0.280507
+"38",2026,"Covid",-0.062477
+"39",2027,"Covid",0.083433
+"40",2028,"Covid",0.174564
+"41",2029,"Covid",0.225085
+"42",2030,"Covid",0.246493
+"43",2031,"Covid",0.248028
+"44",2032,"Covid",0.236973
+"45",2033,"Covid",0.218891
+"46",2034,"Covid",0.197848
+"47",2035,"Covid",0.176633
+"48",2036,"Covid",0.157003
+"49",2037,"Covid",0.139908
+"50",2038,"Covid",0.125712
+"51",2039,"Covid",0.114384
+"52",2040,"Covid",0.105655
+"53",2015,"Covid-LowOil",0
+"54",2016,"Covid-LowOil",0
+"55",2017,"Covid-LowOil",0
+"56",2018,"Covid-LowOil",0
+"57",2019,"Covid-LowOil",0
+"58",2020,"Covid-LowOil",-2.827161
+"59",2021,"Covid-LowOil",-2.106456
+"60",2022,"Covid-LowOil",-1.290666
+"61",2023,"Covid-LowOil",-0.603715
+"62",2024,"Covid-LowOil",-0.076731
+"63",2025,"Covid-LowOil",0.305358
+"64",2026,"Covid-LowOil",0.568403
+"65",2027,"Covid-LowOil",0.738612
+"66",2028,"Covid-LowOil",0.8392
+"67",2029,"Covid-LowOil",0.889549
+"68",2030,"Covid-LowOil",0.905293
+"69",2031,"Covid-LowOil",0.898681
+"70",2032,"Covid-LowOil",0.878989
+"71",2033,"Covid-LowOil",0.852942
+"72",2034,"Covid-LowOil",0.825118
+"73",2035,"Covid-LowOil",0.798371
+"74",2036,"Covid-LowOil",0.774218
+"75",2037,"Covid-LowOil",0.753216
+"76",2038,"Covid-LowOil",0.735286
+"77",2039,"Covid-LowOil",0.719974
+"78",2040,"Covid-LowOil",0.706663
+"79",2015,"Covid-LowOil-Climate Pol.",0
+"80",2016,"Covid-LowOil-Climate Pol.",0
+"81",2017,"Covid-LowOil-Climate Pol.",0
+"82",2018,"Covid-LowOil-Climate Pol.",0
+"83",2019,"Covid-LowOil-Climate Pol.",0
+"84",2020,"Covid-LowOil-Climate Pol.",-2.791384
+"85",2021,"Covid-LowOil-Climate Pol.",-1.994411
+"86",2022,"Covid-LowOil-Climate Pol.",-1.071753
+"87",2023,"Covid-LowOil-Climate Pol.",-0.25797
+"88",2024,"Covid-LowOil-Climate Pol.",0.406105
+"89",2025,"Covid-LowOil-Climate Pol.",0.927733
+"90",2026,"Covid-LowOil-Climate Pol.",1.327303
+"91",2027,"Covid-LowOil-Climate Pol.",1.627845
+"92",2028,"Covid-LowOil-Climate Pol.",1.851287
+"93",2029,"Covid-LowOil-Climate Pol.",2.01707
+"94",2030,"Covid-LowOil-Climate Pol.",2.141695
+"95",2031,"Covid-LowOil-Climate Pol.",2.238665
+"96",2032,"Covid-LowOil-Climate Pol.",2.318592
+"97",2033,"Covid-LowOil-Climate Pol.",2.389434
+"98",2034,"Covid-LowOil-Climate Pol.",2.456815
+"99",2035,"Covid-LowOil-Climate Pol.",2.524406
+"100",2036,"Covid-LowOil-Climate Pol.",2.594342
+"101",2037,"Covid-LowOil-Climate Pol.",2.667617
+"102",2038,"Covid-LowOil-Climate Pol.",2.744455
+"103",2039,"Covid-LowOil-Climate Pol.",2.824613
+"104",2040,"Covid-LowOil-Climate Pol.",2.907624
