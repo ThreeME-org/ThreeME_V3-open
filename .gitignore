@@ -22,6 +22,5 @@ results/*.wf1
 doc/*.aux
 doc/*.log
 
-*.eps
-*.png
+
 src/addin/model/_tmp_all_vars.csv
