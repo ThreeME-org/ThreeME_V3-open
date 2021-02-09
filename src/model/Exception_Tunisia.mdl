@@ -1,0 +1,315 @@
+##### Exception equations for ThreeME - Tunisia
+
+#### Decrease in the emission coefficient of gas
+## In order to account for the increase of the share of thermic solar
+IEMS_CI[CO2,cgas,s] = IEMS_CO2_CGAS
+IEMS_CH[CO2,cgas] = IEMS_CO2_CGAS
+
+#### Stability of the Tunisian crude and refined oil production after 2015
+## !! Theses equations are incompatable with a steady states !!
+
+@over d(log(X_coil)) = (@year > %baseyear) * 0 + (@year <= %baseyear) * (d(log(X_coil{-1})))
+@over d(log(X_cfut)) = (@year > %baseyear) * 0 + (@year <= %baseyear) * (d(log(X_cfut{-1})))
+@over d(log(X_cfuh)) = (@year > %baseyear) * 0 + (@year <= %baseyear) * (d(log(X_cfuh{-1})))
+
+##! Intermediary consumption from sector $s$ in domestically produced commodity $c$
+@over d(log(CID[coil, s])) = (@year > %baseyear) * 0 + (@year <= %baseyear) * (d(log(CID[coil, s]{-1}))) 		if CID[coil, s] <> 0
+
+@over CIM[coil, s] = CI[coil, s] - CID[coil, s]  if CIM[coil, s] <> 0
+
+@over d(log(CID[cfut, s])) = (@year > %baseyear) * 0 + (@year <= %baseyear) * (d(log(CID[cfut, s]{-1}))) 		if CID[cfut, s] <> 0
+
+@over CIM[cfut, s] = CI[cfut, s] - CID[cfut, s]  if CIM[cfut, s] <> 0
+
+@over d(log(CHD[cfut])) = (@year > %baseyear) * 0 + (@year <= %baseyear) * (d(log(CHD[cfut]{-1}))) 		if CHD[cfut] <> 0
+
+@over CHM[cfut] = CH[cfut] - CHD[cfut]  if CHM[cfut] <> 0
+
+
+@over d(log(CID[cfuh, s])) = (@year > %baseyear) * 0 + (@year <= %baseyear) * (d(log(CID[cfuh, s]{-1}))) 		if CID[cfuh, s] <> 0
+
+@over CIM[cfuh, s] = CI[cfuh, s] - CID[cfuh, s]  if CIM[cfuh, s] <> 0
+
+@over d(log(CHD[cfuh])) = (@year > %baseyear) * 0 + (@year <= %baseyear) * (d(log(CHD[cfuh]{-1}))) 		if CHD[cfuh] <> 0
+
+@over CHM[cfuh] = CH[cfuh] - CHD[cfuh]  if CHM[cfuh] <> 0
+
+
+#### Additional equations to fit scenarii 
+
+### Fitting baseline GDP
+
+##! Labor technical progress gain
+log(1 + GR_PROG[L, s]) = d(log(GDP_trend)) - d(log(POP))
+
+##! Government expenditures
+d(log(EXPG)) = d(log(GDP_trend)) + 0.5 * GDP_cont
+
+##! World demand 
+d(log(WD[c])) = d(log(GDP_trend)) + 0.5 * GDP_cont
+
+### Fitting subsidies and debt ratio target
+
+##! Agregate subsidies on commodity $c$ expressed in volume (deplated with the consummer price)
+SUBC_VOL[c] = (PSUBC[c]  *  SUBC[c]) / PCH
+
+##! Subsidies rate on imported fuel commodity CFUH
+RSUBCM[CFUH] = RSUBCD[CFUH]
+
+##! Subsidies rate on imported fuel commodity CFUT
+RSUBCM[CFUT] = RSUBCD[CFUT]
+
+### Fitting debt ratio target
+
+##! Social benefits expressed in value
+@over SOC_BENF_VAL     = RR_POP * @elem(W, %baseyear) * PROG_L * P * POP + RR_Un * W * Un + DSOC_BENF_VAL + RDEBT_G_VAL_cont
+
+### Fitting energy consumption for non energy sectors
+
+##! Energy efficiency gains in sector $s$
+@over d(log(F_n[E, s]))  = d(log(Y[s])) - d(log(PROG[E, s])) - GR_PROG_base[E, s] + d(SUBST_F[E, s])                                                 if F_n[E, s] <> 0
+
+##! Energy consumption $ce$ of sector $s$
+@over d(log(CI[ce, s]))    = d(log(F[E, s])) + d(SUBST_CI[ce,s]) - GR_CI_base[ce, s] if CI[ce, s]  <> 0
+
+GR_CI_base[ce, s] = GR_CI_base[ce]  where s in %list_sec \ sext soil sgas sega sewi seso seot
+
+##! Substitution effect on the energy intermediate consumption $ce$ in the sector $s$
+@over d(SUBST_CI_n[ce, s]) = sum(- ES_NRJ[ce, cee, s] * phi[E, cee, s]{-1} * d(log(PCI[ce, s] * exp(PS_CI[ce, s])) - log(PCI[cee, s]*exp(PS_CI[cee, s]))) on cee)      if CI[ce, s]  <> 0
+# Inclusion of a price signal PS_CI[ce, s]
+
+PS_CI[ce, s] = PS_CI[ce]
+
+# ##! Notional substitution between the transport $ct$ and the other transports $mt$ in the sector $s$
+# @over d(SUBST_CI_n[ct, s]) = sum(- ES_TRSP[ct, ctt, s] * phi_TRSP[ctt, s]{-1} * d(log(PCI[ct, s]) - log(PCI[ctt, s])) on ctt)   if CI[ct, s]  <> 0
+# Inclusion of a price signal if we want to fit transport targets
+
+### Fitting energy consumption for households
+
+##! Households' final consumption related to housing in value
+@over d(log(CH_HOUS_VAL)) =  d(log(CH_n_VAL)) - GR_PROG_HOUS_base
+
+##! Households' final consumption related to transport in value
+@over d(log(CH_TRSP_VAL)) =  d(log(CH_n_VAL)) - GR_PROG_TRSP_base
+
+##! Households' final consumption of energy commodity $ce$ related to housing
+CH_HOUS1[ce] * PCH_HOUS[ce] = phi_MCH_HOUS[ce] * CH_HOUSENER_VAL  if CH_HOUS[ce]  <> 0
+
+@over CH_HOUS[ce] = CH_HOUS1[ce] + CH_HOUS_base[ce] 			  if CH_HOUS[ce]  <> 0
+# @over CH_HOUS[ce] = CH_HOUS1[ce] * exp(CH_HOUS_base[ce]) 			  if CH_HOUS[ce]  <> 0
+
+##! Households' final consumption of energy commodity $ce$ related to automobile transport
+CH_TRSP1[ce] * PCH_TRSP[ce] = phi_MCH_TRSP[ce] * CH_TRSPENER_VAL  if CH_TRSP[ce]  <> 0
+
+@over CH_TRSP[ce] = CH_TRSP1[ce] + CH_TRSP_base[ce] 			  if CH_TRSP[ce]  <> 0
+# @over CH_TRSP[ce] = CH_TRSP1[ce] * exp(CH_TRSP_base[ce]) 			  if CH_TRSP[ce]  <> 0
+
+##! Substitution between housing investment and energy housing expenditures
+@over d(SUBST_HOUSINV) 	= (1 - ES_HOUS_INV_ENER) * d(log(PCH_HOUSENER/PCH_HOUSINV)) + PS_HOUS_ENER_INV  if CH_HOUSINV_VAL    <> 0
+
+##! Substitution between automobile investment and energy automobile expenditures
+@over d(SUBST_TRSPINV) 	= (1 - ES_TRSP_INV_ENER) * d(log(PCH_TRSPENER/PCH_TRSPINV)) + PS_TRSP_ENER_INV if CH_TRSPINV_VAL    <> 0
+
+##! Share of energy consumption $ce$ into the total energy consumption related to housing
+@over d(log(phi_MCH_HOUS[ce])) = (1 - ES_HOUS_ENER) * d(log(PCH_HOUS[ce] / PCH_HOUSENER_CES)) - ES_HOUS_ENER * d(log(exp(PS_CH[ce]) / PS_CH_HOUSENER_CES))    if phi_MCH_HOUS[ce] <> 0
+
+##! Price of the aggregate energy expenditures related to housing
+PS_CH_HOUSENER_CES  = (sum(@elem(phi_MCH_HOUS[ce], %baseyear) * (exp(PS_CH[ce])) ^ (- ES_HOUS_ENER) on ce)) ^ (1 / (- ES_HOUS_ENER)) if ES_HOUS_ENER <> 0
+
+##! Share of energy consumption $ce$ into the total energy consumption related to automobile transport
+@over d(log(phi_MCH_TRSP[ce])) = (1 - ES_TRSP_ENER) * d(log(PCH_TRSP[ce] / PCH_TRSPENER_CES)) - ES_TRSP_ENER * d(log(exp(PS_CH[ce]) / PS_CH_TRSPENER_CES))     if phi_MCH_TRSP[ce] <> 0
+
+##! Price of the aggregate energy expenditures related to automobile transport
+PS_CH_TRSPENER_CES = (sum(@elem(phi_MCH_TRSP[ce], %baseyear) * (exp(PS_CH[ce])) ^ (- ES_TRSP_ENER) on ce)) ^ (1 / (- ES_TRSP_ENER)) if ES_TRSP_ENER <> 0
+   
+# For meeting target CO2 gas emission
+PHIY_TOE_CELE_SEGA = @elem(PHIY_TOE_CELE_SEGA, 2015) + @elem(PHIY_TOE_CELE_SEWI, 2015)+ @elem(PHIY_TOE_CELE_SESO, 2015) - PHIY_TOE_CELE_SEWI - PHIY_TOE_CELE_SESO
+
+#### Energy balance  
+
+##! Net production of energy $ce$, expressed in toe 
+@over Y_toe[ce] + M_toe[ce] = CI_toe[ce] + CH_toe[ce] + X_toe[ce] +  DS_toe[ce] 	if Y_toe[ce] <> 0
+# Includes the change in stocks in the demand side: DS_toe[ce] is NOT merged with production anymore. This corrects the inconsistency with the input data. 
+
+#### Reduction of subsidies on energy and redistribution
+## The reduction of the subsidies can be used to reduced the public debt. Alternativelly, the income generated can be redistributed to firms and households. To do so the following block of equation has to be added. \\
+##! Redistribution of changes in subsidies rate on commodity $ce$
+DSUB_VAL[ce] = (RSUBCD[ce]-RSUBCD_base[ce])* YQ[ce] + (RSUBCM[ce]-RSUBCM_base[ce])* M[ce] 
+
+##! Redistribution to households of changes in subsidies on commodity $ce$   
+DSUB_VAL_H[ce]	= (RSUBCD[ce]-RSUBCD_base[ce])* YQ[ce] * CHD[ce] / (CID[ce] + CHD[ce]) + (RSUBCM[ce]-RSUBCM_base[ce])* M[ce] * CHM[ce] / (CIM[ce] + CHM[ce] + eps)
+
+##! Redistribution of changes in subsidies rate on energy commodities
+DSUB_VAL = sum(DSUB_VAL[ce] on ce)
+
+##! Redistribution of changes in subsidies rate on energy commodities
+DSUB_VAL_H = sum(DSUB_VAL_H[ce] on ce)
+
+##! Net taxes on the production of sector $s$ expressed in value
+@over NTAXS_VAL[s] = RNTAXS[s] * PY[s] * Y[s] + T2VAL_MAT[s] + T2VAL_Y[s] - T2VAL_SEC * F[L,s]/F[L] * REDIS_CT_LS - (T2VAL_CH + T2VAL_SEC) * REDIS_CT2_LS[s] - (DSUB_VAL - DSUB_VAL_H) * F[L,s]/F[L] * REDIS_SUB_LS
+
+##! Employers' social security contribution paid by sector $s$
+@over RSC[s] * PRSC[s] = W[s] * F[L, s] * RRSC[s] - T2VAL_SEC * F[L,s]/F[L] * REDIS_CT_RRSC - (DSUB_VAL - DSUB_VAL_H) * F[L,s]/F[L] * REDIS_SUB_RRSC
+
+##! Income and social taxes expressed in value
+@over INC_SOC_TAX_VAL  = RINC_SOC_TAX * DISPINC_BT_VAL - T2VAL_CH * REDIS_CT_H - DSUB_VAL_H * REDIS_SUB_H - (T2VAL_CH + T2VAL_SEC) * REDIS_CT2_H
+
+#### Additional outputs
+
+##! Share of energy subsidy in GDP
+ESUB_GDP[ce] = (PSUBCD[ce] * SUBCD[ce] + PSUBCM[ce] * SUBCM[ce]) / (PGDP * GDP)
+ESUB_GDP = sum(ESUB_GDP[ce] on ce)	
+
+##! Carbon tax in volume on households' consumption
+T2VOL_CH[ghg,c] =  T2VAL_CH[ghg,c]/PCH 					if EMS_CH[ghg,c] <> 0
+T2VOL_CH[ghg] = sum(T2VOL_CH[ghg,c] on c)
+
+##! Carbon tax in volume on intermediary consumption 
+T2VOL_CI[ghg,c] = T2VAL_CI[ghg,c]/PCH
+T2VOL_CI[ghg] = sum(T2VOL_CI[ghg,c] on c)
+
+##! Carbon tax rate on the greenhouse gas $ghg$ associated to the intermediary consumption of commodity $c$ by the sector $s$
+R2_CI_CO2[c,s] = RCO2TAX_VOL*PCH
+
+##! Carbon tax rate on the greenhouse gas $ghg$ associated to the material consumption of the sector $s$
+R2_MAT_CO2[s]= RCO2TAX_VOL*PCH
+
+##! Carbon tax rate on the greenhouse gas $ghg$ associated to the final production of the sector $s$
+R2_Y_CO2[s] = RCO2TAX_VOL*PCH
+
+##! Carbon tax rate on the greenhouse gas $ghg$ associated to the household final consumption of the sector $s$
+R2_CH_CO2[c] = RCO2TAX_VOL*PCH*(1-R2_CH_CO2_exon)
+
+##! Investment in agregate sector 
+IA_IND  = sum(IA[sind]  on sind)
+IA_TRSP = sum(IA[strsp] on strsp)
+IA_SER  = sum(IA[sser]  on sser)
+IA_TRSF = sum(IA[strsf] on strsf)
+IA_ELE  = sum(IA[sele]  on sele)
+IA_EREN = sum(IA[seren]  on seren)
+IA_ENREN = sum(IA[senren]  on senren)
+
+##! Labor in agregate sector 
+F_L_IND  = sum(F[L, sind] on sind)
+F_L_TRSP = sum(F[L, strsp] on strsp)
+F_L_SER  = sum(F[L, sser] on sser)
+F_L_TRSF = sum(F[L, strsf] on strsf)
+F_L_ELE  = sum(F[L, sele] on sele)
+
+##! added value in agregate sector 
+VA_IND  = sum(VA[sind] on sind)
+VA_TRSP = sum(VA[strsp] on strsp)
+VA_SER  = sum(VA[sser] on sser)
+VA_TRSF = sum(VA[strsf] on strsf)
+VA_ELE  = sum(VA[sele] on sele)
+
+##! added value in agregate sector 
+Y_IND  = sum(Y[sind] on sind)
+Y_TRSP = sum(Y[strsp] on strsp)
+Y_SER  = sum(Y[sser] on sser)
+Y_TRSF = sum(Y[strsf] on strsf)
+Y_ELE  = sum(Y[sele] on sele)
+
+##! Emissions of the greenhouse gas $ghg$ related to the intermediary consumption of commodity $c$ by agregate sector
+EMS_CI[ghg, c, IND]  = sum(EMS_CI[ghg, c, sind]   if EMS_CI[ghg, c, sind] <> 0 on sind)    if EMS_CI[ghg, c, IND] <> 0
+EMS_CI[ghg, c, TRSP] = sum(EMS_CI[ghg, c, strsp] if EMS_CI[ghg, c, strsp] <> 0 on strsp)  if EMS_CI[ghg, c, TRSP] <> 0
+EMS_CI[ghg, c, SER]  = sum(EMS_CI[ghg, c, sser]   if EMS_CI[ghg, c, sser] <> 0 on sser)    if EMS_CI[ghg, c, SER] <> 0
+EMS_CI[ghg, c, TRSF] = sum(EMS_CI[ghg, c, strsf] if EMS_CI[ghg, c, strsf] <> 0 on strsf)  if EMS_CI[ghg, c, TRSF] <> 0
+EMS_CI[ghg, c, ELE]  = sum(EMS_CI[ghg, c, sele]  if EMS_CI[ghg, c, ele] <> 0 on sele)    if EMS_CI[ghg, c, ELE] <> 0
+
+##! Emissions of the greenhouse gas $ghg$ related to the intermediary consumption by sector $s$
+EMS_CI[ghg, sagg]  = sum(EMS_CI[ghg, c, sagg] if EMS_CI[ghg, c, sagg] <> 0 on c)  if EMS_CI[ghg, sagg] <> 0
+
+verif_EMS_CI[ghg]  = sum(EMS_CI[ghg, sagg] on sagg) - EMS_CI[ghg] 
+
+
+##! End use for energy consumption of households related to housing, expressed in toe
+CH_toe_hous = CH_toe[cfuh] + CH_toe[cgas] + CH_HOUS_toe[cele]
+CH_HOUS_toe[cele] =  CH_toe[cele] * CH_HOUS[cele] / (CH_HOUS[cele] + CH_TRSP[cele])
+
+##! End use for energy consumption of households related to transport, expressed in toe
+CH_toe_trsp = CH_toe[cfut] + CH_TRSP_toe[cele]
+CH_TRSP_toe[cele] = CH_toe[cele] * CH_TRSP[cele] / (CH_HOUS[cele] + CH_TRSP[cele])
+
+##! End use for energy $ce$ of agregate sector, expressed in toe 
+CI_toe[ce, IND]  = sum(CI_toe[ce, sind]   if CI_toe[ce, sind] <> 0 on sind)    if CI_toe[ce, IND]  <> 0
+CI_toe[ce, TRSP] = sum(CI_toe[ce, strsp] if CI_toe[ce, strsp] <> 0 on strsp)   if CI_toe[ce, TRSP] <> 0
+CI_toe[ce, SER]  = sum(CI_toe[ce, sser]   if CI_toe[ce, sser] <> 0 on sser)     if CI_toe[ce, SER] <> 0
+CI_toe[ce, TRSF] = sum(CI_toe[ce, strsf] if CI_toe[ce, strsf] <> 0 on strsf)  if CI_toe[ce, TRSF]  <> 0
+CI_toe[ce, ELE]  = sum(CI_toe[ce, sele]   if CI_toe[ce, sele] <> 0 on sele)     if CI_toe[ce, ELE]  <> 0
+
+##! Final consumption (energy balance definition) for energy $ce$, expressed in toe
+CF_toe[ce] = CI_toe[ce, IND] + CI_toe[ce, TRSP] + CI_toe[ce, SER] + CH_toe[ce]
+
+##! Final consumption (energy balance definition) of economic sectors for energy $ce$, expressed in toe
+CF_CI_toe[ce] = CI_toe[ce, IND] + CI_toe[ce, TRSP] + CI_toe[ce, SER] + CI_toe[ce, setd]
+
+
+##! End use for agregate energy of agregate sector, expressed in toe 
+CI_toe[sagg] = sum(CI_toe[ce, sagg] if CI_toe[ce, sagg] <> 0 on ce) if CI_toe[sagg] <> 0
+
+Verif_CI_toe = sum(CI_toe[sagg] on sagg) - CI_toe
+
+##! Net production of energy $ce$ by agregate sector, expressed in toe 
+Y_toe[ce, IND]  = sum(Y_toe[ce, sind]     if Y_toe[ce, sind] <> 0 on sind)    if Y_toe[ce, IND]  <> 0
+Y_toe[ce, TRSP] = sum(Y_toe[ce, strsp]   if Y_toe[ce, strsp] <> 0 on strsp)   if Y_toe[ce, TRSP] <> 0
+Y_toe[ce, SER]  = sum(Y_toe[ce, sser]     if Y_toe[ce, sser] <> 0 on sser)     if Y_toe[ce, SER] <> 0
+Y_toe[ce, TRSF] = sum(Y_toe[ce, strsf]   if Y_toe[ce, strsf] <> 0 on strsf)  if Y_toe[ce, TRSF]  <> 0
+Y_toe[ce, ELE]  = sum(Y_toe[ce, sele]     if Y_toe[ce, sele] <> 0 on sele)    if Y_toe[ce, ELE]  <> 0 
+
+##! Net production of agregate energy by agregate sector, expressed in toe 
+Y_toe[sagg] = sum(Y_toe[ce, sagg] if Y_toe[ce, sagg] <> 0 on ce) if Y_toe[sagg] <> 0
+
+Verif_Y_toe = sum(Y_toe[sagg] on sagg) - Y_toe
+
+## To be deleted : when the addfactor error is corrected
+# @over verif_PhiY[ce, s] = 0
+
+
+#######################
+######! KAYA IDENTITY
+## Commonly used in climate analysis to decompose the major mechanisms at play behind emissions trends (Waggoner and Ausubel 2002; Raupach et al. 2007). 
+## Here, we consider four major drivers: 
+## population, productivity (measured in GDP/capita), energy intensity of production (TPES/GDP) and carbon intensity of fuels (emissions/TPES).
+## Emissions= (PIB/POP)*(Energie/PIB)*(Emissions/Energie)*POP
+
+##! GDP per capita
+gdp_cap 		= GDP/POP
+gdp_cap_Kaya 	= gdp_cap/@elem(gdp_cap, %baseyear) 
+
+##!Energy Intensity of GDP
+
+EnergyConsTot  = sum(CF_toe[ce] on ce)
+
+EIgdp 		= EnergyConsTot/GDP
+EIgdp_Kaya 	= EIgdp/@elem(EIgdp, %baseyear) 
+
+##!Carbon Intensity of Energy
+CarbIntEner 		= EMS[CO2]/EnergyConsTot
+CarbIntEner_Kaya 	= CarbIntEner/@elem(CarbIntEner, %baseyear)
+
+##!CO2 Emissions
+Emi_CO2			= EMS[CO2]
+Emi_CO2_Kaya 	= Emi_CO2/@elem(Emi_CO2, %baseyear)
+
+
+
+
+
+################################################
+######! KAYA electricity
+## Emissions of electricity sector = (VA_electricity)*(Energie_electricity/VA_electricity)*(Emissions_electricity/Energie_electricity)
+## Emissions of electricity sector = (Production_electricity)*(Energie_electricity/Production_electricity)*(Emissions_electricity/Energie_electricity)
+
+##! Value added of the electricity sector (already defined above)
+#VA_ELE  = sum(VA[sele] on sele)
+
+##!Energy intensity of the electricity sector : sum of all the energies used to produce electricity 
+##==> two options: either devide by the value added of the elec sector, either devided by the electricity production
+
+
+
+#CI_toe_sele = sum(CI_toe[ce, ele] on ce)
+
+
+
