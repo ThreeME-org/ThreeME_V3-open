@@ -3,10 +3,11 @@
 ########################################################
 
 ### Population growth rate
-GR_POP    := 0.0029
+GR_POP    := 0.0025 # Average growth rate 2015-2019
+
 
 ### Growth rate of technical progress for capital, labor, energy and material
-GR_PROG[L] := 0.0170
+GR_PROG[L] := 0.009 # OFCE projection
 
 GR_PROG[K] := 0.0
 GR_PROG[E] := 0.0
