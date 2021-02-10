@@ -105,7 +105,7 @@ endif
 
 ' Checking that equations are balanced at baseyear (add factors = 0)
   if %load = "new" and %warnings = "warnings" then 
-    call checkaddfactor(%modelname,1e-4)
+    call checkaddfactor(%modelname,1e-5)
   endif
 
 
