@@ -26,3 +26,5 @@ doc/*.aux
 doc/*.log
 
 src/addin/model/_tmp_all_vars.csv
+src/EViews/main.prg_Snapshots/*.prg
+src/EViews/main.prg_Snapshots/*.json
