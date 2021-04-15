@@ -1,0 +1,18 @@
+##### ADEME output variables 
+
+#### Macro Variables
+
+##! Energy bill
+ENER_BILL = sum(PM[ce]* M[ce]  - PX[ce]* X[ce] on ce) 		
+
+#### Fipu variables
+
+##! Carbon tax on Household in value concerning building
+T2VAL_CH_BUIL[ghg] = sum(T2VAL_CH[ghg, ceb] on ceb) 
+##! Carbon tax on househols concerning transport
+T2VAL_CH_AUTO[ghg] = sum(T2VAL_CH[ghg, cea] on cea) 
+
+##! Carbon tax on ETS industries 
+T2VAL_CI_ETS[ghg, ce] = sum(T2VAL_CI[ghg, ce, sets] on sets) 
+T2VAL_CI_ETS[ghg] = sum(T2VAL_CI_ETS[ghg, ce] on ce) 
+#### CO2 varibles
