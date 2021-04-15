@@ -1,7 +1,6 @@
 ##### Exception equations for ThreeME - France - ADEME
 
 
-
 #### Additional equations to fit scenarii 
 
 ##! Share of electicity produced by wind sector (national account definition)
@@ -123,7 +122,7 @@ EMS_CI[ghg, c, IND]  = sum(EMS_CI[ghg, c, sind]   if EMS_CI[ghg, c, sind] <> 0 o
 EMS_CI[ghg, c, TRSP] = sum(EMS_CI[ghg, c, strsp] if EMS_CI[ghg, c, strsp] <> 0 on strsp)  if EMS_CI[ghg, c, TRSP] <> 0
 EMS_CI[ghg, c, SER]  = sum(EMS_CI[ghg, c, sser]   if EMS_CI[ghg, c, sser] <> 0 on sser)    if EMS_CI[ghg, c, SER] <> 0
 EMS_CI[ghg, c, TRSF] = sum(EMS_CI[ghg, c, strsf] if EMS_CI[ghg, c, strsf] <> 0 on strsf)  if EMS_CI[ghg, c, TRSF] <> 0
-EMS_CI[ghg, c, ELE]  = sum(EMS_CI[ghg, c, sele]  if EMS_CI[ghg, c, ele] <> 0 on sele)    if EMS_CI[ghg, c, ELE] <> 0
+EMS_CI[ghg, c, ELE]  = sum(EMS_CI[ghg, c, sele]  if EMS_CI[ghg, c, sele] <> 0 on sele)    if EMS_CI[ghg, c, ELE] <> 0
 
 ##! Emissions of the greenhouse gas $ghg$ related to the intermediary consumption by sector $s$
 EMS_CI[ghg, sagg]  = sum(EMS_CI[ghg, c, sagg] if EMS_CI[ghg, c, sagg] <> 0 on c)  if EMS_CI[ghg, sagg] <> 0
