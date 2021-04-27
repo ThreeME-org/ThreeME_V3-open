@@ -47,6 +47,11 @@ include .\R_lists
 # List ETS
 %list_sec_ETS := sgla spap sche spla smet sair smin soil sbfu sgas sbga senu seoi sega seco sewi seso sehy sech seot #[sets]
 
+# List NETSi (non ETS - industries)
+%list_sec_NETSi := sfoo sveh sigo scgo scon #[snetsi]
+
+# List NETSs (non ETS - services)
+%list_sec_NETSs := srai sroa swat spri spub #[snetss]
 
 # Default iterators
 s in %list_sec
@@ -101,5 +106,8 @@ sele in %list_sec_ELE
 sagg in %list_sec_AGREG
 
 sets in %list_sec_ETS
+snetsi in %list_sec_NETSi
+snetss in %list_sec_NETSs
+
 
 %baseyear := 2015
