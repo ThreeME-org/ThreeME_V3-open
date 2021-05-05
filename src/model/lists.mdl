@@ -26,8 +26,11 @@ include .\R_lists
 # List of households
 %list_households := H01 H02 H03 H04 H05 H06 H07 H08 H09 H10 #[h]
 
+# List of agriculture-forestry sectors
+%list_sec_AGRF := sagr sfor #[sagrf]
+
 # List of industry sectors
-%list_sec_IND := sagr sfor sfoo sveh sgla spap sche spla smet sigo scgo scon smin #[sind]
+%list_sec_IND := sfoo sveh sgla spap sche spla smet sigo scgo scon smin #[sind]
 
 # List of transport sectors
 %list_sec_TRSP := srai sroa swat sair  #[strsp]
@@ -42,7 +45,7 @@ include .\R_lists
 %list_sec_ELE :=  senu seoi sega seco sewi seso sehy sech seot #[sele]
 
 # List of agregate secteors
-%list_sec_AGREG := ind trsp ser trsf ele #[sagg]
+%list_sec_AGREG := agrf ind trsp ser trsf ele #[sagg]
 
 # List ETS
 %list_sec_ETS := sgla spap sche spla smet sair smin soil sbfu sgas sbga senu seoi sega seco sewi seso sehy sech seot #[sets]
@@ -50,8 +53,6 @@ include .\R_lists
 # List NETSi (non ETS - industries)
 %list_sec_NETSi := sfoo sveh sigo scgo scon #[snetsi]
 
-# List NETSs (non ETS - services)
-%list_sec_NETSs := srai sroa swat spri spub #[snetss]
 
 # Default iterators
 s in %list_sec
@@ -98,6 +99,7 @@ h in %list_households
 
 O in D M
 
+sagrf in %list_sec_AGRF
 sind in %list_sec_IND
 strsp in %list_sec_TRSP
 sser in %list_sec_SER
@@ -107,7 +109,6 @@ sagg in %list_sec_AGREG
 
 sets in %list_sec_ETS
 snetsi in %list_sec_NETSi
-snetss in %list_sec_NETSs
 
 
 %baseyear := 2015

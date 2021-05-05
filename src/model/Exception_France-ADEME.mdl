@@ -95,6 +95,7 @@ IA_TRSP = sum(IA[strsp] on strsp)
 IA_SER  = sum(IA[sser]  on sser)
 IA_TRSF = sum(IA[strsf] on strsf)
 IA_ELE  = sum(IA[sele]  on sele)
+IA_AGRF = sum(IA[sagrf] on sagrf)
 
 ##! Labor in agregate sector 
 F_L_IND  = sum(F[L, sind] on sind)
@@ -102,6 +103,7 @@ F_L_TRSP = sum(F[L, strsp] on strsp)
 F_L_SER  = sum(F[L, sser] on sser)
 F_L_TRSF = sum(F[L, strsf] on strsf)
 F_L_ELE  = sum(F[L, sele] on sele)
+F_L_AGRF = sum(F[L, sagrf] on sagrf)
 
 ##! added value in agregate sector 
 VA_IND  = sum(VA[sind] on sind)
@@ -109,6 +111,7 @@ VA_TRSP = sum(VA[strsp] on strsp)
 VA_SER  = sum(VA[sser] on sser)
 VA_TRSF = sum(VA[strsf] on strsf)
 VA_ELE  = sum(VA[sele] on sele)
+VA_AGRF  = sum(VA[sagrf] on sagrf)
 
 ##! added value in agregate sector 
 Y_IND  = sum(Y[sind] on sind)
@@ -116,6 +119,7 @@ Y_TRSP = sum(Y[strsp] on strsp)
 Y_SER  = sum(Y[sser] on sser)
 Y_TRSF = sum(Y[strsf] on strsf)
 Y_ELE  = sum(Y[sele] on sele)
+Y_AGRF  = sum(Y[sagrf] on sagrf)
 
 ##! Emissions of the greenhouse gas $ghg$ related to the intermediary consumption of commodity $c$ by agregate sector
 EMS_CI[ghg, c, IND]  = sum(EMS_CI[ghg, c, sind]   if EMS_CI[ghg, c, sind] <> 0 on sind)    if EMS_CI[ghg, c, IND] <> 0
@@ -123,6 +127,7 @@ EMS_CI[ghg, c, TRSP] = sum(EMS_CI[ghg, c, strsp] if EMS_CI[ghg, c, strsp] <> 0 o
 EMS_CI[ghg, c, SER]  = sum(EMS_CI[ghg, c, sser]   if EMS_CI[ghg, c, sser] <> 0 on sser)    if EMS_CI[ghg, c, SER] <> 0
 EMS_CI[ghg, c, TRSF] = sum(EMS_CI[ghg, c, strsf] if EMS_CI[ghg, c, strsf] <> 0 on strsf)  if EMS_CI[ghg, c, TRSF] <> 0
 EMS_CI[ghg, c, ELE]  = sum(EMS_CI[ghg, c, sele]  if EMS_CI[ghg, c, sele] <> 0 on sele)    if EMS_CI[ghg, c, ELE] <> 0
+EMS_CI[ghg, c, AGRF]  = sum(EMS_CI[ghg, c, sagrf]  if EMS_CI[ghg, c, sagrf] <> 0 on sagrf)    if EMS_CI[ghg, c, AGRF] <> 0
 
 ##! Emissions of the greenhouse gas $ghg$ related to the intermediary consumption by sector $s$
 EMS_CI[ghg, sagg]  = sum(EMS_CI[ghg, c, sagg] if EMS_CI[ghg, c, sagg] <> 0 on c)  if EMS_CI[ghg, sagg] <> 0
@@ -145,12 +150,13 @@ CI_toe[ce, TRSP] = sum(CI_toe[ce, strsp] if CI_toe[ce, strsp] <> 0 on strsp)   i
 CI_toe[ce, SER]  = sum(CI_toe[ce, sser]   if CI_toe[ce, sser] <> 0 on sser)     if CI_toe[ce, SER] <> 0
 CI_toe[ce, TRSF] = sum(CI_toe[ce, strsf] if CI_toe[ce, strsf] <> 0 on strsf)  if CI_toe[ce, TRSF]  <> 0
 CI_toe[ce, ELE]  = sum(CI_toe[ce, sele]   if CI_toe[ce, sele] <> 0 on sele)     if CI_toe[ce, ELE]  <> 0
+CI_toe[ce, AGRF]  = sum(CI_toe[ce, sagrf]   if CI_toe[ce, sagrf] <> 0 on sagrf)     if CI_toe[ce, AGRF]  <> 0
 
 ##! Final consumption (energy balance definition) for energy $ce$, expressed in toe
-CF_toe[ce] = CI_toe[ce, IND] + CI_toe[ce, TRSP] + CI_toe[ce, SER] + CH_toe[ce]
+CF_toe[ce] = CI_toe[ce, IND] + CI_toe[ce, TRSP] + CI_toe[ce, SER] + CI_toe[ce, AGRF] + CH_toe[ce] 
 
 ##! Final consumption (energy balance definition) of economic sectors for energy $ce$, expressed in toe
-CF_CI_toe[ce] = CI_toe[ce, IND] + CI_toe[ce, TRSP] + CI_toe[ce, SER]
+CF_CI_toe[ce] = CI_toe[ce, IND] + CI_toe[ce, TRSP] + CI_toe[ce, SER] + CI_toe[ce, AGRF]
 
 
 ##! End use for agregate energy of agregate sector, expressed in toe 
@@ -164,6 +170,7 @@ Y_toe[ce, TRSP] = sum(Y_toe[ce, strsp]   if Y_toe[ce, strsp] <> 0 on strsp)   if
 Y_toe[ce, SER]  = sum(Y_toe[ce, sser]     if Y_toe[ce, sser] <> 0 on sser)     if Y_toe[ce, SER] <> 0
 Y_toe[ce, TRSF] = sum(Y_toe[ce, strsf]   if Y_toe[ce, strsf] <> 0 on strsf)  if Y_toe[ce, TRSF]  <> 0
 Y_toe[ce, ELE]  = sum(Y_toe[ce, sele]     if Y_toe[ce, sele] <> 0 on sele)    if Y_toe[ce, ELE]  <> 0 
+Y_toe[ce, AGRF]  = sum(Y_toe[ce, sagrf]     if Y_toe[ce, sagrf] <> 0 on sagrf)    if Y_toe[ce, AGRF]  <> 0 
 
 ##! Net production of agregate energy by agregate sector, expressed in toe 
 Y_toe[sagg] = sum(Y_toe[ce, sagg] if Y_toe[ce, sagg] <> 0 on ce) if Y_toe[sagg] <> 0

@@ -50,21 +50,52 @@ T2VAL_CH_AUTO = sum(T2VAL_CH_AUTO[cea] on cea)
 #T2VAL_MAT_NETSi[ghg, ce] = sum(T2VAL_MAT[ghg,ce,snetsi] on snetsi)
 #T2VAL_MAT_NETSi[ce] = sum(T2VAL_MAT_NETSi[ghg, ce] on ghg)
 
-#T2VAL_SEC_NETSi[ce] = T2VAL_Y_NETSi[ce] + T2VAL_CI_NETSi[ce] + T2VAL_MAT_NETSi[ce]
+#T2VAL_NETSi[ce] = T2VAL_Y_NETSi[ce] + T2VAL_CI_NETSi[ce] + T2VAL_MAT_NETSi[ce]
 
-#T2VAL_SEC_NETSi = sum(T2VAL_SEC_NETSi[ce] on ce)
+#T2VAL_NETSi = sum(T2VAL_NETSi[ce] on ce)
 
-#Carbon tax on non-ETS - services 
-# ! ne marche pas car il faudrait créer T2VAL_Y[ghg,ce,s] et T2VAL_CI[ghg,ce,s] et T2VAL_MAT[ghg,ce,s] d'abord ?   
-#T2VAL_Y_NETSs[ghg, ce] = sum(T2VAL_Y[ghg,ce,snetss] on snetss)
-#T2VAL_Y_NETSs[ce] = sum(T2VAL_Y_NETSs[ghg, ce] on ghg)
+# Carbon tax on agriculture-forestry 
+# ! ne marche pas car il faudrait créer T2VAL_Y[ghg,ce,s] et T2VAL_CI[ghg,ce,s] et T2VAL_MAT[ghg,ce,s] d'abord ?  
+#T2VAL_Y_AGRF[ghg, ce] = sum(T2VAL_Y[ghg,ce,sagrf] on sagrf)
+#T2VAL_Y_AGRF[ce] = sum(T2VAL_Y_AGRF[ghg, ce] on ghg)
+#
+#T2VAL_CI_AGRF[ghg, ce] = sum(T2VAL_CI[ghg,ce,sagrf] on sagrf)
+#T2VAL_CI_AGRF[ce] = sum(T2VAL_CI_AGRF[ghg, ce] on ghg)
+#
+#T2VAL_MAT_AGRF[ghg, ce] = sum(T2VAL_MAT[ghg,ce,sagrf] on sagrf)
+#T2VAL_MAT_AGRF[ce] = sum(T2VAL_MAT_AGRF[ghg, ce] on ghg)
+#
+#T2VAL_AGRF[ce] = T2VAL_Y_AGRF[ce] + T2VAL_CI_AGRF[ce] + T2VAL_MAT_AGRF[ce]
+#
+#T2VAL_AGRF = sum(T2VAL_AGRF[ce] on ce)
 
-#T2VAL_CI_NETSs[ghg, ce] = sum(T2VAL_CI[ghg,ce,snetss] on snetss)
-#T2VAL_CI_NETSs[ce] = sum(T2VAL_CI_NETSs[ghg, ce] on ghg)
+# Carbon tax on transports
+# ! déduire les recettes de l'aérien dans reporting (sinon double compte avec ETS) 
+# ! ne marche pas car il faudrait créer T2VAL_Y[ghg,ce,s] et T2VAL_CI[ghg,ce,s] et T2VAL_MAT[ghg,ce,s] d'abord ?  
+#T2VAL_Y_TRSP[ghg, ce] = sum(T2VAL_Y[ghg,ce,strsp] on strsp)
+#T2VAL_Y_TRSP[ce] = sum(T2VAL_Y_TRSP[ghg, ce] on ghg)
+#
+#T2VAL_CI_TRSP[ghg, ce] = sum(T2VAL_CI[ghg,ce,strsp] on strsp)
+#T2VAL_CI_TRSP[ce] = sum(T2VAL_CI_TRSP[ghg, ce] on ghg)
+#
+#T2VAL_MAT_TRSP[ghg, ce] = sum(T2VAL_MAT[ghg,ce,strsp] on strsp)
+#T2VAL_MAT_TRSP[ce] = sum(T2VAL_MAT_TRSP[ghg, ce] on ghg)
+#
+#T2VAL_TRSP[ce] = T2VAL_Y_TRSP[ce] + T2VAL_CI_TRSP[ce] + T2VAL_MAT_TRSP[ce]
+#
+#T2VAL_TRSP = sum(T2VAL_TRSP[ce] on ce)
 
-#T2VAL_MAT_NETSs[ghg, ce] = sum(T2VAL_MAT[ghg,ce,snetss] on snetss)
-#T2VAL_MAT_NETSs[ce] = sum(T2VAL_MAT_NETSs[ghg, ce] on ghg)
-
-#T2VAL_SEC_NETSs[ce] = T2VAL_Y_NETSs[ce] + T2VAL_CI_NETSs[ce] + T2VAL_MAT_NETSs[ce]
-
-#T2VAL_SEC_NETSs = sum(T2VAL_SEC_NETSs[ce] on ce)
+# Carbon tax on services  
+# ! ne marche pas car il faudrait créer T2VAL_Y[ghg,ce,s] et T2VAL_CI[ghg,ce,s] et T2VAL_MAT[ghg,ce,s] d'abord ?  
+#T2VAL_Y_SER[ghg, ce] = sum(T2VAL_Y[ghg,ce,sser] on sser)
+#T2VAL_Y_SER[ce] = sum(T2VAL_Y_SER[ghg, ce] on ghg)
+#
+#T2VAL_CI_SER[ghg, ce] = sum(T2VAL_CI[ghg,ce,sser] on sser)
+#T2VAL_CI_SER[ce] = sum(T2VAL_CI_SER[ghg, ce] on ghg)
+#
+#T2VAL_MAT_SER[ghg, ce] = sum(T2VAL_MAT[ghg,ce,sser] on sser)
+#T2VAL_MAT_SER[ce] = sum(T2VAL_MAT_SER[ghg, ce] on ghg)
+#
+#T2VAL_SER[ce] = T2VAL_Y_SER[ce] + T2VAL_CI_SER[ce] + T2VAL_MAT_SER[ce]
+#
+#T2VAL_SER = sum(T2VAL_SER[ce] on ce)
