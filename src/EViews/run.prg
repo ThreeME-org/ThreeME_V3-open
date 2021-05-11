@@ -59,7 +59,8 @@ else
   ' Create the series using the dependencies (add-ins "series")
   statusline "Compiling the calibration of the model's variables... Please wait it may take a few minutes..."
 
-  {%modelname}.series ..\model\lists parameters R_Calibration_FRA round0 Prices_data SU_data Special_data Other_data Exception_taxes_prices_data Exception_NestedCES_data Exception_housing_data Exception_transport_data Exception_France-ADEME_data
+  {%modelname}.series ..\model\lists parameters R_Calibration_FRA round0 Prices_data SU_data Special_data Other_data Exception_taxes_prices_data
+  ' Exception_NestedCES_data Exception_housing_data Exception_transport_data Exception_France-ADEME_data
   ' Exception_ConsumerNested_data  Exception_Other_data
 
   ' CREATE SERIES FOR THE HOUSING AND TRANSPORT BLOCKS (from the "scr/data" folder)
@@ -68,10 +69,10 @@ else
   '{%modelname}.series Exception_housing_data
 
   ' Export all variables to a csv file (used by the external compiler)
-  call export_all_to_csv
+  'call export_all_to_csv
 
   ' Create the series with if conditionalities (Housing block) 
-  {%modelname}.series Exception_housing_data_if
+  '{%modelname}.series Exception_housing_data_if
     
   ' Create the series for the Housing block 
   '{%modelname}.series Exception_housing_data
@@ -117,7 +118,7 @@ endif
 ' Call here the subroutine you want to use to solve the shock
 call run_scenario("baseline-steady")
 
-call run_scenario("share_elec_enr")
+'call run_scenario("share_elec_enr")
 'call run_scenario("carbontax_s1")
 
 ' ****************************************
@@ -130,7 +131,7 @@ call run_scenario("share_elec_enr")
 ' Call (eventually) here the subroutine you want to use to analyse the results
 
 ' Creation of SU table on value and in volume
-call create_sut("2015 2020 2030 2050", "0 2")
+'call create_sut("2015 2020 2030 2050", "0 2")
 
 '' call additional_outputs("Fred")
 ' *******************

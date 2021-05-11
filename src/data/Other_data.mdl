@@ -51,8 +51,7 @@ RRSC_ef[s] :=  RSC[s] * PRSC[s] / (W[s] * F[L,s])
 
 ### From Demographic block
 Un := LF - Empl
-UnR := Un / LF
-
+Empl := (1 - UnR) * LF
 
 ### From consumer
 DISPINC_BT_VAL := PWAGES * WAGES + PROP_INC_H_VAL + SOC_BENF_VAL + TRSF_HH_VAL

@@ -30,21 +30,24 @@ WD[c] := 1 * (1 + GR_REAL) ^ (@year - %baseyear)
 
 
 ############################
-### DEMOGRAPHY DATA
-############################
-# !!!! Change to use EUROSTAT !!!
-# Source INSEE: Évolution de la population
-# https://www.insee.fr/fr/statistiques/4277615?sommaire=4318291
-POP   := 66422.5   * (1 + GR_POP) ^ (@year - %baseyear)
-# Source INSEE: Population active, emploi et chômage en 2015
-# https://www.insee.fr/fr/statistiques/3569047/?geo=FE-1
-WAPop := 41735.208 * (1 + GR_POP) ^ (@year - %baseyear) # Population de 15 à 64 ans
-LF 	  := 30757.808 * (1 + GR_POP) ^ (@year - %baseyear)
-empl  := 26386.712 * (1 + GR_POP) ^ (@year - %baseyear) # Employment ILO definition to have the exact the ILO unemployment rate. Cheek why this is smaller than the national account definition : F_L = 27390.88 
-
-############################
 ### EMISSIONS AND ENERGY DATA
 ############################
+
+### -----  TO BE DELETED WHEN LOADED IN R-CALIBRATION
+EMS_CI[ghg,c,s] := 0
+EMS_MAT[ghg,s]  := 0 
+EMS_Y[ghg,s]  := 0 
+EMS_CH[ghg,c]  := 0 
+
+Y_toe[ce, s] := 0 
+CI_toe[ce, s] := 0
+CH_toe[ce] := 0
+X_toe[ce] := 0
+M_toe[ce] := 0
+DLY_toe[ce, s] := 0
+AC_toe[ce, s] := 0
+DLM_toe[ce] := 0
+### ------------------------------------------------
 
 IEMS_CI[ghg,c,s] := EMS_CI[ghg,c,s] / (CI[c, s] + eps)
 
@@ -78,3 +81,6 @@ phi_PROP_INC_G := (1 - phi_PROP_INC_H)*1
 phi_PROP_INC_ROW := 1 - phi_PROP_INC_H - phi_PROP_INC_G
 
 DSOC_BENF_VAL := 0
+
+
+
