@@ -26,33 +26,41 @@ T2VAL_CH_AUTO = sum(T2VAL_CH_AUTO[cea] on cea)
 
 # Carbon tax on ETS industries
 # ! ne marche pas car il faudrait créer T2VAL_Y[ghg,ce,s] et T2VAL_CI[ghg,ce,s] et T2VAL_MAT[ghg,ce,s] d'abord ?  
-#T2VAL_Y_ETS[ghg, ce] := sum(T2VAL_Y[ghg,ce,sets] on sets)
-#T2VAL_Y_ETS[ce] = sum(T2VAL_Y_ETS[ghg, ce] on ghg)
+T2VAL_Y_ETS[ghg] = sum(T2VAL_Y[ghg, sets] on sets) 
+T2VAL_Y_ETS = sum(T2VAL_Y_ETS[ghg] on ghg)
 
-#T2VAL_CI_ETS[ghg, ce] := sum(T2VAL_CI[ghg,ce,sets] on sets)
-#T2VAL_CI_ETS[ce] = sum(T2VAL_CI_ETS[ghg, ce] on ghg)
+T2VAL_CI_ETS[ghg, ce] = sum(T2VAL_CI[ghg ,ce , sets] on sets)
+T2VAL_CI_ETS[ce] = sum(T2VAL_CI_ETS[ghg, ce] on ghg)
+T2VAL_CI_ETS[ghg, sets] = sum(T2VAL_CI[ghg, ce, sets] on ce)
+T2VAL_CI_ETS[ghg] = sum(T2VAL_CI[ghg, ce] on ce)
+T2VAL_CI_ETS = sum(T2VAL_CI[ghg] on ghg)
 
-#T2VAL_MAT_ETS[ghg, ce] := sum(T2VAL_MAT[ghg,ce,sets] on sets)
-#T2VAL_MAT_ETS[ce] = sum(T2VAL_MAT_ETS[ghg, ce] on ghg)
+T2VAL_MAT_ETS[ghg] = sum(T2VAL_MAT[ghg,sets] on sets) 
+T2VAL_MAT_ETS = sum(T2VAL_MAT_ETS[ghg] on ghg)
 
-#T2VAL_SEC_ETS[ce] = T2VAL_Y_ETS[ce] + T2VAL_CI_ETS[ce] + T2VAL_MAT_ETS[ce]
-
-#T2VAL_SEC_ETS = sum(T2VAL_SEC_ETS[ce] on ce)
+T2VAL_SEC_ETS[ghg, sets] = T2VAL_Y[ghg, sets] + T2VAL_CI_ETS[ghg, sets] + T2VAL_MAT[ghg, sets]
+T2VAL_SEC_ETS[ghg] = sum(T2VAL_SEC_ETS[ghg, sets] on sets)
+T2VAL_SEC_ETS[sets] = sum(T2VAL_SEC_ETS[ghg, sets] on ghg)
+T2VAL_SEC_ETS = sum(T2VAL_SEC_ETS[ghg] on ghg)
 
 # Carbon tax on non-ETS - industries 
 # ! ne marche pas car il faudrait créer T2VAL_Y[ghg,ce,s] et T2VAL_CI[ghg,ce,s] et T2VAL_MAT[ghg,ce,s] d'abord ?  
-#T2VAL_Y_NETSi[ghg, ce] = sum(T2VAL_Y[ghg,ce,snetsi] on snetsi)
-#T2VAL_Y_NETSi[ce] = sum(T2VAL_Y_NETSi[ghg, ce] on ghg)
+T2VAL_Y_NETS[ghg] = sum(T2VAL_Y[ghg, snetsi] on snetsi) 
+T2VAL_Y_NETS = sum(T2VAL_Y_NETS[ghg] on ghg)
 
-#T2VAL_CI_NETSi[ghg, ce] = sum(T2VAL_CI[ghg,ce,snetsi] on snetsi)
-#T2VAL_CI_NETSi[ce] = sum(T2VAL_CI_NETSi[ghg, ce] on ghg)
+T2VAL_CI_NETS[ghg, ce] = sum(T2VAL_CI[ghg ,ce , snetsi] on snetsi)
+T2VAL_CI_NETS[ce] = sum(T2VAL_CI_NETS[ghg, ce] on ghg)
+T2VAL_CI_NETS[ghg, snetsi] = sum(T2VAL_CI[ghg, ce, snetsi] on ce)
+T2VAL_CI_NETS[ghg] = sum(T2VAL_CI[ghg, ce] on ce)
+T2VAL_CI_NETS = sum(T2VAL_CI[ghg] on ghg)
 
-#T2VAL_MAT_NETSi[ghg, ce] = sum(T2VAL_MAT[ghg,ce,snetsi] on snetsi)
-#T2VAL_MAT_NETSi[ce] = sum(T2VAL_MAT_NETSi[ghg, ce] on ghg)
+T2VAL_MAT_NETS[ghg] = sum(T2VAL_MAT[ghg, snetsi] on snetsi) 
+T2VAL_MAT_NETS = sum(T2VAL_MAT_NETS[ghg] on ghg)
 
-#T2VAL_NETSi[ce] = T2VAL_Y_NETSi[ce] + T2VAL_CI_NETSi[ce] + T2VAL_MAT_NETSi[ce]
-
-#T2VAL_NETSi = sum(T2VAL_NETSi[ce] on ce)
+#T2VAL_SEC_NETS[ghg, snetsi] = T2VAL_Y[ghg, snetsi] + T2VAL_CI_NETS[ghg, snetsi] + T2VAL_MAT[ghg, snetsi]
+T2VAL_SEC_NETS[ghg] = sum(T2VAL_SEC_NETS[ghg, snetsi] on snetsi)
+T2VAL_SEC_NETS[snetsi] = sum(T2VAL_SEC_NETS[ghg, snetsi] on ghg)
+T2VAL_SEC_NETS = sum(T2VAL_SEC_NETS[ghg] on ghg)
 
 # Carbon tax on agriculture-forestry 
 # ! ne marche pas car il faudrait créer T2VAL_Y[ghg,ce,s] et T2VAL_CI[ghg,ce,s] et T2VAL_MAT[ghg,ce,s] d'abord ?  
