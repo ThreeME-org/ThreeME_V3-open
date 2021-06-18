@@ -33,22 +33,6 @@ WD[c] := 1 * (1 + GR_REAL) ^ (@year - %baseyear)
 ### EMISSIONS AND ENERGY DATA
 ############################
 
-### -----  TO BE DELETED WHEN LOADED IN R-CALIBRATION
-EMS_CI[ghg,c,s] := 0
-EMS_MAT[ghg,s]  := 0 
-EMS_Y[ghg,s]  := 0 
-EMS_CH[ghg,c]  := 0 
-
-Y_toe[ce, s] := 0 
-CI_toe[ce, s] := 0
-CH_toe[ce] := 0
-X_toe[ce] := 0
-M_toe[ce] := 0
-DLY_toe[ce, s] := 0
-AC_toe[ce, s] := 0
-DLM_toe[ce] := 0
-### ------------------------------------------------
-
 IEMS_CI[ghg,c,s] := EMS_CI[ghg,c,s] / (CI[c, s] + eps)
 
 IEMS_MAT[ghg,s] := EMS_MAT[ghg,s] / (F_MAT[s] + eps)
