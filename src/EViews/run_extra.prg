@@ -94,51 +94,44 @@ endsub
 subroutine outputs 
 
 ' Send results to Excel 
-    %index = "2"
-    %hybrid_{%index} = "AUTO_{%index} AUTO_cfut_{%index} AUTO_cele_{%index} AUTO_cgas_{%index}"
+
+'Shock hybrid output
+  
+    %hybrid_2 = "AUTO_2 AUTO_cfut_2 AUTO_cele_2 AUTO_cgas_2"
     
     for %ecl {%list_ener_class}
-    if @isobject("AUTO_"+%ecl+"_cfut_{%index}") = 1 then
-      %hybrid_{%index} = %hybrid_{%index} + "AUTO_"+%ecl+"_cfut_{%index}"
-    endif
+      %hybrid_2 = %hybrid_2 + " AUTO_"+%ecl+"_cfut_2"
+    next
+    
+    for %ecl {%list_ener_class} 
+      %hybrid_2 = %hybrid_2 + " AUTO_"+%ecl+"_cele_2"
     next
     
     for %ecl {%list_ener_class}
-    if @isobject("AUTO_"+%ecl+"_cele_{%index}") = 1 then
-      %hybrid_{%index} = %hybrid + "AUTO_"+%ecl+"_cele_{%index}"
-    endif
+      %hybrid_2 = %hybrid_2 + " AUTO_"+%ecl+"_cgas_2"
+    next
+
+'baseline Hybrid output
+    
+    %hybrid_0 = " AUTO_0 AUTO_cfut_0 AUTO_cele_0 AUTO_cgas_0"
+
+    for %ecl {%list_ener_class}    
+      %hybrid_0 = %hybrid_0 + " AUTO_"+%ecl+"_cfut_0"
     next
     
     for %ecl {%list_ener_class}
-    if @isobject("AUTO_"+%ecl+"_cgas_{%index}") = 1 then
-      %hybrid_{%index} = %hybrid + "AUTO_"+%ecl+"_cgas_{%index}"
-    endif
-    next
-    
-    %index = "0"
-    %hybrid_{%index} = "AUTO_{%index} AUTO_cfut_{%index} AUTO_cele_{%index} AUTO_cgas_{%index}"
-    
-    for %ecl {%list_ener_class}
-    if @isobject("AUTO_"+%ecl+"_cfut_{%index}") = 1 then
-      %hybrid_{%index} = %hybrid_{%index} + "AUTO_"+%ecl+"_cfut_{%index}"
-    endif
+      %hybrid_0 = %hybrid_0 + " AUTO_"+%ecl+"_cele_0"
     next
     
     for %ecl {%list_ener_class}
-    if @isobject("AUTO_"+%ecl+"_cele_{%index}") = 1 then
-      %hybrid_{%index} = %hybrid + "AUTO_"+%ecl+"_cele_{%index}"
-    endif
-    next
-    
-    for %ecl {%list_ener_class}
-    if @isobject("AUTO_"+%ecl+"_cgas_{%index}") = 1 then
-      %hybrid_{%index} = %hybrid + "AUTO_"+%ecl+"_cgas_{%index}"
-    endif
+      %hybrid_0 = %hybrid_0 + " AUTO_"+%ecl+"_cgas_0"
     next
 
     %hybrid = %hybrid_2 + %hybrid_0 
     group Hybrid {%hybrid} 
 
+
+%index = "2"
     group Macro 100*(GDP_{%index}/GDP_0-1) 100*(CH_{%index}/CH_0-1) 100*(I_{%index}/I_0-1) 100*(X_{%index}/X_0-1) 100*(M_{%index}/M_0-1) 100*((DISPINC_AT_VAL_{%index}/PCH_{%index})/(DISPINC_AT_VAL_0/PCH_0)-1) 100*(RSAV_H_VAL_{%index}-RSAV_H_VAL_0) 100*(PCH_{%index}/PCH_0-1) 100*(PY_{%index}/PY_0-1)  100*(PVA_{%index}/PVA_0-1) 100*(PCI_{%index}/PCI_0-1) 100*(PX_{%index}/PX_0-1) 100*(PM_{%index}/PM_0-1) 100*(W_{%index}/W_0-1) 100*((C_L_{%index}/PVA_{%index})/(C_L_0/PVA_0)-1) (F_L_{%index}-F_L_0) 100*(UnR_{%index}-UnR_0) 100*(RBal_Trade_VAL_{%index}-RBal_Trade_VAL_0) 100*(RBal_G_Prim_VAL_{%index}-RBal_G_Prim_VAL_0) 100*(RDEBT_G_VAL_{%index}-RDEBT_G_VAL_0) 100*(EMS_CO2_{%index}/EMS_CO2_0-1) 100*(CH_0+G_0)/GDP_0*((CH_{%index}+G_{%index})/(CH_0+G_0)-1) 100*I_0/GDP_0*(I_{%index}/I_0-1) 100*(X_0-M_0)/GDP_0*((X_{%index}-M_{%index})/(X_0-M_0)-1) 100*DS_0/GDP_0*(DS_{%index}/DS_0-1)
 
 'output for main baseline variables
