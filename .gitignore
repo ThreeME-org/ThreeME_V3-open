@@ -25,4 +25,7 @@ results/*/*.json
 doc/*.aux
 doc/*.log
 
-src/addin/model/_tmp_all_vars.csv
+
+src/EViews/series_eviews.prg
+src/EViews/model_eviews.prg
+src/compiler/_tmp_all_vars.csv

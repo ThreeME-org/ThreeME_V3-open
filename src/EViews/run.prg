@@ -59,33 +59,34 @@ else
   ' Create the series using the dependencies (add-ins "series")
   statusline "Compiling the calibration of the model's variables... Please wait it may take a few minutes..."
 
-  {%modelname}.series ..\model\lists parameters R_Calibration_FRA round0 Prices_data SU_data Special_data Other_data Exception_taxes_prices_data Exception_NestedCES_data Exception_France-FNTP_data
+  call load_series("..\model\lists parameters R_Calibration_FRA round0 Prices_data SU_data Special_data Other_data Exception_taxes_prices_data Exception_NestedCES_data Exception_France-FNTP_data")
   '' Exception_housing_data Exception_transport_data Exception_France-ADEME_data
   ' Exception_ConsumerNested_data  Exception_Other_data
 
   ' CREATE SERIES FOR THE HOUSING AND TRANSPORT BLOCKS (from the "scr/data" folder)
 
   ' Create the "round0" series for the housing block (initialization)
-  '{%modelname}.series Exception_housing_data
+  ' call load_series("Exception_housing_data")
 
   ' Export all variables to a csv file (used by the external compiler)
   'call export_all_to_csv
 
   ' Create the series with if conditionalities (Housing block) 
-  '{%modelname}.series Exception_housing_data_if
+  call load_series("Exception_housing_data_if")
     
   ' Create the series for the Housing block 
-  '{%modelname}.series Exception_housing_data
+  ' call load_series("Exception_housing_data")
 
   ' Create the series using the dependencies (add-ins "series")
-  '{%modelname}.series Exception_transport_data
+  ' call load_series("Exception_transport_data")
 
   ' Export all variables to a csv file (used by the external compiler)
   call export_all_to_csv
 
   ' Load the model specification from the model/ folder
   statusline "Compiling the equations of the model... Please wait it may take a few minuts..."
-  {%modelname}.load blocks
+  call load_model("blocks")
+
 ' Save the workfile before running simulation
 if %load = "new" then
     if %warnings = "warnings"  then
