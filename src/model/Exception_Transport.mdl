@@ -135,6 +135,7 @@ phi_NewAUTO[ecl] = ADJUST_phi_NewAUTO * phi_NewAUTO_n[ecl] + (1 - ADJUST_phi_New
 
 ##! New electric automobiles of class $ecl$
 NewAUTO[ecl,cele] = phi_NewAUTO[ecl,cele] * NewAUTO[ecl]
+NewAUTO[cele] = sum(NewAUTO[ecl,cele] on ecl]
 ## Every class of electric car has no emission. But their energy consumption vary per km. \\
 # Expressed in thousand.
 
@@ -162,10 +163,12 @@ NewAUTO_bis[ecl,th] = NewAUTO[ecl,cfut] + NewAUTO[ecl,cgas]
 
 ##! New thermic automobiles fueled with oil of class $ecl$
 NewAUTO[ecl,cfut] = phi_NewAUTO[ecl,cfut] * NewAUTO[ecl,th] if NewAUTO[ecl,cfut]  <> 0
+NewAUTO[cfut] = sum(NewAUTO[ecl,cfut] on ecl]
 # Expressed in thousand.
 
 ##! New thermic automobiles fueled with gas of class $ecl$
 NewAUTO[ecl,cgas] = NewAUTO[ecl,th] - NewAUTO[ecl,cfut]  if NewAUTO[ecl,cgas]  <> 0
+NewAUTO[cgas] = sum(NewAUTO[ecl,cgas] on ecl]
 # Expressed in thousand.
 
 ##! Share of New thermic automobiles fueled with oil of class $ecl$

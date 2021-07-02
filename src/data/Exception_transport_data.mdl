@@ -125,9 +125,11 @@ km_traveler[croa] := TRANSPORT(28, 9)
 km_traveler[cair] := TRANSPORT(30, 9)
 
 NewAUTO[ecl,cele]  := TRANSPORT(36, $ecl)
-
+NewAUTO[cele] := sum(NewAUTO[ecl,cele] on ecl)
 NewAUTO[ecl,cfut]  := TRANSPORT(38, $ecl)
+NewAUTO[cfut] := sum(NewAUTO[ecl,cfut] on ecl)
 NewAUTO[ecl,cgas]  := TRANSPORT(39, $ecl)
+NewAUTO[cgas] := sum(NewAUTO[ecl,cgas] on ecl)
 
 Rdep_AUTO[ecl,cele,DES] := TRANSPORT(44, $ecl)
 Rdep_AUTO[ecl,cfut,DES] := TRANSPORT(45, $ecl)
@@ -286,8 +288,6 @@ NewAUTO[ecl,th] := NewAUTO[ecl,cfut] + NewAUTO[ecl,cgas]
 NewAUTO_bis[ecl,th] := NewAUTO[ecl,th]
 
 NewAUTO := sum(NewAUTO[ecl] on ecl)
-
-NewAUTO[cele] := sum(NewAUTO[ecl,cele] on ecl)
 
 kmPerAuto := km_AUTO / AUTO
 

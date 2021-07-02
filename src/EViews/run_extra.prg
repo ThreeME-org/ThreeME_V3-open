@@ -97,7 +97,7 @@ subroutine outputs
 
 'Shock hybrid output
   
-    %hybrid_2 = "AUTO_2 AUTO_cfut_2 AUTO_cele_2 AUTO_cgas_2"
+    %hybrid_2 = "AUTO_2 AUTO_cfut_2 AUTO_cele_2 AUTO_cgas_2 NEWAUTO_2 NEWAUTO_cfut_2 NEWAUTO_cele_2 NEWAUTO_cgas_2"
     
     for %ecl {%list_ener_class}
       %hybrid_2 = %hybrid_2 + " AUTO_"+%ecl+"_cfut_2"
@@ -111,9 +111,27 @@ subroutine outputs
       %hybrid_2 = %hybrid_2 + " AUTO_"+%ecl+"_cgas_2"
     next
 
+    for %ecl {%list_ener_class}
+      %hybrid_2 = %hybrid_2 + " NEWAUTO_"+%ecl+"_cfut_2"
+    next
+    
+    for %ecl {%list_ener_class} 
+      %hybrid_2 = %hybrid_2 + " NEWAUTO_"+%ecl+"_cele_2"
+    next
+    
+    for %ecl {%list_ener_class}
+      %hybrid_2 = %hybrid_2 + " NEWAUTO_"+%ecl+"_cgas_2"
+    next
+
+    %hybrid_2 = %hybrid_2 + " BUIL_2"
+
+    for %ecb {%list_buil_class} 
+      %hybrid_2 = %hybrid_2 + " BUIL_"+%ecb+"_2"
+    next
+
 'baseline Hybrid output
     
-    %hybrid_0 = " AUTO_0 AUTO_cfut_0 AUTO_cele_0 AUTO_cgas_0"
+    %hybrid_0 = " AUTO_0 AUTO_cfut_0 AUTO_cele_0 AUTO_cgas_0 NEWAUTO_0 NEWAUTO_cfut_0 NEWAUTO_cele_0 NEWAUTO_cgas_0"
 
     for %ecl {%list_ener_class}    
       %hybrid_0 = %hybrid_0 + " AUTO_"+%ecl+"_cfut_0"
@@ -125,6 +143,18 @@ subroutine outputs
     
     for %ecl {%list_ener_class}
       %hybrid_0 = %hybrid_0 + " AUTO_"+%ecl+"_cgas_0"
+    next
+
+    for %ecl {%list_ener_class}    
+      %hybrid_0 = %hybrid_0 + " NEWAUTO_"+%ecl+"_cfut_0"
+    next
+    
+    for %ecl {%list_ener_class}
+      %hybrid_0 = %hybrid_0 + " NEWAUTO_"+%ecl+"_cele_0"
+    next
+    
+    for %ecl {%list_ener_class}
+      %hybrid_0 = %hybrid_0 + " NEWAUTO_"+%ecl+"_cgas_0"
     next
 
     %hybrid = %hybrid_2 + %hybrid_0 
