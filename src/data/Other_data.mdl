@@ -153,6 +153,8 @@ MG_toe[ce] := M_toe[ce] + DLM_toe[ce]
 
 YG_toe[ce] := sum(YG_toe[ce, s] on s)
 
+YG_toe := sum(YG_toe[ce] on ce)
+
 DLY_toe[ce] := sum(DLY_toe[ce, s] on s)
 
 AC_toe[ce] := sum(AC_toe[ce, s] on s)

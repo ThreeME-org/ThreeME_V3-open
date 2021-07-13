@@ -157,8 +157,32 @@ subroutine outputs
       %hybrid_0 = %hybrid_0 + " NEWAUTO_"+%ecl+"_cgas_0"
     next
 
+    %hybrid_0 = %hybrid_0 + " BUIL_0"
+
+    for %ecb {%list_buil_class} 
+      %hybrid_0 = %hybrid_0 + " BUIL_"+%ecb+"_0"
+    next
+
     %hybrid = %hybrid_2 + %hybrid_0 
     group Hybrid {%hybrid} 
+
+
+%transports = " km_traveler_cair_2 km_trav_auto_LD_2+km_trav_auto_SD_2 km_traveler_SD_2 km_trav_auto_SD_2 km_traveler_croa_2 km_traveler_LD_2 km_trav_auto_LD_2 km_traveler_crai_2 km_traveler_cair_0 km_trav_auto_LD_0+km_trav_auto_SD_0 km_traveler_SD_0 km_trav_auto_SD_0 km_traveler_croa_0 km_traveler_LD_0 km_trav_auto_LD_0 km_traveler_crai_0"
+group Transports {%transports}
+
+' not possible to use a loop because some variables don't exist (for ex : PhiY_chea_swat_2) 
+%energy_mix = " PhiY_ccoa_smin_2 PhiY_ccoa_soil_2 PhiY_ccoi_smin_2 PhiY_ccoi_soil_2 PhiY_cfut_soil_2 PhiY_cfut_sbfu_2 PhiY_cfuh_soil_2 PhiY_cgas_smet_2 PhiY_cgas_soil_2 PhiY_cgas_sgas_2 PhiY_cgas_sbga_2 PhiY_cele_senu_2 PhiY_cele_seoi_2 PhiY_cele_sega_2 PhiY_cele_seco_2 PhiY_cele_sewi_2 PhiY_cele_seso_2 PhiY_cele_sehy_2 PhiY_cele_sech_2 PhiY_cele_seot_2 PhiY_chea_sech_2 PhiY_cbio_sfor_2 PhiY_cbio_spub_2 PhiY_cote_soil_2 PhiY_cote_spub_2 PhiY_ccoa_smin_0 PhiY_ccoa_soil_0 PhiY_ccoi_smin_0 PhiY_ccoi_soil_0 PhiY_cfut_soil_0 PhiY_cfut_sbfu_0 PhiY_cfuh_soil_0 PhiY_cgas_smet_0 PhiY_cgas_soil_0 PhiY_cgas_sgas_0 PhiY_cgas_sbga_0 PhiY_cele_senu_0 PhiY_cele_seoi_0 PhiY_cele_sega_0 PhiY_cele_seco_0 PhiY_cele_sewi_0 PhiY_cele_seso_0 PhiY_cele_sehy_0 PhiY_cele_sech_0 PhiY_cele_seot_0 PhiY_chea_sech_0 PhiY_cbio_sfor_0 PhiY_cbio_spub_0 PhiY_cote_soil_0 PhiY_cote_spub_0"
+group Energy_Mix {%energy_mix}
+
+
+%primary = " YG_toe_2 YG_toe_0 "    
+    
+    for %ce {%list_com_E}
+      %primary = %primary + " YG_toe_"+%ce+"_2" + " YG_toe_"+%ce+"_0"
+    next
+    
+%primary = %primary + " YG_toe_ccoa_smin_2 YG_toe_ccoa_soil_2 YG_toe_ccoi_smin_2 YG_toe_ccoi_soil_2 YG_toe_cfut_soil_2 YG_toe_cfut_sbfu_2 YG_toe_cfuh_soil_2 YG_toe_cgas_smet_2 YG_toe_cgas_soil_2 YG_toe_cgas_sgas_2 YG_toe_cgas_sbga_2 YG_toe_cele_senu_2 YG_toe_cele_seoi_2 YG_toe_cele_sega_2 YG_toe_cele_seco_2 YG_toe_cele_sewi_2 YG_toe_cele_seso_2 YG_toe_cele_sehy_2 YG_toe_cele_sech_2 YG_toe_cele_seot_2 YG_toe_chea_sech_2 YG_toe_cbio_sfor_2 YG_toe_cbio_spub_2 YG_toe_cote_soil_2 YG_toe_cote_spub_2 YG_toe_ccoa_smin_0 YG_toe_ccoa_soil_0 YG_toe_ccoi_smin_0 YG_toe_ccoi_soil_0 YG_toe_cfut_soil_0 YG_toe_cfut_sbfu_0 YG_toe_cfuh_soil_0 YG_toe_cgas_smet_0 YG_toe_cgas_soil_0 YG_toe_cgas_sgas_0 YG_toe_cgas_sbga_0 YG_toe_cele_senu_0 YG_toe_cele_seoi_0 YG_toe_cele_sega_0 YG_toe_cele_seco_0 YG_toe_cele_sewi_0 YG_toe_cele_seso_0 YG_toe_cele_sehy_0 YG_toe_cele_sech_0 YG_toe_cele_seot_0 YG_toe_chea_sech_0 YG_toe_cbio_sfor_0 YG_toe_cbio_spub_0 YG_toe_cote_soil_0 YG_toe_cote_spub_0"
+group Primary {%primary} 
 
 
 %index = "2"
@@ -184,7 +208,7 @@ subroutine outputs
 
     group Baseline {%baseline}  
 
-call savetoexcel("Hybrid Macro Baseline", "Result_France.xlsx", "YES")
+call savetoexcel("Hybrid Transports Energy_Mix Primary Macro Baseline", "Result_France.xlsx", "YES")
 
 endsub
 ' ============================================================================

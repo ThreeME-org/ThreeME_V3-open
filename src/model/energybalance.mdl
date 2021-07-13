@@ -81,6 +81,9 @@ d(log(AC_toe[ce, s])) = d(log(Y_toe[ce, s])) if AC_toe[ce, s] <> 0
 ##! Gross production of energy $ce$, expressed in toe
 YG_toe[ce] = sum(YG_toe[ce, s] if YG_toe[ce, s] <> 0 on s) if YG_toe[ce] <> 0
 
+##! Total gross production of energy, expressed in toe
+YG_toe = sum(YG_toe[ce] on ce)
+
 ##! Gross production of energy $ce$ by sector $s$, expressed in toe (for verification)
 YG_toebis[ce] = Y_toe[ce] + DLY_toe[ce] + AC_toe[ce] if YG_toebis[ce] <> 0
 
