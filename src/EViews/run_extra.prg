@@ -95,86 +95,46 @@ subroutine outputs
 
 ' Send results to Excel 
 
-'Shock hybrid output
+' HYBRID OUTPUT BLOCK
   
-    %hybrid_2 = "AUTO_2 AUTO_cfut_2 AUTO_cele_2 AUTO_cgas_2 NEWAUTO_2 NEWAUTO_cfut_2 NEWAUTO_cele_2 NEWAUTO_cgas_2"
-    
+    %hybrid = "AUTO_2 AUTO_cfut_2 AUTO_cele_2 AUTO_cgas_2 NEWAUTO_2 NEWAUTO_cfut_2 NEWAUTO_cele_2 NEWAUTO_cgas_2 AUTO_0 AUTO_cfut_0 AUTO_cele_0 AUTO_cgas_0 NEWAUTO_0 NEWAUTO_cfut_0 NEWAUTO_cele_0 NEWAUTO_cgas_0"
     for %ecl {%list_ener_class}
-      %hybrid_2 = %hybrid_2 + " AUTO_"+%ecl+"_cfut_2"
+      %hybrid = %hybrid + " AUTO_"+%ecl+"_cfut_2" + " AUTO_"+%ecl+"_cfut_0"
     next
-    
     for %ecl {%list_ener_class} 
-      %hybrid_2 = %hybrid_2 + " AUTO_"+%ecl+"_cele_2"
+      %hybrid = %hybrid + " AUTO_"+%ecl+"_cele_2" + " AUTO_"+%ecl+"_cele_0"
     next
-    
     for %ecl {%list_ener_class}
-      %hybrid_2 = %hybrid_2 + " AUTO_"+%ecl+"_cgas_2"
-    next
-
+      %hybrid = %hybrid + " AUTO_"+%ecl+"_cgas_2" + " AUTO_"+%ecl+"_cgas_0"
+    nexT
     for %ecl {%list_ener_class}
-      %hybrid_2 = %hybrid_2 + " NEWAUTO_"+%ecl+"_cfut_2"
+      %hybrid = %hybrid + " NEWAUTO_"+%ecl+"_cfut_2" + " NEWAUTO_"+%ecl+"_cfut_0"
     next
-    
     for %ecl {%list_ener_class} 
-      %hybrid_2 = %hybrid_2 + " NEWAUTO_"+%ecl+"_cele_2"
+      %hybrid = %hybrid + " NEWAUTO_"+%ecl+"_cele_2" + " NEWAUTO_"+%ecl+"_cele_0"
     next
-    
     for %ecl {%list_ener_class}
-      %hybrid_2 = %hybrid_2 + " NEWAUTO_"+%ecl+"_cgas_2"
+      %hybrid = %hybrid + " NEWAUTO_"+%ecl+"_cgas_2" + " NEWAUTO_"+%ecl+"_cgas_0"
     next
-
-    %hybrid_2 = %hybrid_2 + " BUIL_2"
-
+    %hybrid = %hybrid + " BUIL_2" + " BUIL_0"
     for %ecb {%list_buil_class} 
-      %hybrid_2 = %hybrid_2 + " BUIL_"+%ecb+"_2"
+      %hybrid = %hybrid + " BUIL_"+%ecb+"_2" + " BUIL_"+%ecb+"_0"
     next
-
-'baseline Hybrid output
-    
-    %hybrid_0 = " AUTO_0 AUTO_cfut_0 AUTO_cele_0 AUTO_cgas_0 NEWAUTO_0 NEWAUTO_cfut_0 NEWAUTO_cele_0 NEWAUTO_cgas_0"
-
-    for %ecl {%list_ener_class}    
-      %hybrid_0 = %hybrid_0 + " AUTO_"+%ecl+"_cfut_0"
-    next
-    
-    for %ecl {%list_ener_class}
-      %hybrid_0 = %hybrid_0 + " AUTO_"+%ecl+"_cele_0"
-    next
-    
-    for %ecl {%list_ener_class}
-      %hybrid_0 = %hybrid_0 + " AUTO_"+%ecl+"_cgas_0"
-    next
-
-    for %ecl {%list_ener_class}    
-      %hybrid_0 = %hybrid_0 + " NEWAUTO_"+%ecl+"_cfut_0"
-    next
-    
-    for %ecl {%list_ener_class}
-      %hybrid_0 = %hybrid_0 + " NEWAUTO_"+%ecl+"_cele_0"
-    next
-    
-    for %ecl {%list_ener_class}
-      %hybrid_0 = %hybrid_0 + " NEWAUTO_"+%ecl+"_cgas_0"
-    next
-
-    %hybrid_0 = %hybrid_0 + " BUIL_0"
-
-    for %ecb {%list_buil_class} 
-      %hybrid_0 = %hybrid_0 + " BUIL_"+%ecb+"_0"
-    next
-
-    %hybrid = %hybrid_2 + %hybrid_0 
     group Hybrid {%hybrid} 
 
 
+' TRANSPORTS OUTPUT BLOCK 
 %transports = " km_traveler_cair_2 km_trav_auto_LD_2+km_trav_auto_SD_2 km_traveler_SD_2 km_trav_auto_SD_2 km_traveler_croa_2 km_traveler_LD_2 km_trav_auto_LD_2 km_traveler_crai_2 km_traveler_cair_0 km_trav_auto_LD_0+km_trav_auto_SD_0 km_traveler_SD_0 km_trav_auto_SD_0 km_traveler_croa_0 km_traveler_LD_0 km_trav_auto_LD_0 km_traveler_crai_0"
 group Transports {%transports}
 
+
+' ENERGY MIX OUTPUT BLOCK 
 ' not possible to use a loop because some variables don't exist (for ex : PhiY_chea_swat_2) 
 %energy_mix = " PhiY_ccoa_smin_2 PhiY_ccoa_soil_2 PhiY_ccoi_smin_2 PhiY_ccoi_soil_2 PhiY_cfut_soil_2 PhiY_cfut_sbfu_2 PhiY_cfuh_soil_2 PhiY_cgas_smet_2 PhiY_cgas_soil_2 PhiY_cgas_sgas_2 PhiY_cgas_sbga_2 PhiY_cele_senu_2 PhiY_cele_seoi_2 PhiY_cele_sega_2 PhiY_cele_seco_2 PhiY_cele_sewi_2 PhiY_cele_seso_2 PhiY_cele_sehy_2 PhiY_cele_sech_2 PhiY_cele_seot_2 PhiY_chea_sech_2 PhiY_cbio_sfor_2 PhiY_cbio_spub_2 PhiY_cote_soil_2 PhiY_cote_spub_2 PhiY_ccoa_smin_0 PhiY_ccoa_soil_0 PhiY_ccoi_smin_0 PhiY_ccoi_soil_0 PhiY_cfut_soil_0 PhiY_cfut_sbfu_0 PhiY_cfuh_soil_0 PhiY_cgas_smet_0 PhiY_cgas_soil_0 PhiY_cgas_sgas_0 PhiY_cgas_sbga_0 PhiY_cele_senu_0 PhiY_cele_seoi_0 PhiY_cele_sega_0 PhiY_cele_seco_0 PhiY_cele_sewi_0 PhiY_cele_seso_0 PhiY_cele_sehy_0 PhiY_cele_sech_0 PhiY_cele_seot_0 PhiY_chea_sech_0 PhiY_cbio_sfor_0 PhiY_cbio_spub_0 PhiY_cote_soil_0 PhiY_cote_spub_0"
 group Energy_Mix {%energy_mix}
 
 
+' PRIMARY ENERGY OUTPUT BLOCK 
 %primary_nrj = " YG_toe_2 YG_toe_0 "    
     
     for %ce {%list_com_E}
@@ -184,6 +144,8 @@ group Energy_Mix {%energy_mix}
 %primary_nrj = %primary_nrj + " YG_toe_ccoa_smin_2 YG_toe_ccoa_soil_2 YG_toe_ccoi_smin_2 YG_toe_ccoi_soil_2 YG_toe_cfut_soil_2 YG_toe_cfut_sbfu_2 YG_toe_cfuh_soil_2 YG_toe_cgas_smet_2 YG_toe_cgas_soil_2 YG_toe_cgas_sgas_2 YG_toe_cgas_sbga_2 YG_toe_cele_senu_2 YG_toe_cele_seoi_2 YG_toe_cele_sega_2 YG_toe_cele_seco_2 YG_toe_cele_sewi_2 YG_toe_cele_seso_2 YG_toe_cele_sehy_2 YG_toe_cele_sech_2 YG_toe_cele_seot_2 YG_toe_chea_sech_2 YG_toe_cbio_sfor_2 YG_toe_cbio_spub_2 YG_toe_cote_soil_2 YG_toe_cote_spub_2 YG_toe_ccoa_smin_0 YG_toe_ccoa_soil_0 YG_toe_ccoi_smin_0 YG_toe_ccoi_soil_0 YG_toe_cfut_soil_0 YG_toe_cfut_sbfu_0 YG_toe_cfuh_soil_0 YG_toe_cgas_smet_0 YG_toe_cgas_soil_0 YG_toe_cgas_sgas_0 YG_toe_cgas_sbga_0 YG_toe_cele_senu_0 YG_toe_cele_seoi_0 YG_toe_cele_sega_0 YG_toe_cele_seco_0 YG_toe_cele_sewi_0 YG_toe_cele_seso_0 YG_toe_cele_sehy_0 YG_toe_cele_sech_0 YG_toe_cele_seot_0 YG_toe_chea_sech_0 YG_toe_cbio_sfor_0 YG_toe_cbio_spub_0 YG_toe_cote_soil_0 YG_toe_cote_spub_0"
 group Primary_nrj {%primary_nrj} 
 
+
+' FINAL ENERGY OUTPUT BLOCK 
 %final_nrj = " CF_toe_2 CH_toe_2 CI_toe_TRSP_2 CI_toe_AGRF_2 CI_toe_IND_2 CI_toe_SER_2 CF_toe_0 CH_toe_0 CI_toe_TRSP_0 CI_toe_AGRF_0 CI_toe_IND_0 CI_toe_SER_0"    
     
     for %ce {%list_com_E}
@@ -194,7 +156,7 @@ group Primary_nrj {%primary_nrj}
       %final_nrj = %final_nrj + " CI_toe_"+%ce+"_TRSP_2" + " CI_toe_"+%ce+"_TRSP_0"
     next
     
-' loop doesn't work because CI_toe_cote_AGRF_2 not defined
+' loop doesn't work because CI_toe_cote_AGRF_2 (specifically) not defined
     'for %ce {%list_com_E}
     '  %final_nrj = %final_nrj + " CI_toe_"+%ce+"_AGRF_2" + " CI_toe_"+%ce+"_AGRF_0"
     'next
@@ -203,7 +165,7 @@ group Primary_nrj {%primary_nrj}
       %final_nrj = %final_nrj + " CI_toe_"+%ce+"_IND_2" + " CI_toe_"+%ce+"_IND_0"
     next
     
-' loop doesn't work because CI_toe_cote_SER_2 not defined
+' loop doesn't work because CI_toe_cote_SER_2 (specifically) not defined
     'for %ce {%list_com_E}
     ' %final_nrj = %final_nrj + " CI_toe_"+%ce+"_SER_2" + " CI_toe_"+%ce+"_SER_0"
     'next
@@ -211,11 +173,43 @@ group Primary_nrj {%primary_nrj}
 group Final_nrj {%final_nrj}
 
 
+' INTENSITY EMS OUTPUT BLOCK 
+' doesn't work because IEMS_CH[ghg,c] are only series 
+' add Intensity_EMS in add to excel once fixed  
+'for %ghg {%list_GHG} 
+'  for %c {%list_com} 
+'      %intensity_EMS = %intensity_EMS + " IEMS_CH_"+%ghg+"_"+%c+"_2" + " IEMS_CH_"+%ghg+"_"+%c+"_0"
+'    next
+'  next
+'group Intensity_EMS {%intensity_EMS} 
 
 
 
-%index = "2"
-    group Macro 100*(GDP_{%index}/GDP_0-1) 100*(CH_{%index}/CH_0-1) 100*(I_{%index}/I_0-1) 100*(X_{%index}/X_0-1) 100*(M_{%index}/M_0-1) 100*((DISPINC_AT_VAL_{%index}/PCH_{%index})/(DISPINC_AT_VAL_0/PCH_0)-1) 100*(RSAV_H_VAL_{%index}-RSAV_H_VAL_0) 100*(PCH_{%index}/PCH_0-1) 100*(PY_{%index}/PY_0-1)  100*(PVA_{%index}/PVA_0-1) 100*(PCI_{%index}/PCI_0-1) 100*(PX_{%index}/PX_0-1) 100*(PM_{%index}/PM_0-1) 100*(W_{%index}/W_0-1) 100*((C_L_{%index}/PVA_{%index})/(C_L_0/PVA_0)-1) (F_L_{%index}-F_L_0) 100*(UnR_{%index}-UnR_0) 100*(RBal_Trade_VAL_{%index}-RBal_Trade_VAL_0) 100*(RBal_G_Prim_VAL_{%index}-RBal_G_Prim_VAL_0) 100*(RDEBT_G_VAL_{%index}-RDEBT_G_VAL_0) 100*(EMS_CO2_{%index}/EMS_CO2_0-1) 100*(CH_0+G_0)/GDP_0*((CH_{%index}+G_{%index})/(CH_0+G_0)-1) 100*I_0/GDP_0*(I_{%index}/I_0-1) 100*(X_0-M_0)/GDP_0*((X_{%index}-M_{%index})/(X_0-M_0)-1) 100*DS_0/GDP_0*(DS_{%index}/DS_0-1)
+' MACRO OUTPUT BLOCK 
+%macro = " 100*(GDP_2/GDP_0-1) 100*((VA_2-VA_spub_2)/(VA_0-VA_spub_0)-1) 100*((CH_2-CH_0)/GDP_0) 100*((CH_cveh_2-CH_cveh_0)/GDP_0) 100*((G_2-G_0)/GDP_0) 100*((I_2-I_0)/GDP_0) 100*((DS_2-DS_0)/GDP_0) 100*((X_2-X_0)/GDP_0)-100*((M_2-M_0)/GDP_0) 100*((CH_2-CH_ccon_2-(CH_0-CH_ccon_0))/GDP_0) 100*((I_2+CH_ccon_2-(I_0+CH_ccon_0))/GDP_0) 100*((I_2-IA_spub_2-(I_0-IA_spub_0))/GDP_0) 100*((CH_ccon_2-CH_ccon_0)/GDP_0) 100*((IA_spub_2-IA_spub_0)/GDP_0) 100*(CH_2/CH_0-1) 100*(CH_cveh_2/CH_cveh_0-1) 100*(G_2/G_0-1) 100*(I_2/I_0-1) 100*((I_2-IA_spub_2)/(I_0-IA_spub_0)-1) 100*(X_2/X_0-1) 100*(M_2/M_0-1) 100*((CH_2-CH_ccon_2)/(CH_0-CH_ccon_0)-1) 100*((I_2+CH_ccon_2)/(I_0+CH_ccon_0)-1) 100*((CH_ccon_2)/(CH_ccon_0)-1) 100*((IA_spub_2)/(IA_spub_0)-1) 100*(DISPINC_AT_VAL_2/DISPINC_AT_VAL_0-1) 100*(DISPINC_AT_VAL_2/DISPINC_AT_VAL_0-1)-100*(PCH_2/PCH_0-1) 100*(DISPINC_AT_VAL_2/DISPINC_AT_VAL_0-1)-100*((F_L_2/F_L_0)-1) 100*(DISPINC_AT_VAL_2/DISPINC_AT_VAL_0-1)-100*((F_L_2/F_L_0)-1)-100*(PCH_2/PCH_0-1) 100*(MPS_n_2-MPS_n_0) 100*(PCH_2/PCH_0-1) 100*(PY_2/PY_0-1) 100*(PX_2/PX_0-1) 100*(PM_2/PM_0-1) 100*(W_2/W_0-1) 100*((W_2/PCH_2)/(W_0/PCH_0)-1) 100*(C_L_2/C_L_0-1) 100*((C_L_2/PVA_2)/(C_L_0/PVA_0)-1) ((F_L_2/F_L_0)-1)*100 F_L_2-F_L_0 100*(UnR_2-UnR_0) 100*(Bal_Trade_VAL_2/(GDP_2*PGDP_2)-Bal_Trade_VAL_0/(GDP_0*PGDP_0)) ENER_BILL 100*((-Bal_G_prim_VAL_2)/(GDP_2*PGDP_2)-(-Bal_G_prim_VAL_0)/(GDP_0*PGDP_0)) 100*((-Bal_G_tot_VAL_2)/(GDP_2*PGDP_2)-(-Bal_G_tot_VAL_0)/(GDP_0*PGDP_0)) (DEBT_G_VAL_2/(PGDP_2*GDP_2)-DEBT_G_VAL_0/(PGDP_0*GDP_0))*100 GDP_2 (GDPter_2/GDPbis_2-1)*100 SPEND_G_VAL_2 INC_G_VAL_2 Bal_G_tot_VAL_2 DEBT_G_VAL_2 PCH_2 PGDP_2 POP"
+group Macro {%macro}
+
+'%index = "2"
+    'group Macro 100*(GDP_{%index}/GDP_0-1) 100*(CH_{%index}/CH_0-1) 100*(I_{%index}/I_0-1) 100*(X_{%index}/X_0-1) '100*(M_{%index}/M_0-1) 100*((DISPINC_AT_VAL_{%index}/PCH_{%index})/(DISPINC_AT_VAL_0/PCH_0)-1) '100*(RSAV_H_VAL_{%index}-RSAV_H_VAL_0) 100*(PCH_{%index}/PCH_0-1) 100*(PY_{%index}/PY_0-1)  '100*(PVA_{%index}/PVA_0-1) 100*(PCI_{%index}/PCI_0-1) 100*(PX_{%index}/PX_0-1) 100*(PM_{%index}/PM_0-1) '100*(W_{%index}/W_0-1) 100*((C_L_{%index}/PVA_{%index})/(C_L_0/PVA_0)-1) (F_L_{%index}-F_L_0) '100*(UnR_{%index}-UnR_0) 100*(RBal_Trade_VAL_{%index}-RBal_Trade_VAL_0) '100*(RBal_G_Prim_VAL_{%index}-RBal_G_Prim_VAL_0) 100*(RDEBT_G_VAL_{%index}-RDEBT_G_VAL_0) '100*(EMS_CO2_{%index}/EMS_CO2_0-1) 100*(CH_0+G_0)/GDP_0*((CH_{%index}+G_{%index})/(CH_0+G_0)-1) 
+    '100*I_0/GDP_0*(I_{%index}/I_0-1) 100*(X_0-M_0)/GDP_0*((X_{%index}-M_{%index})/(X_0-M_0)-1) 100*DS_0/
+    'GDP_0*(DS_{%index}/DS_0-1)
+
+
+
+' LABOR OUTPUT BLOCK 
+%labor = " F_L_2 F_L_0 "    
+    
+    for %s {%list_sec}
+      %labor = %labor + " F_L_"+%s+"_2" + " F_L_"+%s+"_0"
+    next
+    
+    ' doesn't work (but works in EX-STRING-GROUP-2...)
+    'for %sagg {%list_sec_AGREG}
+    '  %labor = %labor + " F_L_"+%sagg+"_2" + " F_L_"+%sagg+"_0"
+    'next
+group Labor {%labor}
+
+
 
 'output for main baseline variables
     %baseline = "@PCH(GDP_0) @PCH(pch_0) UNR_0 RDEBT_G_VAL_0 RBal_G_Prim_VAL_0 rbal_trade_val_0 EMS_CO2_0 POP GDP_0 PCH_0 EMS_CH_CO2_0 EMS_CI_CO2_0" 
@@ -237,7 +231,7 @@ group Final_nrj {%final_nrj}
 
     group Baseline {%baseline}  
 
-call savetoexcel("Hybrid Transports Energy_Mix Primary_nrj Final_nrj Macro Baseline", "Result_France.xlsx", "YES")
+call savetoexcel("Hybrid Transports Energy_Mix Primary_nrj Final_nrj Macro Labor Baseline", "Result_France.xlsx", "YES")
 
 endsub
 ' ============================================================================

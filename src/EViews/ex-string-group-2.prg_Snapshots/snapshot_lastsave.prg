@@ -1,23 +1,25 @@
 ' Ex SANS creation d'une nouvelle série
 %baseyear = "2015"
 %list_ener_class = "CA CB CC CD CE CF CG"
+%list_sec_ELE =  "senu seoi sega seco sewi seso sehy sech seot"
+%list_com_E = "ccoa ccoi cfut cfuh cgas cele chea cbio cote"
+%list_com = "cagr cfor cfoo cveh cgla cpap cche cpla cmet cigo ccgo ccon crai croa cwat cair cpri cpub cmin ccoa ccoi cfut cfuh cgas cele chea cbio cote"
+%list_GHG = "CO2 CH4 N2O SF6 HFC PFC"
+
 ' Send results to Excel 
   
-    %hybrid_2 = "AUTO_2  AUTO_cfut_2  AUTO_cele_2 AUTO_cgas_2"
+%primary = " YG_toe_2 YG_toe_0 "    
     
-   for %ecl {%list_ener_class}
-        %hybrid_2 = %hybrid_2 + " AUTO_"+%ecl+"_cfut_2"
-   next
+    for %ce {%list_com_E}
+      %primary = %primary + " YG_toe_"+%ce+"_2" + " YG_toe_"+%ce+"_0"
+    next
     
+    for %sele {%list_sec_ELE}
+      %primary = %primary + " YG_toe_cele_"+%sele+"_2" + " YG_toe_cele_"+%sele+"_0"
+    next
 
-   for %ecl {%list_ener_class}
-          %hybrid_0 = %hybrid_0 + " AUTO_"+%ecl+"_cfut_0"
-   next 
-         
-%hybrid = %hybrid_2 + %hybrid_0 
-    
-    group Hybrid {%hybrid} 
-
-    show Hybrid
+%primary = %primary + " YG_toe_cfut_soil_2 YG_toe_cfut_soil_0 YG_toe_cfut_sbfu_2 YG_toe_cfut_sbfu_0 YG_toe_cgas_sgas_2 YG_toe_cgas_sgas_0 YG_toe_cgas_sbga_2 YG_toe_cgas_sbga_0"
+group Primary {%primary} 
+show Primary
 
 
