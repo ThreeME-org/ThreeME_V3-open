@@ -175,14 +175,43 @@ group Transports {%transports}
 group Energy_Mix {%energy_mix}
 
 
-%primary = " YG_toe_2 YG_toe_0 "    
+%primary_nrj = " YG_toe_2 YG_toe_0 "    
     
     for %ce {%list_com_E}
-      %primary = %primary + " YG_toe_"+%ce+"_2" + " YG_toe_"+%ce+"_0"
+      %primary_nrj = %primary_nrj + " YG_toe_"+%ce+"_2" + " YG_toe_"+%ce+"_0"
     next
     
-%primary = %primary + " YG_toe_ccoa_smin_2 YG_toe_ccoa_soil_2 YG_toe_ccoi_smin_2 YG_toe_ccoi_soil_2 YG_toe_cfut_soil_2 YG_toe_cfut_sbfu_2 YG_toe_cfuh_soil_2 YG_toe_cgas_smet_2 YG_toe_cgas_soil_2 YG_toe_cgas_sgas_2 YG_toe_cgas_sbga_2 YG_toe_cele_senu_2 YG_toe_cele_seoi_2 YG_toe_cele_sega_2 YG_toe_cele_seco_2 YG_toe_cele_sewi_2 YG_toe_cele_seso_2 YG_toe_cele_sehy_2 YG_toe_cele_sech_2 YG_toe_cele_seot_2 YG_toe_chea_sech_2 YG_toe_cbio_sfor_2 YG_toe_cbio_spub_2 YG_toe_cote_soil_2 YG_toe_cote_spub_2 YG_toe_ccoa_smin_0 YG_toe_ccoa_soil_0 YG_toe_ccoi_smin_0 YG_toe_ccoi_soil_0 YG_toe_cfut_soil_0 YG_toe_cfut_sbfu_0 YG_toe_cfuh_soil_0 YG_toe_cgas_smet_0 YG_toe_cgas_soil_0 YG_toe_cgas_sgas_0 YG_toe_cgas_sbga_0 YG_toe_cele_senu_0 YG_toe_cele_seoi_0 YG_toe_cele_sega_0 YG_toe_cele_seco_0 YG_toe_cele_sewi_0 YG_toe_cele_seso_0 YG_toe_cele_sehy_0 YG_toe_cele_sech_0 YG_toe_cele_seot_0 YG_toe_chea_sech_0 YG_toe_cbio_sfor_0 YG_toe_cbio_spub_0 YG_toe_cote_soil_0 YG_toe_cote_spub_0"
-group Primary {%primary} 
+%primary_nrj = %primary_nrj + " YG_toe_ccoa_smin_2 YG_toe_ccoa_soil_2 YG_toe_ccoi_smin_2 YG_toe_ccoi_soil_2 YG_toe_cfut_soil_2 YG_toe_cfut_sbfu_2 YG_toe_cfuh_soil_2 YG_toe_cgas_smet_2 YG_toe_cgas_soil_2 YG_toe_cgas_sgas_2 YG_toe_cgas_sbga_2 YG_toe_cele_senu_2 YG_toe_cele_seoi_2 YG_toe_cele_sega_2 YG_toe_cele_seco_2 YG_toe_cele_sewi_2 YG_toe_cele_seso_2 YG_toe_cele_sehy_2 YG_toe_cele_sech_2 YG_toe_cele_seot_2 YG_toe_chea_sech_2 YG_toe_cbio_sfor_2 YG_toe_cbio_spub_2 YG_toe_cote_soil_2 YG_toe_cote_spub_2 YG_toe_ccoa_smin_0 YG_toe_ccoa_soil_0 YG_toe_ccoi_smin_0 YG_toe_ccoi_soil_0 YG_toe_cfut_soil_0 YG_toe_cfut_sbfu_0 YG_toe_cfuh_soil_0 YG_toe_cgas_smet_0 YG_toe_cgas_soil_0 YG_toe_cgas_sgas_0 YG_toe_cgas_sbga_0 YG_toe_cele_senu_0 YG_toe_cele_seoi_0 YG_toe_cele_sega_0 YG_toe_cele_seco_0 YG_toe_cele_sewi_0 YG_toe_cele_seso_0 YG_toe_cele_sehy_0 YG_toe_cele_sech_0 YG_toe_cele_seot_0 YG_toe_chea_sech_0 YG_toe_cbio_sfor_0 YG_toe_cbio_spub_0 YG_toe_cote_soil_0 YG_toe_cote_spub_0"
+group Primary_nrj {%primary_nrj} 
+
+%final_nrj = " CF_toe_2 CH_toe_2 CI_toe_TRSP_2 CI_toe_AGRF_2 CI_toe_IND_2 CI_toe_SER_2 CF_toe_0 CH_toe_0 CI_toe_TRSP_0 CI_toe_AGRF_0 CI_toe_IND_0 CI_toe_SER_0"    
+    
+    for %ce {%list_com_E}
+      %final_nrj = %final_nrj + " CF_toe_"+%ce+"_2" + " CF_toe_"+%ce+"_0"
+    next
+
+    for %ce {%list_com_E}
+      %final_nrj = %final_nrj + " CI_toe_"+%ce+"_TRSP_2" + " CI_toe_"+%ce+"_TRSP_0"
+    next
+    
+' loop doesn't work because CI_toe_cote_AGRF_2 not defined
+    'for %ce {%list_com_E}
+    '  %final_nrj = %final_nrj + " CI_toe_"+%ce+"_AGRF_2" + " CI_toe_"+%ce+"_AGRF_0"
+    'next
+    
+    for %ce {%list_com_E}
+      %final_nrj = %final_nrj + " CI_toe_"+%ce+"_IND_2" + " CI_toe_"+%ce+"_IND_0"
+    next
+    
+' loop doesn't work because CI_toe_cote_SER_2 not defined
+    'for %ce {%list_com_E}
+    ' %final_nrj = %final_nrj + " CI_toe_"+%ce+"_SER_2" + " CI_toe_"+%ce+"_SER_0"
+    'next
+
+group Final_nrj {%final_nrj}
+
+
+
 
 
 %index = "2"
@@ -208,7 +237,7 @@ group Primary {%primary}
 
     group Baseline {%baseline}  
 
-call savetoexcel("Hybrid Transports Energy_Mix Primary Macro Baseline", "Result_France.xlsx", "YES")
+call savetoexcel("Hybrid Transports Energy_Mix Primary_nrj Final_nrj Macro Baseline", "Result_France.xlsx", "YES")
 
 endsub
 ' ============================================================================

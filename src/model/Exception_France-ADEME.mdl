@@ -154,6 +154,7 @@ CI_toe[ce, AGRF]  = sum(CI_toe[ce, sagrf]   if CI_toe[ce, sagrf] <> 0 on sagrf) 
 
 ##! Final consumption (energy balance definition) for energy $ce$, expressed in toe
 CF_toe[ce] = CI_toe[ce, IND] + CI_toe[ce, TRSP] + CI_toe[ce, SER] + CI_toe[ce, AGRF] + CH_toe[ce] 
+CF_toe = sum(CF_toe[ce] on ce)
 
 ##! Final consumption (energy balance definition) of economic sectors for energy $ce$, expressed in toe
 CF_CI_toe[ce] = CI_toe[ce, IND] + CI_toe[ce, TRSP] + CI_toe[ce, SER] + CI_toe[ce, AGRF]
