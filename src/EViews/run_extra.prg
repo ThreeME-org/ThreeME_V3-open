@@ -140,35 +140,37 @@ group Energy_Mix {%energy_mix}
     for %ce {%list_com_E}
       %primary_nrj = %primary_nrj + " YG_toe_"+%ce+"_2" + " YG_toe_"+%ce+"_0"
     next
-    
+' we then use the same variables as in ENERGY MIX OUTPUT     
 %primary_nrj = %primary_nrj + " YG_toe_ccoa_smin_2 YG_toe_ccoa_soil_2 YG_toe_ccoi_smin_2 YG_toe_ccoi_soil_2 YG_toe_cfut_soil_2 YG_toe_cfut_sbfu_2 YG_toe_cfuh_soil_2 YG_toe_cgas_smet_2 YG_toe_cgas_soil_2 YG_toe_cgas_sgas_2 YG_toe_cgas_sbga_2 YG_toe_cele_senu_2 YG_toe_cele_seoi_2 YG_toe_cele_sega_2 YG_toe_cele_seco_2 YG_toe_cele_sewi_2 YG_toe_cele_seso_2 YG_toe_cele_sehy_2 YG_toe_cele_sech_2 YG_toe_cele_seot_2 YG_toe_chea_sech_2 YG_toe_cbio_sfor_2 YG_toe_cbio_spub_2 YG_toe_cote_soil_2 YG_toe_cote_spub_2 YG_toe_ccoa_smin_0 YG_toe_ccoa_soil_0 YG_toe_ccoi_smin_0 YG_toe_ccoi_soil_0 YG_toe_cfut_soil_0 YG_toe_cfut_sbfu_0 YG_toe_cfuh_soil_0 YG_toe_cgas_smet_0 YG_toe_cgas_soil_0 YG_toe_cgas_sgas_0 YG_toe_cgas_sbga_0 YG_toe_cele_senu_0 YG_toe_cele_seoi_0 YG_toe_cele_sega_0 YG_toe_cele_seco_0 YG_toe_cele_sewi_0 YG_toe_cele_seso_0 YG_toe_cele_sehy_0 YG_toe_cele_sech_0 YG_toe_cele_seot_0 YG_toe_chea_sech_0 YG_toe_cbio_sfor_0 YG_toe_cbio_spub_0 YG_toe_cote_soil_0 YG_toe_cote_spub_0"
 group Primary_nrj {%primary_nrj} 
 
 
 ' FINAL ENERGY OUTPUT BLOCK 
-%final_nrj = " CF_toe_2 CH_toe_2 CI_toe_TRSP_2 CI_toe_AGRF_2 CI_toe_IND_2 CI_toe_SER_2 CF_toe_0 CH_toe_0 CI_toe_TRSP_0 CI_toe_AGRF_0 CI_toe_IND_0 CI_toe_SER_0"    
+%final_nrj = " CF_toe_2 CH_toe_2 CF_toe_0 CH_toe_0 "    
     
     for %ce {%list_com_E}
       %final_nrj = %final_nrj + " CF_toe_"+%ce+"_2" + " CF_toe_"+%ce+"_0"
     next
 
+    for %sagg TRSP AGRF IND SER
+      %final_nrj = %final_nrj + " CI_toe_"+%sagg+"_2" + " CI_toe_"+%sagg+"_0"
+    next
+    
     for %ce {%list_com_E}
       %final_nrj = %final_nrj + " CI_toe_"+%ce+"_TRSP_2" + " CI_toe_"+%ce+"_TRSP_0"
     next
     
-' loop doesn't work because CI_toe_cote_AGRF_2 (specifically) not defined
-    'for %ce {%list_com_E}
-    '  %final_nrj = %final_nrj + " CI_toe_"+%ce+"_AGRF_2" + " CI_toe_"+%ce+"_AGRF_0"
-    'next
+    for %ce ccoa ccoi cfut cfuh cgas cele chea cbio
+      %final_nrj = %final_nrj + " CI_toe_"+%ce+"_AGRF_2" + " CI_toe_"+%ce+"_AGRF_0"
+    next
     
     for %ce {%list_com_E}
       %final_nrj = %final_nrj + " CI_toe_"+%ce+"_IND_2" + " CI_toe_"+%ce+"_IND_0"
     next
     
-' loop doesn't work because CI_toe_cote_SER_2 (specifically) not defined
-    'for %ce {%list_com_E}
-    ' %final_nrj = %final_nrj + " CI_toe_"+%ce+"_SER_2" + " CI_toe_"+%ce+"_SER_0"
-    'next
+    for %ce ccoa ccoi cfut cfuh cgas cele chea cbio
+     %final_nrj = %final_nrj + " CI_toe_"+%ce+"_SER_2" + " CI_toe_"+%ce+"_SER_0"
+    next
 
 group Final_nrj {%final_nrj}
 
@@ -210,6 +212,45 @@ group Macro {%macro}
 group Labor {%labor}
 
 
+' VALUE ADDED OUTPUT BLOCK 
+%value_added = " VA_2 VA_0 "    
+    
+    for %s {%list_sec}
+      %value_added = %value_added + " VA_"+%s+"_2" + " VA_"+%s+"_0"
+    next
+    
+    ' doesn't work (but works in EX-STRING-GROUP-2...)
+    'for %sagg {%list_sec_AGREG}
+    '  %value_added = %value_added + " VA_"+%sagg+"_2" + " VA_"+%sagg+"_0"
+    'next
+group Value_Added {%value_added}
+
+
+
+' TOTAL INVESTMENT OUTPUT BLOCK 
+%INV = " IA_2 IA_0 "    
+    
+    for %s {%list_sec}
+      %INV = %INV + " IA_"+%s+"_2" + " IA_"+%s+"_0"
+    next
+    
+    ' doesn't work (but works in EX-STRING-GROUP-2...)
+    'for %sagg {%list_sec_AGREG}
+    '  %INV = %INV + " IA_"+%sagg+"_2" + " IA_"+%sagg+"_0"
+    'next
+group INV {%INV}
+
+
+
+' CONSUMPTION OUTPUT BLOCK 
+%consumption = " CH_2 CH_0 PCH_2 PCH_0 "    
+    
+    for %c cagr cfoo cveh cgla cpap cche cpla cmet cigo ccgo ccon crai croa cwat cair cpri cpub cmin ccoa cfut cfuh cgas cele chea cbio
+      %consumption = %consumption + " CH_"+%c+"_2" + " CH_"+%c+"_0" + " PCH_"+%c+"_2" + " PCH_"+%c+"_0"
+    next
+group Consumption {%consumption}
+
+
 
 'output for main baseline variables
     %baseline = "@PCH(GDP_0) @PCH(pch_0) UNR_0 RDEBT_G_VAL_0 RBal_G_Prim_VAL_0 rbal_trade_val_0 EMS_CO2_0 POP GDP_0 PCH_0 EMS_CH_CO2_0 EMS_CI_CO2_0" 
@@ -231,7 +272,7 @@ group Labor {%labor}
 
     group Baseline {%baseline}  
 
-call savetoexcel("Hybrid Transports Energy_Mix Primary_nrj Final_nrj Macro Labor Baseline", "Result_France.xlsx", "YES")
+call savetoexcel("Hybrid Transports Energy_Mix Primary_nrj Final_nrj Macro Labor Value_Added INV Consumption Baseline", "Result_France.xlsx", "YES")
 
 endsub
 ' ============================================================================

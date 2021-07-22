@@ -70,6 +70,7 @@ IA_SER  := sum(IA[sser]  on sser)
 IA_TRSF := sum(IA[strsf] on strsf)
 IA_ELE  := sum(IA[sele]  on sele)
 IA_AGRF  := sum(IA[sagrf]  on sagrf)
+IA := sum(IA[s] on s)
 
 F_L_IND  := sum(F[L, sind]  on sind)
 F_L_TRSP := sum(F[L, strsp] on strsp)
