@@ -348,6 +348,7 @@ CH_AUTO_toe[ecl,cea] = km_AUTO[ecl,cea]    * toePerKm[ecl,cea]   if CH_AUTO_toe[
 
 ##! Energy consumption of automobiles fueled with energy $cea$ expressed in tonne of oil equivalent
 CH_AUTO_toe[cea] = sum(CH_AUTO_toe[ecl,cea] on ecl)
+CH_AUTO_toe = sum(CH_AUTO_toe[cea] on cea) 
 
 ##! Households' final consumption of electricity (expressed in monetary unit)
 d(log(CH_AUTO[cea])) = d(log(CH_AUTO_toe[cea]))

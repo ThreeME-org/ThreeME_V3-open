@@ -141,9 +141,14 @@ verif_EMS_CI[ghg]  = sum(EMS_CI[ghg, sagg] on sagg) - EMS_CI[ghg]
 #CH_toe_hous = CH_toe[cfuh] + CH_toe[cgas] + CH_HOUS_toe[cele]
 #CH_HOUS_toe[cele] =  CH_toe[cele] * CH_HOUS[cele] / (CH_HOUS[cele] + CH_TRSP[cele])
 
+CH_HOUS_toe[cea] = CH_toe[cea] - CH_AUTO_toe[cea] 
+CH_HOUS_toe = sum(CH_HOUS_toe[cea] on cea)
+
 ##! End use for energy consumption of households related to transport, expressed in toe
 #CH_toe_trsp = CH_toe[cfut] + CH_TRSP_toe[cele]
 #CH_TRSP_toe[cele] = CH_toe[cele] * CH_TRSP[cele] / (CH_HOUS[cele] + CH_TRSP[cele])
+
+
 
 ##! End use for energy $ce$ of agregate sector, expressed in toe 
 CI_toe[ce, IND]  = sum(CI_toe[ce, sind]   if CI_toe[ce, sind] <> 0 on sind)    if CI_toe[ce, IND]  <> 0

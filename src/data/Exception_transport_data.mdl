@@ -192,6 +192,7 @@ km_AUTO[cele] := km_AUTO * AUTO[cele] / AUTO
 km_AUTO[th] := km_AUTO - km_AUTO[cele]
 
 CH_AUTO_toe[cea] := sum(CH_AUTO_toe[ecl,cea] on ecl)
+CH_AUTO_toe := sum(CH_AUTO_toe[cea] on cea)
 
 km_AUTO[ecl] := sum(km_AUTO[ecl,cea] on cea)
 

@@ -146,11 +146,21 @@ group Primary_nrj {%primary_nrj}
 
 
 ' FINAL ENERGY OUTPUT BLOCK 
-%final_nrj = " CF_toe_2 CH_toe_2 CF_toe_0 CH_toe_0 "    
+%final_nrj = " CF_toe_2 CH_toe_2 CH_HOUS_toe_2 CH_AUTO_toe_2 CF_toe_0 CH_toe_0 CH_HOUS_toe_0 CH_AUTO_toe_0 "    
     
     for %ce {%list_com_E}
       %final_nrj = %final_nrj + " CF_toe_"+%ce+"_2" + " CF_toe_"+%ce+"_0"
     next
+
+    ' doesn't work (but works in EX-STRING-GROUP-2...)
+    ' to be modified : not only with cea, but with ce
+    ' for %cea {%list_com_E_AUTO}
+    '  %final_nrj = %final_nrj + " CH_HOUS_toe_"+%cea+"_2" + " CH_HOUS_toe_"+%cea+"_0"
+    ' next
+
+    ' for %cea {%list_com_E_AUTO}
+    '  %final_nrj = %final_nrj + " CH_AUTO_toe_"+%cea+"_2" + " CH_AUTO_toe_"+%cea+"_0"
+    ' next
 
     for %sagg TRSP AGRF IND SER
       %final_nrj = %final_nrj + " CI_toe_"+%sagg+"_2" + " CI_toe_"+%sagg+"_0"
