@@ -48,10 +48,17 @@ PS_CI[ce] := 0
 #CH_toe_hous := CH_toe[cfuh] + CH_toe[cgas] + CH_HOUS_toe[cele]
 #CH_HOUS_toe[cele] :=  CH_toe[cele] * CH_HOUS[cele] / (CH_HOUS[cele] + CH_TRSP[cele])
 
-# PROBLEM 1: at times, CH_AUTO_toe[cea] > CH_toe[cea] 
-# PROBLEME 2 : add CH_HOUS_toe[c] = CH_toe[c] if c not in [cea] 
-CH_HOUS_toe[cea] := 1000000*CH_toe[cea] - CH_AUTO_toe[cea] 
-CH_HOUS_toe := sum(CH_HOUS_toe[cea] on cea) 
+# /!\ CH_toe[ce] in Mtoe (the only one)
+# PROBLEM 1: at times, CH_AUTO_toe[cea] > 1000000*CH_toe[cea] 
+CH_AUTO_toe_ccoa := 0
+CH_AUTO_toe_ccoi := 0
+CH_AUTO_toe_cfuh := 0
+CH_AUTO_toe_chea := 0
+CH_AUTO_toe_cbio := 0
+CH_AUTO_toe_cote := 0
+
+CH_HOUS_toe[ce] := 1000000*CH_toe[ce] - CH_AUTO_toe[ce] 
+CH_HOUS_toe := sum(CH_HOUS_toe[ce] on ce) 
 
 
 #CH_toe_trsp := CH_toe[cfut] + CH_TRSP_toe[cele]
