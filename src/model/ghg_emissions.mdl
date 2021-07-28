@@ -25,6 +25,17 @@ d(log(EMS_CH[ghg,c]))   = d(log(CH[c]     * IEMS_CH[ghg,c]))            if EMS_C
 ##! Emissions of the greenhouse gas $ghg$ related to the intermediary consumption of commodity $c$
 EMS_CI[ghg,c]  = sum( EMS_CI[ghg,c,s] if EMS_CI[ghg,c,s] <> 0 on s )    if EMS_CI[ghg,c]  <> 0
 
+##! Emissions of the sector $s$ related to the intermediary consumption of commodity $c$
+EMS_CI[c,s] = sum(EMS_CI[ghg,c,s])     
+
+##! Emissions of aggregated sectors $sagg$ related to the intermediary consumption of commodity $c$
+EMS_CI_AGRF[c] = sum(EMS_CI[c,sagrf] on sagrf)
+EMS_CI_IND[c] = sum(EMS_CI[c,sind] on sind)
+EMS_CI_TRSP[c] = sum(EMS_CI[c,strsp] on strsp)
+EMS_CI_SER[c] = sum(EMS_CI[c,sser] on sser)
+EMS_CI_TRSF[c] = sum(EMS_CI[c,strsf] on strsf)
+EMS_CI_ELE[c] = sum(EMS_CI[c,sele] on sele)
+
 ##! Emissions of the greenhouse gas related to the intermediary consumption of commodity $c$
 EMS_CI[c]  = sum( EMS_CI[ghg,c] if EMS_CI[ghg,c] <> 0 on ghg )    if EMS_CI[c] <> 0
 

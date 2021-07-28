@@ -45,7 +45,7 @@ include .\R_lists
 %list_sec_ELE :=  senu seoi sega seco sewi seso sehy sech seot #[sele]
 
 # List of agregate secteors
-%list_sec_AGREG := agrf ind trsp ser trsf ele #[sagg]
+%list_sec_AGGREG := agrf ind trsp ser trsf ele #[sagg]
 
 # List ETS
 %list_sec_ETS := sgla spap sche spla smet sair smin soil sbfu sgas sbga senu seoi sega seco sewi seso sehy sech seot #[sets]
@@ -105,7 +105,7 @@ strsp in %list_sec_TRSP
 sser in %list_sec_SER
 strsf in %list_sec_TRSF
 sele in %list_sec_ELE
-sagg in %list_sec_AGREG
+sagg in %list_sec_AGGREG
 
 sets in %list_sec_ETS
 snetsi in %list_sec_NETSi

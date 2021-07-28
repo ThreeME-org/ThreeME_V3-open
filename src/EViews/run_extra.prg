@@ -190,6 +190,32 @@ group Final_nrj {%final_nrj}
 'group Intensity_EMS {%intensity_EMS} 
 
 
+' EMS OUTPUT BLOCK
+
+%emissions = " EMS_2 EMS_CH_2 EMS_CI_2 EMS_MAT_2 EMS_Y_2 EMS_0 EMS_CH_0 EMS_CI_0 EMS_MAT_0 EMS_Y_0 " 
+
+    for %ce ccoa cfut cfuh cgas cele cbio 
+      %emissions = %emissions + " EMS_CH_"+%ce+"_2" + " EMS_CH_"+%ce+"_0"
+    next
+
+    for %ce ccoa ccoi cfut cfuh cgas cbio cote
+      %emissions = %emissions + " EMS_CI_"+%ce+"_2" + " EMS_CI_"+%ce+"_0"
+    next
+
+    for %ce ccoa ccoi cfut cfuh cgas cbio cote
+      for %s {%list_sec} 
+        %emissions = %emissions + " EMS_CI_"+%ce+"_"+%s+"_2" + " EMS_CI_"+%ce+"_"+%s+"_0"
+      next
+    next
+
+    ' doesn't work (but works in EX-STRING-GROUP-2...)
+    'for %ce ccoa ccoi cfut cfuh cgas cbio cote
+    '  for %sagg {%list_sec_AGGREG} 
+    '   %emissions = %emissions + " EMS_CI_"+%sagg+"_"+%ce+"_2" + " EMS_CI_"+%sagg+"_"+%ce+"_0"
+    ' next
+    ' next
+
+group Emissions {%emissions}
 
 ' MACRO OUTPUT BLOCK 
 %macro = " 100*(GDP_2/GDP_0-1) 100*((VA_2-VA_spub_2)/(VA_0-VA_spub_0)-1) 100*((CH_2-CH_0)/GDP_0) 100*((CH_cveh_2-CH_cveh_0)/GDP_0) 100*((G_2-G_0)/GDP_0) 100*((I_2-I_0)/GDP_0) 100*((DS_2-DS_0)/GDP_0) 100*((X_2-X_0)/GDP_0)-100*((M_2-M_0)/GDP_0) 100*((CH_2-CH_ccon_2-(CH_0-CH_ccon_0))/GDP_0) 100*((I_2+CH_ccon_2-(I_0+CH_ccon_0))/GDP_0) 100*((I_2-IA_spub_2-(I_0-IA_spub_0))/GDP_0) 100*((CH_ccon_2-CH_ccon_0)/GDP_0) 100*((IA_spub_2-IA_spub_0)/GDP_0) 100*(CH_2/CH_0-1) 100*(CH_cveh_2/CH_cveh_0-1) 100*(G_2/G_0-1) 100*(I_2/I_0-1) 100*((I_2-IA_spub_2)/(I_0-IA_spub_0)-1) 100*(X_2/X_0-1) 100*(M_2/M_0-1) 100*((CH_2-CH_ccon_2)/(CH_0-CH_ccon_0)-1) 100*((I_2+CH_ccon_2)/(I_0+CH_ccon_0)-1) 100*((CH_ccon_2)/(CH_ccon_0)-1) 100*((IA_spub_2)/(IA_spub_0)-1) 100*(DISPINC_AT_VAL_2/DISPINC_AT_VAL_0-1) 100*(DISPINC_AT_VAL_2/DISPINC_AT_VAL_0-1)-100*(PCH_2/PCH_0-1) 100*(DISPINC_AT_VAL_2/DISPINC_AT_VAL_0-1)-100*((F_L_2/F_L_0)-1) 100*(DISPINC_AT_VAL_2/DISPINC_AT_VAL_0-1)-100*((F_L_2/F_L_0)-1)-100*(PCH_2/PCH_0-1) 100*(MPS_n_2-MPS_n_0) 100*(PCH_2/PCH_0-1) 100*(PY_2/PY_0-1) 100*(PX_2/PX_0-1) 100*(PM_2/PM_0-1) 100*(W_2/W_0-1) 100*((W_2/PCH_2)/(W_0/PCH_0)-1) 100*(C_L_2/C_L_0-1) 100*((C_L_2/PVA_2)/(C_L_0/PVA_0)-1) ((F_L_2/F_L_0)-1)*100 F_L_2-F_L_0 100*(UnR_2-UnR_0) 100*(Bal_Trade_VAL_2/(GDP_2*PGDP_2)-Bal_Trade_VAL_0/(GDP_0*PGDP_0)) ENER_BILL 100*((-Bal_G_prim_VAL_2)/(GDP_2*PGDP_2)-(-Bal_G_prim_VAL_0)/(GDP_0*PGDP_0)) 100*((-Bal_G_tot_VAL_2)/(GDP_2*PGDP_2)-(-Bal_G_tot_VAL_0)/(GDP_0*PGDP_0)) (DEBT_G_VAL_2/(PGDP_2*GDP_2)-DEBT_G_VAL_0/(PGDP_0*GDP_0))*100 GDP_2 (GDPter_2/GDPbis_2-1)*100 SPEND_G_VAL_2 INC_G_VAL_2 Bal_G_tot_VAL_2 DEBT_G_VAL_2 PCH_2 PGDP_2 POP"
@@ -210,8 +236,8 @@ group Macro {%macro}
     next
     
     ' doesn't work (but works in EX-STRING-GROUP-2...)
-    'for %sagg {%list_sec_AGREG}
-    '  %labor = %labor + " F_L_"+%sagg+"_2" + " F_L_"+%sagg+"_0"
+    'for %sagg {%list_sec_AGGREG}
+    ' %labor = %labor + " F_L_"+%sagg+"_2" + " F_L_"+%sagg+"_0"
     'next
 group Labor {%labor}
 
@@ -224,7 +250,7 @@ group Labor {%labor}
     next
     
     ' doesn't work (but works in EX-STRING-GROUP-2...)
-    'for %sagg {%list_sec_AGREG}
+    'for %sagg {%list_sec_AGGREG}
     '  %value_added = %value_added + " VA_"+%sagg+"_2" + " VA_"+%sagg+"_0"
     'next
 group Value_Added {%value_added}
@@ -239,7 +265,7 @@ group Value_Added {%value_added}
     next
     
     ' doesn't work (but works in EX-STRING-GROUP-2...)
-    'for %sagg {%list_sec_AGREG}
+    'for %sagg {%list_sec_AGGREG}
     '  %INV = %INV + " IA_"+%sagg+"_2" + " IA_"+%sagg+"_0"
     'next
 group INV {%INV}
@@ -276,7 +302,7 @@ group Consumption {%consumption}
 
     group Baseline {%baseline}  
 
-call savetoexcel("Hybrid Transports Energy_Mix Primary_nrj Final_nrj Macro Labor Value_Added INV Consumption Baseline", "Result_France.xlsx", "YES")
+call savetoexcel("Hybrid Transports Energy_Mix Primary_nrj Final_nrj Emissions Macro Labor Value_Added INV Consumption Baseline", "Result_France.xlsx", "YES")
 
 endsub
 ' ============================================================================
