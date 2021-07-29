@@ -54,10 +54,46 @@ EMS_CIbis[ghg] = sum( EMS_CI[ghg,c]   if EMS_CI[ghg,c]   <> 0 on c )    if EMS_C
 ##! Emissions of the greenhouse gas $ghg$ related to the total material consumption
 EMS_MAT[ghg]   = sum( EMS_MAT[ghg,s]  if EMS_MAT[ghg,s]  <> 0 on s )    if EMS_MAT[ghg]   <> 0
 
+##! Emissions of the sector $s$ related to the total material consumption
+EMS_MAT[s] = sum(EMS_MAT[ghg,s] on ghg)
+
+##! Emissions of aggregated sectors $sagg$ related to the material consumption
+EMS_MAT_AGRF = sum(EMS_MAT[sagrf] on sagrf) 
+EMS_MAT_IND = sum(EMS_MAT[sind] on sind)
+EMS_MAT_TRSP = sum(EMS_MAT[strsp] on strsp)
+EMS_MAT_SER = sum(EMS_MAT[sser] on sser)
+EMS_MAT_TRSF = sum(EMS_MAT[strsf] on strsf)
+EMS_MAT_ELE = sum(EMS_MAT[sele] on sele)
+
 ##! Emissions of the greenhouse gas $ghg$ related to the final production
 EMS_Y[ghg]     = sum( EMS_Y[ghg,s]    if EMS_Y[ghg,s]    <> 0 on s )    if EMS_Y[ghg]     <> 0
 
-##! Emissions of the greenhouse gas $ghg$ related to the household final consumption
+##! Emissions of the sector $s$ related to the production process
+EMS_Y[s] = sum(EMS_Y[ghg,s] on ghg)
+
+##! Emissions of aggregated sectors $sagg$ related to the production process
+EMS_Y_AGRF = sum(EMS_Y[sagrf] on sagrf) 
+EMS_Y_IND = sum(EMS_Y[sind] on sind)
+EMS_Y_TRSP = sum(EMS_Y[strsp] on strsp)
+EMS_Y_SER = sum(EMS_Y[sser] on sser)
+EMS_Y_TRSF = sum(EMS_Y[strsf] on strsf)
+EMS_Y_ELE = sum(EMS_Y[sele] on sele)
+
+##! Total emissions of the sector $s$ 
+EMS[s] = EMS_CI[s] + EMS_MAT[s] + EMS_Y[s] 
+
+##! Total emissions of aggregated sectors $sagg$ 
+EMS_AGRF = sum(EMS[sagrf] on sagrf) 
+EMS_IND = sum(EMS[sind] on sind)
+EMS_TRSP = sum(EMS[strsp] on strsp)
+EMS_SER = sum(EMS[sser] on sser)
+EMS_TRSF = sum(EMS[strsf] on strsf)
+EMS_ELE = sum(EMS[sele] on sele)
+EMS_ETS = sum(EMS[sets] on sets)
+EMS_NETS = EMS_SEC - EMS_ETS
+EMS_NETSI = sum(EMS[snetsi] on snetsi)
+
+#! Emissions of the greenhouse gas $ghg$ related to the household final consumption
 EMS_CH[ghg]    = sum( EMS_CH[ghg,c]   if EMS_CH[ghg,c]   <> 0 on c )    if EMS_CH[ghg]    <> 0
 
 ##! Emissions of the greenhouse gas related to the household final consumption of commodity $c$
@@ -83,6 +119,10 @@ EMS_MAT        = sum( EMS_MAT[ghg]    if EMS_MAT[ghg]    <> 0 on ghg )  if EMS_M
 
 ##! Aggregate emissions related to the final production
 EMS_Y          = sum( EMS_Y[ghg]      if EMS_Y[ghg]      <> 0 on ghg )  if EMS_Y          <> 0
+
+EMS_SEC = EMS_CI + EMS_MAT + EMS_Y
+
+EMS_SECbis = sum(EMS[s] on s)
 
 ##! Aggregate emissions related to the households final consumption
 EMS_CH         = sum( EMS_CH[ghg]     if EMS_CH[ghg]     <> 0 on ghg )  if EMS_CH         <> 0

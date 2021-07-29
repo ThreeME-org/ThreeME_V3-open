@@ -102,13 +102,43 @@ EMS_CIbis[ghg] := sum(EMS_CI[ghg,c] on c)
 
 EMS_MAT[ghg] := sum(EMS_MAT[ghg,s] on s)
 
+EMS_MAT[s] := sum(EMS_MAT[ghg,s] on ghg)
+
+EMS_MAT_AGRF := sum(EMS_MAT[sagrf] on sagrf) 
+EMS_MAT_IND := sum(EMS_MAT[sind] on sind)
+EMS_MAT_TRSP := sum(EMS_MAT[strsp] on strsp)
+EMS_MAT_SER := sum(EMS_MAT[sser] on sser)
+EMS_MAT_TRSF := sum(EMS_MAT[strsf] on strsf)
+EMS_MAT_ELE := sum(EMS_MAT[sele] on sele)
+
 EMS_Y[ghg] := sum(EMS_Y[ghg,s] on s)
+
+EMS_Y[s] := sum(EMS_Y[ghg,s] on ghg)
+
+EMS_Y_AGRF := sum(EMS_Y[sagrf] on sagrf) 
+EMS_Y_IND := sum(EMS_Y[sind] on sind)
+EMS_Y_TRSP := sum(EMS_Y[strsp] on strsp)
+EMS_Y_SER := sum(EMS_Y[sser] on sser)
+EMS_Y_TRSF := sum(EMS_Y[strsf] on strsf)
+EMS_Y_ELE := sum(EMS_Y[sele] on sele)
 
 EMS_CH[ghg] := sum(EMS_CH[ghg,c] on c)
 
 EMS_CH[c]  := sum(EMS_CH[ghg,c] on ghg)
 
 EMS[c] := EMS_CI[c] + EMS_CH[c]
+
+EMS[s] := EMS_CI[s] + EMS_MAT[s] + EMS_Y[s] 
+
+EMS_AGRF := sum(EMS[sagrf] on sagrf) 
+EMS_IND := sum(EMS[sind] on sind)
+EMS_TRSP := sum(EMS[strsp] on strsp)
+EMS_SER := sum(EMS[sser] on sser)
+EMS_TRSF := sum(EMS[strsf] on strsf)
+EMS_ELE := sum(EMS[sele] on sele)
+EMS_ETS := sum(EMS[sets] on sets)
+EMS_NETS := EMS_SEC - EMS_ETS
+EMS_NETSI := sum(EMS[snetsi] on snetsi)
 
 EMS[ghg] := EMS_CI[ghg] + EMS_MAT[ghg] + EMS_Y[ghg] + EMS_CH[ghg]
 
@@ -119,6 +149,10 @@ EMS_MAT := sum(EMS_MAT[ghg] on ghg)
 EMS_Y := sum(EMS_Y[ghg] on ghg)
 
 EMS_CH := sum(EMS_CH[ghg] on ghg)
+
+EMS_SEC := EMS_CI + EMS_MAT + EMS_Y
+
+EMS_SECbis := sum(EMS[s] on s)
 
 EMS := EMS_CI + EMS_MAT + EMS_Y + EMS_CH
 
