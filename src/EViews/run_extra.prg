@@ -208,12 +208,13 @@ group Final_nrj {%final_nrj}
       next
     next
 
-    ' doesn't work (but works in EX-STRING-GROUP-2...)
-    'for %ce ccoa ccoi cfut cfuh cgas cbio cote
-    '  for %sagg {%list_sec_AGGREG} 
-    '   %emissions = %emissions + " EMS_CI_"+%sagg+"_"+%ce+"_2" + " EMS_CI_"+%sagg+"_"+%ce+"_0"
-    ' next
-    ' next
+    for %ce ccoa ccoi cfut cfuh cgas cbio cote
+        for %sagg AGRF IND TRSP TRSF ELE SER 
+       %emissions = %emissions + " EMS_CI_"+%sagg+"_"+%ce+"_2" + " EMS_CI_"+%sagg+"_"+%ce+"_0"
+      next
+    next
+
+%emissions = %emissions + " EMS_CH_ccoa_2+EMS_CI_ccoa_2 EMS_CH_cfut_2+EMS_CI_cfut_2 EMS_CH_cfuh_2+EMS_CI_cfuh_2 EMS_CH_cgas_2+EMS_CI_cgas_2 EMS_CH_cbio_2+EMS_CI_cbio_2"
 
 group Emissions {%emissions}
 
@@ -237,8 +238,9 @@ group Macro {%macro}
     
     ' doesn't work (but works in EX-STRING-GROUP-2...)
     'for %sagg {%list_sec_AGGREG}
-    ' %labor = %labor + " F_L_"+%sagg+"_2" + " F_L_"+%sagg+"_0"
-    'next
+     for %sagg AGRF IND TRSP TRSF ELE SER 
+        %labor = %labor + " F_L_"+%sagg+"_2" + " F_L_"+%sagg+"_0"
+     next
 group Labor {%labor}
 
 
@@ -251,8 +253,9 @@ group Labor {%labor}
     
     ' doesn't work (but works in EX-STRING-GROUP-2...)
     'for %sagg {%list_sec_AGGREG}
-    '  %value_added = %value_added + " VA_"+%sagg+"_2" + " VA_"+%sagg+"_0"
-    'next
+    for %sagg AGRF IND TRSP TRSF ELE SER 
+      %value_added = %value_added + " VA_"+%sagg+"_2" + " VA_"+%sagg+"_0"
+    next
 group Value_Added {%value_added}
 
 
@@ -266,8 +269,9 @@ group Value_Added {%value_added}
     
     ' doesn't work (but works in EX-STRING-GROUP-2...)
     'for %sagg {%list_sec_AGGREG}
-    '  %INV = %INV + " IA_"+%sagg+"_2" + " IA_"+%sagg+"_0"
-    'next
+    for %sagg AGRF IND TRSP TRSF ELE SER 
+      %INV = %INV + " IA_"+%sagg+"_2" + " IA_"+%sagg+"_0"
+    next
 group INV {%INV}
 
 
