@@ -58,6 +58,7 @@ CH_AUTO_toe_cbio := 0
 CH_AUTO_toe_cote := 0
 
 CH_HOUS_toe[ce] := 1000000*CH_toe[ce] - CH_AUTO_toe[ce] 
+CH_HOUS_toe_chb := CH_HOUS_toe_chea + CH_HOUS_toe_cbio
 CH_HOUS_toe := sum(CH_HOUS_toe[ce] on ce) 
 
 
@@ -119,9 +120,17 @@ verif_EMS_CI[ghg]  := sum(EMS_CI[ghg, sagg] on sagg) - EMS_CI[ghg]
 CI_toe[ce, IND]  := sum(CI_toe[ce, sind] on sind)   
 CI_toe[ce, TRSP] := sum(CI_toe[ce, strsp] on strsp) 
 CI_toe[ce, SER]  := sum(CI_toe[ce, sser] on sser)   
-CI_toe[ce, TRSF] := sum(CI_toe[ce, strsf] on strsf)  
-CI_toe[ce, ELE]  := sum(CI_toe[ce, sele] on sele)    
 CI_toe[ce, AGRF]  := sum(CI_toe[ce, sagrf] on sagrf)   
+
+##! outputs à la même maille que les bilans énergie 
+CI_toe_chbo_IND := CI_toe_chea_IND + CI_toe_cbio_IND + CI_toe_cote_IND
+CI_toe_chbo_TRSP := CI_toe_chea_TRSP + CI_toe_cbio_TRSP + CI_toe_cote_TRSP
+CI_toe_chb_SER := CI_toe_chea_SER + CI_toe_cbio_SER
+CI_toe_chb_AGRF := CI_toe_chea_AGRF + CI_toe_cbio_AGRF
+
+##! égales à 0 logiquement (?) : 
+CI_toe[ce, TRSF] := sum(CI_toe[ce, strsf] on strsf)  
+CI_toe[ce, ELE]  := sum(CI_toe[ce, sele] on sele)   
 
 CI_toe[sagg] := sum(CI_toe[ce, sagg] on ce)
 Verif_CI_toe := sum(CI_toe[sagg] on sagg) - CI_toe

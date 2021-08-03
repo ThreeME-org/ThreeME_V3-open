@@ -146,7 +146,7 @@ group Primary_nrj {%primary_nrj}
 
 
 ' FINAL ENERGY OUTPUT BLOCK 
-%final_nrj = " CF_toe_2 CH_toe_2 CH_HOUS_toe_2 CH_AUTO_toe_2 CF_toe_0 CH_toe_0 CH_HOUS_toe_0 CH_AUTO_toe_0 "    
+%final_nrj = " CF_toe_2 CH_toe_2 CH_HOUS_toe_2 CH_AUTO_toe_2 CH_HOUS_toe_chb_2 CI_toe_chbo_IND_2 CI_toe_chbo_TRSP_2 CI_toe_chb_AGRF_2 CI_toe_chb_SER_2 CF_toe_0 CH_toe_0 CH_HOUS_toe_0 CH_AUTO_toe_0 CH_HOUS_toe_chb_0 CI_toe_chbo_IND_0 CI_toe_chbo_TRSP_0 CI_toe_chb_AGRF_0 CI_toe_chb_SER_0"    
     
     for %ce {%list_com_E}
       %final_nrj = %final_nrj + " CF_toe_"+%ce+"_2" + " CF_toe_"+%ce+"_0"
