@@ -146,35 +146,46 @@ group Primary_nrj {%primary_nrj}
 
 
 ' FINAL ENERGY OUTPUT BLOCK 
-%final_nrj = " CF_toe_2 CH_toe_2 CH_HOUS_toe_2 CH_AUTO_toe_2 CH_HOUS_toe_chb_2 CI_toe_chbo_IND_2 CI_toe_chbo_TRSP_2 CI_toe_chb_AGRF_2 CI_toe_chb_SER_2 CF_toe_0 CH_toe_0 CH_HOUS_toe_0 CH_AUTO_toe_0 CH_HOUS_toe_chb_0 CI_toe_chbo_IND_0 CI_toe_chbo_TRSP_0 CI_toe_chb_AGRF_0 CI_toe_chb_SER_0"    
+%final_nrj = " CF_toe_2 CH_toe_2 CH_HOUS_toe_2 CH_AUTO_toe_2 CF_toe_0 CH_toe_0 CH_HOUS_toe_0 CH_AUTO_toe_0"    
     
     for %ce {%list_com_E}
       %final_nrj = %final_nrj + " CF_toe_"+%ce+"_2" + " CF_toe_"+%ce+"_0"
     next
 
+    ' households
      for %ce {%list_com_E}
       %final_nrj = %final_nrj + " CH_HOUS_toe_"+%ce+"_2" + " CH_AUTO_toe_"+%ce+"_2" + " CH_HOUS_toe_"+%ce+"_0" + " CH_AUTO_toe_"+%ce+"_0"
      next
+     %final_nrj = %final_nrj + " CH_HOUS_toe_cghb_2" + " CH_HOUS_toe_cghb_0"
 
+    ' aggregated firms
     for %sagg TRSP AGRF IND SER
       %final_nrj = %final_nrj + " CI_toe_"+%sagg+"_2" + " CI_toe_"+%sagg+"_0"
     next
     
+    ' transport
     for %ce {%list_com_E}
       %final_nrj = %final_nrj + " CI_toe_"+%ce+"_TRSP_2" + " CI_toe_"+%ce+"_TRSP_0"
     next
-    
+    %final_nrj = %final_nrj + " CI_toe_cghbo_TRSP_2" + " CI_toe_cghbo_TRSP_0" + " CI_toe_cfuel_TRSP_2" + " CI_toe_cfuel_TRSP_0"
+
+    ' agriculture
     for %ce ccoa ccoi cfut cfuh cgas cele chea cbio
       %final_nrj = %final_nrj + " CI_toe_"+%ce+"_AGRF_2" + " CI_toe_"+%ce+"_AGRF_0"
     next
-    
+    %final_nrj = %final_nrj + " CI_toe_cghb_AGRF_2" + " CI_toe_cghb_AGRF_0" + " CI_toe_cfuel_AGRF_2" + " CI_toe_cfuel_AGRF_0"
+
+    ' industry
     for %ce {%list_com_E}
       %final_nrj = %final_nrj + " CI_toe_"+%ce+"_IND_2" + " CI_toe_"+%ce+"_IND_0"
     next
+    %final_nrj = %final_nrj + " CI_toe_cghbo_IND_2" + " CI_toe_cghbo_IND_0" + " CI_toe_cfuel_IND_2" + " CI_toe_cfuel_IND_0"
     
+    ' services
     for %ce ccoa ccoi cfut cfuh cgas cele chea cbio
      %final_nrj = %final_nrj + " CI_toe_"+%ce+"_SER_2" + " CI_toe_"+%ce+"_SER_0"
     next
+    %final_nrj = %final_nrj + " CI_toe_cghb_SER_2" + " CI_toe_cghb_SER_0" + " CI_toe_cfuel_SER_2" + " CI_toe_cfuel_SER_0"
 
 group Final_nrj {%final_nrj}
 
@@ -235,7 +246,7 @@ group Final_nrj {%final_nrj}
 group Emissions {%emissions}
 
 ' MACRO OUTPUT BLOCK 
-%macro = " 100*(GDP_2/GDP_0-1) 100*((VA_2-VA_spub_2)/(VA_0-VA_spub_0)-1) 100*((CH_2-CH_0)/GDP_0) 100*((CH_cveh_2-CH_cveh_0)/GDP_0) 100*((G_2-G_0)/GDP_0) 100*((I_2-I_0)/GDP_0) 100*((DS_2-DS_0)/GDP_0) 100*((X_2-X_0)/GDP_0)-100*((M_2-M_0)/GDP_0) 100*((CH_2-CH_ccon_2-(CH_0-CH_ccon_0))/GDP_0) 100*((I_2+CH_ccon_2-(I_0+CH_ccon_0))/GDP_0) 100*((I_2-IA_spub_2-(I_0-IA_spub_0))/GDP_0) 100*((CH_ccon_2-CH_ccon_0)/GDP_0) 100*((IA_spub_2-IA_spub_0)/GDP_0) 100*(CH_2/CH_0-1) 100*(CH_cveh_2/CH_cveh_0-1) 100*(G_2/G_0-1) 100*(I_2/I_0-1) 100*((I_2-IA_spub_2)/(I_0-IA_spub_0)-1) 100*(X_2/X_0-1) 100*(M_2/M_0-1) 100*((CH_2-CH_ccon_2)/(CH_0-CH_ccon_0)-1) 100*((I_2+CH_ccon_2)/(I_0+CH_ccon_0)-1) 100*((CH_ccon_2)/(CH_ccon_0)-1) 100*((IA_spub_2)/(IA_spub_0)-1) 100*(DISPINC_AT_VAL_2/DISPINC_AT_VAL_0-1) 100*(DISPINC_AT_VAL_2/DISPINC_AT_VAL_0-1)-100*(PCH_2/PCH_0-1) 100*(DISPINC_AT_VAL_2/DISPINC_AT_VAL_0-1)-100*((F_L_2/F_L_0)-1) 100*(DISPINC_AT_VAL_2/DISPINC_AT_VAL_0-1)-100*((F_L_2/F_L_0)-1)-100*(PCH_2/PCH_0-1) 100*(MPS_n_2-MPS_n_0) 100*(PCH_2/PCH_0-1) 100*(PY_2/PY_0-1) 100*(PX_2/PX_0-1) 100*(PM_2/PM_0-1) 100*(W_2/W_0-1) 100*((W_2/PCH_2)/(W_0/PCH_0)-1) 100*(C_L_2/C_L_0-1) 100*((C_L_2/PVA_2)/(C_L_0/PVA_0)-1) ((F_L_2/F_L_0)-1)*100 F_L_2-F_L_0 100*(UnR_2-UnR_0) 100*(Bal_Trade_VAL_2/(GDP_2*PGDP_2)-Bal_Trade_VAL_0/(GDP_0*PGDP_0)) ENER_BILL 100*((-Bal_G_prim_VAL_2)/(GDP_2*PGDP_2)-(-Bal_G_prim_VAL_0)/(GDP_0*PGDP_0)) 100*((-Bal_G_tot_VAL_2)/(GDP_2*PGDP_2)-(-Bal_G_tot_VAL_0)/(GDP_0*PGDP_0)) (DEBT_G_VAL_2/(PGDP_2*GDP_2)-DEBT_G_VAL_0/(PGDP_0*GDP_0))*100 GDP_2 (GDPter_2/GDPbis_2-1)*100 SPEND_G_VAL_2 INC_G_VAL_2 Bal_G_tot_VAL_2 DEBT_G_VAL_2 PCH_2 PGDP_2 POP"
+%macro = " 100*(GDP_2/GDP_0-1) 100*((VA_2-VA_spub_2)/(VA_0-VA_spub_0)-1) 100*((CH_2-CH_0)/GDP_0) 100*((CH_cveh_2-CH_cveh_0)/GDP_0) 100*((G_2-G_0)/GDP_0) 100*((I_2-I_0)/GDP_0) 100*((DS_2-DS_0)/GDP_0) 100*((X_2-X_0)/GDP_0)-100*((M_2-M_0)/GDP_0) 100*((CH_2-CH_ccon_2-(CH_0-CH_ccon_0))/GDP_0) 100*((I_2+CH_ccon_2-(I_0+CH_ccon_0))/GDP_0) 100*((I_2-IA_spub_2-(I_0-IA_spub_0))/GDP_0) 100*((CH_ccon_2-CH_ccon_0)/GDP_0) 100*((IA_spub_2-IA_spub_0)/GDP_0) 100*(CH_2/CH_0-1) 100*(CH_cveh_2/CH_cveh_0-1) 100*(G_2/G_0-1) 100*(I_2/I_0-1) 100*((I_2-IA_spub_2)/(I_0-IA_spub_0)-1) 100*(X_2/X_0-1) 100*(M_2/M_0-1) 100*((CH_2-CH_ccon_2)/(CH_0-CH_ccon_0)-1) 100*((I_2+CH_ccon_2)/(I_0+CH_ccon_0)-1) 100*((CH_ccon_2)/(CH_ccon_0)-1) 100*((IA_spub_2)/(IA_spub_0)-1) 100*(DISPINC_AT_VAL_2/DISPINC_AT_VAL_0-1) 100*(DISPINC_AT_VAL_2/DISPINC_AT_VAL_0-1)-100*(PCH_2/PCH_0-1) 100*(DISPINC_AT_VAL_2/DISPINC_AT_VAL_0-1)-100*((F_L_2/F_L_0)-1) 100*(DISPINC_AT_VAL_2/DISPINC_AT_VAL_0-1)-100*((F_L_2/F_L_0)-1)-100*(PCH_2/PCH_0-1) 100*(MPS_n_2-MPS_n_0) 100*(PCH_2/PCH_0-1) 100*(PY_2/PY_0-1) 100*(PX_2/PX_0-1) 100*(PM_2/PM_0-1) 100*(W_2/W_0-1) 100*((W_2/PCH_2)/(W_0/PCH_0)-1) 100*(C_L_2/C_L_0-1) 100*((C_L_2/PVA_2)/(C_L_0/PVA_0)-1) ((F_L_2/F_L_0)-1)*100 F_L_2-F_L_0 100*(UnR_2-UnR_0) 100*(Bal_Trade_VAL_2/(GDP_2*PGDP_2)-Bal_Trade_VAL_0/(GDP_0*PGDP_0)) 100*(ENER_BILL_2/(GDP_2*PGDP_2)-ENER_BILL_0/(GDP_0*PGDP_0)) 100*((-Bal_G_prim_VAL_2)/(GDP_2*PGDP_2)-(-Bal_G_prim_VAL_0)/(GDP_0*PGDP_0)) 100*((-Bal_G_tot_VAL_2)/(GDP_2*PGDP_2)-(-Bal_G_tot_VAL_0)/(GDP_0*PGDP_0)) (DEBT_G_VAL_2/(PGDP_2*GDP_2)-DEBT_G_VAL_0/(PGDP_0*GDP_0))*100 GDP_2 (GDPter_2/GDPbis_2-1)*100 SPEND_G_VAL_2 INC_G_VAL_2 Bal_G_tot_VAL_2 DEBT_G_VAL_2 PCH_2 PGDP_2 POP"
 group Macro {%macro}
 
 '%index = "2"

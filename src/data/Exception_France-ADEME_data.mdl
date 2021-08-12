@@ -58,7 +58,7 @@ CH_AUTO_toe_cbio := 0
 CH_AUTO_toe_cote := 0
 
 CH_HOUS_toe[ce] := 1000000*CH_toe[ce] - CH_AUTO_toe[ce] 
-CH_HOUS_toe_chb := CH_HOUS_toe_chea + CH_HOUS_toe_cbio
+CH_HOUS_toe_cghb := CH_HOUS_toe_cgas + CH_HOUS_toe_chea + CH_HOUS_toe_cbio
 CH_HOUS_toe := sum(CH_HOUS_toe[ce] on ce) 
 
 
@@ -71,7 +71,7 @@ T2VOL_CH[ghg,c] :=  T2VAL_CH[ghg,c]/PCH
 T2VOL_CH[ghg] := sum(T2VOL_CH[ghg,c] on c)
 
 ##! Carbon tax in volume on intermediary consumption 
-T2VOL_CI[ghg,c] := T2VAL_CI[ghg,c]/PCH
+T2VOL_CI[ghg,c] := T2VAL_CI[ghg,c]/PGDP
 T2VOL_CI[ghg] := sum(T2VOL_CI[ghg,c] on c)
 
 RCO2TAX_VOL := 0
@@ -123,12 +123,16 @@ CI_toe[ce, SER]  := sum(CI_toe[ce, sser] on sser)
 CI_toe[ce, AGRF]  := sum(CI_toe[ce, sagrf] on sagrf)   
 
 ##! outputs à la même maille que les bilans énergie 
-CI_toe_chbo_IND := CI_toe_chea_IND + CI_toe_cbio_IND + CI_toe_cote_IND
-CI_toe_chbo_TRSP := CI_toe_chea_TRSP + CI_toe_cbio_TRSP + CI_toe_cote_TRSP
-CI_toe_chb_SER := CI_toe_chea_SER + CI_toe_cbio_SER
-CI_toe_chb_AGRF := CI_toe_chea_AGRF + CI_toe_cbio_AGRF
+CI_toe_cfuel_IND := CI_toe_ccoi_IND + CI_toe_cfuh_IND + CI_toe_cfut_IND 
+CI_toe_cghbo_IND := CI_toe_cgas_IND + CI_toe_chea_IND + CI_toe_cbio_IND + CI_toe_cote_IND
+CI_toe_cfuel_TRSP := CI_toe_ccoi_TRSP + CI_toe_cfuh_TRSP + CI_toe_cfut_TRSP
+CI_toe_cghbo_TRSP := CI_toe_cgas_TRSP + CI_toe_chea_TRSP + CI_toe_cbio_TRSP + CI_toe_cote_TRSP
+CI_toe_cfuel_SER := CI_toe_ccoi_SER + CI_toe_cfuh_SER + CI_toe_cfut_SER
+CI_toe_cghb_SER := CI_toe_cgas_SER + CI_toe_chea_SER + CI_toe_cbio_SER
+CI_toe_cfuel_AGRF := CI_toe_ccoi_AGRF + CI_toe_cfuh_AGRF + CI_toe_cfut_AGRF
+CI_toe_cghb_AGRF := CI_toe_cgas_AGRF + CI_toe_chea_AGRF + CI_toe_cbio_AGRF
 
-##! égales à 0 logiquement (?) : 
+##! pas égales à 0 :  
 CI_toe[ce, TRSF] := sum(CI_toe[ce, strsf] on strsf)  
 CI_toe[ce, ELE]  := sum(CI_toe[ce, sele] on sele)   
 
