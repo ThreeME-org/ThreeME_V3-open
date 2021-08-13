@@ -140,6 +140,9 @@ group Energy_Mix {%energy_mix}
     for %ce {%list_com_E}
       %primary_nrj = %primary_nrj + " YG_toe_"+%ce+"_2" + " YG_toe_"+%ce+"_0"
     next
+
+ %primary_nrj = %primary_nrj + " YG_toe_cgas_smet_2+YG_toe_cgas_soil_2+YG_toe_cgas_sgas_2" + " YG_toe_cgas_smet_0+YG_toe_cgas_soil_0+YG_toe_cgas_sgas_0" 
+
 ' we then use the same variables as in ENERGY MIX OUTPUT     
 %primary_nrj = %primary_nrj + " YG_toe_ccoa_smin_2 YG_toe_ccoa_soil_2 YG_toe_ccoi_smin_2 YG_toe_ccoi_soil_2 YG_toe_cfut_soil_2 YG_toe_cfut_sbfu_2 YG_toe_cfuh_soil_2 YG_toe_cgas_smet_2 YG_toe_cgas_soil_2 YG_toe_cgas_sgas_2 YG_toe_cgas_sbga_2 YG_toe_cele_senu_2 YG_toe_cele_seoi_2 YG_toe_cele_sega_2 YG_toe_cele_seco_2 YG_toe_cele_sewi_2 YG_toe_cele_seso_2 YG_toe_cele_sehy_2 YG_toe_cele_sech_2 YG_toe_cele_seot_2 YG_toe_chea_sech_2 YG_toe_cbio_sfor_2 YG_toe_cbio_spub_2 YG_toe_cote_soil_2 YG_toe_cote_spub_2 YG_toe_ccoa_smin_0 YG_toe_ccoa_soil_0 YG_toe_ccoi_smin_0 YG_toe_ccoi_soil_0 YG_toe_cfut_soil_0 YG_toe_cfut_sbfu_0 YG_toe_cfuh_soil_0 YG_toe_cgas_smet_0 YG_toe_cgas_soil_0 YG_toe_cgas_sgas_0 YG_toe_cgas_sbga_0 YG_toe_cele_senu_0 YG_toe_cele_seoi_0 YG_toe_cele_sega_0 YG_toe_cele_seco_0 YG_toe_cele_sewi_0 YG_toe_cele_seso_0 YG_toe_cele_sehy_0 YG_toe_cele_sech_0 YG_toe_cele_seot_0 YG_toe_chea_sech_0 YG_toe_cbio_sfor_0 YG_toe_cbio_spub_0 YG_toe_cote_soil_0 YG_toe_cote_spub_0"
 group Primary_nrj {%primary_nrj} 
@@ -151,6 +154,14 @@ group Primary_nrj {%primary_nrj}
     for %ce {%list_com_E}
       %final_nrj = %final_nrj + " CF_toe_"+%ce+"_2" + " CF_toe_"+%ce+"_0"
     next
+
+    ' vectors mix
+    for %ce {%list_com_E}
+      for %s {%list_sec}
+        %final_nrj = %final_nrj + " CF_toe_"+%ce+"_"+%s+"_2" + " CF_toe_"+%ce+"_"+%s+"_0"
+      next
+    next
+  %final_nrj = %final_nrj + " CF_toe_cgas_smet_2+CF_toe_cgas_soil_2+CF_toe_cgas_sgas_2" + " CF_toe_cgas_smet_0+CF_toe_cgas_soil_0+CF_toe_cgas_sgas_0"
 
     ' households
      for %ce {%list_com_E}

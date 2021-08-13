@@ -187,6 +187,9 @@ CF_toe = sum(CF_toe[ce] on ce)
 ##! Final consumption (energy balance definition) of economic sectors for energy $ce$, expressed in toe
 CF_CI_toe[ce] = CI_toe[ce, IND] + CI_toe[ce, TRSP] + CI_toe[ce, SER] + CI_toe[ce, AGRF]
 
+##! Final consumption for energy $ce$ produced by sector $s$, expressed in toe
+CF_toe[ce, s] = YG_toe[ce, s] - DLY_toe[ce, s] - AC_toe[ce, s] - PhiY[ce, s] * (CI_toe[ce, ELE] + CI_toe[ce, TRSF] + X_toe[ce] - M_toe[ce])
+
 
 ##! End use for agregate energy of agregate sector, expressed in toe 
 CI_toe[sagg] = sum(CI_toe[ce, sagg] if CI_toe[ce, sagg] <> 0 on ce) if CI_toe[sagg] <> 0

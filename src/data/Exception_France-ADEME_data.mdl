@@ -143,6 +143,9 @@ CF_toe[ce] := CI_toe[ce, IND] + CI_toe[ce, TRSP] + CI_toe[ce, SER] + CI_toe[ce, 
 CF_toe := sum(CF_toe[ce] on ce)
 CF_CI_toe[ce] := CI_toe[ce, IND] + CI_toe[ce, TRSP] + CI_toe[ce, SER] + CI_toe[ce, AGRF]
 
+##! Final consumption for energy $ce$ produced by sector $s$, expressed in toe
+CF_toe[ce, s] := YG_toe[ce, s] - DLY_toe[ce, s] - AC_toe[ce, s] - PhiY[ce, s] * (CI_toe[ce, ELE] + CI_toe[ce, TRSF] + X_toe[ce] - M_toe[ce])
+
 
 Y_toe[ce, IND]  := sum(Y_toe[ce, sind] on sind)      
 Y_toe[ce, TRSP] := sum(Y_toe[ce, strsp] on strsp)    
