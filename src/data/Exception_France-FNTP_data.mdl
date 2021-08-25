@@ -1,0 +1,9 @@
+include ..\model\lists
+
+
+PINV_INFRA[c] := P
+INV_INFRA[c] := INV_REDUC[c] + INV_RESTAU[c] + INV_RESI[c]
+
+INV_REDUC[c] := 0
+INV_RESTAU[c]  := 0
+INV_RESI[c]  := 0

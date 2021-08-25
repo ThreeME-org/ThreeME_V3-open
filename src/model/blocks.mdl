@@ -27,6 +27,7 @@ include ..\model\Adjustments
 ## Exception files ALWAYS at the end because of the @over's
 include ..\model\Exception_taxes_prices
 include ..\model\Exception_NestedCES
+
 # include ..\model\Exception_ConsumerNested
 # include ..\model\Exception_ConsumerDisaggregated.mdl
 
@@ -35,3 +36,5 @@ include ..\model\Exception_NestedCES
 #include ..\model\Exception_housing
 #include ..\model\Exception_Transport
 #include ..\model\Exception_France-ADEME
+
+include ..\model\Exception_France-FNTP
