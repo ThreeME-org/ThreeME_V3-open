@@ -47,6 +47,25 @@ subroutine run_scenario(string %scenario_name)
     return
   endif
 
+if %scenario_name = "protechno" then
+  ' Create a new scenario that can be compared with the baseline
+   {%modelname}.scenario(n, a=2) {%scenario_name}
+
+   call load_excel("France", "scenarii", "reduction_protechno")
+
+   
+  for %c ccro ccra ccbr ccfl ccel ccwa ccot cdem csit cdri
+     call interpolate("INV_REDUC_"+%c)
+  next
+
+   call solvemodel(%solveopt) 
+
+   call outputs
+
+   ' Exit subroutine
+    return
+ endif
+
  if %scenario_name = "carbontax_s1" then
   ' Create a new scenario that can be compared with the baseline
    {%modelname}.scenario(n, a=2) {%scenario_name}
@@ -66,23 +85,6 @@ subroutine run_scenario(string %scenario_name)
     return
  endif
 
- if %scenario_name = "share_elec_enr" then
-  ' Create a new scenario that can be compared with the baseline
-   {%modelname}.scenario(n, a=2) {%scenario_name}
-
-    ' Load the data for scenario ENR
-    call load_excel("France", "scenarii", "share_elec_enr")
-    call interpolate("PHIY_TOE_CELE_SECH PHIY_TOE_CELE_SECO PHIY_TOE_CELE_SEGA PHIY_TOE_CELE_SEHY PHIY_TOE_CELE_SENU PHIY_TOE_CELE_SEOI PHIY_TOE_CELE_SEOT PHIY_TOE_CELE_SESO PHIY_TOE_CELE_SEWI")
-
-   call solvemodel(%solveopt) 
-
-   call outputs
-
-   ' Exit subroutine
-    return
- endif
-
-
 
 endsub
 
@@ -95,23 +97,18 @@ subroutine outputs
 
 ' Send results to Excel 
     %index = "2"
-    group Macro 100*(GDP_{%index}/GDP_0-1) 100*(CH_{%index}/CH_0-1) 100*(I_{%index}/I_0-1) 100*(X_{%index}/X_0-1) 100*(M_{%index}/M_0-1) 100*((DISPINC_AT_VAL_{%index}/PCH_{%index})/(DISPINC_AT_VAL_0/PCH_0)-1) 100*(RSAV_H_VAL_{%index}-RSAV_H_VAL_0) 100*(PCH_{%index}/PCH_0-1) 100*(PY_{%index}/PY_0-1)  100*(PVA_{%index}/PVA_0-1) 100*(PCI_{%index}/PCI_0-1) 100*(PX_{%index}/PX_0-1) 100*(PM_{%index}/PM_0-1) 100*(W_{%index}/W_0-1) 100*((C_L_{%index}/PVA_{%index})/(C_L_0/PVA_0)-1) (F_L_{%index}-F_L_0) 100*(UnR_{%index}-UnR_0) 100*(RBal_Trade_VAL_{%index}-RBal_Trade_VAL_0) 100*(RBal_G_Prim_VAL_{%index}-RBal_G_Prim_VAL_0) 100*(RDEBT_G_VAL_{%index}-RDEBT_G_VAL_0) 100*(EMS_CO2_{%index}/EMS_CO2_0-1) 100*(CH_0+G_0)/GDP_0*((CH_{%index}+G_{%index})/(CH_0+G_0)-1) 100*I_0/GDP_0*(I_{%index}/I_0-1) 100*(X_0-M_0)/GDP_0*((X_{%index}-M_{%index})/(X_0-M_0)-1) 100*DS_0/GDP_0*(DS_{%index}/DS_0-1)
+    group Macro 100*(GDP_{%index}/GDP_0-1) 100*(CH_{%index}/CH_0-1) 100*(I_{%index}/I_0-1) 100*(X_{%index}/X_0-1) 100*(M_{%index}/M_0-1) 100*((DISPINC_AT_VAL_{%index}/PCH_{%index})/(DISPINC_AT_VAL_0/PCH_0)-1) 100*(RSAV_H_VAL_{%index}-RSAV_H_VAL_0) 100*(PCH_{%index}/PCH_0-1) 100*(PY_{%index}/PY_0-1)  100*(PVA_{%index}/PVA_0-1) 100*(PCI_{%index}/PCI_0-1) 100*(PX_{%index}/PX_0-1) 100*(PM_{%index}/PM_0-1) 100*(W_{%index}/W_0-1) 100*((C_L_{%index}/PVA_{%index})/(C_L_0/PVA_0)-1) (F_L_{%index}-F_L_0) 100*(UnR_{%index}-UnR_0) 100*(RBal_Trade_VAL_{%index}-RBal_Trade_VAL_0) 100*(RBal_G_Prim_VAL_{%index}-RBal_G_Prim_VAL_0) 100*(RDEBT_G_VAL_{%index}-RDEBT_G_VAL_0)  100*(CH_0+G_0)/GDP_0*((CH_{%index}+G_{%index})/(CH_0+G_0)-1) 100*I_0/GDP_0*(I_{%index}/I_0-1) 100*(X_0-M_0)/GDP_0*((X_{%index}-M_{%index})/(X_0-M_0)-1) 100*DS_0/GDP_0*(DS_{%index}/DS_0-1)
 
 'output for main baseline variables
-    %baseline = "@PCH(GDP_0) @PCH(pch_0) UNR_0 RDEBT_G_VAL_0 RBal_G_Prim_VAL_0 rbal_trade_val_0 EMS_CO2_0 POP GDP_0 PCH_0 EMS_CH_CO2_0 EMS_CI_CO2_0" 
+    %baseline = "@PCH(GDP_0) @PCH(pch_0) UNR_0 RDEBT_G_VAL_0 RBal_G_Prim_VAL_0 rbal_trade_val_0 POP GDP_0 PCH_0" 
 
   ' Concatenation des strings
-   for %c {%list_com}
-   if @isobject("EMS_"+%c+"_0") = 1 then
-     %baseline = %baseline + " EMS_"+%c+"_0"
+   for %s {%list_sec}
+   if @isobject("VA_"+%s+"_0") = 1 then
+     %baseline = %baseline + " VA_"+%s+"_0"
    endif
    next
 
-   for %c {%list_com}
-   if @isobject("EMS_CO2_"+%c+"_0") = 1 then
-     %baseline = %baseline + " EMS_CO2_"+%c+"_0"
-   endif
-   next
 
 
 

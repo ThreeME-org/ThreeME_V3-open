@@ -59,7 +59,7 @@ else
   ' Create the series using the dependencies (add-ins "series")
   statusline "Compiling the calibration of the model's variables... Please wait it may take a few minutes..."
 
-  {%modelname}.series ..\model\lists parameters R_Calibration_FRA round0 Prices_data SU_data Special_data Other_data Exception_taxes_prices_data Exception_NestedCES_data
+  {%modelname}.series ..\model\lists parameters R_Calibration_FRA round0 Prices_data SU_data Special_data Other_data Exception_taxes_prices_data Exception_NestedCES_data Exception_France-FNTP_data
   '' Exception_housing_data Exception_transport_data Exception_France-ADEME_data
   ' Exception_ConsumerNested_data  Exception_Other_data
 
@@ -118,7 +118,7 @@ endif
 ' Call here the subroutine you want to use to solve the shock
 call run_scenario("baseline-steady")
 
-'call run_scenario("share_elec_enr")
+call run_scenario("protechno")
 'call run_scenario("carbontax_s1")
 
 ' ****************************************
