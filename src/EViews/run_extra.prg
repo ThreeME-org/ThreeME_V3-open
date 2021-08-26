@@ -60,7 +60,7 @@ if %scenario_name = "protechno" then
 
    call solvemodel(%solveopt) 
 
-   call outputs
+   call outputs(%scenario_name)
 
    ' Exit subroutine
     return
@@ -79,7 +79,7 @@ if %scenario_name = "protechno" then
 
    call solvemodel(%solveopt) 
 
-   call outputs
+   call outputs(%scenario_name)
 
    ' Exit subroutine
     return
@@ -113,7 +113,7 @@ subroutine outputs(string %scenario_name)
 
     group Baseline {%baseline}  
 
-call savetoexcel("Macro Baseline", "Result_France.xlsx", "YES")
+call savetoexcel("Macro Baseline", "Result_France.xlsx",  %scenario_name, "YES")
 
 endsub
 ' ============================================================================
