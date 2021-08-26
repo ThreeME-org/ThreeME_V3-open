@@ -28,7 +28,7 @@ subroutine run_scenario(string %scenario_name)
 
     ' Changes in stocks converge progressivelly to 0 
     for %c {%list_com}
-      DSD_{%c} = DSD_{%c}(-1) * 0.8
+      DSDbis_{%c} = DSDbis_{%c}(-1) * 0.8
       DSM_{%c} = DSM_{%c}(-1) * 0.8
     next
     ' #### Calibrate scenario baseline from an excel sheet

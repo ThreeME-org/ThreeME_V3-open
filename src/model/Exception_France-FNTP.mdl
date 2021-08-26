@@ -1,17 +1,11 @@
 ##### Exception equations for ThreeME - France - FNTP
 
-##! Market price for the domestically produced commodity $c$
-@over PQD[c]  * QD[c]  = PMGSD[c] * MGSD[c] + PCID[c] * CID[c] + PCHD[c] * CHD[c] + PGD[c] * GD[c] + PID[c] * ID[c] + PXD[c] * XD[c] + PDSD[c] * DSD[c] + PINV_INFRA[c] * INV_INFRA[c]  if QD[c] <> 0
-
-##! Quantity of domestically produced commodity $c$ expressed at market price
-@over		  QD[c]  = 	          MGSD[c] + 		  CID[c] + 		     CHD[c] + 	   	   GD[c] + 		    ID[c] + 		 XD[c] + 		   DSD[c] + INV_INFRA[c] if QD[c] <> 0
+##! Domestically produced change in inventories $c$
+@over DSD[c] = DSDbis[c] + INV_INFRA[c]
+# For simplicity shock specified through the change in inventory. Endogenising this variable ensures no accountancy inconsitency.
 
 ##! Investment in civil ingeniering infrastructure  of commodity $c$
 INV_INFRA[c] = INV_REDUC[c] + INV_RESTAU[c] + INV_RESI[c]
-
-##! Price of investment in civil ingeniering infrastructure of commodity $c$
-PINV_INFRA[c] = PDSD[c]
-# We assume it correspond the price of change in stock because the latter is alway endogenous (since the change in stocks are different from 0 at the base year)
 
 
 ## AJOUTER par Alexandre: AGREGATION
