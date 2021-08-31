@@ -72,7 +72,7 @@ else
   'call export_all_to_csv
 
   ' Create the series with if conditionalities (Housing block) 
-  call load_series("Exception_housing_data_if")
+  ' call load_series("Exception_housing_data_if")
     
   ' Create the series for the Housing block 
   ' call load_series("Exception_housing_data")
