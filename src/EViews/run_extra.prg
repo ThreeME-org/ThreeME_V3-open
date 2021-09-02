@@ -98,7 +98,8 @@ subroutine outputs(string %scenario_name)
     %index = "2"
     group Macro 100*(GDP_{%index}/GDP_0-1) 100*(CH_{%index}/CH_0-1) 100*(I_{%index}/I_0-1) 100*(X_{%index}/X_0-1) 100*(M_{%index}/M_0-1) 100*((DISPINC_AT_VAL_{%index}/PCH_{%index})/(DISPINC_AT_VAL_0/PCH_0)-1) 100*(RSAV_H_VAL_{%index}-RSAV_H_VAL_0) 100*(PCH_{%index}/PCH_0-1) 100*(PY_{%index}/PY_0-1)  100*(PVA_{%index}/PVA_0-1) 100*(PCI_{%index}/PCI_0-1) 100*(PX_{%index}/PX_0-1) 100*(PM_{%index}/PM_0-1) 100*(W_{%index}/W_0-1) 100*((C_L_{%index}/PVA_{%index})/(C_L_0/PVA_0)-1) (F_L_{%index}-F_L_0) 100*(UnR_{%index}-UnR_0) 100*(RBal_Trade_VAL_{%index}-RBal_Trade_VAL_0) 100*(RBal_G_Prim_VAL_{%index}-RBal_G_Prim_VAL_0) 100*(RDEBT_G_VAL_{%index}-RDEBT_G_VAL_0)  100*(CH_0+G_0)/GDP_0*((CH_{%index}+G_{%index})/(CH_0+G_0)-1) 100*I_0/GDP_0*(I_{%index}/I_0-1) 100*(X_0-M_0)/GDP_0*((X_{%index}-M_{%index})/(X_0-M_0)-1) 100*DS_0/GDP_0*(DS_{%index}/DS_0-1)
 
-'output for main baseline variables
+' Output for main baseline variables
+
     %baseline = "@PCH(GDP_0) @PCH(pch_0) UNR_0 RDEBT_G_VAL_0 RBal_G_Prim_VAL_0 rbal_trade_val_0 POP GDP_0 PCH_0" 
 
   ' Concatenation des strings
@@ -108,12 +109,89 @@ subroutine outputs(string %scenario_name)
    endif
    next
 
+   for %s {%list_sec}
+   if @isobject("F_L_"+%s+"_0") = 1 then
+     %baseline = %baseline + " F_L_"+%s+"_0"
+   endif
+   next
 
+   for %s {%list_sec}
+   if @isobject("Y_"+%s+"_0") = 1 then
+     %baseline = %baseline + " Y_"+%s+"_0"
+   endif
+   next
 
+   for %s {%list_sec}
+   if @isobject("IA_"+%s+"_0") = 1 then
+     %baseline = %baseline + " Y_"+%s+"_0"
+   endif
+   next
 
     group Baseline {%baseline}  
 
-call savetoexcel("Macro Baseline", "Result_France.xlsx",  %scenario_name, "YES")
+' Output for main shock variables
+
+    %shock = "@PCH(GDP_2) @PCH(pch_2) UNR_2 RDEBT_G_VAL_2 RBal_G_Prim_VAL_2 rbal_trade_val_2 POP GDP_2 PCH_2" 
+
+  ' Concatenation des strings
+   for %s {%list_sec}
+   if @isobject("VA_"+%s+"_2") = 1 then
+     %shock = %shock + " VA_"+%s+"_2"
+   endif
+   next
+
+   for %s {%list_sec}
+   if @isobject("F_L_"+%s+"_2") = 1 then
+     %shock = %shock + " F_L_"+%s+"_2"
+   endif
+   next
+
+   for %s {%list_sec}
+   if @isobject("Y_"+%s+"_2") = 1 then
+     %shock = %shock + " Y_"+%s+"_2"
+   endif
+   next
+
+   for %s {%list_sec}
+   if @isobject("I_"+%s+"_2") = 1 then
+     %shock = %shock + " I_"+%s+"_2"
+   endif
+   next
+
+    group Shock {%shock}  
+
+
+' Output for main shock variables
+
+    %shock_dev = "100*(VA_2/VA_0-1) 100*(F_L_2/F_L_0-1) (F_L_2 - F_L_0) 100*(Y_2/Y_0-1) 100*(I_2/I_0-1)" 
+
+  ' Concatenation des strings
+   for %s {%list_sec}
+     %shock_dev = %shock_dev + " 100*(VA_"+%s+"_2/VA_"+%s+"_0-1)"
+   next
+
+   for %s {%list_sec}
+     %shock_dev = %shock_dev + " 100*(F_L_"+%s+"_2/F_L_"+%s+"_0-1)"
+   next
+
+   for %s {%list_sec}
+     %shock_dev = %shock_dev + " (F_L_"+%s+"_2-F_L_"+%s+"_0)"
+   next
+
+   for %s {%list_sec}
+     %shock_dev = %shock_dev + " 100*(Y_"+%s+"_2/Y_"+%s+"_0-1)"
+   next
+
+   for %s {%list_sec}
+     %shock_dev = %shock_dev + " 100*(I_"+%s+"_2/I_"+%s+"_0-1)"
+   next
+
+
+
+   group Shock_dev {%shock_dev}  
+
+
+call savetoexcel("Macro Baseline Shock Shock_dev", "Result_France.xlsx",  %scenario_name, "YES")
 
 endsub
 ' ============================================================================
