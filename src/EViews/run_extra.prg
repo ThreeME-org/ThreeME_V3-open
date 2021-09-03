@@ -186,6 +186,11 @@ subroutine outputs(string %scenario_name)
      %shock_dev = %shock_dev + " 100*(I_"+%s+"_2/I_"+%s+"_0-1)"
    next
 
+   for %s {%list_sec}
+     %shock_dev = %shock_dev + " 100*(VA_"+%s+"_2/VA_"+%s+"_0-1)*VA_"+%s+"_0/VA_0"
+   next
+
+
 
 
    group Shock_dev {%shock_dev}  
