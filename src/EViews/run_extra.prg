@@ -163,7 +163,7 @@ subroutine outputs(string %scenario_name)
 
 ' Output for main shock variables
 
-    %shock_dev = "100*(VA_2/VA_0-1) 100*(F_L_2/F_L_0-1) (F_L_2 - F_L_0) 100*(Y_2/Y_0-1) 100*(I_2/I_0-1)" 
+    %shock_dev = "100*(VA_2/VA_0-1) 100*(F_L_2/F_L_0-1) (F_L_2 - F_L_0) 100*(Y_2/Y_0-1) 100*(I_2/I_0-1) (VA_2 - VA_0) (Y_2 - Y_0) (I_2 - I_0)" 
 
   ' Concatenation des strings
    for %s {%list_sec}
