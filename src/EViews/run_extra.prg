@@ -191,6 +191,18 @@ subroutine outputs(string %scenario_name)
    next
 
    for %s {%list_sec}
+     %shock_dev = %shock_dev + " 100*(Y_"+%s+"_2/Y_"+%s+"_0-1)*Y_"+%s+"_0/Y_0"
+   next
+
+   for %s {%list_sec}
+     %shock_dev = %shock_dev + " 100*(I_"+%s+"_2/I_"+%s+"_0-1)*I_"+%s+"_0/I_0"
+   next
+
+   for %s {%list_sec}
+     %shock_dev = %shock_dev + " 100*(F_L_"+%s+"_2/F_L_"+%s+"_0-1)*F_L_"+%s+"_0/F_L_0"
+   next
+
+   for %s {%list_sec}
      %shock_dev = %shock_dev + " (Y_"+%s+"_2-Y_"+%s+"_0)"
    next
 
