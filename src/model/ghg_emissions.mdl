@@ -26,7 +26,7 @@ d(log(EMS_CH[ghg,c]))   = d(log(CH[c]     * IEMS_CH[ghg,c]))            if EMS_C
 EMS_CI[ghg,c]  = sum( EMS_CI[ghg,c,s] if EMS_CI[ghg,c,s] <> 0 on s )    if EMS_CI[ghg,c]  <> 0
 
 ##! Emissions of the sector $s$ related to the intermediary consumption of commodity $c$
-EMS_CI[c,s] = sum(EMS_CI[ghg,c,s])     
+EMS_CI[c,s] = sum(EMS_CI[ghg,c,s] on ghg)     
 
 ##! Emissions of aggregated sectors $sagg$ related to the intermediary consumption of commodity $c$
 EMS_CI_AGRF[c] = sum(EMS_CI[c,sagrf] on sagrf)

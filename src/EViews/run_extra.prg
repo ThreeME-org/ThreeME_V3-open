@@ -215,43 +215,34 @@ group Final_nrj {%final_nrj}
 ' EMS OUTPUT BLOCK
 
 %emissions = " EMS_2 EMS_CH_2 EMS_CH_2+EMS_CI_2 EMS_CI_2 EMS_MAT_2 EMS_Y_2 EMS_SEC_2 EMS_ETS_2 EMS_NETS_2 EMS_NETSI_2 EMS_TRSP_2-EMS_sair_2 EMS_0 EMS_CH_0 EMS_CH_0+EMS_CI_0 EMS_CI_0 EMS_MAT_0 EMS_Y_0 EMS_SEC_0 EMS_ETS_0 EMS_NETS_0 EMS_NETSI_0 EMS_TRSP_0-EMS_sair_0 " 
-
     for %ce ccoa cfut cfuh cgas cele cbio 
       %emissions = %emissions + " EMS_CH_"+%ce+"_2" + " EMS_CH_"+%ce+"_0"
     next
-
     for %ce ccoa ccoi cfut cfuh cgas cbio cote
       %emissions = %emissions + " EMS_CI_"+%ce+"_2" + " EMS_CI_"+%ce+"_0"
     next
-
     for %ce ccoa ccoi cfut cfuh cgas cbio cote
       for %s {%list_sec} 
         %emissions = %emissions + " EMS_CI_"+%ce+"_"+%s+"_2" + " EMS_CI_"+%ce+"_"+%s+"_0"
       next
     next
-
     for %ce ccoa ccoi cfut cfuh cgas cbio cote
         for %sagg AGRF IND TRSP TRSF ELE SER 
        %emissions = %emissions + " EMS_CI_"+%sagg+"_"+%ce+"_2" + " EMS_CI_"+%sagg+"_"+%ce+"_0"
       next
     next
-
     for %s {%list_sec} 
       %emissions = %emissions + " EMS_MAT_"+%s+"_2" + " EMS_Y_"+%s+"_2" + " EMS_MAT_"+%s+"_0" + " EMS_Y_"+%s+"_0"
     next
-
     for %sagg AGRF IND TRSP TRSF ELE SER
        %emissions = %emissions + " EMS_MAT_"+%sagg+"_2" + " EMS_Y_"+%sagg+"_2" + " EMS_MAT_"+%sagg+"_0" + " EMS_Y_"+%sagg+"_0"
     next
-
     for %s {%list_sec} 
       %emissions = %emissions + " EMS_"+%s+"_2" + " EMS_"+%s+"_0"
     next
-
     for %sagg AGRF IND TRSP TRSF ELE SER
       %emissions = %emissions + " EMS_"+%sagg+"_2" + " EMS_"+%sagg+"_0" 
     next
-
 %emissions = %emissions + " EMS_CH_ccoa_2+EMS_CI_ccoa_2 EMS_CH_cfut_2+EMS_CI_cfut_2 EMS_CH_cfuh_2+EMS_CI_cfuh_2 EMS_CH_cgas_2+EMS_CI_cgas_2 EMS_CH_cbio_2+EMS_CI_cbio_2 EMS_CH_ccoa_0+EMS_CI_ccoa_0 EMS_CH_cfut_0+EMS_CI_cfut_0 EMS_CH_cfuh_0+EMS_CI_cfuh_0 EMS_CH_cgas_0+EMS_CI_cgas_0 EMS_CH_cbio_0+EMS_CI_cbio_0 "
 
 group Emissions {%emissions}
