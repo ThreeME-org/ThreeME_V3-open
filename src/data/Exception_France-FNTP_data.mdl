@@ -9,3 +9,6 @@ INV_RESTAU[c]  := 0
 INV_RESI[c]  := 0
 
 INV_INFRA := sum(INV_INFRA[c] on c)
+INV_REDUC := sum(INV_REDUC[c] on c)
+INV_RESTAU := sum(INV_RESTAU[c] on c)
+INV_RESI := sum(INV_RESI[c] on c)

@@ -210,10 +210,25 @@ subroutine outputs(string %scenario_name)
      %shock_dev = %shock_dev + " (I_"+%s+"_2-I_"+%s+"_0)"
    next
 
-for %s {%list_sec}
+   for %s {%list_sec}
      %shock_dev = %shock_dev + " (VA_"+%s+"_2-VA_"+%s+"_0)"
    next
 
+   for %c {%list_com}
+     %shock_dev = %shock_dev + " INV_INFRA_"+%c
+   next
+
+   for %c {%list_com}
+     %shock_dev = %shock_dev + " INV_REDUC_"+%c
+   next
+
+   for %c {%list_com}
+     %shock_dev = %shock_dev + " INV_RESTAU_"+%c
+   next
+
+   for %c {%list_com}
+     %shock_dev = %shock_dev + " INV_RESI_"+%c
+   next
 
    group Shock_dev {%shock_dev}  
 
