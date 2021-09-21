@@ -66,6 +66,27 @@ if %scenario_name = "protechno" then
     return
  endif
 
+
+if %scenario_name = "protechno_2" then
+  ' Create a new scenario that can be compared with the baseline
+   {%modelname}.scenario(n, a=2) {%scenario_name}
+
+   call load_excel("France", "scenarii", "restauration_protechno")
+
+   
+  for %c ccro ccra ccbr ccfl ccel ccwa ccot cdem csit cdri
+     call interpolate("INV_RESTAU_"+%c)
+  next
+
+   call solvemodel(%solveopt) 
+
+   call outputs(%scenario_name)
+
+   ' Exit subroutine
+    return
+ endif
+
+
  if %scenario_name = "carbontax_s1" then
   ' Create a new scenario that can be compared with the baseline
    {%modelname}.scenario(n, a=2) {%scenario_name}
