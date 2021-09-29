@@ -130,6 +130,89 @@ if %scenario_name = "protechno_123" then
     return
  endif
 
+if %scenario_name = "sobriete" then
+  ' Create a new scenario that can be compared with the baseline
+   {%modelname}.scenario(n, a=2) {%scenario_name}
+
+   call load_excel("France", "scenarii", "reduction_sobriete")
+
+   
+  for %c ccro ccra ccbr ccfl ccel ccwa ccot cdem csit cdri
+     call interpolate("INV_REDUC_"+%c)
+  next
+
+   call solvemodel(%solveopt) 
+
+   call outputs(%scenario_name)
+
+   ' Exit subroutine
+    return
+ endif
+
+
+if %scenario_name = "sobriete_2" then
+  ' Create a new scenario that can be compared with the baseline
+   {%modelname}.scenario(n, a=2) {%scenario_name}
+
+   call load_excel("France", "scenarii", "restauration_sobriete")
+
+   
+  for %c ccro ccra ccbr ccfl ccel ccwa ccot cdem csit cdri
+     call interpolate("INV_RESTAU_"+%c)
+  next
+
+   call solvemodel(%solveopt) 
+
+   call outputs(%scenario_name)
+
+   ' Exit subroutine
+    return
+ endif
+
+
+if %scenario_name = "sobriete_3" then
+  ' Create a new scenario that can be compared with the baseline
+   {%modelname}.scenario(n, a=2) {%scenario_name}
+
+   call load_excel("France", "scenarii", "resilience_sobriete")
+
+   
+  for %c ccro ccra ccbr ccfl ccel ccwa ccot cdem csit cdri
+     call interpolate("INV_RESI_"+%c)
+  next
+
+   call solvemodel(%solveopt) 
+
+   call outputs(%scenario_name)
+
+   ' Exit subroutine
+    return
+ endif
+
+
+if %scenario_name = "sobriete_123" then
+  ' Create a new scenario that can be compared with the baseline
+   {%modelname}.scenario(n, a=2) {%scenario_name}
+
+   call load_excel("France", "scenarii", "reduction_sobriete")
+   call load_excel("France", "scenarii", "restauration_sobriete")
+   call load_excel("France", "scenarii", "resilience_sobriete")
+
+   
+  for %c ccro ccra ccbr ccfl ccel ccwa ccot cdem csit cdri
+     call interpolate("INV_REDUC_"+%c)
+     call interpolate("INV_RESTAU_"+%c)
+     call interpolate("INV_RESI_"+%c)
+  next
+
+   call solvemodel(%solveopt) 
+
+   call outputs(%scenario_name)
+
+   ' Exit subroutine
+    return
+ endif
+
  if %scenario_name = "carbontax_s1" then
   ' Create a new scenario that can be compared with the baseline
    {%modelname}.scenario(n, a=2) {%scenario_name}
