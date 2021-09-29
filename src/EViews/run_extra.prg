@@ -294,9 +294,6 @@ subroutine outputs(string %scenario_name)
      %shock_dev = %shock_dev + " INV_RESI_"+%c
    next
 
-   for %c {%list_com}
-     %shock_dev = %shock_dev + " (INV_REDUC_"+%c"+INV_RESTAU_"+%c"+ INV_RESI_"+%c")"
-   next
 
    group Shock_dev {%shock_dev}  
 
