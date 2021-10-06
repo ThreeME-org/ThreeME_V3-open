@@ -152,7 +152,7 @@ Y_toe[ce, TRSP] := sum(Y_toe[ce, strsp] on strsp)
 Y_toe[ce, SER]  := sum(Y_toe[ce, sser] on sser)      
 Y_toe[ce, TRSF] := sum(Y_toe[ce, strsf] on strsf)    
 Y_toe[ce, ELE]  := sum(Y_toe[ce, sele] on sele) 
-Y_toe[ce, AGRF]  := sum(Y_toe[ce, sele] on sagrf) 
+Y_toe[ce, AGRF]  := sum(Y_toe[ce, sagrf] on sagrf) 
 
 Y_toe[sagg] := sum(Y_toe[ce, sagg] on ce)
 Verif_Y_toe := sum(Y_toe[sagg] on sagg) - Y_toe
