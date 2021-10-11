@@ -25,3 +25,9 @@ INV_RESI = sum(INV_RESI[c] on c)
 ##! Primary balance of the Government expressed in value (deficit) (for verification)
 @over Bal_G_Prim_VALbis = INC_G_VAL - (PG  * G  + SOC_BENF_VAL + PDSD * INV_INFRA)
 
+
+##! Notional substitution effect induced by a change in the relative price between imported and domestically produced commodity $c$ for households final consumption
+@over d(SUBST_CHM_n[c]) 	= - ES_CHM[c]  * d(log(PCHD[c])  - log(PCHM[c])) + d(log(PSM[c]))	     if CHM[c]    <> 0
+
+##! Notional substitution effect induced by a change in the relative price between imported and domestic intermediary consumption in commodity $c$ from the sector $s$
+@over d(SUBST_CIM_n[c, s]) = - ES_CIM[c, s] * d(log(PCID[c, s]) - log(PCIM[c, s])) + d(log(PSM[c]))        if CIM[c, s] <> 0

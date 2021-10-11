@@ -106,105 +106,11 @@ if %objective = "gdp" then
     string listcontrol =  listcontrol + " GDP_cont"	
 endif
 
-' ******************************************* '
-' The objective is the agregate energy consumption of sectors
-
-if %objective = "CI_TOE_non_nrj_sect" then
-
-logfittarget.append ""
-logfittarget.append ### Start iterations for objective %objective
-
-	scalar itersolution = 0.0000001
-	while itersolution > 0
-		scalar itersolution = 0
-
-    %list_sec = ""
-    for %s sagr sfoo stex sveh sgla sche sogo scon srai sroa sair spri spub
-		' for %s ind trsp ser
-			smpl 2030 2030
-			series CI_toe_{%s} = 1.777 * @elem(CI_toe_{%s}, 2015)
-      smpl 2050 2050
-      series CI_toe_{%s} = 3.040 * @elem(CI_toe_{%s}, 2015) 
-
-			call fittarget("GR_PROG_base_E_"+%s, "constant", "CI_toe_"+%s, "CI_toe_"+%s+"_0","2015","2030", 0.1)
-      scalar itersolution = itersolution +  iteration
-
-      call fittarget("GR_PROG_base_E_"+%s, "constant", "CI_toe_"+%s, "CI_toe_"+%s+"_0","2030","2050", 0.1)
-			scalar itersolution = itersolution +  iteration
-
-		next 
-
-	%statusline = "Total iterations for objective "+ %objective+"  "+ @str(itersolution)
-	statusline %statusline
-	logfittarget.append %statusline
-
-  scalar itersolution_all = itersolution_all + itersolution
-	wend
-
-%statusline = "### Global solution found for objective "+ %objective+" !!!!"
-statusline %statusline
-logfittarget.append %statusline
-
-for %s sagr sfoo stex sveh sgla sche sogo scon srai sroa sair spri spub
-' for %s ind trsp ser
-    string listcontrol =  listcontrol + " GR_PROG_base_E_"+%s
-next
-
-endif
-
-
-' ******************************************* '
-' The objective is the agregate energy consumption of households
-
-if %objective = "CH_TOE_household_L1" then
-
-logfittarget.append ""
-logfittarget.append ### Start iterations for objective %objective
-
-  scalar itersolution = 0.0000001
-  while itersolution > 0
-    scalar itersolution = 0
-
-    smpl 2030 2030
-    series CH_toe_hous = 1.777 * @elem(CH_toe_hous, 2015)
-    series CH_toe_trsp + CH_toe_hous  = 1.777 * (@elem(CH_toe_trsp, 2015) + @elem(CH_toe_hous, 2015))
-
-    smpl 2050 2050
-    series CH_toe_hous = 3.040 * @elem(CH_toe_hous, 2015)
-    series CH_toe_trsp + CH_toe_hous  = 3.040 * (@elem(CH_toe_trsp, 2015) + @elem(CH_toe_hous, 2015))
-
-    call fittarget("GR_PROG_HOUS_base", "constant", "CH_toe_hous", "CH_toe_hous_0","2015","2030",0.1)
-    scalar itersolution = itersolution +  iteration
-
-    call fittarget("GR_PROG_HOUS_base", "constant", "CH_toe_hous", "CH_toe_hous_0","2030","2050",0.1)
-    scalar itersolution = itersolution +  iteration
-
-    call fittarget("GR_PROG_TRSP_base", "constant", "CH_toe_trsp", "CH_toe_trsp_0","2015","2030",0.1)
-    scalar itersolution = itersolution +  iteration
-    
-    call fittarget("GR_PROG_TRSP_base", "constant", "CH_toe_trsp", "CH_toe_trsp_0","2030","2050",0.1)
-    scalar itersolution = itersolution +  iteration
-
-  %statusline = "Total iterations for objective "+ %objective+"  "+ @str(itersolution)
-  statusline %statusline
-  logfittarget.append %statusline
-
-  scalar itersolution_all = itersolution_all + itersolution
-  wend
-
-
-%statusline = "### Global solution found for objective "+ %objective+" !!!!"
-statusline %statusline
-logfittarget.append %statusline
-
-string listcontrol =  listcontrol + " GR_PROG_HOUS_base GR_PROG_TRSP_base"
-
-endif
 
 ' ******************************************* '
 ' The objective is the energy ce consumption of non-energy sectors
 
-if %objective = "CF_CI_TOE_ce" then
+if %objective = "PSM" then
 
 logfittarget.append ""
 logfittarget.append ### Start iterations for objective %objective
@@ -212,170 +118,14 @@ logfittarget.append ### Start iterations for objective %objective
   scalar itersolution = 0.0000001
   while itersolution > 0
     scalar itersolution = 0
-
-      smpl 2030 2030
-      series CF_CI_toe_cfuh = 1.536 * @elem(CF_CI_toe_cfuh, 2015) 
-      series CF_CI_toe_cfut = 1.536 * @elem(CF_CI_toe_cfut, 2015) 
-      series CF_CI_toe_cgas = 1.799 * @elem(CF_CI_toe_cgas, 2015)       
-      series CF_CI_toe_cele = 2.553 * @elem(CF_CI_toe_cele, 2015) 
 
       smpl 2050 2050
-      series CF_CI_toe_cfuh = 2.271 * @elem(CF_CI_toe_cfuh, 2015) 
-      series CF_CI_toe_cfut = 2.271 * @elem(CF_CI_toe_cfut, 2015) 
-      series CF_CI_toe_cgas = 3.898 * @elem(CF_CI_toe_cgas, 2015)       
-      series CF_CI_toe_cele = 4.699 * @elem(CF_CI_toe_cele, 2015) 
+      series M_cnrj = 0.4 * @elem(M_cnrj, 2015) 
 
-      call fittarget("GR_CI_base_cfuh", "constant", "CF_CI_toe_cfuh", "CF_CI_toe_cfuh_0", "2015", "2030", 0.1)
+      call fittarget("PSM_cnrj", "interpol", "M_cnrj", "M_cnrj_0", "2015", "2050", 0.1)
       scalar itersolution = itersolution +  iteration
 
-      call fittarget("GR_CI_base_cfuh", "constant", "CF_CI_toe_cfuh", "CF_CI_toe_cfuh_0", "2030", "2050", 0.1)
-      scalar itersolution = itersolution +  iteration
-
-      call fittarget("GR_CI_base_cfut", "constant", "CF_CI_toe_cfut", "CF_CI_toe_cfut_0", "2015", "2030", 0.1)
-      scalar itersolution = itersolution +  iteration
-
-      call fittarget("GR_CI_base_cfut", "constant", "CF_CI_toe_cfut", "CF_CI_toe_cfut_0", "2030", "2050", 0.1)
-      scalar itersolution = itersolution +  iteration
-
-      call fittarget("GR_CI_base_cgas", "constant", "CF_CI_toe_cgas", "CF_CI_toe_cgas_0", "2015", "2030", 0.1)
-      scalar itersolution = itersolution +  iteration
-
-      call fittarget("GR_CI_base_cgas", "constant", "CF_CI_toe_cgas", "CF_CI_toe_cgas_0", "2030", "2050", 0.1)
-      scalar itersolution = itersolution +  iteration
-
-      call fittarget("GR_CI_base_cele", "constant", "CF_CI_toe_cele", "CF_CI_toe_cele_0", "2015", "2030", 0.1)
-      scalar itersolution = itersolution +  iteration
-
-      call fittarget("GR_CI_base_cele", "constant", "CF_CI_toe_cele", "CF_CI_toe_cele_0", "2030", "2050", 0.1)
-      scalar itersolution = itersolution +  iteration
-
-  %statusline = "Total iterations for objective "+ %objective+"  "+ @str(itersolution)
-  statusline %statusline
-  logfittarget.append %statusline
-
-  scalar itersolution_all = itersolution_all + itersolution
-  wend
-
-
-%statusline = "### Global solution found for objective "+ %objective+" !!!!"
-statusline %statusline
-logfittarget.append %statusline
-
-for %c cfuh cfut cgas cele 
-    string listcontrol =  listcontrol + " GR_CI_base_"+%c
-next
-
-endif
-
-' ******************************************* '
-' The objective is the energy ce consumption of households
-
-if %objective = "CH_TOE_ce" then
-
-logfittarget.append ""
-logfittarget.append ### Start iterations for objective %objective
-
-  scalar itersolution = 0.0000001
-  while itersolution > 0
-    scalar itersolution = 0
-      smpl 2030 2030
-      series CH_toe_cfuh = 1.536 * @elem(CH_toe_cfuh, 2015)
-      series CH_toe_cfut = 1.536 * @elem(CH_toe_cfut, 2015) 
-      series CH_toe_cgas = 1.799 * @elem(CH_toe_cgas, 2015)       
-      series CH_HOUS_toe_cele = 2.553 * @elem(CH_HOUS_toe_cele, 2015) 
-      series CH_TRSP_toe_cele = 2.553 * @elem(CH_TRSP_toe_cele, 2015) 
-
-      smpl 2050 2050
-      series CH_toe_cfuh = 2.271 * @elem(CH_toe_cfuh, 2015)
-      series CH_toe_cfut = 2.271 * @elem(CH_toe_cfut, 2015) 
-      series CH_toe_cgas = 3.898 * @elem(CH_toe_cgas, 2015)       
-      series CH_HOUS_toe_cele = 4.699 * @elem(CH_HOUS_toe_cele, 2015) 
-      series CH_TRSP_toe_cele = 4.699 * @elem(CH_TRSP_toe_cele, 2015) 
-
-
-      call fittarget("CH_HOUS_base_cfuh", "interpol", "CH_toe_cfuh", "CH_toe_cfuh_0", "2015", "2030", 0.1)
-      scalar itersolution = itersolution +  iteration
-
-      call fittarget("CH_HOUS_base_cfuh", "interpol", "CH_toe_cfuh", "CH_toe_cfuh_0", "2030", "2050", 0.1)
-      scalar itersolution = itersolution +  iteration
-
-      call fittarget("CH_TRSP_base_cfut", "interpol", "CH_toe_cfut", "CH_toe_cfut_0", "2015", "2030", 0.1)
-      scalar itersolution = itersolution +  iteration
-
-      call fittarget("CH_TRSP_base_cfut", "interpol", "CH_toe_cfut", "CH_toe_cfut_0", "2030", "2050", 0.1)
-      scalar itersolution = itersolution +  iteration
-
-      call fittarget("CH_HOUS_base_cgas", "interpol", "CH_toe_cgas", "CH_toe_cgas_0", "2015", "2030", 0.1)
-      scalar itersolution = itersolution +  iteration
-
-      call fittarget("CH_HOUS_base_cgas", "interpol", "CH_toe_cgas", "CH_toe_cgas_0", "2030", "2050", 0.1)
-      scalar itersolution = itersolution +  iteration
-
-      call fittarget("CH_HOUS_base_cele", "interpol", "CH_HOUS_toe_cele", "CH_HOUS_toe_cele_0", "2015", "2030", 0.1)
-      scalar itersolution = itersolution +  iteration
-
-      call fittarget("CH_HOUS_base_cele", "interpol", "CH_HOUS_toe_cele", "CH_HOUS_toe_cele_0", "2030", "2050", 0.1)
-      scalar itersolution = itersolution +  iteration
-
-      call fittarget("CH_TRSP_base_cele", "interpol", "CH_TRSP_toe_cele", "CH_TRSP_toe_cele_0", "2015", "2030", 0.1)
-      scalar itersolution = itersolution +  iteration
-
-      call fittarget("CH_TRSP_base_cele", "interpol", "CH_TRSP_toe_cele", "CH_TRSP_toe_cele_0", "2030", "2050", 0.1)
-      scalar itersolution = itersolution +  iteration
-
-  %statusline = "Total iterations for objective "+ %objective+"  "+ @str(itersolution)
-  statusline %statusline
-  logfittarget.append %statusline
-
-  scalar itersolution_all = itersolution_all + itersolution
-  wend
-
-%statusline = "### Global solution found for objective "+ %objective+" !!!!"
-statusline %statusline
-logfittarget.append %statusline
-
-string listcontrol = listcontrol + " CH_HOUS_BASE_CFUH CH_TRSP_BASE_CFUT CH_HOUS_BASE_CGAS CH_HOUS_BASE_CELE CH_TRSP_BASE_CELE"
-
-endif
-
-' ******************************************* '
-' The objective is the volume of subsidies in the BAU
-
-if %objective = "subsidies_bau" then
-
-logfittarget.append ""
-logfittarget.append ### Start iterations for objective %objective
-
-  scalar itersolution = 0.0000001
-  while itersolution > 0
-    scalar itersolution = 0
-
-   smpl 2020 2030
-
-  SUBC_VOL_cfut.adjust =  0 -16.94817837  -43.18899765  -67.59550856  -86.94163175  -97.68073185  -96.44294931  -94.76458853  -92.60139067  -93.4138025 -93.85979875
-  SUBC_VOL_cfuh.adjust =  -489.6644214  -1273.955387  -1578.116501  -1870.733312  -2122.179187  -2299.379045  -2383.210562  -2467.393006  -2551.433409  -2668.533299  -2787.100936
-  SUBC_VOL_cele.adjust =  0 0 -489.524187 -1173.756256  -1508.855606  -1600.925125  -1715.238859  -1837.715141  -1968.936818  -2109.528352  -2260.158796
-  SUBC_VOL_cgas.adjust =  -8.158303695  -257.6761949  -508.5183947  -743.4712904  -905.5403587  -936.6824982  -984.4880748  -1034.73351 -1087.543328  -1143.048407  -1201.386305
- 
-    
-    for %c cfut cfuh cgas cele
- 
-      call fittarget("RSUBCD_"+%c, "interpol", "SUBC_VOL_"+%c, "SUBC_VOL_"+%c+"_0","2015","2020",0.1)
-
-      for %year 2021 2022 2023 2024 2025 2026 2027 2028 2029 2030
-        call fittarget("RSUBCD_"+%c, "interpol", "SUBC_VOL_"+%c, "SUBC_VOL_"+%c+"_0",%year,%year,0.1)
-      next
    
-      scalar itersolution = itersolution +  iteration
-    next 
-
-    ' Subsidy rate constant after 2030
-    smpl 2031 2050
-    for %c cfut cfuh cgas cele
-        series RSUBCD_{%c} = @elem(RSUBCD_{%c}, 2030)
-    next 
-    
-
   %statusline = "Total iterations for objective "+ %objective+"  "+ @str(itersolution)
   statusline %statusline
   logfittarget.append %statusline
@@ -383,94 +133,15 @@ logfittarget.append ### Start iterations for objective %objective
   scalar itersolution_all = itersolution_all + itersolution
   wend
 
+
 %statusline = "### Global solution found for objective "+ %objective+" !!!!"
 statusline %statusline
 logfittarget.append %statusline
 
-for %c cfut cfuh cgas cele
-    string listcontrol =  listcontrol + " RSUBCD_"+%c
+for %c cnrj
+    string listcontrol =  listcontrol + " PSM_"+%c
 next
 
-endif
-
-
-' ******************************************* '
-' The objective is the level of CO2 emission from natural gas
-
-if %objective = "CO2_naturalgas" then
-
-logfittarget.append ""
-logfittarget.append ### Start iterations for objective %objective
-
-  smpl 2030 2030
-  series EMS_co2_cgas = 2.194 * @elem(EMS_co2_cgas, 2015)
-  smpl 2050 2050
-  series EMS_co2_cgas = 4.049 * @elem(EMS_co2_cgas, 2015)
-
-
-  scalar itersolution = 0.0000001
-  while itersolution > 0
-    scalar itersolution = 0
-
-    call fittarget("PHIY_TOE_CELE_SESO", "interp", "EMS_co2_cgas", "EMS_co2_cgas_0","2015","2030",0.1)
-    scalar itersolution = itersolution +  iteration
-
-  %statusline = "Total iterations for objective "+ %objective+" 2030: "+ @str(itersolution)
-  statusline %statusline
-  logfittarget.append %statusline
-
-  scalar itersolution_all = itersolution_all + itersolution
-  wend
-
-  ' Recalculate starting value if solving error in 2031
-  ' smpl 2031 2050
-  ' series PHIY_TOE_CELE_SESO = @elem(PHIY_TOE_CELE_SESO, 2030)
-
-  scalar itersolution = 0.0000001
-  while itersolution > 0
-    scalar itersolution = 0
-
-    call fittarget("PHIY_TOE_CELE_SESO", "interp", "EMS_co2_cgas", "EMS_co2_cgas_0","2030","2050",0.1)
-    scalar itersolution = itersolution +  iteration
-
-  %statusline = "Total iterations for objective "+ %objective+" 2050: "+ @str(itersolution)
-  statusline %statusline
-  logfittarget.append %statusline
-
-  scalar itersolution_all = itersolution_all + itersolution
-  wend
-
-
-%statusline = "### Global solution found for objective "+ %objective+" !!!!"
-statusline %statusline
-logfittarget.append %statusline
-
-string listcontrol =  listcontrol + " PHIY_TOE_CELE_SESO"
-
-endif
-
-
-' ******************************************* '
-' The objective is calibration of the baseyear price of the toe of cgas produced by the sector. It is not equal to 1 in the calibration
-
-if %objective = "PhiY_cgas_sext" then
-
-PY_toe_cgas_sext = 1
-series PhiY_cgas_sext2 = PhiY_cgas_sext
-
-show PhiY_toe_cgas_sext PhiY_cgas_sext PhiY_cgas_sext2 PY_toe_cgas_sext 
-
-scalar crit = 1
-
-while @abs(crit) > 0.00000000001
-
-PhiY_cgas_sext2  = ( 0  + @elem(PhiY_cgas_sext , 2015)  + @elem(PhiY_cgas_sgas , 2015) )  * ( @elem(PY_toe_cgas_sext , 2015)  * PhiY_toe_cgas_sext )  / ( 0  + ( @elem(PY_toe_cgas_sext , 2015)  * PhiY_toe_cgas_sext )  + ( @elem(PY_toe_cgas_sgas , 2015)  * PhiY_toe_cgas_sgas ) )
-
-scalar crit = @elem(PhiY_cgas_sext2 , "2015") - @elem(PhiY_cgas_sext , "2015")
-
-PY_toe_cgas_sext = PY_toe_cgas_sext * (1 - 0.1*crit)
-
-wend
 endif
 
 
@@ -513,7 +184,7 @@ show logfittarget
 call run_scenario("baseline")
 
 ' Loop to (eventually) run several round of fit (can be used to check stability
-for !j=1 to 2
+for !j=1 to 1
 
 ' Initialization of the number of global iteration
 scalar itersolution_all = 0 
@@ -526,25 +197,10 @@ string listcontrol = ""
   logfittarget.append %statusline
 
 ' 1. Fit the target for GDP
-  call fittarget_obj("gdp")
+  'call fittarget_obj("gdp")
 
 ' 2. Fit energy final consumption for non energy sectors
-  call fittarget_obj("CI_TOE_non_nrj_sect")
-
-' 4. Fit energy finale consumption for households
-  call fittarget_obj("CH_TOE_household_L1")
-
-' 5. Fit fuel, electricity and gas final sector consumption (for non-energy sectors)
-  call fittarget_obj("CF_CI_TOE_ce")
-
-' 6. Fit fuel, electricity and gas final households consumption
-  call fittarget_obj("CH_TOE_ce")
-
-' 7. Fit the subsidies target for the baseline scenario (when solution 1-4 stabilized)
-  call fittarget_obj("subsidies_bau")
-
-' 8. Fit the target from natural gas CO2 emission 
-  call fittarget_obj("CO2_naturalgas")
+  call fittarget_obj("PSM")
 
 smpl {%baseyear} @last
 group control_var{!j} {listcontrol}
