@@ -125,7 +125,7 @@ call run_scenario("baseline")
 
 'call run_scenario("protechno_2")
 
-call run_scenario("protechno_3")
+'call run_scenario("protechno_3")
 
 'call run_scenario("protechno_123")
 
@@ -135,7 +135,7 @@ call run_scenario("protechno_3")
 
 'call run_scenario("sobriete_3")
 
-'call run_scenario("sobriete_123")
+call run_scenario("sobriete_123")
 
 'call run_scenario("carbontax_s1")
 
