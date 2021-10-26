@@ -6,7 +6,7 @@ dependency.graphml
 # Ignore back-up EViews files
 *.~rg
 *.~f1
-/main.prg_Snapshots/*.*
+src/EViews/*_Snapshots/*.*
 
 # Ignore result files
 results/*.wf1
@@ -29,6 +29,4 @@ doc/*.log
 src/EViews/series_eviews.prg
 src/EViews/model_eviews.prg
 src/compiler/_tmp_all_vars.csv
-
-
 
