@@ -37,8 +37,8 @@ include .\load_compiler.prg
 ' ***********
 ' Compile and run the model (option1 = "new") or run an existing model (option1 = "workfile"). 
 ' Can run with warning messages (Option2 = "warnings") or with no warning messages  (Option2 = "nowarnings").
-call run("new", "warnings")
-'call run("workfile", "warnings")
+'call run("new", "warnings")
+call run("workfile", "warnings")
 
 smpl %baseyear @last
 

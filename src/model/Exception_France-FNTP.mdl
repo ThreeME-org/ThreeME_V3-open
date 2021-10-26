@@ -1,5 +1,7 @@
 ##### Exception equations for ThreeME - France - FNTP
 
+### Adding investment in infrustructure 
+
 ##! Domestically produced change in inventories $c$
 @over DSD[c] = DSDbis[c] + INV_INFRA[c]
 # For simplicity shock specified through the change in inventory. Endogenising this variable ensures no accountancy inconsitency.
@@ -25,9 +27,22 @@ INV_RESI = sum(INV_RESI[c] on c)
 ##! Primary balance of the Government expressed in value (deficit) (for verification)
 @over Bal_G_Prim_VALbis = INC_G_VAL - (PG  * G  + SOC_BENF_VAL + PDSD * INV_INFRA)
 
+### Fitting energy imports: adding price signal
 
 ##! Notional substitution effect induced by a change in the relative price between imported and domestically produced commodity $c$ for households final consumption
 @over d(SUBST_CHM_n[c]) 	= - ES_CHM[c]  * d(log(PCHD[c])  - log(PCHM[c])) + d(log(PSM[c]))	     if CHM[c]    <> 0
 
 ##! Notional substitution effect induced by a change in the relative price between imported and domestic intermediary consumption in commodity $c$ from the sector $s$
 @over d(SUBST_CIM_n[c, s]) = - ES_CIM[c, s] * d(log(PCID[c, s]) - log(PCIM[c, s])) + d(log(PSM[c]))        if CIM[c, s] <> 0
+
+### Fitting baseline GDP
+
+##! Labor technical progress gain
+log(1 + GR_PROG[L, s]) = d(log(GDP_trend)) - d(log(POP))
+
+##! Government expenditures
+d(log(EXPG)) = d(log(GDP_trend)) + 0.5 * GDP_cont
+
+##! World demand 
+d(log(WD[c])) = d(log(GDP_trend)) + 0.5 * GDP_cont
+

@@ -14,3 +14,6 @@ INV_RESTAU := sum(INV_RESTAU[c] on c)
 INV_RESI := sum(INV_RESI[c] on c)
 
 PSM[c] := 1
+
+GDP_trend := GDP
+GDP_cont := 0 
