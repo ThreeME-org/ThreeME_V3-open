@@ -137,6 +137,10 @@ call run_scenario("protechno_123")
 
 'call run_scenario("sobriete_123")
 
+'call run_scenario("protechno_123bis")
+
+'call run_scenario("sobriete_123bis")
+
 'call run_scenario("carbontax_s1")
 
 ' ****************************************

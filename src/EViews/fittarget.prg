@@ -120,7 +120,7 @@ logfittarget.append ### Start iterations for objective %objective
     scalar itersolution = 0
 
       smpl 2050 2050
-      series M_cnrj = 0.61 * @elem(M_cnrj, 2015) 
+      series M_cnrj = 0.26 * @elem(M_cnrj, 2015) 
 
       call fittarget("PSM_cnrj", "interpol", "M_cnrj", "M_cnrj_0", "2015", "2050", 0.1)
       scalar itersolution = itersolution +  iteration

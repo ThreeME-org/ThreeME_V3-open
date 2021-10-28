@@ -52,13 +52,10 @@ if %scenario_name = "protechno" then
    {%modelname}.scenario(n, a=2) {%scenario_name}
 
    call load_excel("France", "scenarii", "reduction_protechno")
-   call load_excel("France", "scenarii", "fittarget shock")
    
   for %c ccro ccra ccbr ccfl ccel ccwa ccot cdem csit cdri
      call interpolate("INV_REDUC_"+%c)
   next
-
-   call interpolate("PSM_CNRJ")
 
    call solvemodel(%solveopt) 
 
@@ -116,15 +113,12 @@ if %scenario_name = "protechno_123" then
    call load_excel("France", "scenarii", "reduction_protechno")
    call load_excel("France", "scenarii", "restauration_protechno")
    call load_excel("France", "scenarii", "resilience_protechno")
-   call load_excel("France", "scenarii", "fittarget shock")
    
   for %c ccro ccra ccbr ccfl ccel ccwa ccot cdem csit cdri
      call interpolate("INV_REDUC_"+%c)
      call interpolate("INV_RESTAU_"+%c)
      call interpolate("INV_RESI_"+%c)
   next
-
-   call interpolate("PSM_CNRJ")
 
    call solvemodel(%solveopt) 
 
@@ -138,8 +132,8 @@ if %scenario_name = "sobriete" then
   ' Create a new scenario that can be compared with the baseline
    {%modelname}.scenario(n, a=2) {%scenario_name}
 
-   call load_excel("France", "scenarii", "reduction_sobriete")
-   
+   call load_excel("France", "scenarii", "reduction_sobriete")    
+
   for %c ccro ccra ccbr ccfl ccel ccwa ccot cdem csit cdri
      call interpolate("INV_REDUC_"+%c)
   next
@@ -214,6 +208,59 @@ if %scenario_name = "sobriete_123" then
    ' Exit subroutine
     return
  endif
+
+
+if %scenario_name = "protechno_123bis" then
+  ' Create a new scenario that can be compared with the baseline
+   {%modelname}.scenario(n, a=2) {%scenario_name}
+
+   call load_excel("France", "scenarii", "reduction_protechno")
+   call load_excel("France", "scenarii", "restauration_protechno")
+   call load_excel("France", "scenarii", "resilience_protechno")
+   call load_excel("France", "scenarii", "fittarget shock")  
+   
+  for %c ccro ccra ccbr ccfl ccel ccwa ccot cdem csit cdri
+     call interpolate("INV_REDUC_"+%c)
+     call interpolate("INV_RESTAU_"+%c)
+     call interpolate("INV_RESI_"+%c)
+  next
+
+   call interpolate("PSM_CNRJ")
+
+   call solvemodel(%solveopt) 
+
+   call outputs(%scenario_name)
+
+   ' Exit subroutine
+    return
+ endif
+
+
+if %scenario_name = "sobriete_123bis" then
+  ' Create a new scenario that can be compared with the baseline
+   {%modelname}.scenario(n, a=2) {%scenario_name}
+
+   call load_excel("France", "scenarii", "reduction_sobriete")
+   call load_excel("France", "scenarii", "restauration_sobriete")
+   call load_excel("France", "scenarii", "resilience_sobriete")
+   call load_excel("France", "scenarii", "fittarget shock_2")     
+
+  for %c ccro ccra ccbr ccfl ccel ccwa ccot cdem csit cdri
+     call interpolate("INV_REDUC_"+%c)
+     call interpolate("INV_RESTAU_"+%c)
+     call interpolate("INV_RESI_"+%c)
+  next
+
+   call interpolate("PSM_CNRJ")
+
+   call solvemodel(%solveopt) 
+
+   call outputs(%scenario_name)
+
+   ' Exit subroutine
+    return
+ endif
+
 
  if %scenario_name = "carbontax_s1" then
   ' Create a new scenario that can be compared with the baseline
