@@ -359,8 +359,8 @@ subroutine savetoexcel(string %groupresult, string %filemane,  string %duplicate
     ' Defines the path of the duplicated template with the date (for windows shell)
     %pathfile2 = ".\..\..\results\"+{%date}+"_"+%filemane
     ' Defines the command for windows shell: duplicates the template under another name
-    %cmd = "copy  "+%pathfile2 
-    shell(h) {%cmd}
+    %cmd = "copy  "+%pathfile+" "+%pathfile2 
+    shell(h) {%cmd}                   
 
     ' Defines the path of the duplicated template (for the wfsave command of Eviews)
     %pathfile2b = ".\..\..\results\"+{%date}+"_"+%filemane
