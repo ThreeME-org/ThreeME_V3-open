@@ -353,13 +353,13 @@ subroutine savetoexcel(string %groupresult, string %filemane,  string %duplicate
     '@uiprompt(@addquotes({%date}))
 
     ' Defines the path of the template (for windows shell)
-    %pathfile = "..\..\results\"+%filemane
+    %pathfile = ".\..\..\results\"+%filemane
     '@uiprompt(@addquotes(%pathfile))
 
     ' Defines the path of the duplicated template with the date (for windows shell)
-    %pathfile2 = "..\..\results\"+{%date}+"_"+%filemane
+    %pathfile2 = ".\..\..\results\"+{%date}+"_"+%filemane
     ' Defines the command for windows shell: duplicates the template under another name
-    %cmd = "copy "+%pathfile+" "+%pathfile2 
+    %cmd = "copy  "+%pathfile2 
     shell(h) {%cmd}
 
     ' Defines the path of the duplicated template (for the wfsave command of Eviews)
