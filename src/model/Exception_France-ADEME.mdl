@@ -12,7 +12,7 @@ PhiY_toe[cele, sewi] = 1 - PhiY_toe[cele, SECH] - PhiY_toe[cele, SECO]- PhiY_toe
 ### Fitting baseline GDP
 
 ##! Labor technical progress gain
-#log(1 + GR_PROG[L, s]) = d(log(GDP_trend)) - d(log(POP))
+log(1 + GR_PROG[L, s]) = d(log(GDP_trend)) - d(log(POP))
 
 ##! Government expenditures
 d(log(EXPG)) = d(log(GDP_trend)) + 0.5 * GDP_cont
