@@ -115,7 +115,8 @@ endif
 '************************************************
 ' ***************************************
 ' Call here the subroutine you want to use to solve the shock
-call run_scenario("baseline-steady")
+call run_scenario("baseline")
+'call run_scenario("baseline-steady")
 
 'call run_scenario("share_elec_enr")
 call run_scenario("carbontax_s1")

@@ -38,7 +38,7 @@ subroutine run_scenario(string %scenario_name)
     call load_excel("France", "scenarii", "baseline")
     ' call load_excel("France", "scenarii", "baseline_fittarget")
     ' Interpolate the variables in the list
-    call interpolate("POP GDP_TREND PWD_COIL PWD_CFUT PWD_CFUH PWD_CGAS PHIY_TOE_CELE_SEWI")
+    call interpolate("POP GDP_TREND PWD_CCOI PWD_CFUT PWD_CFUH PWD_CGAS PHIY_TOE_CELE_SEWI")
 
     ' #### Simulate the scenario by solving the model
     smpl {%baseyear} @last
