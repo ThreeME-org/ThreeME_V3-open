@@ -20,7 +20,8 @@ d(log(X_toe[ce])) = d(log(X[ce])) if X_toe[ce] <> 0
 ## The total net supply is equal to the total end use. Net supply is the supply consistent with the national account concept of production, that is the physical quantity actually bought by the end user. Compared to the gross supply, it has been corrected from the distribution losses and the auto-consumption of energy producers that do not have any corresponding financial transaction. \\
 
 ##! Net production of energy $ce$, expressed in toe
-Y_toe[ce] + M_toe[ce] = CI_toe[ce] + CH_toe[ce] + X_toe[ce] if Y_toe[ce] <> 0
+Y_toe[ce] + M_toe[ce] = CI_toe[ce] + CH_toe[ce] + X_toe[ce] + (Y_toe[ce]{-1} <= 0.01)*(0.01)  if Y_toe[ce] <> 0
+
 ## Net production regroups the primary (indigenous) production (including Recovered & recycled products) and the secondary production (energy transformation output) of the energy balance. Depending on the energy source, this variable is (mainly) a primary or a secondary production: e.g., primary for crude oil and natural gaz; secondary, for electricity. \\
 
 ##! Imported net production of energy $ce$, expressed in toe
@@ -75,7 +76,8 @@ d(log(DLY_toe[ce, s])) = d(log(Y_toe[ce, s])) if DLY_toe[ce, s] <> 0
 d(log(DLM_toe[ce])) = d(log(M_toe[ce])) 	if DLM_toe[ce] <> 0
 
 ##! Auto-consumption of energy $ce$ by producer $s$, expressed in toe
-d(log(AC_toe[ce, s])) = d(log(Y_toe[ce, s])) if AC_toe[ce, s] <> 0
+
+d(log(AC_toe[ce, s])) = d(log(Y_toe[ce,s])) if AC_toe[ce, s] <> 0                                                                                 
 ## These are mainly the auto-consumption of electricity by electricity producers. This equation allows for taking into account the fact that the loss rate differs per technology. \\
 
 ##! Gross production of energy $ce$, expressed in toe

@@ -214,5 +214,13 @@ Verif_Y_toe = sum(Y_toe[sagg] on sagg) - Y_toe
 ## To be deleted : when the addfactor error is corrected
 # @over verif_PhiY[ce, s] = 0
 
+## Redistribution
 
+@over REDIS_H = T2VAL_CH + T2VAL_SEC                    
+@over REDIS_SEC = 0
+@over INC_SOC_TAX_VAL  = RINC_SOC_TAX * DISPINC_BT_VAL - REDIS_H * REDIS_CT_H
+@over NTAXS_VAL[s] 	 = 	 RNTAXS[s]	* PY[s]	    * Y[s] + T2VAL_MAT[s] + T2VAL_Y[s] - REDIS_SEC * F[L,s]/F[L] * REDIS_CT_LS
+@over RSC[s] * PRSC[s] = W[s] * F[L, s] * RRSC[s] - REDIS_SEC * F[L,s]/F[L] * REDIS_CT_RRSC
 
+## Politique monétaire
+@over d(R_n)      = RHO_Rn_Cons + d(d(P)/P{-1})

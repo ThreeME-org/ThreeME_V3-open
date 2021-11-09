@@ -82,7 +82,21 @@ subroutine run_scenario(string %scenario_name)
     return
  endif
 
+if %scenario_name <> "carbon_tax_s1" and %scenario_name <> "share_elec_enr" then
 
+  ' Create a new scenario that can be compared with the baseline
+   {%modelname}.scenario(n, a=2) {%scenario_name}
+
+    ' Load the data 
+    call load_excel("France", "scenarii", %scenario_name)
+
+   call solvemodel(%solveopt) 
+
+   call outputs
+return
+endif
+
+   ' Exit subroutine
 
 endsub
 
@@ -335,7 +349,29 @@ group Consumption {%consumption}
 
     group Baseline {%baseline}  
 
-call savetoexcel("Hybrid Transports Energy_Mix Primary_nrj Final_nrj Emissions Macro Labor Value_Added INV Consumption Baseline", "Result_France.xlsx", "YES")
+'CAPITAL BLOCK
+%capital = " F_K_2 F_K_0 "    
+    
+    for %s {%list_sec}
+      %capital = %capital + " F_K_"+%s+"_2" + " F_K_"+%s+"_0"
+    next
+    
+group Capital {%capital}
+
+'PRODUCTION BLOCK
+%production = " Y_2 Y_0 "    
+    
+    for %s {%list_sec}
+      %production = %production + " Y_"+%s+"_2" + " Y_"+%s+"_0"
+    next
+    
+group Production {%production}
+        
+'output for carbon tax
+%carbontax = "T2VAL_CH_0 T2VAL_CH_2 T2VAL_SEC_0 T2VAL_SEC_2 T2VAL_CI_0 T2VAL_CI_2 T2VAL_Y_0 T2VAL_Y_2 T2VAL_MAT_0 T2VAL_MAT_2"
+group Carbontax {%carbontax}
+    
+call savetoexcel("Hybrid Transports Energy_Mix Primary_nrj Final_nrj Emissions Macro Labor Value_Added INV Consumption Baseline Capital Production Carbontax", "Result_France.xlsx", "YES")
 
 endsub
 ' ============================================================================

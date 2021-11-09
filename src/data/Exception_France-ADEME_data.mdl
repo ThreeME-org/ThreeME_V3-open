@@ -159,3 +159,7 @@ Verif_Y_toe := sum(Y_toe[sagg] on sagg) - Y_toe
 
 ## Labor Aumenting Factor
 #GR_PROG_L := 1
+
+## Redistribution ménages / entreprises
+REDIS_H:=0
+REDIS_SEC:=0

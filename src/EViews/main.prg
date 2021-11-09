@@ -32,4 +32,3 @@ call run("new", "warnings")
 
 smpl %baseyear @last
 
-
