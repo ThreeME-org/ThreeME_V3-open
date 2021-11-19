@@ -224,3 +224,18 @@ Verif_Y_toe = sum(Y_toe[sagg] on sagg) - Y_toe
 
 ## Politique monétaire
 @over d(R_n)      = RHO_Rn_Cons + d(d(P)/P{-1})
+
+# List of fossil fuel commodities
+%list_com_fossil := ccoa ccoi cfut cfuh cgaz
+fo in %list_com_fossil
+
+# List of non-fossil fuel commodities
+%list_com_non_fossil := cagr cfor cfoo cveh cgla cpap cche cpla cmet cigo ccgo ccon crai croa cwat cair cpri cpub cmin cele chea cbio cote
+nfo in %list_com_non_fossil
+
+## Termes de l'échange
+PWD[nfo]=TOT[nfo]*PX[nfo]
+
+## Problème comptable sur la production domestique de gaz naturel
+#@over Y_toe[cgas] + M_toe[cgas] = CI_toe[cgas] + CH_toe[cgas] + X_toe[cgas] + (Y_toe[cgas]{-1} <= 3.8)*(4.8)  if Y_toe[cgas] <> 0
+@over Y_toe[cgas]=4.238694
