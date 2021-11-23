@@ -239,3 +239,13 @@ PWD[nfo]=TOT[nfo]*PX[nfo]
 ## Problème comptable sur la production domestique de gaz naturel
 #@over Y_toe[cgas] + M_toe[cgas] = CI_toe[cgas] + CH_toe[cgas] + X_toe[cgas] + (Y_toe[cgas]{-1} <= 3.8)*(4.8)  if Y_toe[cgas] <> 0
 @over Y_toe[cgas]=4.238694
+
+## Modification de l'intensité des émissions avec l'évolution du mix énergétique
+@over d(log(EMS_CI[ghg,cfut,s])) = d(log(CI[cfut,s]   * IEMS_CI[ghg,cfut,s] * PhiY_toe[cfut,soil]))              if EMS_CI[ghg,cfut,s] <> 0
+@over d(log(EMS_CI[ghg,cfuh,s])) = d(log(CI[cfuh,s]   * IEMS_CI[ghg,cfuh,s] * PhiY_toe[cfuh,soil]))              if EMS_CI[ghg,cfuh,s] <> 0
+@over d(log(EMS_CI[ghg,cgas,s])) = d(log(CI[cgas,s]   * IEMS_CI[ghg,cgas,s] * (PhiY_toe[cgas,sgas] + PhiY_toe[cgas,smet] + PhiY_toe[cgas,soil] ) ))              if EMS_CI[ghg,cgas,s] <> 0
+
+##! Emissions of the greenhouse gas $ghg$ related to the household consumption $c$
+@over d(log(EMS_CH[ghg,cfut]))   = d(log(CH[cfut]     * IEMS_CH[ghg,cfut] * PhiY_toe[cfut,soil] ))               if EMS_CH[ghg,cfut] <> 0
+@over d(log(EMS_CH[ghg,cfuh]))   = d(log(CH[cfuh]     * IEMS_CH[ghg,cfuh] * PhiY_toe[cfuh,soil] ))               if EMS_CH[ghg,cfuh] <> 0
+@over d(log(EMS_CH[ghg,cgas]))   = d(log(CH[cgas]     * IEMS_CH[ghg,cgas] * (PhiY_toe[cgas,sgas] + PhiY_toe[cgas,smet] + PhiY_toe[cgas,soil] ) )) if EMS_CH[ghg,cgas] <> 0             
