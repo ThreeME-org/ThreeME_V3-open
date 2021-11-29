@@ -11,12 +11,12 @@ include ..\model\lists
 
 
 ### absolute value transformation from the loading
-ELAS_KL[s] := -ELAS($s,1)
-ELAS_KE[s] := -ELAS($s,2)
-ELAS_KM[s] := -ELAS($s,3)
-ELAS_LE[s] := -ELAS($s,4)
-ELAS_LM[s] := -ELAS($s,5)
-ELAS_EM[s] := -ELAS($s,6)
+ELAS_KL[s] := ELAS($s,1)
+ELAS_KE[s] := ELAS($s,2)
+ELAS_KM[s] := ELAS($s,3)
+ELAS_LE[s] := ELAS($s,4)
+ELAS_LM[s] := ELAS($s,5)
+ELAS_EM[s] := ELAS($s,6)
 
 
 @over ES[K, L, s] := ELAS_KL[s]

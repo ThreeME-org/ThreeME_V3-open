@@ -10,7 +10,7 @@ subroutine load_calibration
   matrix(80,9) TRANSPORT                                  ' Matrix of the TRANSPORT block data
   TRANSPORT.read(D5,s=TRANSPORT)  .\..\..\data\France\DATA_TRANSPORT.xls
 
-  matrix(17,6) ELAS                                  ' Matrix of the ELASTICTIES block data
-ELAS.read(C2,s = ELAS)  .\..\..\data\France\DATA_ELAS.xls
+  matrix(32,6) ELAS                                  ' Matrix of the ELASTICTIES block data
+ELAS.read(B3,s = ELAS)  .\..\..\data\France\DATA_ELAS.xls
 
 endsub
