@@ -1,0 +1,36 @@
+########################################
+### Calibration of parameters
+########################################
+
+################################
+### Elasticities of substitution -estimated from WIOD
+################################
+
+include ..\model\lists
+
+
+
+### absolute value transformation from the loading
+ELAS_KL[s] := -ELAS($s,1)
+ELAS_KE[s] := -ELAS($s,2)
+ELAS_KM[s] := -ELAS($s,3)
+ELAS_LE[s] := -ELAS($s,4)
+ELAS_LM[s] := -ELAS($s,5)
+ELAS_EM[s] := -ELAS($s,6)
+
+
+@over ES[K, L, s] := ELAS_KL[s]
+@over ES[K, E, s] := ELAS_KE[s]
+@over ES[K, M, s] := ELAS_KM[s]
+
+@over ES[L, K, s] := ELAS_KL[s]
+@over ES[L, E, s] := ELAS_LE[s]
+@over ES[L, M, s] := ELAS_LM[s]
+
+@over ES[E, K, s] := ELAS_KE[s]
+@over ES[E, L, s] := ELAS_LE[s]
+@over ES[E, M, s] := ELAS_EM[s]
+
+@over ES[M, K, s] := ELAS_KM[s]
+@over ES[M, L, s] := ELAS_LM[s]
+@over ES[M, E, s] := ELAS_EM[s]
