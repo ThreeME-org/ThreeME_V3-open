@@ -258,6 +258,7 @@ group Final_nrj {%final_nrj}
       %emissions = %emissions + " EMS_"+%sagg+"_2" + " EMS_"+%sagg+"_0" 
     next
 %emissions = %emissions + " EMS_CH_ccoa_2+EMS_CI_ccoa_2 EMS_CH_cfut_2+EMS_CI_cfut_2 EMS_CH_cfuh_2+EMS_CI_cfuh_2 EMS_CH_cgas_2+EMS_CI_cgas_2 EMS_CH_cbio_2+EMS_CI_cbio_2 EMS_CH_ccoa_0+EMS_CI_ccoa_0 EMS_CH_cfut_0+EMS_CI_cfut_0 EMS_CH_cfuh_0+EMS_CI_cfuh_0 EMS_CH_cgas_0+EMS_CI_cgas_0 EMS_CH_cbio_0+EMS_CI_cbio_0 "
+%emissions = %emissions + " EMS_CO2_0 EMS_CI_CO2_0 EMS_Y_CO2_0 EMS_MAT_CO2_0 EMS_CH_CO2_0 EMS_CO2_2 EMS_CI_CO2_2 EMS_Y_CO2_2 EMS_MAT_CO2_2 EMS_CH_CO2_2"
 
 group Emissions {%emissions}
 

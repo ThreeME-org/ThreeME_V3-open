@@ -45,29 +45,47 @@ ES_NRJ[ce, cee, s] := 0.2
 
 ## Between transport intermediary consumption
 ES_TRSP[ct, ctt, s] := 0.2
-
+@over ES_TRSP[cair, crai, s] := 0.3
+@over ES_TRSP[cair, croa, s] := 0.1
+@over ES_TRSP[cair, cwat, s] := 0.01
+@over ES_TRSP[crai, cair, s] := 0.3
+@over ES_TRSP[crai, croa, s] := 0.2
+@over ES_TRSP[crai, cwat, s] := 0.2
+@over ES_TRSP[croa, cair, s] := 0.1
+@over ES_TRSP[croa, crai, s] := 0.2
+@over ES_TRSP[croa, cwat, s] := 0.4
 
 ## Between domestic and imported commodities for margins supplied, private and public consumption, investment and exports
-ES_CHM[c] := 0.6
-ES_GM[c] := 0.6
-ES_IM[c] := 0.6
-ES_XM[c] := 0.6
+ES_CHM[c] := 0.8
+ES_GM[c] := 0.8
+ES_IM[c] := 0.8
+ES_XM[c] := 0.8
 
 @over ES_CHM[ce] := 0.0
 @over ES_GM[ce] := 0.0
 @over ES_IM[ce] := 0.0
 @over ES_XM[ce] := 0.0
 
-ES_MGSM[m] := 0.6
+@over ES_CHM[cele] := 0.8
+@over ES_GM[cele] := 0.8
+@over ES_IM[cele] := 0.8
+@over ES_XM[cele] := 0.8
 
-ES_CIM[c, s] := 0.6
-ES_IM[c, s] := 0.6
+ES_MGSM[m] := 0.8
+
+ES_CIM[c, s] := 0.8
+ES_IM[c, s] := 0.8
 
 @over ES_CIM[ce, s] := 0.0
 @over ES_IM[ce, s] := 0.0
 
+@over ES_CIM[cele, s] := 0.8
+@over ES_IM[cele, s] := 0.8
+
 ## Between exported and the rest of world commodities sold abroad
-ES_X[c] := 0.6
+ES_X[c] := 0.8
+@over ES_X[ce]:=0
+@over ES_X[cele]:=0.8
 
 ################################
 ### Other elasticities

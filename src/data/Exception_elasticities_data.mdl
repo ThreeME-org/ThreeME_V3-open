@@ -34,3 +34,49 @@ ELAS_EM[s] := ELAS($s,6)
 @over ES[M, K, s] := ELAS_KM[s]
 @over ES[M, L, s] := ELAS_LM[s]
 @over ES[M, E, s] := ELAS_EM[s]
+
+### NRJ value transformation from the loading
+
+@over ES_NRJ_NRJ[CBIO,ce, s] := 0
+@over ES_NRJ[ce,CBIO, s] := 0
+@over ES_NRJ[CHEA,ce, s] := 0
+@over ES_NRJ[ce,CHEA, s] := 0
+
+@over ES_NRJ[CCOA,CCOI, s] := ELAS_NRJ($s,1)
+@over ES_NRJ[CCOI,CCOA, s] := ELAS_NRJ($s,1)
+
+@over ES_NRJ[CCOA,CFUH, s] := ELAS_NRJ($s,1)
+@over ES_NRJ[CFUH,CCOA, s] := ELAS_NRJ($s,1)
+
+@over ES_NRJ[CCOA,CFUT, s] := ELAS_NRJ($s,1)
+@over ES_NRJ[CFUT,CCOA, s] := ELAS_NRJ($s,1)
+
+@over ES_NRJ[CCOA,CELE, s] := ELAS_NRJ($s,2)
+@over ES_NRJ[CELE,CCOA, s] := ELAS_NRJ($s,2)
+
+@over ES_NRJ[CCOA,CGAS, s] := ELAS_NRJ($s,3)
+@over ES_NRJ[CGAS,CCOA, s] := ELAS_NRJ($s,3)
+
+@over ES_NRJ[CCOI,CELE, s] := ELAS_NRJ($s,4)
+@over ES_NRJ[CELE,CCOI, s] := ELAS_NRJ($s,4)   
+
+@over ES_NRJ[CFUH,CELE, s] := ELAS_NRJ($s,4)
+@over ES_NRJ[CELE,CFUH, s] := ELAS_NRJ($s,4)  
+
+@over ES_NRJ[CFUT,CELE, s] := ELAS_NRJ($s,4)
+@over ES_NRJ[CELE,CFUT, s] := ELAS_NRJ($s,4)
+
+@over ES_NRJ[CFUH,CGAS, s] := ELAS_NRJ($s,5)
+@over ES_NRJ[CGAS,CFUH, s] := ELAS_NRJ($s,5)  
+
+@over ES_NRJ[CFUT,CGAS, s] := ELAS_NRJ($s,5)
+@over ES_NRJ[CGAS,CFUT, s] := ELAS_NRJ($s,5)   
+
+@over ES_NRJ[CFUH,CGAS, s] := ELAS_NRJ($s,5)
+@over ES_NRJ[CGAS,CFUH, s] := ELAS_NRJ($s,5) 
+
+@over ES_NRJ[CELE,CGAS, s] := ELAS_NRJ($s,6)
+@over ES_NRJ[CGAS,CELE, s] := ELAS_NRJ($s,6)     
+
+@over ES_NRJ[CFUH,CELE, s] := ELAS_NRJ($s,5)
+@over ES_NRJ[CELE,CFUH, s] := ELAS_NRJ($s,5)  

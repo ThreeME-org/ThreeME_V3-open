@@ -120,7 +120,7 @@ call run_scenario("baseline")
 
 'call run_scenario("share_elec_enr")
 call run_scenario("nz50")
-
+'call run_scenario("nz50_2")
 ' ****************************************
 'call run_standard("EXR10 RSSC1 VAT1 INCT1 WD1 FF10 CT1", %iso3, 1) ' Option: 1 for result in excel template; 0 only scenario run
 

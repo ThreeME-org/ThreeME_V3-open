@@ -13,4 +13,7 @@ subroutine load_calibration
   matrix(32,6) ELAS                                  ' Matrix of the ELASTICTIES block data
 ELAS.read(B3,s = ELAS)  .\..\..\data\France\DATA_ELAS.xls
 
+  matrix(32,6) ELAS_NRJ                                  ' Matrix of the ENERGY ELASTICTIES block data
+ELAS_NRJ.read(B3,s = ELAS_NRJ)  .\..\..\data\France\DATA_ELAS_NRJ.xls
+
 endsub
