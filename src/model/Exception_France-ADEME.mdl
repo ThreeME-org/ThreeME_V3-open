@@ -238,6 +238,3 @@ Verif_Y_toe = sum(Y_toe[sagg] on sagg) - Y_toe
 @over d(log(EMS_CH[ghg,cfut]))   = d(log(CH[cfut]     * IEMS_CH[ghg,cfut] * PhiY_toe[cfut,soil] ))               if EMS_CH[ghg,cfut] <> 0
 @over d(log(EMS_CH[ghg,cfuh]))   = d(log(CH[cfuh]     * IEMS_CH[ghg,cfuh] * PhiY_toe[cfuh,soil] ))               if EMS_CH[ghg,cfuh] <> 0
 @over d(log(EMS_CH[ghg,cgas]))   = d(log(CH[cgas]     * IEMS_CH[ghg,cgas] * (PhiY_toe[cgas,sgas] + PhiY_toe[cgas,smet] + PhiY_toe[cgas,soil] ) )) if EMS_CH[ghg,cgas] <> 0
-           
-## Termes de l'échange
-@over PWD[nfo]=TOT[nfo]*PX[nfo]
