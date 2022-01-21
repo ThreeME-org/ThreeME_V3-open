@@ -7,7 +7,7 @@
 %firstdate = "2012"
 ' Input the base year used for the calibration
 %baseyear = "2015"
-
+       
 ' Set the end of the sample
 %lastdate = "2050"
 ' Data calibrations to be used in the model run - file names are space-separated and found inside data\calibration

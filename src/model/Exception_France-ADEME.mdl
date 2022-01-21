@@ -1,6 +1,5 @@
 ##### Exception equations for ThreeME - France - ADEME
 
-
 #### Additional equations to fit scenarii 
 
 ##! Share of electicity produced by wind sector (national account definition)
@@ -80,16 +79,20 @@ T2VOL_CI[ghg,c] = T2VAL_CI[ghg,c]/PCH
 T2VOL_CI[ghg] = sum(T2VOL_CI[ghg,c] on c)
 
 ##! Carbon tax rate on the greenhouse gas $ghg$ associated to the intermediary consumption of commodity $c$ by the sector $s$
-R2_CI_CO2[c,s] = RCO2TAX_VOL*((@year<=2021)+(@year>2021)*(PCH/@elem(PCH,2021)}))
+@over R2_CI_CO2[c,s] = RCO2TAX_VOL*((@year <= 2021 )+(@year > 2021)*(PCH{-1}/@elem(PCH,2020)))
+@over R2_CI_CO2[c,s] = RCO2TAX_VOL*((@year <= 2021 )+(@year > 2021)*(PCH{-1}/@elem(PCH,2020)))
 
 ##! Carbon tax rate on the greenhouse gas $ghg$ associated to the material consumption of the sector $s$
-R2_MAT_CO2[s]= RCO2TAX_VOL*((@year<=2021)+(@year>2021)*(PCH/@elem(PCH,2021)}))
-
+@over R2_MAT_CO2[s]= RCO2TAX_VOL*((@year <= 2021 )+(@year > 2021)*(PCH{-1}/@elem(PCH,2020)))
+@over R2_MAT_CO2[s]= RCO2TAX_VOL*((@year <= 2021 )+(@year > 2021)*(PCH{-1}/@elem(PCH,2020)))
+ 
 ##! Carbon tax rate on the greenhouse gas $ghg$ associated to the final production of the sector $s$
-R2_Y_CO2[s] = RCO2TAX_VOL*((@year<=2021)+(@year>2021)*(PCH/@elem(PCH,2021)}))
+@over R2_Y_CO2[s] = RCO2TAX_VOL*((@year <= 2021 )+(@year > 2021)*(PCH{-1}/@elem(PCH,2020)))
+@over R2_Y_CO2[s] = RCO2TAX_VOL*((@year <= 2021 )+(@year > 2021)*(PCH{-1}/@elem(PCH,2020)))
 
 ##! Carbon tax rate on the greenhouse gas $ghg$ associated to the household final consumption of the sector $s$
-R2_CH_CO2[c] = RCO2TAX_VOL*((@year<=2021)+(@year>2021)*(PCH/@elem(PCH,2021)}))
+@over R2_CH_CO2[c] = RCO2TAX_VOL*((@year <= 2021 )+(@year > 2021)*(PCH{-1}/@elem(PCH,2020)))
+@over R2_CH_CO2[c] = RCO2TAX_VOL*((@year <= 2021 )+(@year > 2021)*(PCH{-1}/@elem(PCH,2020)))
 
 ##! Investment in agregate sector 
 IA_IND  = sum(IA[sind]  on sind)
@@ -220,15 +223,11 @@ Verif_Y_toe = sum(Y_toe[sagg] on sagg) - Y_toe
 @over REDIS_SEC = 0.5*(T2VAL_CH + T2VAL_SEC)  
 @over INC_SOC_TAX_VAL  = RINC_SOC_TAX * DISPINC_BT_VAL - REDIS_H * REDIS_CT_H
 @over NTAXS_VAL[s] 	 = 	 RNTAXS[s]	* PY[s]	    * Y[s] + T2VAL_Y[s] + T2VAL_MAT[s] - REDIS_SEC * Y[s]/Y * REDIS_CT_LS
-@over RSC[s] * PRSC[s] = W[s] * F[L, s] * RRSC[s] - REDIS_SEC * F[L,s]/F[L] * REDIS_CT_RRSC
+@over RSC[s] * PRSC[s] = W[s] * F[L, s] * RRSC[s] - REDIS_SEC * Y[s]/Y * REDIS_CT_RRSC
 
 ## Politique monétaire
-@over d(R_n)      = RHO_Rn_Cons + d(d(P)/P{-1}) + (d(P)/P{-1} - 0.02)
-#@over d(R_n)      = RHO_Rn_Cons + d(d(P)/P{-1})
-
-## Problème comptable sur la production domestique de gaz naturel
-#@over Y_toe[cgas] + M_toe[cgas] = CI_toe[cgas] + CH_toe[cgas] + X_toe[cgas] + (Y_toe[cgas]{-1} <= 3.8)*(4.8)  if Y_toe[cgas] <> 0
-@over Y_toe[cgas]=4.238694
+#@over d(R_n)      = RHO_Rn_Cons + d(d(P)/P{-1}) + 0.05*(d(P)/P{-1} - 0.02)
+@over d(R_n)      = RHO_Rn_Cons + d(d(P)/P{-1})
 
 ## Modification de l'intensité des émissions des CI avec l'évolution du mix énergétique
 @over d(log(EMS_CI[ghg,cfut,s])) = d(log(CI[cfut,s]   * IEMS_CI[ghg,cfut,s] * PhiY_toe[cfut,soil]))              if EMS_CI[ghg,cfut,s] <> 0
@@ -238,4 +237,7 @@ Verif_Y_toe = sum(Y_toe[sagg] on sagg) - Y_toe
 ## Modification de l'intensité des émissions de la CH avec l'évolution du mix énergétique
 @over d(log(EMS_CH[ghg,cfut]))   = d(log(CH[cfut]     * IEMS_CH[ghg,cfut] * PhiY_toe[cfut,soil] ))               if EMS_CH[ghg,cfut] <> 0
 @over d(log(EMS_CH[ghg,cfuh]))   = d(log(CH[cfuh]     * IEMS_CH[ghg,cfuh] * PhiY_toe[cfuh,soil] ))               if EMS_CH[ghg,cfuh] <> 0
-@over d(log(EMS_CH[ghg,cgas]))   = d(log(CH[cgas]     * IEMS_CH[ghg,cgas] * (PhiY_toe[cgas,sgas] + PhiY_toe[cgas,smet] + PhiY_toe[cgas,soil] ) )) if EMS_CH[ghg,cgas] <> 0             
+@over d(log(EMS_CH[ghg,cgas]))   = d(log(CH[cgas]     * IEMS_CH[ghg,cgas] * (PhiY_toe[cgas,sgas] + PhiY_toe[cgas,smet] + PhiY_toe[cgas,soil] ) )) if EMS_CH[ghg,cgas] <> 0
+           
+## Termes de l'échange
+@over PWD[nfo]=TOT[nfo]*PX[nfo]
