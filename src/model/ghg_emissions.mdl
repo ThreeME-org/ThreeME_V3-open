@@ -133,4 +133,3 @@ EMS            = EMS_CI + EMS_MAT + EMS_Y + EMS_CH
 ##! Aggregate emissions by type of gas $ghg$
 EMSbis         = sum( EMS[ghg]        if EMS[ghg]        <> 0 on ghg )
 
-

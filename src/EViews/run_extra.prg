@@ -82,7 +82,7 @@ subroutine run_scenario(string %scenario_name)
     return
  endif
 
-if %scenario_name <> "carbon_tax_s1" and %scenario_name <> "share_elec_enr" then
+if %scenario_name="nz50" then
 
   ' Create a new scenario that can be compared with the baseline
    {%modelname}.scenario(n, a=2) {%scenario_name}
@@ -260,10 +260,16 @@ group Final_nrj {%final_nrj}
 %emissions = %emissions + " EMS_CH_ccoa_2+EMS_CI_ccoa_2 EMS_CH_cfut_2+EMS_CI_cfut_2 EMS_CH_cfuh_2+EMS_CI_cfuh_2 EMS_CH_cgas_2+EMS_CI_cgas_2 EMS_CH_cbio_2+EMS_CI_cbio_2 EMS_CH_ccoa_0+EMS_CI_ccoa_0 EMS_CH_cfut_0+EMS_CI_cfut_0 EMS_CH_cfuh_0+EMS_CI_cfuh_0 EMS_CH_cgas_0+EMS_CI_cgas_0 EMS_CH_cbio_0+EMS_CI_cbio_0 "
 %emissions = %emissions + " EMS_CO2_0 EMS_CI_CO2_0 EMS_Y_CO2_0 EMS_MAT_CO2_0 EMS_CH_CO2_0 EMS_CO2_2 EMS_CI_CO2_2 EMS_Y_CO2_2 EMS_MAT_CO2_2 EMS_CH_CO2_2"
 
+    for %soo {%list_sec_CO}
+      %emissions = %emissions + " EMS_CI_CO2_"+%soo+"_2" + " EMS_CI_CO2_"+%soo+"_0"
+    next
+    
+%emissions = %emissions + " EMS_Y_CO2_SAGR_2" + " EMS_MAT_CO2_SPUB_2" + " EMS_MAT_CO2_SGLA_2" +  " EMS_Y_CO2_SAGR_0" + " EMS_MAT_CO2_SPUB_0" + " EMS_MAT_CO2_SGLA_0" 
+
 group Emissions {%emissions}
 
 ' MACRO OUTPUT BLOCK 
-%macro = " 100*(GDP_2/GDP_0-1) 100*((VA_2-VA_spub_2)/(VA_0-VA_spub_0)-1) 100*((CH_2-CH_0)/GDP_0) 100*((CH_cveh_2-CH_cveh_0)/GDP_0) 100*((G_2-G_0)/GDP_0) 100*((I_2-I_0)/GDP_0) 100*((DS_2-DS_0)/GDP_0) 100*((X_2-X_0)/GDP_0)-100*((M_2-M_0)/GDP_0) 100*((CH_2-CH_ccon_2-(CH_0-CH_ccon_0))/GDP_0) 100*((I_2+CH_ccon_2-(I_0+CH_ccon_0))/GDP_0) 100*((I_2-IA_spub_2-(I_0-IA_spub_0))/GDP_0) 100*((CH_ccon_2-CH_ccon_0)/GDP_0) 100*((IA_spub_2-IA_spub_0)/GDP_0) 100*(CH_2/CH_0-1) 100*(CH_cveh_2/CH_cveh_0-1) 100*(G_2/G_0-1) 100*(I_2/I_0-1) 100*((I_2-IA_spub_2)/(I_0-IA_spub_0)-1) 100*(X_2/X_0-1) 100*(M_2/M_0-1) 100*((CH_2-CH_ccon_2)/(CH_0-CH_ccon_0)-1) 100*((I_2+CH_ccon_2)/(I_0+CH_ccon_0)-1) 100*((CH_ccon_2)/(CH_ccon_0)-1) 100*((IA_spub_2)/(IA_spub_0)-1) 100*(DISPINC_AT_VAL_2/DISPINC_AT_VAL_0-1) 100*(DISPINC_AT_VAL_2/DISPINC_AT_VAL_0-1)-100*(PCH_2/PCH_0-1) 100*(DISPINC_AT_VAL_2/DISPINC_AT_VAL_0-1)-100*((F_L_2/F_L_0)-1) 100*(DISPINC_AT_VAL_2/DISPINC_AT_VAL_0-1)-100*((F_L_2/F_L_0)-1)-100*(PCH_2/PCH_0-1) 100*(MPS_n_2-MPS_n_0) 100*(PCH_2/PCH_0-1) 100*(PY_2/PY_0-1) 100*(PX_2/PX_0-1) 100*(PM_2/PM_0-1) 100*(W_2/W_0-1) 100*((W_2/PCH_2)/(W_0/PCH_0)-1) 100*(C_L_2/C_L_0-1) 100*((C_L_2/PVA_2)/(C_L_0/PVA_0)-1) ((F_L_2/F_L_0)-1)*100 F_L_2-F_L_0 100*(UnR_2-UnR_0) 100*(Bal_Trade_VAL_2/(GDP_2*PGDP_2)-Bal_Trade_VAL_0/(GDP_0*PGDP_0)) 100*(ENER_BILL_2/(GDP_2*PGDP_2)-ENER_BILL_0/(GDP_0*PGDP_0)) 100*((-Bal_G_prim_VAL_2)/(GDP_2*PGDP_2)-(-Bal_G_prim_VAL_0)/(GDP_0*PGDP_0)) 100*((-Bal_G_tot_VAL_2)/(GDP_2*PGDP_2)-(-Bal_G_tot_VAL_0)/(GDP_0*PGDP_0)) (DEBT_G_VAL_2/(PGDP_2*GDP_2)-DEBT_G_VAL_0/(PGDP_0*GDP_0))*100 GDP_2 (GDPter_2/GDPbis_2-1)*100 SPEND_G_VAL_2 INC_G_VAL_2 Bal_G_tot_VAL_2 DEBT_G_VAL_2 PCH_2 PGDP_2 POP"
+%macro = " 100*(GDP_2/GDP_0-1) 100*((VA_2-VA_spub_2)/(VA_0-VA_spub_0)-1) 100*((CH_2-CH_0)/GDP_0) 100*((CH_cveh_2-CH_cveh_0)/GDP_0) 100*((G_2-G_0)/GDP_0) 100*((I_2-I_0)/GDP_0) 100*((DS_2-DS_0)/GDP_0) 100*((X_2-X_0)/GDP_0)-100*((M_2-M_0)/GDP_0) 100*((CH_2-CH_ccon_2-(CH_0-CH_ccon_0))/GDP_0) 100*((I_2+CH_ccon_2-(I_0+CH_ccon_0))/GDP_0) 100*((I_2-IA_spub_2-(I_0-IA_spub_0))/GDP_0) 100*((CH_ccon_2-CH_ccon_0)/GDP_0) 100*((IA_spub_2-IA_spub_0)/GDP_0) 100*(CH_2/CH_0-1) 100*(CH_cveh_2/CH_cveh_0-1) 100*(G_2/G_0-1) 100*(I_2/I_0-1) 100*((I_2-IA_spub_2)/(I_0-IA_spub_0)-1) 100*(X_2/X_0-1) 100*(M_2/M_0-1) 100*((CH_2-CH_ccon_2)/(CH_0-CH_ccon_0)-1) 100*((I_2+CH_ccon_2)/(I_0+CH_ccon_0)-1) 100*((CH_ccon_2)/(CH_ccon_0)-1) 100*((IA_spub_2)/(IA_spub_0)-1) 100*(DISPINC_AT_VAL_2/DISPINC_AT_VAL_0-1) 100*(DISPINC_AT_VAL_2/DISPINC_AT_VAL_0-1)-100*(PCH_2/PCH_0-1) 100*(DISPINC_AT_VAL_2/DISPINC_AT_VAL_0-1)-100*((F_L_2/F_L_0)-1) 100*(DISPINC_AT_VAL_2/DISPINC_AT_VAL_0-1)-100*((F_L_2/F_L_0)-1)-100*(PCH_2/PCH_0-1) 100*(MPS_n_2-MPS_n_0) 100*(PCH_2/PCH_0-1) 100*(PY_2/PY_0-1) 100*(PX_2/PX_0-1) 100*(PM_2/PM_0-1) 100*(W_2/W_0-1) 100*((W_2/PCH_2)/(W_0/PCH_0)-1) 100*(C_L_2/C_L_0-1) 100*((C_L_2/PVA_2)/(C_L_0/PVA_0)-1) ((F_L_2/F_L_0)-1)*100 F_L_2-F_L_0 100*(UnR_2-UnR_0) 100*(Bal_Trade_VAL_2/(GDP_2*PGDP_2)-Bal_Trade_VAL_0/(GDP_0*PGDP_0)) 100*(ENER_BILL_2/(GDP_2*PGDP_2)-ENER_BILL_0/(GDP_0*PGDP_0)) 100*((-Bal_G_prim_VAL_2)/(GDP_2*PGDP_2)-(-Bal_G_prim_VAL_0)/(GDP_0*PGDP_0)) 100*((-Bal_G_tot_VAL_2)/(GDP_2*PGDP_2)-(-Bal_G_tot_VAL_0)/(GDP_0*PGDP_0)) (DEBT_G_VAL_2/(PGDP_2*GDP_2)-DEBT_G_VAL_0/(PGDP_0*GDP_0))*100 GDP_2 (GDPter_2/GDPbis_2-1)*100 SPEND_G_VAL_2 INC_G_VAL_2 Bal_G_tot_VAL_2 DEBT_G_VAL_2 PCH_2 PGDP_2 PY_2 PM_2 PI_2 PX_2 CU_2 F_L_2 F_K_2 F_E_2 F_MAT_2 W_2 C_L_2 C_K_2 C_E_2 C_MAT_2 (GDPter_0/GDPbis_0-1)*100 SPEND_G_VAL_0 INC_G_VAL_0 Bal_G_tot_VAL_0 DEBT_G_VAL_0 PCH_0 PGDP_0 PY_0 PM_0 PI_0 PX_0 CU_0 F_L_0 F_K_0 F_E_0 F_MAT_0 W_0 C_L_0 C_K_0 C_E_0 C_MAT_0 POP"
 group Macro {%macro}
 
 '%index = "2"
@@ -351,12 +357,12 @@ group Consumption {%consumption}
     group Baseline {%baseline}  
 
 'CAPITAL BLOCK
-%capital = " F_K_2 F_K_0 "    
+%capital = " F_K_2 F_K_0"    
     
     for %s {%list_sec}
-      %capital = %capital + " F_K_"+%s+"_2" + " F_K_"+%s+"_0"
+      %capital = %capital + " F_K_"+%s+"_2" + " F_K_"+%s+"_0" 
     next
-    
+     
 group Capital {%capital}
 
 'PRODUCTION BLOCK
@@ -365,14 +371,32 @@ group Capital {%capital}
     for %s {%list_sec}
       %production = %production + " Y_"+%s+"_2" + " Y_"+%s+"_0"
     next
-    
+        
 group Production {%production}
         
 'output for carbon tax
 %carbontax = "T2VAL_CH_0 T2VAL_CH_2 T2VAL_SEC_0 T2VAL_SEC_2 T2VAL_CI_0 T2VAL_CI_2 T2VAL_Y_0 T2VAL_Y_2 T2VAL_MAT_0 T2VAL_MAT_2"
 group Carbontax {%carbontax}
+
+'output for imports
+%import = "M_2 M_0"
+
+    for %c {%list_trade}
+      %import = %import + " M_"+%c+"_2" + " M_"+%c+"_0"
+    next
+
+group Import {%import}
+
+'output for exports
+%export = "X_2 X_0"
+
+    for %c {%list_trade}
+      %export = %export + " X_"+%c+"_2" + " X_"+%c+"_0"
+    next
+
+group Export {%export}
     
-call savetoexcel("Hybrid Transports Energy_Mix Primary_nrj Final_nrj Emissions Macro Labor Value_Added INV Consumption Baseline Capital Production Carbontax", "Result_France.xlsx", "YES")
+call savetoexcel("Hybrid Transports Energy_Mix Primary_nrj Final_nrj Emissions Macro Labor Value_Added INV Consumption Baseline Capital Production Carbontax Import Export", "Result_France.xlsx", "YES")
 
 endsub
 ' ============================================================================

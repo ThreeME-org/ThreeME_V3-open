@@ -75,6 +75,8 @@ CU_n[s] * Y[s]  = sum(C[f, s] * F_n[f, s] on f) + NTAXS_VAL[s]
 ##! Unit cost of production in sector $s$
 CU[s]   * Y[s]  = sum(C[f, s] * F[f, s]   on f) + NTAXS_VAL[s]
 
+CU   * Y  = sum(CU[s] * Y[s]   on s) 
+
 ##! Labor cost in sector $s$
 C[L, s]   * F[L,s]      =  W[s] * F[L, s] + RSC[s] * PRSC[s]
 

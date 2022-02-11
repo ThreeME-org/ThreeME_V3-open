@@ -109,9 +109,8 @@ sagg in %list_sec_AGGREG
 
 sets in %list_sec_ETS
 snetsi in %list_sec_NETSi
-
-# List of non-fossil fuel commodities
-%list_com_non_fossil := cagr cfor cfoo cveh cgla cpap cche cpla cmet cigo ccgo ccon crai croa cwat cair cpri cpub cmin cfut cfuh cele chea cbio cote
-nfo in %list_com_non_fossil
+trade_com in %list_com_trade
+soo in %list_sec_CO
 
 %baseyear := 2015
+
