@@ -110,7 +110,7 @@ sagg in %list_sec_AGGREG
 sets in %list_sec_ETS
 snetsi in %list_sec_NETSi
 trade_com in %list_com_trade
-soo in %list_sec_CO
+se in %list_sec_CO
 
 %baseyear := 2015
 
