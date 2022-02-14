@@ -11,9 +11,3 @@
 %list_com_TRSP := crai croa cwat cair
 
 %list_com_E := ccoa ccoi cfut cfuh cgas cele chea cbio cote
-
-# List of CO2 consuming sectors
-%list_sec_CO := sagr sfor sfoo sveh sgla spap sche spla smet sigo scgo scon srai sroa swat sair spri spub smin soil sbfu seoi sega seco sech
-
-# List of traded commodities (ni construction ni chaleur)
-%list_com_trade := cagr cfor cfoo cveh cgla cpap cche cpla cmet cigo ccgo crai croa cwat cair cpri cpub cmin ccoa ccoi cfut cfuh cgas cele cbio cote
