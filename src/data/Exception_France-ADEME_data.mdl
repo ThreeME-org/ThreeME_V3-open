@@ -166,5 +166,3 @@ Verif_Y_toe := sum(Y_toe[sagg] on sagg) - Y_toe
 @over REDIS_CT_RRSC:=0
 REDIS_H:=0
 REDIS_SEC:=0
-
-nu_REHAB:=0.066

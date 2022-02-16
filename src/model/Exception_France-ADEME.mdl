@@ -1,4 +1,4 @@
-C##### Exception equations for ThreeME - France - ADEME
+##### Exception equations for ThreeME - France - ADEME
 
 #### Additional equations to fit scenarii 
 
@@ -235,7 +235,4 @@ Verif_Y_toe = sum(Y_toe[sagg] on sagg) - Y_toe
 @over d(log(EMS_CH[ghg,cfut]))   = d(log(CH[cfut]     * IEMS_CH[ghg,cfut] * PhiY_toe[cfut,soil] ))               if EMS_CH[ghg,cfut] <> 0
 @over d(log(EMS_CH[ghg,cfuh]))   = d(log(CH[cfuh]     * IEMS_CH[ghg,cfuh] * PhiY_toe[cfuh,soil] ))               if EMS_CH[ghg,cfuh] <> 0
 @over d(log(EMS_CH[ghg,cgas]))   = d(log(CH[cgas]     * IEMS_CH[ghg,cgas] * (PhiY_toe[cgas,sgas] + PhiY_toe[cgas,smet] + PhiY_toe[cgas,soil] ) )) if EMS_CH[ghg,cgas] <> 0
-
-
-#@over d(tau_REHAB_n[ecl])  = - nu_REHAB * dlog(Payback_REHAB[ecl]) if  Payback_REHAB[ecl] <>0
 
