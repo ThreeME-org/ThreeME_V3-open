@@ -236,6 +236,6 @@ Verif_Y_toe = sum(Y_toe[sagg] on sagg) - Y_toe
 @over d(log(EMS_CH[ghg,cfuh]))   = d(log(CH[cfuh]     * IEMS_CH[ghg,cfuh] * PhiY_toe[cfuh,soil] ))               if EMS_CH[ghg,cfuh] <> 0
 @over d(log(EMS_CH[ghg,cgas]))   = d(log(CH[cgas]     * IEMS_CH[ghg,cgas] * (PhiY_toe[cgas,sgas] + PhiY_toe[cgas,smet] + PhiY_toe[cgas,soil] ) )) if EMS_CH[ghg,cgas] <> 0
 
-Payback_REHAB_r[ecl]=0.5*(1+Payback_REHAB[ecl]+@abs(1-Payback_REHAB[ecl]))
-@over d(tau_REHAB[ecl])  = - nu_REHAB * dlog(Payback_REHAB_r[ecl]) if  Payback_REHAB[ecl] <>0
+#Payback_REHAB_r[ecl]=0.5*(1+Payback_REHAB[ecl]+@abs(1-Payback_REHAB[ecl]))
+#@over d(tau_REHAB[ecl])  = - nu_REHAB * dlog(Payback_REHAB_r[ecl]) if  Payback_REHAB[ecl] <>0
 

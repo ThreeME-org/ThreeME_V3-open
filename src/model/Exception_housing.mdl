@@ -240,7 +240,7 @@ UC_K[ecl] = ( PREHAB[ecl,ecl] / BUIL_D[ecl] ) _
 R_LOAN[ecl] = 1 - R_CASH[ecl]
 
 ##! User energy cost of a class $ecl$ building
-UC_E[ecl]  = PENER_m2[ecl] * ((((1 + GR_PENER_m2_e[ecl]) ^(BUIL_D[ecl])) - 1) _
+UC_E[ecl]  =1/1000000* PENER_m2[ecl] * ((((1 + GR_PENER_m2_e[ecl]) ^(BUIL_D[ecl])) - 1) _
             / (GR_PENER_m2_e[ecl] * BUIL_D[ecl]) )
 
 
@@ -252,7 +252,7 @@ UC_E[ecl]  = PENER_m2[ecl] * ((((1 + GR_PENER_m2_e[ecl]) ^(BUIL_D[ecl])) - 1) _
 
 
 ##! Energy price per square meter paid in class $ecl$ buildings
-PENER_m2[ecl]  = PENER_BUIL[ecl] * ENER_BUIL[ecl] / BUIL[ecl]
+PENER_m2[ecl]  = PENER_BUIL[ecl] * ENER_BUIL[ecl] / (BUIL[ecl])
 
 ##! Growth rate of the energy price per square meter paid in class $ecl$ buildings
 GR_PENER_m2_e[ecl]  = (@year > %baseyear) * (ADJUST_GR_PENER_m2_e_1 * @pchy( PENER_m2[ecl]{-1} ) + (1-ADJUST_GR_PENER_m2_e_1) * GR_PENER_m2_e[ecl]{-1}) _
