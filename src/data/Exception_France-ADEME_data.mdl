@@ -168,4 +168,3 @@ REDIS_H:=0
 REDIS_SEC:=0
 
 nu_REHAB:=0.066
-Payback_REHAB_r[ecl]:=1
