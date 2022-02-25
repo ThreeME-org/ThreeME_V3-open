@@ -82,17 +82,18 @@ subroutine run_scenario(string %scenario_name)
     return
  endif
 
-if %scenario_name="nz50" then
+if %scenario_name="current-policies" then
 
   ' Create a new scenario that can be compared with the baseline
    {%modelname}.scenario(n, a=2) {%scenario_name}
 
     ' Load the data 
-    call load_excel("France", "scenarii", "carbontax")
-    call load_excel("France", "scenarii", "energy_mix")
-    call load_excel("France", "scenarii", "world_demand")
-    call load_excel("France", "scenarii", "world_prices")
-    call load_excel("France", "scenarii", "fossil_prices")
+    'call load_excel("France", "scenarii", "carbontax")
+    call load_excel("France", "scenarii", "temperature")
+    'call load_excel("France", "scenarii", "energy_mix")
+    'call load_excel("France", "scenarii", "world_demand")
+    'call load_excel("France", "scenarii", "world_prices")
+    'call load_excel("France", "scenarii", "fossil_prices")
     
    call solvemodel(%solveopt) 
 

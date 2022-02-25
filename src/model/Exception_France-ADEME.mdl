@@ -21,6 +21,7 @@ d(log(EXPG)) = log(1 + GR_PROG_L) + d(log(POP))
 
 ##! World demand 
 #d(log(WD[c])) = d(log(GDP_trend)) + 0.5 * GDP_cont
+@over d(log(WD[c])) = log(1 + GR_PROG_L) + d(log(POP))
 
 ### Fitting energy consumption for non energy sectors
 
@@ -80,16 +81,20 @@ T2VOL_CI[ghg,c] = T2VAL_CI[ghg,c]/PCH
 T2VOL_CI[ghg] = sum(T2VOL_CI[ghg,c] on c)
 
 ##! Carbon tax rate on the greenhouse gas $ghg$ associated to the intermediary consumption of commodity $c$ by the sector $s$
-@over R2_CI_CO2[c,s] = RCO2TAX_VOL*((@year <= 2021 )+(@year > 2021)*(PCH{-1}/@elem(PCH,2020)))
+@over R2_CI_CO2[c,s]=RCO2TAX_VOL
+#@over R2_CI_CO2[c,s] = RCO2TAX_VOL*((@year <= 2021 )+(@year > 2021)*(PCH{-1}/@elem(PCH,2020)))
 
 ##! Carbon tax rate on the greenhouse gas $ghg$ associated to the material consumption of the sector $s$
-@over R2_MAT_CO2[s]= RCO2TAX_VOL*((@year <= 2021 )+(@year > 2021)*(PCH{-1}/@elem(PCH,2020)))
+@over R2_MAT_CO2[s]=RCO2TAX_VOL        
+#@over R2_MAT_CO2[s]= RCO2TAX_VOL*((@year <= 2021 )+(@year > 2021)*(PCH{-1}/@elem(PCH,2020)))
  
 ##! Carbon tax rate on the greenhouse gas $ghg$ associated to the final production of the sector $s$
-@over R2_Y_CO2[s] = RCO2TAX_VOL*((@year <= 2021 )+(@year > 2021)*(PCH{-1}/@elem(PCH,2020)))
+@over R2_Y_CO2[s]=RCO2TAX_VOL
+#@over R2_Y_CO2[s] = RCO2TAX_VOL*((@year <= 2021 )+(@year > 2021)*(PCH{-1}/@elem(PCH,2020)))
 
 ##! Carbon tax rate on the greenhouse gas $ghg$ associated to the household final consumption of the sector $s$
-@over R2_CH_CO2[c] = RCO2TAX_VOL*((@year <= 2021 )+(@year > 2021)*(PCH{-1}/@elem(PCH,2020)))
+@over R2_CH_CO2[c] = RCO2TAX_VOL
+#@over R2_CH_CO2[c] = RCO2TAX_VOL*((@year <= 2021 )+(@year > 2021)*(PCH{-1}/@elem(PCH,2020)))
 
 ##! Investment in agregate sector 
 IA_IND  = sum(IA[sind]  on sind)

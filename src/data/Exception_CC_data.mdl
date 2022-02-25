@@ -1,0 +1,76 @@
+include ..\model\lists
+
+#   IMPACT                |    VARIABLE          |    PARAGRAPH
+#_________________________|______________________|_______________
+# sea-level rise          | depreciation rate    |    1
+# services energy demand  | energy demand        |    4
+# households energy demand| energy use per m2    |    4
+# energy prod.            | capital productivity |    3
+# tourism revenu          | world demand         |    2
+# agric. yields           | capital productivity |    3
+# forest. yields          | capital productivity |    3
+# air temp.               | labor productivity   |    3
+# supply chain            | world demand         |    2
+# shrink.-swell.          | depreciation rate    |    1
+# river floods            | depreciation rate    |    1
+# diseases                | labor productivity   |    3
+# forest fire             | ....                 |    5
+
+temp:=1
+
+## 1/5 IMPACT ON depreciation rate DUE TO sea level rise AND floods AND clay-soil shrinking and swelling
+
+Rdep_CC_sea := 0
+Rdep_CC_flood := 0
+Rdep_CC_claysoil := 0
+Rdep_base := 0.08
+
+Rdep_BUIL_base[ecl,bcl] := BUILDING(19 + $ecl, $bcl)
+
+
+## 2/5 IMPACT ON world demand DUE TO supply chain disruptions AND tourism attractivness
+
+# Supply chain disruptions
+WD_CC_supplychain := 1
+PX_CC_supplychain := 0
+
+# Tourism attractivness
+WD_CC_tourism[c] := 1
+WD_CC_tourism := 1
+
+
+## 3/5 IMPACT ON labor productivity AND capital productivity DUE TO air temperature AND diseases -  Forestry and Agriculture, energy yields
+
+PROG_L_CC_airtemperature := 1
+PROG_L_CC_diseases := 1
+
+PROG_K_CC_forestry := 1
+PROG_K_CC_agrifish := 1
+
+PROG_K_CC_thermal := 1
+PROG_K_CC_solar := 1
+PROG_K_CC_wind := 1
+PROG_K_CC_hydro := 1
+
+PROG_CC[f, s] := 1
+PROG_CC_airtemperature[f, s] := 1
+PROG_CC_diseases[f, s] := 1
+
+PROGbis[f, s] := 1 * (1 + GR_PROG[f, s]) ^ (@year - %baseyear)
+
+
+## 4/5 IMPACT ON energy demand DUE TO air temperature
+
+# Households' energy demand
+ENERperM2_CC_energydemand := 1
+ENERperM2bis[ ecl, ceb] := ENER_BUIL[ ecl, ceb] / BUIL[ ecl]
+
+# Services' energy demand
+ENER_services_CC_energydemand := 1
+F_n_bis[E, spri] := F[E, spri]
+
+
+## 5/5 IMPACT on governement expenses DUE TO forest fire
+
+#state_expenses_CC_forest_fire := 1
+#CI_CC[cpub, spub] := CID[cpub, spub] + CIM[cpub, spub]
