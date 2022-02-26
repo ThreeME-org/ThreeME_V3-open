@@ -88,13 +88,16 @@ if %scenario_name="current-policies" then
    {%modelname}.scenario(n, a=2) {%scenario_name}
 
     ' Load the data 
-    'call load_excel("France", "scenarii", "carbontax")
-    call load_excel("France", "scenarii", "temperature")
-    'call load_excel("France", "scenarii", "energy_mix")
-    'call load_excel("France", "scenarii", "world_demand")
-    'call load_excel("France", "scenarii", "world_prices")
-    'call load_excel("France", "scenarii", "fossil_prices")
-    
+    call load_excel("France", "scenarii", "sea")
+    call load_excel("France", "scenarii", "flood")
+    call load_excel("France", "scenarii", "claysoil")    
+    call load_excel("France", "scenarii", "airtemp")
+    call load_excel("France", "scenarii", "disease")
+    call load_excel("France", "scenarii", "supplychain")
+    call load_excel("France", "scenarii", "tourism")
+    call load_excel("France", "scenarii", "yield")
+    call load_excel("France", "scenarii", "energy")
+                                                                                
    call solvemodel(%solveopt) 
 
    call outputs

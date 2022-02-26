@@ -42,6 +42,8 @@ WD_CC_tourism := 1
 ## 3/5 IMPACT ON labor productivity AND capital productivity DUE TO air temperature AND diseases -  Forestry and Agriculture, energy yields
 
 PROG_L_CC_airtemperature := 1
+PROG_L_CC_airtemperature_ext := 1
+PROG_L_CC_airtemperature_int := 1
 PROG_L_CC_diseases := 1
 
 PROG_K_CC_forestry := 1
