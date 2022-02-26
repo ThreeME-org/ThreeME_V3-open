@@ -69,17 +69,17 @@ PROG_CC_diseases[L, s] = PROG_L_CC_diseases
 #PROG_K_CC_solar = -0.0033 * temp + 0.9948
 #PROG_K_CC_hydro = -0.055 * temp + 1.1075
 
-PROG_CC[K, sfor] = PROG_K_CC_forestry
-PROG_CC[K, sagr] = PROG_K_CC_agrifish
-PROG_CC[K, senu] = PROG_K_CC_thermal
-PROG_CC[K, seoi] = PROG_K_CC_thermal
-PROG_CC[K, sega] = PROG_K_CC_thermal
-PROG_CC[K, seco] = PROG_K_CC_thermal
-PROG_CC[K, sewi] = PROG_K_CC_wind
-PROG_CC[K, seso] = PROG_K_CC_solar
-PROG_CC[K, sehy] = PROG_K_CC_hydro
-PROG_CC[K, sech] = PROG_K_CC_thermal
-PROG_CC[K, seot] = PROG_K_CC_thermal
+PROG_CC[f, sfor] = PROG_K_CC_forestry
+PROG_CC[f, sagr] = PROG_K_CC_agrifish
+PROG_CC[f, senu] = PROG_K_CC_thermal
+PROG_CC[f, seoi] = PROG_K_CC_thermal
+PROG_CC[f, sega] = PROG_K_CC_thermal
+PROG_CC[f, seco] = PROG_K_CC_thermal
+PROG_CC[f, sewi] = PROG_K_CC_wind
+PROG_CC[f, seso] = PROG_K_CC_solar
+PROG_CC[f, sehy] = PROG_K_CC_hydro
+PROG_CC[f, sech] = PROG_K_CC_thermal
+PROG_CC[f, seot] = PROG_K_CC_thermal
 
 # Impact on both L and K productivity
 @over PROG[f, s] = PROGbis[f, s] * PROG_CC[f, s] * PROG_CC_airtemperature[f, s] * PROG_CC_diseases[f, s]
