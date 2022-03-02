@@ -74,5 +74,4 @@ F_n_bis[E, spri] := F[E, spri]
 
 ## 5/5 IMPACT on governement expenses DUE TO forest fire
 
-#state_expenses_CC_forest_fire := 1
-#CI_CC[cpub, spub] := CID[cpub, spub] + CIM[cpub, spub]
+#state_expenses_CC_forest_fire := 0  

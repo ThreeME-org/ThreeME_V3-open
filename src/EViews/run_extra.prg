@@ -97,7 +97,7 @@ if %scenario_name="current-policies" then
     call load_excel("France", "scenarii", "tourism")
     call load_excel("France", "scenarii", "yield")
     call load_excel("France", "scenarii", "energy")
-                                                                                
+                                                                           
    call solvemodel(%solveopt) 
 
    call outputs
