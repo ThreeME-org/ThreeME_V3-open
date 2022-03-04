@@ -28,7 +28,7 @@ Rdep_BUIL[ecl,DES] = Rdep_BUIL_base[ecl,DES] + Rdep_CC_claysoil
 
 # Firms : destructions through sea level rise and flooding
 Rdep[s] = Rdep_base + F[K,s]/F[K] * GDP/F[K] * (Rdep_CC_sea + Rdep_CC_flood)
-
+#Rdep[s] = Rdep_base + GDP/F[K] * (Rdep_CC_sea + Rdep_CC_flood)
 #Rdep[s] = Rdep_base + Rdep_CC_sea + Rdep_CC_flood
 
 

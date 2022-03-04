@@ -90,13 +90,13 @@ if %scenario_name="current-policies" then
     ' Load the data 
     call load_excel("France", "scenarii", "sea")
     call load_excel("France", "scenarii", "flood")
-    call load_excel("France", "scenarii", "claysoil")    
-    call load_excel("France", "scenarii", "airtemp")
-    call load_excel("France", "scenarii", "disease")
-    call load_excel("France", "scenarii", "supplychain")
-    call load_excel("France", "scenarii", "tourism")
-    call load_excel("France", "scenarii", "yield")
-    call load_excel("France", "scenarii", "energy")
+    'call load_excel("France", "scenarii", "claysoil")    
+    'call load_excel("France", "scenarii", "airtemp")
+    'call load_excel("France", "scenarii", "disease")
+    'call load_excel("France", "scenarii", "supplychain")
+    'call load_excel("France", "scenarii", "tourism")
+    'call load_excel("France", "scenarii", "yield")
+    'call load_excel("France", "scenarii", "energy")
                                                                            
    call solvemodel(%solveopt) 
 
