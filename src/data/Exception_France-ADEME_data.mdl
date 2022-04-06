@@ -166,3 +166,12 @@ Verif_Y_toe := sum(Y_toe[sagg] on sagg) - Y_toe
 @over REDIS_CT_RRSC:=0
 REDIS_H:=0
 REDIS_SEC:=0
+
+# Elasticité substitution agriculture  vs autres biens
+ES_cagr := 0.1
+
+# Consommation contrainte agricole
+@over NCH[cagr] := CH_n[cagr]
+
+# Prix équilibre offre/demande agricole
+PYeq_sagr := PCH

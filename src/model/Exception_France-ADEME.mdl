@@ -241,3 +241,16 @@ Verif_Y_toe = sum(Y_toe[sagg] on sagg) - Y_toe
 @over d(log(EMS_CH[ghg,cfuh]))   = d(log(CH[cfuh]     * IEMS_CH[ghg,cfuh] * PhiY_toe[cfuh,soil] ))               if EMS_CH[ghg,cfuh] <> 0
 @over d(log(EMS_CH[ghg,cgas]))   = d(log(CH[cgas]     * IEMS_CH[ghg,cgas] * (PhiY_toe[cgas,sgas] + PhiY_toe[cgas,smet] + PhiY_toe[cgas,soil] ) )) if EMS_CH[ghg,cgas] <> 0
 
+##  Modification de la branche agriculture (équilibre par les prix)
+@over dlog(QD[cagr])  =  dlog(POP) + dlog(PROG_K_CC_agrifish) - ES_CHM_cagr  * d(log(PCHD_cagr)  - log(PCHM_cagr))  if QD[cagr] <> 0
+@over dlog(NCH[cagr]) = dlog(POP) + ES_cagr * ( - dlog(PCH[cagr]) + dlog(DISPINC_AT_VAL) - dlog(PCH))    
+
+PYeq_sagr * (YQS_cagr + QM_cagr) = PMGS_cagr * MGS_cagr + PCH_cagr  * CH_cagr  + PCI_cagr * CI_cagr + PG_cagr  * G_cagr _
++ PI_cagr  * I_cagr  + PX_cagr  * X_cagr  + PDS_cagr  * DS_cagr
+
+@over dlog(PY_n_sagr) = dlog(PYeq_sagr) * (PY_sagr{-1} >= CU_n_sagr{-1}) 
+@over dlog(PM_cagr) = dlog(PYeq_sagr) * (PY_sagr{-1} >= CU_n_sagr{-1}) 
+#@over PM_cagr = (PYeq_sagr * (YQS_cagr + QM_cagr) - PQD_cagr * YQS_cagr) / QM_cagr 
+
+@over d(log(F_n[f, sagr]))  = d(log(QD[cagr])) - d(log(PROG[f, sagr])) + d(SUBST_F[f, sagr])            if F_n[f, sagr] <> 0
+#@over QM_cagr = (GDP_cagr + CI_cagr) - YQS_cagr 
