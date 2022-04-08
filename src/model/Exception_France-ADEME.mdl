@@ -242,7 +242,20 @@ Verif_Y_toe = sum(Y_toe[sagg] on sagg) - Y_toe
 @over d(log(EMS_CH[ghg,cgas]))   = d(log(CH[cgas]     * IEMS_CH[ghg,cgas] * (PhiY_toe[cgas,sgas] + PhiY_toe[cgas,smet] + PhiY_toe[cgas,soil] ) )) if EMS_CH[ghg,cgas] <> 0
 
 ##  Modification de la branche agriculture (équilibre par les prix)
-@over dlog(QD[cagr])  =  dlog(POP) + dlog(PROG_K_CC_agrifish) - ES_CHM_cagr  * d(log(PCHD_cagr)  - log(PCHM_cagr))  if QD[cagr] <> 0
+
+@over dlog(QD[cagr])  =  dlog(POP) + log(1 + GR_prog_L) + dlog(PROG_K_CC_agrifish) - ES_CHM_cagr  * d(log(PCHD_cagr)  - log(PCHM_cagr))  if QD[cagr] <> 0
+@over dlog(QM[cagr])  =  dlog(POP) + log(1 + GR_prog_L) + dlog(PROG_K_CC_agrifish) - ES_CHM_cagr  * d(log(PCHM_cagr)  - log(PCHD_cagr))  if QM[cagr] <> 0
+@over dlog(CHM[cagr]) =  dlog(QM[cagr])    if CHM[cagr] <> 0
+@over dlog(CIM[cagr,s]) =  dlog(QM[cagr])    if CIM[cagr,s] <> 0
+@over dlog(IM[cagr,s]) =  dlog(QM[cagr])    if IM[cagr,s] <> 0
+@over dlog(DSM[cagr]) =  dlog(QM[cagr])    if DSM[cagr] <> 0
+@over dlog(GM[cagr])  =  dlog(QM[cagr])    if GM[cagr] <> 0
+@over CHD[cagr] = CH[cagr] - CHM[cagr]       if CHD[cagr] <> 0
+@over CI[cagr,s] = CID[cagr,s] + CIM[cagr,s] if CI[cagr,s] <> 0
+@over I[cagr,s] = ID[cagr,s] + IM[cagr,s]    if I[cagr,s] <> 0
+@over DS[cagr] = DSD[cagr] + DSM[cagr]  if DS[cagr] <> 0
+@over G[cagr] = GD[cagr] + GM[cagr]     if G[cagr] <> 0
+
 @over dlog(NCH[cagr]) = dlog(POP) + ES_cagr * ( - dlog(PCH[cagr]) + dlog(DISPINC_AT_VAL) - dlog(PCH))    
 
 PYeq_sagr * (YQS_cagr + QM_cagr) = PMGS_cagr * MGS_cagr + PCH_cagr  * CH_cagr  + PCI_cagr * CI_cagr + PG_cagr  * G_cagr _
