@@ -262,8 +262,8 @@ PYeq_sagr * (YQS_cagr + QM_cagr) = PMGS_cagr * MGS_cagr + PCH_cagr * CH_cagr + P
 + PI_cagr * I_cagr + PX_cagr * X_cagr + PDS_cagr * DS_cagr      
 
 @over dlog(PY_n_sagr) = dlog(PYeq_sagr) * (PY_sagr{-1} >= CU_n_sagr{-1}) 
-@over dlog(PM_cagr) = dlog(PYeq_sagr) * (PY_sagr{-1} >= CU_n_sagr{-1}) 
-#@over PM_cagr = (PYeq_sagr * (YQS_cagr + QM_cagr) - PQD_cagr * YQS_cagr) / QM_cagr 
+#@over dlog(PM_cagr) = dlog(PYeq_sagr) * (PY_sagr{-1} >= CU_n_sagr{-1}) 
+@over PM_cagr = (PYeq_sagr * (YQS_cagr + QM_cagr) - PQD_cagr * YQS_cagr) / QM_cagr 
 
 @over d(log(F_n[f, sagr]))  = d(log(QD[cagr])) - d(log(PROG[f, sagr])) + d(SUBST_F[f, sagr])            if F_n[f, sagr] <> 0
 #@over QM_cagr = (GDP_cagr + CI_cagr) - YQS_cagr 
