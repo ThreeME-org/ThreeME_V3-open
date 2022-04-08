@@ -253,13 +253,13 @@ Verif_Y_toe = sum(Y_toe[sagg] on sagg) - Y_toe
 @over CHD[cagr] = CH[cagr] - CHM[cagr]       if CHD[cagr] <> 0
 @over CI[cagr,s] = CID[cagr,s] + CIM[cagr,s] if CI[cagr,s] <> 0
 @over I[cagr,s] = ID[cagr,s] + IM[cagr,s]    if I[cagr,s] <> 0
-@over DS[cagr] = DSD[cagr] + DSM[cagr]  if DS[cagr] <> 0
+@over DS[cagr] = DSD[cagr] + DSM[cagr]  if DS[cagr] <> 0                                                      
 @over G[cagr] = GD[cagr] + GM[cagr]     if G[cagr] <> 0
 
-@over dlog(NCH[cagr]) = dlog(POP) + ES_cagr * ( - dlog(PCH[cagr]) + dlog(DISPINC_AT_VAL) - dlog(PCH))    
+@over dlog(NCH[cagr]) = dlog(POP) +  log(1 + GR_prog_L) + (@year >2015) * (ES_cagr * ( - dlog(PCH[cagr]) + dlog(DISPINC_AT_VAL) - dlog(PCH)) - log(1 + GR_prog_L) )   
 
-PYeq_sagr * (YQS_cagr + QM_cagr) = PMGS_cagr * MGS_cagr + PCH_cagr  * CH_cagr  + PCI_cagr * CI_cagr + PG_cagr  * G_cagr _
-+ PI_cagr  * I_cagr  + PX_cagr  * X_cagr  + PDS_cagr  * DS_cagr
+PYeq_sagr * (YQS_cagr + QM_cagr) = PMGS_cagr * MGS_cagr + PCH_cagr * CH_cagr + PCI_cagr * CI_cagr + PG_cagr * G_cagr _
++ PI_cagr * I_cagr + PX_cagr * X_cagr + PDS_cagr * DS_cagr      
 
 @over dlog(PY_n_sagr) = dlog(PYeq_sagr) * (PY_sagr{-1} >= CU_n_sagr{-1}) 
 @over dlog(PM_cagr) = dlog(PYeq_sagr) * (PY_sagr{-1} >= CU_n_sagr{-1}) 
