@@ -243,27 +243,79 @@ Verif_Y_toe = sum(Y_toe[sagg] on sagg) - Y_toe
 
 ##  Modification de la branche agriculture (équilibre par les prix)
 
-@over dlog(QD[cagr])  =  dlog(POP) + log(1 + GR_prog_L) + dlog(PROG_K_CC_agrifish) - ES_CHM_cagr  * d(log(PCHD_cagr)  - log(PCHM_cagr))  if QD[cagr] <> 0
-@over dlog(QM[cagr])  =  dlog(POP) + log(1 + GR_prog_L) + dlog(PROG_K_CC_agrifish) - ES_CHM_cagr  * d(log(PCHM_cagr)  - log(PCHD_cagr))  if QM[cagr] <> 0
-@over dlog(CHM[cagr]) =  dlog(QM[cagr])    if CHM[cagr] <> 0
-@over dlog(CIM[cagr,s]) =  dlog(QM[cagr])    if CIM[cagr,s] <> 0
-@over dlog(IM[cagr,s]) =  dlog(QM[cagr])    if IM[cagr,s] <> 0
-@over dlog(DSM[cagr]) =  dlog(QM[cagr])    if DSM[cagr] <> 0
-@over dlog(GM[cagr])  =  dlog(QM[cagr])    if GM[cagr] <> 0
+@over dlog(Y[cagr,sagr])  =  dlog(POP) + log(1 + GR_prog_L) + (@year>2015)*dlog(PROG_K_CC_agrifish) - ES_CHM_cagr  * d(log(PCHD_cagr)  - log(PCHM_cagr))  if Y[cagr,sagr] <> 0
+@over dlog(M[cagr])  =  dlog(POP) + log(1 + GR_prog_L) + (@year>2015)*dlog(PROG_K_CC_agrifish) - ES_CHM_cagr  * d(log(PCHM_cagr)  - log(PCHD_cagr))  if M[cagr] <> 0
+@over dlog(CHM[cagr]) =  dlog(M[cagr])    if CHM[cagr] <> 0
+@over dlog(CIM[cagr,s]) =  dlog(M[cagr])    if CIM[cagr,s] <> 0
+@over dlog(IM[cagr,s]) =  dlog(M[cagr])    if IM[cagr,s] <> 0
+@over dlog(DSM[cagr]) =  dlog(M[cagr])    if DSM[cagr] <> 0
+@over dlog(GM[cagr])  =  dlog(M[cagr])    if GM[cagr] <> 0
+@over dlog(XM[cagr])  =  dlog(M[cagr])    if XM[cagr] <> 0
 @over CHD[cagr] = CH[cagr] - CHM[cagr]       if CHD[cagr] <> 0
 @over CI[cagr,s] = CID[cagr,s] + CIM[cagr,s] if CI[cagr,s] <> 0
 @over I[cagr,s] = ID[cagr,s] + IM[cagr,s]    if I[cagr,s] <> 0
 @over DS[cagr] = DSD[cagr] + DSM[cagr]  if DS[cagr] <> 0                                                      
 @over G[cagr] = GD[cagr] + GM[cagr]     if G[cagr] <> 0
+@over dlog(XD[cagr]) = dlog(Y[cagr,sagr])     if X[cagr] <> 0
+@over X[cagr] = XD[cagr] + XM[cagr]    if X[cagr] <> 0
 
-@over dlog(NCH[cagr]) = dlog(POP) +  log(1 + GR_prog_L) + (@year >2015) * (ES_cagr * ( - dlog(PCH[cagr]) + dlog(DISPINC_AT_VAL) - dlog(PCH)) - log(1 + GR_prog_L) )   
+@over dlog(NCH[cagr]) = dlog(POP) +  log(1 + GR_prog_L) + (@year >2015) * (ES_price_cagr * dlog(PCH[cagr])  + ES_inc_cagr *(dlog(DISPINC_AT_VAL)- dlog(PCH)) - log(1 + GR_prog_L) )   
 
-PYeq_sagr * (YQS_cagr + QM_cagr) = PMGS_cagr * MGS_cagr + PCH_cagr * CH_cagr + PCI_cagr * CI_cagr + PG_cagr * G_cagr _
-+ PI_cagr * I_cagr + PX_cagr * X_cagr + PDS_cagr * DS_cagr      
+@over YQ[cagr]        = sum(Y[cagr, s] if Y[cagr, s] <> 0 on s) if YQ[cagr] <> 0
 
-@over dlog(PY_n_sagr) = dlog(PYeq_sagr) * (PY_sagr{-1} >= CU_n_sagr{-1}) 
-#@over dlog(PM_cagr) = dlog(PYeq_sagr) * (PY_sagr{-1} >= CU_n_sagr{-1}) 
-@over PM_cagr = (PYeq_sagr * (YQS_cagr + QM_cagr) - PQD_cagr * YQS_cagr) / QM_cagr 
+PYeq_sagr * (Y[cagr,sagr]  + M_cagr) + sum(PY[s] * Y[cagr,s] on s in %list_sec \ sagr) _ 
++  NTAXCD_val_cagr + PMGPD_cagr * MGPD_cagr + NTAXCM_val_cagr + PMGPM_cagr * MGPM_cagr  = PMGS_cagr * MGS_cagr + PCH_cagr * CH_cagr + PCI_cagr * CI_cagr _
+ + PG_cagr * G_cagr + PI_cagr * I_cagr + PX_cagr * X_cagr + PDS_cagr * DS_cagr 
 
-@over d(log(F_n[f, sagr]))  = d(log(QD[cagr])) - d(log(PROG[f, sagr])) + d(SUBST_F[f, sagr])            if F_n[f, sagr] <> 0
-#@over QM_cagr = (GDP_cagr + CI_cagr) - YQS_cagr 
+@over dlog(PY_n_sagr) = dlog(PYeq_sagr) #* (PY_sagr{-1} >= CU_n_sagr{-1}) + dlog(CU_n_sagr) * (PY_sagr{-1} < CU_n_sagr{-1})
+
+@over PY_sagr = PY_n_sagr
+
+#@over PM_cagr = (PYeq_sagr * (YQ_cagr + M_cagr) - PYQ_cagr * YQ_cagr) / M_cagr 
+
+@over dlog(PM_cagr) = dlog(PYeq_sagr)
+
+@over d(log(F_n[f, sagr]))  = d(log(YQ[cagr])) - d(log(PROG[f, sagr])) + d(SUBST_F[f, sagr])            if F_n[f, sagr] <> 0
+
+#gel# notional supply of food
+#gel
+#geldlog(YSn[cagr,sagr])  =  dlog(POP) + log(1 + GR_prog_L) + (@year>2015)*dlog(PROG_K_CC_agrifish) - ES_CHM_cagr  * d(log(PCHD_cagr)  - log(PCHM_cagr))  if Y[cagr,sagr] <> 0
+#geldlog(MSn[cagr])  =  dlog(POP) + log(1 + GR_prog_L) + (@year>2015)*dlog(PROG_K_CC_agrifish) - ES_CHM_cagr  * d(log(PCHM_cagr)  - log(PCHD_cagr))  if M[cagr] <> 0
+#gel
+#gel@over dlog(NCH[cagr]) = dlog(POP) +  log(1 + GR_prog_L) + (@year >2015) * (ES_price_cagr * dlog(PCH[cagr])  + ES_inc_cagr *(dlog(DISPINC_AT_VAL)- dlog(PCH)) - log(1 + GR_prog_L) )
+#gel
+#gelPYeq_sagr * (YSn[cagr,sagr]  + MSn_cagr) + sum(PY[s] * Y[cagr,s] on s in %list_sec \ sagr) _ 
+#gel+  NTAXCD_val_cagr + PMGPD_cagr * MGPD_cagr + NTAXCM_val_cagr + PMGPM_cagr * MGPM_cagr  = PMGS_cagr * MGS_cagr + PCH_cagr * CH_cagr + PCI_cagr * CI_cagr _
+ #gel+ PG_cagr * G_cagr + PI_cagr * I_cagr + PX_cagr * X_cagr + PDS_cagr * DS_cagr 
+#gel
+#gel@over dlog(PY_n_sagr) = dlog(PYeq_sagr) 
+#gel
+#gel@over PY_sagr = PY_n_sagr
+#gel
+#gel@over dlog(PM_cagr) = dlog(PYeq_sagr)
+#gel
+#gel@over d(log(F_n[f, sagr]))  = d(log(YQ[cagr])) - d(log(PROG[f, sagr])) + d(SUBST_F[f, sagr])            if F_n[f, sagr] <> 0 
+
+#@over dlog(QD[cfoo])  =  dlog(POP) + log(1 + GR_prog_L) + dlog(PROG_K_CC_agrifish) - ES_CHM_cfoo  * d(log(PCHD_cfoo)  - log(PCHM_cfoo))  if QD[cfoo] <> 0
+#@over dlog(QM[cfoo])  =  dlog(POP) + log(1 + GR_prog_L) + dlog(PROG_K_CC_agrifish) - ES_CHM_cfoo  * d(log(PCHM_cfoo)  - log(PCHD_cfoo))  if QM[cfoo] <> 0
+#@over dlog(CHM[cfoo]) =  dlog(QM[cfoo])    if CHM[cfoo] <> 0
+#@over dlog(CIM[cfoo,s]) =  dlog(QM[cfoo])    if CIM[cfoo,s] <> 0
+#@over dlog(IM[cfoo,s]) =  dlog(QM[cfoo])    if IM[cfoo,s] <> 0
+#@over dlog(DSM[cfoo]) =  dlog(QM[cfoo])    if DSM[cfoo] <> 0
+#@over dlog(GM[cfoo])  =  dlog(QM[cfoo])    if GM[cfoo] <> 0
+#@over CHD[cfoo] = CH[cfoo] - CHM[cfoo]       if CHD[cfoo] <> 0
+#@over CI[cfoo,s] = CID[cfoo,s] + CIM[cfoo,s] if CI[cfoo,s] <> 0
+#@over I[cfoo,s] = ID[cfoo,s] + IM[cfoo,s]    if I[cfoo,s] <> 0
+#@over DS[cfoo] = DSD[cfoo] + DSM[cfoo]  if DS[cfoo] <> 0                                                      
+#@over G[cfoo] = GD[cfoo] + GM[cfoo]     if G[cfoo] <> 0
+
+#@over dlog(NCH[cfoo]) = dlog(POP) +  log(1 + GR_prog_L) + (@year >2015) * (ES_cfoo * ( - dlog(PCH[cfoo]) + dlog(DISPINC_AT_VAL) - dlog(PCH)) - log(1 + GR_prog_L) )   
+
+#PYeq_sfoo * (YQS_cfoo + QM_cfoo) = PMGS_cfoo * MGS_cfoo + PCH_cfoo * CH_cfoo + PCI_cfoo * CI_cfoo + PG_cfoo * G_cfoo _
+#+ PI_cfoo * I_cfoo + PX_cfoo * X_cfoo + PDS_cfoo * DS_cfoo      
+
+#@over dlog(PY_n_sfoo) = dlog(PYeq_sfoo) * (PY_sfoo{-1} >= CU_n_sfoo{-1}) 
+##@over dlog(PM_cfoo) = dlog(PYeq_sfoo) * (PY_sfoo{-1} >= CU_n_sfoo{-1}) 
+#@over PM_cfoo = (PYeq_sfoo * (YQ_cfoo + M_cfoo) - PYQ_cfoo * YQ_cfoo) / M_cfoo 
+ 
+#@over d(log(F_n[f, sfoo]))  = d(log(QD[cfoo])) - d(log(PROG[f, sfoo])) + d(SUBST_F[f, sfoo])            if F_n[f, sfoo] <> 0

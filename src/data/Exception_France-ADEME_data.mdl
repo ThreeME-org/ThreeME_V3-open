@@ -167,11 +167,30 @@ Verif_Y_toe := sum(Y_toe[sagg] on sagg) - Y_toe
 REDIS_H:=0
 REDIS_SEC:=0
 
-# Elasticité substitution agriculture  vs autres biens
-ES_cagr := 0.1
+# Elasticité prix de la demande agriculture 
+ 
+ES_price_cagr := -0.184
+
+# Elasticité revenu de la demande agriculture  
+
+ES_inc_cagr := 0.292
 
 # Consommation contrainte agricole
+
 @over NCH[cagr] := CH_n[cagr]
 
 # Prix équilibre offre/demande agricole
 PYeq_sagr := PCH
+
+# Elasticité prix de la demande agroalimentaire  
+#ES_cfoo := 0.1
+
+# Consommation contrainte agricole
+#@over NCH[cfoo] := CH_n[cfoo]
+
+# Prix équilibre offre/demande agricole
+PYeq_sfoo := PCH
+
+YSn[cagr,sagr] :=   Y[cagr,sagr]
+
+ + MSn_cagr :=  M_cagr
