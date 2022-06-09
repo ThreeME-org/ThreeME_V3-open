@@ -84,20 +84,20 @@ Verif_ALL2 = Verif_ALL + ( Verif_PCH_CES^2  )^(1/2)
 ## Moreover the compiler does not recognise the operator "OR" in the condition. Therefore, we have to write it twice.
      
 
-#gelES_act_MGSM[m] = ES_MGSM[m] _ 
-				#gel- (PMGSD[m]/PMGSM[m] < 0.99999) * (log(MGSD[m]/MGSM[m]/@elem(MGSD[m]/MGSM[m], %baseyear)) / log(PMGSD[m]/PMGSM[m]*1.0000000001) + ES_MGSM[m]) _
-				#gel- (PMGSD[m]/PMGSM[m] > 1.00001) * (log(MGSD[m]/MGSM[m]/@elem(MGSD[m]/MGSM[m], %baseyear)) / log(PMGSD[m]/PMGSM[m]*1.0000000001) + ES_MGSM[m]) if MGSM[m] <> 0 
-#gelES_act_CHM[c] = ES_CHM[c] _ 
-				#gel- (PCHD[c]/PCHM[c] < 0.99999) * (log(CHD[c]/CHM[c]/@elem(CHD[c]/CHM[c], %baseyear)) / log(PCHD[c]/PCHM[c]*1.0000000001) + ES_CHM[c]) _
-				#gel- (PCHD[c]/PCHM[c] > 1.00001) * (log(CHD[c]/CHM[c]/@elem(CHD[c]/CHM[c], %baseyear)) / log(PCHD[c]/PCHM[c]*1.0000000001) + ES_CHM[c]) if CHM[c] <> 0 
-#gel
-#gelES_act_GM[c] = ES_GM[c] _ 
-				#gel- (PGD[c]/PGM[c] < 0.99999) * (log(GD[c]/GM[c]/@elem(GD[c]/GM[c], %baseyear)) / log(PGD[c]/PGM[c]*1.0000000001) + ES_GM[c]) _
-				#gel- (PGD[c]/PGM[c] > 1.00001) * (log(GD[c]/GM[c]/@elem(GD[c]/GM[c], %baseyear)) / log(PGD[c]/PGM[c]*1.0000000001) + ES_GM[c]) if GM[c] <> 0 
-#gel
-#gelES_act_XM[c] = ES_XM[c] _ 
-				#gel- (PXD[c]/PXM[c] < 0.99999) * (log(XD[c]/XM[c]/@elem(XD[c]/XM[c], %baseyear)) / log(PXD[c]/PXM[c]*1.0000000001) + ES_XM[c]) _
-				#gel- (PXD[c]/PXM[c] > 1.00001) * (log(XD[c]/XM[c]/@elem(XD[c]/XM[c], %baseyear)) / log(PXD[c]/PXM[c]*1.0000000001) + ES_XM[c]) if XM[c] <> 0 
+ES_act_MGSM[m] = ES_MGSM[m] _ 
+				- (PMGSD[m]/PMGSM[m] < 0.99999) * (log(MGSD[m]/MGSM[m]/@elem(MGSD[m]/MGSM[m], %baseyear)) / log(PMGSD[m]/PMGSM[m]*1.0000000001) + ES_MGSM[m]) _
+				- (PMGSD[m]/PMGSM[m] > 1.00001) * (log(MGSD[m]/MGSM[m]/@elem(MGSD[m]/MGSM[m], %baseyear)) / log(PMGSD[m]/PMGSM[m]*1.0000000001) + ES_MGSM[m]) if MGSM[m] <> 0 
+ES_act_CHM[c] = ES_CHM[c] _ 
+				- (PCHD[c]/PCHM[c] < 0.99999) * (log(CHD[c]/CHM[c]/@elem(CHD[c]/CHM[c], %baseyear)) / log(PCHD[c]/PCHM[c]*1.0000000001) + ES_CHM[c]) _
+				- (PCHD[c]/PCHM[c] > 1.00001) * (log(CHD[c]/CHM[c]/@elem(CHD[c]/CHM[c], %baseyear)) / log(PCHD[c]/PCHM[c]*1.0000000001) + ES_CHM[c]) if CHM[c] <> 0 
+
+ES_act_GM[c] = ES_GM[c] _ 
+				- (PGD[c]/PGM[c] < 0.99999) * (log(GD[c]/GM[c]/@elem(GD[c]/GM[c], %baseyear)) / log(PGD[c]/PGM[c]*1.0000000001) + ES_GM[c]) _
+				- (PGD[c]/PGM[c] > 1.00001) * (log(GD[c]/GM[c]/@elem(GD[c]/GM[c], %baseyear)) / log(PGD[c]/PGM[c]*1.0000000001) + ES_GM[c]) if GM[c] <> 0 
+
+ES_act_XM[c] = ES_XM[c] _ 
+				- (PXD[c]/PXM[c] < 0.99999) * (log(XD[c]/XM[c]/@elem(XD[c]/XM[c], %baseyear)) / log(PXD[c]/PXM[c]*1.0000000001) + ES_XM[c]) _
+				- (PXD[c]/PXM[c] > 1.00001) * (log(XD[c]/XM[c]/@elem(XD[c]/XM[c], %baseyear)) / log(PXD[c]/PXM[c]*1.0000000001) + ES_XM[c]) if XM[c] <> 0 
 
 
 #Verif_ES_MGSM[m] = ES_act_MGSM[m] - ES_MGSM[m]
