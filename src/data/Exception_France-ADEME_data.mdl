@@ -171,13 +171,13 @@ REDIS_SEC:=0
  
 ES_price_cagr := -0.184
 
-ES_price_cfoo := -0.184
+ES_price_cfoo := -0.3
 
 # Elasticité revenu de la demande agricole
 
 ES_inc_cagr := 0.292   
 
-ES_inc_cfoo := 0.292    
+ES_inc_cfoo := 0.35   
 
 # Consommation contrainte agricole
 

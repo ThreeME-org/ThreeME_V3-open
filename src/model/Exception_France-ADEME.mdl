@@ -314,7 +314,7 @@ Verif_Y_toe = sum(Y_toe[sagg] on sagg) - Y_toe
 
  @over dlog(Mpot[cfoo])  =  dlog(POP) + log(1 + GR_prog_L_sfoo)*(@year<=2015) + (@year>2015)*dlog(PROG_K_CC_agrifish)  if M[cfoo] <> 0
 
- @over dlog(NCH[cfoo]) = dlog(POP) +  log(1 + GR_prog_L_sfoo) + (@year >2015) * (ES_price_cagr * dlog(PCH[cfoo])  + ES_inc_cagr *(dlog(DISPINC_AT_VAL)- dlog(PCH)) - log(1 + GR_prog_L_sfoo) )   
+ @over dlog(NCH[cfoo]) = dlog(POP) +  log(1 + GR_prog_L_sfoo) + (@year >2015) * (ES_price_cfoo * dlog(PCH[cfoo])  + ES_inc_cfoo *(dlog(DISPINC_AT_VAL)- dlog(PCH)) - log(1 + GR_prog_L_sfoo) )   
 
  @over PYeq_sfoo * Ypot[cfoo,sfoo] + sum(PY[s] * Y[cfoo,s] on s in %list_sec \ sfoo) _ 
  + NTAXCD_val_cfoo + PMGPD_cfoo * MGPD_cfoo  = PQD_cfoo * QD_cfoo 
