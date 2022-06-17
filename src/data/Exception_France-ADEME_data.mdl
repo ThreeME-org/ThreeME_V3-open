@@ -175,9 +175,9 @@ ES_price_cfoo := -0.184
 
 # Elasticité revenu de la demande agricole
 
-ES_inc_cagr := 0.292
+ES_inc_cagr := 0.292   
 
-ES_inc_cfoo := 0.292
+ES_inc_cfoo := 0.292    
 
 # Consommation contrainte agricole
 
@@ -185,13 +185,29 @@ ES_inc_cfoo := 0.292
 
 # Prix équilibre offre/demande agricole
 
-PYeq_sagr := PCH
+PYeq_sagr := P
+
+PMeq[cagr] := P
+
+PYeq_sfoo := P
+
+PMeq[cfoo] := P
+
+# production agricole potentielle
+
+Ypot[cagr,sagr] := Y[cagr,sagr]
+
+Ypot[cfoo,sfoo] := Y[cfoo,sfoo]
+
+# potentiel d'importation
+
+Mpot[cagr] := M[cagr]
+
+Mpot[cfoo] := M[cfoo]
 
 # Consommation contrainte agricole
 
-#@over NCH[cfoo] := CH_n[cfoo]
+@over NCH[cfoo] := CH_n[cfoo]
 
-# Prix équilibre offre/demande agricole
 
-#PYeq_sfoo := PCH
 
