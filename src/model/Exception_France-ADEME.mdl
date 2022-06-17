@@ -309,20 +309,20 @@ Verif_Y_toe = sum(Y_toe[sagg] on sagg) - Y_toe
  @over dlog(PY_n_sagr) = dlog(PYeq_sagr)
  
  #@over dlog(PY_sagr) = dlog(PY_n_sagr)            
-#gel 
- #gel@over dlog(Ypot[cfoo,sfoo])  =  dlog(POP) + log(1 + GR_prog_L_sfoo)*(@year<=2015) + (@year>2015)*dlog(PROG_K_CC_agrifish)   if Y[cfoo,sfoo] <> 0
-#gel
- #gel@over dlog(Mpot[cfoo])  =  dlog(POP) + log(1 + GR_prog_L_sfoo)*(@year<=2015) + (@year>2015)*dlog(PROG_K_CC_agrifish)  if M[cfoo] <> 0
-#gel
- #gel@over dlog(NCH[cfoo]) = dlog(POP) +  log(1 + GR_prog_L_sfoo) + (@year >2015) * (ES_price_cagr * dlog(PCH[cfoo])  + ES_inc_cagr *(dlog(DISPINC_AT_VAL)- dlog(PCH)) - log(1 + GR_prog_L_sfoo) )   
-#gel
- #gel@over PYeq_sfoo * Ypot[cfoo,sfoo] + sum(PY[s] * Y[cfoo,s] on s in %list_sec \ sfoo) _ 
- #gel+ NTAXCD_val_cfoo + PMGPD_cfoo * MGPD_cfoo  = PQD_cfoo * QD_cfoo 
-#gel
- #gel@over PMeq_cfoo * Mpot_cfoo + NTAXCM_val_cfoo + PMGPM_cfoo * MGPM_cfoo = PQM_cfoo * QM_cfoo 
-#gel 
- #gel@over dlog(PM_cfoo) = dlog(PMeq_cfoo)
-#gel
- #gel@over dlog(PY_n_sfoo) = dlog(PYeq_sfoo) 
-#gel 
- #gel#gel@over dlog(PY_sfoo) = dlog(PY_n_sfoo)            
+ 
+ @over dlog(Ypot[cfoo,sfoo])  =  dlog(POP) + log(1 + GR_prog_L_sfoo)*(@year<=2015) + (@year>2015)*dlog(PROG_K_CC_agrifish)   if Y[cfoo,sfoo] <> 0
+
+ @over dlog(Mpot[cfoo])  =  dlog(POP) + log(1 + GR_prog_L_sfoo)*(@year<=2015) + (@year>2015)*dlog(PROG_K_CC_agrifish)  if M[cfoo] <> 0
+
+ @over dlog(NCH[cfoo]) = dlog(POP) +  log(1 + GR_prog_L_sfoo) + (@year >2015) * (ES_price_cagr * dlog(PCH[cfoo])  + ES_inc_cagr *(dlog(DISPINC_AT_VAL)- dlog(PCH)) - log(1 + GR_prog_L_sfoo) )   
+
+ @over PYeq_sfoo * Ypot[cfoo,sfoo] + sum(PY[s] * Y[cfoo,s] on s in %list_sec \ sfoo) _ 
+ + NTAXCD_val_cfoo + PMGPD_cfoo * MGPD_cfoo  = PQD_cfoo * QD_cfoo 
+
+ @over PMeq_cfoo * Mpot_cfoo + NTAXCM_val_cfoo + PMGPM_cfoo * MGPM_cfoo = PQM_cfoo * QM_cfoo 
+ 
+ @over dlog(PM_cfoo) = dlog(PMeq_cfoo)
+
+ @over dlog(PY_n_sfoo) = dlog(PYeq_sfoo) 
+ 
+ #@over dlog(PY_sfoo) = dlog(PY_n_sfoo)            
