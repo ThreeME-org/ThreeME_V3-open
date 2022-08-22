@@ -51,7 +51,7 @@ else
   model {%modelname}
   
   ' Load calibration data from the Excel file (if needed)
-  call load_calibration
+  ' call load_calibration
 
   ' Export all variables to a csv file (this file is needed to execute the external compiler)
   call export_all_to_csv
@@ -60,9 +60,7 @@ else
   statusline "Compiling the calibration of the model's variables... Please wait it may take a few minutes..."
 
   call load_series("..\model\lists parameters R_Calibration_FRA round0 Prices_data SU_data Special_data Other_data Exception_taxes_prices_data Exception_NestedCES_data Exception_France-FNTP_data")
-  '' Exception_housing_data Exception_transport_data Exception_France-ADEME_data
-  ' Exception_ConsumerNested_data  Exception_Other_data
-
+ 
   ' CREATE SERIES FOR THE HOUSING AND TRANSPORT BLOCKS (from the "scr/data" folder)
 
   ' Create the "round0" series for the housing block (initialization)
