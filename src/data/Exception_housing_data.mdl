@@ -68,7 +68,7 @@ NCH_BUIL[ce] := 0
 rho_M2_DISPINC := 0
 
 # Subsidy rate
-R_SUB[ecl,ecl2] := 0
+R_SUB[ecl,ecl2] := 0.115
 
 ADJUST0_tau_REHAB := 0.5
 
