@@ -1,0 +1,24 @@
+{
+    "FileType_2": {
+        "pane": {
+            "float": [
+                134,
+                146,
+                493,
+                679
+            ],
+            "dock": [
+                0,
+                234,
+                100,
+                555
+            ],
+            "alignment": 4096,
+            "rowindex": 0,
+            "floating": false,
+            "mruwidth": 32767,
+            "pinned": false,
+            "visible": true
+        }
+    }
+}
