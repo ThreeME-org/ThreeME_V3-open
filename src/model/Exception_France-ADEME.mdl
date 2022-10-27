@@ -327,13 +327,9 @@ Verif_Y_toe = sum(Y_toe[sagg] on sagg) - Y_toe
  
  #@over dlog(PY_sfoo) = dlog(PY_n_sfoo)  
  
- @over dlog(CI_cagr[s]) = (@year <=2015) * dlog(F_MAT[s]) + (@year >2015) * (dlog(F_L[s]) + ES_price_cagr * dlog(PCI[cagr,s]))  if CI[cagr, s] <> 0
+ @over dlog(CI_cagr[s]) = (@year <=2015) * dlog(F_MAT[s]) + (@year >2015) * (dlog(F_L[s]) + ES_price_cagr * (dlog(PCI[cagr,s]) - dlog(PCH)))  if CI[cagr, s] <> 0
  
- @over dlog(CI_cfoo[s]) = (@year <=2015) * dlog(F_MAT[s]) + (@year >2015) * (dlog(F_L[s])+ ES_price_cfoo * dlog(PCI[cfoo,s]))   if CI[cfoo, s] <> 0
-  
-# @over dlog(CI_cagr[s]) = dlog(F_MAT[s])      if CI[cagr, s] <> 0
- 
-# @over dlog(CI_cfoo[s]) = dlog(F_MAT[s])      if CI[cfoo, s] <> 0
- 
+ @over dlog(CI_cfoo[s]) = (@year <=2015) * dlog(F_MAT[s]) + (@year >2015) * (dlog(F_L[s])+ ES_price_cfoo * (dlog(PCI[cfoo,s])- dlog(PCH)))   if CI[cfoo, s] <> 0
+   
  @over dlog(CI[cmo,s]) = dlog(F_Mat[s]-CI_cagr[s] -CI_cfoo[s])   if CI[cmo, s] <> 0   where cmo in %list_com_MATO \ cagr cfoo   
      
