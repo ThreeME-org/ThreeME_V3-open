@@ -17,7 +17,7 @@
 ' Example: to run the VATMES, TCO2 and CSEMES shocks, use "VATMES TCO2 CSEMES"
 %shocks = "neuro"
 ' Set "realist" for simulating a realistic reference scenario; something else for a stationary  reference scenario
-%ref = ""
+%ref = "realist"
 
 %sensitivity = " "
 

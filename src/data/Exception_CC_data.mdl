@@ -23,7 +23,7 @@ temp:=1
 Rdep_CC_sea := 0
 Rdep_CC_flood := 0
 Rdep_CC_claysoil := 0
-Rdep_base := 0.08
+Rdep_base[s] := Rdep[s]
 
 Rdep_BUIL_base[ecl,bcl] := BUILDING(19 + $ecl, $bcl)
 

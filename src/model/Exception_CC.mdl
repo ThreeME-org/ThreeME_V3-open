@@ -27,7 +27,7 @@
 
                                                     
 # Firms : destructions through sea level rise and flooding
-@over Rdep[s] = Rdep_base + 0.31 * ( F[K,s]{-1}/F[K]{-1} * GDP{-1}/F[K]{-1} * (Rdep_CC_sea + Rdep_CC_flood) + Rdep_CC_claysoil ) 
+@over Rdep[s] = Rdep_base[s] + 0.31 * ( F[K,s]{-1}/F[K]{-1} * GDP{-1}/F[K]{-1} * (Rdep_CC_sea + Rdep_CC_flood) + Rdep_CC_claysoil ) 
 #Rdep[s] = Rdep_base + 0.31 * ( F[K,s]/F[K] * GDP/F[K] * (Rdep_CC_sea + Rdep_CC_flood) + Rdep_CC_claysoil )
 #Rdep[s] = Rdep_base + GDP/F[K] * (Rdep_CC_sea + Rdep_CC_flood)
 #Rdep[s] = Rdep_base + Rdep_CC_sea + Rdep_CC_flood
