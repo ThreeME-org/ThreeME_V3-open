@@ -153,7 +153,7 @@ group Transports {%transports}
 
 ' ENERGY MIX OUTPUT BLOCK 
 ' not possible to use a loop because some variables don't exist (for ex : PhiY_chea_swat_2) 
-%energy_mix = " PhiY_ccoa_smin_2 PhiY_ccoa_soil PhiY_ccoi_smin_2 PhiY_ccoi_soil_2 PhiY_cfut_soil_2 PhiY_cfut_sbfu_2 PhiY_cfuh_soil_2 PhiY_cgas_smet PhiY_cgas_soil PhiY_cgas_sgas_2 PhiY_cgas_sbga_2 PhiY_cele_senu_2 PhiY_cele_seoi_2 PhiY_cele_sega_2 PhiY_cele_seco_2 PhiY_cele_sewi_2 PhiY_cele_seso_2 PhiY_cele_sehy_2 PhiY_cele_sech_2 PhiY_cele_seot_2 PhiY_chea_sech_2 PhiY_cbio_sfor_2 PhiY_cbio_spub_2 PhiY_cote_soil_2 PhiY_cote_spub_2 PhiY_ccoa_smin_0 PhiY_ccoa_soil PhiY_ccoi_smin_0 PhiY_ccoi_soil_0 PhiY_cfut_soil_0 PhiY_cfut_sbfu_0 PhiY_cfuh_soil_0 PhiY_cgas_smet PhiY_cgas_soil PhiY_cgas_sgas_0 PhiY_cgas_sbga_0 PhiY_cele_senu_0 PhiY_cele_seoi_0 PhiY_cele_sega_0 PhiY_cele_seco_0 PhiY_cele_sewi_0 PhiY_cele_seso_0 PhiY_cele_sehy_0 PhiY_cele_sech_0 PhiY_cele_seot_0 PhiY_chea_sech_0 PhiY_cbio_sfor_0 PhiY_cbio_spub_0 PhiY_cote_soil_0 PhiY_cote_spub_0"
+%energy_mix = " PhiY_ccoa_smin_2 PhiY_ccoa_soil_2 PhiY_ccoi_smin_2 PhiY_ccoi_soil_2 PhiY_cfut_soil_2 PhiY_cfut_sbfu_2 PhiY_cfuh_soil_2 PhiY_cgas_smet_2 PhiY_cgas_soil_2 PhiY_cgas_sgas_2 PhiY_cgas_sbga_2 PhiY_cele_senu_2 PhiY_cele_seoi_2 PhiY_cele_sega_2 PhiY_cele_seco_2 PhiY_cele_sewi_2 PhiY_cele_seso_2 PhiY_cele_sehy_2 PhiY_cele_sech_2 PhiY_cele_seot_2 PhiY_chea_sech_2 PhiY_cbio_sfor_2 PhiY_cbio_spub_2 PhiY_cote_soil_2 PhiY_cote_spub_2 PhiY_ccoa_smin_0 PhiY_ccoa_soil_0 PhiY_ccoi_smin_0 PhiY_ccoi_soil_0 PhiY_cfut_soil_0 PhiY_cfut_sbfu_0 PhiY_cfuh_soil_0 PhiY_cgas_smet_0 PhiY_cgas_soil_0 PhiY_cgas_sgas_0 PhiY_cgas_sbga_0 PhiY_cele_senu_0 PhiY_cele_seoi_0 PhiY_cele_sega_0 PhiY_cele_seco_0 PhiY_cele_sewi_0 PhiY_cele_seso_0 PhiY_cele_sehy_0 PhiY_cele_sech_0 PhiY_cele_seot_0 PhiY_chea_sech_0 PhiY_cbio_sfor_0 PhiY_cbio_spub_0 PhiY_cote_soil_0 PhiY_cote_spub_0"
 group Energy_Mix {%energy_mix}
 
 
@@ -164,10 +164,10 @@ group Energy_Mix {%energy_mix}
       %primary_nrj = %primary_nrj + " YG_toe_"+%ce+"_2" + " YG_toe_"+%ce+"_0"
     next
 
-%primary_nrj = %primary_nrj + " YG_toe_cgas_smet+YG_toe_cgas_soil+YG_toe_cgas_sgas_2" + " YG_toe_cgas_smet+YG_toe_cgas_soil+YG_toe_cgas_sgas_0"  
+ %primary_nrj = %primary_nrj + " YG_toe_cgas_smet_2+YG_toe_cgas_soil_2+YG_toe_cgas_sgas_2" + " YG_toe_cgas_smet_0+YG_toe_cgas_soil_0+YG_toe_cgas_sgas_0" 
 
 ' we then use the same variables as in ENERGY MIX OUTPUT     
-%primary_nrj = %primary_nrj + " YG_toe_ccoa_smin_2 YG_toe_ccoa_soil YG_toe_ccoi_smin_2 YG_toe_ccoi_soil_2 YG_toe_cfut_soil_2 YG_toe_cfut_sbfu_2 YG_toe_cfuh_soil_2 YG_toe_cgas_smet YG_toe_cgas_soil YG_toe_cgas_sgas_2 YG_toe_cgas_sbga_2 YG_toe_cele_senu_2 YG_toe_cele_seoi_2 YG_toe_cele_sega_2 YG_toe_cele_seco_2 YG_toe_cele_sewi_2 YG_toe_cele_seso_2 YG_toe_cele_sehy_2 YG_toe_cele_sech_2 YG_toe_cele_seot_2 YG_toe_chea_sech_2 YG_toe_cbio_sfor_2 YG_toe_cbio_spub_2 YG_toe_cote_soil_2 YG_toe_cote_spub_2 YG_toe_ccoa_smin_0 YG_toe_ccoa_soil YG_toe_ccoi_smin_0 YG_toe_ccoi_soil_0 YG_toe_cfut_soil_0 YG_toe_cfut_sbfu_0 YG_toe_cfuh_soil_0 YG_toe_cgas_smet YG_toe_cgas_soil YG_toe_cgas_sgas_0 YG_toe_cgas_sbga_0 YG_toe_cele_senu_0 YG_toe_cele_seoi_0 YG_toe_cele_sega_0 YG_toe_cele_seco_0 YG_toe_cele_sewi_0 YG_toe_cele_seso_0 YG_toe_cele_sehy_0 YG_toe_cele_sech_0 YG_toe_cele_seot_0 YG_toe_chea_sech_0 YG_toe_cbio_sfor_0 YG_toe_cbio_spub_0 YG_toe_cote_soil_0 YG_toe_cote_spub_0"
+%primary_nrj = %primary_nrj + " YG_toe_ccoa_smin_2 YG_toe_ccoa_soil_2 YG_toe_ccoi_smin_2 YG_toe_ccoi_soil_2 YG_toe_cfut_soil_2 YG_toe_cfut_sbfu_2 YG_toe_cfuh_soil_2 YG_toe_cgas_smet_2 YG_toe_cgas_soil_2 YG_toe_cgas_sgas_2 YG_toe_cgas_sbga_2 YG_toe_cele_senu_2 YG_toe_cele_seoi_2 YG_toe_cele_sega_2 YG_toe_cele_seco_2 YG_toe_cele_sewi_2 YG_toe_cele_seso_2 YG_toe_cele_sehy_2 YG_toe_cele_sech_2 YG_toe_cele_seot_2 YG_toe_chea_sech_2 YG_toe_cbio_sfor_2 YG_toe_cbio_spub_2 YG_toe_cote_soil_2 YG_toe_cote_spub_2 YG_toe_ccoa_smin_0 YG_toe_ccoa_soil_0 YG_toe_ccoi_smin_0 YG_toe_ccoi_soil_0 YG_toe_cfut_soil_0 YG_toe_cfut_sbfu_0 YG_toe_cfuh_soil_0 YG_toe_cgas_smet_0 YG_toe_cgas_soil_0 YG_toe_cgas_sgas_0 YG_toe_cgas_sbga_0 YG_toe_cele_senu_0 YG_toe_cele_seoi_0 YG_toe_cele_sega_0 YG_toe_cele_seco_0 YG_toe_cele_sewi_0 YG_toe_cele_seso_0 YG_toe_cele_sehy_0 YG_toe_cele_sech_0 YG_toe_cele_seot_0 YG_toe_chea_sech_0 YG_toe_cbio_sfor_0 YG_toe_cbio_spub_0 YG_toe_cote_soil_0 YG_toe_cote_spub_0"
 group Primary_nrj {%primary_nrj} 
 
 
@@ -199,29 +199,25 @@ group Primary_nrj {%primary_nrj}
     
     ' transport
     for %ce {%list_com_E}
-      %final_nrj = %final_nrj + " CI_toe_"+%ce+"_TRSP" + " CI_toe_"+%ce+"_TRSP"
-      '%final_nrj = %final_nrj + " CI_toe_"+%ce+"_TRSP_2" + " CI_toe_"+%ce+"_TRSP_0"
+      %final_nrj = %final_nrj + " CI_toe_"+%ce+"_TRSP_2" + " CI_toe_"+%ce+"_TRSP_0"
     next
     %final_nrj = %final_nrj + " CI_toe_cghbo_TRSP_2" + " CI_toe_cghbo_TRSP_0" + " CI_toe_cfuel_TRSP_2" + " CI_toe_cfuel_TRSP_0"
 
     ' agriculture
     for %ce ccoa ccoi cfut cfuh cgas cele chea cbio
-      %final_nrj = %final_nrj + " CI_toe_"+%ce+"_AGRF" + " CI_toe_"+%ce+"_AGRF"
-      '%final_nrj = %final_nrj + " CI_toe_"+%ce+"_AGRF_2" + " CI_toe_"+%ce+"_AGRF_0"
+      %final_nrj = %final_nrj + " CI_toe_"+%ce+"_AGRF_2" + " CI_toe_"+%ce+"_AGRF_0"
     next
     %final_nrj = %final_nrj + " CI_toe_cghb_AGRF_2" + " CI_toe_cghb_AGRF_0" + " CI_toe_cfuel_AGRF_2" + " CI_toe_cfuel_AGRF_0"
 
     ' industry
     for %ce {%list_com_E}
-      %final_nrj = %final_nrj + " CI_toe_"+%ce+"_IND" + " CI_toe_"+%ce+"_IND"
-      '%final_nrj = %final_nrj + " CI_toe_"+%ce+"_IND_2" + " CI_toe_"+%ce+"_IND_0"
+      %final_nrj = %final_nrj + " CI_toe_"+%ce+"_IND_2" + " CI_toe_"+%ce+"_IND_0"
     next
     %final_nrj = %final_nrj + " CI_toe_cghbo_IND_2" + " CI_toe_cghbo_IND_0" + " CI_toe_cfuel_IND_2" + " CI_toe_cfuel_IND_0"
     
     ' services
     for %ce ccoa ccoi cfut cfuh cgas cele chea cbio
-     %final_nrj = %final_nrj + " CI_toe_"+%ce+"_SER" + " CI_toe_"+%ce+"_SER"
-     '%final_nrj = %final_nrj + " CI_toe_"+%ce+"_SER_2" + " CI_toe_"+%ce+"_SER_0"
+     %final_nrj = %final_nrj + " CI_toe_"+%ce+"_SER_2" + " CI_toe_"+%ce+"_SER_0"
     next
     %final_nrj = %final_nrj + " CI_toe_cghb_SER_2" + " CI_toe_cghb_SER_0" + " CI_toe_cfuel_SER_2" + " CI_toe_cfuel_SER_0"
 
@@ -397,8 +393,7 @@ group Carbontax {%carbontax}
 %import = "M_2 M_0"
 
     for %c cagr cfor cfoo cveh cgla cpap cche cpla cmet cigo ccgo crai croa cwat cair cpri cpub cmin ccoa ccoi cfut cfuh cgas cele cbio cote
-      %import = %import + " M_"+%c + " M_"+%c
-      '%import = %import + " M_"+%c+"_2" + " M_"+%c+"_0"
+      %import = %import + " M_"+%c+"_2" + " M_"+%c+"_0"
     next
 
 group Import {%import}
@@ -407,8 +402,7 @@ group Import {%import}
 %export = "X_2 X_0"
 
     for %c cagr cfor cfoo cveh cgla cpap cche cpla cmet cigo ccgo crai croa cwat cair cpri cpub cmin ccoa ccoi cfut cfuh cgas cele cbio cote
-      %export = %export + " X_"+%c + " X_"+%c
-      '%export = %export + " X_"+%c+"_2" + " X_"+%c+"_0"
+      %export = %export + " X_"+%c+"_2" + " X_"+%c+"_0"
     next
 
 group Export {%export}
@@ -1050,5 +1044,3 @@ subroutine run_euro(string %iso3)
   endif
 
 endsub
-
-
