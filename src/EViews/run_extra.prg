@@ -117,6 +117,13 @@ endsub
 
 subroutine outputs 
 
+  ' Save exogenous variables for the shock  (_2) 
+  %exo = {%modelname}.@exoglist
+  for %series {%exo}
+       series {%series}_2 = {%series}
+  next
+
+
 ' Send results to Excel 
 
 ' HYBRID OUTPUT BLOCK
@@ -1045,3 +1052,5 @@ subroutine run_euro(string %iso3)
   endif
 
 endsub
+
+
