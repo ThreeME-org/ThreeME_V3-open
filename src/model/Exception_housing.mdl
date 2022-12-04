@@ -10,6 +10,7 @@
 ##! Necessary (minimum) households' final consumption for energy commodity $ce$
 NCH[ce] = NCH_BUIL[ce] + NCH_AUTO[ce]
 
+# Pnew en e/m2 et NewBUIL en 10^6 m2. NCH_CCON en Meuros
 ##! Necessary (minimum) households' final consumption for construction commodity $ccon$
 NCH[ccon]   = (@year > %baseyear) * (@elem(PNewBUIL,%baseyear) * NewBUIL + @elem(PREHAB,%baseyear) * REHAB) _
             + (@year <= %baseyear) * (NCH[ccon]{-1} * ( 1 + GR_REAL ))
@@ -252,7 +253,8 @@ UC_E[ecl]  = PENER_m2[ecl] * ((((1 + GR_PENER_m2_e[ecl]) ^(BUIL_D[ecl])) - 1) _
 
 
 ##! Energy price per square meter paid in class $ecl$ buildings
-PENER_m2[ecl]  = PENER_BUIL[ecl] * ENER_BUIL[ecl] / (1000000*BUIL[ecl])
+#BUIL en millions de m2, 
+PENER_m2[ecl]  = PENER_BUIL[ecl] * ENER_BUIL[ecl] / (BUIL[ecl])
 
 ##! Growth rate of the energy price per square meter paid in class $ecl$ buildings
 GR_PENER_m2_e[ecl]  = (@year > %baseyear) * (ADJUST_GR_PENER_m2_e_1 * @pchy( PENER_m2[ecl]{-1} ) + (1-ADJUST_GR_PENER_m2_e_1) * GR_PENER_m2_e[ecl]{-1}) _

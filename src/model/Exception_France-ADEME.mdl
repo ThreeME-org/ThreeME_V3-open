@@ -234,12 +234,13 @@ Verif_Y_toe = sum(Y_toe[sagg] on sagg) - Y_toe
 ## Modification de l'intensité des émissions des CI avec l'évolution du mix énergétique
 @over d(log(EMS_CI[ghg,cfut,s])) = d(log(CI[cfut,s]   * IEMS_CI[ghg,cfut,s] * PhiY_toe[cfut,soil]))              if EMS_CI[ghg,cfut,s] <> 0
 @over d(log(EMS_CI[ghg,cfuh,s])) = d(log(CI[cfuh,s]   * IEMS_CI[ghg,cfuh,s] * PhiY_toe[cfuh,soil]))              if EMS_CI[ghg,cfuh,s] <> 0
-@over d(log(EMS_CI[ghg,cgas,s])) = d(log(CI[cgas,s]   * IEMS_CI[ghg,cgas,s] * (PhiY_toe[cgas,sgas] + PhiY_toe[cgas,smet] + PhiY_toe[cgas,soil] ) ))              if EMS_CI[ghg,cgas,s] <> 0
+@over d(log(EMS_CI[ghg,cgas,s])) = d(log(CI[cgas,s]   * IEMS_CI[ghg,cgas,s] * (PhiY_toe[cgas,sgas] + PhiY_toe[cgas,smin] + PhiY_toe[cgas,soil] ) ))              if EMS_CI[ghg,cgas,s] <> 0
 
 ## Modification de l'intensité des émissions de la CH avec l'évolution du mix énergétique
 @over d(log(EMS_CH[ghg,cfut]))   = d(log(CH[cfut]     * IEMS_CH[ghg,cfut] * PhiY_toe[cfut,soil] ))               if EMS_CH[ghg,cfut] <> 0
 @over d(log(EMS_CH[ghg,cfuh]))   = d(log(CH[cfuh]     * IEMS_CH[ghg,cfuh] * PhiY_toe[cfuh,soil] ))               if EMS_CH[ghg,cfuh] <> 0
-@over d(log(EMS_CH[ghg,cgas]))   = d(log(CH[cgas]     * IEMS_CH[ghg,cgas] * (PhiY_toe[cgas,sgas] + PhiY_toe[cgas,smet] + PhiY_toe[cgas,soil] ) )) if EMS_CH[ghg,cgas] <> 0
+
+@over d(log(EMS_CH[ghg,cgas]))   = d(log(CH[cgas]     * IEMS_CH[ghg,cgas] * (PhiY_toe[cgas,sgas] + PhiY_toe[cgas,smin] + PhiY_toe[cgas,soil] ) )) if EMS_CH[ghg,cgas] <> 0
 
 ##  Modification de la branche agriculture (équilibre par les prix)
 
@@ -331,5 +332,4 @@ Verif_Y_toe = sum(Y_toe[sagg] on sagg) - Y_toe
  
  @over dlog(CI_cfoo[s]) = (@year <=2015) * dlog(F_MAT[s]) + (@year >2015) * (dlog(F_L[s])+ ES_price_cfoo * (dlog(PCI[cfoo,s])- dlog(PCH)))   if CI[cfoo, s] <> 0
    
- @over dlog(CI[cmo,s]) = dlog(F_Mat[s]-CI_cagr[s] -CI_cfoo[s])   if CI[cmo, s] <> 0   where cmo in %list_com_MATO \ cagr cfoo   
-     
+ @over dlog(CI[cmo,s]) = dlog(F_Mat[s]-CI_cagr[s] -CI_cfoo[s])   if CI[cmo, s] <> 0   where cmo in %list_com_MATO \ cagr cfoo 
