@@ -57,7 +57,7 @@ DEBT_G_VAL := RDEBT_G_VAL * PGDP * GDP
 INC_SOC_TAX_VAL := (PG  * G  + SOC_BENF_VAL) - DEBT_G_VAL * (GR_NOMI - r_DEBT_G{-1}) / (1 + GR_NOMI) - (PNTAXC * NTAXC + NTAXS_VAL + PRSC * RSC + PROP_INC_G_VAL)
 
 ## Share of the net operating surplus going to the Government
-phi_PROP_INC_G := (1 - phi_PROP_INC_H)*1
+phi_PROP_INC_G := 0.0676763697352825
 
 ## Share of the net operating surplus going to the Rest of the World
 phi_PROP_INC_ROW := 1 - phi_PROP_INC_H - phi_PROP_INC_G
