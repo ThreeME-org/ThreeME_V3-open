@@ -276,12 +276,14 @@ group Final_nrj {%final_nrj}
     next
 %emissions = %emissions + " EMS_CH_ccoa_2+EMS_CI_ccoa_2 EMS_CH_cfut_2+EMS_CI_cfut_2 EMS_CH_cfuh_2+EMS_CI_cfuh_2 EMS_CH_cgas_2+EMS_CI_cgas_2 EMS_CH_cbio_2+EMS_CI_cbio_2 EMS_CH_ccoa_0+EMS_CI_ccoa_0 EMS_CH_cfut_0+EMS_CI_cfut_0 EMS_CH_cfuh_0+EMS_CI_cfuh_0 EMS_CH_cgas_0+EMS_CI_cgas_0 EMS_CH_cbio_0+EMS_CI_cbio_0 "
 %emissions = %emissions + " EMS_CO2_0 EMS_CI_CO2_0 EMS_Y_CO2_0 EMS_MAT_CO2_0 EMS_CH_CO2_0 EMS_CO2_2 EMS_CI_CO2_2 EMS_Y_CO2_2 EMS_MAT_CO2_2 EMS_CH_CO2_2"
+  
+    for %s sagr sfor sfoo sveh sgla spap sche spla smet sigo scgo scon srai sroa swat sair spri spub smin soil sbfu seoi sega seco sech seot
+      %emissions = %emissions + " EMS_CI_CO2_"+%s+"_2" + " EMS_Y_CO2_"+%s+"_2" + " EMS_MAT_CO2_"+%s+"_2"
+    next 
 
     for %s sagr sfor sfoo sveh sgla spap sche spla smet sigo scgo scon srai sroa swat sair spri spub smin soil sbfu seoi sega seco sech seot
-      %emissions = %emissions + " EMS_CI_CO2_"+%s+"_2" + " EMS_CI_CO2_"+%s+"_0"
+      %emissions = %emissions + " EMS_CI_CO2_"+%s+"_0" + " EMS_Y_CO2_"+%s+"_0" + " EMS_MAT_CO2_"+%s+"_0"
     next
-    
-%emissions = %emissions + " EMS_Y_CO2_SAGR_2" + " EMS_MAT_CO2_SPUB_2" + " EMS_MAT_CO2_SGLA_2" +  " EMS_Y_CO2_SAGR_0" + " EMS_MAT_CO2_SPUB_0" + " EMS_MAT_CO2_SGLA_0" 
 
 group Emissions {%emissions}
 
