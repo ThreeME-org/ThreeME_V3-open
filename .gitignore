@@ -7,9 +7,6 @@ dependency.graphml
 *.~rg
 *.~f1
 
-# Ignore scenario
-data/France/scenarii.xls
-
 # Ignore result files
 results/*.wf1
 results/*.json
