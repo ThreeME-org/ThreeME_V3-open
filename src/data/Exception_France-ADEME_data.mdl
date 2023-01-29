@@ -210,4 +210,33 @@ Mpot[cfoo] := M[cfoo]
 @over NCH[cfoo] := CH_n[cfoo]
 
 
+Ypot[cele,sehy] := Y[cele,sehy]
+
+Ypot[cele,sewi] := Y[cele,sewi]
+
+Ypot[cele,seso] := Y[cele,seso]
+
+Ypot[cele,sech] := Y[cele,sech]
+
+Ypot[cele,senu] := Y[cele,senu]
+
+Ypot[cele,seco] := Y[cele,seco]
+
+Ypot[cele,sega] := Y[cele,sega]
+
+Ypot[cele,seoi] := Y[cele,seoi]
+
+Ypot[cele,seot] := Y[cele,seot]
+
+Mpot[cele] := M[cele]
+
+
+@over NCH[cele] := CH_n[cele]
+
+PYeq_sele := P
+
+PYeq2_sele := P
+
+PMeq[cele] := P
+
 
