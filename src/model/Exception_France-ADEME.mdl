@@ -303,7 +303,7 @@ Verif_Y_toe = sum(Y_toe[sagg] on sagg) - Y_toe
 @over PYeq_sagr * Ypot[cagr,sagr]{-1} + sum(PY[s]{-1} * Y[cagr,s]{-1} on s in %list_sec \ sagr) _ 
 + NTAXCD_val_cagr{-1} + PMGPD_cagr{-1} * MGPD_cagr{-1}  = PQD_cagr{-1} * QD_cagr{-1} 
 
- @over PMeq_cagr * Mpot_cagr + NTAXCM_val_cagr + PMGPM_cagr * MGPM_cagr = PQM_cagr * QM_cagr 
+@over PMeq_cagr * Mpot_cagr{-1} + NTAXCM_val_cagr{-1} + PMGPM_cagr{-1} * MGPM_cagr{-1} = PQM_cagr{-1} * QM_cagr {-1}
  
  @over dlog(PM_cagr) = dlog(PMeq_cagr)
 
@@ -320,7 +320,7 @@ Verif_Y_toe = sum(Y_toe[sagg] on sagg) - Y_toe
 @over PYeq_sfoo * Ypot[cfoo,sfoo]{-1} + sum(PY[s]{-1} * Y[cfoo,s]{-1} on s in %list_sec \ sfoo) _ 
  + NTAXCD_val_cfoo{-1} + PMGPD_cfoo{-1} * MGPD_cfoo{-1}  = PQD_cfoo{-1} * QD_cfoo{-1} 
 
- @over PMeq_cfoo * Mpot_cfoo + NTAXCM_val_cfoo + PMGPM_cfoo * MGPM_cfoo = PQM_cfoo * QM_cfoo 
+@over PMeq_cfoo * Mpot_cfoo{-1} + NTAXCM_val_cfoo{-1} + PMGPM_cfoo{-1} * MGPM_cfoo{-1} = PQM_cfoo{-1} * QM_cfoo{-1} 
  
  @over dlog(PM_cfoo) = dlog(PMeq_cfoo)
 
