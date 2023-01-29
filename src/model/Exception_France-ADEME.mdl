@@ -333,3 +333,35 @@ Verif_Y_toe = sum(Y_toe[sagg] on sagg) - Y_toe
  @over dlog(CI_cfoo[s]) = (@year <=2015) * dlog(F_MAT[s]) + (@year >2015) * (dlog(F_L[s])+ ES_price_cfoo * (dlog(PCI[cfoo,s])- dlog(PCH)))   if CI[cfoo, s] <> 0
    
  @over dlog(CI[cmo,s]) = dlog(F_Mat[s]-CI_cagr[s] -CI_cfoo[s])   if CI[cmo, s] <> 0   where cmo in %list_com_MATO \ cagr cfoo 
+
+@over dlog(Ypot[cele,sehy])  =  dlog(POP) + log(1 + GR_prog_L_sehy)*(@year<=2015) + (@year>2015)*dlog(PROG_K_CC_hydro)   if Y[cele,sehy] <> 0
+
+@over dlog(Ypot[cele,sewi])  =  dlog(POP) + log(1 + GR_prog_L_sewi) + (@year>2015)*dlog(PROG_K_CC_wind)   if Y[cele,sewi] <> 0
+
+@over dlog(Ypot[cele,seso])  =  dlog(POP) + log(1 + GR_prog_L_seso) + (@year>2015)*dlog(PROG_K_CC_solar)   if Y[cele,seso] <> 0
+
+@over dlog(Ypot[cele,sech])  =  dlog(POP) + log(1 + GR_prog_L_sech) + (@year>2015)*dlog(PROG_K_CC_thermal)   if Y[cele,sech] <> 0
+
+@over dlog(Ypot[cele,seot])  =  dlog(POP) + log(1 + GR_prog_L_seot) + (@year>2015)*dlog(PROG_K_CC_thermal)   if Y[cele,seot] <> 0
+
+@over dlog(Ypot[cele,seoi])  =  dlog(POP) + log(1 + GR_prog_L_seoi) + (@year>2015)*dlog(PROG_K_CC_thermal)   if Y[cele,seoi] <> 0
+
+@over dlog(Ypot[cele,sega])  =  dlog(POP) + log(1 + GR_prog_L_sega) + (@year>2015)*dlog(PROG_K_CC_thermal)   if Y[cele,sega] <> 0
+
+@over dlog(Ypot[cele,seco])  =  dlog(POP) + log(1 + GR_prog_L_seco) + (@year>2015)*dlog(PROG_K_CC_thermal)   if Y[cele,seco] <> 0
+
+@over dlog(Ypot[cele,senu])  =  dlog(POP) + log(1 + GR_prog_L_senu) + (@year>2015)*dlog(PROG_K_CC_thermal)   if Y[cele,senu] <> 0
+
+
+@over PYeq_sele * (sum(Ypot[cele,s]{-1} on s in %list_sec_ELE)) _ 
+ + NTAXCD_val_cele{-1} + PMGPD_cele{-1} * MGPD_cele{-1}  = PQD_cele{-1} * QD_cele{-1} 
+
+@over PMeq_cele * Mpot_cele{-1} + NTAXCM_val_cele{-1} + PMGPM_cele{-1} * MGPM_cele{-1} = PQM_cele{-1} * QM_cele{-1} 
+ 
+@over dlog(PM_cele) = dlog(PMeq_cele)
+
+#@over PYeq2_sele * (Ypot[cele,sehy] + Ypot[cele,sewi] + Ypot[cele,seso] + Ypot[cele,sech] + Ypot[cele,senu]{-1} _
+#+ sum(Y[cele,s] on s in %list_sec_ELE \ sehy sewi seso sech senu) ) = PYeq_sele * (Ypot[cele,sehy] + Ypot[cele,sewi] _
+#+ Ypot[cele,seso] + Ypot[cele,sech] + Ypot[cele,senu]{-1} ) + sum(PY[s] * Y[cele,s] on s in %list_sec_ELE \ sehy sewi seso sech senu) 
+
+@over dlog(PY_n[s]) = dlog(PYeq_sele) on s in %list_sec_ELE
