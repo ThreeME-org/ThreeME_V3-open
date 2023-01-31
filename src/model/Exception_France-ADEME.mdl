@@ -242,6 +242,9 @@ Verif_Y_toe = sum(Y_toe[sagg] on sagg) - Y_toe
 
 @over d(log(EMS_CH[ghg,cgas]))   = d(log(CH[cgas]     * IEMS_CH[ghg,cgas] * (PhiY_toe[cgas,sgas] + PhiY_toe[cgas,smin] + PhiY_toe[cgas,soil] ) )) if EMS_CH[ghg,cgas] <> 0
 
+## Substitue les prix à l'importation aux prix de demande mondiale dans l'équation d'Armington
+@over d(SUBST_X_n[c]) = -ES_X[c] * d(log(PX[c]) - log(PM[c]))                     if X[c]               <> 0
+
 ##  Modification de la branche agriculture (équilibre par les prix)
 
 #gel@over dlog(Ypot[cagr,sagr])  =  dlog(POP) + log(1 + GR_prog_L) + (@year>2015)*dlog(PROG_K_CC_agrifish) - ES_CHM_cagr  * d(log(PCHD_cagr)  - log(PCHM_cagr))  if Y[cagr,sagr] <> 0
