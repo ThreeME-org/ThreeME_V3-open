@@ -1,0 +1,42 @@
+##  Modification de la branche agriculture (équilibre par les prix)
+
+ @over dlog(Ypot[cagr,sagr])  =  dlog(POP) + log(1 + GR_prog_L_sagr)*(@year<=2015) + (@year>2015)*dlog(PROG_K_CC_agrifish)   if Y[cagr,sagr] <> 0
+
+ @over dlog(Mpot[cagr])  =  dlog(POP) + log(1 + GR_prog_L_sagr)*(@year<=2015) + (@year>2015)*dlog(PROG_K_CC_agrifish)  if M[cagr] <> 0
+
+
+ @over dlog(NCH[cagr]) = dlog(POP) +  log(1 + GR_prog_L_sagr) + (@year >2015) * (ES_price_cagr * dlog(PCH[cagr])  + ES_inc_cagr *(dlog(DISPINC_AT_VAL)- dlog(PCH)) - log(1 + GR_prog_L_sagr) )   
+
+@over PYeq_sagr * Ypot[cagr,sagr]{-1} + sum(PY[s]{-1} * Y[cagr,s]{-1} on s in %list_sec \ sagr) _ 
++ NTAXCD_val_cagr{-1} + PMGPD_cagr{-1} * MGPD_cagr{-1}  = PQD_cagr{-1} * QD_cagr{-1} 
+
+@over PMeq_cagr * Mpot_cagr{-1} + NTAXCM_val_cagr{-1} + PMGPM_cagr{-1} * MGPM_cagr{-1} = PQM_cagr{-1} * QM_cagr {-1}
+ 
+ @over dlog(PM_cagr) = dlog(PMeq_cagr)
+
+ @over dlog(PY_n_sagr) = dlog(PYeq_sagr)
+ 
+ #@over dlog(PY_sagr) = dlog(PY_n_sagr)            
+ 
+ @over dlog(Ypot[cfoo,sfoo])  =  dlog(POP) + log(1 + GR_prog_L_sfoo)*(@year<=2015) + (@year>2015)*dlog(PROG_K_CC_agrifish)   if Y[cfoo,sfoo] <> 0
+
+ @over dlog(Mpot[cfoo])  =  dlog(POP) + log(1 + GR_prog_L_sfoo)*(@year<=2015) + (@year>2015)*dlog(PROG_K_CC_agrifish)  if M[cfoo] <> 0
+
+ @over dlog(NCH[cfoo]) = dlog(POP) +  log(1 + GR_prog_L_sfoo) + (@year >2015) * (ES_price_cfoo * dlog(PCH[cfoo])  + ES_inc_cfoo *(dlog(DISPINC_AT_VAL)- dlog(PCH)) - log(1 + GR_prog_L_sfoo) )   
+
+@over PYeq_sfoo * Ypot[cfoo,sfoo]{-1} + sum(PY[s]{-1} * Y[cfoo,s]{-1} on s in %list_sec \ sfoo) _ 
+ + NTAXCD_val_cfoo{-1} + PMGPD_cfoo{-1} * MGPD_cfoo{-1}  = PQD_cfoo{-1} * QD_cfoo{-1} 
+
+@over PMeq_cfoo * Mpot_cfoo{-1} + NTAXCM_val_cfoo{-1} + PMGPM_cfoo{-1} * MGPM_cfoo{-1} = PQM_cfoo{-1} * QM_cfoo{-1} 
+ 
+ @over dlog(PM_cfoo) = dlog(PMeq_cfoo)
+
+ @over dlog(PY_n_sfoo) = dlog(PYeq_sfoo) 
+ 
+ #@over dlog(PY_sfoo) = dlog(PY_n_sfoo)  
+ 
+ @over dlog(CI_cagr[s]) = (@year <=2015) * dlog(F_MAT[s]) + (@year >2015) * (dlog(F_L[s]) + ES_price_cagr * (dlog(PCI[cagr,s]) - dlog(PCH)))  if CI[cagr, s] <> 0
+ 
+ @over dlog(CI_cfoo[s]) = (@year <=2015) * dlog(F_MAT[s]) + (@year >2015) * (dlog(F_L[s])+ ES_price_cfoo * (dlog(PCI[cfoo,s])- dlog(PCH)))   if CI[cfoo, s] <> 0
+   
+ @over dlog(CI[cmo,s]) = dlog(F_Mat[s]-CI_cagr[s] -CI_cfoo[s])   if CI[cmo, s] <> 0   where cmo in %list_com_MATO \ cagr cfoo

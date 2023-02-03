@@ -36,4 +36,6 @@ include ..\model\Exception_housing
 include ..\model\Exception_Transport
 include ..\model\Exception_France-ADEME
 include ..\model\Exception_Output-ADEME
+include ..\model\Exception_agriculture
+include ..\model\Exception_energy
 include ..\model\Exception_CC
