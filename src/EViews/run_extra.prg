@@ -99,6 +99,10 @@ if %scenario_name="damage" then
     call load_excel("France", "scenarii", "yield-ener")
     call load_excel("France", "scenarii", "energy")
     call load_excel("France", "scenarii", "extreme")
+    call load_excel("France", "scenarii", "carbontax")
+    call load_excel("France", "scenarii", "energy_mix")
+    call load_excel("France", "scenarii", "world_demand")
+    call load_excel("France", "scenarii", "world_prices")                
                                                                            
    call solvemodel(%solveopt) 
 
