@@ -239,4 +239,4 @@ PYeq2_sele := P
 
 PMeq[cele] := P
 
-
+WD2[c] := WD[c]

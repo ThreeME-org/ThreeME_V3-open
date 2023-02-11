@@ -21,7 +21,6 @@ d(log(EXPG)) = log(1 + GR_PROG_L) + d(log(POP))
 
 ##! World demand 
 #d(log(WD[c])) = d(log(GDP_trend)) + 0.5 * GDP_cont
-@over d(log(WD[c])) = log(1 + GR_PROG_L) + d(log(POP))
 
 ### Fitting energy consumption for non energy sectors
 
@@ -245,3 +244,5 @@ Verif_Y_toe = sum(Y_toe[sagg] on sagg) - Y_toe
 ## Substitue les prix à l'importation aux prix de demande mondiale dans l'équation d'Armington
 @over d(SUBST_X_n[c]) = -ES_X[c] * d(log(PX[c]) - log(PM[c]))                     if X[c]               <> 0
 
+## Substitue la nouvelle demande mondiale corrigée des dommages climatiques
+d(log(X[c])) = d(log(WD2[c])) + d(SUBST_X[c])
