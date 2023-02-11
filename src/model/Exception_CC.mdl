@@ -42,7 +42,7 @@
 WD_CC_tourism[cpri] = WD_CC_tourism
 
 # Exports are reduce due to disruptions in the supply chain of clients and producers of French firms
-@over d(log(WD[c])) = log(1 + GR_PROG_L) + d(log(POP)) + d(log(WD_CC_supplychain)) + d(log(WD_CC_tourism[c]))
+@over d(log(WD2[c])) = d(log(WD[c])) + d(log(WD_CC_supplychain)) + d(log(WD_CC_tourism[c]))
 
 ##! Market price of domestically produced exports $c$
 #@over PXD[c]       = PYQS[c] * (1 + PX_CC_supplychain)      if XD[c]       <> 0
