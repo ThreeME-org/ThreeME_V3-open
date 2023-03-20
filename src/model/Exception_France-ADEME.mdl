@@ -228,7 +228,7 @@ Verif_Y_toe = sum(Y_toe[sagg] on sagg) - Y_toe
 
 ## Politique monétaire
 #@over d(R_n)      = RHO_Rn_Cons + d(d(P)/P{-1}) + 0.05*(d(P)/P{-1} - 0.02)
-@over d(R_n)      = RHO_Rn_Cons + d(d(P)/P{-1})
+@over d(R_n)      = RHO_Rn_Cons + d(d(P)/P{-1}) + RHO_Rn_UnR*d(UnR)
 
 ## Modification de l'intensité des émissions des CI avec l'évolution du mix énergétique
 @over d(log(EMS_CI[ghg,cfut,s])) = d(log(CI[cfut,s]   * IEMS_CI[ghg,cfut,s] * PhiY_toe[cfut,soil]))              if EMS_CI[ghg,cfut,s] <> 0
