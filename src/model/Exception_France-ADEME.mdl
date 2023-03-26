@@ -220,15 +220,18 @@ Verif_Y_toe = sum(Y_toe[sagg] on sagg) - Y_toe
 
 ## Redistribution
 
-@over REDIS_H = 0.5*(T2VAL_CH + T2VAL_SEC)                    
-@over REDIS_SEC = 0.5*(T2VAL_CH + T2VAL_SEC)  
+EMS_SEC_CO2[s] = EMS_CI_CO2[s] + EMS_MAT_CO2[s] + EMS_Y_CO2[s]
+EMS_SEC_CO2 = EMS_Y_CO2 + EMS_MAT_CO2 + EMS_CI_CO2
+
+@over REDIS_H = (EMS_CH_CO2{-1}/EMS_CO2{-1})*(T2VAL_CH + T2VAL_SEC)                    
+@over REDIS_SEC = (EMS_SEC_CO2{-1}/EMS_CO2{-1})*(T2VAL_CH + T2VAL_SEC)  
 @over INC_SOC_TAX_VAL  = RINC_SOC_TAX * DISPINC_BT_VAL - REDIS_H * REDIS_CT_H
-@over NTAXS_VAL[s] 	 = 	 RNTAXS[s]	* PY[s]	    * Y[s] + T2VAL_Y[s] + T2VAL_MAT[s] - REDIS_SEC * Y[s]/Y * REDIS_CT_LS
+@over NTAXS_VAL[s] 	 = 	 RNTAXS[s]	* PY[s]	    * Y[s] + T2VAL_Y[s] + T2VAL_MAT[s] - REDIS_SEC * (EMS_SEC_CO2[s]{-1}/EMS_SEC_CO2{-1}) * REDIS_CT_LS
 @over RSC[s] * PRSC[s] = W[s] * F[L, s] * RRSC[s] - REDIS_SEC * Y[s]/Y * REDIS_CT_RRSC
 
 ## Politique monétaire
 #@over d(R_n)      = RHO_Rn_Cons + d(d(P)/P{-1}) + 0.05*(d(P)/P{-1} - 0.02)
-@over d(R_n)      = RHO_Rn_Cons + d(d(P)/P{-1}) + RHO_Rn_UnR*d(UnR)
+@over d(R_n)      = RHO_Rn_Cons + 0.5 * d(d(P)/P{-1})
 
 ## Modification de l'intensité des émissions des CI avec l'évolution du mix énergétique
 @over d(log(EMS_CI[ghg,cfut,s])) = d(log(CI[cfut,s]   * IEMS_CI[ghg,cfut,s] * PhiY_toe[cfut,soil]))              if EMS_CI[ghg,cfut,s] <> 0
@@ -246,3 +249,8 @@ Verif_Y_toe = sum(Y_toe[sagg] on sagg) - Y_toe
 
 ## Substitue la nouvelle demande mondiale corrigée des dommages climatiques
 @over d(log(X[c])) = d(log(WD2[c])) + d(SUBST_X[c])  if X[c] <> 0
+
+## Ajustement du mix énergétique sous-jacent aux biens importés
+#@over phi_CIM[cgas, s] = 1/(1 + @elem(CID[cgas, s]/CIM[cgas, s], %baseyear)) * (1-exo)       if CIM[cgas, s] <> 0
+#@over phi_CIM[cfut, s] = 1/(1 + @elem(CID[cfut, s]/CIM[cfut, s], %baseyear)) * (1-exo)       if CIM[cfut, s] <> 0
+#@over phi_CIM[cfuh, s] = 1/(1 + @elem(CID[cfuh, s]/CIM[cfuh, s], %baseyear)) * (1-exo)       if CIM[cfuh, s] <> 0

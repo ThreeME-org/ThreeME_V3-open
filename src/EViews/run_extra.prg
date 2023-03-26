@@ -88,22 +88,13 @@ if %scenario_name="damage" then
    {%modelname}.scenario(n, a=2) {%scenario_name}
 
     ' Load the data 
-    call load_excel("France", "scenarii", "sea")
-    call load_excel("France", "scenarii", "flood")
-    call load_excel("France", "scenarii", "claysoil")    
-    call load_excel("France", "scenarii", "airtemp")
-    call load_excel("France", "scenarii", "disease")
-    call load_excel("France", "scenarii", "supplychain")
-    call load_excel("France", "scenarii", "tourism")
-    call load_excel("France", "scenarii", "yield-agri")
-    call load_excel("France", "scenarii", "yield-ener")
-    call load_excel("France", "scenarii", "energy")
-    call load_excel("France", "scenarii", "extreme")
     call load_excel("France", "scenarii", "carbontax")
     call load_excel("France", "scenarii", "energy_mix")
     call load_excel("France", "scenarii", "world_demand")
     call load_excel("France", "scenarii", "world_prices")                
-                                                                           
+    call load_excel("France", "scenarii", "physique")
+    'call load_excel("France", "scenarii", "exo")                
+                                                                          
    call solvemodel(%solveopt) 
 
    call outputs
@@ -279,7 +270,7 @@ group Final_nrj {%final_nrj}
       %emissions = %emissions + " EMS_"+%sagg+"_2" + " EMS_"+%sagg+"_0" 
     next
 %emissions = %emissions + " EMS_CH_ccoa_2+EMS_CI_ccoa_2 EMS_CH_cfut_2+EMS_CI_cfut_2 EMS_CH_cfuh_2+EMS_CI_cfuh_2 EMS_CH_cgas_2+EMS_CI_cgas_2 EMS_CH_cbio_2+EMS_CI_cbio_2 EMS_CH_ccoa_0+EMS_CI_ccoa_0 EMS_CH_cfut_0+EMS_CI_cfut_0 EMS_CH_cfuh_0+EMS_CI_cfuh_0 EMS_CH_cgas_0+EMS_CI_cgas_0 EMS_CH_cbio_0+EMS_CI_cbio_0 "
-%emissions = %emissions + " EMS_CO2_0 EMS_CI_CO2_0 EMS_Y_CO2_0 EMS_MAT_CO2_0 EMS_CH_CO2_0 EMS_CO2_2 EMS_CI_CO2_2 EMS_Y_CO2_2 EMS_MAT_CO2_2 EMS_CH_CO2_2"
+%emissions = %emissions + " EMS_CO2_0 EMS_CI_CO2_0 EMS_Y_CO2_0 EMS_MAT_CO2_0 EMS_CH_CO2_0 _2 EMS_CI_CO2_2 EMS_Y_CO2_2 EMS_MAT_CO2_2 EMS_CH_CO2_2"
   
     for %s sagr sfor sfoo sveh sgla spap sche spla smet sigo scgo scon srai sroa swat sair spri spub smin soil sbfu seoi sega seco sech seot
       %emissions = %emissions + " EMS_CI_CO2_"+%s+"_2" + " EMS_Y_CO2_"+%s+"_2" + " EMS_MAT_CO2_"+%s+"_2"
