@@ -244,5 +244,10 @@ WD2[c] := WD[c]
 # Choc sur mix énergétique sous-jacent aux biens importés
 exo := 0
 
-EMS_SEC_CO2[s] := EMS_CI_CO2[s] + EMS_MAT_CO2[s] + EMS_Y_CO2[s]
-EMS_SEC_CO2 := EMS_Y_CO2 + EMS_MAT_CO2 + EMS_CI_CO2
+#EMS_SEC_CO2[s] := EMS_CI_CO2[s] + EMS_MAT_CO2[s] + EMS_Y_CO2[s]
+#EMS_SEC_CO2 := EMS_Y_CO2 + EMS_MAT_CO2 + EMS_CI_CO2
+
+#PART_MENAGES := @elem(EMS_CH_CO2/(EMS_CI_CO2+EMS_MAT_CO2+EMS_Y_CO2+EMS_CH_CO2),%baseyear)
+#PART_ENTREPRISES := @elem((EMS_CI_CO2+EMS_MAT_CO2+EMS_Y_CO2)/(EMS_CI_CO2+EMS_MAT_CO2+EMS_Y_CO2+EMS_CH_CO2),%baseyear)
+PART_MENAGES := 0.5
+PART_ENTREPRISES := 0.5
