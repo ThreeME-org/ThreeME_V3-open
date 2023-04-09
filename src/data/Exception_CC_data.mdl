@@ -20,6 +20,8 @@ temp:=1
 
 ## 1/5 IMPACT ON depreciation rate DUE TO sea level rise AND floods AND clay-soil shrinking and swelling
 
+Rdep_CC := 0
+Rdep_extreme := 0
 Rdep_CC_sea := 0
 Rdep_CC_flood := 0
 Rdep_CC_claysoil := 0

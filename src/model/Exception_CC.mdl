@@ -22,17 +22,18 @@
 #Rdep_CC_sea = 1/100*(0.0344*temp^2 - 0.0167*temp + 0.0017)
 #Rdep_CC_flood = 1/100*(-0.0033 * temp^2 + 0.0544 * temp + 0.0094)
 #Rdep_CC_claysoil = 0.000076*Log(temp) + 0.000073
-@over Rdep_BUIL[ecl,DES] = Rdep_BUIL_base[ecl,DES] + 0.69 * ( GDP{-1}/(3500*(BUIL_CE{-1}+BUIL_CF{-1}+BUIL_CG{-1})) * (Rdep_CC_sea + Rdep_CC_flood) + Rdep_CC_claysoil )
-#Rdep_BUIL[ecl,DES] = Rdep_BUIL_base[ecl,DES] + (Rdep_CC_sea + Rdep_CC_flood) + Rdep_CC_claysoil
+Rdep_CC = Rdep_CC_sea + Rdep_CC_flood + Rdep_extreme
+@over Rdep_BUIL[ecl,DES] = Rdep_BUIL_base[ecl,DES] + 0.69 * ( GDP{-1}/(3500*BUIL{-1}) * Rdep_CC + Rdep_CC_claysoil )
+#Rdep_BUIL[ecl,DES] = Rdep_BUIL_base[ecl,DES] + Rdep_CC + Rdep_CC_claysoil
 
                                                     
 # Firms : destructions through sea level rise and flooding
-@over Rdep[s] = Rdep_base[s] + 0.31 * ( F[K,s]{-1}/F[K]{-1} * GDP{-1}/F[K]{-1} * (Rdep_CC_sea + Rdep_CC_flood) + Rdep_CC_claysoil ) 
+@over Rdep[s] = Rdep_base[s] + 0.31 * ( GDP{-1}/F[K]{-1} * Rdep_CC + Rdep_CC_claysoil ) 
 #Rdep[s] = Rdep_base + 0.31 * ( F[K,s]/F[K] * GDP/F[K] * (Rdep_CC_sea + Rdep_CC_flood) + Rdep_CC_claysoil )
 #Rdep[s] = Rdep_base + GDP/F[K] * (Rdep_CC_sea + Rdep_CC_flood)
 #Rdep[s] = Rdep_base + Rdep_CC_sea + Rdep_CC_flood
 
-@over CH_n_VAL  = DISPINC_AT_VAL  * ( 1  - MPS_n ) - 0.69 * PGDP{-1} * GDP{-1} * ( (Rdep_CC_sea + Rdep_CC_flood) + (3500*BUIL{-1})/GDP{-1} * Rdep_CC_claysoil ) ) 
+@over CH_n_VAL  = DISPINC_AT_VAL  * ( 1  - MPS_n ) - 0.69 * PGDP{-1} * GDP{-1} * ( Rdep_CC + (3500*BUIL{-1})/GDP{-1} * Rdep_CC_claysoil )
 
 ## 2/5 - IMPACT ON world demand DUE TO supply chain disruptions AND tourism attractivness
 
