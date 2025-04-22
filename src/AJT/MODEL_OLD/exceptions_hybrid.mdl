@@ -1,0 +1,270 @@
+include ..\model\lists
+
+# Exception regarding MTEP/CO2EMS
+
+# Carbon intentity endogenous
+d(log(IC[22,s])) = d(log(PhiY_ener[22, 2201]))
+d(log(IC[24,s])) = d(log(PhiY_ener[24, 2401]))
+
+d(log(IC_HH[22,h])) = d(log(PhiY_ener[22, 2201]))
+d(log(IC_HH[24,h])) = d(log(PhiY_ener[24, 2401]))
+
+# Emission linked to internal uses of the branche
+@over d(log(EMS_SEC[22,2201])) = (@year>%baseyear)*d(log(Q_Mtep_int[22,2201])) + (@year=<%baseyear)*log(1 + STEADYSTATE(2,1))
+
+### We should also include the following equation. But this would require reformulating the calculation of the
+### different PhiY. We neglet this since EMS_SEC[24,2201] represent only 0.7% of the emission of sector 2201
+### we therefore keep the orginal formulation: d(log(EMS_SEC[ce2,s])) = d(log(E[ce2,s]*IC[ce2,s]))
+### @over d(log(EMS_SEC[24,2201])) = d(log(Q_Mtep_int[24,2201]))
+
+@over d(log(EMS_SEC[24,2401])) = (@year>%baseyear)*d(log(Q_Mtep_int[2401])) + (@year=<%baseyear)*log(1 + STEADYSTATE(2,1))
+
+# Share of energy commodities produced by energy sectors (national account definition)
+PhiY[ce, se] = PhiY_ef_tot[ce, se] * (1 - (sum(PhiY[ce, sne] if PhiY[ce, sne] <> 0 on sne))) if PhiY[ce, se] <> 0
+
+verif_PhiY[ce] = sum(PhiY[ce, s] if PhiY[ce, s] <> 0 on s) - 1
+
+# Share of final energy production (including fuel for industrial use)
+PhiY_ef_tot[ce, se] = Q_Mtep_ef_tot[ce,se]/Q_Mtep_ef_tot_SOU[ce] if PhiY_ef_tot[ce, se] <> 0
+Q_Mtep_ef_tot_SOU[ce] = sum(Q_Mtep_ef_tot[ce,se] on se)
+
+# Final energy share of energy commodities produced by energy sectors
+
+verif_PhiY_ef_tot[ce] = sum(PhiY_ef_tot[ce, se] if PhiY_ef_tot[ce, se] <> 0 on se) - 1
+
+# ***ENERGY PRODUCTION IN MTEP***
+
+# Final energy demand (excluding fuel for industrial use)
+
+Q_Mtep_ef[ce,se] = Q_Mtep_ef_SOU[ce] * PhiY_ener[ce, se] if PhiY_ener[ce, se] <> 0
+#Q_Mtep_ef[23] = sum(Q_Mtep_ef[elec] on elec in 2301 2302 2303 2304 2305 2306 2307 2308)
+
+#-----------------------------Energy consumption in Mtep by use -----------------------------
+
+# Energy demand of Household by use
+
+d(log(Q_Mtep_H_BUIL[ce])) = (@year>%baseyear)*d(log(EXP_BUIL[h,ce])) + (@year=<%baseyear)*log(1 + STEADYSTATE(2,1)) if EXP_BUIL[h,ce] <> 0 
+
+d(log(Q_Mtep_H_AUTO[ce])) = (@year>%baseyear)*d(log(EXP_AUTO[h,ce])) + (@year=<%baseyear)*log(1 + STEADYSTATE(2,1)) if EXP_AUTO[h,ce] <> 0
+
+# Energy demand of sectors    
+                                           
+d(log(Q_Mtep_SEC[ce, sne])) = (@year>%baseyear)*d(log(E_oth[ce, sne])) + (@year=<%baseyear)*log(1 + STEADYSTATE(2,1)) if Q_Mtep_SEC[ce, sne] <> 0
+
+#---------------------------------------------------------------------------------------------
+
+# PhiY_ener[ce, se] will vary in the future!
+
+Q_Mtep_X[ce,se]  = Q_Mtep_X_SOU[ce]  * PhiY_ener[ce, se] if Q_Mtep_X[ce,se] <> 0
+
+Q_Mtep_ef_SOU[ce] = Q_Mtep_H_BUIL[ce] + Q_Mtep_H_AUTO[ce] + Q_Mtep_SEC_SOU[ce]
+
+d(log(Q_Mtep_X_SOU[ce])) = d(log(X[ce])) if Q_Mtep_X_SOU[ce] <> 0
+
+# Energy production for non-energy/indus use
+### For sector 8 (petrochemistry):  plastic made with petrol and fertilizer made with natural  gas;
+### For sector 10 (steal): coal to make steal
+### The reason for showing these is that most policy to reduce CO2 emmissions do not target emission from
+### fuel for on-energy use.
+
+d(log(Q_Mtep_indus[ce,se])) = d(log(E_indus_SOU[ce])) if Q_Mtep_indus[ce,se] <> 0
+
+# Energy internal uses and losses of the energy producers
+Q_Mtep_int[ce,se] = coef_int[ce,se]*(Q_Mtep_ef[ce,se]+Q_Mtep_X[ce,se]) if Q_Mtep_int[ce,se] <> 0
+
+## This alternative specification is better when there is substitution between E/K
+## d(log(Q_Mtep_int[ce,se])) = d(log(E_oth[ce, se])) if Q_Mtep_int[ce,se] <> 0
+
+Q_Mtep_Losses[ce,se] = coef_Losses[ce,se]*(Q_Mtep_ef[ce,se]+Q_Mtep_X[ce,se]) if Q_Mtep_Losses[ce,se] <> 0
+
+
+# Energy Production in total final energy (including "energy"/fuel for non-energy/indus use)
+
+Q_Mtep_ef_tot[ce,se] = Q_Mtep_ef[ce,se] + Q_Mtep_X[ce,se] + Q_Mtep_indus[ce,se] if  Q_Mtep_ef_tot[ce,se] <> 0
+
+# Energy Production in primary energy (for energy use)
+
+Q_Mtep_ep[ce,se] = Q_Mtep_ef[ce,se] + Q_Mtep_X[ce,se] + Q_Mtep_int[ce,se] + Q_Mtep_Losses[ce,se] if Q_Mtep_ep[ce,se] <> 0
+
+# Agregations of Q_Mtep
+
+Q_Mtep_|V|[se] = sum(Q_Mtep_|V|[ce,se] if Q_Mtep_|V|[ce,se] <> 0 on ce) if Q_Mtep_|V|[se] <> 0 where V in ep ef X int Losses indus ef_tot
+
+Q_Mtep_|V| = sum(Q_Mtep_|V|[se] if Q_Mtep_|V|[se] <> 0 on se) if Q_Mtep_|V| <> 0 where V in ep ef X int Losses indus ef_tot
+
+Q_Mtep_H_BUIL = sum(Q_Mtep_H_BUIL[ce] on ce)
+Q_Mtep_H_AUTO = sum(Q_Mtep_H_AUTO[ce] on ce)
+Q_Mtep_SEC_SOU[ce] = sum(Q_Mtep_SEC[ce, sne] on sne)
+Q_Mtep_SEC[sne] = sum(Q_Mtep_SEC[ce, sne] on ce)
+
+Q_Mtep_H = Q_mtep_H_BUIL + Q_mtep_H_AUTO
+Q_Mtep_SEC = sum(Q_Mtep_SEC_SOU[ce] on ce)
+
+
+verif_Q_Mtep_ep = Q_Mtep_ef + Q_Mtep_Losses + Q_Mtep_int + Q_Mtep_X - Q_Mtep_ep
+
+verif_Q_Mtep_ef_SOU[ce] = sum(Q_Mtep_ef[ce,se] on se) - Q_Mtep_ef_SOU[ce]
+verif_Q_Mtep_X_SOU[ce] = sum(Q_Mtep_X[ce,se] on se) - Q_Mtep_X_SOU[ce]
+
+Verif_Q_Mtep_HSEC = Q_Mtep_H + Q_Mtep_SEC - Q_Mtep_ef
+
+## EN_price_signal = sum(PTAX[ce] * TAX[ce] - PVAT[ce] * VAT[ce] on ce) / Q_Mtep_ef
+
+##series CO_VAL=1000000*(REC_TCO+CIDD+Bonus+Bonus_elec+CSPE)/(EMS_TOT*PGDP))# equation telle qu#elle est dans la version V1#
+
+
+# Exception for energy (Distinction between energy indus / other)
+
+CU_oth[s]*Y[s] = CK[s]*K[s] + CL[s]*L[s]*PROG_L[s] + PE[s]*E_oth[s] + PMAT[s]*MAT[s] if Y[s] > 0
+
+@over d(SUBST_K_n[s]) = _
+  -ES_KLEM($s, 1) * d(log(CK[s]) - log(CL[s]))   * (L[s]{-1}   * PROG_L[s]{-1} * CL[s]{-1} / (CU_oth[s]{-1} * Y[s]{-1})) _
+  -ES_KLEM($s, 2) * d(log(CK[s]) - log(PE[s]))   * (E_oth[s]{-1}   * PE[s]{-1}                 / (CU_oth[s]{-1} * Y[s]{-1})) _
+  -ES_KLEM($s, 3) * d(log(CK[s]) - log(PMAT[s])) * (MAT[s]{-1} * PMAT[s]{-1}               / (CU_oth[s]{-1} * Y[s]{-1})) _
+  if K_n[s] <> 0
+
+
+@over d(SUBST_L_n[s]) = _
+  -ES_KLEM($s, 1) * d(log(CL[s]) - log(CK[s]))   * (K[s]{-1} * CK[s]{-1}     / (CU_oth[s]{-1} * Y[s]{-1})) _
+  -ES_KLEM($s, 4) * d(log(CL[s]) - log(PE[s]))   * (E_oth[s]{-1} * PE[s]{-1}     / (CU_oth[s]{-1} * Y[s]{-1})) _
+  -ES_KLEM($s, 5) * d(log(CL[s]) - log(PMAT[s])) * (MAT[s]{-1} * PMAT[s]{-1} / (CU_oth[s]{-1} * Y[s]{-1})) _
+  if L_n[s] <> 0
+
+# E_oth[s]: energy used within sector s for energy purposes (ex: electricity for steel making)
+d(log(E_oth_n[s])) = d(log(Y[s])) + d(SUBST_E[s]) - d(log(PROG_E[s])) if E_oth_n[s] <> 0
+# E_indus[s]: energy carrier used within sector s for non-energy purposes (ex: petrochemical feedstock)
+d(log(E_indus_n[s])) = d(log(Y[s])) if E_indus_n[s] <> 0
+
+# Ajustment of E_oth[s] and E_indus[s]
+log(|V|[s]) = ADJUST(2 + $V, 1) * log(|V|_n[s]) + (1 - ADJUST(2 + $V, 1)) * (log(|V|[s]{-1}) + d(log(|V|_e[s]))) if |V|[s] <> 0 where V in E_oth E_indus, s in %list_sec
+# E_oth[s] = sum( E_oth[ce, s] on ce )
+# E_indus[s] = sum( E_indus[ce, s] on ce )
+
+d(log(|V|_e[s])) = ADJUST(2 + $V, 2) * d(log(|V|_e[s]{-1})) + ADJUST(2 +$V, 3) * d(log(|V|[s]{-1})) + ADJUST(2 + $V, 4) * d(log(|V|_n[s])) if |V|[s] <> 0 where V in E_oth E_indus
+
+@over d(SUBST_E_n[s]) = _
+  -ES_KLEM($s, 2) * d(log(PE[s]) - log(CK[s]))   * (K[s]{-1}   * CK[s]{-1}                 / (CU_oth[s]{-1} * Y[s]{-1})) _
+  -ES_KLEM($s, 4) * d(log(PE[s]) - log(CL[s]))   * (L[s]{-1}   * PROG_L[s]{-1} * CL[s]{-1} / (CU_oth[s]{-1} * Y[s]{-1})) _
+  -ES_KLEM($s, 6) * d(log(PE[s]) - log(PMAT[s])) * (MAT[s]{-1} * PMAT[s]{-1}               / (CU_oth[s]{-1} * Y[s]{-1})) _
+if E_oth_n[s] <> 0
+
+
+@over d(SUBST_MAT_n[s]) = _
+  -ES_KLEM($s, 3) * d(log(PMAT[s]) - log(CK[s])) * (K[s]{-1} * CK[s]{-1}                 / (CU_oth[s]{-1} * Y[s]{-1})) _
+  -ES_KLEM($s, 5) * d(log(PMAT[s]) - log(CL[s])) * (L[s]{-1} * PROG_L[s]{-1} * CL[s]{-1} / (CU_oth[s]{-1} * Y[s]{-1})) _
+  -ES_KLEM($s, 6) * d(log(PMAT[s]) - log(PE[s])) * (E_oth[s]{-1} * PE[s]{-1}                 / (CU_oth[s]{-1} * Y[s]{-1})) _
+if MAT_n[s] <> 0
+
+
+# equation 2.20
+d(log(E_indus[ce, s])) = d(log(E_indus[s])) if E_indus[ce, s] <> 0
+
+d(log(E_oth[ce, s])) = d(log(E_oth[s])) + d(SUBST_E[ce, s]) if E_oth[ce, s] <> 0
+
+# Attention ponderation erreur!
+@over d(SUBST_E_n[ce, s]) = sum( -ES_NRJ($s, cols_ce(ce, ce_oth)) * d(log(PE[ce, s]) - log(PE[ce_oth, s])) * _
+                           value(E[ce_oth, s]{-1} / (E[s]{-1}) ) if ce_oth <> ce on ce_oth in %list_com_E) _
+                      if E[ce, s] <> 0
+
+
+E_indus_SOU[ce] = sum( E_indus[ce, s] on s )
+E_oth_SOU[ce] = sum( E_oth[ce, s] on s)
+# Internal energy use in energy producing sectors
+E_oth_SOU_ener[ce] = sum(E_oth[ce, se] on se)
+# Internal energy use in non-energy producing sectors
+E_oth_SOU_non_ener[ce] = sum(E_oth[ce, sne] on sne)
+
+@over E[ce, s] = E_indus[ce, s] + E_oth[ce, s] if E[ce, s] <> 0
+@over E[s] = E_indus[s] + E_oth[s]  if E[s] <> 0
+
+verif_E[s] = sum( E[ce, s] on ce ) - E[s] if E[s] <> 0
+
+
+
+
+# Exception for the households block
+
+
+@over EXP_13[h] = ( @year > %baseyear ) * ( @elem(PNewBUIL[h],%baseyear) * NewBUIL[h] +    _
+                                      @elem(PREHAB[h],%baseyear) * REHAB[h] +                     _
+                                      EXP_13_OTH_Val[h] / PEXP_13[h] ) +                   _
+            ( @year <= %baseyear ) * (EXP_13[h]{-1} * ( 1 + STEADYSTATE(2,1) ) )
+
+
+
+@over EXP_03[h] = (@year >  %baseyear) * (@elem(PNewAUTO[h], %baseyear) * NewAUTO[h] + EXP_03_OTH_val[h] / PEXP_03[h] ) + _
+            (@year <= %baseyear) * (EXP_03[h]{-1} * (1 + STEADYSTATE(2,1)))
+
+
+@over d(log(EXP[trsp, h]))   = (@year >  %baseyear) * d(log(Km_traveler[trsp, h])) + _
+                               (@year =< %baseyear) * log(1 + STEADYSTATE(2, 1))     _
+                               if Km_traveler[trsp, h] <> 0 where trsp in %list_trsp_travel
+
+
+@over EXP_03 = sum(EXP_03[h] if EXP_03[h] <> 0 on h)
+
+@over EXP_13 = sum( EXP_13[h] if EXP_13[h] <> 0 on h )
+
+@over EXP[trsp] = sum(EXP[trsp, h] on h)
+
+
+# --------aggregation dépenses d'énergie par source
+# Equation H.4.137
+@over EXP[ce, h] = @elem(PENER_BUIL[h, ce], %baseyear) * ENER_BUIL[h, ce] + EXP_AUTO[h, ce]
+
+# Equation H.4.138
+@over EXP[ce] = (@year >  %baseyear) * (sum(EXP[ce, h] if EXP[ce, h] <> 0 on h)) +   _
+          (@year =< %baseyear) * EXP[ce]{-1} * (1 + STEADYSTATE(2,1))
+
+
+# -----------------------------------------------Households expenditures --------------------------------
+# equation H.4.139
+#@over d(log(NEXP[co, h])) = (@year >  %baseyear)*d(log(Pop_TOT)) where co in 01
+@over d(log(NEXP[co, h])) = (@year >  %baseyear) * d(log(Pop_TOT)) + (@year <=  %baseyear) * log( 1 + STEADYSTATE(2,1))  where co in 01
+
+###
+## Equation that completely changes the behaviour of the model on FF shocks
+@over EXP_n[co, h] = (@year >  %baseyear) * (PEXP[co, h] * NEXP[co, h] +  _
+                                      BetaExp[co, h] * (DISPINC_VAL[h] * (1 - MPS_HH[h]) - PNEXP[h] * NEXP[h] - EXP_HOUSING_Val[h] - Exp_13_OTH_VAL[h] - EXP_MOB_Val[h]) _
+                                      ) / PEXP[co, h] +   _
+               (@year <= %baseyear) * EXP_n[co, h]{-1} * (1 + STEADYSTATE(2, 1)) _
+               if EXP[co, h] <> 0
+
+# equation H.4.140
+# Careful: including this but not the above is not coherent
+@over d(log(BetaExp[co, h])) = (1 - ES_LES_CES(1, 1)) * d(log(PEXP[co, h] / PEXP_CES[h])) if BetaExp[co, h] <> 0
+
+
+# equation H.4.141
+# PEXP_CES is only calculated on other commodities (while all commodities are included in master),
+# excluding vehicles (03), construction (13), road transportation (14, 15) and energies
+@over PEXP_CES[h] = (sum(@elem(BetaExp[co, h], %baseyear) * PEXP[co, h] ^ (1 - ES_LES_CES(1,1)) on co)) ^ (1 / (1 - ES_LES_CES(1,1)))
+
+
+# equation H.4.142
+@over PNEXP[h] * NEXP[h] = sum(PEXP[co, h] * NEXP[co, h] on co)
+
+# equation H.4.143
+@over NEXP[h] = sum(NEXP[co, h] on co)
+
+# equation H.4.145
+@over EXP[co] = sum(EXP[co, h] if EXP[co, h] <> 0 on h)
+
+# equation H.4.146 PROBLEM! Why this equation?
+@over Phi_EXP[co, h] = EXP[co, h] / EXP[co] if EXP[co] <> 0
+
+# equation H.4.147
+@over PEXP[co, h] = PCH[co]
+@over d(log(PEXP[c, h])) = d(log(PCH[c])) where c in 03 13 14 15 18 21 22 23 24
+
+# equation H.4.150  H.4.151
+@over log(EXP[co, h]) =      ADJUST(20 + $h + %nb_households * ($co - 1), 1)  *  log(EXP_n[co, h]) +                         _
+                  (1 - ADJUST(20 + $h + %nb_households * ($co - 1), 1)) * (log(EXP[co, h]{-1}) + d(log(EXP_e[co, h]))) _
+                  if EXP[co, h] <> 0
+
+@over d(log(EXP_e[co, h])) = ADJUST(20 + $h + %nb_households * ($co - 1), 2) * d(log(EXP_e[co, h]{-1})) + _
+                       ADJUST(20 + $h + %nb_households * ($co - 1), 3) * d(log(EXP[co, h]{-1})) +   _
+                       ADJUST(20 + $h + %nb_households * ($co - 1), 4) * d(log(EXP_n[co, h]))       _
+                       if EXP[co, h] <> 0
+
+@over d(Stock_S) = S_HH

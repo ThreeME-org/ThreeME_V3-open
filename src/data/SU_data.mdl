@@ -1,0 +1,108 @@
+include ..\model\lists
+
+
+## This section provides the equations defining the supply and demand structure stating the accounting equilibrium. \\
+
+#####################
+###### USE SIDE #####
+#####################
+
+Q|O|[c] := MGS|O|[c] + CI|O|[c] + CH|O|[c] + G|O|[c] + I|O|[c] + X|O|[c] + DS|O|[c]
+
+CI|O|[c] := sum(CI|O|[c, s] on s)
+
+I|O|[c] := sum(I|O|[c, s] on s)
+
+|V|[c] := |V|D[c] + |V|M[c] where V in Q CI I DS
+
+MGSbis[c] := MGSD[c] + MGSM[c]
+
+|V||O| := sum(|V||O|[c] on c) where V in Q MGS CI CH G I X DS
+
+|V| := |V|D + |V|M where V in Q MGS CI CH G I X DS
+
+#####################
+###### SUPPY SIDE ###
+#####################
+
+MGP|O|[c] := sum(MGP|O|[m, c] on m)
+
+# YQ[c] can not be calibrated from equation because circular reference with NTAXCD_VAL[c] that depends on YQ[c]. Use instead YQ[c] := sum(Y[c, s] on s)
+# YQ[c]*PYQ[c] + NTAXCD_VAL[c] + PMGPD[c]*MGPD[c] := PQD[c]*QD[c]
+
+YQbis[c] + NTAXCD[c] + MGPD[c] := QD[c]
+
+# M[c] can not be calibrated from equation because circular reference with NTAXCM_VAL[c] that depends on M[c]. Use round 0 instead.
+# M[c]*PM[c] + NTAXCM_VAL[c] + PMGPM[c]*MGPM[c] := PQM[c]*QM[c]
+
+Mbis[c] + NTAXCM[c] + MGPM[c] := QM[c]
+
+MGPD := sum(MGPD[c] on c)
+
+MGPM := sum(MGPM[c] on c)
+
+MGS[m] := sum(MGP[m, c] on c)
+
+MGP[m, c] := MGPD[m, c] + MGPM[m, c]
+
+YQ := sum(YQ[c] on c)
+
+M := sum(M[c] on c)
+
+NTAXC_VAL[c] := NTAXCD_VAL[c] + NTAXCM_VAL[c]
+
+NTAXC[c] := NTAXCD[c] + NTAXCM[c]
+
+NTAXC := sum(NTAXC[c] on c)
+
+CI|O|[s] := sum(CI|O|[c, s] on c)
+
+CI[s] := CID[s] + CIM[s]
+
+CIbis := sum(CI[s] on s)
+
+I|O|[s] := sum(I|O|[c, s] on c)
+
+I[s] := ID[s] + IM[s]
+
+Ibis := sum(I[s] on s)
+
+Y[s] := sum(Y[c, s] on c)
+
+Y := sum(Y[s] on s)
+
+VA[s] := Y[s] - CI[s]
+
+VA_VAL[s] := PY[s] * Y[s] - PCI[s] * CI[s]
+
+VA := sum(VA[s] on s)
+
+WAGES := sum(WAGES[s] on s)
+
+NTAXS_VAL := sum(NTAXS_VAL[s] on s)
+
+NTAXS := sum(NTAXS[s] on s)
+
+GOS_VAL[s] := VA_VAL[s] - PWAGES[s] * WAGES[s] - PRSC[s] * RSC[s] - NTAXS_VAL[s]
+
+GOS[s] := VA[s] - WAGES[s] - RSC[s] - NTAXS[s]
+
+GOS := sum(GOS[s] on s)
+
+NOS_VAL[s] := GOS_VAL[s] - PK[s]{-1} * Rdep[s] * F[K, s]{-1}
+
+NOS[s] := GOS[s] - @elem(PK[s]{-1}, %baseyear) * Rdep[s] * F[K, s]{-1}
+
+NOS := sum(NOS[s] on s)
+
+### GDP definitions
+
+GDP := CH + G + I + X + DS - M
+
+GDP[c] := CH[c] + G[c] + I[c] + X[c] + DS[c] - M[c]
+
+GDPbis := sum(GDP[c] on c)
+
+GDPter := VA + NTAXC
+
+GDP4 := GOS + WAGES + RSC + NTAXS + NTAXC

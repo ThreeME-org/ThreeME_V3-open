@@ -1,0 +1,200 @@
+# Used by the solver to adjust carbon and energy taxes
+TENERTD_22 = TENERT_22
+TENERTD_23 = TENERT_23
+TENERTD_24 = TENERT_24
+TENERTM_22 = TENERT_22
+TENERTM_23 = TENERT_23
+TENERTM_24 = TENERT_24
+
+# If need: Production price use actual stock of capital
+#@over PY_n[s]*Y[s] = (CK[s]*K[s]+ CL[s]*L_n[s]*PROG_L[s] + PE[s]*E_n[s] + PMAT[s]*MAT_n[s]) * (1 + TMD[s]) if Y[s] > 0 where s in %list_sec
+
+# If need: No adjustments for investments in the electricity sector
+#@over IA[se23] = (K_n[se23] > (1 - Tdec[se23]) * K_n[se23]{-1}) * (K_n[se23] - (1 - Tdec[se23]) * K_n[se23]{-1}) + _
+                # (K_n[se23] <= (1 - Tdec[se23]) * K_n[se23]{-1}) * 0.1
+
+# Shorter names to overcome eViews' brilliant limitations...
+q22 = q_mtep_ef_sou_22
+q23 = q_mtep_ef_sou_23
+q24 = q_mtep_ef_sou_24
+
+#If need Ventilates energy efficiency improvements by fuel using the share of each energy vector for each sector
+#@over d(eta_K_E_des[sne]) = 6 * (d(log(PE[sne]) - log(CK[sne])))* (d(log(PE[sne]) - log(CK[sne]))>0)
+
+# No electricity exports by 2050
+@over X_23 = @elem(X_23, 2006) * (1 - 0.05) ^ (@year - 2006)
+
+# Cross-consumption between energy sectors
+# Q_Mtep_ener_in[ce, se]: intermediate energy consumed by sector se to produce energy commodity ce
+# Q_Mtep_ener_out[ce, se]: intermediate energy ce produced by sector se to be consumed by other energy sectors
+@over Q_Mtep_ef_tot[ce, se] = Q_Mtep_ef[ce, se]  + Q_Mtep_X[ce, se] + Q_Mtep_indus[ce, se] - Q_Mtep_ener_in[ce, se] + Q_Mtep_ener_out[ce, se] if Q_Mtep_ef_tot[ce, se] <> 0
+
+# Take cross-consumptions into account for primary energy consumption
+@over Q_Mtep_ep[ce, se] = Q_Mtep_ef[ce, se] + Q_Mtep_X[ce, se] + Q_Mtep_int[ce, se] + Q_Mtep_Losses[ce, se] - Q_Mtep_ener_in[ce, se] + Q_Mtep_ener_out[ce, se] if Q_Mtep_ep[ce,se] <> 0
+
+# Special case for methanation in 2303
+@over Q_Mtep_ef_tot[23, 2303] = Q_Mtep_ef[23, 2303]  + Q_Mtep_X[23, 2303] + Q_Mtep_indus[23, 2303]
+
+#CAPEX[se] = d(K[se])
+CAPEX[se] = CK[se] * K[se] / P
+
+
+# If need: Endogenous energy efficiency
+#@over d(eta_L_E_des[sne]) = endo_L_E * (d(log(PE[sne]) - log(CL[sne])))*(d(log(PE[sne]) - log(CL[sne]))>0)
+#@over d(eta_L_E_des[trsp]) = 0.7 * endo_L_E * (d(log(PE[trsp]) - log(CL[trsp])))*(d(log(PE[trsp]) - log(CL[trsp]))>0)
+
+# Price signals
+@over d(SUBST_K_n[s]) = _
+  -ES_KLEM($s, 1) * d(log(CK[s]) - log(CL[s]))                    * (L[s]{-1}     * PROG_L[s]{-1} * CL[s]{-1}      / (CU_oth[s]{-1} * Y[s]{-1})) _
+  -eta_K_E[s]     * d(log(CK[s]) - log((PE[s] + PE_Signal[s])))   * (E_oth[s]{-1} * (PE[s]{-1} + PE_Signal[s]{-1}) / (CU_oth[s]{-1} * Y[s]{-1})) _
+  -ES_KLEM($s, 3) * d(log(CK[s]) - log(PMAT[s]))                  * (MAT[s]{-1}   * PMAT[s]{-1}                    / (CU_oth[s]{-1} * Y[s]{-1})) _
+if K_n[s] <> 0
+
+@over d(SUBST_E_n[s]) = _
+  -eta_K_E[s]     * d(log((PE[s] + PE_Signal[s])) - log(CK[s]))   * (K[s]{-1}   * CK[s]{-1}                 / (CU_oth[s]{-1} * Y[s]{-1})) _
+  -eta_L_E[s]     * d(log((PE[s] + PE_Signal[s])) - log(CL[s]))   * (L[s]{-1}   * PROG_L[s]{-1} * CL[s]{-1} / (CU_oth[s]{-1} * Y[s]{-1})) _
+  -ES_KLEM($s, 6) * d(log((PE[s] + PE_Signal[s])) - log(PMAT[s])) * (MAT[s]{-1} * PMAT[s]{-1}               / (CU_oth[s]{-1} * Y[s]{-1})) _
+if E_oth_n[s] <> 0
+
+@over d(SUBST_L_n[s]) = _
+  -ES_KLEM($s, 1) * d(log(CL[s]) - log(CK[s]))                  * (K[s]{-1} * CK[s]{-1}                          / (CU_oth[s]{-1} * Y[s]{-1})) _
+  -eta_L_E[s]     * d(log(CL[s]) - log((PE[s] + PE_Signal[s]))) * (E_oth[s]{-1} * (PE[s]{-1} + PE_Signal[s]{-1}) / (CU_oth[s]{-1} * Y[s]{-1})) _
+  -ES_KLEM($s, 5) * d(log(CL[s]) - log(PMAT[s]))                * (MAT[s]{-1} * PMAT[s]{-1}                      / (CU_oth[s]{-1} * Y[s]{-1})) _
+if L_n[s] <> 0
+
+@over d(SUBST_MAT_n[s]) = _
+  -ES_KLEM($s, 3) * d(log(PMAT[s]) - log(CK[s]))                * (K[s]{-1} * CK[s]{-1}                          / (CU_oth[s]{-1} * Y[s]{-1})) _
+  -ES_KLEM($s, 5) * d(log(PMAT[s]) - log(CL[s]))                * (L[s]{-1} * PROG_L[s]{-1} * CL[s]{-1}          / (CU_oth[s]{-1} * Y[s]{-1})) _
+  -ES_KLEM($s, 6) * d(log(PMAT[s]) - log(PE[s] + PE_Signal[s])) * (E_oth[s]{-1} * (PE[s]{-1} + PE_Signal[s]{-1}) / (CU_oth[s]{-1} * Y[s]{-1})) _
+if MAT_n[s] <> 0
+
+PE_Signal[s] = (@year > 2010) * PE_Signal_0[s] * (1 + (PE_Signal_g_i[s] + (PE_Signal_g_f[s] - PE_Signal_g_i[s]) * (@year - 2010)/40)) ^ (@year - 2010)
+PE_Signal_H[ce] = (@year > 2010) * PE_Signal_0_H[ce] * (1 + (PE_Signal_g_i_H[ce] + (PE_Signal_g_f_H[ce] - PE_Signal_g_i_H[ce]) * (@year - 2010)/40)) ^ (@year - 2010)
+
+PE_Signal_0[sinc] = PE_Signal_0_indus
+PE_Signal_g_i[sinc] = PE_Signal_g_i_indus
+PE_Signal_g_f[sinc] = PE_Signal_g_f_indus
+
+
+@over d(SUBST_E_n[ce, s]) = sum( -ES_NRJ($s, cols_ce(ce, ce_oth)) * d(log(PE[ce, s] + PE_Signal[ce, s]) - log(PE[ce_oth, s] + PE_Signal[ce_oth, s])) * _
+                           value(E[ce_oth, s]{-1} / (E[s]{-1}) ) if ce_oth <> ce on ce_oth in %list_com_E) _
+                      if E[ce, s] <> 0
+
+# Modal shift in transportation
+@over d(log(MAT[16, s])) = d(log(MAT[s])) + d(SUBST_MAT[16, s]) + log(1 -  modal_shift_freight * (1 + 1/4) * MAT[16, s]{-1} / MAT[16, s]{-1}) if MAT[16, s] <> 0
+@over d(log(MAT[14, s])) = d(log(MAT[s])) + d(SUBST_MAT[14, s]) + log(1 +  modal_shift_freight             * MAT[16, s]{-1} / MAT[14, s]{-1}) if MAT[14, s] <> 0
+@over d(log(MAT[17, s])) = d(log(MAT[s])) + d(SUBST_MAT[17, s]) + log(1 + (modal_shift_freight / 4)        * MAT[16, s]{-1} / MAT[17, s]{-1}) if MAT[17, s] <> 0
+
+# train and passenger transport equation becomes:  0.4 is the share of modal transfert to the train and passenger by road / 0.2 is the share due to sobriety  0.2
+#@over Km_traveler[14, h] = Km_traveler_bis[14,h] - 0.8 * (1 - modal_shift_to_busses) * modal_trf_auto[h] + modal_shift_passenger * Km_traveler_auto[h]{-1}
+#@over Km_traveler[15, h] = Km_traveler_bis[15,h] - 0.1 * modal_shift_to_busses * modal_trf_auto[h]
+#@over d(log(Km_traveler[18, h])) = (@year > %baseyear) * d(log(Km_traveler[h]))
+
+# Exogenous modal shift from private vehicles to trains, in addition to the existing modal shift
+#@over d(log(Km_traveler_auto[h])) = (@year > %baseyear) * (d(log(Km_traveler[h])) - eta_Km_traveler_auto * d(log (PEXP_22[h]) - log(PCH))) + log(1 - modal_shift_passenger)
+@over d(log(EXP_AUTO[h, ecl, ce])) = d(log(Km_auto[h, ecl, ce])) -d(log(PROG_AUTO)) if km_AUTO[h, ecl, ce] <> 0
+
+# No K-E or L-E susbtitutions in the air transportation sector
+#@over SUBST_E_n_18 = 0
+
+# Exogenous energy efficiency improvements in housing electricity consumption
+# (e.g. appliances improvements stemming from R&D in the rest of the world)
+# It is only applied at the very end of the trajectory
+# Half of that ee is also applied to natural gas consumption
+@over d(log(ENERperM2[h, ecl, ce])) = -eta_BUIL * d(log(PEXP[ce, h] + PE_Signal_H[ce])-log(PCH))*(d(log(PEXP[ce, h] + PE_Signal_H[ce])-log(PCH))>0) + d(SUBST_BUIL[h, ecl, ce]) + log(1 + exo_ee_appliances) if ENER_BUIL[h, ecl, ce] <> 0 where ce in 22 23
+@over d(log(ENERperM2[h, ecl, 24])) = -eta_BUIL * d(log(PEXP[24, h] + PE_Signal_H[24])-log(PCH))*(d(log(PEXP[24, h] + PE_Signal_H[24])-log(PCH))>0) + d(SUBST_BUIL[h, ecl, 24]) if ENER_BUIL[h, ecl, 24] <> 0
+
+#@over d(log(Km_traveler_H01))  = ( @year > 2006 )  * d(log(POP_TOT)) + log(1 + exo_travel_growth)
+
+# Redistribution
+@over DISPINC_VAL[h] = DISPINC_AI_VAL[h] - IR_VAL[h] - AIC_VAL[h] + (Q_Mtep_H / Q_Mtep_ef) * REDIS_ENERT_VAL
+@over TCSE[s] = @elem(TCSE[s], %baseyear) - (Q_Mtep_SEC / Q_Mtep_ef) * REDIS_ENERT_VAL / (W_S * L_S)
+
+#@over TMD_n[s] = TMD_exo[s] where s in 2305 2306
+
+# Energy Reporting
+ER_Trans_Private = Q_Mtep_H_AUTO
+ER_Trans_Public = sum(Q_Mtep_sec[trsp] on trsp)
+ER_Residential = Q_Mtep_H_BUIL
+ER_Tertiary = Q_Mtep_sec[19] + Q_Mtep_sec[20]
+ER_Indus = sum(Q_Mtep_sec[sind] on sind)
+ER_Agriculture = Q_Mtep_sec_01
+
+ER_Trans_Private_coal = Q_Mtep_H_AUTO_21
+ER_Trans_Public_coal = sum(Q_Mtep_sec_21[trsp] on trsp)
+ER_Residential_coal = Q_Mtep_H_BUIL_21
+ER_Tertiary_coal = Q_Mtep_sec_21[19] + Q_Mtep_sec_21[20]
+ER_Indus_coal = sum(Q_Mtep_sec_21[sind] on sind)
+ER_Agriculture_coal = Q_Mtep_sec_21_01
+
+ER_Trans_Private_oil = Q_Mtep_H_AUTO_22
+ER_Trans_Public_oil = sum(Q_Mtep_sec_22[trsp] on trsp)
+ER_Residential_oil = Q_Mtep_H_BUIL_22
+ER_Tertiary_oil = Q_Mtep_sec_22[19] + Q_Mtep_sec_22[20]
+ER_Indus_oil = sum(Q_Mtep_sec_22[sind] on sind)
+ER_Agriculture_oil = Q_Mtep_sec_22_01
+
+ER_Trans_Private_elec = Q_Mtep_H_AUTO_23
+ER_Trans_Public_elec = sum(Q_Mtep_sec_23[trsp] on trsp)
+ER_Residential_elec = Q_Mtep_H_BUIL_23
+ER_Tertiary_elec = Q_Mtep_sec_23[19] + Q_Mtep_sec_23[20]
+ER_Indus_elec = sum(Q_Mtep_sec_23[sind] on sind)
+ER_Agriculture_elec = Q_Mtep_sec_23_01
+
+ER_Trans_Private_gas = Q_Mtep_H_AUTO_24
+ER_Trans_Public_gas = sum(Q_Mtep_sec_24[trsp] on trsp)
+ER_Residential_gas = Q_Mtep_H_BUIL_24
+ER_Tertiary_gas = Q_Mtep_sec_24[19] + Q_Mtep_sec_24[20]
+ER_Indus_gas = sum(Q_Mtep_sec_24[sind] on sind)
+ER_Agriculture_gas = Q_Mtep_sec_24_01
+
+ER_oil = sum(Q_Mtep_ef[se22] on se22)
+ER_oil_2201 = Q_mtep_ef_2201
+ER_oil_2202 = Q_mtep_ef_2202
+ER_elec = sum(Q_Mtep_ef[se23] on se23)
+ER_elec_2301 = Q_MTEP_ef_2301	
+ER_elec_2302 = Q_MTEP_ef_2302	
+ER_elec_2303 = Q_MTEP_ef_2303	
+ER_elec_2304 = Q_MTEP_ef_2304	
+ER_elec_2305 = Q_MTEP_ef_2305	
+ER_elec_2306 = Q_MTEP_ef_2306	
+ER_elec_2307 = Q_MTEP_ef_2307	
+ER_elec_2308 = Q_MTEP_ef_2308	
+ER_gas = sum(Q_Mtep_ef[se24] on se24)
+ER_gas_2401 = Q_MTEP_ef_2401	
+ER_gas_2402	= Q_MTEP_ef_2402	
+ER_gas_2403	= Q_MTEP_ef_2403	
+ER_gas_2404	= Q_MTEP_ef_2404	
+ER_gas_2405	= Q_MTEP_ef_2405
+ER_gas_2406	= Q_MTEP_ef_2406	
+ER_Coal = Q_mtep_ef_21
+
+ER_Total = Q_Mtep_ef
+
+ER_Auto = AUTO
+
+ER_AUTO_Coal = AUTO_21
+ER_Auto_Oil = AUTO_22
+ER_Auto_Elec = AUTO_23
+ER_Auto_gas = AUTO_24
+
+ER_AUTO_A = AUTO_CA
+ER_AUTO_B = AUTO_CB
+ER_AUTO_C = AUTO_CC
+ER_AUTO_D = AUTO_CD
+ER_AUTO_E = AUTO_CE
+ER_AUTO_F = AUTO_CF
+ER_AUTO_G = AUTO_CG
+
+Share_NEWAUTO_CA = PHI_NEWAUTO_H01_CA
+Share_NEWAUTO_CB = PHI_NEWAUTO_H01_CB
+Share_NEWAUTO_CC = PHI_NEWAUTO_H01_CC
+Share_NEWAUTO_CD = PHI_NEWAUTO_H01_CD
+Share_NEWAUTO_CE = PHI_NEWAUTO_H01_CE
+Share_NEWAUTO_CF = PHI_NEWAUTO_H01_CF
+Share_NEWAUTO_CG = PHI_NEWAUTO_H01_CG
+
+ER_Inv_Wind = CAPEX_2305
+ER_Inv_Solar = CAPEX_2306
+ER_Jobs_Public_Trsp = sum(L[trsp] on trsp)
+

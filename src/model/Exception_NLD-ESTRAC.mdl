@@ -1,0 +1,81 @@
+##### Exception equations for ThreeME - NLD - ESTRAC
+
+#### Additional equations to fit scenarii 
+
+### Fitting baseline GDP
+
+##! Labor technical progress gain
+log(1 + GR_PROG[L, s]) = d(log(GDP_trend)) - d(log(POP))
+
+##! Government expenditures
+d(log(EXPG)) = d(log(GDP_trend)) + 0.5 * GDP_cont
+
+##! World demand 
+d(log(WD[c])) = d(log(GDP_trend)) + 0.5 * GDP_cont
+
+
+#### Assumptions regarding prices
+##! Price of domestically produced commodity $c$, expressed at basic price
+@over PYQ[c]  = PIESA[c]*PY where c in ccoa coil cfue cpch cele cgas cmga cbiog cbiom cbiof chea cwas
+
+# To avoid diffrence between GDP def we should also correct the price of production: 
+# cfue cpch cele cgas cmga cbiog cbiom cbiof chea cwas
+# spen spch sgas sgasb sbiom sbiof sesf sega sepe sehy sewi seso sebi	senu shea
+# @over PY[scoa] = PYQ[ccoa] 
+# @over PY[soil] = PYQ[coil]
+# Problem with cwas that is not produced by a specific sector.
+# But this would increase a  lot the number of equations (not sure if we should do it:)
+# PY_n[s,c] = CU_n[s] * (1 + MARKUP[s,c])
+# d(log(1+MARKUP_n[s,c]))  = RHO_MARKUP_Y *  d(log(CUR[s]))                   if Y[s] > 0
+# MARKUP[s,c] = ADJUST_MARKUP[s] * MARKUP_n[s,c] + (1 - ADJUST_MARKUP[s]) * MARKUP[s,c]{-1} if Y[s,c] > 0
+# log(PY[s,c])      = ADJUST0_PY[s] * log(PY_n[s,c])        + (1 - ADJUST0_PY[s]) * (log(PY[s,c]{-1})   +                 d(log(PY_e[s,c])))
+# d(log(PY_e[s,c])) = ADJUST1_PY[s] * d(log(PY_e[s,c]{-1})) + ADJUST2_PY[s]       * d(log(PY[s,c]{-1})) + ADJUST3_PY[s] * d(log(PY_n[s,c]))
+# @over PY[s] * Y[s] = sum(PY[s,c] * Y[c, s] if Y[c, s] <> 0 on s) if Y[s] <> 0
+# @over PY[s,c]  = PIESA[c]*PY where c in ccoa coil cfue cpch cele cgas cmga cbiog cbiom cbiof chea cwas
+# 
+
+##! Price of imported commodity $c$, expressed at basic price
+@over PM[c]   = PIESA[c]*PY where c in ccoa coil cfue cpch cele cgas cmga cbiog cbiom cbiof chea cwas
+
+#### Assumptions regarding energy technologies
+##! Technical progress of the production factor $f$ in sector $s$
+@over PROG[f, s] = PROG_IESA[f, s] where f in K E
+
+##! Share of electricity production produced by sector $s$
+PhiY_toe[cele, s] = PhiY_IESA[cele, s] / (sum(PhiY_IESA[cele, ss] on ss)) if PhiY_toe[cele, s] <> 0
+
+# PROG_IESA[K, s] is the WAC index / Idem for energy
+
+##! End use for energy $ce$ of sector $s$, expressed in toe
+@over d(CI_toe[ce, s]) = d(CI_iesa[ce, s]) 				if CI_toe[ce, s] <> 0
+
+CI_iesa_nnrj[s] = sum(CI_iesa[ce, s] on ce) where s in %list_sec \ sres scoa soil spen spch sgas sgasb sbiom sbiof sesf sega sepe sehy sewi seso sebi senu shea
+
+##! Energy consumption $ce$ of sector $s$
+@over d(log(CI[ce, s]))    = d(log(CI_toe[ce, s]))      if CI[ce, s]  <> 0
+
+#### Assumptions regarding external trade
+##! External end use for energy $ce$, expressed in toe
+@over d(X_toe[ce]) = d(X_iesa[ce]) 			if X_toe[ce] <> 0
+
+##! Foreign demand for exports of commodity $c$
+@over d(log(X[ce])) = d(log(X_toe[ce]))         if X[ce]   <> 0
+
+##! External end use for energy $ce$, expressed in toe
+@over d(M_toe[ce]) = d(M_iesa[ce]) 			if M_toe[ce] <> 0
+
+#! Quantity of imported commodity $c$ expressed at market price
+@over d(log(QM[ce])) = d(log(M_toe[ce])) 	if QM[ce] <> 0
+
+##! Carbon tax rate on the greenhouse gas $ghg$ associated to the intermediary consumption of commodity $c$ by the sector $s$
+R2_CI_CO2[c,s] = RCO2TAX_VOL*PCH
+
+##! Carbon tax rate on the greenhouse gas $ghg$ associated to the material consumption of the sector $s$
+R2_MAT_CO2[s]= RCO2TAX_VOL*PCH
+
+##! Carbon tax rate on the greenhouse gas $ghg$ associated to the final production of the sector $s$
+R2_Y_CO2[s] = RCO2TAX_VOL*PCH
+
+##! Carbon tax rate on the greenhouse gas $ghg$ associated to the household final consumption of the sector $s$
+R2_CH_CO2[c] = RCO2TAX_VOL*PCH
+

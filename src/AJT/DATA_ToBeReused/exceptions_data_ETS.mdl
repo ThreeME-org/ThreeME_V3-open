@@ -1,0 +1,61 @@
+## Introduction de l'ETS
+
+#---------------------------------------------------------------------------------------------------------------------------------------------
+##I
+# prix du marché du permis ETS en euros constant 2006
+P_ETS := 0
+
+# prix nominal du permis ETS 
+P_ETS_nominal := 0
+
+#allocation annuelle gratuite des permis, pour le secteur s
+Q_ETS_free[s] := 0
+
+#Emission total par secteur
+EMS_SEC_TOT[s] := 0
+
+share_CO2_GES[s] := 0
+
+# Paramettre qui permet de passer d'une version signal Prix (effet_ETS_classique = 0, l'assiette de l'ETS est reduite des quotas gratuits) 
+# à une version  subvention de la production (effet_ETS_classique = 1, les quotas gratuits n'entrent pas dans la demande de facteur de production)
+effet_ETS_classique := 1
+
+delta_ETS_SEC[ce2, s] := 0
+delta_ETS_DC[cm, s] := 0
+
+# Coût de l'ETS
+ETS_VAL_SEC[ce2, s] := 0
+ETS_VAL_SEC[s] := 0
+ETS_VAL_DC[cm, s] := 0
+
+#------------------------------------------------------------------------------------------------------------------------------------------------
+##II
+
+# recettes des enchères de l'ETS transférées à l'ANAH sous forme de subvention à l'investissement dans la rénovation, en euros constant 2006
+Sub_ANAH_ETS := 0
+
+Sub_ANAH_ETS_nominal :=0
+R_SUB_Trend[h, ecl, ecl2] := HOUSEHOLD_HYBRID_BUIL(228 + $ecl, $h)
+delta_R_SUB[h, ecl, ecl2] := 0
+
+Total_REHAB_VAL := sum(PREHAB[h, ecl, ecl2] * REHAB[h, ecl, ecl2] if REHAB[h,ecl,ecl2]  <> 0 on ecl, ecl2, h)
+
+#-------------------------------------------------------------------------------------------------------------------------------------------------
+##III
+#Share_import_EU[c] := 0
+
+PWD_nonEU[c] := P
+PWD_EU[c] := P
+
+ES_M_EU_RWD := 0.8 
+
+
+
+## Modification de l'équation de prix pour introduire le cas 2 :
+## Calibration des taux de marge de manière à caler sur la nouvelle équation de prix:
+#(1 + TMD[s]) := @elem(PY_n[s] * Y[s] / (CK[s]*K_n[s] + CL[s]*L_n[s]*PROG_L[s] + PE[s]*E_n[s] + PMAT[s]*MAT_n[s] + PIY[s]*IY[s] + PSY[s]*SY[s] + PIS[s]*IS[s]), %baseyear)
+
+#TMD_n[s] := TMD[s]
+
+#NCU_n[s] := 1
+#CU_n[s] := 1

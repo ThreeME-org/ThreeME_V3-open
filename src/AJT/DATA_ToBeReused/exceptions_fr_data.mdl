@@ -1,0 +1,46 @@
+REC_VAL := DIV_GOV_VAL + IR_VAL + AIC_VAL + INC_GOV_OTH_net - CL_S[sp]*L_S[sp]*PROG_L[sp] + _
+  	   value(Y[sp] + TAX + IY + IS + CSE_TOT + CSS_TOT - (E[sp] + MAT[sp] + IY[sp]))
+
+
+R_G := @elem( (DEP_VAL - (PRESOC_VAL + CL_S[sp]*L_S[sp]*PROG_L[sp] +_
+               value(E[sp] + MAT[sp] + IY[sp] + (G - G[sp]) - ((SUB - SUB_01) + (SY - SY_01))) + IA[sp])) / DEBT_G_VAL{-1}, %baseyear)
+
+Tvat|O|[c] := (VAT|O|_HSH[c] / (CH|O|[c] - VAT|O|_HSH[c]+0.00000000000000000001))
+
+# gelCompilateur  # Exception on MTE
+# gelCompilateur  Q_Mtep_EP[se] := fac_conv_EP[se] * Q_Mtep[se] on se in
+# gelCompilateur  Q_Mtep_H[ce] := Q_Mtep_H_AUTO[ce] + Q_Mtep_H_BUIL[ce]
+# gelCompilateur
+# gelCompilateur  |V| := sum(|V|[se] on se) where V in Q_Mtep
+# gelCompilateur  |V|[22] := sum(|V|[se] on se in %list_subsec_22) where V in Y E Q_Mtep Q_Mtep_EP
+# gelCompilateur  |V|[23] := sum(|V|[se] on se in %list_subsec_23) where V in Y E Q_Mtep Q_Mtep_EP
+# gelCompilateur  |V|[24] := sum(|V|[se] on se in %list_subsec_24) where V in Y E Q_Mtep Q_Mtep_EP
+# gelCompilateur
+# gelCompilateur  Q_Mtep_EF[ce] := Q_Mtep[ce] - Q_Mtep_ESEC[ce]
+# gelCompilateur
+# gelCompilateur  |V| := sum(|V|[ce] on ce) where V in Q_Mtep_EP Q_Mtep_H_BUIL Q_Mtep_H_AUTO Q_Mtep_SEC Q_Mtep_ESEC Q_Mtep_EF
+
+
+# Exception on Emission Household Hybrid
+
+# gelcompilateur # Housing
+# gelcompilateur EMS_HH_BUIL[ce2, h] := sum(EMS_HH_BUIL[ce2, h, ecl] on ecl)
+# gelcompilateur EMS_HH_BUIL[h, ecl] := sum(EMS_HH_BUIL[ce2, h, ecl] on ce2)
+# gelcompilateur # !!! ERROR, left on purpose to compare with reference
+# gelcompilateur EMS_HH_BUIL[h] := sum(EMS_HH_BUIL[24, h] on h)
+# gelcompilateur EMS_HH_BUIL[ecl] := sum(EMS_HH_BUIL[H01, ecl] on ce2)
+# gelcompilateur
+# gelcompilateur EMS_HH_BUIL := sum(EMS_HH_BUIL[h] on h)
+# gelcompilateur
+# gelcompilateur # Automobile
+# gelcompilateur EMS_HH_AUTO[22, h] := sum(EMS_HH_AUTO[22, h, ecl] on ecl)
+# gelcompilateur EMS_HH_AUTO[22, ecl] := sum(EMS_HH_AUTO[22, h, ecl] on h)
+# gelcompilateur EMS_HH_AUTO[22] := sum(EMS_HH_AUTO[22, h] on h)
+# gelcompilateur
+# gelcompilateur # Sum of automobile and housing
+# gelcompilateur EMS_HH[e, h, ecl] := EMS_HH_BUIL[e, h, ecl] where e in 21 24
+# gelcompilateur EMS_HH[22, h, ecl] := EMS_HH_BUIL[22, h, ecl] + EMS_HH_AUTO[22, h, ecl]
+# gelcompilateur EMS_HH[ce2, h] := sum(EMS_HH[ce2, h, ecl] on ecl)
+# gelcompilateur EMS_HH[h] := sum(EMS_HH[ce2, h] on ce2)
+# gelcompilateur EMS_HH[ce2] := sum(EMS_HH[ce2, h] on h)
+# gelcompilateur EMS_HH := sum(EMS_HH[h] on h)

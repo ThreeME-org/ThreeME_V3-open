@@ -1,0 +1,69 @@
+include ..\model\lists
+
+# include parameters
+# include R_Calibration
+include elasticities
+
+eps := 0.00000000000001
+
+### Production capacity (depends on the hypothesis regarding the long term capacity utilisation ratio)
+YCAP[s] := Y[s] / 0.8
+
+### Capital stock of sector s
+F[K, s] := I[s] * (1 + GR_REAL) / (Rdep[s] + GR_REAL)
+
+NCH[c] := 0.0 * CH[c]
+
+RR_Un := 0.3
+
+RR_POP * @elem(W, %baseyear) * PROG_L * P * POP :=SOC_BENF_VAL - RR_Un * W * Un
+
+##############
+### Indexes
+##############
+P 		:=  1 * (1 + GR_PRICES) ^ (@year - %baseyear)
+PROG_L 	:=  1 * (1 + GR_PROG_L) ^ (@year - %baseyear)
+
+PROG[f, s] := 1 * (1 + GR_PROG[f, s]) ^ (@year - %baseyear)
+
+WD[c] := 1 * (1 + GR_REAL) ^ (@year - %baseyear)
+
+
+############################
+### EMISSIONS AND ENERGY DATA
+############################
+
+IEMS_CI[ghg,c,s] := EMS_CI[ghg,c,s] / (CI[c, s] + eps)
+
+IEMS_MAT[ghg,s] := EMS_MAT[ghg,s] / (F_MAT[s] + eps)
+
+IEMS_Y[ghg,s] := EMS_Y[ghg,s] / (Y[s] + eps)
+
+IEMS_CH[ghg,c] := EMS_CH[ghg,c] / (CH[c] + eps)
+
+PY_toe[ce, s] := Y[ce, s]/(Y_toe[ce, s] + eps)
+
+############################
+### OTHER DATA
+############################
+
+## Share of Government debt reimbursed every year
+Phi_RD_G := 1/20
+
+## Debt of the Government
+## The debt of the Government is calibrated such that the ratio between the debt and the GDP is constant at the steady state (given the public spendings and the governmental incomes at the base year). It may thus differ from the effective debt.
+# DEBT_G_VAL * (GR_NOMI - r_DEBT_G{-1}) / (1 + GR_NOMI) := (PG  * G  + SOC_BENF_VAL) - INC_G_VAL
+
+## To have a steady state, we can alternatively use the effective debt at the base year and derive the social and income taxes (INC_SOC_TAX_VAL) that would allows a constant ratio between the debt and the GDP over time. In this case, the calibrated value of the social and income taxes may differ from the effective ones. To do so we need to use the following formulas:
+DEBT_G_VAL := RDEBT_G_VAL * PGDP * GDP
+INC_SOC_TAX_VAL := (PG  * G  + SOC_BENF_VAL) - DEBT_G_VAL * (GR_NOMI - r_DEBT_G{-1}) / (1 + GR_NOMI) - (PNTAXC * NTAXC + NTAXS_VAL + PRSC * RSC + PROP_INC_G_VAL)
+
+## Share of the net operating surplus going to the Government
+phi_PROP_INC_G := (1 - phi_PROP_INC_H)*0.1
+
+## Share of the net operating surplus going to the Rest of the World
+phi_PROP_INC_ROW := 1 - phi_PROP_INC_H - phi_PROP_INC_G
+
+DSOC_BENF_VAL := 0
+
+

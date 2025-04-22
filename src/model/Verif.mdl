@@ -1,0 +1,116 @@
+########################################################
+#########     VERIFICATION  #####################
+########################################################
+### This file provides the equations defining check variables
+### Check variables begins with verif. They should always be equal to zero in the calibration and in the simulation. For ratio variables (such as the phi shares), the error is calculated in percentage point difference. For variables in level, the error is calculated in percentage relative difference.
+
+verif_PhiY[c] = (1 - (sum(PhiY[c, s] on s)))*100  if (sum(PhiY[c, s] on s)) > 0
+
+verif_PhiY_toe[ce] = (1 - (sum(PhiY_toe[ce, s] on s)))*100
+
+verif_phi_F[s] = (1 - (sum(phi[ff, s] on ff)))*100
+
+verif_phi_MGPD[c] = (1 - (sum(phi_MGPD[m, c] on m)))*100 if MGPD[c] <> 0
+verif_phi_MGPM[c] = (1 - (sum(phi_MGPM[m, c] on m)))*100 if MGPM[c] <> 0
+
+verif_phi[E, s] = (1 - (sum(phi[E, ce, s] on ce)))*100 if F[E, s] <> 0
+
+verif_phi_TRSP[s] = (1 - (sum(phi_TRSP[ct, s] on ct)))*100 if TRSP[s] <> 0
+
+
+verif_Mbis[c] = (Mbis[c]/M[c] - 1)*100 if M[c] <> 0
+verif_PMbis[c] = (PMbis[c]/PM[c] - 1)*100 if M[c] <> 0
+
+
+verif_MGSbis[c] = (MGSbis[c]/MGS[c] - 1)*100 if MGS[c] <> 0
+verif_PMGSbis[c] = (PMGSbis[c]/PMGS[c] - 1)*100 if MGS[c] <> 0
+
+verif_YQbis[c] = (YQbis[c]/YQ[c] - 1)*100  if YQ[c] <> 0
+verif_PYQbis[c] = (PYQbis[c]/PYQ[c] - 1)*100
+
+Verif_PCH_CES = (PCH/PCH_CES - 1)*100  if ES_LESCES <> 1
+
+Verif_phi_MCH = (1 - (sum(phi_MCH[c] on c)))*100
+
+Verif_phi_CH = (1 - (sum(phi_CH[c] on c)))*100
+
+Verif_GDPbis = (GDPbis/GDP - 1)*100
+Verif_PGDPbis = (PGDPbis/PGDP - 1)*100
+
+## Rounding error between GDP definitions: GDP and GDPter/GDP4. Therefore the error is measured in percentage difference
+Verif_GDPter = (GDPter/GDP - 1)*100
+Verif_PGDPter = (PGDPter/PGDP - 1)*100
+
+Verif_GDP4 = (GDP4/GDP - 1)*100
+Verif_PGDP4 = (PGDP4/PGDP - 1)*100
+
+Verif_CIbis = (CIbis/CI - 1)*100
+Verif_PCIbis = (PCIbis/PCI - 1)*100
+
+
+Verif_Ibis = (Ibis/I - 1)*100
+Verif_PIbis = (PIbis/PI - 1)*100
+
+Verif_YQ = (YQ/Y - 1)*100
+Verif_PYQ = (PYQ/PY - 1)*100
+
+# To be consistant the name should be Verif_Bal_G_Prim_VALbis. But E-Views has a limit of 24 caracters. It does not read the associated add factor Verif_Bal_G_Prim_VALbis_a. Changed name to Verif_Bal_G_Prim_VAbis. 
+Verif_Bal_G_Prim_VAbis = (Bal_G_Prim_VALbis/Bal_G_Prim_VAL - 1)*100
+
+verif_EMS_CIbis[ghg] = (EMS_CIbis[ghg]/EMS_CI[ghg] - 1)*100 if EMS_CIbis[ghg] <> 0
+
+verif_EMSbis = (EMSbis/EMS - 1)*100
+
+# verif_PhiY[ce, s] = (PhiY[ce, s] - PhiY_toe[ce, s])*100
+# Equal to 0 if all PY_toe[ce, s] = PY_toe[ce] and if no service energy sector providers (such as electricity transmission since their toe is equal to zero). This verif is therefore deactivated.
+
+
+verif_YG_toebis[ce] = (YG_toebis[ce]/YG_toe[ce] - 1)*100 if YG_toe[ce] <> 0
+
+verif_Y_toebis[ce] = (Y_toebis[ce]/Y_toe[ce] - 1)*100 if Y_toe[ce] <> 0
+
+Verif_ALL = ( sum(verif_phi_F[s]^2 on s) + sum(verif_phi_MGPD[c]^2 on c) + sum(verif_phi_MGPM[c]^2 on c) + sum(verif_phi[E, s]^2 on s) + sum(verif_phi_TRSP[s]^2 on s) + sum(verif_Mbis[c]^2 on c) + sum(verif_PMbis[c]^2 on c) + sum(verif_MGSbis[c]^2 on c) + sum(verif_PMGSbis[c]^2 on c) + sum(verif_YQbis[c]^2 on c) + sum(verif_PYQbis[c]^2 on c) +Verif_phi_MCH^2 + Verif_phi_CH^2 + Verif_GDPbis^2 + Verif_PGDPbis^2 + Verif_GDPter^2 + Verif_PGDPter^2 + Verif_GDP4^2 + Verif_PGDP4^2 + Verif_CIbis^2 + Verif_PCIbis^2 + Verif_Ibis^2 + Verif_PIbis^2 + Verif_YQ^2 + Verif_PYQ^2 + Verif_Bal_G_Prim_VAbis^2 + sum(verif_EMS_CIbis[ghg]^2 on ghg) + verif_EMSbis^2 + sum(verif_PhiY[c]^2 on c) + sum(verif_PhiY_toe[ce]^2 on ce) + sum(verif_YG_toebis[ce]^2 + verif_Y_toebis[ce]^2 on ce) )^(1/2)
+
+# Verif_ALL2 include Verif_PCH_CES which not at zero when the block Exception_ConsumerNested.mdl is activated
+
+Verif_ALL2 = Verif_ALL + ( Verif_PCH_CES^2  )^(1/2)
+
+
+### Verification for the actual elasticities
+## The series should converge asymptotically to the inputed elasticities.
+## Eviews does not manage optimaly certain conditionalities:
+## - it calculate a division by 0 even if the conditionality exclude this case: for the reason we multiply *1.0000000001 to avoid the case 1/log(1) 
+## - the condition <> 1 may not be read because of rounding error: for the reason we use < 0.99999 and > 1.00001
+## Moreover the compiler does not recognise the operator "OR" in the condition. Therefore, we have to write it twice.
+     
+
+ES_act_MGSM[m] = ES_MGSM[m] _ 
+				- (PMGSD[m]/PMGSM[m] < 0.99999) * (log(MGSD[m]/MGSM[m]/@elem(MGSD[m]/MGSM[m], %baseyear)) / log(PMGSD[m]/PMGSM[m]*1.0000000001) + ES_MGSM[m]) _
+				- (PMGSD[m]/PMGSM[m] > 1.00001) * (log(MGSD[m]/MGSM[m]/@elem(MGSD[m]/MGSM[m], %baseyear)) / log(PMGSD[m]/PMGSM[m]*1.0000000001) + ES_MGSM[m]) if MGSM[m]*MGSD[m] <> 0 
+ES_act_CHM[c] = ES_CHM[c] _ 
+				- (PCHD[c]/PCHM[c] < 0.99999) * (log(CHD[c]/CHM[c]/@elem(CHD[c]/CHM[c], %baseyear)) / log(PCHD[c]/PCHM[c]*1.0000000001) + ES_CHM[c]) _
+				- (PCHD[c]/PCHM[c] > 1.00001) * (log(CHD[c]/CHM[c]/@elem(CHD[c]/CHM[c], %baseyear)) / log(PCHD[c]/PCHM[c]*1.0000000001) + ES_CHM[c]) if CHM[c]*CHD[c] <> 0 
+
+ES_act_GM[c] = ES_GM[c] _ 
+				- (PGD[c]/PGM[c] < 0.99999) * (log(GD[c]/GM[c]/@elem(GD[c]/GM[c], %baseyear)) / log(PGD[c]/PGM[c]*1.0000000001) + ES_GM[c]) _
+				- (PGD[c]/PGM[c] > 1.00001) * (log(GD[c]/GM[c]/@elem(GD[c]/GM[c], %baseyear)) / log(PGD[c]/PGM[c]*1.0000000001) + ES_GM[c]) if GM[c]*GD[c] <> 0 
+
+ES_act_XM[c] = ES_XM[c] _ 
+				- (PXD[c]/PXM[c] < 0.99999) * (log(XD[c]/XM[c]/@elem(XD[c]/XM[c], %baseyear)) / log(PXD[c]/PXM[c]*1.0000000001) + ES_XM[c]) _
+				- (PXD[c]/PXM[c] > 1.00001) * (log(XD[c]/XM[c]/@elem(XD[c]/XM[c], %baseyear)) / log(PXD[c]/PXM[c]*1.0000000001) + ES_XM[c]) if XM[c]*XD[c] <> 0 
+
+
+
+#Verif_ES_MGSM[m] = ES_act_MGSM[m] - ES_MGSM[m]
+#Verif_ES_CHM[c] = ES_act_CHM[c] - ES_CHM[c]
+#Verif_ES_GM[c] = ES_act_GM[c] - ES_GM[c]
+#Verif_ES_XM[c] = ES_act_XM[c] - ES_XM[c]
+
+# ES_act[f, ff, s] = ES[f, ff, s] - (C[f, s]/PROG[f, s]/(C[ff, s]/PROG[ff, s])/ @elem(C[f, s]/PROG[f, s]/(C[ff, s]/PROG[ff, s]), %baseyear) < 0.99999) * (log(F[f, s]*PROG[f, s]/(F[ff, s]*PROG[ff, s])/@elem(F[f, s]*PROG[f, s]/(F[ff, s]*PROG[ff, s]), %baseyear))/ log(C[f, s]/PROG[f, s]/(C[ff, s]/PROG[ff, s])/@elem(C[f, s]/PROG[f, s]/(C[ff, s]/PROG[ff, s]), %baseyear)*1.0000000001) + ES[f, ff, s]	) - (C[f, s]/PROG[f, s]/(C[ff, s]/PROG[ff, s])/ @elem(C[f, s]/PROG[f, s]/(C[ff, s]/PROG[ff, s]), %baseyear) > 1.00001) * (log(F[f, s]*PROG[f, s]/(F[ff, s]*PROG[ff, s])/@elem(F[f, s]*PROG[f, s]/(F[ff, s]*PROG[ff, s]), %baseyear))/ log(C[f, s]/PROG[f, s]/(C[ff, s]/PROG[ff, s])/@elem(C[f, s]/PROG[f, s]/(C[ff, s]/PROG[ff, s]), %baseyear)*1.0000000001) + ES[f, ff, s]	)
+
+
+
+
+# Verif_ALL_ES = ( sum(Verif_ES_MGSM[m]^2 on c) + sum(Verif_ES_CHM[c]^2 on c) + sum(Verif_ES_GM[c]^2 on c) + sum(Verif_ES_XM[c]^2 on c))^(1/2) where V in MGS CH G X
+
+

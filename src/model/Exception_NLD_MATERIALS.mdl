@@ -1,0 +1,162 @@
+##### Exception equations for ThreeME - NLD - MATERIALS
+
+#### Additional equations to fit scenarii 
+
+# ======================= ASSUMPTIONS=================================================================
+
+
+# Everything that we might want to 'change' the equations for in this project. 
+
+# Pre-work
+# 1. disaggregate SUT tables (Which sectors use lithium, copper, nickel and cobalt) 
+# 2. Disaggregate the metal industry for the for metal products. 
+# 3. Modify the price of imports. (But what is it what you are importing?) Do we import the copper, or the processed copper good. This is mostly important for the energy sector and transport sector. Electric vehicles and solar panels are imported. --> Is this capital or a 'good'? We need a bit of bottom up type of knowledge. 
+
+
+
+# 1. The prices of 'seperate' commodities for critical minerals. Or are they a component of the metal product group. 
+# 2. 
+
+
+
+
+
+# ======================= BASELINE ===================================================================
+### Fitting baseline GDP
+
+##! Labor technical progress gain
+log(1 + GR_PROG[L, s]) = d(log(GDP_trend)) - d(log(POP))
+
+##! Government expenditures
+d(log(EXPG)) = d(log(GDP_trend)) + 0.5 * GDP_cont
+
+##! World demand 
+d(log(WD[c])) = d(log(GDP_trend)) + 0.5 * GDP_cont
+
+
+# ======================= ELECTRICITY MIX ============================================================
+
+##! Share of electricity production produced by sector $s$
+PhiY_toe[cele, s] = PhiY_OPERA[cele, s] / (sum(PhiY_OPERA[cele, ss] on ss)) if PhiY_toe[cele, s] <> 0
+
+
+# ======================= CAPITAL EFFICIENCIES IN ENERGY SECTOR ======================================
+
+#### Assumptions regarding energy technologies
+##! Technical progress of the production factor $f$ in sector $s$
+# In the end, nothing is changing here. Because PROG_OPERA is always equal to one. 
+@over PROG[K, s] = PROG_OPERA[K, s] where s in sroa swat sair scoa soil spen spch sgas sgasb sbiom sbiof sesf sega sehy sewi seso sebi senu shea
+
+##! Capital cost in sector $s$
+@over C[K, s] = PK[s] * (Rdep[s] + r[s]) * cap_efficiency_OPERA[s] where s in scoa soil spen spch sgas sgasb sbiom sbiof sesf sega sehy sewi seso sebi senu shea
+
+# ======================= Change in substitutions ====================================================
+# Change the elasticities in file Exception_NestedCES_data.mdl. The original values are: 
+
+
+# THIS TOP EQUATION HAS TO BE DELETED BECAUSE IT RESULTS IN THAT F_E_ DOES NOT ADD UP TO CI_... ANYMORE...  
+##! Energy efficiency gains in sector $s$
+@over d(log(F_n[E, s]))  = d(log(Y[s])) - d(log(PROG[E, s])) - GR_PROG_base[E, s] + d(SUBST_F[E, s])      if F_n[E, s] <> 0
+
+##! Energy consumption $ce$ of sector $s$
+@over d(log(CI[ce, s]))    = d(log(F[E, s])) + d(SUBST_CI[ce,s]) - GR_CI_base[ce, s] + d(log(INT_CI[ce, s]))  if CI[ce, s]  <> 0
+
+##! Notional substitution between energy commodity $ce$ and the other energy commodities $cee$ in the sector $s$
+# Meaning of addition phi_adjust[ce, s] is change in preferences between year before and this year.
+
+@over d(SUBST_CI_n[ce, s]) = sum(- ES_NRJ[ce, cee, s] * phi[E, cee, s]{-1} * phi_adjust[ce, s] * d(log(PCI[ce, sagr]) - log(PCI[cee, s])) on cee)      if CI[ce, s]  <> 0  where s in sagr
+
+# ======================= Change in HH consumption ====================================================
+
+#   	  	 ________________ CH ______________
+#   		/ 						 			\   --> ES = 0
+# (1) CH_OTHER_VAL								CH_ENER_VAL  
+#		   		--> --> ES_LESCES					/\  --> ES_HOUS_ENER 		
+# (2) Other commodities		   					CH_ENER[ce] 					
+#													|
+#													| 
+#												  NCH[ce]
+
+
+
+
+#### Link with the consumer block of ThreeME
+## When this block is activated, the expenditures related to energy commodities are not defined anymore by the basic version of the consumer block (see Section Consumer). To do so the necessary (minimum) households' final consumption for this commodity is endogenized and calibrated at their total at the base year: $NCH_{c} = CH_{c}$ for $c$ $\in$  $\{ ce \}$. In other words, we assume that these expenditures have the priority over the other ones. \\
+
+
+### Link with consumer model via NCH. 
+##! Necessary (minimum) households' final consumption for energy commodities $ce$
+@over NCH[ce] = CH_ENER[ce] 
+
+### Level 1: Disaggregation of aggregate expenditures
+
+##! Households' final consumption related to housing in value
+d(log(CH_ENER_VAL)) =  d(log(CH_n_VAL)) - GR_PROG_HOUS_base
+
+### Level 2: Disaggregation of energy expenditures 
+
+##! Households' final consumption of energy commodity $ce$ related to housing
+CH_ENER[ce] * PCH_ENER[ce] = phi_MCH_ENER[ce] * CH_ENER_VAL - GR_CH_base[ce]  	if CH_ENER[ce]  <> 0
+#CH_ENER[ce] * PCH_ENER[ce] = phi_MCH_ENER[ce] * CH_ENER_VAL  					if CH_ENER[ce]  <> 0
+
+
+##! Share of energy consumption $ce$ into the total energy consumption related to housing
+d(log(phi_MCH_ENER[ce])) = (1 - ES_HOUS_ENER) * d(log(PCH_ENER[ce] / PCH_ENER_CES))     if phi_MCH_ENER[ce] <> 0
+
+##! Price of the aggregate energy expenditures related to housing
+# Cette equation pose pb avec le peg
+PCH_ENER_CES  = (sum(@elem(phi_MCH_ENER[ce], %baseyear) * PCH_ENER[ce] ^ (1 - ES_HOUS_ENER) on ce)) ^ (1 / (1 - ES_HOUS_ENER)) if ES_HOUS_ENER <> 1
+
+##! Price of energy consumption $ce$ related to housing
+PCH_ENER[ce] = PCH[ce]
+
+
+
+# ======================= CLOSE DOWN GAS PIPE RUSSIA =================================================
+
+# We increase the price of imported gas, due to closing down the gas pipe to Russia. At the same time, there are internal policies that prevent us opening the gas field in Groningen. How to we prevent that the increasing imported price will only result in a higher share of gas coming from Groningen? When we set the elasticity to zero, we basically prevent the model to substitute imported gas for domestic gas. This makes sense in only one direction, because this also implies that us slowly closing the gasfield in Groningen means that we cannot replace it with gas from outside the Netherlands. 
+# Thus, we decided to increase the price of imported gas. At the same time, we prevent the model to use more domestic gas, implemented via a cap on domestic cap. Adding an equation means that we also need to introduce an additional variable. We include a shadowprice for gas variable (PCGAS). This variable is added to all domestic gas prices. 
+
+#### Increase the price of imported gas due to the reduction in gas from Russia. 
+# Note that PM is defined in price.prg. In Exception_taxes_prices.prg this influences PMSBVAT, which in turn influences all the more specific prices PCIM PCHM PMGSM PGM PIM PXM, PDSM. Note that only three of these prices actually influence their corresponding quantity (PCIM PCHM PXM). 
+
+##! Price of imported commodity $c$, expressed at basic price
+@over PM[c]        = POPERA[c]  									if M[c] <> 0
+
+###! Notional substitution effect induced by a change in the relative price between export prices and #(converted in domestic currency) international prices for the commodity $c$
+@over d(SUBST_X_n[c]) = -ES_X[c] * d(log(PX[c]) - log(PM[c]))                         if X[c]               <> 0
+
+
+
+#### Add shadow price of the cap to the domestic production of gas 
+
+##! Price of domestically produced commodity $c$, expressed at basic price
+#@over PYQ[cgas] * YQ[cgas] = sum(PY[s] * Y[cgas, s] if Y[cgas, s] <> 0 on s) + PCGAS/YQ[cgas]          	if YQ[cgas] <> 0
+
+##! Market price of margins supplied by domestically produced commodity $c$
+@over PMGSD[cgas]   = PYQSBVAT[cgas] + PCGAS                                                    if MGSD[cgas]   <> 0
+
+##! Market price of domestically produced intermediate consumption $c$ purchased by sector $s$
+@over PCID[cgas, s] = PYQSBVAT[cgas] + T2VAL_CI[cgas,s] / CI[cgas,s]  + PCGAS                  if CID[cgas, s] <> 0
+
+##! Market price of domestically produced households final consumption $c$
+@over PCHD[cgas]    = PYQSBVAT[cgas] * (1 + RVATD[cgas]) / (1 + @elem(RVATD[cgas], %baseyear)) + T2VAL_CH[cgas] / CH[cgas] + PCGAS if CHD[cgas]    <> 0
+
+##! Market price of domestically produced Government final consumption $c$
+@over PGD[cgas]     = PYQSBVAT[cgas] + PCGAS                                                    if GD[cgas]     <> 0
+
+##! Market price of domestically produced investment $c$ purchased by sector $s$
+@over PID[cgas, s]  = PYQSBVAT[cgas] + PCGAS                                                    if ID[cgas, s]  <> 0
+
+##! Market price of domestically produced exports $c$
+@over PXD[cgas]     = PYQSBVAT[cgas] + PCGAS                                                    if XD[cgas]     <> 0
+
+##! Market price of domestically produced change in inventories $c$
+@over PDSD[cgas]    = PYQSBVAT[cgas] + PCGAS                                                   if DSD[cgas]    <> 0
+
+
+# ======================= ELASTICITIES OF SUBSTITUTION ===============================================
+
+#### Change the elasticity to a level that makes it easy to substitute domestic for foreign gas. 
+# Change the elasticities in file elasticities.prg (elas = 1.85, taken from literature: https://www.econstor.eu/bitstream/10419/200207/1/armington2.pdf, see table 2)
+

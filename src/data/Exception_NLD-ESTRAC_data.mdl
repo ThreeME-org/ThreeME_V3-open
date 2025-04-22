@@ -1,0 +1,24 @@
+include ..\model\lists
+
+GDP_trend := GDP
+
+GDP_cont := 0
+
+DMARKUP[s] := 0 
+
+RCO2TAX_VOL := 0
+
+PIESA[c] := 1
+
+PROG_IESA[f, s] := 1 where f in K E
+
+PhiY_IESA[cele, s] := PhiY_toe[cele, s]
+
+CI_iesa[ce, s] := CI_toe[ce, s]
+
+X_iesa[ce] := X_toe[ce]
+
+M_iesa[ce] := M_toe[ce]
+
+CI_iesa_nnrj[s] := sum(CI_iesa[ce, s] on ce) where s in %list_sec \ sres scoa soil spen spch sgas sgasb sbiom sbiof sesf sega sepe sehy sewi seso sebi senu shea
+

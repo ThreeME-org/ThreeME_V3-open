@@ -1,0 +1,605 @@
+include ..\model\lists
+
+
+# Equation H.4.36: Stock of building per households per
+  d(BUIL[h,ecl]) = (@year>%baseyear)*( phi_NewBUIL[h,ecl]*(d(BUIL[h])+BUIL[h,DES]) _
+                                       + sum(REHAB[h,ecl2,ecl] if REHAB[h,ecl2,ecl] <> 0 on ecl2) _
+                                       + sum(delta_BUIL[h,ecl2,ecl]*BUIL[h,ecl2]{-1} if delta_BUIL[h,ecl2,ecl] <> 0 on ecl2) _
+                                       - (sum(REHAB[h,ecl,ecl2] if REHAB[h,ecl,ecl2] <> 0 on ecl2)) _
+                                       - (sum(delta_BUIL[h,ecl,bcl]*BUIL[h,ecl]{-1} if delta_BUIL[h,ecl,bcl] <> 0 on bcl)) _
+                                       )
+
+
+# Equation H.4.37
+BUIL[h,DES] = sum(delta_BUIL[h,ecl,DES] * BUIL[h,ecl]{-1} if delta_BUIL[h,ecl,DES] <> 0 on ecl)
+
+
+#  Equation H.4.38
+
+  d(log(BUIL[h])) = (@year>%baseyear)*(d(log(POP_tot)) + d(log(M2perCapita)))
+
+# Equation H.
+  BUIL[bcl] = sum( BUIL[h,bcl] on h )
+
+# Equation H.
+  BUIL = sum( BUIL[h] on h )
+
+# Equation H.4.39  H.4.40
+  d(tau_REHAB_N[h,ecl]) = (@year>%baseyear)*d(tau_REHAB_trend[h,ecl] _
+                            - nu_REHAB[h,ecl]*log(Payback_REHAB[h,ecl])) _
+                            # + nu_REHAB[h,ecl]*(UC[h,ecl]-UC_REHAB[h,ecl])/(UC[h,ecl]{-1}+UC_REHAB[h,ecl]{-1})) # Specification de Gaël
+                            if tau_REHAB[h,ecl] <> 0
+
+  # tau_REHAB_N2[h,ecl] = tau_REHAB_L[h,ecl]*(tau_REHAB_N[h,ecl]=<tau_REHAB_L[h,ecl]) _
+  #                       + tau_REHAB_H[h,ecl]*(tau_REHAB_N[h,ecl]>=tau_REHAB_H[h,ecl]) _
+  #                       + tau_REHAB_N[h,ecl]*(tau_REHAB_N[h,ecl]>tau_REHAB_L[h,ecl])*(tau_REHAB_N[h,ecl]<tau_REHAB_H[h,ecl]) _
+  #                       if tau_REHAB[h,ecl] <> 0
+
+  tau_REHAB_2[h,ecl] = ADJUST(74,1)*tau_REHAB_N[h,ecl] + (1-ADJUST(74,1))*tau_REHAB[h,ecl]{-1} if tau_REHAB[h,ecl] <> 0
+
+  tau_REHAB[h,ecl] = 1 * (tau_REHAB_2[h,ecl] >= 1) + 0.000000001 * (tau_REHAB_2[h,ecl] =< 0) + _
+  		     tau_REHAB_2[h,ecl] * (tau_REHAB_2[h,ecl] > 0) * (tau_REHAB_2[h,ecl] < 1) if tau_REHAB[h,ecl] <> 0
+
+
+  Payback_REHAB_r[h,ecl] = (UC_K_REHAB[h,ecl]*BUIL_D[h,ecl] - UC_K[h,ecl]*BUIL_D[h,ecl])/(UC_E[h,ecl] - UC_E_REHAB[h,ecl]) - 1 if REHAB[h,ecl] <> 0
+
+  # Reminder: max(a, b) = 1/2 * (a + b + |a - b|)
+  # Here, Payback_REHAB[h,ecl] = max(1, Payback_REHAB_real[h,ecl]) to exclude negative values and allow log(Payback_REHAB[h,ecl]) above
+  # NB: The function @max(a, b) doesn't exist in eViews...
+  Payback_REHAB[h,ecl] = 1/2 * (1 + Payback_REHAB_r[h,ecl] + @abs(1 - Payback_REHAB_r[h,ecl])) if REHAB[h,ecl] <> 0
+
+  # Unused
+  Payback_DISC[h,ecl] = -log(1-(STEADYSTATE(18,1)/(1+STEADYSTATE(18,1))*(DISC_C_K_REHAB[h,ecl] - DISC_C_K[h,ecl]) _
+                            /(UC_E[h,ecl] - UC_E_REHAB[h,ecl])<1)* _
+                            (STEADYSTATE(18,1)/(1+STEADYSTATE(18,1))* _
+                            (DISC_C_K_REHAB[h,ecl] - DISC_C_K[h,ecl])/(UC_E[h,ecl] - UC_E_REHAB[h,ecl]))) _
+                            /log(1+STEADYSTATE(18,1)) - 1 if REHAB[h,ecl] <> 0
+
+# Equation H.4.41
+  REHAB[h,ecl,ecl2] = phi_REHAB[h,ecl,ecl2]*tau_REHAB[h,ecl]*BUIL[h,ecl]{-1} if REHAB[h,ecl,ecl2] <> 0
+
+# Equation H.4.42
+  sum_phi_REHAB[h,ecl] = sum(phi_REHAB[h,ecl,ecl2] if REHAB[h,ecl,ecl2] <> 0 on ecl2) if REHAB[h,ecl] <> 0
+
+
+
+# Equation H.4.43
+UC_REHAB[h,ecl] = UC_K_REHAB[h,ecl] + UC_E_REHAB[h,ecl] if REHAB[h,ecl] <> 0
+
+# Equation H.4.44
+UC_E_REHAB[h,ecl] = sum(phi_REHAB[h,ecl,ecl2]*UC_E[h,ecl2] if REHAB[h,ecl,ecl2] <> 0 on ecl2) if REHAB[h,ecl] <> 0
+
+# Equation H.4.45
+UC[h,ecl] = UC_K[h,ecl] + UC_E[h,ecl]
+
+# Equation H.4.46 H.4.47  H.4.48'
+UC_K_REHAB[h,ecl] = PREHAB_delta[h,ecl] * ( R_CASH_REHAB[h,ecl] + _
+                                            R_LOAN_REHAB[h,ecl] * R_I_REHAB[h,ecl]{-1} * LD_REHAB[h,ecl] / ( 1 - ( 1 + R_I_REHAB[h,ecl]{-1})^( -LD_REHAB[h,ecl] ) ) _
+                                            ) if REHAB[h,ecl] <> 0
+
+R_LOAN_REHAB[h,ecl] = 1 - R_CASH_REHAB[h,ecl] if REHAB[h,ecl] <> 0
+
+DISC_C_K_REHAB[h,ecl] = PREHAB[h,ecl] * ( R_CASH_REHAB[h,ecl] + _
+                                          ( ( 1 - ( 1 + STEADYSTATE(18,1) )^( -LD_REHAB[h,ecl] ) ) / STEADYSTATE(18,1) ) * _
+                                          R_LOAN_REHAB[h,ecl] * R_I_REHAB[h,ecl]{-1} / ( 1 - ( 1 + R_I_REHAB[h,ecl]{-1} )^( -LD_REHAB[h,ecl] ) ) _
+                                          ) if REHAB[h,ecl] <> 0
+
+# Equation H.4.49 H.4.50  H.4.51'
+UC_K[h,ecl] = ( PREHAB[h,ecl,ecl] / BUIL_D[h,ecl] ) * ( _
+                        R_CASH[h,ecl] + _
+                        R_LOAN[h,ecl] * R_I_BUIL[h,ecl]{-1} * LD[h,ecl] / ( 1 - ( 1 + R_I_BUIL[h,ecl]{-1}) ^( -LD[h,ecl] ) ) _
+                                                              )
+
+R_LOAN[h,ecl] = 1 - R_CASH[h,ecl]
+
+DISC_C_K[h,ecl] = PREHAB[h,ecl,ecl] * ( R_CASH[h,ecl] + _
+                                      ( ( 1 - ( 1 + STEADYSTATE(18,1) )^( -LD_REHAB[h,ecl] ) ) / STEADYSTATE(18,1) ) * R_LOAN[h,ecl] * _
+                                        R_I_BUIL[h,ecl]{-1} / ( 1 - ( 1 + R_I_BUIL[h,ecl]{-1} )^( -LD[h,ecl] ) ) _
+                                    )
+
+# Equation H.4.52
+delta_REHAB[h,ecl] = sum( phi_REHAB[h,ecl,ecl2] * delta_BUIL[h,ecl2]    _
+                          if phi_REHAB[h,ecl,ecl2] <> 0                 _
+                          on ecl2 )                                     _
+                     if REHAB[h,ecl] <> 0
+
+# Equation H.4.53
+delta_BUIL[h,ecl] = sum( delta_BUIL[h,ecl,bcl]                         _
+                         if delta_BUIL[h,ecl,bcl] <> 0                 _
+                         on bcl )
+
+
+# Equation H.4.54, H.4.55, and H.4.56
+UC_E[h,ecl] = PENER_m2[h,ecl] * (                                       _
+                ( GR_PENER_m2_e[h,ecl] =< 0.00001 ) * 1 +               _
+                ( GR_PENER_m2_e[h,ecl]  > 0.00001 ) * (                 _
+                    # Revert when bug solved ( 1 + GR_PENER_m2_e[h,ecl] )^( BUIL_D[h,ecl]) - 1 ) / ( ( GR_PENER_m2_e[h,ecl] + ( GR_PENER_m2_e[h,ecl] == 0 ) * 0.0000001 ) * BUIL_D[h,ecl] )     _
+                    ( 1 + GR_PENER_m2_e[h,ecl] )^( BUIL_D[h,ecl]) - 1 ) / ( ( GR_PENER_m2_e[h,ecl] + ( GR_PENER_m2_e[h,ecl] >= 0 )*( GR_PENER_m2_e[h,ecl] <= 0 ) * 0.0000001 ) * BUIL_D[h,ecl] )     _
+              )
+
+PENER_m2[h,ecl] * BUIL[h,ecl] = PENER_BUIL[h,ecl] * ENER_BUIL[h,ecl]
+
+GR_PENER_m2_e[h,ecl] = ADJUST(72,2) * GR_PENER_m2_e[h,ecl]{-1} + ( 1-ADJUST(72,2) ) * @pchy( PENER_m2[h,ecl]{-1} )  if PENER_m2[h,ecl] <> 0
+
+# Equation H.4.57
+PREHAB_delta[h,ecl] * REHAB[h,ecl] = sum( (1 - R_SUB[h,ecl,ecl2]) * PREHAB[h,ecl,ecl2] * REHAB[h,ecl,ecl2] / REHAB_D[h,ecl2] if REHAB[h,ecl,ecl2]  <> 0 on ecl2) if REHAB[h,ecl]  <> 0
+
+
+
+# Equation H.4.58
+Ver_PREHABdelta[h,ecl] * REHAB[h,ecl] =     _
+        -PREHAB_delta[h,ecl] +              _
+        sum( (1 - R_SUB[h,ecl,ecl2]) * PREHAB[h,ecl,ecl2] * phi_REHAB[h,ecl,ecl2] * delta_BUIL[h,ecl2] if REHAB[h,ecl,ecl2] <> 0 on ecl2 ) if REHAB[h,ecl] <> 0
+
+# Equation H.4.59 H.4.60  H.4.61  H.4.62 H.4.63  H.4.64
+# PROBLEM! Rajouter les effets prix dans l'arbitrage a savoir sur PREHAB PNEWBUIL et PENER_BUIL '
+EXP_HOUSING_Val[h,ecl] = ( @year > %baseyear ) * ( DEBT_REHAB_Val[h,ecl]{-1} * (R_I_REHAB[h,ecl]{-1} + R_RMBS_REHAB[h,ecl]{-1} ) _
+                                                   + R_CASH_REHAB[h,ecl] * PREHAB[h,ecl] * REHAB[h,ecl] _
+                                                   + DEBT_NewB_Val[h,ecl]{-1} * ( R_I_NewBUIL[h,ecl]{-1} + R_RMBS_NewBUIL[h,ecl]{-1} ) _
+                                                   + R_CASH_NewBUIL[h,ecl] * PNewBUIL[h,ecl] * NewBUIL[h,ecl] _
+                                                   + PENER_BUIL[h,ecl] * ENER_BUIL[h,ecl] ) _
+                         + ( @year =< %baseyear ) * EXP_HOUSING_Val[h,ecl]{-1} * ( 1 + STEADYSTATE(1,1) )
+
+DEBT_REHAB_Val[h,ecl] = (@year > %baseyear) * ( ( 1 - R_RMBS_REHAB[h,ecl] ) * DEBT_REHAB_Val[h,ecl]{-1} _
+                                                + R_LOAN_REHAB[h,ecl] * PREHAB[h,ecl] * REHAB[h,ecl] ) _
+                        + (@year =< %baseyear) * DEBT_REHAB_Val[h,ecl]{-1} * ( 1 + STEADYSTATE(1,1) )
+
+DEBT_NewB_Val[h,ecl] = (@year > %baseyear) * ( ( 1 - R_RMBS_NewBUIL[h,ecl] ) * DEBT_NewB_Val[h,ecl]{-1} _
+                                               + R_LOAN_NewBUIL[h,ecl] * PNewBUIL[h,ecl] * NewBUIL[h,ecl] ) _
+                       + (@year =< %baseyear) * DEBT_NewB_Val[h,ecl]{-1} * ( 1 + STEADYSTATE(1,1) )
+
+d( log( PNewBUIL[h,ecl] ) ) = d( log( PCH[13] ) )
+
+d( log( PREHAB[h,ecl,ecl2] ) ) = d( log( PCH[13] ) ) if REHAB[h,ecl,ecl2] <> 0
+
+d( log( PREHAB[h,ecl,ecl] ) ) = d( log( PCH[13] ) )  # Must be added because REHAB[h,ecl,ecl] = 0  (test if merging the 2 eq. does not change the results)
+
+
+
+#------------AGGREGATION IN M2 AND IN MILLION EURO
+REHAB[h,ecl] = sum(REHAB[h,ecl,ecl2] if REHAB[h,ecl,ecl2] <> 0 on ecl2) if REHAB[h,ecl] <> 0
+PREHAB[h,ecl]*REHAB[h,ecl] = sum((1 - R_SUB[h,ecl,ecl2])*PREHAB[h,ecl,ecl2]*REHAB[h,ecl,ecl2] if REHAB[h,ecl,ecl2] <> 0 on ecl2) if REHAB[h,ecl] <> 0
+
+@pv REHAB[h] = sum( REHAB[h,ecl] if REHAB[h,ecl] <> 0 on ecl )
+
+@pv REHAB = sum( REHAB[h] if REHAB[h] <> 0 on h )
+
+EXP_HOUSING_Val[h] = sum(EXP_Housing_Val[h,ecl] if EXP_Housing_Val[h,ecl] <> 0 on ecl)
+
+EXP_HOUSING_Val = sum(EXP_HOUSING_Val[h] if EXP_HOUSING_Val[h] <> 0 on h)
+
+EXP_REHAB_VAL[h] = PREHAB[h] * REHAB[h]
+
+EXP_REHAB_VAL = sum( EXP_REHAB_VAL[h] on h )
+
+EXP_NEWBUIL_VAL[h] = ( PNEWBUIL[h] * NEWBUIL[h] )
+
+EXP_NEWBUIL_VAL = sum( EXP_NEWBUIL_VAL[h] on h )
+
+# Equation H.4.66
+EXP_13_OTH_Val = sum( EXP_13_OTH_Val[h] on h )
+
+# Equation H.4.67 and H.4.68
+d( log( EXP_13_OTH_VAL[h] ) ) = d( log( DISPINC_VAL[h] ) ) + d( log( 1 - MPS_HH[h] ) )
+
+
+# Equation H.4.70
+NewBUIL[h,ecl] = ( @year > %baseyear ) * phi_NewBUIL[h,ecl] * ( d( BUIL[h] ) + BUIL[h,DES] ) + _
+                 ( @year <= %baseyear ) * NewBUIL[h,ecl]{-1}
+
+#------------------------------------------AGGREGATION NEWBUIL-----------------------------------------------------
+@pv NEWBUIL[h] = sum( NEWBUIL[h,ecl] if NEWBUIL[h,ecl] <> 0 on ecl )
+
+@pv NEWBUIL = sum( NEWBUIL[h] if NEWBUIL[h] <> 0 on h )
+
+#--------------------------------------------------------- VERIFICATIONS-----------------------------------------
+
+# Equation H.4.71
+BUIL_verif[h] = sum( BUIL[h,ecl] on ecl )
+
+# Equation H.4.72
+BUIL_verif = sum( BUIL_verif[h] on h )
+
+# Equation H.4.73
+Verif_BUIL = sum( BUIL_verif[h] - BUIL[h] on h )
+# Verif_BUIL*BUIL = sum( BUIL_verif[h] - BUIL[h] on h )
+
+# Equation H.4.74
+verif_phi_REHAB[h,ecl] = sum_phi_REHAB[h,ecl] - 1 if REHAB[h,ecl] <> 0
+
+
+
+
+
+#*********************************************************************************************************************************
+#*****************************************************TRANSPORTS******************************************************************
+
+#-----------------------------------------------------AUTOMOBILE-----------------------------------------------------------------
+# Equation H.4.77
+d(AUTO[h,ecl]) = ( @year > %baseyear ) * ( phi_NewAUTO[h,ecl] * (d(AUTO[h]) + AUTO[h,DES])  _
+                                             - delta_AUTO[h,ecl,DES] * AUTO[h,ecl]{-1} )
+
+# Equation H.4.78
+AUTO[h,DES] = sum(delta_AUTO[h,ecl,DES] * AUTO[h,ecl]{-1} on ecl)
+
+# Equation H.4.79 and H.4.80
+NewAUTO[h,ecl] = ( @year >  %baseyear ) * phi_NewAUTO[h,ecl] * ( d( AUTO[h] ) + AUTO[h,DES] ) +   _
+                 ( @year <= %baseyear ) * NewAUTO[h,ecl]{-1}
+
+# Verif
+AUTO_verif[h] = sum( AUTO[h,ecl] on ecl )
+AUTO_verif = sum( AUTO_verif[h] on h )
+Verif_AUTO = AUTO_verif - AUTO
+Verif_AUTO2 = ( @year > %baseyear ) * (NewAUTO - AUTO_DES - d(AUTO)) + ( @year <= %baseyear ) * Verif_AUTO2{-1}
+Verif_phi_NewAUTO[h] = Sum_phi_NewAUTO[h] - 1
+Verif_phi_NewA_N2[h] = Sum_phi_NewAUTO[h] - 1
+
+d( log( PNewAUTO[h,ecl] ) ) = d( log( PCH_03 ) )
+
+# Equation H.4.81
+EXP_MOBAUTO_Val[h,ecl] = ( @year > %baseyear ) * (                                                                        _
+                                DEBT_AUTO_Val[h,ecl]{-1} * ( R_I_AUTO[h,ecl]{-1} + R_RMBS_AUTO[h,ecl]{-1} ) +             _
+                                R_CASH_AUTO[h,ecl] * PNewAUTO[h,ecl] * NewAUTO[h,ecl] * ( 1 - R_SUB_AUTO[h,ecl] ) +       _
+                                PEXP_AUTO[h,ecl] * EXP_AUTO[h,ecl] ) +                                                    _
+                         ( @year <= %baseyear ) * (EXP_MOBAUTO_Val[h,ecl]{-1} * ( 1 + STEADYSTATE(1,1) ) )
+
+# Equation H.4.82  Cout d usage auto UC_auto
+UC_AUTO[h,ecl] = UC_K_AUTO[h,ecl] + UC_E_AUTO[h,ecl]
+
+UC_K_AUTO[h,ecl] = ( PNewAUTO[h,ecl] / AUTO_D[h,ecl] ) * ( 1 - R_SUB_AUTO[h,ecl] ) * (     _
+                        R_CASH_AUTO[h,ecl] +                                               _
+                        R_LOAN_AUTO[h,ecl] * R_I_AUTO[h,ecl]{-1} * LD_AUTO[h,ecl] / ( 1 - ( 1 + R_I_AUTO[h,ecl]{-1} )^( - LD_AUTO[h,ecl] ) ) )
+
+R_LOAN_AUTO[h,ecl] = 1 - R_CASH_AUTO[h,ecl]
+
+UC_E_AUTO[h,ecl] = PENER_auto[h,ecl] * (                                                                                       _
+                        ( GR_PENER_auto_e[h,ecl] <= 0.00001 ) * 1 +                                                            _
+                        ( GR_PENER_auto_e[h,ecl]  > 0.00001 ) * ( ( 1 + GR_PENER_auto_e[h,ecl] )^( AUTO_D[h,ecl] ) - 1 ) /     _
+                            # # Revert when bug solved ( ( GR_PENER_auto_e[h,ecl] + ( GR_PENER_auto_e[h,ecl] == 0 ) * 0.0000001 ) * AUTO_D[h,ecl] ) )
+                        ( ( GR_PENER_auto_e[h,ecl] + ( GR_PENER_auto_e[h,ecl] => 0 )*( GR_PENER_auto_e[h,ecl] =< 0 )* 0.0000001 ) * AUTO_D[h,ecl] ) )
+
+GR_PENER_auto_e[h,ecl] = ADJUST(73,2)*GR_PENER_auto_e[h,ecl]{-1} + (1 - ADJUST(73,2)) * @pchy(PENER_auto[h,ecl])
+
+d(phi_NewAUTO_N[h,ecl]) = (@year > %baseyear)*( d(phi_NewAUTO_trend[h,ecl] _
+                                                - nu_auto[h,ecl]*(UC_E_AUTO[h,ecl] - UC_E_AUTO_Mean[h]) _
+                                                /(P * @elem(UC_E_AUTO_Mean[h],%baseyear)) ) )
+
+
+
+phi_NewAUTO_N2[h,ecl] = phi_NewAUTO_L[h,ecl] * ( phi_NewAUTO_N[h,ecl] <= phi_NewAUTO_L[h,ecl] ) +    _
+                        phi_NewAUTO_H[h,ecl] * ( phi_NewAUTO_N[h,ecl] >= phi_NewAUTO_H[h,ecl] ) +    _
+                        phi_NewAUTO_N[h,ecl] * ( phi_NewAUTO_N[h,ecl] >  phi_NewAUTO_L[h,ecl] ) * ( phi_NewAUTO_N[h,ecl] <  phi_NewAUTO_H[h,ecl] )
+
+# Constrain phi_NewAUTO to sum to 1
+phi_NewAUTO_NS[h,ecl] = phi_NewAUTO_N2[h,ecl] / Sum_phi_NewAUTO_N2[h]
+
+# Adjustment on phi_NewAUTO to avoid instantaneous switch between performance classes
+phi_NewAUTO[h,ecl] = ADJUST(76,1)*phi_NewAUTO_NS[h,ecl] + (1-ADJUST(76,1))*phi_NewAUTO[h,ecl]{-1}
+
+Sum_phi_NewAUTO[h] = sum( phi_NewAUTO[h,ecl] on ecl )
+
+Sum_phi_NewAUTO_N2[h] = sum( phi_NewAUTO_N2[h,ecl] on ecl )
+
+UC_E_AUTO[h]*AUTO[h] = sum( UC_E_AUTO[h,ecl] * AUTO[h,ecl] on ecl )
+
+UC_E_AUTO_Mean[h] * 7 = sum( UC_E_AUTO[h,ecl] on ecl )
+
+PENER_AUTO[h,ecl] * KM_AUTO[h,ecl] = PEXP_AUTO[h,ecl] * EXP_AUTO[h,ecl] if AUTO[h,ecl] <> 0
+
+
+# Equation H.4.83
+DEBT_auto_Val[h,ecl] = (@year > %baseyear)*( DEBT_auto_Val[h,ecl]{-1}*(1 - R_RMBS_AUTO[h,ecl]) _
+                                             + R_LOAN_AUTO[h,ecl]*PNewAuto[h,ecl]*NewAuto[h,ecl]*(1 - R_SUB_AUTO[h,ecl]) ) _
+                       + (@year <= %baseyear)*(DEBT_auto_Val[h,ecl]{-1}*(1 + STEADYSTATE(1,1)))
+
+# Equation H.4.84
+EXP_NEWAUTO_VAL[h,ecl] = PNewAuto[h,ecl] * NewAUTO[h,ecl]
+
+# Equation H.4.85, H.4.86, H.4.87, and H.4.88
+d(log(Km_traveler[h]))      = (@year > %baseyear) *d(log(POP_TOT))
+d(log(Km_traveler_auto[h])) = (@year > %baseyear) * d(log(Km_traveler[h])) 
+d(log(km_AUTO[h]))          = (@year > %baseyear) * d(log(Km_traveler_auto[h]))
+d(log(Auto[h]))             = (@year > %baseyear) * d(log(Km_auto[h]))
+
+# Equation H.4.89 and H.4.90
+d(log(km_AUTO[h,ecl])) = (@year > %baseyear)*d(log(km_AUTO[h]*(AUTO[h,ecl]/AUTO[h])))
+
+d(log(EXP_AUTO[h,ecl,ce])) = d(log(Km_auto[h,ecl])) if EXP_AUTO[h,ecl,ce] <> 0
+
+# -------------------------------------------Aggregation of automobile expenditure--------------------------------------------
+# Equation H.4.91
+EXP_AUTO[h,ecl] = sum( EXP_AUTO[h,ecl,ce] if EXP_AUTO[h,ecl,ce] <> 0 on ce )
+
+PEXP_AUTO[h,ecl]*EXP_AUTO[h,ecl] = sum( PEXP[h,ce]*EXP_AUTO[h,ecl,ce] if EXP_AUTO[h,ecl,ce] <> 0 on ce )
+
+# Equation H.4.92
+@pv EXP_AUTO[h] = sum( EXP_AUTO[h,ecl] if EXP_AUTO[h,ecl] <> 0 on ecl )
+
+# Only in volume in the original version (probabaly error)
+EXP_AUTO[ce] = sum( EXP_AUTO[ecl,ce] if EXP_AUTO[ecl,ce] <> 0 on ecl )
+
+# Equation H.4.93
+EXP_AUTO[h,ce] = sum( EXP_AUTO[h,ecl,ce] if EXP_AUTO[h,ecl,ce] <> 0 on ecl )
+
+# Equation H.4.95
+@pv EXP_AUTO = sum( EXP_AUTO[h] on h )
+
+EXP_AUTO[ecl, ce] = sum(EXP_AUTO[h, ecl, ce] on h)
+
+
+# -----------------------------------------------------------AGGREGATION AUTOMOBILE---------------------------------------------------
+# Equation H.4.96
+AUTO[bcl] = sum(AUTO[h, bcl] on h)
+
+# Equation H.4.97
+AUTO = sum(AUTO[ecl] on ecl)
+
+# Equation H.4.98
+NewAUTO[h] = sum(NewAUTO[h, ecl] on ecl)
+
+NewAUTO = sum(NewAUTO[h] on h)
+
+# Equation H.4.99
+PNewAUTO[h] * NewAUTO[h] = sum(PNewAUTO[h, ecl] * NewAUTO[h, ecl] if NewAUTO[h, ecl] <> 0 on ecl)
+
+# Equation H.4.100
+EXP_NEWAUTO_VAL[h] = sum(EXP_NewAUTO_VAL[h, ecl] on ecl)
+
+# Equation H.4.101
+EXP_NEWAUTO_VAL = sum(EXP_NEWAUTO_VAL[h] if EXP_NEWAUTO_VAL[h] <> 0 on h)
+
+# Equation H.4.102
+phi_exp_03bis[h] = EXP_NEWAUTO_VAL[h] / EXP_NEWAUTO_VAL
+
+# Equation H.4.103
+EXP_MOBAUTO_Val[h] = sum(EXP_MOBAUTO_Val[h, ecl] if EXP_MOBAUTO_Val[h, ecl] <> 0 on ecl)
+
+# Equation H.4.104
+EXP_MOBAUTO_Val = sum(EXP_MOBAUTO_Val[h] if EXP_MOBAUTO_Val[h] <> 0 on h)
+
+# Equation H.4.105
+EXP_03_OTH_VAL = sum(EXP_03_OTH_VAL[h] if EXP_03_OTH_VAL[h] <> 0 on h)
+
+# Equation H.4.107 and H.4.108
+d(log(EXP_03_OTH_VAL[h])) = d(log(DISPINC_VAL[h])) + d(log(1 - MPS_HH[h]))
+
+# ------------------------------------------------------TRANSPORT COLLECTIF--------------------------------------------------------------
+# Equation H.4.113
+EXP_MOB_OTH_Val[h] = sum(PEXP[trsp, h] * EXP[trsp, h] on trsp in %list_trsp_travel)
+
+# Equation H.4.114 and H.4.115
+d(log(Km_traveler[trsp, h])) = d(log(Km_traveler[h])) if Km_traveler[trsp, h] <> 0 where trsp in %list_trsp_travel
+
+# ---------------------------------------------------------Total mobility---------------------------------------------------
+# Equation H.4.117
+EXP_MOB_Val[h] = EXP_MOBAuto_Val[h] + EXP_MOB_OTH_Val[h] + EXP_03_OTH_VAL[h]
+
+# ******************************************************************************************************************
+# ---------------------------------------ENERGY CONSUMPTION IN BUILDING---------------------------------------------
+
+# Equation H.4.118, H.4.119, and H.4.120
+ENER_BUIL[h, ecl, ce] = ENERperM2[h, ecl, ce] * BUIL[h, ecl] if ENER_BUIL[h, ecl, ce] <> 0
+
+# sobriété, reglementation thermique, substitution interénergie  integré dans exceptions_ADEMEhaut
+d(log(ENERperM2[h, ecl, ce])) = 0 if ENER_BUIL[h, ecl, ce] <> 0
+
+d(log(EXP_BUIL[h, ecl, ce])) = d(log(ENER_BUIL[h, ecl, ce])) if ENER_BUIL[h, ecl, ce] <> 0
+
+PEXP_BUIL[h, ecl]*EXP_BUIL[h, ecl] = sum(PEXP[ce, h]*EXP_BUIL[h, ecl, ce] if EXP_BUIL[h,ecl,ce] <> 0 on ce)
+EXP_BUIL[h, ecl] =  sum(EXP_BUIL[h, ecl, ce] if EXP_BUIL[h,ecl,ce] <> 0 on ce)
+EXP_BUIL[h, ce] =  sum(EXP_BUIL[h, ecl, ce] if EXP_BUIL[h,ecl,ce] <> 0 on ecl) 
+
+# Equation H.4.121
+# donne le prix en million d'euros du kwH de l'energie concerné
+PENER_BUIL[h, ecl, ce] * ENER_BUIL[h, ecl, ce] = PEXP[ce, h] * EXP_BUIL[h, ecl, ce] if ENER_BUIL[h, ecl, ce] <> 0
+
+
+# ------------AGGREGATION CONSOMMATION D'ENERGIE EN KwH ET EN MILLION D'EURO
+# Equation H.4.122
+#PENER_BUIL[h, ecl] * ENER_BUIL[h, ecl] = sum(PENER_BUIL[h, ecl, ce] * ENER_BUIL[h, ecl, ce] if ENER_BUIL[h, ecl, ce] <> 0 on ce)
+
+# Equation H.4.123
+@pv ENER_BUIL[h, ecl] = sum(ENER_BUIL[h, ecl, ce] if ENER_BUIL[h, ecl, ce] <> 0 on ce)
+
+# *****************************
+# Equation H.4.124
+#PENER_BUIL[h] * ENER_BUIL[h] = sum( PENER_BUIL[h,ecl] * ENER_BUIL[h,ecl] if ENER_BUIL[h,ecl] <> 0 on ecl )
+
+# Equation H.4.125
+@pv ENER_BUIL[h] = sum(ENER_BUIL[h, ecl] if ENER_BUIL[h, ecl] <> 0 on ecl)
+@pv EXP_BUIL[h] =  sum(EXP_BUIL[h,ecl] if EXP_BUIL[h,ecl] <> 0 on ecl)
+
+# *****************************
+# Equation H.4.126
+#PENER_BUIL * ENER_BUIL = sum( PENER_BUIL[h] * ENER_BUIL[h] if ENER_BUIL[h] <> 0 on h )
+
+# Equation H.4.127
+@pv ENER_BUIL = sum(ENER_BUIL[h] if ENER_BUIL[h] <> 0 on h)
+
+
+# *****************************
+# Equation H.4.128
+#PENER_BUIL[h, ce] * ENER_BUIL[h, ce] = sum(PENER_BUIL[h, ecl, ce] * ENER_BUIL[h, ecl, ce] if ENER_BUIL[h, ecl, ce] <> 0 on ecl)
+
+# Equation H.4.129
+@pv ENER_BUIL[h, ce] = sum(ENER_BUIL[h, ecl, ce] if ENER_BUIL[h, ecl, ce] <> 0 on ecl)
+
+
+# *****************************
+# Equation H.4.130
+#PENER_BUIL[ener] * ENER_BUIL[ener] = sum( PENER_BUIL[h,ener] * ENER_BUIL[h,ener] if ENER_BUIL[h,ener] <> 0 on h )
+
+# Equation H.4.131
+@pv ENER_BUIL[ce] = sum(ENER_BUIL[h, ce] if ENER_BUIL[h, ce] <> 0 on h)
+
+# ----AGGREGATION Of total energie expenditure (automobile +building)
+# Equation H.4.132 H.4.133
+# eq en volume
+ENER[h, ecl] = @elem(PENER_BUIL[h, ecl], %baseyear) * ENER_BUIL[h, ecl] + EXP_AUTO[h, ecl]
+# eq en valeur
+PENER[h, ecl] * ENER[h, ecl] = PENER_BUIL[h, ecl] * ENER_BUIL[h, ecl] + PEXP_AUTO[h, ecl] * EXP_AUTO[h, ecl]
+
+# Equation H.4.134, H.4.135, and H.4.136
+ENER[h]            = @elem(PENER_BUIL[h], %baseyear) * ENER_BUIL[h] + EXP_AUTO[h]
+PENER[h] * ENER[h] = PENER_BUIL[h] * ENER_BUIL[h] + PEXP_AUTO[h] * EXP_AUTO[h]
+
+ENER         = @elem(PENER_BUIL, %baseyear) * ENER_BUIL + EXP_AUTO
+PENER * ENER = PENER_BUIL * ENER_BUIL + PEXP_AUTO * EXP_AUTO
+
+
+
+# equation H.4.
+# EMARQUE: 13_OTH provenant des investissement des ménage autres que travaux de rénovation Rajouté au dépenses de consommation courante:EXP_HH_VAL_{%hous})
+EXP_OTH_Val[h] = sum(PEXP[co, h] * EXP[co, h] on co)
+EXP_HH_VAL[h] = EXP_HOUSING_Val[h] + EXP_MOB_Val[h] + EXP_OTH_Val[h] + EXP_13_OTH_Val[h]
+
+# EXP_HH for EXP household hybrid
+EXP_HH_Val = sum(EXP_HH_VAL[h] on h)
+
+# marginal propension to save
+# WARNING: $h could need to be offset by 1 when multiple households
+d(MPS_HH[h]) = household(52, $h) * d(UNR_TOT) +  _
+               household(53, $h) * d(R - infl_FR) +  _
+               household(54, $h) * d(DEBT_G_VAL / (PGDP * GDP))
+
+# Endogenous Marginal Propensity to save
+#@over MPS_HH[h] = 0.1 * d(log(DISPINC_VAL{-1} / PCH{-1})) + 0.005 * d(UNR_TOT) + 0.003 * d(R - infl_fr)
+
+S_HH[h]  = (@year >  %baseyear) * (DISPINC_VAL[h] - EXP_HH_Val[h]) + _
+           (@year <= %baseyear) * S_HH[h]{-1} * (1 + STEADYSTATE(1, 1))
+
+TS_HH[h] = (@year >  %baseyear) * S_HH[h] / DISPINC_VAL[h] + _
+           (@year <= %baseyear) * TS_HH[h]{-1}
+
+S_HH = (@year >  %baseyear) * (DISPINC_VAL - EXP_HH_Val) + _
+       (@year <= %baseyear) * S_HH{-1} * (1 + STEADYSTATE(1, 1))
+
+TS_HH = (@year >  %baseyear) * S_HH / DISPINC_VAL + _
+        (@year <= %baseyear) * TS_HH{-1}
+
+d(R_I_REHAB[h, ecl])   = d(R)
+d(R_I_NewBUIL[h, ecl]) = d(R)
+d(R_I_BUIL[h, ecl])    = d(R)
+d(R_I_AUTO[h, ecl])    = d(R)
+
+
+# Failure for FF100 on:
+# Number of equations: 16799
+# Number of independent blocks: 79
+# Number of simultaneous blocks: 39
+# Number of recursive blocks: 40
+#
+# Largest simultaneous block: 12366 Equations (554 feedback vars)
+#
+#
+# auto_h01
+# exp_auto_h01
+# km_auto_h01
+# km_traveler_auto_h01
+# km_traveler_h01
+# pener_auto_h01
+# pexp_auto_h01
+# phi_newauto_h01
+# phi_newauto_n_h01
+# phi_newauto_n2_h01
+# phi_newauto_ns_h01
+# sum_phi_newauto_n2_h01
+# uc_e_auto_h01
+# uc_e_auto_mean_h01
+#
+# auto_h01
+# auto_h01_ca
+# auto_h01_cb
+# auto_h01_cc
+# auto_h01_cd
+# auto_h01_ce
+# auto_h01_cf
+# auto_h01_cg
+# exp_auto_h01
+# exp_auto_h01_ca
+# exp_auto_h01_ca_22
+# exp_auto_h01_ca_23
+# exp_auto_h01_cb
+# exp_auto_h01_cb_22
+# exp_auto_h01_cb_23
+# exp_auto_h01_cc
+# exp_auto_h01_cc_22
+# exp_auto_h01_cd
+# exp_auto_h01_cd_22
+# exp_auto_h01_ce
+# exp_auto_h01_ce_22
+# exp_auto_h01_cf
+# exp_auto_h01_cf_22
+# exp_auto_h01_cg
+# exp_auto_h01_cg_22
+# km_auto_h01
+# km_auto_h01_ca
+# km_auto_h01_ca_22
+# km_auto_h01_ca_23
+# km_auto_h01_cb
+# km_auto_h01_cb_22
+# km_auto_h01_cb_23
+# km_auto_h01_cc
+# km_auto_h01_cc_22
+# km_auto_h01_cd
+# km_auto_h01_cd_22
+# km_auto_h01_ce
+# km_auto_h01_ce_22
+# km_auto_h01_cf
+# km_auto_h01_cf_22
+# km_auto_h01_cg
+# km_auto_h01_cg_22
+# km_traveler_auto_h01
+# km_traveler_h01
+# pener_auto_h01_ca
+# pener_auto_h01_cb
+# pener_auto_h01_cc
+# pener_auto_h01_cd
+# pener_auto_h01_ce
+# pener_auto_h01_cf
+# pener_auto_h01_cg
+# pexp_auto_h01
+# pexp_auto_h01_ca
+# pexp_auto_h01_cb
+# pexp_auto_h01_cc
+# pexp_auto_h01_cd
+# pexp_auto_h01_ce
+# pexp_auto_h01_cf
+# pexp_auto_h01_cg
+# phi_newauto_h01_ca
+# phi_newauto_h01_cb
+# phi_newauto_h01_cc
+# phi_newauto_h01_cd
+# phi_newauto_h01_ce
+# phi_newauto_h01_cf
+# phi_newauto_h01_cg
+# phi_newauto_n_h01_ca
+# phi_newauto_n_h01_cb
+# phi_newauto_n_h01_cc
+# phi_newauto_n_h01_cd
+# phi_newauto_n_h01_ce
+# phi_newauto_n_h01_cf
+# phi_newauto_n_h01_cg
+# phi_newauto_n2_h01_ca
+# phi_newauto_n2_h01_cb
+# phi_newauto_n2_h01_cc
+# phi_newauto_n2_h01_cd
+# phi_newauto_n2_h01_ce
+# phi_newauto_n2_h01_cf
+# phi_newauto_n2_h01_cg
+# phi_newauto_ns_h01_ca
+# phi_newauto_ns_h01_cb
+# phi_newauto_ns_h01_cc
+# phi_newauto_ns_h01_cd
+# phi_newauto_ns_h01_ce
+# phi_newauto_ns_h01_cf
+# phi_newauto_ns_h01_cg
+# sum_phi_newauto_n2_h01
+# uc_e_auto_h01_ca
+# uc_e_auto_h01_cb
+# uc_e_auto_h01_cc
+# uc_e_auto_h01_cd
+# uc_e_auto_h01_ce
+# uc_e_auto_h01_cf
+# uc_e_auto_h01_cg
+# uc_e_auto_mean_h01

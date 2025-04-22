@@ -1,0 +1,19 @@
+# Il faut rajouter une nouvelle liste:
+%list_country := JAV SMT #[cny]
+
+cny in %list_country
+cny2 in %list_country
+
+# Toutes les variables doivent etre completer avec un indice:
+# X[c] devient X[cny,c]
+
+# Nouvelle variable:
+# M[cny2,cny,c] : import of cny2 from cny
+
+
+# Nouvelles equations
+
+@over X[cny,c] = sum(M[cny2,cny,c] if M[cny2,cny,c] <> 0 on cny2)
+
+# Dans un premier temps pas de substitution entre type d'imports (Leontief)
+d(log(M[cny2,cny,c])) = d(log(M[cny2,c])) if M[cny2,cny,c] <> 0

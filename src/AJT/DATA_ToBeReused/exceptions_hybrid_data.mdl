@@ -1,0 +1,375 @@
+include ..\model\lists
+
+# Data for MTEP
+
+Q_Mtep_ef[ce,se] := MTEP($se, 15+$ce) * (1 + STEADYSTATE(2, 1)) ^ (@year - %baseyear)
+
+Q_Mtep_X[ce,se] := MTEP($se, 19+$ce) * (1 + STEADYSTATE(2, 1)) ^ (@year - %baseyear)
+
+Q_Mtep_indus[ce,se] := MTEP($se, 24+$ce) * (1 + STEADYSTATE(2, 1)) ^ (@year - %baseyear)
+
+Q_Mtep_int[ce,se] := MTEP($se, 34+$ce) * (1 + STEADYSTATE(2, 1)) ^ (@year - %baseyear)
+
+Q_Mtep_Losses[ce,se] := MTEP($se, 38+$ce) * (1 + STEADYSTATE(2, 1)) ^ (@year - %baseyear)
+
+#Q_Mtep_H[use,ce] := MTEP_USE[$use, $ce]*(1 + STEADYSTATE(2,1))^ (@year -%baseyear)
+
+verif_PhiY[ce] := 0
+
+verif_PhiY_ef_tot[ce] := 0
+
+PhiY_ef_tot[ce, se] := Q_Mtep_ef_tot[ce,se]/Q_Mtep_ef_tot_SOU[ce]
+Q_Mtep_ef_tot_SOU[ce] := sum(Q_Mtep_ef_tot[ce,se] on se)
+
+PhiY_ener[ce, se] := Q_Mtep_ef[ce,se] / Q_Mtep_ef_SOU[ce]
+
+Q_Mtep_ef_SOU[ce] := sum(Q_Mtep_ef[ce,se] on se)
+
+# Q_Mtep_X[ce,se]  := Q_Mtep_X_SOU[ce]  * PhiY_ef_tot[ce, se] if PhiY_ef_tot[ce, se] <> 0
+Q_Mtep_X_SOU[ce] := sum(Q_Mtep_X[ce,se] on se)
+
+#coef_int[ce,se] := Q_Mtep_int[ce,se]/(Q_Mtep_ef[ce,se]+Q_Mtep_X[ce,se]) if (Q_Mtep_ef[ce,se]+Q_Mtep_X[ce,se]) <> 0
+coef_int[ce,se] := Q_Mtep_int[ce,se]/(Q_Mtep_ef[ce,se]+Q_Mtep_X[ce,se]) if Q_Mtep_int[ce,se] <> 0
+
+coef_Losses[ce,se] := Q_Mtep_Losses[ce,se]/(Q_Mtep_ef[ce,se]+Q_Mtep_X[ce,se]) if Q_Mtep_Losses[ce,se] <> 0
+
+Q_Mtep_ef_tot[ce,se] := Q_Mtep_ef[ce,se] + Q_Mtep_X[ce,se] + Q_Mtep_indus[ce,se]
+
+Q_Mtep_ep[ce,se] := Q_Mtep_ef[ce,se] + Q_Mtep_X[ce,se] + Q_Mtep_int[ce,se] + Q_Mtep_Losses[ce,se]
+
+Q_Mtep_|V|[se] := sum(Q_Mtep_|V|[ce,se] on ce) where V in ep ef X int Losses indus ef_tot
+
+Q_Mtep_|V| := sum(Q_Mtep_|V|[se] on se) where V in ep ef X int Losses indus ef_tot
+
+verif_Q_Mtep_ep := 0
+
+verif_Q_Mtep_ef_SOU[ce] := 0
+verif_Q_Mtep_X_SOU[ce] := 0
+
+Q_Mtep_H_BUIL[ce] := MTEP_USE(1, $ce)*(1 + STEADYSTATE(2,1))^ (@year -%baseyear)
+                  
+Q_Mtep_H_AUTO[ce] := MTEP_USE(2, $ce)*(1 + STEADYSTATE(2,1))^ (@year -%baseyear)
+
+Q_Mtep_SEC[ce, sne] :=  MTEP_USE(12 + $sne, $ce)*(1 + STEADYSTATE(2,1))^ (@year -%baseyear) 
+
+Q_Mtep_H_BUIL := sum(Q_Mtep_H_BUIL[ce] on ce)
+Q_Mtep_H_AUTO := sum(Q_Mtep_H_AUTO[ce] on ce)
+Q_Mtep_SEC_SOU[ce] := sum(Q_Mtep_SEC[ce, sne] on sne)
+Q_Mtep_SEC[sne] := sum(Q_Mtep_SEC[ce, sne] on ce)
+
+Q_Mtep_H := Q_Mtep_H_BUIL + Q_mtep_H_AUTO
+
+Q_Mtep_SEC := sum(Q_Mtep_SEC_SOU[ce] on ce)
+
+Verif_Q_Mtep_HSEC := 0
+
+# Split of energy use between sectors and households from *national accounts*
+Q_Mtep_SEC_S_NatAcc[ce] := (QD[ce] + QM[ce] - X[ce] - E_indus_SOU[ce] -  E_oth_SOU_ener[ce] - CH[ce] - G[ce]) / (QD[ce] + QM[ce] - X[ce] - E_indus_SOU[ce] - E_oth_SOU_ener[ce])
+
+#split of sector s' consumption for energy carrier ce - based on national accounts
+E_oth_share[ce, sne] :=  E_oth[ce, sne] / E_oth_SOU_non_ener[ce]
+
+# Split of energy use between sectors and households from *energy balances*
+Q_Mtep_SEC_S_EnrBal[ce] := MTEP_SHARE(4, $ce)
+
+# Exception for energy (Distinction between energy indus / other)
+
+CU_oth[s]*Y[s] := CK[s]*K[s] + CL[s]*L[s]*PROG_L[s] + PE[s]*E_oth[s] + PMAT[s]*MAT[s] if Y[s] > 0
+
+E_indus[ce, s] := ENER_INDUS($s, $ce) * (1 + STEADYSTATE(2, 1)) ^ (@year - %baseyear)
+
+E_oth[ce, s] := E[ce, s] - E_indus[ce, s]
+
+E_indus_SOU[ce] := sum( E_indus[ce, s] on s )
+E_oth_SOU[ce] := sum( E_oth[ce, s] on s)
+# Internal energy use in energy producing sectors
+E_oth_SOU_ener[ce] := sum(E_oth[ce, se] on se)
+# Internal energy use in non-energy producing sectors
+E_oth_SOU_non_ener[ce] := sum(E_oth[ce, sne] on sne)
+
+E_indus[s] := sum( E_indus[ce, s] on ce )
+E_oth[s] := sum( E_oth[ce, s] on ce )
+
+E_indus_n[s] := E_indus[s]
+E_oth_n[s] := E_oth[s]
+
+E_indus_e[s] := E_indus[s]
+E_oth_e[s] := E_oth[s]
+verif_E[s] := 0
+
+
+## EMISSIONS From Households
+
+# Consommation en KwH de l'energie
+EMS_HH_BUIL[ems, h, ecl] := HOUSEHOLD_HYBRID_BUIL(80 + $ecl + ($ems - 1) * 8, $h) * (1 + STEADYSTATE(2, 1)) ^ (@year - %baseyear)
+
+# Consommation en KwH de l'energie
+EMS_HH_BUIL[24, h, ecl] := HOUSEHOLD_HYBRID_BUIL(104 + $ecl, $h) * (1 + STEADYSTATE(2, 1)) ^ (@year - %baseyear)
+
+# EMISSIONS From Households: automobile
+
+# Consommation en KwH de l'energie
+EMS_HH_AUTO[22, h, ecl] := HOUSEHOLD_HYBRID_AUTO(223 + $ecl, $h) * (1 + STEADYSTATE(2, 1)) ^ (@year - %baseyear)
+
+
+
+REHAB_D[h, ecl] := HOUSEHOLD_HYBRID_BUIL(268 + $ecl, $h)
+BUIL_D[h, ecl] := HOUSEHOLD_HYBRID_BUIL(260 + $ecl, $h)
+AUTO_D[h, ecl] := HOUSEHOLD_HYBRID_AUTO(187 + $ecl, $h)
+
+NEXP[h] := sum(NEXP[co, h] on co)
+
+M2perCapita := HOUSEHOLD_HYBRID_BUIL(17,1)
+
+PNewBUIL[h, ecl] := (HOUSEHOLD_HYBRID_BUIL(151 + $ecl, $h) / 1000000) * (1 + STEADYSTATE(15, 1)) ^ (@year - %baseyear)
+
+tau_REHAB_trend[h, ecl] := tau_REHAB[h, ecl]
+tau_REHAB_N[h, ecl] := tau_REHAB[h, ecl]
+tau_REHAB_N2[h, ecl] := tau_REHAB[h, ecl]
+tau_REHAB_2[h, ecl] := tau_REHAB[h, ecl]
+tau_REHAB_H[h, ecl] := HOUSEHOLD_HYBRID_BUIL(220 + $ecl, $h)
+tau_REHAB_L[h, ecl] := HOUSEHOLD_HYBRID_BUIL(213 + $ecl, $h)
+nu_REHAB[h, ecl] := HOUSEHOLD_HYBRID_BUIL(206 + $ecl, $h)
+nu_auto[h, ecl] := HOUSEHOLD_HYBRID_AUTO(165 + $ecl, $h)
+
+R_CASH_REHAB[h, ecl] := HOUSEHOLD_HYBRID_BUIL(159 + $ecl, $h)
+R_I_REHAB[h, ecl] := HOUSEHOLD_HYBRID_BUIL(166 + $ecl, $h)
+R_CASH_NewBUIL[h, ecl] := HOUSEHOLD_HYBRID_BUIL(236 + $ecl, $h)
+R_I_NewBUIL[h, ecl] := HOUSEHOLD_HYBRID_BUIL(244 + $ecl, $h)
+R_I_BUIL[h, ecl] := HOUSEHOLD_HYBRID_BUIL(191 + $ecl, $h)
+R_CASH[h, ecl] := HOUSEHOLD_HYBRID_BUIL(183 + $ecl, $h)
+
+GR_PENER_auto_e[h, ecl] := STEADYSTATE(15,1)
+GR_PENER_m2_e[h, ecl] := STEADYSTATE(15,1)
+Ver_PREHABdelta[h, ecl] := 0
+
+R_SUB[h, ecl, ecl2] := HOUSEHOLD_HYBRID_BUIL(228 + $ecl, $h)
+
+ENERperM2[h, ecl, ce] := ENER_BUIL[h, ecl, ce] / BUIL[h, ecl] if ENER_BUIL[h, ecl, ce] <> 0
+EXP_BUIL[h, ecl, ce]  := HOUSEHOLD_HYBRID_BUIL(120 + $ecl + ($ce - 1) * 8, $h)
+EXP_BUIL[h, ecl] := sum(EXP_BUIL[h, ecl, ce] on ce)
+EXP_BUIL[h, ce] :=  sum(EXP_BUIL[h, ecl, ce] on ecl) 
+@pv EXP_BUIL[h] := sum(EXP_BUIL[h, ecl] on ecl)
+PENER_BUIL[h, ecl, ce] := PEXP[ce, h] * EXP_BUIL[h, ecl, ce] / ENER_BUIL[h, ecl, ce] if ENER_BUIL[h, ecl, ce] <> 0
+
+PREHAB[h, ecl, ecl2] := HOUSEHOLD_HYBRID_Trans(1 + $ecl, $ecl2) / (HOUSEHOLD_HYBRID_BUIL(16, 1)/HOUSEHOLD_HYBRID_BUIL(8, 1)) / 1000000* _
+                       (1 + STEADYSTATE(15, 1)) ^ (@year - %baseyear)
+
+delta_BUIL[h, ecl] := sum(delta_BUIL[h, ecl, bcl] on bcl)
+delta_REHAB[h, ecl] := sum(phi_REHAB[h, ecl, ecl2] * delta_BUIL[h, ecl2] on ecl2)
+BUIL[bcl] := sum(BUIL[h, bcl] on h)
+BUIL_verif[h] := sum(BUIL[h, ecl] on ecl)
+Verif_BUIL := 0
+BUIL := sum(BUIL[h] on h)
+BUIL_verif := BUIL
+
+@pv ENER_BUIL[h, ecl] := sum(ENER_BUIL[h, ecl, ce] if ENER_BUIL[h, ecl, ce] <> 0 on ce)
+@pv ENER_BUIL[h] := sum(ENER_BUIL[h, ecl] on ecl)
+@pv ENER_BUIL := sum(ENER_BUIL[h] on h)
+@pv ENER_BUIL[h, ce] := sum(ENER_BUIL[h, ecl, ce] if ENER_BUIL[h, ecl, ce] <> 0 on ecl)
+@pv ENER_BUIL[ce] := sum(ENER_BUIL[h, ce] on h)
+
+LD_REHAB[h, ecl] := HOUSEHOLD_HYBRID_BUIL(175 + $ecl, $h)
+LD[h, ecl] := HOUSEHOLD_HYBRID_BUIL(199 + $ecl, $h)
+PENER_m2[h, ecl] := PENER_BUIL[h, ecl] * ENER_BUIL[h, ecl] / BUIL[h, ecl]
+PENER_m2_e[h, ecl] := PENER_m2[h, ecl]
+
+UC_E[h, ecl] := PENER_m2[h, ecl] * ( ((1 + GR_PENER_m2_e[h, ecl]) ^ BUIL_D[h, ecl] - 1) / (GR_PENER_m2_e[h, ecl] * BUIL_D[h, ecl]) )
+sum_phi_REHAB[h, ecl] := 1
+verif_phi_REHAB[h, ecl] := 0
+UC_E_REHAB[h, ecl] := sum(phi_REHAB[h, ecl, ecl2] * UC_E[h, ecl2] on ecl2)
+
+PREHAB[h, ecl] := if(REHAB[h, ecl] <> 0, (sum((1 - R_SUB[h,ecl,ecl2])*PREHAB[h, ecl, ecl2] * REHAB[h, ecl, ecl2] on ecl2)) / REHAB[h, ecl], P)
+# PREHAB[h, ecl] * REHAB[h, ecl] := sum(PREHAB[h, ecl, ecl2] * REHAB[h, ecl, ecl2] on ecl2) / REHAB[h, ecl] if REHAB[h, ecl] <> 0
+
+@pv REHAB[h] := sum(REHAB[h, ecl] if REHAB[h, ecl] <> 0 on ecl)
+@pv REHAB := sum(REHAB[h] on h)
+@pv NEWBUIL[h] := sum(NEWBUIL[h, ecl] if NEWBUIL[h, ecl] <> 0 on ecl)
+@pv NEWBUIL := sum(NEWBUIL[h] on h)
+
+PREHAB_delta[h, ecl] * REHAB[h, ecl] := sum( (1 - R_SUB[h, ecl, ecl2]) * _
+ 		       		       	     PREHAB[h, ecl, ecl2] * REHAB[h, ecl, ecl2] / REHAB_D[h, ecl2] on ecl2) _
+					if REHAB[h, ecl] <> 0
+
+R_LOAN_REHAB[h, ecl] := 1 - R_CASH_REHAB[h, ecl]
+R_LOAN_NewBUIL[h, ecl] := 1 - R_CASH_NewBUIL[h, ecl]
+LD_NewBUIL[h, ecl] := HOUSEHOLD_HYBRID_BUIL(252 + $ecl, $h)
+
+DISC_C_K_REHAB[h, ecl] := PREHAB[h, ecl] * _
+		       	  (R_CASH_REHAB[h, ecl] + ((1 - (1 + STEADYSTATE(18, 1)) ^ (-LD_REHAB[h, ecl])) / STEADYSTATE(18, 1)) * _
+                           R_LOAN_REHAB[h, ecl] * R_I_REHAB[h, ecl]{-1} / (1 - (1 + R_I_REHAB[h, ecl]{-1}) ^ (-LD_REHAB[h, ecl]))) _
+			  if REHAB[h, ecl] <> 0
+
+UC_K_REHAB[h, ecl] := PREHAB_delta[h, ecl] * _
+	              (R_CASH_REHAB[h, ecl] + _
+                       R_LOAN_REHAB[h, ecl] * R_I_REHAB[h, ecl]{-1} * _
+		       		              LD_REHAB[h, ecl] / (1 - (1 + R_I_REHAB[h, ecl]{-1}) ^ (-LD_REHAB[h, ecl]))) _
+		      if REHAB[h, ecl] <> 0
+
+UC_REHAB[h, ecl] := UC_K_REHAB[h, ecl] + UC_E_REHAB[h, ecl] if REHAB[h, ecl] <> 0
+
+R_LOAN[h, ecl] := 1 - R_CASH[h, ecl]
+DISC_C_K[h, ecl] := PREHAB[h, ecl, ecl] * _
+	           (R_CASH[h, ecl] + ((1 - (1 + STEADYSTATE(18,1)) ^ (-LD_REHAB[h, ecl])) / STEADYSTATE(18,1)) * _
+	  	    R_LOAN[h, ecl] * R_I_BUIL[h, ecl]{-1} / (1 - (1 + R_I_BUIL[h, ecl]{-1}) ^ (-LD[h, ecl])))
+UC_K[h, ecl] := PREHAB[h, ecl, ecl] / BUIL_D[h, ecl] * _
+	       (R_CASH[h, ecl] + R_LOAN[h, ecl] * R_I_BUIL[h, ecl]{-1} * LD[h, ecl] / (1 - (1 + R_I_BUIL[h, ecl]{-1}) ^ (-LD[h, ecl])))
+
+UC[h, ecl] := UC_K[h, ecl] + UC_E[h, ecl]
+Payback_REHAB_r[h, ecl] := (UC_K_REHAB[h, ecl] * BUIL_D[h, ecl] - UC_K[h, ecl] * BUIL_D[h, ecl]) / _
+		         (UC_E[h, ecl] - UC_E_REHAB[h, ecl]) - 1 if REHAB[h, ecl] <> 0
+Payback_REHAB[h, ecl] := Payback_REHAB_r[h, ecl] if REHAB[h, ecl] <> 0
+
+Payback_DISC[h, ecl] := -log(1 - _
+		     	(STEADYSTATE(18,1) / (1 + STEADYSTATE(18,1)) * (DISC_C_K_REHAB[h, ecl] - DISC_C_K[h, ecl]) / (UC_E[h, ecl] - UC_E_REHAB[h, ecl]) < 1) * _
+			(STEADYSTATE(18,1) / (1 + STEADYSTATE(18,1)) * (DISC_C_K_REHAB[h, ecl] - DISC_C_K[h, ecl]) / (UC_E[h, ecl] - UC_E_REHAB[h, ecl]))) / _
+			log(1 + STEADYSTATE(18,1)) - 1 if REHAB[h, ecl] <> 0
+
+R_RMBS_NewBUIL[h, ecl] := 1 / LD_NewBUIL[h, ecl]
+R_RMBS_REHAB[h, ecl] := if(REHAB[h, ecl] <> 0, 1 / LD_REHAB[h, ecl], 1)
+
+DEBT_REHAB_Val[h, ecl] := @elem(R_LOAN_REHAB[h, ecl] * (1 + STEADYSTATE(1,1)) / _
+		                (STEADYSTATE(1,1) + R_RMBS_REHAB[h, ecl]) * PREHAB[h, ecl] * REHAB[h, ecl], %baseyear) * _
+		          (1 + STEADYSTATE(1, 1)) ^ (@year - %baseyear)
+
+DEBT_NewB_Val[h, ecl] := @elem(R_LOAN_NewBUIL[h, ecl] * (1 + STEADYSTATE(1, 1)) / _
+ 		     	       (STEADYSTATE(1, 1) + R_RMBS_NewBUIL[h, ecl]) * PNewBUIL[h, ecl] * NewBUIL[h, ecl], %baseyear) * _
+			  (1 + STEADYSTATE(1, 1)) ^ (@year - %baseyear)
+
+EXP_HOUSING_Val[h, ecl] := @elem(DEBT_REHAB_Val[h, ecl]{-1} * (R_I_REHAB[h, ecl]{-1} + R_RMBS_REHAB[h, ecl]{-1}) + _
+      	       	   	         R_CASH_REHAB[h, ecl] * PREHAB[h, ecl] * REHAB[h, ecl] + _
+	       			 DEBT_NewB_Val[h, ecl]{-1} * (R_I_NewBUIL[h, ecl]{-1} + R_RMBS_NewBUIL[h, ecl]{-1}) + _
+	       			 R_CASH_NewBUIL[h, ecl] * PNewBUIL[h, ecl] * NewBUIL[h, ecl] + _
+	       			 PENER_BUIL[h, ecl] * ENER_BUIL[h, ecl], %baseyear) * _
+	                   (1 + STEADYSTATE(1, 1)) ^ (@year - %baseyear)
+
+EXP_HOUSING_VAL[h] := sum(EXP_HOUSING_VAL[h, ecl] on ecl)
+EXP_HOUSING_VAL := sum(EXP_HOUSING_VAL[h] on h)
+EXP_REHAB_VAL[h] := PREHAB[h] * REHAB[h]
+EXP_REHAB_VAL := sum(EXP_REHAB_VAL[h] on h)
+EXP_NEWBUIL_VAL[h] := PNEWBUIL[h] * NEWBUIL[h]
+EXP_NEWBUIL_VAL := sum(EXP_NEWBUIL_VAL[h] on h)
+
+phi_exp_13bis[h] := (EXP_NEWBUIL_VAL[h] + EXP_REHAB_VAL[h]) / (EXP_NEWBUIL_VAL + EXP_REHAB_VAL)
+EXP_13_OTH_VAL := @elem(PEXP_13 * EXP_13 - (PNEWBUIL * NEWBUIL + PREHAB * REHAB), %baseyear) * (1 + STEADYSTATE(1, 1)) ^ (@year - %baseyear)
+EXP_13_OTH_Val[h] := phi_exp_13bis[h] * EXP_13_OTH_VAL
+EXP_13[h] := @elem(PNewBUIL[h] * NewBUIL[h] + PREHAB[h] * REHAB[h] +  EXP_13_OTH_val[h] / PEXP_13[h], %baseyear) * (1 + STEADYSTATE(2, 1)) ^ (@year - %baseyear)
+
+## Automobile
+
+EXP_AUTO[h, ecl, ce] := HOUSEHOLD_HYBRID_AUTO(1 + $ecl + ($ce - 1) * 8, $h)
+EXP_AUTO[h, ecl] := sum(EXP_AUTO[h, ecl, ce] on ce)
+EXP_AUTO[h, ce] := sum(EXP_AUTO[h, ecl, ce] on ecl)
+EXP_AUTO[h] := sum(EXP_AUTO[h, ecl] on ecl)
+PEXP_AUTO[h, ecl] := P
+PEXP[h, ce] := P
+PEXP_AUTO[h] := P
+PEXP_AUTO := P
+
+EXP_AUTO[ecl, ce] := sum(EXP_AUTO[h, ecl, ce] on h)
+EXP_AUTO[ce] := sum(EXP_AUTO[ecl, ce] on ecl)
+EXP_AUTO := sum(EXP_AUTO[h] on h)
+
+KM_traveler[h] := HOUSEHOLD_HYBRID_AUTO(111, $h)
+KM_traveler_AUTO[h] := HOUSEHOLD_HYBRID_AUTO(105, $h)
+KM_AUTO[h] := HOUSEHOLD_HYBRID_AUTO(72, $h)
+KM_AUTO[h, ecl] := HOUSEHOLD_HYBRID_AUTO(64 + $ecl, $h)
+KM_AUTO[h, ecl, ce] := HOUSEHOLD_HYBRID_AUTO(72 + $ecl + ($ce - 1) * 8, $h)
+KM_traveler[trsp, h] := HOUSEHOLD_HYBRID_AUTO(105 + $trsp, $h)
+
+Sum_phi_NewAUTO_N2[h] := 1
+Sum_phi_NewAUTO[h] := 1
+phi_NewAUTO_N[h, ecl] := phi_NewAUTO[h, ecl]
+phi_NewAUTO_NS[h, ecl] := phi_NewAUTO[h, ecl]
+phi_NewAUTO_N2[h, ecl] := phi_NewAUTO[h, ecl]
+phi_NewAUTO_trend[h, ecl] := phi_NewAUTO[h, ecl]
+
+phi_NewAUTO_L[h, ecl] := HOUSEHOLD_HYBRID_AUTO(172 + $ecl, $h)
+phi_NewAUTO_H[h, ecl] := HOUSEHOLD_HYBRID_AUTO(179 + $ecl, $h)
+
+PNewAUTO[h, ecl] := HOUSEHOLD_HYBRID_AUTO(118 + $ecl, $h) / 1000 * (1 + STEADYSTATE(15, 1)) ^ (@year - %baseyear)
+
+R_CASH_AUTO[h, ecl] := HOUSEHOLD_HYBRID_AUTO(126 + $ecl, $h)
+R_I_AUTO[h, ecl] := HOUSEHOLD_HYBRID_AUTO(134 + $ecl, $h)
+
+R_LOAN_AUTO[h, ecl] := 1 - R_CASH_AUTO[h, ecl]
+LD_AUTO[h, ecl] := HOUSEHOLD_HYBRID_AUTO(142 + $ecl, $h)
+R_RMBS_AUTO[h, ecl] := HOUSEHOLD_HYBRID_AUTO(158 + $ecl, $h)
+
+
+DEBT_AUTO_VAL[h, ecl] := @elem(R_LOAN_AUTO[h, ecl] * (1 + STEADYSTATE(1, 1)) / _
+		      	       (STEADYSTATE(1 , 1) + R_RMBS_AUTO[h, ecl]) * PNewAUTO[h, ecl] * NewAUTO[h, ecl] * (1 - R_SUB_AUTO[h, ecl]), %baseyear) * _
+			  (1 + STEADYSTATE(1, 1)) ^ (@year - %baseyear)
+
+EXP_MOBAUTO_Val[h, ecl] := @elem(DEBT_AUTO_Val[h, ecl]{-1} * (R_I_AUTO[h, ecl]{-1} + R_RMBS_AUTO[h, ecl]{-1}) + _
+		   	         R_CASH_AUTO[h, ecl] * PNewAUTO[h, ecl] * NewAUTO[h, ecl] * (1 - R_SUB_AUTO[h, ecl]) + _
+				 PEXP_AUTO[h, ecl] * EXP_AUTO[h, ecl], %baseyear) *_
+   			   (1 + STEADYSTATE(1, 1)) ^ (@year - %baseyear)
+
+EXP_NEWAUTO_VAL[h, ecl] := PNewAUTO[h, ecl] * NewAUTO[h, ecl]
+AUTO[bcl] := sum(AUTO[h, bcl] on h)
+AUTO := sum(AUTO[ecl] on ecl)
+
+AUTO_verif[h] := sum( AUTO[h,ecl] on ecl )
+AUTO_verif := sum( AUTO_verif[h] on h )
+Verif_AUTO := 0
+Verif_AUTO2 := 0
+Verif_phi_NewAUTO[h] := 0
+Verif_phi_NewA_N2[h] := 0
+
+@pv NewAUTO[h] := sum(NewAUTO[h, ecl] if NewAUTO[h, ecl] <> 0 on ecl)
+@pv NewAUTO := sum(NewAUTO[h] on h)
+EXP_NEWAUTO_VAL[h] := sum(EXP_NEWAUTO_VAL[h, ecl] on ecl)
+EXP_NEWAUTO_VAL := sum(EXP_NEWAUTO_VAL[h] on h)
+EXP_MOBAUTO_VAL[h] := sum(EXP_MOBAUTO_VAL[h, ecl] on ecl)
+EXP_MOBAUTO_VAL := sum(EXP_MOBAUTO_VAL[h] on h)
+
+phi_exp_03bis[h] := EXP_NEWAUTO_VAL[h] / EXP_NEWAUTO_VAL
+
+EXP_03_OTH_VAL := @elem(PEXP_03 * EXP_03 - PNewAUTO * NewAUTO, %baseyear) * (1 + STEADYSTATE(1, 1)) ^ (@year - %baseyear)
+EXP_MOB_OTH_Val[h] := sum(PEXP[trav, h] * EXP[trav, h] on trav)
+EXP_03_OTH_VAL[h] := phi_exp_03bis[h] * EXP_03_OTH_VAL
+EXP_MOB_Val[h] := EXP_MOBAuto_Val[h] + EXP_MOB_OTH_Val[h] + EXP_03_OTH_VAL[h]
+
+ENER[h, ecl] := @elem(PENER_BUIL[h, ecl], %baseyear) * ENER_BUIL[h, ecl] + EXP_AUTO[h, ecl]
+PENER[h, ecl] := P
+ENER[h] := @elem(PENER_BUIL[h], %baseyear) * ENER_BUIL[h] + EXP_AUTO[h]
+PENER[h] := P
+ENER := @elem(PENER_BUIL, %baseyear) * ENER_BUIL +EXP_AUTO
+PENER := P
+EXP[ce, h] := @elem(PENER_BUIL[h, ce], %baseyear) * ENER_BUIL[h, ce] + EXP_AUTO[h, ce]
+
+EXP_OTH_Val[h] := sum(PEXP[co, h] * EXP[co, h] on co)
+EXP_HH_VAL[h] := EXP_HOUSING_Val[h] + EXP_MOB_Val[h] + EXP_OTH_Val[h] + EXP_13_OTH_Val[h]
+EXP_HH_Val := sum(EXP_HH_VAL[h] on h)
+
+# Marginal propensity to save
+MPS_HH[h] := @elem((DISPINC_VAL[h] - EXP_HH_Val[h]) / DISPINC_VAL[h], %baseyear)
+S_HH[h] := MPS_HH[h] * DISPINC_VAL[h]
+TS_HH[h] := @elem(MPS_HH[h], %baseyear)
+S_HH := @elem(DISPINC_VAL - EXP_HH_Val, %baseyear) * (1 + STEADYSTATE(1, 1)) ^ (@year - %baseyear)
+TS_HH := @elem(S_HH/DISPINC_VAL, %baseyear)
+Stock_S := S_HH * (1 + STEADYSTATE(1, 1)) / STEADYSTATE(1, 1)
+R_S := @elem(INT_VAL / Stock_S{-1}, %baseyear)
+
+
+BetaExp[co, h] := @elem((EXP[co, h] * PEXP[co, h] - PEXP[co, h] * NEXP[co, h]) / _
+	                (DISPINC_VAL[h] * (1 - MPS_HH[h]) - PNEXP[h] * NEXP[h] - EXP_HOUSING_Val[h] - Exp_13_OTH_VAL[h] - EXP_MOB_Val[h]), %baseyear)
+
+BetaExp[h] := sum(BetaExp[co, h] on co)
+EXP[co] := sum(EXP[co, h] on h)
+Phi_EXP[co, h] := EXP[co, h] / EXP[co] if EXP[co] <> 0
+PENER_AUTO[h, ecl] * KM_AUTO[h, ecl] := PEXP_AUTO[h, ecl] * EXP_AUTO[h, ecl] if AUTO[h, ecl] <> 0
+
+UC_E_AUTO[h, ecl] := PENER_auto[h, ecl] * ((GR_PENER_auto_e[h, ecl] =< 0.00001) * 1 + (GR_PENER_auto_e[h, ecl] > 0.00001) * ((1 + GR_PENER_auto_e[h, ecl]) ^ (AUTO_D[h, ecl]) - 1) / _
+      	             ((GR_PENER_auto_e[h, ecl]) * AUTO_D[h, ecl]))
+UC_K_AUTO[h, ecl] := PNewAUTO[h, ecl] / AUTO_D[h, ecl] * (1 - R_SUB_AUTO[h, ecl]) * _
+	             (R_CASH_AUTO[h, ecl] + R_LOAN_AUTO[h, ecl] * R_I_AUTO[h, ecl]{-1} * LD_AUTO[h, ecl] / (1 - (1 + R_I_AUTO[h, ecl]{-1}) ^ (-LD_AUTO[h, ecl])))
+UC_AUTO[h, ecl] := UC_K_AUTO[h, ecl] + UC_E_AUTO[h, ecl]
+
+
+UC_E_AUTO[h] * AUTO[h] := sum(UC_E_AUTO[h, ecl] * AUTO[h, ecl] on ecl)
+UC_E_AUTO_Mean[h] := (sum(UC_E_AUTO[h, ecl] on ecl)) / 7
+
+# Just for verification
+elem := @elem(DISPINC_VAL - EXP_HH_Val, %baseyear)

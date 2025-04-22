@@ -1,0 +1,19 @@
+### Exceptions to run an Input-Output model
+
+# Block prices effect: Wages and prices grow at a constant rate
+
+@over d(log(W_S_n[s])) = d(log(W_S_n[s]{-1}))
+
+@over d(log(PY_n[s])) = d(log(PY_n[s]{-1}))
+
+@over d(log(PYQ[c])) = d(log(PYQ[c]{-1}))
+
+# Block the multiplicator of consumption
+@over d(log(EXP_n[c, h])) = d(log(EXP_n[c, h]{-1})) if EXP[c, h] <> 0
+
+# Block the multiplicator of investment
+@over d(log(IA[s])) = d(log(IA[s]{-1})) if K[s] <> 0
+
+# Block the multiplicator of intermediaries
+@over d(log(Y[s2])) = d(log(Y[s2]{-1}))  if Y[s2] <> 0  where s2 in %list_sec \ 2301 2302 2303 2304 2305 2306 2307 2308
+ 

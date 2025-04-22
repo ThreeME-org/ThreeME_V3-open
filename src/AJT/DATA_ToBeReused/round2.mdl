@@ -1,0 +1,74 @@
+include ..\model\lists
+
+|V||O| := sum(|V||O|[c] on c) where V in Q CH G I X DS CI VAT OTHT ENERT MC MT
+|V| := |V|D + |V|M where V in Q CH G I X DS CI VAT OTHT ENERT MC MT
+
+MT[trsp, c] := sum(MTD[trsp, c] + MTM[trsp, c])
+
+M := sum(M[c] on c)
+DC_VAL := sum(DC_VAL[c] on c)
+GDP := sum(GDP[c] on c)
+GDPbis := CH + G + I + X + DS - M
+
+IA|O|[s] := sum(IA|O|[c, s] on c)
+IA := sum(IA[s] on s)
+Phi_IA|O|[s] := IA|O|[s] / (IA[s] + (IA[s]<0.0000000001)*1)
+
+RF := sum(RF[s] on s)
+RF_TIS := sum(RF[s] * (RF[s] > 0) on s)
+
+TIS := IS_Val / (P{-1} * RF_TIS{-1})
+
+IS[s] := (@elem(TIS*PRF[s]{-1}, %baseyear) * RF[s]{-1}) * (RF[s]{-1} > 0) + 0.0000001 * (RF[s]{-1} =< 0)
+
+NCU[s] := (CU[s]*Y[s] + PIY[s]*IY[s] + PSY[s]*SY[s] + PIS[s]*IS[s]) / Y[s]
+
+NCU_n[s] := NCU[s]
+
+CU_n[s] := CU[s]
+
+(1 + TMD[s]) := @elem(PY_n[s]/NCU_n[s], %baseyear)
+
+#(1 + TMD[s]) := @elem(PY_n[s] * Y[s] / (CK[s]*K_n[s] + CL[s]*L_n[s]*PROG_L[s] + PE[s]*E_n[s] + PMAT[s]*MAT_n[s]), %baseyear)
+TMD_n[s] := TMD[s]
+
+(1 + MARKUP[c]) := @elem(PYQ[c] * YQ[c] / (sum(NCU_n[s] * Y[c, s] on s)), %baseyear)
+
+L_S := sum(L_S[s] on s)
+L_SE := sum(L_SE[s] on s)
+W_S := (sum(W_S[s] * L_S[s] on s)) / L_S
+CL_S := (sum(CL_S[s] * L_S[s] on s)) / L_S
+CL_SE := (sum(CL_SE[s] * L_SE[s] on s)) / L_SE
+
+L := L_S + L_SE
+W := (W_S*L_S + W_SE*L_SE) / L
+CL := (CL_S*L_S + CL_SE*L_SE) / L
+
+|V| := sum(|V|[s] on s) where V in VA EBE IS
+GDPter := VA + TAX + SUB
+
+RF_NET[sm] := @elem(PRF[sm]{-1}, %baseyear) * RF[sm]{-1} - IS[sm]
+RF_NET := sum(RF_NET[sm] on sm)
+
+DIV := DIV_HH_VAL + DIV_ROW_VAL + DIV_BK_VAL + DIV_GOV_VAL
+
+alpha_|V|_FW := DIV_|V|_VAL / (PRF_NET * RF_NET) where V in HH GOV
+DIV_|V|_VAL_n := DIV_|V|_VAL where V in HH GOV
+DIV_|V|_VAL_e := DIV_|V|_VAL where V in HH GOV
+
+S|O|[c] := STEADYSTATE(50,1) * (CI|O|[c] + CH|O|[c] + G|O|[c] + I|O|[c] + X|O|[c])
+|V|_n[c] := |V|[c] where V in SD SM
+|V|_e[c] := |V|[c] where V in SD SM
+
+# Net production
+
+YQS[c] := YQ[c] * @elem(1 + TenertD[c] + TothtD[c] + TsubD[c] + (MTD[c] + MCD[c]) / YQ[c], %baseyear) where c in %list_com \ %list_com_margins
+MS[c] := M[c] * @elem(1 + TenertM[c] + TothtM[c] + TsubM[c] + (MTM[c] + MCM[c]) / M[c], %baseyear) where c in %list_com \ %list_com_margins
+
+YQS[c] := YQ[c] * @elem(1 + TenertD[c] + TothtD[c] + TsubD[c], %baseyear) where c in %list_com_margins
+MS[c] := M[c] * @elem(1 + TenertM[c] + TothtM[c] + TsubM[c], %baseyear) where c in %list_com_margins
+
+# Energy efficiency
+
+EFER[s] := E[s] / Y[s]
+EFER_n[s] := E_n[s] / Y[s]

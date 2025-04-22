@@ -1,0 +1,165 @@
+include ..\model\lists
+
+### From producer block
+
+phi_MGPD[m, c]  := PMGPD[m, c] * MGPD[m, c] / (sum(PMGPD[mm, c] * MGPD[mm, c] on mm) + eps)
+phi_MGPM[m, c]  := PMGPM[m, c] * MGPM[m, c] / (sum(PMGPM[mm, c] * MGPM[mm, c] on mm) + eps)
+
+
+phi[f, s] := C[f, s] * F_n[f, s] / (sum(C[ff, s] * F_n[ff, s] on ff) + eps)
+
+phi[E, ce, s] := PCI[ce, s]*CI[ce, s] / (sum(PCI[cee, s]*CI[cee, s] on cee) + eps)
+
+phi_TRSP[ct, s] := PCI[ct, s]*CI[ct, s] / (sum(PCI[ctt, s]*CI[ctt, s] on ctt) + eps)
+
+F[K] := sum(F[K, s] on s)
+F[L] := sum(F[L, s] on s)
+F[E] := sum(F[E, s] on s)
+F[MAT] := sum(F[MAT, s] on s)
+
+### From GOV:
+NTAXCD_VAL[c] := RNTAXCD[c]*PYQ[c]*YQ[c]
+
+NTAXCM_VAL[c] := RNTAXCM[c]*PM[c]*M[c]
+
+NTAXS_VAL[s] := RNTAXS[s]	* PY[s]	    * Y[s] + T2VAL_MAT[s] + T2VAL_Y[s] - T2VAL_SEC * F[L,s]/F[L] * REDIS_CT_LS
+
+RSC := sum(RSC[s] on s)
+
+RRSC := PRSC * RSC / (W * F[L])
+
+INC_G_VAL := PNTAXC * NTAXC + NTAXS_VAL + INC_SOC_TAX_VAL + PRSC * RSC + PROP_INC_G_VAL
+
+SPEND_G_VAL := PG  * G  + SOC_BENF_VAL + DEBT_G_VAL{-1}*(Phi_RD_G{-1} + r_DEBT_G{-1})
+
+SAV_G_VAL := INC_G_VAL - SPEND_G_VAL
+
+Bal_G_Prim_VAL := SAV_G_VAL + DEBT_G_VAL{-1}*(Phi_RD_G{-1} + r_DEBT_G{-1})
+Bal_G_Prim_VALbis := INC_G_VAL - (PG  * G  + SOC_BENF_VAL)
+
+Bal_G_Tot_VAL := Bal_G_Prim_VAL - DEBT_G_VAL{-1}*r_DEBT_G{-1}
+
+RSAV_G_VAL := SAV_G_VAL / (PGDP * GDP)
+
+RBal_G_Prim_VAL := Bal_G_Prim_VAL / (PGDP * GDP)
+
+RBal_G_Tot_VAL := Bal_G_Tot_VAL / (PGDP * GDP)
+
+# RDEBT_G_VAL := DEBT_G_VAL / (PGDP * GDP)
+
+RRSC_ef[s] :=  RSC[s] * PRSC[s] / (W[s] * F[L,s])
+
+### From Demographic block
+Un := LF - Empl
+Empl := (1 - UnR) * LF
+
+### From consumer
+DISPINC_BT_VAL := PWAGES * WAGES + PROP_INC_H_VAL + SOC_BENF_VAL + TRSF_HH_VAL
+
+DISPINC_AT_VAL := DISPINC_BT_VAL - INC_SOC_TAX_VAL
+
+NCH := sum(NCH[c] on c)
+
+Phi_CH[c] := CH[c]/CH
+
+SAV_H_VAL := DISPINC_AT_VAL - PCH * CH
+
+# Households savings rate
+RSAV_H_VAL := SAV_H_VAL / DISPINC_AT_VAL
+
+
+# From International trade
+Bal_Trade_VAL[c] := PX[c] * X[c] - PM[c] * M[c]
+
+Bal_Trade_VAL := sum(Bal_Trade_VAL[c] on c)
+
+RBal_Trade_VAL := Bal_Trade_VAL / (PGDP * GDP)
+
+
+# From emissions
+
+EMS_CI[ghg,c] := sum(EMS_CI[ghg,c,s] on s)
+
+EMS_CI[c]  := sum(EMS_CI[ghg,c] on ghg)
+
+EMS_CI[ghg,s] := sum(EMS_CI[ghg,c,s] on c)
+
+EMS_CI[s]  := sum(EMS_CI[ghg,s] on ghg)
+
+EMS_CI[ghg] := sum(EMS_CI[ghg,s] on s)
+
+EMS_CIbis[ghg] := sum(EMS_CI[ghg,c] on c)
+
+EMS_MAT[ghg] := sum(EMS_MAT[ghg,s] on s)
+
+EMS_Y[ghg] := sum(EMS_Y[ghg,s] on s)
+
+EMS_CH[ghg] := sum(EMS_CH[ghg,c] on c)
+
+EMS_CH[c]  := sum(EMS_CH[ghg,c] on ghg)
+
+EMS[c] := EMS_CI[c] + EMS_CH[c]
+
+EMS[ghg] := EMS_CI[ghg] + EMS_MAT[ghg] + EMS_Y[ghg] + EMS_CH[ghg]
+
+EMS_CI := sum(EMS_CI[ghg] on ghg)
+
+EMS_MAT := sum(EMS_MAT[ghg] on ghg)
+
+EMS_Y := sum(EMS_Y[ghg] on ghg)
+
+EMS_CH := sum(EMS_CH[ghg] on ghg)
+
+EMS := EMS_CI + EMS_MAT + EMS_Y + EMS_CH
+
+EMSbis := sum(EMS[ghg] on ghg)
+
+EMS[ghg,c] := EMS_CI[ghg,c] + EMS_CH[ghg,c] 
+
+EMSbis[c] := sum(EMS[ghg,c] on ghg)
+
+# From energy balance
+
+
+CI_toe[ce] := sum(CI_toe[ce, s] on s)
+
+# # PhiY[ce, s] := (@elem(PY_toe[ce, s], %baseyear) * PhiY_toe[ce, s]) / (sum((@elem(PY_toe[ce, s], %baseyear) * PhiY_toe[ce, s]) on s))
+
+
+Y_toe[ce] + M_toe[ce] := CI_toe[ce] + CH_toe[ce] + X_toe[ce]
+
+CI_toe[s]  := sum(CI_toe[ce, s] on ce)
+
+CI_toe     := sum(CI_toe[ce] on ce)
+
+CH_toe     := sum(CH_toe[ce] on ce)
+
+X_toe      := sum(X_toe[ce] on ce)
+
+Y_toe[s]   := sum(Y_toe[ce, s] on ce)
+
+Y_toe      := sum(Y_toe[ce] on ce)
+
+M_toe      := sum(M_toe[ce] on ce)
+
+YG_toe[ce, s] := Y_toe[ce, s] + DLY_toe[ce, s] + AC_toe[ce, s]
+
+MG_toe[ce] := M_toe[ce] + DLM_toe[ce]
+
+# DLY_toe[ce, s] := DL_toe[ce] * Y_toe[ce, s] / (Y_toe[ce] + M_toe[ce] + eps)
+
+# DLM_toe[ce] := DL_toe[ce] * M_toe[ce] / (Y_toe[ce] + M_toe[ce] + eps)
+
+YG_toe[ce] := sum(YG_toe[ce, s] on s)
+
+DLY_toe[ce] := sum(DLY_toe[ce, s] on s)
+
+AC_toe[ce] := sum(AC_toe[ce, s] on s)
+
+RY_toe[ce] := Y_toe[ce] / (YG_toe[ce] + eps)
+
+RDLY_toe[ce] := DLY_toe[ce] / (YG_toe[ce] + eps)
+
+RAC_toe[ce] := AC_toe[ce] / (YG_toe[ce] + eps)
+
+DL_toe[ce] := DLY_toe[ce] + DLM_toe[ce] 

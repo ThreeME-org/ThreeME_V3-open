@@ -1,0 +1,30 @@
+# Ignore temporary files of the compiler
+in.txt
+out.txt.prg
+dependency.graphml
+
+# Ignore back-up EViews files
+*.~rg
+*.~f1
+src/EViews/*_Snapshots/*.*
+
+# Ignore result files
+results/*.wf1
+results/*.json
+results/*/*.wf1
+results/*/*.json
+
+# Ignore project files (R, Sublime, etc.)
+
+.Rhistory
+.Rproj.user
+*.sublime-project
+*.sublime-workspace
+
+# Ignore log files from the compiler to Latex
+doc/*.aux
+doc/*.log
+
+src/EViews/series_eviews.prg
+src/EViews/model_eviews.prg
+src/compiler/_tmp_all_vars.csv

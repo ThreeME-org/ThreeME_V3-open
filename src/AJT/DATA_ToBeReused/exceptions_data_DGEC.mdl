@@ -1,0 +1,9 @@
+#PE_Signal[s] := 0
+shock_AUTO[h, ecl, ce] := 0
+shock_MAT_14 := 0
+Apparent_Payback := 0
+
+phi_modal_auto[trsp, h] := 0 where trsp in %list_trsp_travel \ 18
+
+modal_trsf_auto[trsp, h] := phi_modal_auto[trsp, h] * Km_traveler_auto[h] where trsp in %list_trsp_travel \ 18
+modal_trsf_auto[h] := sum(modal_trsf_auto[trsp, h] on trsp) where trsp in %list_trsp_travel \ 18

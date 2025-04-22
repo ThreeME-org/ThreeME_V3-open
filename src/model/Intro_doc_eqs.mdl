@@ -1,0 +1,41 @@
+##### Introduction
+
+## This chapter provides all the equations of the model. The names of variables are defined in the Glossary in the last section of the chapter and ranked in alphabetical order. The glossary provides also the number of the equation defining a given variable and the page where this equation is located. Because there are several versions of ThreeME, an endogenous variable may be defined more than once in the document. In such a case, it appears several time in the Glossary. \\
+
+## For instance, there are three versions of the household block: (1) the basic version where a LES utility function is assumed for all commodities; (2) the nested version where transport, car, housing and energy consumption are modeled using a nested utility function; (3) the hybrid version where transport, car, housing and energy consumption are modeled using a bottom-up model. \\
+
+## There are also several versions regarding the specification of prices and taxes on commodities: (1) the basic version where taxes are not differentiated between uses (e.g. intermediary, final consumption, export, etc.) and type (e.g. VAT, subsidies, etc.); (2) the advanced version where this differentiation is made. \\
+
+## In this appendix, $t$ is the time operator that may be omitted when no confusion arises, $e.g.$ $Z = Z_{t}$. Variables in first difference are referred as: $\varDelta\left(Z_{t}\right) = Z_{t}-Z_{t-1}$. Therefore the logarithm difference of a variable is approximately its growth rate: $\varDelta\left(\operatorname{log} Z_{t}\right) \approx Z_{t}/Z_{t-1}-1$. All parameters written in Greek letter are positive. $n$ as an exponent refers to the notional value of a given variable that is the optimal value desired by the maximization agent: $e.g.$ $Z^{n}$ is the notional value of variable $Z$. Because of adjustment constraint, effective values adjust slowly to their notional value.
+
+#### Sets and indexes
+## This section provides the different sets for each index used in the equation description. \\ \\
+##! Production factors $f$
+## \begin{equation} f \in  \{ K,L,E,M \} \end{equation}
+
+##! Greenhouse Gases $ghg$
+## \begin{equation} ghg \in  \{ CO2, CH4, N2O, SF6, HFC, PFC\} \end{equation}
+
+##! Car energy labels $ecl$
+## \begin{equation} ecl \in  \{CA, CB, CC, CD, CE, CF, CG\} \end{equation}
+
+##! Building energy labels $bcl$
+## \begin{equation} bcl \in  \{CA, CB, CC, CD, CE, CF, CG, DES\} \end{equation}
+
+##! Sectors (or activities) $s$
+## \begin{equation} s \in S \end{equation}
+
+##! Commodities $c$, $cc$
+## \begin{equation} c, cc \in C \end{equation}
+
+##! Margins $m$, $mm$
+## \begin{equation} m, mm \in  CMARG \subset C \end{equation}
+
+##! Commodities used as material input $cm$
+## \begin{equation} cm \in  CMAT \subset C \end{equation}
+
+##! commodities used as transportation input $ct$
+## \begin{equation} ct \in  CTRSP \subset C \end{equation}
+
+##! commodities used as energy input $ce$
+## \begin{equation} ce \in  CE \subset C \end{equation}

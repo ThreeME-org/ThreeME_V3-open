@@ -1,0 +1,42 @@
+# BLOCK  : Carbon Tax
+include ..\model\lists
+
+# ***CARBON TAX***
+# equation 6.17
+Ttco[ce2] = Ttco_vol[ce2] * PCH
+
+TCO_VAL[ce2, s] = Ttco[ce2] * EMS_SEC[ce2, s] * (1 - EXO[ce2, s])
+TCO_VAL_SOU[ce2] = sum(TCO_VAL[ce2, s] on s)
+TCO_VAL_SEC[s] = sum(TCO_VAL[ce2, s] on ce2)
+TCO_VAL_SEC = sum(TCO_VAL_SEC[s] on s)
+TCO_VAL_SOU = sum(TCO_VAL_SOU[ce2] on ce2)
+verif_TCO_VAL = TCO_VAL_SOU - TCO_VAL_SEC
+
+# equation 6.18
+TCO_VAL|O|[ce2, s] = TCO_VAL[ce2, s] * E|O|[ce2, s]/E[ce2, s] if E[ce2, s] <> 0
+TCO_VAL|O|_SOU[ce2] =  sum(TCO_VAL|O|[ce2, s] on s)
+
+# equation 6.19
+TCO_VAL_HH[ce2, h] = Ttco[ce2] * EMS_HH[ce2, h]
+TCO_VAL_HH_SOU[ce2] = sum(TCO_VAL_HH[ce2, h] on h)
+TCO_VAL_HH[h] = sum(TCO_VAL_HH[ce2, h] on ce2)
+TCO_VAL_HH = sum(TCO_VAL_HH[h] on h)
+
+# equation 6.20
+Rec_TCO_VAL = TCO_VAL_SEC + TCO_VAL_HH
+Rec_TCO = REC_TCO_VAL / PCH
+Ttco_vol_average = 1000000 * REC_TCO /(EMS_SEC + EMS_HH)
+
+#series CO_VAL=1000000*(REC_TCO+CIDD+Bonus+Bonus_elec+CSPE)/(EMS_TOT*PGDP))# equation telle qu#elle est dans la version V1#
+
+DEP_TCO_VAL = Rec_TCO_Val_ETS + Rec_TCO_Val_NETS
+
+CO2_price_signal= sum(PTAX[ce2] * TAX[ce2] - PVAT[ce2] * VAT[ce2] on ce2) * 1000000 / EMS_TOT
+
+# ***ENDOGENOUS EMPLOYER SOCIAL CONTRIBUTION RATE WHEN CARBON TAX***
+# equation 6.21
+Rec_TCO_VAL_ETS = sum(TCO_VAL_SEC[s] where s in %list_ETS)
+WAGES_ETS = sum(W_S[s] * L_S[s] where s in %list_ETS)
+Rec_TCO_VAL_NETS = sum(TCO_VAL_SEC[s] where s in %list_NETS)
+
+WAGES_NETS = W_S * L_S - WAGES_ETS
