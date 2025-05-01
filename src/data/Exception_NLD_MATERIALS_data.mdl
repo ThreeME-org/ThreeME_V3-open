@@ -1,0 +1,81 @@
+include ..\model\lists
+
+
+# ======================= BASELINE ===================================================================
+
+GDP_trend := GDP
+
+GDP_cont := 0
+
+# ======================= ELECTRICITY MIX ============================================================
+
+PhiY_OPERA[cele, s] := PhiY_toe[cele, s]
+
+# ======================= CAPITAL EFFICIENCIES IN ENERGY SECTOR ======================================
+
+PROG_OPERA[K, s] := 1 where s in sroa swat sair scoa soil spen spch sgas sgasb sbiom sbiof sesf sega sepe sehy sewi seso sebi senu shea
+
+cap_efficiency_OPERA[s] := 1 
+
+# ======================= Change in substitutions ====================================================
+
+# Growth or decline of energy in sectors
+GR_PROG_base[E, s] := 0
+
+# Growth or decline of energy ce in sector s
+GR_CI_base[ce, s] := 0
+INT_CI[ce, s] := 1
+
+phi_adjust[ce, s] := 1 
+
+# ======================= Change in HH consumption ====================================================
+
+## Commodities related to nesting structure energy households 
+
+@over NCH[c] := 1.0 * CH[c] where c in %list_com_E  # All energy commodities
+PCH_ENER_CES := P
+PCH_ENER := P
+PCH_ENER[ce] := P
+
+CH_ENER[ce] := 1 * NCH[ce]
+
+CH_ENER_VAL := sum(PCH_ENER[ce] * CH_ENER[ce] on ce)
+
+phi_MCH_ENER[ce] := CH_ENER[ce] * PCH_ENER[ce] /  CH_ENER_VAL
+
+## related to growth/ decline of energy from baseline
+
+# Growth or decline of energy in households
+GR_PROG_HOUS_base := 0
+
+# Growth or decline of energy ce in households
+GR_CH_base[ce] := 0
+
+# ======================= CLOSE DOWN GAS PIPE RUSSIA =================================================
+
+PCGAS := 0
+
+POPERA[c] := 1
+
+# ======================= ELASTICITIES OF SUBSTITUTION ===============================================
+
+# Also change this in elasticities.mdl: 
+@over ES_NRJ[ce, cee, s] := 0
+@over ES_NRJ[ce, cee, s] := 0.1 where s in sagr smet schem spla sgla spap sfoo sroa swat sair
+
+ES_HOUS_ENER := 0.1
+
+# ======================= Other assumptions  =========================================================
+
+#SUBST_CIM_n_OPERA[c] := 0 
+#SUBST_CHM_n_OPERA[c] := 0 
+
+
+
+
+
+
+
+
+
+
