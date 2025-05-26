@@ -1,0 +1,52 @@
+include .\R_lists
+
+# List of production factors
+%list_F := K L E MAT  #[f]
+
+# List of Green House Gases (GHG)
+%list_GHG := CO2 CH4 N2O SF6 HFC PFC #[ghg]
+
+%list_chtrsp := crai croa auto
+chtrsp in %list_chtrsp
+
+%list_ener_class := CA CB CC CD CE CF CG #[ecl]
+%list_buil_class := CA CB CC CD CE CF CG DES #[bcl]
+
+
+
+
+# Default iterators
+s in %list_sec
+
+c in %list_com
+
+m in %list_com_MARG
+mm in %list_com_MARG
+
+
+cm in %list_com_MAT
+
+ct in %list_com_TRSP
+ctt in %list_com_TRSP
+
+cmo in %list_com_MATO
+
+# co in %list_com_oth
+
+ce in %list_com_E
+cee in %list_com_E
+
+
+f in %list_F
+ff in %list_F
+
+ghg in %list_GHG
+
+ecl in %list_ener_class
+ecl2 in %list_ener_class
+bcl in %list_buil_class
+
+O in D M
+
+%baseyear := 2000
+%firstdate := 1998

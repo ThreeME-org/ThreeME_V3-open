@@ -1,0 +1,101 @@
+include ..\model\lists
+
+#######################################
+###################################### 
+# Round 0 for Hybrid: Hypothesis specific to the htbrid block
+
+@over NCH[c] := 1.0 * CH[c] where c in cveh ccon crai croa ccoa cele  # To be replaced by a list
+
+# Subsidy rate
+R_SUB[ecl,ecl2] := 0
+
+ADJUST0_tau_REHAB := 0.5 
+
+ADJUST_phi_REHAB := 0.5 
+
+RHO_U_GAIN[ecl,ecl2] := 0
+
+# Share of housing investment paid cash
+# For (maintaining) a building of ecl in the same class
+R_CASH[ecl]  := 0.5
+# For rehabilitating a class ecl building in a more efficient class
+R_CASH_REHAB[ecl] := R_CASH[ecl]
+# For new buildings
+R_CASH_NewBUIL[ecl] := 0.2
+
+# Interest rate paid housing investment
+# For (maintaining) a building of ecl in the same class
+R_I_BUIL[ecl] := R + 0.01
+
+# For rehabilitating a class ecl building in a more efficient class
+R_I_REHAB[ecl] := R_I_BUIL[ecl]
+# For new buildings
+R_I_NewBUIL[ecl] := R_I_BUIL[ecl] 
+
+# For automobile
+R_I_AUTO[ecl] := R + 0.03
+
+# Loan duration for housing investment
+# For (maintaining) a building of ecl in the same class
+LD[ecl] := 25
+# For rehabilitating a class ecl building in a more efficient class
+LD_REHAB[ecl] := LD[ecl]
+LD_NewBUIL[ecl] := LD[ecl]
+
+R_RMBS_REHAB[ecl] := 1 / LD_REHAB[ecl]
+R_RMBS_NewBUIL[ecl] := 1 / LD_NewBUIL[ecl]
+
+# Life duration for a class ecl building
+BUIL_D[ecl] := 25
+
+# Life duration for a class ecl building (after rehabilitation)
+# USE DIRECTLTY BUIL_D ? 
+REHAB_D[ecl] := BUIL_D[ecl]
+
+# Adjustements
+ADJUST_GR_PENER_m2_e_1 := 0.2
+
+## From R / Excel
+
+M2perHOUSING := 91.35039201
+
+# Number of square meter per inhabitant
+M2perCapita := 37.8748670376437
+
+# Proportion of rehabilitated building from the class ecl's  
+tau_REHAB[ecl] := BUILDING(1, $ecl)
+
+# Maximum proportion of rehabilitated building from the class ecl's  
+tau_REHAB_MAX[ecl] := BUILDING(3, $ecl)
+
+# Minimum proportion of rehabilitated building from the class ecl's  
+tau_REHAB_MIN[ecl] := BUILDING(2, $ecl)
+
+# Switching speed between the 2 regimes of the logistic function
+sigma[ecl] := BUILDING(4, $ecl)
+
+
+BUIL[ecl] := BUILDING(39, $ecl)
+
+phi_NewBUIL[ecl] := BUILDING(8, $ecl)
+
+PREHAB[ecl,ecl2] := BUILDING(28+$ecl, $ecl2) / M2perHOUSING / 1000000 * P
+
+PNEWBUIL[ecl] := BUILDING(37, $ecl) / 1000000 * P
+
+delta_BUIL[ecl,bcl] := BUILDING(19 + $ecl, $bcl)
+phi_REHAB[ecl,ecl2] := BUILDING(10 + $ecl, $ecl2)
+
+ENER_BUIL[ecl, ce] := BUILDING(41 + $ce, $ecl)
+
+EXP_BUIL[ecl, ce] := @elem(CH[ce], %baseyear) * ENER_BUIL[ecl, ce]/ENER_BUIL[ce]
+
+ENER_BUIL[ce] := sum(ENER_BUIL[ecl, ce] on ecl)
+
+# Needed for conditionnality in next round
+REHAB[ecl,ecl2] := (phi_REHAB[ecl,ecl2]*tau_REHAB[ecl]*BUIL[ecl]{-1})
+
+REHAB[ecl] := sum(REHAB[ecl,ecl2] on ecl2)
+
+U_REHAB[ecl,ecl2] := phi_REHAB[ecl,ecl2]
+

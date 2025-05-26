@@ -1,0 +1,8 @@
+##! Percentage of freely allocated permits to sector $s$
+## For each sector, the quantity of free permits is defined as a share of emissions that are eligible to the emission trading scheme. \\
+share_free[s]
+
+
+##! Alpha variable (used as a test for exogenous variable documentation)
+## Test exogenous variable
+alpha_exo

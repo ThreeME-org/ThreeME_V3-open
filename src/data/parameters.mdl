@@ -1,0 +1,40 @@
+########################################################
+### Hypothesis for the long term of model
+########################################################
+
+### Population growth rate
+GR_POP    := 0.0029
+
+### Growth rate of technical progress for capital, labor, energy and material
+GR_PROG[L] := 0.0170
+
+GR_PROG[K] := 0.0
+GR_PROG[E] := 0.0
+GR_PROG[MAT] := 0.0
+
+
+### Inflation (growth rate of prices)
+GR_PRICES := 0.0200
+
+### Risk premium
+RISKPREM := 0.0100
+
+### Growth rate of the real economy
+GR_REAL := (1 + GR_POP)*(1 + GR_PROG_L) - 1
+
+### Growth rate of the nominal economy
+GR_NOMI := (1 + GR_POP)*(1 + GR_PROG_L)*(1 + GR_PRICES) - 1
+
+### Growth rate of the nominal wage
+GR_NOMIW := (1 + GR_PRICES)*(1 + GR_PROG_L) - 1
+
+### Interest rates
+# Of the Central Bank
+R := GR_NOMI - RISKPREM
+
+# Of sectors and of the Government (Interest of the CB plus a premium)
+R[s] := R + 0
+r_DEBT_G := r + 0
+
+### Grothw rate of technical progress in sectors for the production factors
+GR_PROG[f, s] := GR_PROG[f]
