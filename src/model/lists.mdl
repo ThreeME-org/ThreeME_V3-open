@@ -1,0 +1,100 @@
+include .\R_lists
+
+# List of production factors
+%list_F := K L E MAT  #[f, ff]
+
+# List of Green House Gases (GHG)
+%list_GHG := CO2 CH4 N2O SF6 HFC PFC #[ghg]
+
+# List of transport used in the household nested CES
+%list_chtrsp := crai croa auto #[chtrsp]
+
+
+# List of (public) transport used in the household transport block
+%list_com_TRSPH := crai croa cair #[cth] 
+
+# List of energy class for the housing and transport block
+%list_ener_class := CA CB CC CD CE CF CG #[ecl]
+%list_buil_class := CA CB CC CD CE CF CG DES #[bcl]
+
+# List of energy commodities used in building
+%list_com_E_BUIL := ccoa cfuh cgas cele chea cbio #[ceb, cebb]
+
+# List of energy commodities used by automobiles
+%list_com_E_AUTO := cfut cgas cele #[cea]
+
+# List of households
+%list_households := H01 H02 H03 H04 H05 H06 H07 H08 H09 H10 #[h]
+
+# List of industry sectors
+%list_sec_IND := sagr sfor sfoo sveh sgla spap sche spla smet sigo scgo scon smin #[sind]
+
+# List of transport sectors
+%list_sec_TRSP := srai sroa swat sair  #[strsp]
+
+# List of services sectors
+%list_sec_SER :=  spri spub  #[sser]
+
+# List of transformation sectors
+%list_sec_TRSF :=  soil sbfu sgas sbga #[strsf]
+
+# List of electricity sectors
+%list_sec_ELE :=  senu seoi sega seco sewi seso sehy sech seot #[sele]
+
+# List of agregate secteors
+%list_sec_AGREG := ind trsp ser trsf ele #[sagg]
+
+
+# Default iterators
+s in %list_sec
+ss in %list_sec
+
+c in %list_com
+
+m in %list_com_MARG
+mm in %list_com_MARG
+
+
+cm in %list_com_MAT
+
+ct in %list_com_TRSP
+ctt in %list_com_TRSP
+
+cth in %list_com_TRSPH
+
+chtrsp in %list_chtrsp
+
+cmo in %list_com_MATO
+
+# co in %list_com_oth
+
+ce in %list_com_E
+cee in %list_com_E
+
+ceb in %list_com_E_BUIL
+cebb in %list_com_E_BUIL
+
+cea in %list_com_E_AUTO
+
+
+f in %list_F
+ff in %list_F
+
+ghg in %list_GHG
+
+ecl in %list_ener_class
+ecl2 in %list_ener_class
+bcl in %list_buil_class
+
+h in %list_households
+
+O in D M
+
+sind in %list_sec_IND
+strsp in %list_sec_TRSP
+sser in %list_sec_SER
+strsf in %list_sec_TRSF
+sele in %list_sec_ELE
+sagg in %list_sec_AGREG
+
+%baseyear := 2015

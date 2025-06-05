@@ -1,0 +1,254 @@
+include ..\model\lists
+
+### This file defines the variables that are not loaded and that can not be calculated from their equation in the model. There may be several reasons:
+### - they are defined by a behavior equation.
+### - using the equation of the model generate a circular reference
+
+### Export of commodity c be used in the corresponding behavior equation
+Xbis[c] := X[c]
+
+### Calibration of parameter from Equations
+PhiY[c, s] := Y[c, s] / (YQ[c] + eps)
+W[s] := WAGES[s] * PWAGES[s] / F[L, s]
+(1 + MARKUP[s]) := PY_n[s] / CU_n[s]
+
+RNTAXCD[c] := NTAXCD[c] / (YQ[c] + eps)
+RNTAXCM[c] := NTAXCM[c] / ( M[c] + eps)
+
+RNTAXS[s] := NTAXS[s] / (Y[s] + eps)
+
+RINC_SOC_TAX := (INC_SOC_TAX_VAL+T2VAL_CH * REDIS_CT_H)/DISPINC_BT_VAL 
+
+phi_PROP_INC_H := PROP_INC_H_VAL_n / (PNOS * NOS + eps)
+
+(1 - MPS_n) := CH_n_VAL / DISPINC_AT_VAL
+
+phi_MCH[c] := (CH_n[c] - NCH[c]) * PCH[c] / (CH_n_VAL - PNCH * NCH + eps)
+
+PARTR := LF/WAPop
+
+# Tax rate for the Employers' social security contribution paid by sector s
+RRSC[s] := RSC[s] * PRSC[s] / (W[s] * F[L, s] + eps)
+
+
+# Import share of commodity c for margins supplied, private and public consumption, investment and exports
+phi_|V|M[c] := |V|M[c] / (|V|[c] + eps) where V in CH G X
+phi_|V|M[m] := |V|M[m] / (|V|[m] + eps) where V in MGS
+
+# Import share of commodity c bought by sector s for intermediary consumption and investment
+phi_|V|M[c, s] := |V|M[c, s] / (|V|[c, s] + eps) where V in CI I
+
+# From equilibrated steady state
+Stock_SAV_H_VAL := SAV_H_VAL * (1 + GR_NOMI) / GR_NOMI
+
+PhiY_toe[ce, s] := Y_toe[ce, s]/(Y_toe[ce] + eps)
+
+# Alias or defined to be used in behavior equations
+IA[s] := I[s]
+
+F[E, s] := sum(CI[ce, s] on ce)
+F[MAT, s] := sum(CI[cm, s] on cm)
+
+TRSP[s] := sum(CI[ct, s] on ct)
+
+F_n[K, s] := F[K, s]
+F_n[L, s] := F[L, s]
+F_n[E, s] := F[E, s]
+F_n[MAT, s] := F[MAT, s]
+
+F_e[f, s] := F[f, s]
+
+CI[c, s] := CID[c, s] + CIM[c, s]
+I[c, s] := ID[c, s] + IM[c, s]
+|V|[c] := |V|D[c] + |V|M[c] where V in CH G X
+
+CH_n_VAL := PCH * CH
+
+EXPG := G
+
+MARKUP_n2[s] := MARKUP_n[s]
+
+YG_toebis[ce] := YG_toe[ce]
+Y_toebis[ce] := Y_toe[ce]
+
+## Need to use @elem. Otherwither the variable is not defined at %baseyear-2. Missing data error in the simulation.
+PROP_INC_G_VAL := @elem(phi_PROP_INC_G * PNOS * NOS, %baseyear) * (1 + GR_NOMI) ^ (@year - %baseyear)
+
+# For verif
+ES_act_|V|M[c] := ES_|V|M[c] where V in CH G X
+ES_act_|V|M[m] := ES_|V|M[m] where V in MGS
+
+ES_act[f, ff, s] := ES[f, ff, s]
+
+# Non margin commodities set at 0
+MGS[c]	:= 0 where c in %list_com \ %list_com_MARG
+
+# Expected and nominal variables are initialized to their real value
+|V|_n[s] := |V|[s] where V in IA W MARKUP
+|V|_e[s] := |V|[s] where V in IA W
+
+|V|_n[c] := |V|[c] where V in CH
+|V|_e[c] := |V|[c] where V in CH
+
+
+
+Y_e[s] := Y[s]
+
+|V|_n := |V| where V in PARTR R PROP_INC_H_VAL PROP_INC_G_VAL
+
+PROP_INC_H_VAL_e := PROP_INC_H_VAL
+PROP_INC_G_VAL_e := PROP_INC_G_VAL
+
+### Voir si on ne peux pas regrouper un peu !!!
+R_e := R
+
+PARTR_trend := PARTR
+PARTR_e := PARTR
+
+DNAIRU := 0
+
+# All variable started by SUBST are calibrated to zero
+SUBST_MGPD[m, c] := 0
+SUBST_MGPM[m, c] := 0
+
+SUBST_MGPD_n[m, c] := 0
+SUBST_MGPM_n[m, c] := 0
+
+SUBST_|V|[s] := 0 where V in IA L E MAT K
+
+SUBST_F_n[f, s] := 0
+SUBST_F[f, s] := 0
+
+SUBST_CI_n[c, s] := 0
+SUBST_CI[c, s] := 0
+
+SUBST_CHM_n[c] := 0
+SUBST_GM_n[c] := 0
+SUBST_XM_n[c] := 0
+
+SUBST_MGSM_n[m] := 0
+
+
+
+SUBST_|V|M[c] := 0 where V in CH G X
+SUBST_|V|M[m] := 0 where V in MGS
+
+SUBST_CIM_n[c, s] := 0
+SUBST_IM_n[c, s] := 0
+
+SUBST_|V|M[c, s] := 0 where V in CI I
+
+SUBST_X_n[c] := 0
+SUBST_X[c] := 0
+
+#SUBST_|V|_n[c, s] := 0 where V in IA IAD IAM
+#SUBST_|V|[c, s] := 0 where V in IA IAD IAM
+#SUBST_|V|_n[ce, s] := 0 where V in E  ED EM
+#SUBST_|V|[ce, s] := 0 where V in E  ED EM
+#SUBST_|V|_n[cm, s] := 0 where V in MAT MATD MATM
+#SUBST_|V|[cm, s] := 0 where V in MAT MATD MATM
+
+#SUBST_|V|_n[c] := 0 where V in CHD CHM GD GM X XD XM
+#SUBST_|V|[c] := 0 where V in CHD CHM GD GM X XD XM
+#SUBST_|V|_n[trsp, c] := 0 where V in MTD MTM, c in %list_com \ %list_trsp
+#SUBST_|V|[trsp, c] := 0 where V in MTD MTM, c in %list_com \ %list_trsp
+
+
+
+
+## Verification variable: ok if equal to 0
+### Pour le compilateur: avoir un nom réservé pour Verif?
+
+verif_phi_F[s] := 0
+
+verif_phi_MGPD[c] := 0
+
+verif_phi_MGPM[c] := 0
+
+verif_phi[E, s] := 0
+
+verif_phi_TRSP[s] := 0
+
+verif_Mbis[c] := 0
+verif_PMbis[c] := 0
+
+verif_MGSbis[c] := 0
+verif_PMGSbis[c] := 0
+
+verif_YQbis[c] := 0
+verif_PYQbis[c] := 0
+
+Verif_PCH_CES := 0
+
+Verif_phi_CH := 0
+
+Verif_phi_MCH := 0
+
+Verif_GDPbis := 0
+Verif_PGDPbis := 0
+
+Verif_GDPter := 0
+Verif_PGDPter := 0
+
+Verif_GDP4 := 0
+Verif_PGDP4 := 0
+
+Verif_CIbis := 0
+Verif_PCIbis := 0
+
+
+Verif_Ibis := 0
+Verif_PIbis := 0
+
+Verif_ALL := 0
+Verif_ALL2 := 0
+
+Verif_ALL_ES := 0
+
+Verif_ES_|V|M[c] := 0  where V in CH G X
+Verif_ES_|V|M[m] := 0  where V in MGS
+
+
+Verif_Bal_G_Prim_VAbis := 0
+
+Verif_PYQ := 0
+Verif_YQ := 0
+
+verif_EMS_CIbis[ghg] := 0
+
+verif_EMSbis := 0
+
+verif_YG_toe[ce] := 0
+
+verif_PhiY[ce, s] := 0
+
+verif_YG_toebis[ce] := 0
+
+verif_Y_toebis[ce] := 0
+
+verif_PhiY[c] := 0
+
+verif_PhiY_toe[ce] := 0
+
+## Other Calibrations
+### Calibrated from the volume version of an equation in value. Volume not in the model because of circular reference.
+### We can not use the Eq of the model:  YQ[c]*PYQ[c] + NTAXCD_VAL[c] + PMGPD[c]*MGPD[c] := PQD[c]*QD[c]
+### because circular reference with NTAXCD_VAL[c] that depends on YQ[c].
+###
+YQ[c] := sum(Y[c, s] on s)
+
+
+### Idem for M[c]. M[c]*PM[c] + NTAXCM_VAL[c] + PMGPM[c]*MGPM[c] := PQM[c]*QM[c]
+### because circular reference with NTAXCM_VAL[c] that depends on M[c]. Use round 0 instead:
+
+# M[c] := SUT($c,7) * (1 + GR_REAL) ^ (@year - %baseyear)
+
+# As explained, these can not be the eq of the model (otherwise incorrect price)
+YQS[c] := YQ[c] + NTAXCD[c] + MGPD[c]
+MS[c] := M[c] + NTAXCM[c] + MGPM[c]
+
+# Dummy variables in order to decide which way the carbon tax is redistributed to sector (lump-sum or employers' social cotisation rate)
+
+REDIS_CT_LS := 0
+REDIS_CT_RRSC := 0
+REDIS_CT_H := 0

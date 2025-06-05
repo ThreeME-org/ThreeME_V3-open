@@ -1,0 +1,71 @@
+##### Consumer disaggregated
+## This section provides the equations defining the households' income structure per type of households as well as their consumption and savings behaviour. \\
+
+
+#### Households' income
+
+##! Disposable income before tax of household $h$ expressed in value 
+DISPINC_BT_VAL[h]   = WAGES_VAL[h] + PROP_INC_H_VAL[h] + SOC_BENF_VAL[h] + TRSF_HH_VAL[h]
+
+##! Gross wages of household $h$
+WAGES_VAL[h]= phi_WAGES[h] * PWAGES * WAGES
+
+##! Disposable income after tax of household $h$ expressed in value 
+DISPINC_AT_VAL[h]   = DISPINC_BT_VAL[h] - INC_SOC_TAX_VAL[h]
+
+##! Income and social taxes expressed in value of household $h$
+INC_SOC_TAX_VAL[h]  = RINC_SOC_TAX[h] * DISPINC_BT_VAL[h] - T2VAL_CH * REDIS_CT_H[h]
+
+##! Property incomes of household $h$ expressed in value 
+PROP_INC_H_VAL[h] = phi_PROP_INC_H[h] * PROP_INC_H_VAL
+
+##! Social benefits of household $h$ expressed in value
+SOC_BENF_VAL[h] = phi_SOC_BENF[h] * SOC_BENF_VAL
+
+#### Households' expenditures
+
+##! Aggregate notional households final consumption of household $h$ expressed in value
+CH_n_VAL[h]  = DISPINC_AT_VAL[h] * (1 - MPS_n[h])
+
+##! Notional marginal propensity to save of household $h$ 
+d(MPS_n[h])  = RHO_MPS_R[h] * d(R - d(P)/P{-1}) + RHO_MPS_UnR[h] * d(UnR)
+
+##! Household $h$ 's final consumption $c$
+(CH_n[c, h] - NCH[c, h]) * PCH[c] = phi_MCH[c, h] * (CH_n_VAL[h] - PNCH[h] * NCH[h])  if CH[c, h] <> 0
+
+##! Share of commodity $c$ into the household $h$ 's total marginal consumption
+d(log(phi_MCH[c, h])) = (1 - ES_LESCES[h]) * d(log(PCH[c] / PCH_CES[h]))     if phi_MCH[c, h] <> 0
+
+##! CES consumption price index of household $h$
+PCH_CES[h] = (sum(@elem(phi_MCH[c, h], %baseyear) * PCH[c] ^ (1 - ES_LESCES[h]) on c)) ^ (1 / (1 - ES_LESCES[h])) if ES_LESCES[h] <> 1
+
+##! Household $h$ 's savings expressed in value
+SAV_H_VAL[h]  = DISPINC_AT_VAL[h] - PCH[h] * CH[h]
+
+##! Household $h$ 's savings rate
+RSAV_H_VAL[h] = SAV_H_VAL[h] / DISPINC_AT_VAL[h]
+
+#### Aggregations
+##!Notional households' final consumption $c$
+@over CH_n[c] =  sum(CH_n[c, h] on h)
+
+##! Agregate notional marginal propensity to save
+@over (1 - MPS_n) = CH_n_VAL / DISPINC_AT_VAL
+
+##! Disposable income after tax expressed in value
+@over DISPINC_AT_VAL = sum(DISPINC_AT_VAL[h] on h) 
+
+##! Aggregate notional households final consumption expressed in value
+@over CH_n_VAL = sum(CH_n_VAL[h] on h)
+
+##! Price of aggregate necessary household $h$ 's consumption
+PNCH[h] * NCH[h] = sum(PNCH[c] * NCH[c, h] if NCH[c, h] <> 0 on c) if NCH[h] <> 0
+
+##! Aggregate necessary household $h$ 's final consumption
+	   NCH[h] = sum(NCH[c, h] if NCH[c, h] <> 0 on c) if NCH[h] <> 0
+
+##! Price of aggregate necessary household $h$ 's consumption
+PCH[h] * CH[h] = sum(PCH[c] * CH[c, h] if CH[c, h] <> 0 on c) if CH[h] <> 0
+
+##! Aggregate necessary households final consumption
+	   CH[h] = sum(CH[c, h] if CH[c, h] <> 0 on c) if CH[h] <> 0

@@ -1,0 +1,53 @@
+##### Nested CES Production function
+
+## This file provides the equations defining a nested CES production function. The nested structure is a follows: K (capital), L (labor), E (energy), M (material).
+#
+#          Y
+#		  / \    --> ES_NEST_MAT_KEL
+#		 M	KEL
+#			/ \  --> ES_NEST_KE_L
+#		   KE  L
+#		   /\    --> ES_NEST_K_E
+#		  K  E
+#
+## The specification of the Elasticity of Substitution (ES) used between two inputs is the one presented in Reynès (2018, Appendix B),
+## From the ES in the different levels of the nest, it is possible to determine the actual elasticity between two inputs. Since the ES between two inputs is symmetric, we have: \\
+
+# Reynès, F. (2018), "The Cobb-Douglas function as a flexible function. A new perspective on homogenous functions through the lens of output elasticities", Mathematical Social Sciences.
+
+
+##! ES between material and capital
+ES[MAT, K, s] = ES_NEST_MAT_KEL[s]
+
+##! ES between capital and material
+ES[K, MAT, s] = ES[MAT, K, s]
+
+##! ES between material and energy
+ES[MAT, E, s] = ES_NEST_MAT_KEL[s]
+
+##! ES between energy and material
+ES[E, MAT, s] = ES[MAT, E, s]
+
+##! ES between material and labor
+ES[MAT, L, s] = ES_NEST_MAT_KEL[s]
+
+##! ES between labor and material
+ES[L, MAT, s] = ES[MAT, L, s]
+
+##! ES between capital and energy
+ES[K, E, s] = ES_NEST_K_E[s]/(1 - phi[MAT, s] - phi[L, s]) - ES_NEST_MAT_KEL[s]/(1 - phi[MAT, s]) - ES_NEST_KE_L[s] * phi[L, s] / (1 - phi[MAT, s]) / (1 - phi[MAT, s] - phi[L, s])
+
+##! ES between energy and capital
+ES[E, K, s] = ES[K, E, s]
+
+##! ES between capital and labor
+ES[K, L, s] = (ES_NEST_KE_L[s] - ES_NEST_MAT_KEL[s] * phi[MAT, s]) / (1 - phi[MAT, s])
+
+##! ES between labor and capital
+ES[L, K, s] = ES[K, L, s]
+
+##! ES between energy and labor
+ES[E, L, s] = ES[K, L, s]
+
+##! ES between labor and energy
+ES[L, E, s] = ES[E, L, s]

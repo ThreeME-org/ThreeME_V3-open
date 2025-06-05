@@ -1,0 +1,34 @@
+##### Walrasian closure in ThreeME
+## This file provides the equations of the other modified
+
+
+
+W_Walras := W
+
+
+@over RHO_PART_UnR := 0
+
+# Instantanous adjusment for price and qantities
+@over ADJUST0_F[L, s] := 1
+@over ADJUST6_F[L, s] := 1
+
+# ADJUST0_PY[s] := 1
+# ADJUST0_F[f, s] := 1
+
+# ADJUST0_CH[c] := 1
+
+# ADJUST6_F[f, s] := 1
+
+# ADJUST6_MGPD[m, c] := 1
+
+# ADJUST6_MGPM[m, c] := 1
+
+# ADJUST6_CI[ce, s] := 1
+# ADJUST6_CI[ct, s] := 1
+
+# ADJUST6_|V|M[c] := 1 where V in CH G X
+# ADJUST6_|V|M[m] := 1 where V in MGS
+
+# ADJUST6_|V|M[c, s] := 1 where V in CI I
+
+# ADJUST6_X[c] := 1

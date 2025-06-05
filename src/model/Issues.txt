@@ -1,0 +1,22 @@
+Issues in the calibration:
+
+
+Log of non positive number:
+
+For CO2 emissions  
+d(log(EMS_CI_CH4_cbio_smin))  = d(log(CI_cbio_smin  * IEMS_CI_CH4_cbio_smin))
+EMS_CI_CH4_cbio_smin > 0 but CI_cbio_smin = 0  
+
+D(LOG(EMS_CI_CH4_CBIO_SVEH)) = D(LOG(CI_CBIO_SVEH * IEMS_CI_CH4_CBIO_SVEH))".
+
+EMS_CI_CH4_CBIO_SROA
+EMS_CI_CH4_CBIO_SECO
+EMS_CI_CH4_CBIO_SECH
+etc
+EMS_CI_N2O_CBIO_....
+
+
+Coherence between intermediary in energy balance and in national account
+
+
+D(LOG(CI_TOE_CELE_SWAT)) = D(LOG(CI_CELE_SWAT))

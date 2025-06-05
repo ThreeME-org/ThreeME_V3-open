@@ -1,0 +1,19 @@
+include ..\model\lists
+
+DSDbis[c] := DSD[c]
+
+INV_INFRA[c] := INV_REDUC[c] + INV_RESTAU[c] + INV_RESI[c]
+
+INV_REDUC[c] := 0
+INV_RESTAU[c]  := 0
+INV_RESI[c]  := 0
+
+INV_INFRA := sum(INV_INFRA[c] on c)
+INV_REDUC := sum(INV_REDUC[c] on c)
+INV_RESTAU := sum(INV_RESTAU[c] on c)
+INV_RESI := sum(INV_RESI[c] on c)
+
+PSM[c] := 1
+
+GDP_trend := GDP
+GDP_cont := 0 

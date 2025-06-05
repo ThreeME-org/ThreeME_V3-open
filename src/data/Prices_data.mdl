@@ -1,0 +1,79 @@
+include ..\model\lists
+
+################################
+### Prices calibrated to 1 (or P)
+
+EXR := 1
+
+|V| := P where V in PQD PQM PCID PCIM PCHD PCHM PGD PGM PID PIM PXD PXM PDSD PDSM PQ PCI PCIbis PCH PG  PI PIbis PX PDS PGDP PM PGDP PGDPbis PGDPter PGDP4 PYQ PY PY_n PY_e PYQS PMS PVA PNTAX PSUB PEXPH PNEXP PEXPG PI P_e PE PK PMGSD PMGSM PMGS PMGPD PMGPM PNTAXC PGOS PNOS PWAGES PNCH PRSC PVATD POTHCTD PSUBCD PVATM POTHCTM PSUBCM PVAT POTHCT PSUBC PCH_CES
+
+|V|[s] := P where V in PI PY PY_n PY_e PMAT PE PE_e PWAGES PRSC
+
+PCI[c, s] := P
+PCI|O|[s] := P
+PCI[s] :=P 
+
+|V|[c] := P where V in PQD PCID PCHD PGD PID PXD PDSD PQM PCIM PCHM PGM PIM PXM PDSM PQ PCI PCH PG PI PX PDS PGDP PGDPbis PGDPter PYQ PYQbis PMbis PYQS PMS PID PIM PEXPG PEXP PNEXP PMGPD PMGPM PNCH PVATD POTHCTD PSUBCD PVATM POTHCTM PSUBCM PYQSBVAT PMSBVAT PYQbis PMbis
+
+PMGS|O|[c] := P
+PMGP|O|[m,c] := P
+
+PMGP[m, c] := P
+
+PMGS[c] := P
+PMGSbis[c] := P
+
+PY[c, s] := P
+PCI|O|[c, s] := P
+
+PI|O|[c, s] := P
+PI|O|[s] := P
+
+PWD[c] := P
+PM[c] := P
+
+################################
+################################
+################################
+### Prices not calibrated to 1
+
+######################
+### Not from Equation
+
+### Price of capital of sector s
+### In the model the price of capital is defined by:
+### PK[s] * K[s] = (1 - Rdep[s]) * PK[s]{-1} * K[s]{-1} + PI[s] * I[s]
+### The price of capital is calibrated by rewrting this equation in the long run. It is always smaller than 1.
+
+PK[s] := PI[s]*(Rdep[s]+GR_REAL)*(1+GR_PRICES)/(Rdep[s]-1+(1+GR_REAL)*(1+GR_PRICES))
+
+
+CUR[s] := Y[s] / YCAP[s]
+
+(1 + MARKUP[c]) := PYQ[c] * YQ[c] / (sum(CU[s] * Y[c, s] on s))
+
+
+##################
+### From Equation
+CU_n[s] * Y[s] := sum(C[f, s] * F_n[f, s] on f) + NTAXS_VAL[s]
+
+CU[s] * Y[s] := sum(C[f, s] * F[f, s] on f) + NTAXS_VAL[s]
+
+C[K, s] := PK[s] * (Rdep[s] + r[s])
+C[L, s] :=  W[s] * (1 + RRSC[s])
+C[E, s] := PE[s]
+
+Cbis[E, s] := PE[s] * ((PE_e[s]/PE_e[s]{-1}) ^ (1/Rdep[s]) - 1) / ((PE_e[s]/PE_e[s]{-1}-1) * (1/Rdep[s]))
+
+C[MAT, s] := PMAT[s] 
+
+C[K] * F[K] := sum(C[K, s] * F[K, s] on s)
+C[L] * F[L] := sum(C[L, s] * F[L, s] on s)
+C[E] * F[E] := sum(C[E, s] * F[E, s] on s)
+C[MAT] * F[MAT] := sum(C[MAT, s] * F[MAT, s] on s)
+
+
+W * F[L] := (sum(W[s] * F[L, s] on s))
+
+
+
