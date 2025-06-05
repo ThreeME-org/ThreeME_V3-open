@@ -1,0 +1,476 @@
+##### Supply-Use equilibrium
+
+## This section provides the equations defining the supply use - equilibrium for the domestic and imported products and at the aggregate level. It also derives the GDP according to various definitions. All equations are therefore accounting identity. \\  \\
+## Each identity is expressed in value and in volume. The value equation defines therefore a price index. By convention, the variable $Z$ is always expressed in volume. $PZ$ is its price. Therefore the quantity expressed in value is $Z^{VAL} = PZ * Z$. In most case, values are expressed as $PZ * Z$. When there is a risk that a variable in volume is equal to zero in simulation, we shall defined value as $Z^{VAL}$ to avoid a division by zero issue. A typical example would be the value-added of sector $s$: $VA^{VAL}_{s} = PY_{s} \; Y_{s} - PCI_{s} \; CI_{s}$.
+
+#### Use side
+
+### Domestic and foreign equilibrium for commodities $c$ (value & volume):
+
+##! Market price for the domestically produced commodity $c$
+PQD[c]  * QD[c]  = PMGSD[c] * MGSD[c] + PCID[c] * CID[c] + PCHD[c] * CHD[c] + PGD[c] * GD[c] + PID[c] * ID[c] + PXD[c] * XD[c] + PDSD[c] * DSD[c] if QD[c] <> 0
+
+##! Quantity of domestically produced commodity $c$ expressed at market price
+		  QD[c]  = 	          MGSD[c] + 		  CID[c] + 		     CHD[c] + 	   	   GD[c] + 		    ID[c] + 		 XD[c] + 		   DSD[c] if QD[c] <> 0
+
+##! Market price for imported commodity $c$
+PQM[c]  * QM[c]  = PMGSM[c] * MGSM[c] + PCIM[c] * CIM[c] + PCHM[c] * CHM[c] + PGM[c] * GM[c] + PIM[c] * IM[c] + PXM[c] * XM[c] + PDSM[c] * DSM[c] if QM[c] <> 0
+
+##! Quantity of imported commodity $c$ expressed at market price
+		  QM[c]  = 		      MGSM[c] + 		  CIM[c] + 		     CHM[c] + 	       GM[c] + 		    IM[c] + 		 XM[c] + 		   DSM[c] if QM[c] <> 0
+
+### Margins supplied (value & volume):
+# TO BE CHANGED !!: Margins paid --> Margins used / Margins supplied -->  margins supplied
+## The margins supplied by commodity $m$ corresponds to the margins supplied by this commodity. By definition, the margins supplied is the sum of the margins paid (or used) on the commodities $c$. \\ \\
+## The margins paid on domestic and imported products ($MGPD_{m, c}$ and $MGPM_{m, c}$) are defined with behavioral equations in the producer block. They follow the domestic and imported production of commodity $c$ ($YQ_{c}$ and $M_{c}$) more or less proportionally depending on the possibility of substitutions between margins. The margins paid are then aggregated to define the margins supplied, $MGS_{m}$. The latter is then disaggregated between the domestic and imported margins supplied ($MGSD_{c}$ and $MGSM_{c}$). See specification in the producer block. \\
+
+##! Market price of the margins supplied by commodity $m$
+PMGS[m] * MGS[m]  = sum(PMGP[m, c] * MGP[m, c] 	if MGP[m, c] <> 0 on c) 	   if MGS[m]    <> 0
+
+##! Margins supplied by commodity $m$, expressed at market price
+           MGS[m]  = sum(    	 	    MGP[m, c] 	if MGP[m, c] <> 0 on c) 	   if MGS[m]    <> 0
+## The margins supplied correspond to the sum of the margins paid to commodity $m$ over all the commodities $c$ \\
+
+##! Market price of the margins supplied by commodity $m$ (for verification)
+PMGSbis[m] * MGSbis[m] = PMGSD[m] * MGSD[m] + PMGSM[m] * MGSM[m] 				   if MGSbis[m]  <> 0
+## Same variable as $PMGS_{m}$ above to check the accounting consistency. \\
+
+##! Margins supplied by commodity $m$, expressed at market price (for verification)
+			 MGSbis[m] = 		    MGSD[m] + 			 MGSM[m] 				   if MGSbis[m]  <> 0
+## Same variable as $MGS_{m}$ above to check the accounting consistency. \\
+
+### Aggregation of imports and domestic production for commodity $c$ per use, expressed at market price (value & volume)
+## This subsection aggregates imports and domestic production for commodity $c$ for various uses. It does not do it for Exports, Households and Government final consumption ($X$, $CH$ and $G$) because these aggregates are already defined in behaviour equations (see Trade international, Consumer and Government blocks). Expressed in value, this subsection also defines the prices indexes at market price for commodity $c$ per use as a weighted average of imported and domestic production per uses: \textit{i.e.} for $Q$ (production of commodities ), $CI$ (intermediary consumption), $I$ (private investment) and $DS$ (change in inventories). \\
+##  \\
+
+##! Market price of the production of commodity $c$
+PQ[c]  * Q[c]    = PQD[c]  * QD[c]  + PQM[c]  * QM[c]                 if Q[c]   <> 0
+
+##! Production of commodity $c$, expressed at market price
+		 Q[c]    = 		     QD[c]  +			QM[c]                 if Q[c]   <> 0
+
+##! Market price of the intermediate consumption of commodity $c$
+PCI[c] * CI[c]   = PCID[c] * CID[c] + PCIM[c] * CIM[c]                if CI[c]  <> 0
+
+##! Intermediate consumption of commodity $c$, expressed at market price
+		 CI[c]   = 		     CID[c] + 		    CIM[c]                if CI[c]  <> 0
+
+##! Market price of the investment in commodity $c$
+PI[c]  * I[c]    = PID[c]  * ID[c]  + PIM[c]  * IM[c]                 if I[c]   <> 0
+
+##! Investment in commodity $c$, expressed at market price
+		 I[c]    = 		     ID[c]  + 		    IM[c]                 if I[c]   <> 0
+
+##! Market price of the change in inventories of commodity $c$
+PDS[c] * DS[c]   = PDSD[c] * DSD[c] + PDSM[c] * DSM[c]                if DS[c]  <> 0
+
+##! Change in inventories of commodity $c$, expressed at market price
+		 DS[c]   = 		     DSD[c] + 		    DSM[c]                if DS[c]  <> 0
+
+### Aggregation on sectors: production of commodity $c$ per use for domestic and imported products, expressed at market price (value & volume)
+## This subsection provides the aggregates for commodity $c$ for various uses, for domestic and imported products. They are calculated through the aggregation of the corresponding sectorial data on the sector index. \\
+
+##! Market price for the domestically produced commodity $c$ used as intermediary consumption
+PCID[c] * CID[c] = sum(PCID[c, s] * CID[c, s] if CID[c, s] <> 0 on s) if CID[c] <> 0
+
+##! Quantity of domestically produced commodity $c$ used as intermediary consumption, expressed at market price
+		  CID[c] = sum( 			CID[c, s] if CID[c, s] <> 0 on s) if CID[c] <> 0
+
+##! Market price for imported commodity $c$ used as intermediary consumption
+PCIM[c] * CIM[c] = sum(PCIM[c, s] * CIM[c, s] if CIM[c, s] <> 0 on s) if CIM[c] <> 0
+
+##! Quantity of imported commodity $c$ used as intermediary consumption, expressed at market price
+		  CIM[c] = sum( 			CIM[c, s] if CIM[c, s] <> 0 on s) if CIM[c] <> 0
+
+##! Market price for domestically produced commodity $c$ used as investment
+PID[c]  * ID[c]  = sum(PID[c, s]  * ID[c, s]  if ID[c, s]  <> 0 on s) if ID[c]  <> 0
+
+##! Quantity of imported commodity $c$ used as investment, expressed at market price
+		  ID[c]  = sum( 		    ID[c, s]  if ID[c, s]  <> 0 on s) if ID[c]  <> 0
+
+##! Market price for imported commodity $c$ used as investment
+PIM[c]  * IM[c]  = sum(PIM[c, s]  * IM[c, s]  if IM[c, s]  <> 0 on s) if IM[c]  <> 0
+
+##! Quantity of imported commodity $c$ used as investment, expressed at market price
+		  IM[c]  = sum( 		    IM[c, s]  if IM[c, s]  <> 0 on s) if IM[c]  <> 0
+
+
+### Aggregation on commodities: imported, domestic and aggregate intermediate consumption and investment of sector $s$, expressed at market price (value & volume)
+## This subsection provides the intermediate consumption and investment of sector $s$ (imported, domestically produced and aggregated). They are calculated through the aggregation of the corresponding sectorial data on the commodity index. \\
+
+##! Market price of domestically produced intermediate consumption of sector $s$
+PCID[s] * CID[s] 	= sum(PCID[c, s] * CID[c, s] 	if CID[c, s]  <> 0 on c) 		if CID[s]    <> 0
+
+##! Domestically produced intermediate consumption of sector $s$, expressed at market price
+		  CID[s] 	= sum(			   CID[c, s] 	if CID[c, s]  <> 0 on c) 		if CID[s] 	 <> 0
+
+##! Market price of imported intermediate consumption of sector $s$
+PCIM[s] * CIM[s] 	= sum(PCIM[c, s] * CIM[c, s] 	if CIM[c, s]  <> 0 on c) 		if CIM[s] 	 <> 0
+
+##! Imported intermediate consumption of sector $s$, expressed at market price
+		  CIM[s] 	= sum(			   CIM[c, s] 	if CIM[c, s]  <> 0 on c) 		if CIM[s] 	 <> 0
+
+##! Market price of intermediate consumption of sector $s$
+PCI[s]  * CI[s]     = PCID[s] * CID[s] + PCIM[s] * CIM[s] 					 		if CI[s]  	 <> 0
+
+##! Intermediate consumption of sector $s$, expressed at market price
+		  CI[s]     = 		    CID[s] + 		   CIM[s] 					 		if CI[s]  	 <> 0
+
+##! Market price of intermediate consumption of sector $s$ (for verification)
+PCIbis  * CIbis     = sum(PCI[s]     * CI[s] 		if CI[s] 	  <> 0 on s)    	if CI 	     <> 0
+##! Intermediate consumption of sector $s$, expressed at market price (for verification)
+		  CIbis     = sum(  	       CI[s] 		if CI[s] 	  <> 0 on s)        if CI 	     <> 0
+
+##! Market price of domestically produced investment of sector $s$
+PID[s]  * ID[s]     = sum(PID[c, s]  * ID[c, s] 	if ID[c, s]   <> 0 on c) 	    if ID[s]  	 <> 0
+
+##! Domestically produced investment of sector $s$, expressed at market price
+		  ID[s]     = sum( 			   ID[c, s] 	if ID[c, s]   <> 0 on c) 	 	if ID[s]  	 <> 0
+
+##! Market price of imported investment of sector $s$
+PIM[s]  * IM[s]     = sum(PIM[c, s]  * IM[c, s] 	if IM[c, s]   <> 0 on c) 	 	if IM[s]  	 <> 0
+
+##! Imported investment of sector $s$, expressed at market price
+		  IM[s]     = sum(			   IM[c, s] 	if IM[c, s]   <> 0 on c) 	 	if IM[s]  	 <> 0
+
+##! Market price of investment of sector $s$
+PI[s]   * I[s]      = PID[s] * ID[s] + PIM[s] * IM[s] 						   	 	if I[s]   	 <> 0
+
+##! Investment of sector $s$, expressed at market price
+	      I[s]      = 		   ID[s] + 		    IM[s] 						   	 	if I[s]   	 <> 0
+
+##! Market price of investment of sector $s$ (for verification)
+PIbis   * Ibis      = sum(PI[s]      * I[s] 		if I[s]	  	  <> 0 on s) 		if I 		 <> 0
+
+##! Investment of sector $s$, expressed at market price (for verification)
+		  Ibis      = sum(		   	   I[s] 		if I[s] 	  <> 0 on s) 		if I 		 <> 0
+
+### Aggregation on commodities: imports and domestic aggregate production per use, expressed at market price (value & volume)
+## This subsection provides the aggregate production for various uses, for domestic and imported products. They are calculated through the aggregation of commodity $c$ production per use on the commodity index. \\
+
+##! Aggregate market price for domestically produced commodities
+PQD   * QD   = sum(PQD[c]   * QD[c]   if QD[c]  <> 0 on c)  		  if QD  	<> 0
+
+##! Aggregate domestically produced commodities, expressed at market price
+	    QD   = sum( 		  QD[c]   if QD[c]  <> 0 on c) 			  if QD  	<> 0
+
+##! Aggregate market price for imported commodities
+PQM   * QM   = sum(PQM[c]   * QM[c]   if QM[c]  <> 0 on c) 			  if QM  	<> 0
+
+##! Aggregate imported commodities, expressed at market price
+	    QM   = sum( 		  QM[c]   if QM[c]  <> 0 on c)  		  if QM  	<> 0
+
+##! Aggregate market price for the margins supplied on domestically produced commodities
+PMGSD * MGSD = sum(PMGSD[c] * MGSD[c] if MGSD[c] <> 0 on c) 		  if MGSD 	<> 0
+
+##! Aggregate margins supplied on domestically produced commodities, expressed at market price
+	    MGSD = sum(    		  MGSD[c] if MGSD[c] <> 0 on c) 		  if MGSD 	<> 0
+
+##! Aggregate market price for the margins supplied on imported commodities
+PMGSM * MGSM = sum(PMGSM[c] * MGSM[c] if MGSM[c] <> 0 on c) 		  if MGSM 	<> 0
+
+##! Aggregate margins supplied on imported commodities, expressed at market price
+	    MGSM = sum(		   	  MGSM[c] if MGSM[c] <> 0 on c) 		  if MGSM 	<> 0
+
+##! Aggregate market price for domestically produced intermediate consumption
+PCID  * CID  = sum(PCID[c]  * CID[c]  if CID[c]  <> 0 on c) 		  if  CID 	<> 0
+
+##! Aggregate domestically produced intermediate consumption, expressed at market price
+	    CID  = sum( 		  CID[c]  if CID[c]  <> 0 on c) 		  if  CID 	<> 0
+
+##! Aggregate market price for imported intermediate consumption
+PCIM  * CIM  = sum(PCIM[c]  * CIM[c]  if CIM[c]  <> 0 on c) 		  if  CIM 	<> 0
+
+##!  Aggregate imported intermediate consumption, expressed at market price
+	    CIM  = sum( 		  CIM[c]  if CIM[c]  <> 0 on c) 		  if  CIM 	<> 0
+
+##! Aggregate market price for domestically produced households final consumption
+PCHD  * CHD  = sum(PCHD[c]  * CHD[c]  if CHD[c]  <> 0 on c) 		  if  CHD 	<> 0
+
+##! Aggregate domestically produced final consumption, expressed at market price
+	    CHD  = sum( 	      CHD[c]  if CHD[c]  <> 0 on c) 		  if  CHD 	<> 0
+
+##! Aggregate market price for imported households final consumption
+PCHM  * CHM  = sum(PCHM[c]  * CHM[c]  if CHM[c]  <> 0 on c) 		  if  CHM 	<> 0
+
+##! Aggregate imported households final consumption, expressed at market price
+	    CHM  = sum( 		  CHM[c]  if CHM[c]  <> 0 on c) 		  if  CHM 	<> 0
+
+##! Aggregate market price for domestically produced Government final consumption
+PGD   * GD   = sum(PGD[c]   * GD[c]   if GD[c]   <> 0 on c) 		  if   GD 	<> 0
+
+##! Aggregate domestically produced Government final consumption, expressed at market price
+	    GD   = sum( 		  GD[c]   if GD[c]   <> 0 on c) 		  if   GD 	<> 0
+
+##! Aggregate market price for imported Government final consumption
+PGM   * GM   = sum(PGM[c]   * GM[c]   if GM[c]   <> 0 on c) 		  if   GM 	<> 0
+
+##! Aggregate imported Government final consumption, expressed at market price
+	    GM   = sum( 		  GM[c]   if GM[c]   <> 0 on c) 		  if   GM 	<> 0
+
+##! Aggregate market price for domestically produced investment
+PID   * ID   = sum(PID[c]   * ID[c]   if ID[c]   <> 0 on c) 		  if   ID 	<> 0
+
+##! Aggregate domestically produced investment, expressed at market price
+	    ID   = sum( 		  ID[c]   if ID[c]   <> 0 on c) 		  if   ID 	<> 0
+
+##! Aggregate market price for imported investment
+PIM   * IM   = sum(PIM[c]   * IM[c]   if IM[c]   <> 0 on c) 		  if   IM 	<> 0
+
+##! Aggregate imported investment, expressed at market price
+	    IM   = sum( 		  IM[c]   if IM[c]   <> 0 on c) 		  if   IM 	<> 0
+
+##! Aggregate market price for domestically produced exports
+PXD   * XD   = sum(PXD[c]   * XD[c]   if XD[c]   <> 0 on c) 		  if   XD 	<> 0
+
+##! Aggregate domestically produced exports, expressed at market price
+	    XD   = sum( 		  XD[c]   if XD[c]   <> 0 on c) 		  if   XD 	<> 0
+
+##! Aggregate market price for imported exports (re-exports)
+PXM   * XM   = sum(PXM[c]   * XM[c]   if XM[c]   <> 0 on c) 		  if   XM 	<> 0
+
+##! Aggregate imported exports (re-exports), expressed at market price
+	    XM   = sum( 		  XM[c]   if XM[c]   <> 0 on c) 		  if   XM 	<> 0
+
+##! Aggregate market price for domestically produced change in inventories
+PDSD  * DSD  = sum(PDSD[c]  * DSD[c] if DSD[c]   <> 0 on c) 		  if  DSD 	<> 0
+
+##! Aggregate domestically produced change in inventories, expressed at market price
+	    DSD  = sum( 		  DSD[c] if DSD[c]   <> 0 on c) 		  if  DSD 	<> 0
+
+##! Aggregate market price for imported change in inventories
+PDSM  * DSM  = sum(PDSM[c]  * DSM[c] if DSM[c]   <> 0 on c) 		  if  DSM 	<> 0
+
+##! Aggregate imported change in inventories, expressed at market price
+	    DSM  = sum( 		  DSM[c] if DSM[c]   <> 0 on c) 		  if  DSM 	<> 0
+
+
+### Aggregation of domestic and imported production per use, expressed at market price (value & volume)
+
+## This subsection provides the aggregate production for various uses by summing the corresponding domestic and imported aggregates. \\
+
+##! Aggregate market price for production
+PQ 	  * Q    = PQD   * QD   + PQM   * QM   							  if Q    	<> 0
+
+##! Aggregate production, expressed at market price
+	    Q    = 	       QD   + 	      QM   							  if Q    	<> 0
+
+##! Aggregate market price for supplied margins
+PMGS  * MGS  = PMGSD * MGSD + PMGSM * MGSM 							  if MGS  	<> 0
+
+##! Aggregate supplied margins
+	    MGS  = 		   MGSD + 		  MGSM 							  if MGS  	<> 0
+
+##! Aggregate market price for intermediate consumption
+PCI   * CI   = PCID  * CID  + PCIM  * CIM  							  if CI   	<> 0
+
+##! Aggregate intermediate consumption, expressed at market price
+	    CI   = 		   CID  + 	      CIM  							  if CI   	<> 0
+
+##! Aggregate market price for household final (consumer price index)
+PCH   * CH   = PCHD  * CHD  + PCHM  * CHM  							  if CH   	<> 0
+
+##! Aggregate household final consumption, expressed at market price
+	    CH   = 		   CHD  + 	      CHM  							  if CH   	<> 0
+
+##! Aggregate market price for Government final consumption
+PG    * G    = PGD   * GD   + PGM   * GM   							  if G    	<> 0
+
+##! Aggregate Government final consumption, expressed at market price
+	    G    = 	       GD   + 	      GM   							  if G    	<> 0
+
+##! Aggregate market price for investment
+PI    * I    = PID   * ID   + PIM   * IM   							  if I    	<> 0
+
+##! Aggregate investment, expressed at market price
+	    I    = 	       ID   + 	      IM   							  if I    	<> 0
+
+##! Aggregate market price for exports
+PX    * X    = PXD   * XD   + PXM   * XM   							 if X    	<> 0
+
+##! Aggregate exports, expressed at market price
+	    X    = 	       XD   + 	      XM   							 if X    	<> 0
+
+##! Aggregate market price for change in inventories
+PDS   * DS   = PDSD  * DSD  + PDSM  * DSM  							 if DS   	<> 0
+
+##! Aggregate change in inventories, expressed at market price
+	    DS   = 		   DSD  + 	   	  DSM  							 if DS   	<> 0
+
+## \newpage
+#### Supply side
+
+### Domestic and foreign equilibrium for commodities $c$ (value & volume):
+#  Domestic production of commodity $c$ at basic price:
+
+##! Production of commodity $c$, expressed at basic price
+
+YQ[c] * PYQ[c] 		 + NTAXCD_VAL[c]  + PMGPD[c] * MGPD[c] = PQD[c] * QD[c]    	   if YQ[c]      <> 0
+
+##! Basic price of the production of commodity $c$ (for verification)
+PYQbis[c] * YQ[c] 	 + NTAXCD_VAL[c]  + PMGPD[c] * MGPD[c] = PQD[c] * QD[c]    	   if YQ[c]      <> 0
+##  This price is already defined as a weighted average of the production price of the sectors producing commodity $c$ in the price block: $PYQ . YQ = \sum_{c} PYQ_{c} \; YQ_{c}$. To verify the accounting consistency, we define it here under an alias name. \\
+
+##! Production of commodity $c$, expressed at basic price (for verification)
+			YQbis[c] + NTAXCD[c] 	  + 		   MGPD[c] = 		  QD[c]    	   if YQbis[c]   <> 0
+## Same variable as $YQ_{c}$ above to check the accounting consistency. \\
+
+##! Imports of commodity $c$, expressed at basic price
+M[c] * PM[c] + NTAXCM_VAL[c] + PMGPM[c] * MGPM[c] = PQM[c] * QM[c] 			   	   if M[c] 	     <> 0
+
+##! Basic price of imports of commodity $c$ (for verification)
+PMbis[c] * M[c]      + NTAXCM_VAL[c]  + PMGPM[c] * MGPM[c] = PQM[c] * QM[c] 	   if M[c]       <> 0
+##  This price is already defined in the price block as $PM_{c} = EXR . PWD_{c}$. To verify the accounting consistency, we define it here under an alias name. \\
+
+##! Imports of commodity $c$, expressed at basic price (for verification)
+		   Mbis[c]   + NTAXCM[c] 	  + 		   MGPM[c] = 		  QM[c] 	   if Mbis[c]    <> 0
+## Same variable as $M_{c}$ above to check the accounting consistency. \\
+
+### Margins paid (value & volume)
+##! Price of the margins paid on domestically produced commodity $c$
+PMGPD[c] * MGPD[c] = sum(PMGPD[m, c] * MGPD[m, c] if MGPD[m, c] <> 0 on m) 	   if MGPD[c]  	 <> 0
+
+##! Margins paid on the domestically produced commodity $c$
+		   MGPD[c] = sum(			    MGPD[m, c] if MGPD[m, c] <> 0 on m) 	   if MGPD[c]  	 <> 0
+
+##! Price of the margins paid on imported commodity $c$
+PMGPM[c] * MGPM[c] = sum(PMGPM[m, c] * MGPM[m, c] if MGPM[m, c] <> 0 on m) 	   if MGPM[c]  	 <> 0
+
+##! Margins paid on imported commodity $c$
+		   MGPM[c] = sum(				MGPM[m, c] if MGPM[m, c] <> 0 on m) 	   if MGPM[c]  	 <> 0
+
+##! Price of the margins paid to commodity $m$ on commodity $c$
+PMGP[m, c] * MGP[m, c] = PMGPD[m, c] * MGPD[m, c] + PMGPM[m, c] * MGPM[m, c] if MGP[m, c] <> 0
+
+##! Margins paid to commodity $m$ on commodity $c$
+			  MGP[m, c] = 				  MGPD[m, c] + 			   MGPM[m, c] if MGP[m, c] <> 0
+
+
+### Aggregation on commodities: supply side aggregates (value & volume)
+
+##! Aggregate price of the margins paid on domestically produced commodity
+PMGPD   * MGPD 		= sum(PMGPD[c]   * MGPD[c] 	 	if MGPD[c]	  <> 0 on c) 		if MGPD 	 <> 0
+
+##! Margins paid on domestically produced commodities
+          MGPD 		= sum(             MGPD[c] 	 	if MGPD[c]    <> 0 on c) 		if MGPD 	 <> 0
+
+##! Aggregate price of the margins paid on imported commodities
+PMGPM   * MGPM 		= sum(PMGPM[c]   * MGPM[c] 	 	if MGPM[c]    <> 0 on c) 		if MGPM 	 <> 0
+
+##! Margins paid on imported commodities
+          MGPM 		= sum(             MGPM[c] 	 	if MGPM[c]    <> 0 on c) 		if MGPM 	 <> 0
+
+##! Aggregate basic price of domestic production
+PYQ     * YQ 		= sum(PYQ[c]     * YQ[c] 		if YQ[c] 	  <> 0 on c) 		if YQ 		 <> 0
+
+##! Domestic production, expressed at basic price
+	      YQ 		= sum(		       YQ[c] 		if YQ[c] 	  <> 0 on c) 		if YQ 		 <> 0
+
+##! Aggregate basic price of imports
+PM      * M 		= sum(PM[c]      * M[c]    	 	if M[c] 	  <> 0 on c) 		if M 		 <> 0
+
+##! Imports, expressed at basic price
+	      M 		= sum(	           M[c] 		if M[c] 	  <> 0 on c) 		if M 		 <> 0
+
+
+### Supply indicators of sector $s$ (value & volume):
+
+##! Production of sector $s$, expressed at basic price
+		Y[s]        = sum(Y[c, s] 			 	    if Y[c, s]    <> 0 on c) 		if Y[s] 	 <> 0
+## The production price of sector $s$ is defined in the producer block as a behavior equation. It can not therefore be defined here as an index. \\
+
+##! Value-added of sector $s$ expressed in value
+VA_VAL[s] = PY[s] * Y[s] - PCI[s] * CI[s]
+
+##! Value-added of sector $s$
+VA[s] 	  = 		Y[s] - 			CI[s]
+
+##! Gross operating surplus of sector $s$ expressed in value
+GOS_VAL[s] = VA_VAL[s] - PWAGES[s] * WAGES[s] - PRSC[s] * RSC[s] - NTAXS_VAL[s]
+## The standard definition of the Gross Operating Surplus (GOS) generally include tax on profits. For simplicity, we assume that $NTAXS_{s}$ includes all net taxes on capital (i.e. tax on production and profits). In our definition, the tax on profit is therefore excluded from the GOS. This should be taken into account if one wants to use the GOS as a basis for the tax on profits. \\
+
+##! Gross operating surplus of sector $s$
+GOS[s] 	   = VA[s] 	   - 			 WAGES[s] - 		   RSC[s] - NTAXS[s]
+
+##! Net operating surplus of sector $s$ expressed in value
+NOS_VAL[s] = GOS_VAL[s] - PK[s]{-1} 				  * Rdep[s] * F[K, s]{-1}
+
+##! Net operating surplus of sector $s$
+NOS[s] 	   = GOS[s]     - @elem(PK[s]{-1}, %baseyear) * Rdep[s] * F[K, s]{-1}
+
+
+### Aggregation on sectors: supply indicators of all sectors  (value & volume)
+
+##! Basic price of aggregate production
+PY * Y              = sum(PY[s] * Y[s] 				if Y[s] 	  <> 0 on s) 		if Y 		 <> 0
+
+##! Aggregate production, expressed at basic price
+	 Y              = sum( 		  Y[s] 			    if Y[s] 	  <> 0 on s) 		if Y 		 <> 0
+
+##! Value-added price
+PVA * VA = sum(VA_VAL[s] on s)
+
+##! Aggregate value-added
+	  VA = sum(VA[s]     on s)
+
+##! Gross wage index paid by sectors
+PWAGES * WAGES = sum(PWAGES[s] * WAGES[s] if WAGES[s] <> 0 on s) if WAGES <> 0
+## The gross wage includes employees (but not employers)' social contribution \\
+
+
+##! Aggregate gross wages paid by sectors
+		 WAGES = sum(			 WAGES[s] if WAGES[s] <> 0 on s) if WAGES <> 0
+
+
+##! Price of the aggregate gross operating surplus
+PGOS * GOS = sum(GOS_VAL[s] on s)
+
+##! Aggregate gross operating surplus
+	   GOS = sum(GOS[s] 	on s)
+
+##! Price of the aggregate net operating surplus
+PNOS * NOS = sum(NOS_VAL[s] on s)
+
+##! Aggregate net operating surplus
+	   NOS = sum(NOS[s] 	on s)
+
+#### Gross Domestic Product (GDP)
+
+## In this subsection, GDP is calculated according to different approaches which yield the same result.
+
+### Expenditure approach
+
+##! Price of GDP (expenditure definition)
+PGDP 	* GDP 	 = PCH 	  * CH	  + PG 	  * G 	 + PI 	 * I 	+ PX 	* X    + PDS    * DS 	- PM    * M
+## According to the expenditure approach, GDP is calculated as the sum of the different components in the final uses of goods and services. \\
+
+
+##! GDP (expenditure definition)
+		  GDP 	 = 	     	CH 	  + 	    G 	 + 	  	   I 	+ 	 	  X    + 	   	  DS 	- 	 	  M
+
+##! Price of GDP of commodity $c$ (expenditure definition)
+PGDP[c] * GDP[c] = PCH[c] * CH[c] + PG[c] * G[c] + PI[c] * I[c] + PX[c] * X[c] + PDS[c] * DS[c] - PM[c] * M[c] 		if GDP[c] <> 0
+
+##! GDP of commodity $c$ (expenditure definition)
+		  GDP[c] = 			CH[c] + 		G[c] + 		   I[c] + 		  X[c] + 		  DS[c] - 		  M[c]		if GDP[c] <> 0
+
+##! Price of GDP (expenditure definition, for verification)
+PGDPbis * GDPbis = sum(PGDP[c] * GDP[c] on c)
+##! GDP (expenditure definition, for verification)
+		  GDPbis = sum(		  	 GDP[c] on c)
+
+### Production approach
+##! Price of GDP (production definition)
+PGDPter * GDPter = PVA * VA + PNTAXC * NTAXC
+## According to the production approach, GDP is calculated as the sum of the value added plus the total net taxes on commodities. \\
+
+##!  GDP (production definition)
+		  GDPter = 		 VA + 		   NTAXC
+
+### Income approach
+##! Price of GDP (income definition)
+PGDP4 	* GDP4   = PGOS * GOS + PWAGES * WAGES + PRSC * RSC + NTAXS_VAL + PNTAXC * NTAXC
+## According to the income approach, GDP is calculated as the sum of all the economic incomes (from labor and capital) corrected by the social and taxes transfers. \\
+
+##!   GDP (income definition)
+		  GDP4   = 		  GOS + 		 WAGES + 		 RSC + NTAXS 	  + 		 NTAXC

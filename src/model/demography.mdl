@@ -1,0 +1,26 @@
+##### Demography
+## This section provides the equations defining the occupation of the working-age population \\
+
+##! Working-age population
+d(log(WAPop)) = d(log(POP))
+## The working age population linearly grows with the total population. \\
+
+##! Labor force
+LF = PARTR * WAPop
+## The Labor force depends on a participation rate of the working-age population. \\
+
+##! Labor force participation ratio
+d(PARTR_n) = d(PARTR_trend) - RHO_PART_UnR * d(UnR)
+## Because of discouraged worker effect, the participation ratio depends negatively on the unemployment rate. \\
+
+##! Employment (ILO definition)
+d(log(empl)) = d(log(F[L]))
+## In general, labor according to the national account differs from the employment according to the ILO definition. One reason is that labor is expressed in FTE (Full Time Equivalent). To calculate the unemployment rate, one needs to use the employment according to the International Labor Organization (ILO) definition. We assume that the average work duration is constant over time, implying stability of the employment to labor ratio. \\
+
+##! Unemployment
+Un  = LF - Empl
+## Unemployment is determined as the difference between the total active population with the one which is employed. \\
+
+##! Unemployment rate
+UnR = Un / LF
+## The Unemployment rate is defined as the ratio between the total unemployment and the active population.
